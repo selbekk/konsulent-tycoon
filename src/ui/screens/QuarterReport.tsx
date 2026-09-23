@@ -42,9 +42,10 @@ export function QuarterReport() {
   const awards = quarter % 4 === 3 ? game.lastAwards : []
   const scandal = news.some((n) => n.key.startsWith('news.scandal.') && n.firmId === me.id)
   const lost = news.some((n) => n.key === 'news.tender.playerLost')
+  const mission = news.some((n) => n.key === 'news.mission.done')
 
   useEffect(() => {
-    playSound(scandal ? 'scandal' : won ? 'win' : lost ? 'lose' : 'cash')
+    playSound(scandal ? 'scandal' : won || mission ? 'win' : lost ? 'lose' : 'cash')
     // Once per report.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quarter])
@@ -60,7 +61,7 @@ export function QuarterReport() {
         </Button>
       }
     >
-      {won && !reducedMotion && <Confetti />}
+      {(won || mission) && !reducedMotion && <Confetti />}
       <div className={s.stack}>
         {r && (
           <div>

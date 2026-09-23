@@ -7,6 +7,7 @@ import { TRENDS } from '../content/trends'
 import { TRAITS } from '../content/traits'
 import { BUZZWORDS } from '../content/buzzwords'
 import { MEETING_QUESTIONS, MEETING_STYLES } from '../content/meetingQuestions'
+import { MISSIONS } from '../content/missions'
 import { SHADY_IDS } from '../engine/shady'
 import { AWARDS } from '../engine/awards'
 import { DISCIPLINES } from '../engine/types'
@@ -51,6 +52,7 @@ describe('i18n', () => {
       for (const c of e.choices) check(game, `events.${e.id}.choices.${c.id}`)
     }
     for (const a of ANNOUNCEMENTS) check(game, `announcements.${a.id}`)
+    for (const m of MISSIONS) check(content, `missions.${m.id}.name`)
     for (const f of FIRMS) check(content, `firms.${f.id}.tagline`)
     for (const c of CUSTOMERS) check(content, `customers.${c.id}.name`)
     for (const t of TRENDS) check(content, `trends.${t.id}.name`)

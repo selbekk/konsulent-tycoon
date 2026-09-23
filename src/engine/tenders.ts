@@ -283,6 +283,10 @@ export function resolveDueTenders(state: GameState) {
       tender.winnerIds.push(bid.firmId)
       const winner = state.firms[bid.firmId]
       winner.tendersWon = (winner.tendersWon ?? 0) + 1
+      const stats = (winner.stats ??= {})
+      if (customer.sector === 'public') stats.publicWins = (stats.publicWins ?? 0) + 1
+      if (tender.kind === 'framework') stats.frameworkWins = (stats.frameworkWins ?? 0) + 1
+      stats.biggestWin = Math.max(stats.biggestWin ?? 0, seatTotal(tender.seats))
       customer.relationships[bid.firmId] = clamp(relationship(state, customer.id, bid.firmId) + RELATION_WIN, 0, 100)
       checkFraudAtAward(state, contract)
     })

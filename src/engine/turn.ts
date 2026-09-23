@@ -8,6 +8,7 @@ import { autoResolveEvents, drawEvents } from './events'
 import { pickAnnouncement } from './flavor'
 import { updateLevels } from './levels'
 import { updateTrends } from './market'
+import { checkMissions } from './missions'
 import { applyActionInPlace } from './reducer'
 import { valuation } from './score'
 import { decayHeatAndIntel, rollShadyDetection } from './shady'
@@ -106,6 +107,7 @@ export function endTurn(input: GameState): GameState {
   publishTenders(state, next)
   if (state.quarter % 4 === 3) yearEndAwards(state)
   else state.lastAwards = []
+  checkMissions(state)
 
   checkBankruptcies(state)
   for (const f of Object.values(state.firms)) f.valuationHistory.push(valuation(f))

@@ -532,6 +532,15 @@
       "4": "Mid-size. I've always wanted a boardroom with a view.",
       "5": "Industry heavyweight. I'll be mentioning it at every dinner party from now on."
     },
-    "move": "You're moving to: {{office}}. New premises give social culture a lift."
+    "move": "You're moving to: {{office}}. New premises give social culture a lift.",
+    "missions": {
+      "title": "Goals along the way",
+      "reward": "Reward: {{text}}",
+      "done": "Done",
+      "cash": "{{amount}}",
+      "reputation": "+{{n}} reputation",
+      "morale": "+{{n}} morale",
+      "brand": "+{{n}} employer brand"
+    }
   }
 }

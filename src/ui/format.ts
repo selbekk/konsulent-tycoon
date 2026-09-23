@@ -40,6 +40,7 @@ export function resolveParams(params: Params, t: TFunction, lng: string): Params
   if (typeof params.trend === 'string') out.trend = t(`content:trends.${params.trend}.name`)
   if (typeof params.discipline === 'string') out.discipline = t(`ui:disciplines.${params.discipline}`).toLowerCase()
   if (typeof params.fine === 'number') out.fine = formatMoney(params.fine, lng)
+  if (typeof params.mission === 'string') out.mission = t(`content:missions.${params.mission}.name`)
   return out
 }
 

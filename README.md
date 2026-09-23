@@ -173,7 +173,7 @@ Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
 5. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller.
 6. Kontrakter utløper eller forlenges. Rammeavtalene får avrop for neste kvartal.
 7. Trender oppdateres, og nye anbud publiseres.
-8. Etter Q4 deles årets priser ut.
+8. Etter Q4 deles årets priser ut. Deretter sjekkes spillerens mål per nivå (`checkMissions`).
 9. Konkurssjekk. Kontraktene til konkursfirma legges ut på nytt som anbud.
 10. `quarter++`. Deretter fornyes stjernemarkedet, nye hendelser trekkes og en høyttalermelding velges.
 
@@ -206,6 +206,8 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
   - Nivået styrer hvor store anbud firmaet kan by på (`maxSeats`), og når kultur, stjernemarkedet, rammeavtaler, bingo og bakrommet åpner (`FEATURE_LEVEL`). Hvert triks i bakrommet har sin egen `minLevel` i `SHADY_CATALOG`.
   - Låsene håndheves i reduceren med `errors.levelTooLow` / `errors.tenderTooBig`, altså likt for spiller og AI. `planAiTurn` og `planHumanProxy` filtrerer bort det som er låst, så de ikke bruker opp budplasser på bud som avvises.
   - Siden spilleren ikke kan endre kulturbudsjettet på nivå 1, starter spilleren med `PLAYER_START_BUDGETS`.
+  - Hvert nytt nivå er en flytting til et større kontor: et navn og en ny møbelbit i `OfficeView`, og et engangsløft for sosialt miljø og arbeidsgiverbrand (`OFFICE_MOVE_*`).
+- **Mål per nivå (`content/missions.ts`, `engine/missions.ts`):** Frivillige mål som vises fra et gitt nivå, med en liten belønning i samme effekt-DSL som hendelsene. Bare spilleren har mål (som gjøremålslista), og de legges aldri i `quarterTodos`.
 
 ### Tilfeldighet: den viktigste regelen
 

@@ -1,69 +1,243 @@
 {
   "firms": {
-    "bekkerson": { "tagline": "We have a guild for that.", "blurb": "Tech nerds with their own conference, their own podcast and a guild for guilds." },
-    "accentura": { "tagline": "We have a deck for that.", "blurb": "Global, thorough and always ready with 140 slides and a partner flying in from Copenhagen." },
-    "knowitall": { "tagline": "We know everything. Ask us.", "blurb": "Broad, big and happy to acquire anything that stands still long enough." },
-    "soppsteria": { "tagline": "Grows best in the dark.", "blurb": "Cheap, efficient and suspiciously good at delivering from several time zones at once." },
-    "kompottas": { "tagline": "Everything's better with a bit of jam.", "blurb": "Solid people with a taste for both architecture and waffles." },
-    "iteraigjen": { "tagline": "We'll do it once more. And once more.", "blurb": "Agile to the bone. The sprint is never quite over." },
-    "smiles": { "tagline": "The world's happiest consultants (self-reported).", "blurb": "Small local offices and a wellbeing survey that always says 100%." },
-    "webstepdans": { "tagline": "Five, six, seven, eight – deploy!", "blurb": "Rhythmic deliveries and a surprisingly good Christmas party show." },
-    "kantegne": { "tagline": "We draw it first. On the whiteboard. For a while.", "blurb": "Design-driven and proudly from Trondheim. The whiteboards are full." },
-    "tietoevig": { "tagline": "Your project lasts forever. So do we.", "blurb": "Nordic giant with a framework agreement on nearly everything." },
-    "bouffet": { "tagline": "Help yourself. Every discipline on one table.", "blurb": "Big, broad and always something for every taste." },
-    "invariant": { "tagline": "Same high quality, whatever the input.", "blurb": "A small, open and extremely tidy company. The salary sheet is online." },
-    "reiterate": { "tagline": "Have you tried turning it off and on again?", "blurb": "A collective of curious developers who'd rather build their own products." },
-    "geita": { "tagline": "We climb where others won't.", "blurb": "Cloud specialists who are happiest where there are no railings." },
-    "fargestift": { "tagline": "We colour in your cloud bill.", "blurb": "Licences, cloud and a surprisingly large data department." },
-    "kappgjemini": { "tagline": "Cape on, numbers hidden.", "blurb": "Big, efficient and always ready to scale. Up and down." },
-    "nattlys": { "tagline": "We light up the darkest backlogs.", "blurb": "Swedish, flat structure and consultants who look remarkably well-rested." },
-    "hikkeq": { "tagline": "Hic! We mean: high IQ.", "blurb": "Swedish quality and a weekly fika nobody is allowed to skip." },
-    "riddertech": { "tagline": "Charging at technical debt.", "blurb": "Data engineers in shining armour. And hoodies." },
-    "rektor": { "tagline": "My office. Bring a good PR.", "blurb": "Finnish precision, sauna culture and code reviews that are strict but fair." },
-    "futuriis": { "tagline": "The future, served with rice.", "blurb": "Finnish design house with a knack for service design and lunch." },
-    "solitaer": { "tagline": "We play best alone, but deliver as a team.", "blurb": "Data-loving Finns with a soft spot for the public sector." },
-    "trigaffel": { "tagline": "Three prongs. Zero spaghetti code.", "blurb": "Danish developers with their own conference and strong opinions on Erlang." },
-    "nettkompaniet": { "tagline": "Public sector? We've read the procurement act. Twice.", "blurb": "Danish giant delivering big systems to big agencies." }
+    "bekkerson": {
+      "tagline": "We have a guild for that.",
+      "blurb": "Tech nerds with their own conference, their own podcast and a guild for guilds."
+    },
+    "accentura": {
+      "tagline": "We have a deck for that.",
+      "blurb": "Global, thorough and always ready with 140 slides and a partner flying in from Copenhagen."
+    },
+    "knowitall": {
+      "tagline": "We know everything. Ask us.",
+      "blurb": "Broad, big and happy to acquire anything that stands still long enough."
+    },
+    "soppsteria": {
+      "tagline": "Grows best in the dark.",
+      "blurb": "Cheap, efficient and suspiciously good at delivering from several time zones at once."
+    },
+    "kompottas": {
+      "tagline": "Everything's better with a bit of jam.",
+      "blurb": "Solid people with a taste for both architecture and waffles."
+    },
+    "iteraigjen": {
+      "tagline": "We'll do it once more. And once more.",
+      "blurb": "Agile to the bone. The sprint is never quite over."
+    },
+    "smiles": {
+      "tagline": "The world's happiest consultants (self-reported).",
+      "blurb": "Small local offices and a wellbeing survey that always says 100%."
+    },
+    "webstepdans": {
+      "tagline": "Five, six, seven, eight – deploy!",
+      "blurb": "Rhythmic deliveries and a surprisingly good Christmas party show."
+    },
+    "kantegne": {
+      "tagline": "We draw it first. On the whiteboard. For a while.",
+      "blurb": "Design-driven and proudly from Trondheim. The whiteboards are full."
+    },
+    "tietoevig": {
+      "tagline": "Your project lasts forever. So do we.",
+      "blurb": "Nordic giant with a framework agreement on nearly everything."
+    },
+    "bouffet": {
+      "tagline": "Help yourself. Every discipline on one table.",
+      "blurb": "Big, broad and always something for every taste."
+    },
+    "invariant": {
+      "tagline": "Same high quality, whatever the input.",
+      "blurb": "A small, open and extremely tidy company. The salary sheet is online."
+    },
+    "reiterate": {
+      "tagline": "Have you tried turning it off and on again?",
+      "blurb": "A collective of curious developers who'd rather build their own products."
+    },
+    "geita": {
+      "tagline": "We climb where others won't.",
+      "blurb": "Cloud specialists who are happiest where there are no railings."
+    },
+    "fargestift": {
+      "tagline": "We colour in your cloud bill.",
+      "blurb": "Licences, cloud and a surprisingly large data department."
+    },
+    "kappgjemini": {
+      "tagline": "Cape on, numbers hidden.",
+      "blurb": "Big, efficient and always ready to scale. Up and down."
+    },
+    "nattlys": {
+      "tagline": "We light up the darkest backlogs.",
+      "blurb": "Swedish, flat structure and consultants who look remarkably well-rested."
+    },
+    "hikkeq": {
+      "tagline": "Hic! We mean: high IQ.",
+      "blurb": "Swedish quality and a weekly fika nobody is allowed to skip."
+    },
+    "riddertech": {
+      "tagline": "Charging at technical debt.",
+      "blurb": "Data engineers in shining armour. And hoodies."
+    },
+    "rektor": {
+      "tagline": "My office. Bring a good PR.",
+      "blurb": "Finnish precision, sauna culture and code reviews that are strict but fair."
+    },
+    "futuriis": {
+      "tagline": "The future, served with rice.",
+      "blurb": "Finnish design house with a knack for service design and lunch."
+    },
+    "solitaer": {
+      "tagline": "We play best alone, but deliver as a team.",
+      "blurb": "Data-loving Finns with a soft spot for the public sector."
+    },
+    "trigaffel": {
+      "tagline": "Three prongs. Zero spaghetti code.",
+      "blurb": "Danish developers with their own conference and strong opinions on Erlang."
+    },
+    "nettkompaniet": {
+      "tagline": "Public sector? We've read the procurement act. Twice.",
+      "blurb": "Danish giant delivering big systems to big agencies."
+    }
   },
   "customers": {
-    "navet": { "name": "NAVet", "blurb": "Norway's largest collection of case-handling systems. Always mid-modernisation." },
-    "skatteetatn": { "name": "Tax Office", "blurb": "Likes your spreadsheet. Would like to see it." },
-    "veivesen": { "name": "Public Roads Office", "blurb": "Asphalt, road tolls and a surprising number of APIs." },
-    "helsesov": { "name": "Health South-East-West", "blurb": "A health trust with one medical record and three systems to read it." },
-    "kommunenorge": { "name": "Municipalities Inc.", "blurb": "356 municipalities, one shared procurement and a tight budget." },
-    "laanekassen": { "name": "Student Loans for Life", "blurb": "Student loans, grants and an inbox full of worried parents." },
-    "dnbank": { "name": "DNBank", "blurb": "Big bank with a big appetite for anything called a platform." },
-    "equinaer": { "name": "Equinær", "blurb": "Energy, data and a board that loves the word \"transformation\"." },
-    "postenbring": { "name": "Post & Bring-Me", "blurb": "Parcels, tracking and a warehouse full of Raspberry Pis." },
-    "kryptonitt": { "name": "Kryptonitt", "blurb": "Fintech startup with a big pitch deck and a small budget. Usually pays on time." },
-    "tipptopp": { "name": "Norsk Tipp-Topp", "blurb": "Games, lotto and a responsibility department that always joins the meeting." },
-    "rutah": { "name": "Rutah", "blurb": "Public transport, ticket apps and a real-time display that's almost always right." },
-    "telenorr": { "name": "Telenorr", "blurb": "Telco with a network across the Nordics and a procurement team across Asia." },
-    "sparebank123": { "name": "SpareBank 1-2-3", "blurb": "Local bank with local decisions and national ambitions." }
+    "navet": {
+      "name": "NAVet",
+      "blurb": "Norway's largest collection of case-handling systems. Always mid-modernisation."
+    },
+    "skatteetatn": {
+      "name": "Tax Office",
+      "blurb": "Likes your spreadsheet. Would like to see it."
+    },
+    "veivesen": {
+      "name": "Public Roads Office",
+      "blurb": "Asphalt, road tolls and a surprising number of APIs."
+    },
+    "helsesov": {
+      "name": "Health South-East-West",
+      "blurb": "A health trust with one medical record and three systems to read it."
+    },
+    "kommunenorge": {
+      "name": "Municipalities Inc.",
+      "blurb": "356 municipalities, one shared procurement and a tight budget."
+    },
+    "laanekassen": {
+      "name": "Student Loans for Life",
+      "blurb": "Student loans, grants and an inbox full of worried parents."
+    },
+    "dnbank": {
+      "name": "DNBank",
+      "blurb": "Big bank with a big appetite for anything called a platform."
+    },
+    "equinaer": {
+      "name": "Equinær",
+      "blurb": "Energy, data and a board that loves the word \"transformation\"."
+    },
+    "postenbring": {
+      "name": "Post & Bring-Me",
+      "blurb": "Parcels, tracking and a warehouse full of Raspberry Pis."
+    },
+    "kryptonitt": {
+      "name": "Kryptonitt",
+      "blurb": "Fintech startup with a big pitch deck and a small budget. Usually pays on time."
+    },
+    "tipptopp": {
+      "name": "Norsk Tipp-Topp",
+      "blurb": "Games, lotto and a responsibility department that always joins the meeting."
+    },
+    "rutah": {
+      "name": "Rutah",
+      "blurb": "Public transport, ticket apps and a real-time display that's almost always right."
+    },
+    "telenorr": {
+      "name": "Telenorr",
+      "blurb": "Telco with a network across the Nordics and a procurement team across Asia."
+    },
+    "sparebank123": {
+      "name": "SpareBank 1-2-3",
+      "blurb": "Local bank with local decisions and national ambitions."
+    }
   },
   "trends": {
-    "genai_hype": { "name": "GenAI hype", "desc": "Everyone wants AI. Data people are worth their weight in gold." },
-    "cloud_migration": { "name": "Cloud migration", "desc": "Data centres are emptying. Cloud people and architects are in demand." },
-    "public_budget_cuts": { "name": "Public budget cuts", "desc": "Fewer tenders, and price matters more than before." },
-    "design_renaissance": { "name": "Design renaissance", "desc": "User experience is back on the agenda. Designers and frontend are in demand." },
-    "data_mesh_mania": { "name": "Data mesh mania", "desc": "Everyone needs data products. Nobody quite knows what they are." },
-    "pm_winter": { "name": "Project manager winter", "desc": "Product teams are in, project managers are out." },
-    "security_panic": { "name": "Security panic", "desc": "A big breach has scared everyone. Security suddenly matters." },
-    "boom": { "name": "Boom times", "desc": "Money is flowing. More tenders than in years." }
+    "genai_hype": {
+      "name": "GenAI hype",
+      "desc": "Everyone wants AI. Data people are worth their weight in gold."
+    },
+    "cloud_migration": {
+      "name": "Cloud migration",
+      "desc": "Data centres are emptying. Cloud people and architects are in demand."
+    },
+    "public_budget_cuts": {
+      "name": "Public budget cuts",
+      "desc": "Fewer tenders, and price matters more than before."
+    },
+    "design_renaissance": {
+      "name": "Design renaissance",
+      "desc": "User experience is back on the agenda. Designers and frontend are in demand."
+    },
+    "data_mesh_mania": {
+      "name": "Data mesh mania",
+      "desc": "Everyone needs data products. Nobody quite knows what they are."
+    },
+    "pm_winter": {
+      "name": "Project manager winter",
+      "desc": "Product teams are in, project managers are out."
+    },
+    "security_panic": {
+      "name": "Security panic",
+      "desc": "A big breach has scared everyone. Security suddenly matters."
+    },
+    "boom": {
+      "name": "Boom times",
+      "desc": "Money is flowing. More tenders than in years."
+    }
   },
   "traits": {
-    "linkedin_influencer": { "name": "LinkedIn influencer", "desc": "Boosts your employer brand, but gets a lot of offers." },
-    "kaffesnobb": { "name": "Coffee snob", "desc": "Only happy with a good social culture (and good coffee)." },
-    "tech_debt_hunter": { "name": "Tech debt hunter", "desc": "Makes clients happier over time." },
-    "sjefsdiplomat": { "name": "Chief diplomat", "desc": "Builds client relationships." },
-    "tenx_ego": { "name": "10x ego", "desc": "Impresses in tenders, but can get on colleagues' nerves." },
-    "remote_hardliner": { "name": "Remote hardliner", "desc": "Demands remote work. Otherwise loyalty drops." },
-    "mentor": { "name": "Mentor", "desc": "Levels up colleagues in the same discipline." },
-    "conference_speaker": { "name": "Conference speaker", "desc": "Adds reputation and impresses in tenders." },
-    "workaholic": { "name": "Workaholic", "desc": "Delivers a lot, but wears out." },
-    "slack_poet": { "name": "Slack poet", "desc": "Makes #random a better place." },
-    "certification_collector": { "name": "Certification collector", "desc": "Has every certificate. The CV is four pages long." },
-    "loyal_as_a_dog": { "name": "Loyal", "desc": "Stays. No matter what." }
+    "linkedin_influencer": {
+      "name": "LinkedIn influencer",
+      "desc": "Boosts your employer brand, but gets a lot of offers."
+    },
+    "kaffesnobb": {
+      "name": "Coffee snob",
+      "desc": "Only happy with a good social culture (and good coffee)."
+    },
+    "tech_debt_hunter": {
+      "name": "Tech debt hunter",
+      "desc": "Makes clients happier over time."
+    },
+    "sjefsdiplomat": {
+      "name": "Chief diplomat",
+      "desc": "Builds client relationships."
+    },
+    "tenx_ego": {
+      "name": "10x ego",
+      "desc": "Impresses in tenders, but can get on colleagues' nerves."
+    },
+    "remote_hardliner": {
+      "name": "Remote hardliner",
+      "desc": "Demands remote work. Otherwise loyalty drops."
+    },
+    "mentor": {
+      "name": "Mentor",
+      "desc": "Levels up colleagues in the same discipline."
+    },
+    "conference_speaker": {
+      "name": "Conference speaker",
+      "desc": "Adds reputation and impresses in tenders."
+    },
+    "workaholic": {
+      "name": "Workaholic",
+      "desc": "Delivers a lot, but wears out."
+    },
+    "slack_poet": {
+      "name": "Slack poet",
+      "desc": "Makes #random a better place."
+    },
+    "certification_collector": {
+      "name": "Certification collector",
+      "desc": "Has every certificate. The CV is four pages long."
+    },
+    "loyal_as_a_dog": {
+      "name": "Loyal",
+      "desc": "Stays. No matter what."
+    }
   },
   "ambitions": {
     "salary": "Wants good pay",
@@ -79,19 +253,56 @@
       "pr": "PR warfare"
     },
     "actions": {
-      "spy_bids": { "name": "Peek at the tender", "desc": "See competitors' bids on one tender before the deadline." },
-      "spy_salaries": { "name": "Salary espionage", "desc": "Find out what a firm pays and how its people are doing." },
-      "plant_mole": { "name": "Plant a mole", "desc": "A \"trainee\" gives you insight into a firm for four quarters." },
-      "afterwork_poach": { "name": "Afterwork recruiting", "desc": "Take a star from another firm out for drinks and see what happens." },
-      "silent_outsource": { "name": "Silent outsourcing", "desc": "Let an offshore team do part of the work on a contract. The client doesn't need to know." },
-      "cv_pad": { "name": "Polish the CVs", "desc": "A bit more experience here, a certificate there. Improves bid quality." },
-      "ghost_cv": { "name": "Ghost CVs", "desc": "Offer consultants you \"might hire\". Removes the capacity penalty." },
-      "bait_and_switch": { "name": "Bait and switch", "desc": "Move the promised stars off a contract and send juniors instead." },
-      "rumor": { "name": "Spread rumours", "desc": "Mention something in passing at the next breakfast seminar." },
-      "dn_leak": { "name": "Leak to the press", "desc": "Tip off a journalist about another firm. Gives the target a scandal." },
-      "linkedin_post": { "name": "Passive-aggressive LinkedIn post", "desc": "\"Some firms apparently think…\" Boosts your brand and dents theirs." }
+      "spy_bids": {
+        "name": "Peek at the tender",
+        "desc": "See competitors' bids on one tender before the deadline."
+      },
+      "spy_salaries": {
+        "name": "Salary espionage",
+        "desc": "Find out what a firm pays and how its people are doing."
+      },
+      "plant_mole": {
+        "name": "Plant a mole",
+        "desc": "A \"trainee\" gives you insight into a firm for four quarters."
+      },
+      "afterwork_poach": {
+        "name": "Afterwork recruiting",
+        "desc": "Take a star from another firm out for drinks and see what happens."
+      },
+      "silent_outsource": {
+        "name": "Silent outsourcing",
+        "desc": "Let an offshore team do part of the work on a contract. The client doesn't need to know."
+      },
+      "cv_pad": {
+        "name": "Polish the CVs",
+        "desc": "A bit more experience here, a certificate there. Improves bid quality."
+      },
+      "ghost_cv": {
+        "name": "Ghost CVs",
+        "desc": "Offer consultants you \"might hire\". Removes the capacity penalty."
+      },
+      "bait_and_switch": {
+        "name": "Bait and switch",
+        "desc": "Move the promised stars off a contract and send juniors instead."
+      },
+      "rumor": {
+        "name": "Spread rumours",
+        "desc": "Mention something in passing at the next breakfast seminar."
+      },
+      "dn_leak": {
+        "name": "Leak to the press",
+        "desc": "Tip off a journalist about another firm. Gives the target a scandal."
+      },
+      "linkedin_post": {
+        "name": "Passive-aggressive LinkedIn post",
+        "desc": "\"Some firms apparently think…\" Boosts your brand and dents theirs."
+      }
     },
-    "risk": { "low": "Low risk", "medium": "Medium risk", "high": "High risk" }
+    "risk": {
+      "low": "Low risk",
+      "medium": "Medium risk",
+      "high": "High risk"
+    }
   },
   "awards": {
     "best_fagmiljo": "Best Engineering Culture",
@@ -102,16 +313,47 @@
     "glassdoor_disaster": "Glassdoor Disaster of the Year"
   },
   "endTitles": {
-    "bankrupt": { "title": "Bankrupt", "desc": "The receiver has taken over the foosball table. It was fun while it lasted." },
-    "ethical_champion": { "title": "Ethical beacon", "desc": "Biggest in the industry without cheating once. Tor from compliance shed a small tear." },
-    "cheated_to_top": { "title": "Cheated your way to the top", "desc": "Number one in the industry. Don't ask how." },
-    "industry_leader": { "title": "The industry's Bekkerson", "desc": "Number one in the market. Competitors form guilds about you." },
-    "caught_pants_down": { "title": "Caught red-handed", "desc": "You got caught, more than once. The business press has a tag just for you." },
-    "solid_challenger": { "title": "Solid challenger", "desc": "Among the top five. Next time, maybe the top spot." },
-    "midfield": { "title": "Safe midfield", "desc": "A proper consultancy with proper people. Nobody writes about you, and that's fine." },
-    "acquired": { "title": "Acquired for peanuts", "desc": "Accentura bought you. The logo is gone, but the coffee machine got to stay." }
+    "bankrupt": {
+      "title": "Bankrupt",
+      "desc": "The receiver has taken over the foosball table. It was fun while it lasted."
+    },
+    "ethical_champion": {
+      "title": "Ethical beacon",
+      "desc": "Biggest in the industry without cheating once. Tor from compliance shed a small tear."
+    },
+    "cheated_to_top": {
+      "title": "Cheated your way to the top",
+      "desc": "Number one in the industry. Don't ask how."
+    },
+    "industry_leader": {
+      "title": "The industry's Bekkerson",
+      "desc": "Number one in the market. Competitors form guilds about you."
+    },
+    "caught_pants_down": {
+      "title": "Caught red-handed",
+      "desc": "You got caught, more than once. The business press has a tag just for you."
+    },
+    "solid_challenger": {
+      "title": "Solid challenger",
+      "desc": "Among the top five. Next time, maybe the top spot."
+    },
+    "midfield": {
+      "title": "Safe midfield",
+      "desc": "A proper consultancy with proper people. Nobody writes about you, and that's fine."
+    },
+    "acquired": {
+      "title": "Acquired for peanuts",
+      "desc": "Accentura bought you. The logo is gone, but the coffee machine got to stay."
+    }
   },
-  "countries": { "NO": "Norway", "SE": "Sweden", "FI": "Finland", "DK": "Denmark", "FR": "France", "GLOBAL": "Global" },
+  "countries": {
+    "NO": "Norway",
+    "SE": "Sweden",
+    "FI": "Finland",
+    "DK": "Denmark",
+    "FR": "France",
+    "GLOBAL": "Global"
+  },
   "archetypes": {
     "boutique_nerd": "Tech boutique",
     "boutique_design": "Design house",
@@ -120,5 +362,40 @@
     "budget_bulk": "Volume supplier",
     "specialist_cloud": "Cloud specialist",
     "specialist_data": "Data specialist"
+  },
+  "missions": {
+    "first_win": {
+      "name": "Win your first tender"
+    },
+    "first_hire": {
+      "name": "Hire your first consultant"
+    },
+    "full_house": {
+      "name": "Bill at least 90 % of the time in a quarter"
+    },
+    "first_framework": {
+      "name": "Get onto a framework agreement"
+    },
+    "first_star": {
+      "name": "Sign a star consultant"
+    },
+    "public_win": {
+      "name": "Win a public-sector tender"
+    },
+    "big_win": {
+      "name": "Win a tender for at least 15 consultants"
+    },
+    "happy_client": {
+      "name": "Get a client above 80 in satisfaction"
+    },
+    "award": {
+      "name": "Win an industry award"
+    },
+    "fifty": {
+      "name": "Reach 50 employees"
+    },
+    "top_three": {
+      "name": "Become one of the three most valuable firms"
+    }
   }
 }

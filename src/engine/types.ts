@@ -127,6 +127,10 @@ export interface Firm {
   levelUpQuarter?: number
   /** Tenders won in total (framework ranks count). */
   tendersWon?: number
+  /** Running totals for missions. */
+  stats?: { publicWins?: number; frameworkWins?: number; biggestWin?: number; awards?: number }
+  /** Mission ids completed (see content/missions.ts). */
+  missionsDone?: string[]
 }
 
 export type MeetingStyle = 'concrete' | 'visionary' | 'humble' | 'buzzword'

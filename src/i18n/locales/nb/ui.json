@@ -532,6 +532,15 @@
       "4": "Mellomstor. Jeg har alltid ønsket meg et styrerom med utsikt.",
       "5": "Bransjetungvekt. Jeg skal nevne det i alle middagsselskaper fra nå av."
     },
-    "move": "Dere flytter til: {{office}}. Nye lokaler gir et løft for det sosiale miljøet."
+    "move": "Dere flytter til: {{office}}. Nye lokaler gir et løft for det sosiale miljøet.",
+    "missions": {
+      "title": "Mål på veien",
+      "reward": "Belønning: {{text}}",
+      "done": "Nådd",
+      "cash": "{{amount}}",
+      "reputation": "+{{n}} omdømme",
+      "morale": "+{{n}} trivsel",
+      "brand": "+{{n}} arbeidsgiverbrand"
+    }
   }
 }

@@ -1,6 +1,9 @@
+import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { LEVELS, LEVEL_GOALS, MAX_LEVEL, SHADY_LEVELS, firmLevel, levelStats, unlocksAt } from '../../engine'
+import { LEVELS, LEVEL_GOALS, MAX_LEVEL, SHADY_LEVELS, firmLevel, levelStats, unlocksAt, visibleMissions } from '../../engine'
 import type { Firm, LevelGoal } from '../../engine'
+import type { Effect } from '../../content/events'
+import { Icon } from '../components/Icon'
 import { Meter, Panel } from '../components/ui'
 import { formatMoney } from '../format'
 import s from './screens.module.css'
@@ -34,6 +37,43 @@ export function UnlockList({ level }: { level: number }) {
   )
 }
 
+function rewardText(effect: Effect, t: TFunction, lng: string) {
+  const parts: string[] = []
+  if (effect.cash) parts.push(t('level.missions.cash', { amount: formatMoney(effect.cash, lng) }))
+  if (effect.reputation) parts.push(t('level.missions.reputation', { n: effect.reputation }))
+  if (effect.morale) parts.push(t('level.missions.morale', { n: effect.morale }))
+  if (effect.brand) parts.push(t('level.missions.brand', { n: effect.brand }))
+  return parts.join(', ')
+}
+
+/** Optional goals for the levels reached so far; open ones first. */
+export function MissionList({ firm }: { firm: Firm }) {
+  const { t, i18n } = useTranslation()
+  const missions = visibleMissions(firm).sort((a, b) => Number(a.done) - Number(b.done))
+  if (!missions.length) return null
+  return (
+    <>
+      <span className={`${s.small} ${s.muted}`}>{t('level.missions.title')}</span>
+      <ul className={s.todoList}>
+        {missions.map(({ def, done }) => (
+          <li key={def.id} data-done={done}>
+            <span className={s.todoBox} aria-hidden>
+              {done && <Icon name="check" size={12} />}
+            </span>
+            <span className={s.todoText}>
+              <span className={s.todoLabel}>
+                {done && <span className="visually-hidden">{t('level.missions.done')}: </span>}
+                {t(`content:missions.${def.id}.name`)}
+              </span>
+              {!done && <span className={`${s.small} ${s.muted}`}>{t('level.missions.reward', { text: rewardText(def.reward, t, i18n.language) })}</span>}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
 export function LevelPanel({ firm, className }: { firm: Firm; className?: string }) {
   const { t, i18n } = useTranslation()
   const lng = i18n.language
@@ -46,6 +86,7 @@ export function LevelPanel({ firm, className }: { firm: Firm; className?: string
           <strong>{t('level.label', { level })} · {name(level)}</strong>
         </p>
         <p className={`${s.small} ${s.muted}`}>{t('level.max')}</p>
+        <MissionList firm={firm} />
       </Panel>
     )
   }
@@ -73,6 +114,7 @@ export function LevelPanel({ firm, className }: { firm: Firm; className?: string
         ))}
         <span className={`${s.small} ${s.muted}`}>{t('level.unlocks')}</span>
         <UnlockList level={next} />
+        <MissionList firm={firm} />
       </div>
     </Panel>
   )

@@ -75,6 +75,9 @@
     },
     "level": {
       "up": "Dere har rykket opp til nivå {{level}}."
+    },
+    "mission": {
+      "done": "Mål nådd: {{mission}}. Styret klapper høflig."
     }
   },
   "announcements": {

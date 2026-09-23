@@ -74,6 +74,7 @@ function playGame(seed: number, strategy: string) {
     aiBankrupt,
     shady: state.firms[state.playerId].shadyLog.length,
     caught: state.firms[state.playerId].shadyLog.filter((e) => e.detected).length,
+    missions: state.firms[state.playerId].missionsDone ?? [],
   }
 }
 
@@ -106,6 +107,9 @@ for (const strategy of strategies) {
     return `L${i + 2} ${qs.length}/${games} med Q${pct(qs, 0.5)}`
   })
   console.log(`levels: ${reached.join(' · ')}`)
+  const done: Record<string, number> = {}
+  for (const r of results) for (const id of r.missions) done[id] = (done[id] ?? 0) + 1
+  console.log(`missions median ${pct(results.map((r) => r.missions.length), 0.5)}: ${Object.entries(done).map(([k, v]) => `${k}:${v}`).join(' ')}`)
   console.log(`bankrupt: ${bankrupt.length}/${games} (median quarter ${pct(bankrupt.map((r) => r.bankruptAt!), 0.5)})`)
   console.log(`rank p10/med/p90: ${pct(results.map((r) => r.rank), 0.1)} / ${pct(results.map((r) => r.rank), 0.5)} / ${pct(results.map((r) => r.rank), 0.9)}`)
   console.log(`value median: ${m(pct(results.map((r) => r.value), 0.5))}, p90: ${m(pct(results.map((r) => r.value), 0.9))}`)

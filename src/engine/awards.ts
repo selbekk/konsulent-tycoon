@@ -46,6 +46,10 @@ export function yearEndAwards(state: GameState): Award[] {
     }
     if (!best || (def.min !== undefined && bestScore < def.min)) continue
     best.reputation = clamp(best.reputation + def.reputation, 0, 100)
+    if (def.reputation > 0) {
+      const stats = (best.stats ??= {})
+      stats.awards = (stats.awards ?? 0) + 1
+    }
     awards.push({ awardId: def.id, firmId: best.id, year })
     addNews(state, `news.award.${def.id}`, { firm: best.name, year }, def.reputation < 0 ? 'sassy' : 'good', {
       personal: best.isPlayer,
