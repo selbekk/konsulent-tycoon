@@ -5,7 +5,7 @@ import { Bjorn } from '../components/Bjorn'
 import { Icon } from '../components/Icon'
 import { Button, Modal } from '../components/ui'
 import { formatMoney, formatPercent, formatQuarter, newsText } from '../format'
-import { bjornKey } from './Dashboard'
+import { bjornKey } from '../bjorn'
 import s from './screens.module.css'
 
 function Confetti() {

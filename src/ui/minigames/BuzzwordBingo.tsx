@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BINGO_SECONDS, scoreBingo, setupBingo } from '../../engine/minigames'
 import type { Tender } from '../../engine'
@@ -22,27 +22,41 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
   const fragments = t('minigames:bingo.fragments', { returnObjects: true }) as string[]
   const [phase, setPhase] = useState<'intro' | 'play' | 'done'>('intro')
   const [picked, setPicked] = useState<string[]>([])
-  const [left, setLeft] = useState(total)
   const [score, setScore] = useState<number | null>(null)
-  const pickedRef = useRef(picked)
-  pickedRef.current = picked
+  // Time is derived from a deadline, so re-running the timer effect never adds time.
+  const [endsAt, setEndsAt] = useState(0)
+  const [now, setNow] = useState(0)
+  const left = Math.max(0, Math.ceil((endsAt - now) / 1000))
 
-  const finish = (secondsLeft: number) => {
-    const final = scoreBingo(pickedRef.current, board.correct, secondsLeft, total)
-    setScore(final)
-    setPhase('done')
-    onFinish(final)
-  }
+  const finish = useCallback(
+    (secondsLeft: number) => {
+      const final = scoreBingo(picked, board.correct, secondsLeft, total)
+      setScore(final)
+      setPhase('done')
+      onFinish(final)
+    },
+    [picked, board.correct, total, onFinish],
+  )
 
   useEffect(() => {
     if (phase !== 'play') return
-    if (left <= 0) {
-      finish(0)
-      return
-    }
-    const id = setTimeout(() => setLeft((l) => l - 1), 1000)
-    return () => clearTimeout(id)
-  }, [phase, left])
+    const id = setInterval(() => {
+      const t = performance.now()
+      if (t >= endsAt) {
+        clearInterval(id)
+        finish(0)
+      } else setNow(t)
+    }, 250)
+    return () => clearInterval(id)
+  }, [phase, endsAt, finish])
+
+  const begin = () => {
+    const t = performance.now()
+    onStart()
+    setNow(t)
+    setEndsAt(t + total * 1000)
+    setPhase('play')
+  }
 
   const toggle = (w: string) => setPicked((p) => (p.includes(w) ? p.filter((x) => x !== w) : [...p, w]))
   const customer = t(`content:customers.${tender.customerId}.name`)
@@ -53,10 +67,7 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
         <div className={s.stack}>
           <p>{t('minigames:bingo.intro', { customer, seconds: total })}</p>
           <p className={s.muted}>{t('minigame.oneShot')}</p>
-          <Button variant="primary" onClick={() => {
-              onStart()
-              setPhase('play')
-            }}>
+          <Button variant="primary" onClick={begin}>
             {t('minigames:bingo.start')}
           </Button>
         </div>

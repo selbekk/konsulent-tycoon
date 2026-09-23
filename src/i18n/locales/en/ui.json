@@ -271,7 +271,7 @@
     "promised": "promised in another bid",
     "pitch": "Client meeting",
     "pitchHint": "One attempt per tender. Choose a meeting or bingo.",
-    "pitchDone": "The meeting scored {{score}} out of 100.",
+    "pitchDone": "The client gave you {{score}} out of 100.",
     "estimate": "Estimate",
     "quality": "Quality",
     "chance": "Chance of winning",

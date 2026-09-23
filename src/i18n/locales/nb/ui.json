@@ -271,7 +271,7 @@
     "promised": "lovet i et annet bud",
     "pitch": "Kundemøte",
     "pitchHint": "Ett forsøk per anbud. Velg møte eller bingo.",
-    "pitchDone": "Møtet ga {{score}} av 100.",
+    "pitchDone": "Kunden ga {{score}} av 100.",
     "estimate": "Anslag",
     "quality": "Kvalitet",
     "chance": "Vinnersjanse",
