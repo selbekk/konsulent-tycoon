@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { LEVELS, MAX_LEVEL } from './constants'
+import { LEVELS, MAX_LEVEL, OFFICE_MOVE_BRAND, OFFICE_MOVE_SOSIALT } from './constants'
 import { earnedLevel, firmLevel, hasFeature, levelStats, maxTenderSeats, tenderLevel, tenderLock, unlocksAt, updateLevels } from './levels'
 import { applyAction } from './reducer'
 import { SHADY_LEVELS } from './shady'
@@ -98,6 +98,17 @@ describe('firm levels', () => {
     s.firms.player.tendersWon = 0
     updateLevels(s)
     expect(s.firms.player.level).toBe(2)
+  })
+
+  it('moves the firm to a bigger office on level-up', () => {
+    const s = newTestGame()
+    const before = { sosialt: s.firms.player.sosialt, brand: s.firms.player.brandMod }
+    s.firms.player.tendersWon = LEVELS[1].tendersWon
+    updateLevels(s)
+    expect(s.firms.player.sosialt).toBe(before.sosialt + OFFICE_MOVE_SOSIALT)
+    expect(s.firms.player.brandMod).toBe(before.brand + OFFICE_MOVE_BRAND)
+    updateLevels(s)
+    expect(s.firms.player.sosialt).toBe(before.sosialt + OFFICE_MOVE_SOSIALT)
   })
 
   it('counts won tenders', () => {

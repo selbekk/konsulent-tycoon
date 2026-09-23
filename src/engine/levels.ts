@@ -1,4 +1,4 @@
-import { FEATURE_LEVEL, LEVELS, MAX_LEVEL } from './constants'
+import { FEATURE_LEVEL, LEVELS, MAX_LEVEL, OFFICE_MOVE_BRAND, OFFICE_MOVE_SOSIALT, clamp } from './constants'
 import { headcount } from './economy'
 import type { Firm, GameState, ShadyActionId, Tender } from './types'
 import { addNews, seatTotal } from './util'
@@ -77,6 +77,11 @@ export function updateLevels(state: GameState) {
     const before = firmLevel(firm)
     const after = Math.max(before, earnedLevel(firm))
     firm.level = after
+    if (after > before) {
+      // Moving to the next office: new furniture, same people, briefly very happy.
+      firm.sosialt = clamp(firm.sosialt + OFFICE_MOVE_SOSIALT, 0, 100)
+      firm.brandMod += OFFICE_MOVE_BRAND
+    }
     if (after > before && firm.isPlayer) {
       firm.levelUpQuarter = state.quarter
       addNews(state, 'news.level.up', { level: after, from: before }, 'good', { firmId: firm.id, personal: true })

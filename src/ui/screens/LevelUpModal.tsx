@@ -38,6 +38,7 @@ export function LevelUpModal({ from, to }: { from: number; to: number }) {
           <span className={s.levelNumber}>{to}</span>
         </div>
         <p className={s.levelLead}>{t('level.upBody', { firm: me.name, name: t(`level.names.${to}`) })}</p>
+        <span className={s.small}>{t('level.move', { office: t(`office.tiers.${to}`) })}</span>
         <span className={`${s.small} ${s.muted}`}>{t('level.unlocks')}</span>
         {levels.map((l) => (
           <UnlockList key={l} level={l} />

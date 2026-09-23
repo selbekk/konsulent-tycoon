@@ -109,6 +109,9 @@ export const FEATURE_LEVEL = {
   bingo: 3,
   backroom: 3,
 } as const
+/** Every level-up is a move to a bigger office: a one-off lift for social culture and employer brand. */
+export const OFFICE_MOVE_SOSIALT = 5
+export const OFFICE_MOVE_BRAND = 3
 /** The player can't touch culture budgets at level 1, so start from what a sensible player picks. */
 export const PLAYER_START_BUDGETS = { fagmiljoPerHead: 15_000, sosialtPerHead: 12_000, salaryPremium: 0.02 }
 

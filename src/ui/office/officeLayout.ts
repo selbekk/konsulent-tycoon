@@ -1,7 +1,15 @@
-import { headcount } from '../../engine'
+import { firmLevel, headcount } from '../../engine'
 import type { Firm } from '../../engine'
 
-export type RoomTile = 'coffee' | 'plant' | 'kitchen' | 'sofa' | 'fagrom' | 'whiteboard' | 'pingpong'
+export type RoomTile = 'coffee' | 'plant' | 'kitchen' | 'sofa' | 'fagrom' | 'whiteboard' | 'pingpong' | 'reception' | 'window' | 'terrace' | 'bust'
+
+/** One new piece of the office per level (the office itself is named after the level). */
+const LEVEL_ROOMS: [number, RoomTile][] = [
+  [2, 'reception'],
+  [3, 'window'],
+  [4, 'terrace'],
+  [5, 'bust'],
+]
 export type Tile = { kind: 'desk'; occupied: boolean } | { kind: 'room'; room: RoomTile }
 
 export interface OfficeFloor {
@@ -14,7 +22,8 @@ export const MAX_FLOORS = 4
 /** Pure: which rooms and desks the office has, from headcount and culture levels. */
 export function officeLayout(firm: Firm): { floors: OfficeFloor[]; hiddenPeople: number; rooms: RoomTile[] } {
   const hc = headcount(firm)
-  const rooms: RoomTile[] = ['coffee']
+  const level = firmLevel(firm)
+  const rooms: RoomTile[] = ['coffee', ...LEVEL_ROOMS.filter(([l]) => level >= l).map(([, room]) => room)]
   if (hc >= 20) rooms.push('plant')
   if (firm.sosialt >= 40) rooms.push('kitchen')
   if (firm.sosialt >= 70) rooms.push('sofa')

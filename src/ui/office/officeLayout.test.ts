@@ -21,4 +21,10 @@ describe('officeLayout', () => {
     expect(rooms).toEqual(expect.arrayContaining(['kitchen', 'sofa', 'fagrom', 'whiteboard', 'plant', 'pingpong']))
     expect(floors.length).toBeGreaterThanOrEqual(3)
   })
+
+  it('each level adds a piece of the new office', () => {
+    const firm = structuredClone(newTestGame().firms.player)
+    firm.level = 3
+    expect(officeLayout(firm).rooms).toEqual(['coffee', 'reception', 'window'])
+  })
 })

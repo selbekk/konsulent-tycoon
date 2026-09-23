@@ -108,3 +108,10 @@
 @keyframes bob {
   50% { transform: translateY(1px); }
 }
+
+.sign {
+  margin: 0 0 6px 24px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}

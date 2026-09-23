@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { firmLevel } from '../../engine'
 import type { Firm } from '../../engine'
 import { officeLayout } from './officeLayout'
 import type { RoomTile, Tile } from './officeLayout'
@@ -91,6 +92,44 @@ const ROOM_ART: Record<RoomTile, React.ReactNode> = {
       <rect x="11" y="3" width="2" height="2" fill="#fff" className="ball" />
     </>
   ),
+  reception: (
+    <>
+      <rect x="1" y="8" width="14" height="7" fill="#8a5a2b" />
+      <rect x="1" y="8" width="14" height="1" fill="#c9965a" />
+      <rect x="4" y="11" width="8" height="2" fill="#ff9e2c" />
+      <rect x="11" y="5" width="2" height="3" fill="#48d597" />
+    </>
+  ),
+  window: (
+    <>
+      <rect x="1" y="1" width="14" height="12" fill="#2b2b3a" />
+      <rect x="2" y="2" width="12" height="10" fill="#7fc8f8" />
+      <rect x="3" y="7" width="3" height="5" fill="#44445a" />
+      <rect x="7" y="5" width="2" height="7" fill="#44445a" />
+      <rect x="10" y="8" width="4" height="4" fill="#f4f4f4" />
+      <rect x="11" y="3" width="2" height="2" fill="#ffd84d" />
+      <rect x="8" y="2" width="1" height="10" fill="#2b2b3a" />
+    </>
+  ),
+  terrace: (
+    <>
+      <rect x="1" y="12" width="14" height="3" fill="#b5651d" />
+      <rect x="2" y="7" width="3" height="5" fill="#2e8b57" />
+      <rect x="1" y="5" width="5" height="3" fill="#48d597" />
+      <rect x="8" y="9" width="6" height="1" fill="#ff5c8a" />
+      <rect x="10" y="3" width="2" height="6" fill="#ddd" />
+      <rect x="7" y="2" width="8" height="2" fill="#ff5c8a" />
+    </>
+  ),
+  bust: (
+    <>
+      <rect x="4" y="12" width="8" height="3" fill="#8a8aa0" />
+      <rect x="5" y="9" width="6" height="3" fill="#c9c9d6" />
+      <rect x="6" y="3" width="4" height="5" fill="#e6c35c" />
+      <rect x="5" y="8" width="6" height="1" fill="#e6c35c" />
+      <rect x="6" y="3" width="4" height="1" fill="#b8962e" />
+    </>
+  ),
 }
 
 function Room({ room, label }: { room: RoomTile; label: string }) {
@@ -108,6 +147,7 @@ export function OfficeView({ firm }: { firm: Firm }) {
   let deskIndex = 0
   return (
     <div className={s.office} aria-label={t('office.label')}>
+      <p className={s.sign}>{t(`office.tiers.${firmLevel(firm)}`)}</p>
       {floors.map((floor, fi) => (
         <div key={fi} className={s.floor}>
           <span className={s.floorNo}>{floors.length - fi}</span>

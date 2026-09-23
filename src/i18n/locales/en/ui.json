@@ -152,7 +152,18 @@
       "sofa": "Lounge",
       "fagrom": "Learning room",
       "whiteboard": "Whiteboard room",
-      "pingpong": "Ping-pong table"
+      "pingpong": "Ping-pong table",
+      "reception": "Reception",
+      "window": "A view of the fjord",
+      "terrace": "Roof terrace",
+      "bust": "Bust of the founders"
+    },
+    "tiers": {
+      "1": "A corner of a coworking space",
+      "2": "Your own rooms above a coffee shop",
+      "3": "A whole floor in Bjørvika",
+      "4": "Three floors and a roof terrace",
+      "5": "Your own building with your name on it"
     }
   },
   "staff": {
@@ -520,6 +531,7 @@
       "3": "People are starting to know our name. Not all for good reasons, but still.",
       "4": "Mid-size. I've always wanted a boardroom with a view.",
       "5": "Industry heavyweight. I'll be mentioning it at every dinner party from now on."
-    }
+    },
+    "move": "You're moving to: {{office}}. New premises give social culture a lift."
   }
 }

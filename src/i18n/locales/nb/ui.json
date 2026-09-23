@@ -152,7 +152,18 @@
       "sofa": "Sofakrok",
       "fagrom": "Fagrom",
       "whiteboard": "Tavlerom",
-      "pingpong": "Pingpongbord"
+      "pingpong": "Pingpongbord",
+      "reception": "Resepsjon",
+      "window": "Utsikt over fjorden",
+      "terrace": "Takterrasse",
+      "bust": "Byste av gründerne"
+    },
+    "tiers": {
+      "1": "Et hjørne i et kontorfellesskap",
+      "2": "Egne lokaler over en kaffebar",
+      "3": "En hel etasje i Bjørvika",
+      "4": "Tre etasjer med takterrasse",
+      "5": "Eget bygg med navnet deres på fasaden"
     }
   },
   "staff": {
@@ -520,6 +531,7 @@
       "3": "Folk begynner å kjenne navnet vårt. Ikke alle av gode grunner, men likevel.",
       "4": "Mellomstor. Jeg har alltid ønsket meg et styrerom med utsikt.",
       "5": "Bransjetungvekt. Jeg skal nevne det i alle middagsselskaper fra nå av."
-    }
+    },
+    "move": "Dere flytter til: {{office}}. Nye lokaler gir et løft for det sosiale miljøet."
   }
 }
