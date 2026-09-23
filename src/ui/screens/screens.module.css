@@ -52,14 +52,17 @@
   text-align: left;
   font-size: 0.8rem;
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.72rem;
   padding: 4px 8px;
-  border-bottom: 2px solid var(--border-dark);
+  border-bottom: 1px solid var(--border);
 }
 
 .table td {
   padding: 6px 8px;
-  border-bottom: 1px dashed var(--border);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
   vertical-align: middle;
 }
 
@@ -90,13 +93,14 @@
   align-content: start;
   padding: 12px;
   background: var(--panel-2);
-  border: 2px solid var(--border-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
 }
 
 .card h3 {
   margin: 0;
-  font-size: 0.62rem;
+  font-size: 0.85rem;
 }
 
 .cardTitle {
@@ -122,7 +126,8 @@
   padding: 18px;
   text-align: center;
   color: var(--muted);
-  border: 2px dashed var(--border);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
 }
 
 .seats {
@@ -133,8 +138,10 @@
 
 .bar {
   display: flex;
-  height: 10px;
-  border: 2px solid var(--border-dark);
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-dark);
 }
 
 .bar > span {
@@ -154,7 +161,8 @@
   position: relative;
   padding: 8px 12px;
   background: var(--panel-2);
-  border: 2px solid var(--border-dark);
+  border: 1px solid var(--border);
+  border-radius: 12px;
   font-style: italic;
 }
 
@@ -166,8 +174,8 @@
   width: 8px;
   height: 8px;
   background: var(--panel-2);
-  border-right: 2px solid var(--border-dark);
-  border-bottom: 2px solid var(--border-dark);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   transform: rotate(45deg);
 }
 
@@ -198,7 +206,8 @@
   width: 14px;
   height: 20px;
   background: #2a1a20;
-  border: 2px solid #000;
+  border: 1px solid #000;
+  border-radius: 3px;
 }
 
 .heatMeter span[data-on='true'] {
@@ -225,7 +234,7 @@
 .reportTotal {
   font-weight: 700;
   border-bottom: 0;
-  border-top: 2px solid var(--border-dark);
+  border-top: 1px solid var(--border);
   margin-top: 4px;
   padding-top: 6px;
 }
@@ -248,6 +257,7 @@
   flex-shrink: 0;
   width: 8px;
   height: 8px;
+  border-radius: 50%;
   background: var(--muted);
   transform: translateY(-1px);
 }
@@ -262,7 +272,8 @@
   align-items: flex-start;
   padding: 10px;
   background: var(--bg-2);
-  border: 2px solid var(--border-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
 .bjornQuote {
@@ -283,15 +294,17 @@
 .segmented {
   display: inline-flex;
   flex-wrap: wrap;
-  border: 2px solid var(--border-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
 }
 
 .segmented button {
   padding: 6px 10px;
   border: 0;
-  border-right: 2px solid var(--border-dark);
+  border-right: 1px solid var(--border-dark);
   background: var(--bg-2);
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -317,8 +330,9 @@
   padding: 8px 10px;
   min-height: 40px;
   background: var(--bg);
-  border: var(--px) solid var(--border-dark);
-  box-shadow: inset 2px 2px 0 rgb(0 0 0 / 0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.2);
 }
 
 .checkRow {
@@ -347,7 +361,8 @@
   left: 50%;
   width: 8px;
   height: 8px;
-  animation: burst 600ms steps(8) forwards;
+  border-radius: 2px;
+  animation: burst 700ms cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
 }
 
 @keyframes burst {

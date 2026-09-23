@@ -16,12 +16,16 @@
   --info: #8f7bff;
   --noir-bg: #0b0b10;
   --noir-panel: #16161f;
-  --font-title: 'Press Start 2P', ui-monospace, monospace;
-  --font-body: 'Pixelify Sans', ui-rounded, system-ui, sans-serif;
-  --radius: 0;
-  --px: 3px;
-  --shadow: 4px 4px 0 var(--border-dark);
-  --shadow-sm: 2px 2px 0 var(--border-dark);
+  /* Pixel font only for the logo; the rest is smooth with a retro flavour. */
+  --font-logo: 'Press Start 2P', ui-monospace, monospace;
+  --font-title: 'Bungee', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --radius: 8px;
+  --radius-sm: 5px;
+  --px: 2px;
+  --shadow: 0 3px 0 var(--border-dark), 0 10px 24px rgb(0 0 0 / 0.22);
+  --shadow-sm: 0 2px 0 var(--border-dark);
   --gutter: 16px;
   color-scheme: dark;
 }
@@ -42,5 +46,7 @@
   --bad: #cf3035;
   --warn: #b98800;
   --info: #5b47d6;
+  --shadow: 0 3px 0 #d8caa2, 0 10px 24px rgb(59 47 26 / 0.12);
+  --shadow-sm: 0 2px 0 #d8caa2;
   color-scheme: light;
 }

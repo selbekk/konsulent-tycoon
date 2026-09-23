@@ -215,7 +215,8 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
 - **Styling:** CSS Modules og design-tokens i `ui/theme/tokens.css`.
   - Mørkt tema er standard, og det lyse ligger under `:root[data-theme='light']`.
   - Bruk tokens (`var(--accent)` osv.), ikke hardkodede farger.
-  - Fontene er «Press Start 2P» (titler) og «Pixelify Sans» (brødtekst), fra Google Fonts.
+  - Fontene kommer fra Google Fonts: «Press Start 2P» bare i logoen, «Bungee» i overskrifter og på store knapper, «IBM Plex Sans» i brødtekst og «IBM Plex Mono» for tall (`--font-mono`, klassen `.num`).
+  - Uttrykket skal være retro, men rolig: avrundede hjørner (`--radius`), myke skygger og få harde kanter. Piksler hører hjemme i illustrasjonene (ikoner, kontoret, portretter), ikke i tekst og UI-elementer.
 - **Ikoner:** Pikselikonene i `components/Icon.tsx` er 8×8 ASCII-bitmaps (`#` = fyll, `o` = aksentfarge). Nye ikoner legges til rett i objektet `ICONS`. Ikke bruk emoji i UI-et.
 - **Lyd:** `ui/sound.ts` syntetiserer små 8-bit-effekter med Web Audio, uten lydfiler. Kall `playSound('win')` osv. fra UI-et.
   - Nye lyder er en liste med toner i `SOUNDS`: frekvens eller glidning, start, varighet og bølgeform.

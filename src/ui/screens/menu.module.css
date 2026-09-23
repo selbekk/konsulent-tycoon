@@ -13,7 +13,7 @@
 
 .logo {
   text-align: center;
-  font-family: var(--font-title);
+  font-family: var(--font-logo);
   line-height: 1.25;
   color: var(--accent);
   text-shadow: 4px 4px 0 var(--border-dark), 8px 8px 0 var(--accent-2);
@@ -29,7 +29,7 @@
 
 .press {
   text-align: center;
-  font-family: var(--font-title);
+  font-family: var(--font-logo);
   font-size: 0.6rem;
   color: var(--warn);
   animation: blink 1.2s steps(1) infinite;
@@ -70,6 +70,7 @@
   padding: 2px 8px;
   font-size: 0.85rem;
   background: var(--bg-2);
-  border: 2px solid var(--border-dark);
+  border: 1px solid var(--border);
+  border-radius: 999px;
   cursor: pointer;
 }

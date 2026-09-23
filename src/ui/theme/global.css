@@ -15,15 +15,15 @@ body,
 
 body {
   background: var(--bg);
+  /* A soft glow and very faint scanlines: CRT-ish without the grain. */
   background-image:
-    linear-gradient(var(--bg-2) 1px, transparent 1px),
-    linear-gradient(90deg, var(--bg-2) 1px, transparent 1px);
-  background-size: 24px 24px;
+    radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgb(0 0 0 / 0.04) 3px 4px);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 18px;
-  line-height: 1.4;
-  -webkit-font-smoothing: none;
+  font-size: 16px;
+  line-height: 1.5;
   overflow-x: hidden;
 }
 
@@ -33,13 +33,13 @@ h3,
 .title-font {
   font-family: var(--font-title);
   font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
 }
 
-h1 { font-size: 1.25rem; }
-h2 { font-size: 0.9rem; }
-h3 { font-size: 0.75rem; }
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.1rem; }
+h3 { font-size: 0.95rem; }
 
 button,
 input,
@@ -54,10 +54,7 @@ textarea {
   outline-offset: 2px;
 }
 
-img,
-svg {
-  image-rendering: pixelated;
-}
+/* Pixel art (icons, office, portraits) opts in to crisp rendering itself. */
 
 .visually-hidden {
   position: absolute !important;
@@ -69,6 +66,7 @@ svg {
 }
 
 .num {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 

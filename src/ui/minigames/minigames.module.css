@@ -12,7 +12,8 @@
   height: 110px;
   padding: 8px;
   background: repeating-linear-gradient(90deg, #cbb994 0 16px, #c2af89 16px 32px);
-  border: 3px solid var(--border-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius);
 }
 
 .question {
@@ -30,10 +31,12 @@
   text-align: left;
   padding: 10px 12px;
   background: var(--panel-2);
-  border: var(--px) solid var(--border-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   font-size: 1rem;
+  transition: background 120ms ease;
 }
 
 .answer:hover:not(:disabled) {
@@ -53,7 +56,8 @@
 .reaction {
   margin: 0;
   padding: 8px 10px;
-  border-left: 6px solid var(--muted);
+  border-left: 4px solid var(--muted);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   background: var(--bg-2);
 }
 
@@ -63,7 +67,7 @@
 .score {
   margin: 0;
   font-family: var(--font-title);
-  font-size: 0.9rem;
+  font-size: 1.3rem;
   color: var(--accent);
   text-align: center;
 }
@@ -80,7 +84,8 @@
   padding: 12px 14px;
   background: #fffdf5;
   color: #2b2118;
-  border: 3px solid var(--border-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
   font-family: Georgia, 'Times New Roman', serif;
 }
 
@@ -91,10 +96,12 @@
 .timer {
   justify-self: start;
   padding: 4px 10px;
-  font-family: var(--font-title);
-  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.95rem;
   background: var(--panel-2);
-  border: 2px solid var(--border-dark);
+  border: 1px solid var(--border);
+  border-radius: 999px;
 }
 
 .timer[data-low='true'] {
@@ -119,9 +126,11 @@
   font-weight: 700;
   font-size: 0.95rem;
   background: var(--panel-2);
-  border: var(--px) solid var(--border-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   overflow-wrap: anywhere;
+  transition: background 100ms ease, transform 100ms ease;
 }
 
 .bingoCell[aria-pressed='true'] {
