@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DEPARTMENTS, PARTNERSHIPS } from '../../content/strategy'
 import {
+  IPO_SHARE,
+  ipoProceeds,
   ACADEMY_MAX_LEVEL,
   ACQUIRE_MAX_SIZE_RATIO,
   acquisitionBlock,
@@ -29,7 +31,7 @@ import type { Feature, Firm, Specialty } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, FirmGlyph, Hint, Modal, Panel } from '../components/ui'
 import { firmColors } from '../firms'
-import { formatMoney, formatPercent } from '../format'
+import { formatMoney, formatPercent, formatQuarter } from '../format'
 import { playSound } from '../sound'
 import s from './screens.module.css'
 
@@ -57,6 +59,8 @@ export function StrategyScreen() {
   const lobbyWait = lobbyReadyIn(game, me)
   const departments = me.departments ?? []
   const [buying, setBuying] = useState<string | null>(null)
+  const [listing, setListing] = useState(false)
+  const proceeds = formatMoney(ipoProceeds(me), lng)
   const targets = game.firmOrder
     .map((id) => game.firms[id])
     .filter((f) => !f.isPlayer && !f.bankrupt && headcount(f) <= hc * ACQUIRE_MAX_SIZE_RATIO)
@@ -222,6 +226,48 @@ export function StrategyScreen() {
           </div>
         </Locked>
       </Panel>
+
+      <Panel title={t('strategy.ipo.title')} icon="chart" className={s.span12}>
+        <Locked firm={me} feature="ipo">
+          {me.listed ? (
+            <p className={s.small}>
+              {t('strategy.ipo.listed', { quarter: formatQuarter(me.listed.quarter), owners: formatPercent(1 - me.listed.share, lng) })}
+            </p>
+          ) : (
+            <div className={s.stack}>
+              <Hint>{t('strategy.ipo.hint', { share: formatPercent(IPO_SHARE, lng), proceeds })}</Hint>
+              <Button variant="primary" onClick={() => setListing(true)}>
+                {t('strategy.ipo.do', { proceeds })}
+              </Button>
+            </div>
+          )}
+        </Locked>
+      </Panel>
+
+      {listing && (
+        <Modal
+          icon="chart"
+          title={t('strategy.ipo.title')}
+          onClose={() => setListing(false)}
+          actions={
+            <>
+              <Button onClick={() => setListing(false)}>{t('common.cancel')}</Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  const err = dispatch({ type: 'ipo', firmId: me.id })
+                  playSound(err ? 'bad' : 'fanfare')
+                  setListing(false)
+                }}
+              >
+                {t('strategy.ipo.yes')}
+              </Button>
+            </>
+          }
+        >
+          <p>{t('strategy.ipo.confirm', { firm: me.name, proceeds })}</p>
+        </Modal>
+      )}
 
       {buyingFirm && (
         <Modal

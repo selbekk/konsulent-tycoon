@@ -139,6 +139,8 @@ export interface Firm {
   lastLobbyQuarter?: number
   /** Department ids (content/strategy.ts) running this quarter. */
   departments?: string[]
+  /** Set once the firm is listed on the stock exchange. */
+  listed?: { quarter: number; share: number }
 }
 
 export type Specialty = 'public' | 'private' | Discipline
@@ -300,6 +302,7 @@ export type Action =
   | { type: 'lobby'; firmId: FirmId }
   | { type: 'setDepartment'; firmId: FirmId; departmentId: string; on: boolean }
   | { type: 'acquireFirm'; firmId: FirmId; targetFirmId: FirmId }
+  | { type: 'ipo'; firmId: FirmId }
   | {
       type: 'shady'
       firmId: FirmId

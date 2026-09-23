@@ -520,7 +520,8 @@
       "strategy": "The Strategy tab: pick a specialisation that helps in tenders",
       "partnerships": "Vendor partnerships, and lobbying with public-sector clients",
       "departments": "Departments of your own: an academy, a sales team and a nearshore centre",
-      "acquisitions": "Acquisitions: buy smaller rivals with their people, clients and contracts"
+      "acquisitions": "Acquisitions: buy smaller rivals with their people, clients and contracts",
+      "ipo": "IPO: raise capital, but live with quarterly pressure"
     },
     "seats": "Tenders of up to {{count}} consultants",
     "seatsAll": "Tenders of any size",
@@ -593,6 +594,14 @@
       "none": "No firms of a suitable size right now.",
       "confirm": "Buy {{firm}} for {{price}}? There is no undo.",
       "yes": "Buy the firm"
+    },
+    "ipo": {
+      "title": "IPO",
+      "hint": "Sell {{share}} of the firm on the stock exchange and get {{proceeds}} in cash. After that, the valuation counts only the owners’ share, with a small listing premium on the multiple. Every quarter weaker than the last costs reputation and morale. There is no undo.",
+      "do": "Go public for {{proceeds}}",
+      "listed": "Listed since {{quarter}}. The owners hold {{owners}} of the shares.",
+      "confirm": "Take {{firm}} public and raise {{proceeds}}? There is no undo, and shareholders will be watching every quarter.",
+      "yes": "Ring the bell"
     }
   }
 }

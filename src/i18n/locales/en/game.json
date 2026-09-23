@@ -81,6 +81,11 @@
     },
     "mission": {
       "done": "Goal reached: {{mission}}. The board applauds politely."
+    },
+    "ipo": {
+      "listed": "{{firm}} is listed on the Oslo Stock Exchange! The founders rang the bell and someone filmed it vertically.",
+      "miss": "The quarter came in weaker than the last. Shareholders are disappointed, and it shows in the corridors.",
+      "beat": "A better quarter than last time. Shareholders are happy, at least until next quarter."
     }
   },
   "announcements": {

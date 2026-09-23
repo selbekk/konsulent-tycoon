@@ -81,6 +81,11 @@
     },
     "mission": {
       "done": "Mål nådd: {{mission}}. Styret klapper høflig."
+    },
+    "ipo": {
+      "listed": "{{firm}} er notert på Oslo Børs! Gründerne ringte i bjella, og noen filmet det vertikalt.",
+      "miss": "Kvartalet ble svakere enn det forrige. Aksjonærene er skuffet, og det merkes i gangene.",
+      "beat": "Bedre kvartal enn sist. Aksjonærene er fornøyde, i hvert fall fram til neste kvartal."
     }
   },
   "announcements": {

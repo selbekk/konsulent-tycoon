@@ -13,7 +13,7 @@ import { handleAcquire } from './acquisitions'
 import { handleResolveEvent } from './events'
 import { hasFeature, tenderLock } from './levels'
 import { handleShady } from './shady'
-import { handleChooseSpecialty, handleLobby, handleSetDepartment, handleSetPartnership } from './strategy'
+import { handleChooseSpecialty, handleIpo, handleLobby, handleSetDepartment, handleSetPartnership } from './strategy'
 import { starSigningCost } from './stars'
 import { clampRate, effortCost } from './tenders'
 import type { Action, ActionOf, ActionResult, ActionType, GameState } from './types'
@@ -161,6 +161,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   lobby: handleLobby,
   setDepartment: handleSetDepartment,
   acquireFirm: handleAcquire,
+  ipo: handleIpo,
 }
 
 /** Mutates `draft` in place. Use inside engine code that already owns a draft (AI turns, sim). */

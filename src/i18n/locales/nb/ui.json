@@ -520,7 +520,8 @@
       "strategy": "Strategi-fanen: velg en spesialisering som gir bonus i anbud",
       "partnerships": "Partnerskap med leverandører, og lobbying hos offentlige kunder",
       "departments": "Egne avdelinger: akademi, salgsavdeling og nearshore-senter",
-      "acquisitions": "Oppkjøp: kjøp mindre konkurrenter med folk, kunder og kontrakter"
+      "acquisitions": "Oppkjøp: kjøp mindre konkurrenter med folk, kunder og kontrakter",
+      "ipo": "Børsnotering: hent kapital, men lev med kvartalspresset"
     },
     "seats": "Anbud på opptil {{count}} konsulenter",
     "seatsAll": "Anbud i alle størrelser",
@@ -593,6 +594,14 @@
       "none": "Ingen firma i passende størrelse akkurat nå.",
       "confirm": "Kjøpe {{firm}} for {{price}}? Det kan ikke angres.",
       "yes": "Kjøp firmaet"
+    },
+    "ipo": {
+      "title": "Børsnotering",
+      "hint": "Selg {{share}} av selskapet på børsen og få {{proceeds}} i kontanter. Verdien teller deretter bare eiernes andel, men børsen gir et lite tillegg i multippelen. Hvert kvartal som er svakere enn det forrige, koster omdømme og trivsel. Noteringen kan ikke angres.",
+      "do": "Børsnoter for {{proceeds}}",
+      "listed": "Notert på børsen siden {{quarter}}. Eierne har {{owners}} av aksjene.",
+      "confirm": "Børsnotere {{firm}} og hente {{proceeds}}? Det kan ikke angres, og aksjonærene kommer til å følge med hvert kvartal.",
+      "yes": "Ring i bjella"
     }
   }
 }

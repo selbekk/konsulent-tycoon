@@ -408,6 +408,9 @@
     },
     "acquisition": {
       "name": "Kjøp opp et konkurrerende firma"
+    },
+    "ipo": {
+      "name": "Børsnoter selskapet"
     }
   },
   "partnerships": {

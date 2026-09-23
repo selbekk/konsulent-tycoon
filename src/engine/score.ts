@@ -1,19 +1,19 @@
-import { clamp } from './constants'
+import { IPO_MULTIPLE_BONUS, clamp } from './constants'
 import { shadyStats } from './shady'
 import type { Firm, GameState } from './types'
 
 export function valuationMultiple(firm: Firm): number {
-  return clamp(4 + firm.reputation / 25, 4, 8)
+  return clamp(4 + firm.reputation / 25, 4, 8) + (firm.listed ? IPO_MULTIPLE_BONUS : 0)
 }
 
-/** EBITDA of the last four quarters × multiple (driven by reputation) + cash. */
+/** EBITDA of the last four quarters × multiple (driven by reputation) + cash. A listed firm counts only the owners' share. */
 export function valuation(firm: Firm): number {
   if (firm.bankrupt) return 0
   const recent = firm.history.slice(-4)
   const ebitda = recent.reduce((s, r) => s + r.ebitda, 0)
   const annualised = recent.length ? (ebitda / recent.length) * 4 : 0
   const value = annualised > 0 ? annualised * valuationMultiple(firm) : annualised
-  return Math.max(0, value + firm.cash)
+  return Math.max(0, value + firm.cash) * (1 - (firm.listed?.share ?? 0))
 }
 
 export function rankings(state: GameState): { firmId: string; value: number }[] {

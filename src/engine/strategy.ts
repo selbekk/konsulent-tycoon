@@ -1,6 +1,10 @@
 import { DEPARTMENT_MAP, PARTNERSHIP_MAP } from '../content/strategy'
 import type { DepartmentId } from '../content/strategy'
 import {
+  IPO_BEAT_REPUTATION,
+  IPO_MISS_MORALE,
+  IPO_MISS_REPUTATION,
+  IPO_SHARE,
   ACADEMY_LEVEL_GAIN,
   ACADEMY_MAX_LEVEL,
   FREELANCER_MARKUP,
@@ -18,9 +22,10 @@ import {
   clamp,
 } from './constants'
 import { hasFeature } from './levels'
+import { valuation } from './score'
 import { DISCIPLINES } from './types'
 import type { ActionOf, Firm, GameState, Specialty, Tender } from './types'
-import { seatTotal } from './util'
+import { addNews, seatTotal } from './util'
 
 export const SPECIALTIES: Specialty[] = ['public', 'private', ...DISCIPLINES]
 
@@ -129,4 +134,34 @@ export function handleLobby(state: GameState, a: ActionOf<'lobby'>): string | un
     if (c.sector === 'public') c.relationships[firm.id] = clamp((c.relationships[firm.id] ?? 20) + LOBBY_RELATION, 0, 100)
   }
   return undefined
+}
+
+/** Cash the firm would raise by listing now. Pure. */
+export const ipoProceeds = (firm: Firm) => Math.round(valuation(firm) * IPO_SHARE)
+
+export function handleIpo(state: GameState, a: ActionOf<'ipo'>): string | undefined {
+  const firm = state.firms[a.firmId]
+  if (!firm || firm.bankrupt) return 'errors.invalid'
+  if (!hasFeature(firm, 'ipo')) return 'errors.levelTooLow'
+  if (firm.listed) return 'errors.alreadyDone'
+  firm.cash += ipoProceeds(firm)
+  firm.listed = { quarter: state.quarter, share: IPO_SHARE }
+  addNews(state, 'news.ipo.listed', { firm: firm.name }, 'good', { firmId: firm.id, personal: firm.isPlayer })
+  return undefined
+}
+
+/** After each quarter's report: the market compares this quarter with the last. */
+export function ipoPressure(state: GameState, firm: Firm) {
+  if (!firm.listed || firm.history.length < 2) return
+  const [prev, now] = firm.history.slice(-2)
+  if (now.quarter <= firm.listed.quarter) return
+  if (now.ebitda < prev.ebitda) {
+    firm.reputation = clamp(firm.reputation - IPO_MISS_REPUTATION, 0, 100)
+    for (const d of DISCIPLINES) firm.pools[d].morale = clamp(firm.pools[d].morale - IPO_MISS_MORALE, 0, 100)
+    for (const s of firm.stars) s.morale = clamp(s.morale - IPO_MISS_MORALE, 0, 100)
+    if (firm.isPlayer) addNews(state, 'news.ipo.miss', {}, 'bad', { firmId: firm.id, personal: true })
+  } else {
+    firm.reputation = clamp(firm.reputation + IPO_BEAT_REPUTATION, 0, 100)
+    if (firm.isPlayer) addNews(state, 'news.ipo.beat', {}, 'good', { firmId: firm.id, personal: true })
+  }
 }

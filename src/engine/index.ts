@@ -36,4 +36,4 @@ export { LEVEL_GOALS, earnedLevel, firmLevel, hasFeature, levelStats, maxTenderS
 export type { Feature, LevelGoal, LevelUnlocks } from './levels'
 export { visibleMissions } from './missions'
 export { acquisitionBlock, acquisitionPrice } from './acquisitions'
-export { SPECIALTIES, departmentFee, hasDepartment, lobbyReadyIn, specialtyChangeCost, specialtyMatches, strategyBonus, strategyCost } from './strategy'
+export { SPECIALTIES, departmentFee, hasDepartment, ipoProceeds, lobbyReadyIn, specialtyChangeCost, specialtyMatches, strategyBonus, strategyCost } from './strategy'

@@ -8,7 +8,7 @@ import { autoResolveEvents, drawEvents } from './events'
 import { pickAnnouncement } from './flavor'
 import { updateLevels } from './levels'
 import { updateTrends } from './market'
-import { runDepartments } from './strategy'
+import { ipoPressure, runDepartments } from './strategy'
 import { checkMissions } from './missions'
 import { applyActionInPlace } from './reducer'
 import { valuation } from './score'
@@ -55,6 +55,7 @@ function runFirmQuarter(state: GameState) {
       ownRevenue: fin.ownRevenue,
     })
     if (firm.history.length > HISTORY_LENGTH) firm.history.shift()
+    ipoPressure(state, firm)
     firm.quarterHires = 0
     firm.quarterFired = 0
     firm.quarterLeavers = 0

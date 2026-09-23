@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { ACADEMY_LEVEL_GAIN, NEARSHORE_FREELANCER_MARKUP, SALES_BID_BONUS, LOBBY_COST, LOBBY_RELATION, MAX_PARTNERSHIPS, PARTNER_BONUS, SPECIALTY_CHANGE_COST, SPECIALTY_DISCIPLINE_BONUS, SPECIALTY_SECTOR_BONUS } from './constants'
+import { IPO_MISS_REPUTATION, IPO_SHARE, MAX_LEVEL, ACADEMY_LEVEL_GAIN, NEARSHORE_FREELANCER_MARKUP, SALES_BID_BONUS, LOBBY_COST, LOBBY_RELATION, MAX_PARTNERSHIPS, PARTNER_BONUS, SPECIALTY_CHANGE_COST, SPECIALTY_DISCIPLINE_BONUS, SPECIALTY_SECTOR_BONUS } from './constants'
 import { headcount, quarterFinancials } from './economy'
 import { applyAction } from './reducer'
-import { freelancerMarkup, runDepartments, strategyBonus } from './strategy'
+import { freelancerMarkup, ipoPressure, runDepartments, strategyBonus } from './strategy'
+import { valuation } from './score'
+import { endTurn } from './turn'
 import { bidQuality } from './tenders'
 import { deepFreeze, newTestGame, veteranTestGame } from './testUtils'
 import type { Bid, GameState, Tender } from './types'
@@ -66,5 +68,23 @@ describe('strategy', () => {
     expect(freelancerMarkup(s.firms.player)).toBe(NEARSHORE_FREELANCER_MARKUP)
     s = applyAction(s, { type: 'setDepartment', firmId: 'player', departmentId: 'sales', on: false }).state
     expect(s.firms.player.departments).toEqual(['academy', 'nearshore'])
+  })
+
+  it('an IPO raises cash, is roughly neutral for the owners on the day, and brings quarterly pressure', () => {
+    let s = veteranTestGame()
+    for (let i = 0; i < 4; i++) s = endTurn(s)
+    s.firms.player.level = MAX_LEVEL
+    const before = { cash: s.firms.player.cash, value: valuation(s.firms.player), rep: s.firms.player.reputation }
+    const r = applyAction(s, { type: 'ipo', firmId: 'player' })
+    expect(r.error).toBeUndefined()
+    expect(r.state.firms.player.cash).toBe(before.cash + Math.round(before.value * IPO_SHARE))
+    expect(valuation(r.state.firms.player) / Math.max(1, before.value)).toBeGreaterThan(0.85)
+    expect(valuation(r.state.firms.player) / Math.max(1, before.value)).toBeLessThan(1.1)
+    expect(applyAction(r.state, { type: 'ipo', firmId: 'player' }).error).toBe('errors.alreadyDone')
+    const f = r.state.firms.player
+    f.history.push({ ...f.history.at(-1)!, quarter: f.listed!.quarter + 1, ebitda: f.history.at(-1)!.ebitda - 1 })
+    const rep = f.reputation
+    ipoPressure(r.state, f)
+    expect(f.reputation).toBe(rep - IPO_MISS_REPUTATION)
   })
 })

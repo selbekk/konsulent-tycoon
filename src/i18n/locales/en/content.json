@@ -408,6 +408,9 @@
     },
     "acquisition": {
       "name": "Buy a competitor"
+    },
+    "ipo": {
+      "name": "Take the firm public"
     }
   },
   "partnerships": {

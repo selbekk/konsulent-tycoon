@@ -112,6 +112,7 @@ export const FEATURE_LEVEL = {
   partnerships: 4,
   departments: 4,
   acquisitions: 5,
+  ipo: 5,
 } as const
 /** Every level-up is a move to a bigger office: a one-off lift for social culture and employer brand. */
 export const OFFICE_MOVE_SOSIALT = 5
@@ -148,6 +149,17 @@ export const ACQUIRE_PREMIUM = 1.2
 export const ACQUIRE_MAX_SIZE_RATIO = 0.5
 export const ACQUIRE_MORALE_HIT = 10
 export const ACQUIRE_STAR_LOYALTY_HIT = 15
+/**
+ * IPO: sell this share of the firm for cash. Afterwards the valuation counts only the owners' share,
+ * with a small listing premium on the multiple, so listing is roughly neutral on the day and pays off
+ * only if the cash is put to work.
+ */
+export const IPO_SHARE = 0.25
+export const IPO_MULTIPLE_BONUS = 0.5
+/** Quarterly pressure: a quarter worse than the last costs reputation and morale; a better one earns a little. */
+export const IPO_MISS_REPUTATION = 2
+export const IPO_MISS_MORALE = 3
+export const IPO_BEAT_REPUTATION = 1
 
 // Shady
 export const HEAT_DECAY = 10
