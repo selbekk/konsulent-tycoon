@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { averageMorale, creditLimit, headcount } from '../../engine'
+import { averageMorale, creditLimit, headcount, quarterTodos } from '../../engine'
 import { TABS, useGame } from '../../store/gameStore'
 import type { Tab } from '../../store/gameStore'
 import { Icon } from '../components/Icon'
 import type { IconName } from '../components/Icon'
-import { Button, Stat } from '../components/ui'
+import { Button, Modal, Stat } from '../components/ui'
 import { formatMoney, formatQuarter, newsText } from '../format'
 import { playSound } from '../sound'
 import { BackroomScreen } from './BackroomScreen'
@@ -21,6 +21,7 @@ import { QuarterReport } from './QuarterReport'
 import { SaveDialog } from './SaveDialog'
 import { StaffScreen } from './StaffScreen'
 import { TenderBoard } from './TenderBoard'
+import { TodoList } from './TodoList'
 import s from './shell.module.css'
 
 const TAB_ICONS: Record<Tab, IconName> = {
@@ -55,23 +56,30 @@ export function Shell() {
   const settings = useGame((x) => x.settings)
   const go = useGame((x) => x.go)
   const [saving, setSaving] = useState(false)
+  const [confirmEnd, setConfirmEnd] = useState(false)
   const [hideAnnouncement, setHideAnnouncement] = useState<number | null>(null)
   const me = game.firms[game.playerId]
   const pending = game.pendingEvents.filter((e) => e.firmId === me.id)
-  const modalOpen = report !== null || !!bidTenderId || !!minigame || pending.length > 0 || saving || game.status !== 'playing'
+  const modalOpen =
+    report !== null || !!bidTenderId || !!minigame || pending.length > 0 || saving || confirmEnd || game.status !== 'playing'
   const lng = i18n.language
+  const openTodos = quarterTodos(game, me.id).filter((x) => !x.done)
+
+  // Both the button and the Enter shortcut go through here, so neither skips the warning.
+  const hasOpenTodos = openTodos.length > 0
+  const tryEndTurn = useCallback(() => (hasOpenTodos ? setConfirmEnd(true) : endTurn()), [hasOpenTodos, endTurn])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement
       if (modalOpen || el.closest('input, textarea, select, [role="dialog"]')) return
-      if (e.key === 'Enter' && el.tagName !== 'BUTTON') endTurn()
+      if (e.key === 'Enter' && el.tagName !== 'BUTTON') tryEndTurn()
       const n = Number(e.key)
       if (n >= 1 && n <= TABS.length) setTab(TABS[n - 1])
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [modalOpen, endTurn, setTab])
+  }, [modalOpen, tryEndTurn, setTab])
 
   // PA chime when a new quarter's announcement becomes visible.
   const showAnnouncement = settings.announcements && !!game.announcement && hideAnnouncement !== game.quarter
@@ -160,7 +168,7 @@ export function Shell() {
 
       <div className={s.endTurn}>
         {pending.length > 0 && <span className={s.endTurnHint}>{t('shell.pendingEvents', { count: pending.length })}</span>}
-        <Button variant="primary" size="big" onClick={endTurn} disabled={pending.length > 0 || game.status !== 'playing'}>
+        <Button variant="primary" size="big" onClick={tryEndTurn} disabled={pending.length > 0 || game.status !== 'playing'}>
           {t('shell.endTurn')} ▶
         </Button>
       </div>
@@ -192,6 +200,30 @@ export function Shell() {
       )}
       {minigame && <MinigameHost />}
       {saving && <SaveDialog onClose={() => setSaving(false)} />}
+      {confirmEnd && (
+        <Modal
+          icon="warn"
+          title={t('todo.confirm.title')}
+          onClose={() => setConfirmEnd(false)}
+          actions={
+            <>
+              <Button onClick={() => setConfirmEnd(false)}>{t('todo.confirm.back')}</Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setConfirmEnd(false)
+                  endTurn()
+                }}
+              >
+                {t('todo.confirm.endAnyway')} ▶
+              </Button>
+            </>
+          }
+        >
+          <p>{t('todo.confirm.body')}</p>
+          <TodoList todos={openTodos} onGo={() => setConfirmEnd(false)} />
+        </Modal>
+      )}
       {game.status !== 'playing' && report === null && <EndGame />}
     </div>
   )

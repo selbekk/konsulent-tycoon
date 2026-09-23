@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { activeContracts, benchmark, capacity, kpis, openTenders, playerRank, quarterFinancials, valuation } from '../../engine'
+import { activeContracts, benchmark, capacity, kpis, playerRank, quarterFinancials, quarterTodos, valuation } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { bjornKey } from '../bjorn'
 import { Bjorn } from '../components/Bjorn'
@@ -9,6 +9,7 @@ import { Button, Panel, Sparkline, Stat } from '../components/ui'
 import { formatMoney, formatNumber, formatPercent, formatQuarter, newsText } from '../format'
 import { OfficeView } from '../office/OfficeView'
 import s from './screens.module.css'
+import { TodoList } from './TodoList'
 
 export function Dashboard() {
   const { t, i18n } = useTranslation()
@@ -18,8 +19,7 @@ export function Dashboard() {
   const me = game.firms[game.playerId]
   const fin = quarterFinancials(game, me.id)
   const last = me.history[me.history.length - 1]
-  const open = openTenders(game)
-  const myBids = open.filter((tn) => tn.bids.some((b) => b.firmId === me.id)).length
+  const todos = quarterTodos(game, me.id)
   const contracts = activeContracts(game, me.id)
   const ending = contracts.filter((c) => c.endQuarter === game.quarter + 1)
   const personal = game.news.filter((n) => n.personal).slice(-6).reverse()
@@ -88,35 +88,30 @@ export function Dashboard() {
 
       <div className={`${s.span5} ${s.stack}`}>
         <Bjorn text={t(bjornKey(game))} />
-        <Panel title={t('dashboard.todo')} icon="calendar">
-          <ul className={s.newsList}>
-            <li>
-              <span className={s.newsDot} data-tone={open.length - myBids > 0 ? 'good' : undefined} />
-              <span>
-                {t('dashboard.openTenders', { count: open.length, mine: myBids })}{' '}
-                <Button size="small" onClick={() => setTab('tenders')}>
-                  {t('dashboard.goTenders')}
-                </Button>
-              </span>
-            </li>
-            {ending.length > 0 && (
-              <li>
-                <span className={s.newsDot} data-tone="bad" />
-                <span>{t('dashboard.endingSoon', { count: ending.length })}</span>
-              </li>
-            )}
-            {game.starMarket.length > 0 && (
-              <li>
-                <span className={s.newsDot} data-tone="sassy" />
-                <span>
-                  {t('dashboard.starsAvailable', { count: game.starMarket.length })}{' '}
-                  <Button size="small" onClick={() => setTab('staff')}>
-                    {t('dashboard.goStaff')}
-                  </Button>
-                </span>
-              </li>
-            )}
-          </ul>
+        <Panel title={t('todo.title')} icon="calendar">
+          <TodoList todos={todos} />
+          {todos.every((x) => x.done) && <p className={`${s.small} ${s.muted}`}>{t('todo.allDone')}</p>}
+          {(ending.length > 0 || game.starMarket.length > 0) && (
+            <ul className={s.newsList} style={{ marginTop: 12 }}>
+              {ending.length > 0 && (
+                <li>
+                  <span className={s.newsDot} data-tone="bad" />
+                  <span>{t('dashboard.endingSoon', { count: ending.length })}</span>
+                </li>
+              )}
+              {game.starMarket.length > 0 && (
+                <li>
+                  <span className={s.newsDot} data-tone="sassy" />
+                  <span>
+                    {t('dashboard.starsAvailable', { count: game.starMarket.length })}{' '}
+                    <Button size="small" onClick={() => setTab('staff')}>
+                      {t('dashboard.goStaff')}
+                    </Button>
+                  </span>
+                </li>
+              )}
+            </ul>
+          )}
         </Panel>
       </div>
 

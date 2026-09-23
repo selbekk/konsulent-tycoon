@@ -43,6 +43,7 @@ Three layers: React UI (`src/ui`, `App.tsx`) → Zustand store (`src/store/gameS
 - **Save format:** after launch, a `GameState` shape change needs a `SAVE_VERSION` bump in `constants.ts`, a `migrations[oldVersion]` entry in `save.ts`, and a test in `save.test.ts`. Pre-launch, `SAVE_VERSION` stays 1 and new fields are optional with sensible defaults.
 - **TypeScript:** strict with `noUnusedLocals`/`noUnusedParameters` and `erasableSyntaxOnly`, so use union types and `as const`, not `enum` or parameter properties.
 - **Performance:** `endTurn` should stay under ~20 ms (one clone per turn). `Firm.history` is capped at 12 quarters, the news log at 200, and old tenders/contracts are pruned after a year.
+- **Quarter to-do list** (`engine/todos.ts`, shown on the dashboard and as a warning before ending the quarter): every item must be fixable *this quarter* with one concrete action, or the warning turns into nagging. Check new items by running `planHumanProxy` over a few games: the bot should almost never end a quarter with open items.
 - **Parody firm names** are gentle puns on real consultancies; `parodyOf` in `content/firms.ts` is a code comment only and must never be shown in the UI.
 
 ## Adding content

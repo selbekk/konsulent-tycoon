@@ -220,6 +220,7 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
   - Bruk tokens (`var(--accent)` osv.), ikke hardkodede farger.
   - Fontene ligger i appen via `@fontsource` (bare latin-delsettet), importert i `main.tsx`: «Press Start 2P» bare i logoen, «Bungee» i overskrifter og på store knapper, «IBM Plex Sans» i brødtekst og «IBM Plex Mono» for tall (`--font-mono`, klassen `.num`).
   - Uttrykket skal være retro, men rolig: avrundede hjørner (`--radius`), myke skygger og få harde kanter. Piksler hører hjemme i illustrasjonene (ikoner, kontoret, portretter), ikke i tekst og UI-elementer.
+- **Å gjøre-lista:** `quarterTodos()` (`engine/todos.ts`) gir noen få punkter per kvartal, og «Avslutt kvartal» (knappen og `Enter`) spør først om noe står igjen. Hvert punkt må kunne løses **dette kvartalet med én konkret handling**, ellers blir advarselen mas. Tersklene står i `constants.ts` (`TODO_*`). Spillerboten `human` skal nesten aldri få advarselen (i dag ca. 4 % av kvartalene).
 - **Ikoner:** Pikselikonene i `components/Icon.tsx` er 8×8 ASCII-bitmaps (`#` = fyll, `o` = aksentfarge). Nye ikoner legges til rett i objektet `ICONS`. Ikke bruk emoji i UI-et.
 - **Lyd:** `ui/sound.ts` syntetiserer små 8-bit-effekter med Web Audio, uten lydfiler. Kall `playSound('win')` osv. fra UI-et.
   - Nye lyder er en liste med toner i `SOUNDS`: frekvens eller glidning, start, varighet og bølgeform.

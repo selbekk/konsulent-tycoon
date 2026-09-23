@@ -78,6 +78,13 @@ export const TARGET_DEMAND_RATIO = 0.85
 /** Market demand grows slowly and does not follow surviving capacity. */
 export const DEMAND_GROWTH_PER_YEAR = 0.05
 
+// Quarter to-do list
+/** Idle people next quarter (share of headcount) before "bid on tenders" is flagged. */
+export const TODO_IDLE_SHARE = 0.2
+export const TODO_IDLE_MIN = 2
+/** Only suggest hiring when cash plus half the credit line covers this many quarters of costs. */
+export const TODO_HIRE_MIN_RUNWAY = 1
+
 // Shady
 export const HEAT_DECAY = 10
 export const SCANDAL_MORALE_HIT = 5

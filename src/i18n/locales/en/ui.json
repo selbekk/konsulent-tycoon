@@ -132,10 +132,6 @@
     "rank": "Rank",
     "valuationTrend": "Company value over time",
     "lastQuarter": "Last quarter: {{revenue}} revenue, {{result}} result, {{hires}} in and {{leavers}} out.",
-    "todo": "To do",
-    "openTenders_one": "{{count}} open tender ({{mine}} with your bid).",
-    "openTenders_other": "{{count}} open tenders ({{mine}} with your bid).",
-    "goTenders": "To tenders",
     "endingSoon_one": "{{count}} contract ends after this quarter.",
     "endingSoon_other": "{{count}} contracts end after this quarter.",
     "starsAvailable_one": "{{count}} star consultant is available.",
@@ -449,5 +445,37 @@
     "seatsInBids_one": "({{count}} seat in bids)",
     "seatsInBids_other": "({{count}} seats in bids)",
     "explain": "{{count}} people in total. “Next quarter” shows who is already committed and how many of the free people you have offered in bids. Numbers read “now → next quarter”."
+  },
+  "todo": {
+    "title": "This quarter's to-dos",
+    "allDone": "All set. Go ahead and end the quarter.",
+    "doneSr": "Done:",
+    "openSr": "Not done:",
+    "items": {
+      "bid": {
+        "label": "Bid on tenders",
+        "detail_one": "{{count}} consultant has nothing to do next quarter.",
+        "detail_other": "{{count}} consultants have nothing to do next quarter.",
+        "go": "To tenders"
+      },
+      "pitch": {
+        "label": "Meet the client",
+        "detail_one": "{{count}} bid is decided after this quarter, and you haven't met the client.",
+        "detail_other": "{{count}} bids are decided after this quarter, and you haven't met the clients.",
+        "go": "To tenders"
+      },
+      "hire": {
+        "label": "Recruit",
+        "detail_one": "Your contracts need {{count}} more person in two quarters.",
+        "detail_other": "Your contracts need {{count}} more people in two quarters.",
+        "go": "To staff"
+      }
+    },
+    "confirm": {
+      "title": "End the quarter?",
+      "body": "There's still something left on your list:",
+      "back": "Back",
+      "endAnyway": "End anyway"
+    }
   }
 }

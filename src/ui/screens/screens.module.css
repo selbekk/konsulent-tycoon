@@ -371,3 +371,42 @@
     opacity: 0;
   }
 }
+
+.todoList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.todoList li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.todoBox {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--good);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+}
+
+.todoList li[data-done='true'] .todoBox { border-color: var(--good); }
+
+.todoText {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+}
+
+.todoList li[data-done='true'] .todoLabel {
+  color: var(--muted);
+  text-decoration: line-through;
+}

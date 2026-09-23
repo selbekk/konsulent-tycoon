@@ -132,10 +132,6 @@
     "rank": "Plassering",
     "valuationTrend": "Selskapsverdi over tid",
     "lastQuarter": "Forrige kvartal: {{revenue}} i omsetning, {{result}} i resultat, {{hires}} inn og {{leavers}} ut.",
-    "todo": "Å gjøre",
-    "openTenders_one": "{{count}} åpent anbud ({{mine}} med bud fra deg).",
-    "openTenders_other": "{{count}} åpne anbud ({{mine}} med bud fra deg).",
-    "goTenders": "Til anbud",
     "endingSoon_one": "{{count}} kontrakt slutter etter dette kvartalet.",
     "endingSoon_other": "{{count}} kontrakter slutter etter dette kvartalet.",
     "starsAvailable_one": "{{count}} stjernekonsulent er ledig i markedet.",
@@ -449,5 +445,37 @@
     "seatsInBids_one": "({{count}} sete i bud)",
     "seatsInBids_other": "({{count}} seter i bud)",
     "explain": "{{count}} ansatte totalt. «Neste kvartal» viser hvem som allerede er opptatt, og hvor mange av de ledige du har tilbudt i bud. Tallene står som «nå → neste kvartal»."
+  },
+  "todo": {
+    "title": "Å gjøre dette kvartalet",
+    "allDone": "Alt klart. Du kan trygt avslutte kvartalet.",
+    "doneSr": "Ferdig:",
+    "openSr": "Ikke gjort:",
+    "items": {
+      "bid": {
+        "label": "By på anbud",
+        "detail_one": "{{count}} konsulent står uten oppdrag neste kvartal.",
+        "detail_other": "{{count}} konsulenter står uten oppdrag neste kvartal.",
+        "go": "Til anbud"
+      },
+      "pitch": {
+        "label": "Ta kundemøtet",
+        "detail_one": "{{count}} bud avgjøres etter dette kvartalet, og du har ikke møtt kunden.",
+        "detail_other": "{{count}} bud avgjøres etter dette kvartalet, og du har ikke møtt kundene.",
+        "go": "Til anbud"
+      },
+      "hire": {
+        "label": "Rekrutter",
+        "detail_one": "Kontraktene dine trenger {{count}} person til om to kvartaler.",
+        "detail_other": "Kontraktene dine trenger {{count}} personer til om to kvartaler.",
+        "go": "Til ansatte"
+      }
+    },
+    "confirm": {
+      "title": "Avslutte kvartalet?",
+      "body": "Du har fortsatt noe igjen på lista:",
+      "back": "Tilbake",
+      "endAnyway": "Avslutt likevel"
+    }
   }
 }
