@@ -75,7 +75,10 @@
     },
     "reducedMotion": "Redusert bevegelse",
     "doubleTime": "Dobbel tid i minispill",
-    "announcements": "Vis høyttalermeldinger"
+    "announcements": "Vis høyttalermeldinger",
+    "sound": "Lydeffekter",
+    "volume": "Volum",
+    "testSound": "Test lyd"
   },
   "save": {
     "title": "Lagre spill",

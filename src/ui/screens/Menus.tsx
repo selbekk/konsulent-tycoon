@@ -4,7 +4,8 @@ import { DISCIPLINES, deleteSlot, listSlots } from '../../engine'
 import type { Difficulty, Discipline, SlotId } from '../../engine'
 import { LOCALES, setLocale } from '../../i18n'
 import { useGame } from '../../store/gameStore'
-import { Button, Hint, Panel } from '../components/ui'
+import { Button, Hint, Panel, Slider } from '../components/ui'
+import { playSound } from '../sound'
 import { formatMoney, formatQuarter } from '../format'
 import m from './menu.module.css'
 import s from './screens.module.css'
@@ -226,7 +227,7 @@ export function SettingsScreen() {
   const go = useGame((x) => x.go)
   const previous = useGame((x) => x.previousScreen)
   const game = useGame((x) => x.game)
-  const check = (key: 'reducedMotion' | 'doubleTime' | 'announcements', label: string) => (
+  const check = (key: 'reducedMotion' | 'doubleTime' | 'announcements' | 'sound', label: string) => (
     <label className={s.checkRow}>
       <input type="checkbox" checked={settings[key]} onChange={(e) => setSettings({ [key]: e.target.checked })} />
       {label}
@@ -260,6 +261,25 @@ export function SettingsScreen() {
             {check('reducedMotion', t('settings.reducedMotion'))}
             {check('doubleTime', t('settings.doubleTime'))}
             {check('announcements', t('settings.announcements'))}
+            {check('sound', t('settings.sound'))}
+            {settings.sound && (
+              <div className={s.row}>
+                <div style={{ flex: 1, minWidth: 180 }}>
+                  <Slider
+                    label={t('settings.volume')}
+                    value={Math.round(settings.soundVolume * 100)}
+                    min={0}
+                    max={100}
+                    step={5}
+                    onChange={(v) => setSettings({ soundVolume: v / 100 })}
+                    display={`${Math.round(settings.soundVolume * 100)} %`}
+                  />
+                </div>
+                <Button size="small" onClick={() => playSound('win')}>
+                  {t('settings.testSound')}
+                </Button>
+              </div>
+            )}
             <Button onClick={() => go(game && previous === 'game' ? 'game' : 'menu')}>{t('common.back')}</Button>
           </div>
         </Panel>

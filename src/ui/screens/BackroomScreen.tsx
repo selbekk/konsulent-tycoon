@@ -15,6 +15,7 @@ import type { ShadyActionId, ShadyDef } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Hint, Modal, Panel, Slider } from '../components/ui'
 import { formatMoney, formatPercent, formatQuarter } from '../format'
+import { playSound } from '../sound'
 import s from './screens.module.css'
 
 const CATEGORIES: ShadyDef['category'][] = ['espionage', 'outsourcing', 'cv', 'pr']
@@ -75,6 +76,7 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
       starId: needs.includes('star') ? star?.id : undefined,
       share: needs.includes('share') ? share / 100 : undefined,
     })
+    playSound(err ? 'bad' : 'sneaky')
     if (!err) onClose(true)
     else setConfirming(false)
   }

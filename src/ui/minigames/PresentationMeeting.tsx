@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { reactionFor, scoreMeeting, setupMeeting } from '../../engine/minigames'
 import type { MeetingStyle, Tender } from '../../engine'
 import { Button, Modal } from '../components/ui'
+import { playSound } from '../sound'
 import s from './minigames.module.css'
 
 interface Props {
@@ -32,6 +33,8 @@ export function PresentationMeeting({ tender, firmId, preference, onStart, onFin
   }
   const answer = (style: MeetingStyle) => {
     if (answered) return
+    const r = reactionFor(style, preference)
+    playSound(r === 'love' ? 'good' : r === 'hate' ? 'bad' : 'blip')
     setAnswers((a) => [...a, { style, ms: performance.now() - shownAt.current }])
   }
   const next = () => {

@@ -11,10 +11,20 @@ export interface Settings {
   reducedMotion: boolean
   doubleTime: boolean
   announcements: boolean
+  sound: boolean
+  /** 0–1 */
+  soundVolume: number
 }
 
 const SETTINGS_KEY = 'kt.settings'
-const defaultSettings: Settings = { theme: 'dark', reducedMotion: false, doubleTime: false, announcements: true }
+const defaultSettings: Settings = {
+  theme: 'dark',
+  reducedMotion: false,
+  doubleTime: false,
+  announcements: true,
+  sound: true,
+  soundVolume: 0.6,
+}
 
 function loadSettings(): Settings {
   try {

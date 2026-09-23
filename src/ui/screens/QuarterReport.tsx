@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../../store/gameStore'
 import { Bjorn } from '../components/Bjorn'
@@ -6,6 +6,7 @@ import { Icon } from '../components/Icon'
 import { Button, Modal } from '../components/ui'
 import { formatMoney, formatPercent, formatQuarter, newsText } from '../format'
 import { bjornKey } from '../bjorn'
+import { playSound } from '../sound'
 import s from './screens.module.css'
 
 function Confetti() {
@@ -39,6 +40,14 @@ export function QuarterReport() {
   const news = game.news.filter((n) => n.quarter === quarter && n.personal)
   const won = news.some((n) => n.key.startsWith('news.tender.playerWon'))
   const awards = quarter % 4 === 3 ? game.lastAwards : []
+  const scandal = news.some((n) => n.key.startsWith('news.scandal.') && n.firmId === me.id)
+  const lost = news.some((n) => n.key === 'news.tender.playerLost')
+
+  useEffect(() => {
+    playSound(scandal ? 'scandal' : won ? 'win' : lost ? 'lose' : 'cash')
+    // Once per report.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quarter])
 
   return (
     <Modal

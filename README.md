@@ -217,6 +217,11 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
   - Bruk tokens (`var(--accent)` osv.), ikke hardkodede farger.
   - Fontene er «Press Start 2P» (titler) og «Pixelify Sans» (brødtekst), fra Google Fonts.
 - **Ikoner:** Pikselikonene i `components/Icon.tsx` er 8×8 ASCII-bitmaps (`#` = fyll, `o` = aksentfarge). Nye ikoner legges til rett i objektet `ICONS`. Ikke bruk emoji i UI-et.
+- **Lyd:** `ui/sound.ts` syntetiserer små 8-bit-effekter med Web Audio, uten lydfiler. Kall `playSound('win')` osv. fra UI-et.
+  - Nye lyder er en liste med toner i `SOUNDS`: frekvens eller glidning, start, varighet og bølgeform.
+  - Lyden respekterer innstillingene `sound` og `soundVolume`, og er en no-op der Web Audio mangler (tester, gamle nettlesere).
+  - `AudioContext` lages først ved første avspilling, fordi nettleserne krever et brukerklikk.
+  - Samme lyd to ganger innen 80 ms blir ignorert (React StrictMode).
 - **Tilgjengelighet:**
   - Modaler fanger fokus og lukkes med Escape (bare den øverste).
   - Målere har `role="meter"`.

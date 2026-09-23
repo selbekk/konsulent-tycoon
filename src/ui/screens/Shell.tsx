@@ -7,6 +7,7 @@ import { Icon } from '../components/Icon'
 import type { IconName } from '../components/Icon'
 import { Button, Stat } from '../components/ui'
 import { formatMoney, formatQuarter, newsText } from '../format'
+import { playSound } from '../sound'
 import { BackroomScreen } from './BackroomScreen'
 import { BidForm } from './BidForm'
 import { ContractsScreen } from './ContractsScreen'
@@ -72,6 +73,13 @@ export function Shell() {
     return () => window.removeEventListener('keydown', onKey)
   }, [modalOpen, endTurn, setTab])
 
+  // PA chime when a new quarter's announcement becomes visible.
+  const showAnnouncement = settings.announcements && !!game.announcement && hideAnnouncement !== game.quarter
+  useEffect(() => {
+    if (showAnnouncement && report === null && game.quarter > 0) playSound('dingdong')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game.quarter, report === null])
+
   const Screen = SCREENS[tab]
   const hc = headcount(me)
   const credit = creditLimit(me)
@@ -116,7 +124,7 @@ export function Shell() {
         </div>
       </header>
 
-      {settings.announcements && game.announcement && hideAnnouncement !== game.quarter ? (
+      {showAnnouncement && game.announcement ? (
         <div className={s.announce} role="status">
           <Icon name="news" />
           <span>

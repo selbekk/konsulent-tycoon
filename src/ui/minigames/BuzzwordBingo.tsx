@@ -4,6 +4,7 @@ import { BINGO_SECONDS, scoreBingo, setupBingo } from '../../engine/minigames'
 import type { Tender } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Button, Modal } from '../components/ui'
+import { playSound } from '../sound'
 import s from './minigames.module.css'
 
 interface Props {
@@ -33,6 +34,7 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
       const final = scoreBingo(picked, board.correct, secondsLeft, total)
       setScore(final)
       setPhase('done')
+      playSound(final >= 60 ? 'win' : 'lose')
       onFinish(final)
     },
     [picked, board.correct, total, onFinish],
@@ -45,7 +47,11 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
       if (t >= endsAt) {
         clearInterval(id)
         finish(0)
-      } else setNow(t)
+      } else {
+        const secs = Math.ceil((endsAt - t) / 1000)
+        if (secs <= 5 && secs !== Math.ceil((endsAt - t - 250) / 1000)) playSound('tick')
+        setNow(t)
+      }
     }, 250)
     return () => clearInterval(id)
   }, [phase, endsAt, finish])
@@ -58,7 +64,10 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
     setPhase('play')
   }
 
-  const toggle = (w: string) => setPicked((p) => (p.includes(w) ? p.filter((x) => x !== w) : [...p, w]))
+  const toggle = (w: string) => {
+    playSound('blip')
+    setPicked((p) => (p.includes(w) ? p.filter((x) => x !== w) : [...p, w]))
+  }
   const customer = t(`content:customers.${tender.customerId}.name`)
 
   return (

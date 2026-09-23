@@ -75,7 +75,10 @@
     },
     "reducedMotion": "Reduced motion",
     "doubleTime": "Double time in minigames",
-    "announcements": "Show PA announcements"
+    "announcements": "Show PA announcements",
+    "sound": "Sound effects",
+    "volume": "Volume",
+    "testSound": "Test sound"
   },
   "save": {
     "title": "Save game",

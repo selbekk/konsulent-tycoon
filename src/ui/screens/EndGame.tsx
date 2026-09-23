@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { endTitle, rankings, shadyStats } from '../../engine'
 import { useGame } from '../../store/gameStore'
@@ -6,6 +6,7 @@ import { Bjorn } from '../components/Bjorn'
 import { Button, FirmGlyph, Modal } from '../components/ui'
 import { firmColors } from '../firms'
 import { formatMoney } from '../format'
+import { playSound } from '../sound'
 import s from './screens.module.css'
 
 function ValueChart({ ids }: { ids: string[] }) {
@@ -45,6 +46,10 @@ export function EndGame() {
   const shown = showAll ? ranks : ranks.filter((r, i) => i < 5 || r.firmId === me.id)
   const { total, detected } = shadyStats(me)
   const chartIds = [...new Set([...ranks.slice(0, 5).map((r) => r.firmId), me.id])]
+  const lost = game.status === 'lost'
+  useEffect(() => {
+    playSound(lost ? 'sad' : 'fanfare')
+  }, [lost])
 
   return (
     <Modal

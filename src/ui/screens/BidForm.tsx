@@ -18,6 +18,7 @@ import type { Bid } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Hint, Modal, Slider } from '../components/ui'
 import { formatMoney } from '../format'
+import { playSound } from '../sound'
 import s from './screens.module.css'
 import { SeatBadges, WeightBar } from './TenderBoard'
 
@@ -62,6 +63,7 @@ export function BidForm({ tenderId }: { tenderId: string }) {
 
   const submit = () => {
     const err = dispatch({ type: 'placeBid', tenderId: tender.id, bid: draft })
+    playSound(err ? 'bad' : 'confirm')
     if (!err) openBid(null)
   }
   const withdraw = () => {

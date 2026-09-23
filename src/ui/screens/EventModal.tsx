@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EVENT_MAP } from '../../content/events'
 import { canChoose } from '../../engine'
@@ -5,6 +6,7 @@ import type { PendingEvent } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Button, Modal } from '../components/ui'
 import { resolveParams } from '../format'
+import { playSound } from '../sound'
 import s from './screens.module.css'
 
 export function EventModal({ event }: { event: PendingEvent }) {
@@ -12,6 +14,9 @@ export function EventModal({ event }: { event: PendingEvent }) {
   const game = useGame((x) => x.game)!
   const dispatch = useGame((x) => x.dispatch)
   const def = EVENT_MAP[event.eventId]
+  useEffect(() => {
+    playSound(event.eventId === 'poach_attempt' ? 'scandal' : 'alert')
+  }, [event.id, event.eventId])
   if (!def) return null
   const params = resolveParams(event.params, t, i18n.language)
   const remaining = game.pendingEvents.filter((e) => e.firmId === event.firmId).length
