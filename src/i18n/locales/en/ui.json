@@ -353,7 +353,8 @@
     "noTrends": "The market is calm.",
     "you": "You in the market",
     "brand": "Employer brand: {{value}}",
-    "relations": "Client relationships:"
+    "relations": "Client relationships:",
+    "acquiredBy": "Bought by {{buyer}}"
   },
   "backroom": {
     "title": "The Backroom",
@@ -518,7 +519,8 @@
       "backroom": "The Backroom: tricks you'd rather not tell the client about",
       "strategy": "The Strategy tab: pick a specialisation that helps in tenders",
       "partnerships": "Vendor partnerships, and lobbying with public-sector clients",
-      "departments": "Departments of your own: an academy, a sales team and a nearshore centre"
+      "departments": "Departments of your own: an academy, a sales team and a nearshore centre",
+      "acquisitions": "Acquisitions: buy smaller rivals with their people, clients and contracts"
     },
     "seats": "Tenders of up to {{count}} consultants",
     "seatsAll": "Tenders of any size",
@@ -580,6 +582,17 @@
       "fee": "{{fee}} per quarter",
       "open": "Open",
       "close": "Close"
+    },
+    "acquisitions": {
+      "title": "Acquisitions",
+      "hint": "You get the people, stars, contracts and client relationships. The old owners keep the cash. The firm can be at most half your size, and the new people are a little less happy at first.",
+      "firm": "Firm",
+      "people": "People",
+      "price": "Price",
+      "buy": "Buy",
+      "none": "No firms of a suitable size right now.",
+      "confirm": "Buy {{firm}} for {{price}}? There is no undo.",
+      "yes": "Buy the firm"
     }
   }
 }

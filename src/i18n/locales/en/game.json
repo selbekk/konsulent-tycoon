@@ -13,7 +13,8 @@
     "minigameAlreadyPlayed": "You've already had the meeting for this tender.",
     "levelTooLow": "Your firm isn't big enough for that yet.",
     "tenderTooBig": "That tender is too big for a firm your size.",
-    "tooManyPartners": "You already have as many partnerships as you can look after."
+    "tooManyPartners": "You already have as many partnerships as you can look after.",
+    "targetTooBig": "You can only buy firms at most half your size."
   },
   "news": {
     "game": {
@@ -72,7 +73,8 @@
       "acquired": "{{firm}} acquired a small {{discipline}} agency. The business cards have already been reprinted.",
       "bankrupt": "{{firm}} has gone bankrupt. The foosball table is for sale online.",
       "playerBankrupt": "{{firm}} has gone bankrupt. The receiver has taken over the foosball table.",
-      "bankWarning": "The bank called. They were polite, but noticeably less warm than before."
+      "bankWarning": "The bank called. They were polite, but noticeably less warm than before.",
+      "acquiredBy": "{{buyer}} has bought {{firm}}. The logo will be \"kept for now\"."
     },
     "level": {
       "up": "You've moved up to level {{level}}."

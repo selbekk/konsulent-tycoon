@@ -108,7 +108,9 @@ export interface Firm {
   hiringOrders: Seats
   pendingHires: Seats
   negativeCashQuarters: number
+  /** Out of the game: bust, or bought (then `acquiredBy` is set). */
   bankrupt: boolean
+  acquiredBy?: FirmId
   /** Last 12 quarters. */
   history: QuarterReport[]
   valuationHistory: number[]
@@ -128,7 +130,7 @@ export interface Firm {
   /** Tenders won in total (framework ranks count). */
   tendersWon?: number
   /** Running totals for missions. */
-  stats?: { publicWins?: number; frameworkWins?: number; biggestWin?: number; awards?: number }
+  stats?: { publicWins?: number; frameworkWins?: number; biggestWin?: number; awards?: number; acquisitions?: number }
   /** Mission ids completed (see content/missions.ts). */
   missionsDone?: string[]
   specialty?: Specialty
@@ -297,6 +299,7 @@ export type Action =
   | { type: 'setPartnership'; firmId: FirmId; partnershipId: string; on: boolean }
   | { type: 'lobby'; firmId: FirmId }
   | { type: 'setDepartment'; firmId: FirmId; departmentId: string; on: boolean }
+  | { type: 'acquireFirm'; firmId: FirmId; targetFirmId: FirmId }
   | {
       type: 'shady'
       firmId: FirmId

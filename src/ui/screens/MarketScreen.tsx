@@ -65,7 +65,11 @@ export function MarketScreen() {
                           )}
                         </span>
                         {def?.rival && <Badge tone="accent">{t('market.rival')}</Badge>}
-                        {f.bankrupt && <Badge tone="bad">{t('market.bankrupt')}</Badge>}
+                        {f.acquiredBy ? (
+                          <Badge tone="info">{t('market.acquiredBy', { buyer: game.firms[f.acquiredBy]?.name })}</Badge>
+                        ) : (
+                          f.bankrupt && <Badge tone="bad">{t('market.bankrupt')}</Badge>
+                        )}
                       </div>
                     </td>
                     <td className={s.num}>{formatMoney(r.value, lng)}</td>

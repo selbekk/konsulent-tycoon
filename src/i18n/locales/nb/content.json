@@ -405,6 +405,9 @@
     },
     "department": {
       "name": "Åpne en egen avdeling"
+    },
+    "acquisition": {
+      "name": "Kjøp opp et konkurrerende firma"
     }
   },
   "partnerships": {

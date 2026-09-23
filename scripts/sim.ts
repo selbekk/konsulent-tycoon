@@ -63,7 +63,7 @@ function playGame(seed: number, strategy: string) {
     state = endTurn(draft)
   }
   const ranks = rankings(state)
-  const aiBankrupt = Object.values(state.firms).filter((f) => !f.isPlayer && f.bankrupt).map((f) => f.id)
+  const aiBankrupt = Object.values(state.firms).filter((f) => !f.isPlayer && f.bankrupt && !f.acquiredBy).map((f) => f.id)
   return {
     samples,
     status: bankruptAt !== null ? 'lost' : state.status,

@@ -405,6 +405,9 @@
     },
     "department": {
       "name": "Open a department"
+    },
+    "acquisition": {
+      "name": "Buy a competitor"
     }
   },
   "partnerships": {

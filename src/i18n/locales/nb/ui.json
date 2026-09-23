@@ -353,7 +353,8 @@
     "noTrends": "Markedet er rolig.",
     "you": "Deg i markedet",
     "brand": "Arbeidsgiverbrand: {{value}}",
-    "relations": "Kunderelasjoner:"
+    "relations": "Kunderelasjoner:",
+    "acquiredBy": "Kjøpt av {{buyer}}"
   },
   "backroom": {
     "title": "Bakrommet",
@@ -518,7 +519,8 @@
       "backroom": "Bakrommet: triks du helst ikke forteller kunden om",
       "strategy": "Strategi-fanen: velg en spesialisering som gir bonus i anbud",
       "partnerships": "Partnerskap med leverandører, og lobbying hos offentlige kunder",
-      "departments": "Egne avdelinger: akademi, salgsavdeling og nearshore-senter"
+      "departments": "Egne avdelinger: akademi, salgsavdeling og nearshore-senter",
+      "acquisitions": "Oppkjøp: kjøp mindre konkurrenter med folk, kunder og kontrakter"
     },
     "seats": "Anbud på opptil {{count}} konsulenter",
     "seatsAll": "Anbud i alle størrelser",
@@ -580,6 +582,17 @@
       "fee": "{{fee}} per kvartal",
       "open": "Åpne",
       "close": "Legg ned"
+    },
+    "acquisitions": {
+      "title": "Oppkjøp",
+      "hint": "Du får folkene, stjernene, kontraktene og kunderelasjonene. Kontantene beholder de gamle eierne. Firmaet kan være høyst halvparten så stort som dere, og de nye folkene trives litt dårligere den første tiden.",
+      "firm": "Firma",
+      "people": "Ansatte",
+      "price": "Pris",
+      "buy": "Kjøp",
+      "none": "Ingen firma i passende størrelse akkurat nå.",
+      "confirm": "Kjøpe {{firm}} for {{price}}? Det kan ikke angres.",
+      "yes": "Kjøp firmaet"
     }
   }
 }

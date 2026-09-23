@@ -9,6 +9,7 @@ import {
   quarterlySalaryCost,
 } from './constants'
 import { spendable } from './economy'
+import { handleAcquire } from './acquisitions'
 import { handleResolveEvent } from './events'
 import { hasFeature, tenderLock } from './levels'
 import { handleShady } from './shady'
@@ -159,6 +160,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   setPartnership: handleSetPartnership,
   lobby: handleLobby,
   setDepartment: handleSetDepartment,
+  acquireFirm: handleAcquire,
 }
 
 /** Mutates `draft` in place. Use inside engine code that already owns a draft (AI turns, sim). */

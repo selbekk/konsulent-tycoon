@@ -1,7 +1,11 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DEPARTMENTS, PARTNERSHIPS } from '../../content/strategy'
 import {
   ACADEMY_MAX_LEVEL,
+  ACQUIRE_MAX_SIZE_RATIO,
+  acquisitionBlock,
+  acquisitionPrice,
   FEATURE_LEVEL,
   FREELANCER_MARKUP,
   NEARSHORE_FREELANCER_MARKUP,
@@ -23,7 +27,8 @@ import {
 } from '../../engine'
 import type { Feature, Firm, Specialty } from '../../engine'
 import { useGame } from '../../store/gameStore'
-import { Badge, Button, Hint, Panel } from '../components/ui'
+import { Badge, Button, FirmGlyph, Hint, Modal, Panel } from '../components/ui'
+import { firmColors } from '../firms'
 import { formatMoney, formatPercent } from '../format'
 import { playSound } from '../sound'
 import s from './screens.module.css'
@@ -51,6 +56,12 @@ export function StrategyScreen() {
   const partners = me.partnerships ?? []
   const lobbyWait = lobbyReadyIn(game, me)
   const departments = me.departments ?? []
+  const [buying, setBuying] = useState<string | null>(null)
+  const targets = game.firmOrder
+    .map((id) => game.firms[id])
+    .filter((f) => !f.isPlayer && !f.bankrupt && headcount(f) <= hc * ACQUIRE_MAX_SIZE_RATIO)
+    .sort((a, b) => acquisitionPrice(a) - acquisitionPrice(b))
+  const buyingFirm = buying ? game.firms[buying] : undefined
   const hc = headcount(me)
   const departmentParams = {
     max: ACADEMY_MAX_LEVEL,
@@ -168,6 +179,74 @@ export function StrategyScreen() {
           </div>
         </Locked>
       </Panel>
+
+      <Panel title={t('strategy.acquisitions.title')} icon="briefcase" className={s.span12}>
+        <Locked firm={me} feature="acquisitions">
+          <div className={s.stack}>
+            <Hint>{t('strategy.acquisitions.hint')}</Hint>
+            {targets.length === 0 ? (
+              <p className={s.empty}>{t('strategy.acquisitions.none')}</p>
+            ) : (
+              <div className={s.tableWrap}>
+                <table className={s.table}>
+                  <thead>
+                    <tr>
+                      <th>{t('strategy.acquisitions.firm')}</th>
+                      <th className={s.num}>{t('strategy.acquisitions.people')}</th>
+                      <th className={s.num}>{t('strategy.acquisitions.price')}</th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {targets.map((f) => (
+                      <tr key={f.id}>
+                        <td>
+                          <div className={s.row}>
+                            <FirmGlyph name={f.name} colors={firmColors(f.id)} size={20} />
+                            {f.name}
+                          </div>
+                        </td>
+                        <td className={s.num}>{headcount(f)}</td>
+                        <td className={s.num}>{formatMoney(acquisitionPrice(f), lng)}</td>
+                        <td>
+                          <Button size="small" disabled={!!acquisitionBlock(me, f)} onClick={() => setBuying(f.id)}>
+                            {t('strategy.acquisitions.buy')}
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </Locked>
+      </Panel>
+
+      {buyingFirm && (
+        <Modal
+          icon="briefcase"
+          title={t('strategy.acquisitions.title')}
+          onClose={() => setBuying(null)}
+          actions={
+            <>
+              <Button onClick={() => setBuying(null)}>{t('common.cancel')}</Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  const err = dispatch({ type: 'acquireFirm', firmId: me.id, targetFirmId: buyingFirm.id })
+                  playSound(err ? 'bad' : 'fanfare')
+                  setBuying(null)
+                }}
+              >
+                {t('strategy.acquisitions.yes')}
+              </Button>
+            </>
+          }
+        >
+          <p>{t('strategy.acquisitions.confirm', { firm: buyingFirm.name, price: formatMoney(acquisitionPrice(buyingFirm), lng) })}</p>
+        </Modal>
+      )}
     </div>
   )
 }

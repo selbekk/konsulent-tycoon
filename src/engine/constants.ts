@@ -111,6 +111,7 @@ export const FEATURE_LEVEL = {
   strategy: 3,
   partnerships: 4,
   departments: 4,
+  acquisitions: 5,
 } as const
 /** Every level-up is a move to a bigger office: a one-off lift for social culture and employer brand. */
 export const OFFICE_MOVE_SOSIALT = 5
@@ -139,6 +140,14 @@ export const ACADEMY_MAX_LEVEL = 4.2
 export const SALES_BID_BONUS = 3
 /** Nearshore centre: freelancers cost this share of what they bill, instead of FREELANCER_MARKUP. */
 export const NEARSHORE_FREELANCER_MARKUP = 0.85
+/** Acquisitions: the price floor per head (the acquire_agency event pays 500k per head too). */
+export const ACQUIRE_PRICE_PER_HEAD = 500_000
+/** Premium over what the business is worth without its cash. */
+export const ACQUIRE_PREMIUM = 1.2
+/** The target can be at most this share of the buyer's headcount. */
+export const ACQUIRE_MAX_SIZE_RATIO = 0.5
+export const ACQUIRE_MORALE_HIT = 10
+export const ACQUIRE_STAR_LOYALTY_HIT = 15
 
 // Shady
 export const HEAT_DECAY = 10
