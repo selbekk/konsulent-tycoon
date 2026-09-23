@@ -3,6 +3,7 @@ import { PARTNERSHIPS } from '../../content/strategy'
 import { acquisitionBlock, acquisitionPrice } from '../acquisitions'
 import { hasFeature, tenderLock } from '../levels'
 import { lobbyReadyIn } from '../strategy'
+import { planContractMoves } from './contractMoves'
 import { noise } from '../rng'
 import { openTenders } from '../tenders'
 import { DISCIPLINES } from '../types'
@@ -104,6 +105,8 @@ export function planHumanProxy(
       actions.push({ type: 'orderHires', firmId, discipline: busiest, count: Math.max(2, Math.round(hc * 0.1)) })
     }
   }
+  // Care whenever the reducer allows it, so the to-do item never stays open.
+  actions.push(...planContractMoves(state, firmId, fin.staffing.demand, { runway, eagerness: 1, nurtureRunway: -Infinity }))
   if (opts.strategic) actions.push(...planStrategy(state, runway, opts.strategic === true ? ALL_MOVES : opts.strategic))
   return actions
 }

@@ -11,6 +11,7 @@ import { openTenders, effortCost } from '../tenders'
 import { DISCIPLINES } from '../types'
 import type { Action, Difficulty, Firm, GameState, ShadyActionId, Tender } from '../types'
 import { activeFirms, seatTotal } from '../util'
+import { planContractMoves } from './contractMoves'
 import { personalityFor, salaryPremiumFor } from './personalities'
 import type { Personality } from './personalities'
 
@@ -136,7 +137,10 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     })
   }
 
-  // 4. Stars
+  // 4. Contracts
+  actions.push(...planContractMoves(state, firmId, fin.staffing.demand, { runway, eagerness: 0.4, nurtureRunway: 1 }))
+
+  // 5. Stars
   if (state.starMarket.length && hasFeature(firm, 'stars') && runway > 2.5 && chance(state.rng, p.growthAppetite * 0.25)) {
     const star = pick(state.rng, state.starMarket)
     if (firm.cash > starSigningCost(star, firm) * 3) actions.push({ type: 'hireStar', firmId, starId: star.id })
@@ -149,14 +153,14 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   const pickTarget = (weightFn: (f: Firm) => number) => weightedPick(state.rng, rivals, weightFn)
   const playerWeight = (f: Firm) => (f.isPlayer ? 3 * df : 1)
 
-  // 5. Poaching
+  // 6. Poaching
   if (shadyUnlocked(firm, 'afterwork_poach') && runway > 1.5 && chance(state.rng, p.aggression * 0.3 * df)) {
     const target = pickTarget((f) => (f.stars.some((s) => !s.founder) ? playerWeight(f) : 0))
     const star = target?.stars.filter((s) => !s.founder).sort((a, b) => a.loyalty - b.loyalty)[0]
     if (target && star) actions.push({ type: 'shady', firmId, actionId: 'afterwork_poach', targetFirmId: target.id, starId: star.id })
   }
 
-  // 6. Shady business
+  // 7. Shady business
   if (hasFeature(firm, 'backroom') && runway > 1 && chance(state.rng, p.shadiness * df)) {
     const options: ShadyActionId[] = ['rumor', 'linkedin_post', 'linkedin_post', 'spy_bids']
     if (p.priceBias < 0.9) options.push('silent_outsource', 'silent_outsource')

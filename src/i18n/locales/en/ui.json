@@ -332,7 +332,43 @@
     "completed": "completed",
     "finalSatisfaction": "satisfaction {{value}}",
     "flexSeats_one": "{{count}} flex",
-    "flexSeats_other": "{{count}} flex"
+    "flexSeats_other": "{{count}} flex",
+    "cancelled": "cancelled by us",
+    "actions": {
+      "open": "Actions",
+      "openFor": "Actions for {{customer}}",
+      "nurture": {
+        "title": "Client care",
+        "body": "Dinner, a workshop and a sincere \"so how is it really going?\". Adds {{points}} satisfaction, but never above {{max}}. Available every other quarter.",
+        "go": "Look after the client ({{cost}})",
+        "done": "You looked after this client this quarter."
+      },
+      "renegotiate": {
+        "title": "Renegotiate the rate",
+        "body": "Ask for a higher rate: ×{{from}} → ×{{to}}. One try per contract. A yes costs a little satisfaction, a no costs more, and the client remembers.",
+        "go": "Ask for a new rate ({{chance}} chance)",
+        "won": "The client agreed to the new rate.",
+        "lost": "The client said no. There won't be another try on this contract."
+      },
+      "upsell": {
+        "title": "Offer more people",
+        "body": "Suggest more consultants on the project. They bill from this quarter. A no dents satisfaction slightly, and you have to wait {{quarters}} quarters before trying again.",
+        "discipline": "Discipline",
+        "free_one": "{{count}} free",
+        "free_other": "{{count}} free",
+        "seats": "How many",
+        "go": "Offer ({{chance}} chance)",
+        "won_one": "The client took on {{count}} more.",
+        "won_other": "The client took on {{count}} more.",
+        "lost": "The client passed this time."
+      },
+      "cancel": {
+        "title": "Cancel the contract",
+        "body": "End the contract now. You pay an exit fee of {{fee}}, lose reputation, and your relationship with the client takes a real knock. Your people are free straight away.",
+        "go": "Cancel…",
+        "confirm": "Cancel {{customer}}"
+      }
+    }
   },
   "market": {
     "league": "The league table",
@@ -483,6 +519,12 @@
         "detail_one": "Your contracts need {{count}} more person in two quarters.",
         "detail_other": "Your contracts need {{count}} more people in two quarters.",
         "go": "To staff"
+      },
+      "nurture": {
+        "label": "Look after a client",
+        "detail_one": "{{count}} contract is at risk of being cancelled.",
+        "detail_other": "{{count}} contracts are at risk of being cancelled.",
+        "go": "To contracts"
       }
     },
     "confirm": {
@@ -522,7 +564,9 @@
       "partnerships": "Vendor partnerships, and lobbying with public-sector clients",
       "departments": "Departments of your own: an academy, a sales team and a nearshore centre",
       "acquisitions": "Acquisitions: buy smaller rivals with their people, clients and contracts",
-      "ipo": "IPO: raise capital, but live with quarterly pressure"
+      "ipo": "IPO: raise capital, but live with quarterly pressure",
+      "renegotiate": "Renegotiation: ask happy clients for a higher rate",
+      "upsell": "Upselling: offer more people on running projects"
     },
     "seats": "Tenders of up to {{count}} consultants",
     "seatsAll": "Tenders of any size",
@@ -663,7 +707,9 @@
       "partnerships": "partnerships and lobbying",
       "departments": "departments of your own",
       "acquisitions": "acquisitions",
-      "ipo": "going public"
+      "ipo": "going public",
+      "renegotiate": "renegotiation",
+      "upsell": "upselling"
     },
     "bjorn": "I'm the chair of the board. I'll turn up with advice whenever it suits me. Good luck!"
   }

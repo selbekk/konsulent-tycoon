@@ -150,7 +150,7 @@ Hjelpere som er trygge å kalle fra UI-et for estimater og visning: `quarterFina
 
 Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
 
-`setBudgets`, `orderHires`, `fire`, `hireStar`, `giveRaise`, `placeBid`, `withdrawBid`, `recordMinigame`, `resolveEvent`, `shady`.
+`setBudgets`, `orderHires`, `fire`, `hireStar`, `giveRaise`, `placeBid`, `withdrawBid`, `recordMinigame`, `resolveEvent`, `shady`, strategihandlingene og kontrakthandlingene (`renegotiateContract`, `cancelContract`, `upsellContract`, `nurtureContract`).
 
 - `applyAction` lager en kopi med `structuredClone`, kjører handleren og returnerer den nye staten.
 - Ved feil returneres den **opprinnelige** staten sammen med en feilnøkkel, for eksempel `'errors.notEnoughCash'`. Feilnøkkelen er en i18n-nøkkel i `game`-namespacet.
@@ -215,6 +215,13 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
   - **Oppkjøp** (nivå 5): folk, stjerner, kontrakter og relasjoner flyttes, men ikke kontantene. Det oppkjøpte firmaet får `acquiredBy` og `bankrupt = true` (ute av markedet), men ingenting legges ut på anbud igjen.
   - **Børsnotering** (nivå 5): kontanter for en andel av selskapet. Etterpå teller `valuation` bare eiernes andel, og hvert kvartal sammenlignes med det forrige (`ipoPressure`).
   - Bare spilleren bruker dette i dag; AI-planleggeren gjør det ikke. Balansen måles med `humanStrategic`-variantene i simulatoren.
+- **Kontrakthandlinger (`engine/contractActions.ts`, `ui/screens/ContractActions.tsx`):** Knappen «Handlinger» på hver kontrakt.
+  - **Kundepleie** (nivå 1): koster penger og løfter tilfredsheten, men aldri over `NURTURE_MAX_SATISFACTION`. Den har nedkjøling og er ment som redning, ikke som fast kvartalsrutine. Kvartalslista (`nurture`) flagger kontrakter under `NURTURE_TODO_BELOW` når pleie er mulig.
+  - **Oppsigelse** (nivå 1): bruddgebyr på ett kvartals omsetning, tap av omdømme og relasjon. Kontrakten får `cancelled`, stjernene blir ledige, og svindel som pågår på kontrakten slutter å kunne oppdages.
+  - **Reforhandling** (nivå 2): én gang per kontrakt, etter minst ett kvartal med leveranse. Sjansen (`renegotiateChance`) øker med tilfredshet og relasjon og faller med kundens prisvekt.
+  - **Mersalg** (nivå 3): bare prosjekter (rammeavtaler styres av avrop). Setene fakturerer fra samme kvartal, innenfor nivåets `maxSeats`, med nedkjøling.
+  - Et nei fra kunden er et **utfall**, ikke en feil. Handleren returnerer `undefined`, så straffen og det brukte forsøket blir stående. En feilnøkkel ville fått `applyAction` til å kaste draften. Utfallet trekkes fra `state.rng` i reduceren (som `afterwork_poach`), og autolagringen hindrer nytt forsøk ved å laste inn på nytt.
+  - `contractMoveBlock` er felles for reducer, planleggere og UI. AI-er og `planHumanProxy` bruker `ai/contractMoves.ts`: pleie ved fare, reforhandling når sjansen er høy og mersalg bare med folk på benken. Ingen av dem sier opp.
 - **Mål per nivå (`content/missions.ts`, `engine/missions.ts`):** Frivillige mål som vises fra et gitt nivå, med en liten belønning i samme effekt-DSL som hendelsene. Bare spilleren har mål (som gjøremålslista), og de legges aldri i `quarterTodos`.
 
 ### Tilfeldighet: den viktigste regelen

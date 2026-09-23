@@ -14,7 +14,13 @@
     "levelTooLow": "Firmaet er ikke stort nok til det ennå.",
     "tenderTooBig": "Anbudet er for stort for et firma på deres nivå.",
     "tooManyPartners": "Dere har allerede så mange partnerskap som dere rekker å pleie.",
-    "targetTooBig": "Dere kan bare kjøpe firma som er høyst halvparten så store som dere."
+    "targetTooBig": "Dere kan bare kjøpe firma som er høyst halvparten så store som dere.",
+    "contractNotStarted": "Kontrakten må ha vært i gang et kvartal først.",
+    "contractCooldown": "Kunden trenger litt tid før neste forsøk.",
+    "customerHappy": "Kunden er fornøyd nok. Middagen kan vente.",
+    "rateAtMax": "Timeprisen er allerede så høy den kan bli.",
+    "upsellFramework": "Rammeavtaler styres av kundens avrop, ikke av deg.",
+    "upsellTooBig": "Kontrakten kan ikke bli større på ditt nivå."
   },
   "news": {
     "game": {
@@ -36,7 +42,12 @@
     "contract": {
       "terminatedUnhappy": "{{customer}} har sagt opp avtalen med {{firm}}. «Vi går i en annen retning.»",
       "ended": "Oppdraget hos {{customer}} er avsluttet. Kundetilfredshet: {{satisfaction}} av 100.",
-      "renewed": "{{customer}} forlenger oppdraget med {{count}} kvartaler. De var fornøyde!"
+      "renewed": "{{customer}} forlenger oppdraget med {{count}} kvartaler. De var fornøyde!",
+      "renegotiated": "{{customer}} godtar ny pris: ×{{rate}}. Innkjøpssjefen sukket hørbart.",
+      "renegotiateFailed": "{{customer}} sier nei til ny pris, og husker at du spurte.",
+      "cancelled": "Du har sagt opp avtalen med {{customer}}. Bruddgebyret er betalt.",
+      "upsold": "{{customer}} tar inn {{count}} til innen {{discipline}}.",
+      "upsellFailed": "{{customer}} har ikke budsjett til flere folk akkurat nå."
     },
     "shady": {
       "poachSuccess": "{{name}} har byttet fra {{from}} til {{to}}. Det skjedde visstnok over en IPA.",

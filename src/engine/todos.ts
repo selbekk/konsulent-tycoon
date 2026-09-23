@@ -1,5 +1,6 @@
-import { TODO_HIRE_MIN_RUNWAY, TODO_IDLE_MIN, TODO_IDLE_SHARE } from './constants'
-import { creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from './economy'
+import { NURTURE_SATISFACTION, NURTURE_TODO_BELOW, TODO_HIRE_MIN_RUNWAY, TODO_IDLE_MIN, TODO_IDLE_SHARE } from './constants'
+import { contractMoveBlock } from './contractActions'
+import { activeContracts, creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from './economy'
 import { tenderLock } from './levels'
 import { capacity } from './metrics'
 import { openTenders } from './tenders'
@@ -7,7 +8,7 @@ import { DISCIPLINES } from './types'
 import type { GameState } from './types'
 import { seatTotal } from './util'
 
-export type TodoId = 'bid' | 'pitch' | 'hire'
+export type TodoId = 'bid' | 'pitch' | 'hire' | 'nurture'
 
 export interface Todo {
   id: TodoId
@@ -52,6 +53,15 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   if (needed >= 1 && runway > TODO_HIRE_MIN_RUNWAY && matters(state.quarter + 2)) {
     const ordered = seatTotal(firm.hiringOrders)
     todos.push({ id: 'hire', done: ordered >= needed, params: { count: Math.ceil(needed) } })
+  }
+
+  // A contract close to being cancelled by the customer, and customer care is available for it.
+  if (matters(state.quarter + 1)) {
+    const running = activeContracts(state, firmId)
+    const open = running.filter((c) => c.satisfaction < NURTURE_TODO_BELOW && !contractMoveBlock(state, firm, c, 'nurture')).length
+    // Keep the ticked item visible after caring for a contract that was at risk this quarter.
+    const cared = running.some((c) => c.nurtureQuarter === state.quarter && c.satisfaction < NURTURE_TODO_BELOW + NURTURE_SATISFACTION)
+    if (open || cared) todos.push({ id: 'nurture', done: open === 0, params: { count: open } })
   }
 
   return todos

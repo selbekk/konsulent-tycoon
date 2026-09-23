@@ -108,3 +108,22 @@ Funn:
 - AI-markedet er uendret (0,1 konkurs per parti).
 
 `human` mot tidligere: 27/150 og 135 MNOK med kontor og mål, mot 22/150 og 95 MNOK med bare nivåer. Samme seed-sett på `--seed 2000` ga 23 mot 25 konkurser, så konkursforskjellen er innenfor støyen, mens verdien er høyere.
+
+## Kontrakthandlinger (2026-09-23)
+
+Nytt på kontraktsskjermen: kundepleie og oppsigelse (nivå 1), reforhandling av pris (nivå 2) og mersalg (nivå 3), se `engine/contractActions.ts`. AI-ene og `human`-botene bruker de samme konservative reglene (`ai/contractMoves.ts`): pleie under 40 i tilfredshet, reforhandling når sjansen er minst 80 % (AI-ene i 40 % av tilfellene), mersalg av ett sete når minst to står på benken, og aldri oppsigelse. Alle tall er fra 150 partier med `--seed 1000`. Markedet er målt med `sim:market 60`.
+
+| Kjøring | human konkurs | human median verdi | humanPro konkurs | humanPro median verdi | humanStrategic konkurs / verdi | AI-konkurser/parti |
+|---|---|---|---|---|---|---|
+| Referanse (ingen bruker handlingene) | 24/150 | 139 MNOK | 14/150 | 191 MNOK | 14/150 · 295 MNOK | 0,07 |
+| Alle bruker handlingene | 16/150 | 156 MNOK | 3/150 | 242 MNOK | 8/150 · 468 MNOK | 0,02 |
+| Som over, men botene uten mersalg | 17/150 | 158 MNOK | 5/150 | 219 MNOK | – | – |
+| Som over, men botene uten reforhandling | 14/150 | 146 MNOK | 3/150 | 205 MNOK | – | – |
+
+Funn:
+- Mersalg og reforhandling gir hver 25–35 MNOK i median verdi for `humanPro`. Kundepleie brukes nesten aldri av botene: i 30 partier havnet de aldri under 40 i tilfredshet.
+- Konkursene faller også når botenes mersalg eller reforhandling slås av hver for seg. Årsaken til det fallet er ikke isolert. AI-konkursene per parti svinger mellom kjøringene (0,02–0,1), så noe av det er støy.
+- Mersalg skaper ikke ny etterspørsel i markedet. `committedDemand` teller `baseSeats`, så solgte seter trekkes fra volumet til nye anbud.
+- Fra og med denne oppføringen bruker `human` og `humanPro` kontrakthandlingene. Tallene deres kan derfor ikke sammenlignes direkte med tidligere oppføringer.
+- AI-markedet er friskt, med etterspørsel mot kapasitet som før (0,70–0,98).
+- Åpent spørsmål: en spiller som bruker alt (`humanStrategic`), klatrer enda mer (median plass 8 → 6). Naturlige knotter hvis det blir for mye: `RENEGOTIATE_RATE_GAIN`, `UPSELL_COOLDOWN` og `UPSELL_BASE`.

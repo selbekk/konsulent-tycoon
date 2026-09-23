@@ -212,6 +212,14 @@ export interface Contract {
   /** Seats staffed by own people / freelancers last quarter (for UI). */
   lastStaffed?: Seats
   lastFreelance?: Seats
+  /** Outcome of the one rate renegotiation allowed per contract. */
+  renegotiated?: 'won' | 'lost'
+  /** Last upsell attempt. */
+  upsell?: { quarter: number; won: boolean; seats: number }
+  /** Quarter of the last customer-care push. */
+  nurtureQuarter?: number
+  /** Ended early by the firm itself (not the customer). */
+  cancelled?: boolean
 }
 
 export interface ActiveTrend {
@@ -303,6 +311,10 @@ export type Action =
   | { type: 'setDepartment'; firmId: FirmId; departmentId: string; on: boolean }
   | { type: 'acquireFirm'; firmId: FirmId; targetFirmId: FirmId }
   | { type: 'ipo'; firmId: FirmId }
+  | { type: 'renegotiateContract'; firmId: FirmId; contractId: string }
+  | { type: 'cancelContract'; firmId: FirmId; contractId: string }
+  | { type: 'upsellContract'; firmId: FirmId; contractId: string; discipline: Discipline; count: number }
+  | { type: 'nurtureContract'; firmId: FirmId; contractId: string }
   | {
       type: 'shady'
       firmId: FirmId

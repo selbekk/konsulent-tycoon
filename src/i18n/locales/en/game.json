@@ -14,7 +14,13 @@
     "levelTooLow": "Your firm isn't big enough for that yet.",
     "tenderTooBig": "That tender is too big for a firm your size.",
     "tooManyPartners": "You already have as many partnerships as you can look after.",
-    "targetTooBig": "You can only buy firms at most half your size."
+    "targetTooBig": "You can only buy firms at most half your size.",
+    "contractNotStarted": "The contract needs to have run for a quarter first.",
+    "contractCooldown": "The client needs a little time before you try again.",
+    "customerHappy": "The client is happy enough. Dinner can wait.",
+    "rateAtMax": "The rate is already as high as it goes.",
+    "upsellFramework": "Framework agreements follow the client's call-offs, not yours.",
+    "upsellTooBig": "The contract can't grow any bigger at your level."
   },
   "news": {
     "game": {
@@ -36,7 +42,12 @@
     "contract": {
       "terminatedUnhappy": "{{customer}} has terminated its contract with {{firm}}. \"We're going in a different direction.\"",
       "ended": "The engagement at {{customer}} has ended. Customer satisfaction: {{satisfaction}} out of 100.",
-      "renewed": "{{customer}} extends the engagement by {{count}} quarters. They were happy!"
+      "renewed": "{{customer}} extends the engagement by {{count}} quarters. They were happy!",
+      "renegotiated": "{{customer}} accepts the new rate: ×{{rate}}. Procurement sighed audibly.",
+      "renegotiateFailed": "{{customer}} says no to the new rate, and will remember you asked.",
+      "cancelled": "You have cancelled the contract with {{customer}}. The exit fee is paid.",
+      "upsold": "{{customer}} is taking on {{count}} more in {{discipline}}.",
+      "upsellFailed": "{{customer}} has no budget for more people right now."
     },
     "shady": {
       "poachSuccess": "{{name}} has moved from {{from}} to {{to}}. Apparently it happened over an IPA.",

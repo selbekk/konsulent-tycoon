@@ -6,7 +6,7 @@ import { Icon } from '../components/Icon'
 import { Button } from '../components/ui'
 import s from './screens.module.css'
 
-const TODO_TAB: Record<TodoId, Tab> = { bid: 'tenders', pitch: 'tenders', hire: 'staff' }
+const TODO_TAB: Record<TodoId, Tab> = { bid: 'tenders', pitch: 'tenders', hire: 'staff', nurture: 'contracts' }
 
 /** Checklist of this quarter's to-dos. `onGo` runs before switching tab (e.g. to close a dialog). */
 export function TodoList({ todos, onGo }: { todos: Todo[]; onGo?: () => void }) {

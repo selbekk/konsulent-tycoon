@@ -78,6 +78,41 @@ export const TARGET_DEMAND_RATIO = 0.85
 /** Market demand grows slowly and does not follow surviving capacity. */
 export const DEMAND_GROWTH_PER_YEAR = 0.05
 
+// Contract actions (cancelling and customer care are open from level 1)
+/** Renegotiating the rate: once per contract, after at least one quarter of delivery. */
+export const RENEGOTIATE_BASE = 0.5
+/** Chance per satisfaction point above/below 60. Clamped to 0–1, so very happy clients always say yes. */
+export const RENEGOTIATE_PER_SATISFACTION = 0.02
+export const RENEGOTIATE_PER_RELATION = 0.004
+/** Price-sensitive customers resist: chance falls by this times (priceWeight − 0.5). */
+export const RENEGOTIATE_PRICE_WEIGHT = 0.6
+export const RENEGOTIATE_RATE_GAIN = 0.08
+/** Even a yes stings a little. */
+export const RENEGOTIATE_WIN_SATISFACTION = 5
+export const RENEGOTIATE_FAIL_SATISFACTION = 12
+export const RENEGOTIATE_FAIL_RELATION = 6
+/** Walking away early: pay this many quarters of the contract's revenue. */
+export const CANCEL_FEE_QUARTERS = 1
+export const CANCEL_RELATION_HIT = 25
+export const CANCEL_REPUTATION_HIT = 2
+/** Upsell: offer more people on a running project. Seats bill from this quarter. */
+export const UPSELL_BASE = 0.4
+export const UPSELL_PER_SATISFACTION = 0.02
+/** Each seat beyond the first makes a yes less likely. */
+export const UPSELL_PER_EXTRA_SEAT = 0.12
+export const UPSELL_MAX_SEATS = 3
+export const UPSELL_COOLDOWN = 4
+export const UPSELL_FAIL_SATISFACTION = 5
+/** Customer care: a rescue tool, so it only lifts satisfaction up to a cap. */
+export const NURTURE_COST_MIN = 50_000
+export const NURTURE_COST_SHARE = 0.04
+export const NURTURE_SATISFACTION = 10
+export const NURTURE_RELATION = 3
+export const NURTURE_MAX_SATISFACTION = 75
+export const NURTURE_COOLDOWN = 2
+/** The to-do list flags contracts below this satisfaction (termination risk starts at 30). */
+export const NURTURE_TODO_BELOW = 40
+
 // Quarter to-do list
 /** Idle people next quarter (share of headcount) before "bid on tenders" is flagged. */
 export const TODO_IDLE_SHARE = 0.2
@@ -106,7 +141,9 @@ export const FEATURE_LEVEL = {
   stars: 2,
   // Level 3 made the early game clearly harder for the sim bot (see docs/balance-log.md).
   framework: 2,
+  renegotiate: 2,
   bingo: 3,
+  upsell: 3,
   backroom: 3,
   strategy: 3,
   partnerships: 4,

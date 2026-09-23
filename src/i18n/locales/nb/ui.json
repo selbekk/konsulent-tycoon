@@ -332,7 +332,43 @@
     "completed": "fullført",
     "finalSatisfaction": "tilfredshet {{value}}",
     "flexSeats_one": "{{count}} fleks",
-    "flexSeats_other": "{{count}} fleks"
+    "flexSeats_other": "{{count}} fleks",
+    "cancelled": "sagt opp av oss",
+    "actions": {
+      "open": "Handlinger",
+      "openFor": "Handlinger for {{customer}}",
+      "nurture": {
+        "title": "Kundepleie",
+        "body": "Middag, workshop og et oppriktig «hvordan går det egentlig?». Gir +{{points}} i tilfredshet, men aldri over {{max}}. Kan gjentas annethvert kvartal.",
+        "go": "Pleie kunden ({{cost}})",
+        "done": "Kunden er pleiet dette kvartalet."
+      },
+      "renegotiate": {
+        "title": "Reforhandle prisen",
+        "body": "Be om høyere timepris: ×{{from}} → ×{{to}}. Én sjanse per kontrakt. Et ja koster litt tilfredshet, et nei koster mer, og kunden husker det.",
+        "go": "Be om ny pris ({{chance}} sjanse)",
+        "won": "Kunden sa ja til ny pris.",
+        "lost": "Kunden sa nei. Det blir ikke flere forsøk på denne avtalen."
+      },
+      "upsell": {
+        "title": "Tilby flere folk",
+        "body": "Foreslå flere konsulenter på prosjektet. De fakturerer fra og med dette kvartalet. Et nei gir en liten nedgang i tilfredshet, og du må vente {{quarters}} kvartaler før neste forsøk.",
+        "discipline": "Fagområde",
+        "free_one": "{{count}} ledig",
+        "free_other": "{{count}} ledige",
+        "seats": "Antall",
+        "go": "Tilby ({{chance}} sjanse)",
+        "won_one": "Kunden tok inn {{count}} til.",
+        "won_other": "Kunden tok inn {{count}} til.",
+        "lost": "Kunden takket nei denne gangen."
+      },
+      "cancel": {
+        "title": "Si opp avtalen",
+        "body": "Avslutt kontrakten nå. Du betaler et bruddgebyr på {{fee}}, taper omdømme og relasjonen til kunden får en kraftig knekk. Folkene blir ledige med en gang.",
+        "go": "Si opp…",
+        "confirm": "Si opp {{customer}}"
+      }
+    }
   },
   "market": {
     "league": "Bransjetabellen",
@@ -483,6 +519,12 @@
         "detail_one": "Kontraktene dine trenger {{count}} person til om to kvartaler.",
         "detail_other": "Kontraktene dine trenger {{count}} personer til om to kvartaler.",
         "go": "Til ansatte"
+      },
+      "nurture": {
+        "label": "Pleie en kunde",
+        "detail_one": "{{count}} kontrakt står i fare for å bli sagt opp.",
+        "detail_other": "{{count}} kontrakter står i fare for å bli sagt opp.",
+        "go": "Til kontrakter"
       }
     },
     "confirm": {
@@ -522,7 +564,9 @@
       "partnerships": "Partnerskap med leverandører, og lobbying hos offentlige kunder",
       "departments": "Egne avdelinger: akademi, salgsavdeling og nearshore-senter",
       "acquisitions": "Oppkjøp: kjøp mindre konkurrenter med folk, kunder og kontrakter",
-      "ipo": "Børsnotering: hent kapital, men lev med kvartalspresset"
+      "ipo": "Børsnotering: hent kapital, men lev med kvartalspresset",
+      "renegotiate": "Reforhandling: be fornøyde kunder om høyere timepris",
+      "upsell": "Mersalg: tilby flere folk på prosjekter som går"
     },
     "seats": "Anbud på opptil {{count}} konsulenter",
     "seatsAll": "Anbud i alle størrelser",
@@ -663,7 +707,9 @@
       "partnerships": "partnerskap og lobbying",
       "departments": "egne avdelinger",
       "acquisitions": "oppkjøp",
-      "ipo": "børsnotering"
+      "ipo": "børsnotering",
+      "renegotiate": "reforhandling",
+      "upsell": "mersalg"
     },
     "bjorn": "Jeg er styreleder. Jeg dukker opp med råd når det passer meg. Lykke til!"
   }

@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DISCIPLINES, contractRevenue, isActive, seatTotal, staffFirm } from '../../engine'
+import type { Contract } from '../../engine'
 import { useGame } from '../../store/gameStore'
-import { Badge, Meter, Panel } from '../components/ui'
+import { Badge, Button, Meter, Panel } from '../components/ui'
+import { ContractActions } from './ContractActions'
 import { formatMoney, formatQuarter } from '../format'
 import s from './screens.module.css'
 
@@ -9,6 +12,7 @@ export function ContractsScreen() {
   const { t, i18n } = useTranslation()
   const lng = i18n.language
   const game = useGame((x) => x.game)!
+  const [open, setOpen] = useState<Contract | null>(null)
   const me = game.firms[game.playerId]
   const staffing = staffFirm(game, me)
   const byContract = new Map(staffing.contracts.map((c) => [c.contractId, c]))
@@ -54,6 +58,9 @@ export function ContractsScreen() {
                           {c.outsourcedShare > 0 && <Badge tone="bad">{t('contracts.offshore', { pct: Math.round(c.outsourcedShare * 100) })}</Badge>}
                           {(c.fraud.cvPad || c.fraud.ghostCv || c.fraud.baitAndSwitch) && <Badge tone="bad">{t('contracts.fraud')}</Badge>}
                         </div>
+                        <Button size="small" onClick={() => setOpen(c)} aria-label={t('contracts.actions.openFor', { customer: t(`content:customers.${c.customerId}.name`) })}>
+                          {t('contracts.actions.open')}
+                        </Button>
                       </td>
                       <td>
                         <div className={s.seats}>
@@ -92,9 +99,9 @@ export function ContractsScreen() {
           <ul className={s.newsList}>
             {ended.map((c) => (
               <li key={c.id}>
-                <span className={s.newsDot} data-tone={c.terminated ? 'bad' : 'good'} />
+                <span className={s.newsDot} data-tone={c.cancelled ? 'neutral' : c.terminated ? 'bad' : 'good'} />
                 <span>
-                  {t(`content:customers.${c.customerId}.name`)} · {c.terminated ? t('contracts.terminated') : t('contracts.completed')} ·{' '}
+                  {t(`content:customers.${c.customerId}.name`)} · {c.cancelled ? t('contracts.cancelled') : c.terminated ? t('contracts.terminated') : t('contracts.completed')} ·{' '}
                   {t('contracts.finalSatisfaction', { value: Math.round(c.satisfaction) })}
                 </span>
               </li>
@@ -102,6 +109,7 @@ export function ContractsScreen() {
           </ul>
         </Panel>
       )}
+      {open && <ContractActions contract={open} onClose={() => setOpen(null)} />}
     </div>
   )
 }
