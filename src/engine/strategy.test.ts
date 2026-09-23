@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { LOBBY_COST, LOBBY_RELATION, MAX_PARTNERSHIPS, PARTNER_BONUS, SPECIALTY_CHANGE_COST, SPECIALTY_DISCIPLINE_BONUS, SPECIALTY_SECTOR_BONUS } from './constants'
-import { quarterFinancials } from './economy'
+import { ACADEMY_LEVEL_GAIN, NEARSHORE_FREELANCER_MARKUP, SALES_BID_BONUS, LOBBY_COST, LOBBY_RELATION, MAX_PARTNERSHIPS, PARTNER_BONUS, SPECIALTY_CHANGE_COST, SPECIALTY_DISCIPLINE_BONUS, SPECIALTY_SECTOR_BONUS } from './constants'
+import { headcount, quarterFinancials } from './economy'
 import { applyAction } from './reducer'
-import { strategyBonus } from './strategy'
+import { freelancerMarkup, runDepartments, strategyBonus } from './strategy'
 import { bidQuality } from './tenders'
 import { deepFreeze, newTestGame, veteranTestGame } from './testUtils'
 import type { Bid, GameState, Tender } from './types'
@@ -51,5 +51,20 @@ describe('strategy', () => {
     expect(r.state.customers.navet.relationships.player).toBe(s0.customers.navet.relationships.player + LOBBY_RELATION)
     expect(r.state.customers.kryptonitt.relationships.player).toBe(s0.customers.kryptonitt.relationships.player)
     expect(applyAction(r.state, { type: 'lobby', firmId: 'player' }).error).toBe('errors.alreadyDone')
+  })
+
+  it('departments cost every quarter and do their thing', () => {
+    let s = veteranTestGame()
+    const t = tender(s, { seats: { backend: 2 } })
+    const before = { q: bidQuality(s, bid, t), cost: quarterFinancials(s, 'player').total, level: s.firms.player.pools.backend.level }
+    for (const id of ['academy', 'sales', 'nearshore']) s = applyAction(s, { type: 'setDepartment', firmId: 'player', departmentId: id, on: true }).state
+    const hc = headcount(s.firms.player)
+    expect(quarterFinancials(s, 'player').total).toBe(before.cost + 150_000 + 3_000 * hc + 250_000 + 300_000)
+    expect(bidQuality(s, bid, s.tenders.find((x) => x.id === t.id)!)).toBeCloseTo(Math.min(100, before.q + SALES_BID_BONUS))
+    runDepartments(s.firms.player)
+    expect(s.firms.player.pools.backend.level).toBeCloseTo(before.level + ACADEMY_LEVEL_GAIN)
+    expect(freelancerMarkup(s.firms.player)).toBe(NEARSHORE_FREELANCER_MARKUP)
+    s = applyAction(s, { type: 'setDepartment', firmId: 'player', departmentId: 'sales', on: false }).state
+    expect(s.firms.player.departments).toEqual(['academy', 'nearshore'])
   })
 })

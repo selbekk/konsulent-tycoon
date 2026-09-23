@@ -1,6 +1,12 @@
-import { PARTNERSHIP_MAP } from '../content/strategy'
+import { DEPARTMENT_MAP, PARTNERSHIP_MAP } from '../content/strategy'
+import type { DepartmentId } from '../content/strategy'
 import {
+  ACADEMY_LEVEL_GAIN,
+  ACADEMY_MAX_LEVEL,
+  FREELANCER_MARKUP,
   LOBBY_COOLDOWN,
+  NEARSHORE_FREELANCER_MARKUP,
+  SALES_BID_BONUS,
   LOBBY_COST,
   LOBBY_RELATION,
   MAX_PARTNERSHIPS,
@@ -29,6 +35,7 @@ export function strategyBonus(state: GameState, firm: Firm, tender: Tender): num
   let bonus = 0
   if (specialtyMatches(state, firm.specialty, tender))
     bonus += firm.specialty === 'public' || firm.specialty === 'private' ? SPECIALTY_SECTOR_BONUS : SPECIALTY_DISCIPLINE_BONUS
+  if (hasDepartment(firm, 'sales')) bonus += SALES_BID_BONUS
   for (const id of firm.partnerships ?? []) {
     const p = PARTNERSHIP_MAP[id]
     if (p && (tender.seats[p.discipline] ?? 0) > 0) {
@@ -39,9 +46,44 @@ export function strategyBonus(state: GameState, firm: Firm, tender: Tender): num
   return bonus
 }
 
-/** Quarterly fees for partnerships. */
-export function strategyCost(firm: Firm): number {
-  return (firm.partnerships ?? []).reduce((s, id) => s + (PARTNERSHIP_MAP[id]?.fee ?? 0), 0)
+export const hasDepartment = (firm: Firm, id: DepartmentId) => (firm.departments ?? []).includes(id)
+
+export function departmentFee(id: DepartmentId, hc: number): number {
+  const d = DEPARTMENT_MAP[id]
+  return d.fee + d.feePerHead * hc
+}
+
+/** Quarterly fees for partnerships and departments. */
+export function strategyCost(firm: Firm, hc: number): number {
+  const partners = (firm.partnerships ?? []).reduce((s, id) => s + (PARTNERSHIP_MAP[id]?.fee ?? 0), 0)
+  const departments = (firm.departments ?? []).reduce((s, id) => s + (id in DEPARTMENT_MAP ? departmentFee(id as DepartmentId, hc) : 0), 0)
+  return partners + departments
+}
+
+/** Freelancers cost less with a nearshore centre of your own. */
+export const freelancerMarkup = (firm: Firm) => (hasDepartment(firm, 'nearshore') ? NEARSHORE_FREELANCER_MARKUP : FREELANCER_MARKUP)
+
+/** Runs once per quarter for each firm: the academy lifts everyone a little. */
+export function runDepartments(firm: Firm) {
+  if (!hasDepartment(firm, 'academy')) return
+  for (const d of DISCIPLINES) {
+    const p = firm.pools[d]
+    if (p.count && p.level < ACADEMY_MAX_LEVEL) p.level = Math.min(ACADEMY_MAX_LEVEL, p.level + ACADEMY_LEVEL_GAIN)
+  }
+}
+
+export function handleSetDepartment(state: GameState, a: ActionOf<'setDepartment'>): string | undefined {
+  const firm = state.firms[a.firmId]
+  if (!firm || firm.bankrupt || !(a.departmentId in DEPARTMENT_MAP)) return 'errors.invalid'
+  if (!hasFeature(firm, 'departments')) return 'errors.levelTooLow'
+  const current = firm.departments ?? []
+  if (!a.on) {
+    firm.departments = current.filter((id) => id !== a.departmentId)
+    return undefined
+  }
+  if (current.includes(a.departmentId)) return 'errors.alreadyDone'
+  firm.departments = [...current, a.departmentId]
+  return undefined
 }
 
 export const specialtyChangeCost = (firm: Firm) => (firm.specialty ? SPECIALTY_CHANGE_COST : 0)

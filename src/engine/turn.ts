@@ -8,6 +8,7 @@ import { autoResolveEvents, drawEvents } from './events'
 import { pickAnnouncement } from './flavor'
 import { updateLevels } from './levels'
 import { updateTrends } from './market'
+import { runDepartments } from './strategy'
 import { checkMissions } from './missions'
 import { applyActionInPlace } from './reducer'
 import { valuation } from './score'
@@ -34,6 +35,7 @@ function runFirmQuarter(state: GameState) {
     updateContracts(state, firm, fin.staffing)
     const hc = headcount(firm)
     updateCulture(firm)
+    runDepartments(firm)
     updateMorale(firm, fin.utilization)
     updateStars(state, firm, fin.utilization, hc)
     applyTurnover(state, firm)

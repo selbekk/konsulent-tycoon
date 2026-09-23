@@ -135,6 +135,8 @@ export interface Firm {
   /** Partnership ids (content/strategy.ts) running this quarter. */
   partnerships?: string[]
   lastLobbyQuarter?: number
+  /** Department ids (content/strategy.ts) running this quarter. */
+  departments?: string[]
 }
 
 export type Specialty = 'public' | 'private' | Discipline
@@ -294,6 +296,7 @@ export type Action =
   | { type: 'chooseSpecialty'; firmId: FirmId; specialty: Specialty }
   | { type: 'setPartnership'; firmId: FirmId; partnershipId: string; on: boolean }
   | { type: 'lobby'; firmId: FirmId }
+  | { type: 'setDepartment'; firmId: FirmId; departmentId: string; on: boolean }
   | {
       type: 'shady'
       firmId: FirmId

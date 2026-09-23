@@ -1,7 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { PARTNERSHIPS } from '../../content/strategy'
+import { DEPARTMENTS, PARTNERSHIPS } from '../../content/strategy'
 import {
+  ACADEMY_MAX_LEVEL,
   FEATURE_LEVEL,
+  FREELANCER_MARKUP,
+  NEARSHORE_FREELANCER_MARKUP,
+  SALES_BID_BONUS,
+  departmentFee,
+  headcount,
   LOBBY_COOLDOWN,
   LOBBY_COST,
   LOBBY_RELATION,
@@ -18,7 +24,7 @@ import {
 import type { Feature, Firm, Specialty } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Hint, Panel } from '../components/ui'
-import { formatMoney } from '../format'
+import { formatMoney, formatPercent } from '../format'
 import { playSound } from '../sound'
 import s from './screens.module.css'
 
@@ -44,6 +50,14 @@ export function StrategyScreen() {
   const changeCost = specialtyChangeCost(me)
   const partners = me.partnerships ?? []
   const lobbyWait = lobbyReadyIn(game, me)
+  const departments = me.departments ?? []
+  const hc = headcount(me)
+  const departmentParams = {
+    max: ACADEMY_MAX_LEVEL,
+    bonus: SALES_BID_BONUS,
+    pct: formatPercent(NEARSHORE_FREELANCER_MARKUP, lng),
+    normal: formatPercent(FREELANCER_MARKUP, lng),
+  }
 
   return (
     <div className={s.grid}>
@@ -124,6 +138,33 @@ export function StrategyScreen() {
             >
               {lobbyWait > 0 ? t('strategy.lobby.wait', { count: lobbyWait }) : t('strategy.lobby.do', { cost: formatMoney(LOBBY_COST, lng) })}
             </Button>
+          </div>
+        </Locked>
+      </Panel>
+
+      <Panel title={t('strategy.departments.title')} icon="people" className={s.span12}>
+        <Locked firm={me} feature="departments">
+          <div className={s.stack}>
+            <Hint>{t('strategy.departments.hint')}</Hint>
+            <div className={s.cards}>
+              {DEPARTMENTS.map((d) => {
+                const on = departments.includes(d.id)
+                return (
+                  <article key={d.id} className={s.card} data-highlight={on || undefined}>
+                    <strong>{t(`content:departments.${d.id}.name`)}</strong>
+                    <span className={s.small}>{t(`content:departments.${d.id}.desc`, departmentParams)}</span>
+                    <span className={`${s.small} num`}>{t('strategy.departments.fee', { fee: formatMoney(departmentFee(d.id, hc), lng) })}</span>
+                    <Button
+                      size="small"
+                      variant={on ? 'ghost' : 'primary'}
+                      onClick={() => run({ type: 'setDepartment', firmId: me.id, departmentId: d.id, on: !on })}
+                    >
+                      {on ? t('strategy.departments.close') : t('strategy.departments.open')}
+                    </Button>
+                  </article>
+                )
+              })}
+            </div>
           </div>
         </Locked>
       </Panel>

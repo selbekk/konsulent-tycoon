@@ -5,13 +5,12 @@ import {
   FIXED_OVERHEAD,
   FLEX_LEVEL,
   FREELANCER_LEVEL,
-  FREELANCER_MARKUP,
   OFFSHORE_COST_FACTOR,
   OVERHEAD_PER_HEAD,
   listRate,
   quarterlySalaryCost,
 } from './constants'
-import { strategyCost } from './strategy'
+import { freelancerMarkup, strategyCost } from './strategy'
 import { DISCIPLINES } from './types'
 import type { Contract, Discipline, Firm, GameState, Seats } from './types'
 
@@ -214,7 +213,7 @@ export function quarterFinancials(state: GameState, firmId: string, quarter = st
   let freelanceRevenue = 0
   let freelanceCost = 0
   let offshoreCost = 0
-  const freelanceRate = listRate(FREELANCER_LEVEL) * FREELANCER_MARKUP * BILLABLE_HOURS
+  const freelanceRate = listRate(FREELANCER_LEVEL) * freelancerMarkup(firm) * BILLABLE_HOURS
   const offshoreRate = listRate(FREELANCER_LEVEL) * OFFSHORE_COST_FACTOR * BILLABLE_HOURS
   for (const cs of staffing.contracts) {
     const c = byId.get(cs.contractId)!
@@ -229,7 +228,7 @@ export function quarterFinancials(state: GameState, firmId: string, quarter = st
   const salary = salaryCost(firm)
   const overhead = hc * OVERHEAD_PER_HEAD + FIXED_OVERHEAD
   const cultureCost = hc * (firm.budgets.fagmiljoPerHead + firm.budgets.sosialtPerHead)
-  const strategy = strategyCost(firm)
+  const strategy = strategyCost(firm, hc)
   const total = salary + overhead + cultureCost + freelanceCost + offshoreCost + strategy
   return {
     revenue,

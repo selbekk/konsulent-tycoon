@@ -402,6 +402,9 @@
     },
     "partner": {
       "name": "Inngå et partnerskap"
+    },
+    "department": {
+      "name": "Åpne en egen avdeling"
     }
   },
   "partnerships": {
@@ -432,6 +435,20 @@
     "architecture_forum": {
       "name": "Arkitekturforum",
       "desc": "Et fast sete i et forum der boksene og pilene blir bestemt."
+    }
+  },
+  "departments": {
+    "academy": {
+      "name": "Akademiet",
+      "desc": "Et internt kursprogram. Alle blir litt flinkere hvert kvartal, opp til nivå {{max}}."
+    },
+    "sales": {
+      "name": "Salgsavdelingen",
+      "desc": "Folk som elsker anbudsprosesser. +{{bonus}} i kvalitet på alle bud."
+    },
+    "nearshore": {
+      "name": "Nearshore-senteret",
+      "desc": "Egne folk i Gdańsk som fyller hull. Frilansere koster {{pct}} av det de fakturerer i stedet for {{normal}}."
     }
   }
 }

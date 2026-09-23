@@ -517,7 +517,8 @@
       "bingo": "Buzzword-bingo som alternativ til kundemøtet",
       "backroom": "Bakrommet: triks du helst ikke forteller kunden om",
       "strategy": "Strategi-fanen: velg en spesialisering som gir bonus i anbud",
-      "partnerships": "Partnerskap med leverandører, og lobbying hos offentlige kunder"
+      "partnerships": "Partnerskap med leverandører, og lobbying hos offentlige kunder",
+      "departments": "Egne avdelinger: akademi, salgsavdeling og nearshore-senter"
     },
     "seats": "Anbud på opptil {{count}} konsulenter",
     "seatsAll": "Anbud i alle størrelser",
@@ -572,6 +573,13 @@
       "wait_one": "Klar igjen om {{count}} kvartal",
       "wait_other": "Klar igjen om {{count}} kvartaler"
     },
-    "locked": "Låses opp på nivå {{level}}"
+    "locked": "Låses opp på nivå {{level}}",
+    "departments": {
+      "title": "Avdelinger",
+      "hint": "Avdelinger koster hvert kvartal så lenge de er åpne. Du kan legge dem ned når som helst.",
+      "fee": "{{fee}} per kvartal",
+      "open": "Åpne",
+      "close": "Legg ned"
+    }
   }
 }

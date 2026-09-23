@@ -402,6 +402,9 @@
     },
     "partner": {
       "name": "Sign a partnership"
+    },
+    "department": {
+      "name": "Open a department"
     }
   },
   "partnerships": {
@@ -432,6 +435,20 @@
     "architecture_forum": {
       "name": "Architecture forum",
       "desc": "A permanent seat on the forum where the boxes and arrows are decided."
+    }
+  },
+  "departments": {
+    "academy": {
+      "name": "The Academy",
+      "desc": "An in-house course programme. Everyone gets a little better every quarter, up to level {{max}}."
+    },
+    "sales": {
+      "name": "The sales team",
+      "desc": "People who love tender processes. +{{bonus}} quality on every bid."
+    },
+    "nearshore": {
+      "name": "The nearshore centre",
+      "desc": "Your own people in Gdańsk to fill gaps. Freelancers cost {{pct}} of what they bill instead of {{normal}}."
     }
   }
 }

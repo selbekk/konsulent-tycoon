@@ -517,7 +517,8 @@
       "bingo": "Buzzword bingo as an alternative to the client meeting",
       "backroom": "The Backroom: tricks you'd rather not tell the client about",
       "strategy": "The Strategy tab: pick a specialisation that helps in tenders",
-      "partnerships": "Vendor partnerships, and lobbying with public-sector clients"
+      "partnerships": "Vendor partnerships, and lobbying with public-sector clients",
+      "departments": "Departments of your own: an academy, a sales team and a nearshore centre"
     },
     "seats": "Tenders of up to {{count}} consultants",
     "seatsAll": "Tenders of any size",
@@ -572,6 +573,13 @@
       "wait_one": "Ready again in {{count}} quarter",
       "wait_other": "Ready again in {{count}} quarters"
     },
-    "locked": "Unlocks at level {{level}}"
+    "locked": "Unlocks at level {{level}}",
+    "departments": {
+      "title": "Departments",
+      "hint": "Departments cost money every quarter while they are open. You can close them at any time.",
+      "fee": "{{fee}} per quarter",
+      "open": "Open",
+      "close": "Close"
+    }
   }
 }

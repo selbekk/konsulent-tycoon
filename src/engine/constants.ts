@@ -110,6 +110,7 @@ export const FEATURE_LEVEL = {
   backroom: 3,
   strategy: 3,
   partnerships: 4,
+  departments: 4,
 } as const
 /** Every level-up is a move to a bigger office: a one-off lift for social culture and employer brand. */
 export const OFFICE_MOVE_SOSIALT = 5
@@ -131,6 +132,13 @@ export const MAX_PARTNERSHIPS = 2
 export const LOBBY_COST = 400_000
 export const LOBBY_RELATION = 6
 export const LOBBY_COOLDOWN = 4
+/** Academy: pool levels grow this much per quarter, up to the cap. */
+export const ACADEMY_LEVEL_GAIN = 0.04
+export const ACADEMY_MAX_LEVEL = 4.2
+/** Sales department: bid quality on every bid. */
+export const SALES_BID_BONUS = 3
+/** Nearshore centre: freelancers cost this share of what they bill, instead of FREELANCER_MARKUP. */
+export const NEARSHORE_FREELANCER_MARKUP = 0.85
 
 // Shady
 export const HEAT_DECAY = 10
