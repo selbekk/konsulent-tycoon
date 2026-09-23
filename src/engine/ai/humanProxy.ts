@@ -45,7 +45,8 @@ export function planHumanProxy(state: GameState, opts: { price?: number; minigam
       return { t, total, cover: covered / total }
     })
     .filter((x) => x.cover >= (fin.utilization < 0.6 ? 0.3 : 0.5) && x.total <= Math.max(6, hc * 1.2))
-    .sort((a, b) => b.cover - a.cover || a.total - b.total)
+    // Most coverable seats first: small gigs only when that's what fits.
+    .sort((a, b) => b.cover * b.total - a.cover * a.total || b.cover - a.cover)
     .slice(0, Math.max(3, Math.round(hc / 4)))
 
   for (const { t } of candidates) {

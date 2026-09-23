@@ -124,7 +124,8 @@ Stemningen er inspirert av Theme Hospital og RollerCoaster Tycoon, men dempet. T
 > - **Fleksbemanning:** Ledige folk dekker manglende seter i andre fagområder før frilansere hentes inn. De faktureres på nivå 2,2 og trekker kundetilfredsheten litt ned.
 > - **Spillerens start:** Omdømme 40, fagmiljø 35, sosialt 30 og relasjon 25 til alle kunder (45 til Kryptonitt). Faste kostnader er 90 000 kr per kvartal.
 > - **Minispill:** Når du starter et minispill, registreres det som et forsøk med score 0 (foreløpig). Det kan erstattes én gang av det ferdige resultatet. Autolagring skjer etter hver handling.
-> - **AI-marked:** 0,3–0,4 konkurser per 40-kvartalers parti. Se `docs/balance-log.md` og `npm run sim:market`.
+> - **Småoppdrag:** 3–5 anbud per kvartal på 1–2 konsulenter i 1–3 kvartaler, i tillegg til den vanlige etterspørselen. AI-er og bot vekter anbud etter hvor mye ledig kapasitet de fyller.
+> - **AI-marked:** 0,1–0,4 konkurser per 40-kvartalers parti. Se `docs/balance-log.md` og `npm run sim:market`.
 
 
 ### 1.1 Økonomi (per kvartal)

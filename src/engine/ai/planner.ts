@@ -34,7 +34,10 @@ function tenderFit(state: GameState, firm: Firm, t: Tender, freeByDiscipline: Re
   // Big firms don't bother with tiny deals, and nobody likes a crowded tender.
   const sizeFit = firm.isPlayer ? 1 : Math.min(1, 0.3 + total / Math.max(2, hc * 0.12))
   const crowd = 1 / (1 + 0.25 * t.bids.length)
-  return (covered / total) * (0.7 + rel / 150) * sizeFit * crowd
+  // Prefer deals that actually fill the bench: a tiny gig is worth little when many are idle.
+  const freeTotal = DISCIPLINES.reduce((s, d) => s + Math.max(0, freeByDiscipline[d] ?? 0), 0)
+  const fill = Math.min(1, 0.35 + total / Math.max(1, freeTotal))
+  return (covered / total) * (0.7 + rel / 150) * sizeFit * crowd * fill
 }
 
 /**

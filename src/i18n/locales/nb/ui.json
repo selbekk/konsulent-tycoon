@@ -223,7 +223,7 @@
   },
   "tenders": {
     "title": "Anbudstavla",
-    "intro": "Anbudene avgjøres ved slutten av fristkvartalet, og oppdraget starter kvartalet etter. Grønne seter kan du bemanne selv, gule delvis. Resten fylles først av ledige folk fra andre fagområder (fleks, litt lavere pris), og så av frilansere.",
+    "intro": "Anbudene avgjøres ved slutten av fristkvartalet, og oppdraget starter kvartalet etter. Grønne seter kan du bemanne selv, gule delvis. Resten fylles først av ledige folk fra andre fagområder (fleks, litt lavere pris), og så av frilansere. Småoppdrag (1–2 konsulenter) kommer hvert kvartal.",
     "filter": "Filter",
     "filters": {
       "all": "Alle",
@@ -252,7 +252,8 @@
     "bidPlaced": "Bud levert",
     "qualityShort": "kvalitet {{q}}",
     "edit": "Endre",
-    "bid": "Lever bud"
+    "bid": "Lever bud",
+    "small": "Småoppdrag"
   },
   "bid": {
     "title": "Tilbud til {{customer}}",

@@ -67,6 +67,16 @@ describe('market mechanics', () => {
     expect(s.tenders).toHaveLength(before + 1)
   })
 
+  it('small gigs are published every quarter, even in a saturated market', () => {
+    const s = newTestGame()
+    s.baseDemand = 0 // no demand gap at all
+    s.tenders = []
+    publishTenders(s, 1)
+    const small = s.tenders.filter((t) => seatTotal(t.seats) <= 2)
+    expect(small.length).toBeGreaterThanOrEqual(3)
+    expect(small.every((t) => t.kind === 'project' && t.duration >= 1 && t.duration <= 3)).toBe(true)
+  })
+
   it('demand does not follow shrinking capacity', () => {
     const s = newTestGame()
     const demand = marketDemand(s, 4)

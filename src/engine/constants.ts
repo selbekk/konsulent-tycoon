@@ -70,6 +70,10 @@ export const AI_MAX_OPEN_BIDS = 8
 /** Happy clients often extend instead of re-tendering. */
 export const RENEWAL_MIN_SATISFACTION = 60
 export const RENEWAL_CHANCE = 0.5
+/** Small gigs published every quarter regardless of market demand. */
+export const SMALL_TENDERS_MIN = 3
+export const SMALL_TENDERS_MAX = 5
+export const SMALL_TENDER_MAX_SEATS = 2
 export const TARGET_DEMAND_RATIO = 0.85
 /** Market demand grows slowly and does not follow surviving capacity. */
 export const DEMAND_GROWTH_PER_YEAR = 0.05

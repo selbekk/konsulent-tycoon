@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, bidQuality, disciplineSupply, hasIntel, openTenders, seatTotal, staffFirm } from '../../engine'
+import { DISCIPLINES, SMALL_TENDER_MAX_SEATS, bidQuality, disciplineSupply, hasIntel, openTenders, seatTotal, staffFirm } from '../../engine'
 import type { GameState, Tender } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Panel } from '../components/ui'
@@ -88,7 +88,10 @@ export function TenderBoard() {
               <article key={tn.id} className={s.card}>
                 <div className={`${s.row} ${s.between}`}>
                   <strong>{t(`content:customers.${tn.customerId}.name`)}</strong>
-                  <Badge tone={tn.kind === 'framework' ? 'accent' : undefined}>{t(`tenders.kind.${tn.kind}`)}</Badge>
+                  <span className={s.row} style={{ gap: 4 }}>
+                    {seatTotal(tn.seats) <= SMALL_TENDER_MAX_SEATS && <Badge tone="good">{t('tenders.small')}</Badge>}
+                    <Badge tone={tn.kind === 'framework' ? 'accent' : undefined}>{t(`tenders.kind.${tn.kind}`)}</Badge>
+                  </span>
                 </div>
                 <span className={`${s.small} ${s.muted}`}>
                   {t(`tenders.sector.${customer.sector}`)} · {t('tenders.duration', { count: tn.duration })} ·{' '}

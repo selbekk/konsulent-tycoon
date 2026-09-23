@@ -334,7 +334,7 @@ Simulatoren skriver ut en tabell per år (kontanter p10/median/p90, antall ansat
 Nåværende mål og status står i `docs/balance-log.md`.
 
 - **AI-markedet:** Mål ≤ 2 konkurser per parti, og intet firma skal dø i mer enn 30 % av seedene. Status i dag er 0,3–0,4 konkurser per parti.
-- **Spilleren:** Boten `human` går konkurs i omtrent 40 % av partiene, `humanPro` i omtrent 28 %. Det er fortsatt for hardt.
+- **Spilleren:** Boten `human` går konkurs i omtrent 10 % av partiene og vokser til rundt 40 ansatte (medianplass 19 av 25). `humanPro` går konkurs i omtrent 5 %. `idle` går nesten alltid konkurs, så det kreves innsats.
 
 Slik jobber du med balansen:
 
@@ -381,7 +381,6 @@ Botene er grovere enn en ekte spiller. De bruker for eksempel ikke stjerner, bak
 
 ### Kjente mangler og åpne spørsmål
 
-- Spilleren går konkurs for ofte, også på «Snill».
 - Sluttrangeringen bruker absolutt verdi mot mye større AI-er. Forslaget er å rangere på verdivekst i forhold til startstørrelsen.
 - Hjelpebobler første gang du spiller (onboarding) er ikke laget.
 - Det finnes nesten ingen tester for UI-komponentene.

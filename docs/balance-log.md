@@ -35,3 +35,19 @@ Boten `human` (i `src/engine/ai/humanProxy.ts`) prøver å spille som et fornuft
 Status: Den dyktige boten overlever i omtrent 70 % av partiene og vokser til rundt 20 ansatte og 15–80 MNOK. På `easy` går den vanlige boten konkurs i 12 av 30 partier. Boten bruker verken stjerner, bakrommet, innsyn eller aktiv prising, så en menneskelig spiller bør gjøre det bedre. Det viktigste neste steget er ekte spilltesting.
 
 Åpent: Sluttrangeringen bruker absolutt verdi, og topp-AI-ene er verdt 100–900 MNOK. Forslaget er å rangere på verdivekst i forhold til startstørrelse (venter på beslutning).
+
+## Småoppdrag (2026-09-23)
+
+3–5 anbud per kvartal på 1–2 konsulenter i 1–3 kvartaler publiseres alltid, i tillegg til den vanlige etterspørselen.
+
+| # | Endring | human konkurs | humanPro konkurs | AI-konkurser/parti |
+|---|---|---|---|---|
+| 0 | Referanse (fra forrige runde) | 26/60 | 17/60 | 0,3 |
+| 1 | Småoppdrag trukket fra etterspørselsbudsjettet | 45/60 | 43/60 | 1,3 |
+| 2 | Småoppdrag som ekstra etterspørsel | 39/60 | 41/60 | 1,4 |
+| 3 | + AI vekter anbud etter hvor mye ledig kapasitet de fyller, og boten velger flest dekkbare seter først | **6/60** | **3/60** | **0,1** |
+| 3b | Samme som 3, men uten småoppdrag (A/B) | 18/60 | – | 0,1 |
+
+Funn: Småoppdragene fylte budplassene til små firma (2–3 plasser) fordi de alltid dekkes 100 %. Da ble de mellomstore anbudene liggende. Løsningen var å la både AI-er og bot vekte etter hvor mye av benken et anbud fyller. Med det på plass gir småoppdragene en klar forbedring: konkurs 18/60 → 6/60 og median verdi 36 → 86 MNOK.
+
+Status nå: En `human`-spiller vokser til rundt 40 ansatte, havner på medianplass 19 av 25 (p10: plass 9), og verdien er 86 MNOK i median. `idle` går konkurs i 59/60. Uten innsats går det altså ikke, men fornuftig spill holder.

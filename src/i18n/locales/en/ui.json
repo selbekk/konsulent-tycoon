@@ -223,7 +223,7 @@
   },
   "tenders": {
     "title": "Tender board",
-    "intro": "Tenders are decided at the end of their deadline quarter and start the quarter after. Green seats you can staff yourself, yellow partly. The rest is covered first by free people from other disciplines (flex, slightly lower rate), then by freelancers.",
+    "intro": "Tenders are decided at the end of their deadline quarter and start the quarter after. Green seats you can staff yourself, yellow partly. The rest is covered first by free people from other disciplines (flex, slightly lower rate), then by freelancers. Small gigs (1–2 consultants) appear every quarter.",
     "filter": "Filter",
     "filters": {
       "all": "All",
@@ -252,7 +252,8 @@
     "bidPlaced": "Bid placed",
     "qualityShort": "quality {{q}}",
     "edit": "Edit",
-    "bid": "Place bid"
+    "bid": "Place bid",
+    "small": "Small gig"
   },
   "bid": {
     "title": "Offer to {{customer}}",

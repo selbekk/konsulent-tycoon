@@ -4,6 +4,9 @@ import { TREND_MAP } from '../content/trends'
 import {
   BID_NOISE,
   CAPACITY_PENALTY,
+  SMALL_TENDERS_MAX,
+  SMALL_TENDERS_MIN,
+  SMALL_TENDER_MAX_SEATS,
   FLEX_AVAILABILITY,
   DEMAND_GROWTH_PER_YEAR,
   PRIORITY_BONUS,
@@ -117,6 +120,18 @@ export function publishTenders(state: GameState, publishedQuarter: number) {
   const gap = marketDemand(state, startQuarter) - committedDemand(state, startQuarter) - pipelineDemand(state) * 0.8
   const minCount = clamp(Math.round(capacity / 150), 4, 8)
   const supplyShare = marketSupplyShare(state)
+  // Small gigs ("we need one more developer for a while") are always out there,
+  // so a young firm with a couple of free people has something to bid on.
+  const smallCount = nextInt(state.rng, SMALL_TENDERS_MIN, SMALL_TENDERS_MAX)
+  for (let i = 0; i < smallCount; i++) {
+    const def = weightedPick(state.rng, CUSTOMERS, (c) => c.weight)!
+    const d = weightedPick(state.rng, DISCIPLINES, (x) => supplyShare[x] * (def.favours.includes(x) ? 3 : 0.5) * trendDemand(state, x))!
+    const size = nextInt(state.rng, 1, SMALL_TENDER_MAX_SEATS)
+    state.tenders.push(buildTender(state, def.id, 'project', { [d]: size }, nextInt(state.rng, 1, 3), publishedQuarter))
+  }
+
+  // Small gigs come on top: taking them out of the budget crowded out the mid-size
+  // tenders small firms live on (see docs/balance-log.md).
   let budget = Math.max(gap, minCount * 6)
   let count = 0
   while (budget > 0 && count < 24) {
