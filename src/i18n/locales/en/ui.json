@@ -604,5 +604,67 @@
       "confirm": "Take {{firm}} public and raise {{proceeds}}? There is no undo, and shareholders will be watching every quarter.",
       "yes": "Ring the bell"
     }
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "Next",
+    "start": "Let's go",
+    "progress": "Step {{n}} of {{total}}",
+    "goal": {
+      "title": "Ten years, one quarter at a time",
+      "body": "You've just founded {{firm}}. You have {{quarters}} quarters, from {{start}} to {{end}}, to build the most valuable consultancy in the country. {{rivals}} other firms have the same idea.",
+      "points": [
+        "Your firm's value is last year's operating profit times a multiple that follows your reputation, plus the cash in the bank.",
+        "Whoever is worth the most when time runs out wins.",
+        "Stay over your credit limit for too long and the firm goes bankrupt, which ends the game. However nice your slides were."
+      ]
+    },
+    "quarter": {
+      "title": "How a quarter works",
+      "body": "Each turn is one quarter. Do as much as you like, then press “{{endTurn}}”. Your rivals make their moves and the books are settled.",
+      "points": [
+        "Post job openings under {{staff}}. Whoever says yes starts the quarter after.",
+        "Bid for client work under {{tenders}}.",
+        "Work you win shows up under {{contracts}}. That's where the money comes from.",
+        "The to-do list on the {{dashboard}} shows what needs doing before the quarter ends."
+      ]
+    },
+    "tenders": {
+      "title": "Tenders take time",
+      "body": "You can bid on a tender in the quarter it's published and the one after. The client decides at the end of that second quarter, and the work starts the quarter after that.",
+      "points": [
+        "You need enough people in the right disciplines when the work starts, so hire a little ahead.",
+        "Clients weigh price against quality. A good client meeting can tip it your way.",
+        "When a contract is about to end, a happy client may renew it."
+      ]
+    },
+    "people": {
+      "title": "You sell people",
+      "body": "Your consultants are the only thing you have to sell. People on the bench cost salary and earn nothing. People who work too hard leave.",
+      "points": [
+        "The capacity panel on the {{dashboard}} shows who's billing and who's on the bench, now and next quarter.",
+        "Happy clients build your reputation, and reputation makes the firm worth more.",
+        "Morale keeps people around. Replacing a senior takes longer than you think."
+      ]
+    },
+    "ahead": {
+      "title": "What's ahead",
+      "body": "The firm goes up a level when you hit any one of the goals for headcount, revenue or tenders won. Every level means a new office, bigger tenders and new options:",
+      "points": []
+    },
+    "features": {
+      "kpis": "key figures",
+      "culture": "culture budgets",
+      "stars": "star consultants",
+      "framework": "framework agreements",
+      "bingo": "buzzword bingo",
+      "backroom": "the backroom",
+      "strategy": "specialisation",
+      "partnerships": "partnerships and lobbying",
+      "departments": "departments of your own",
+      "acquisitions": "acquisitions",
+      "ipo": "going public"
+    },
+    "bjorn": "I'm the chair of the board. I'll turn up with advice whenever it suits me. Good luck!"
   }
 }

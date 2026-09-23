@@ -452,3 +452,20 @@
     opacity: 0;
   }
 }
+
+.onboardingDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.onboardingDots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.onboardingDots span[data-active='true'] {
+  background: var(--accent);
+}

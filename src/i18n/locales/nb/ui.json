@@ -604,5 +604,67 @@
       "confirm": "Børsnotere {{firm}} og hente {{proceeds}}? Det kan ikke angres, og aksjonærene kommer til å følge med hvert kvartal.",
       "yes": "Ring i bjella"
     }
+  },
+  "onboarding": {
+    "skip": "Hopp over",
+    "next": "Neste",
+    "start": "Sett i gang",
+    "progress": "Steg {{n}} av {{total}}",
+    "goal": {
+      "title": "Ti år, ett kvartal av gangen",
+      "body": "Du har akkurat stiftet {{firm}}. Du har {{quarters}} kvartaler, fra {{start}} til {{end}}, på å bygge det mest verdifulle konsulentselskapet i landet. {{rivals}} andre selskaper har tenkt det samme.",
+      "points": [
+        "Selskapets verdi er driftsresultatet siste år ganger en multippel som følger omdømmet, pluss pengene i banken.",
+        "Den med høyest verdi når tiden er ute, vinner.",
+        "Er du for lenge over kassekreditten, går selskapet konkurs, og da er spillet over. Uansett hvor fine slides du hadde."
+      ]
+    },
+    "quarter": {
+      "title": "Slik går et kvartal",
+      "body": "Hver runde er ett kvartal. Du gjør så mye du vil, og trykker «{{endTurn}}» når du er ferdig. Da gjør konkurrentene sine trekk, og regnskapet gjøres opp.",
+      "points": [
+        "Under {{staff}} lyser du ut stillinger. De som takker ja, begynner kvartalet etter.",
+        "Under {{tenders}} byr du på oppdrag fra kundene.",
+        "Vinner du, havner oppdraget under {{contracts}}. Det er der inntektene kommer fra.",
+        "Huskelisten på {{dashboard}} viser hva som bør gjøres før kvartalet er over."
+      ]
+    },
+    "tenders": {
+      "title": "Anbud tar tid",
+      "body": "Et anbud kan du by på i kvartalet det publiseres og i kvartalet etter. Kunden bestemmer seg på slutten av det andre kvartalet, og jobben starter kvartalet etter det.",
+      "points": [
+        "Du må ha nok folk med riktig fagområde når jobben starter, så ansett litt i forkant.",
+        "Kunden veier pris mot kvalitet. Et godt kundemøte kan vippe det i din favør.",
+        "Når en kontrakt nærmer seg slutten, kan kunden fornye den hvis de er fornøyde."
+      ]
+    },
+    "people": {
+      "title": "Du selger folk",
+      "body": "Konsulentene er det eneste du har å selge. Folk som sitter på benken, koster lønn uten å tjene penger. Folk som jobber for mye, slutter.",
+      "points": [
+        "Kapasitetspanelet på {{dashboard}} viser hvem som fakturerer og hvem som sitter på benken, nå og neste kvartal.",
+        "Fornøyde kunder gir bedre omdømme, og omdømme gjør selskapet mer verdt.",
+        "Trivsel holder folk på plass. Å erstatte en senior tar lengre tid enn du tror."
+      ]
+    },
+    "ahead": {
+      "title": "Det som venter",
+      "body": "Selskapet går opp et nivå når du når ett av målene for ansatte, omsetning eller vunne anbud. Hvert nivå betyr nytt kontor, større anbud og nye muligheter:",
+      "points": []
+    },
+    "features": {
+      "kpis": "nøkkeltall",
+      "culture": "kulturbudsjett",
+      "stars": "stjernekonsulenter",
+      "framework": "rammeavtaler",
+      "bingo": "buzzword-bingo",
+      "backroom": "bakrommet",
+      "strategy": "spesialisering",
+      "partnerships": "partnerskap og lobbying",
+      "departments": "egne avdelinger",
+      "acquisitions": "oppkjøp",
+      "ipo": "børsnotering"
+    },
+    "bjorn": "Jeg er styreleder. Jeg dukker opp med råd når det passer meg. Lykke til!"
   }
 }

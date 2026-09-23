@@ -55,6 +55,8 @@ interface Store {
   minigame: { tenderId: string; kind: MinigameKind } | null
   /** Levels the player just moved between; shown as a celebration once the report is closed. */
   levelUp: { from: number; to: number } | null
+  /** The intro guide, shown once when a new game starts. UI state only, never saved. */
+  onboarding: boolean
   settings: Settings
 
   go: (screen: Screen) => void
@@ -69,6 +71,7 @@ interface Store {
   clearError: () => void
   dismissReport: () => void
   dismissLevelUp: () => void
+  dismissOnboarding: () => void
   openBid: (tenderId: string | null) => void
   openMinigame: (m: { tenderId: string; kind: MinigameKind } | null) => void
   setSettings: (s: Partial<Settings>) => void
@@ -84,6 +87,7 @@ export const useGame = create<Store>((set, get) => ({
   bidTenderId: null,
   minigame: null,
   levelUp: null,
+  onboarding: false,
   settings: typeof window === 'undefined' ? defaultSettings : loadSettings(),
 
   go: (screen) => set({ screen, previousScreen: get().screen }),
@@ -93,7 +97,7 @@ export const useGame = create<Store>((set, get) => ({
     const game = createNewGame(opts)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', game)
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null })
+    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true })
   },
 
   dispatch: (action) => {
@@ -138,12 +142,13 @@ export const useGame = create<Store>((set, get) => ({
   },
 
   loadState: (game) =>
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null }),
+    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false }),
 
-  quit: () => set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null }),
+  quit: () => set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false }),
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),
   dismissLevelUp: () => set({ levelUp: null }),
+  dismissOnboarding: () => set({ onboarding: false }),
   openBid: (bidTenderId) => set({ bidTenderId, error: null }),
   openMinigame: (minigame) => set({ minigame }),
 

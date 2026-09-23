@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import { Icon } from './Icon'
 import type { IconName } from './Icon'
 import s from './ui.module.css'
@@ -44,7 +44,7 @@ export function Button({
   children,
   className,
   ...rest
-}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; size?: 'small' | 'big'; icon?: IconName }) {
+}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; size?: 'small' | 'big'; icon?: IconName; ref?: Ref<HTMLButtonElement> }) {
   const cls = [s.button, variant !== 'default' && s[variant], size && s[size], className].filter(Boolean).join(' ')
   return (
     <button type="button" className={cls} {...rest}>

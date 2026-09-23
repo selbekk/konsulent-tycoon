@@ -12,6 +12,7 @@ import { DEPARTMENTS, PARTNERSHIPS } from '../content/strategy'
 import { SHADY_IDS } from '../engine/shady'
 import { AWARDS } from '../engine/awards'
 import { DISCIPLINES } from '../engine/types'
+import { FEATURE_LEVEL } from '../engine/constants'
 import { resources } from './index'
 
 type Tree = { [k: string]: string | string[] | Tree }
@@ -69,6 +70,10 @@ describe('i18n', () => {
       check(game, `news.award.${a.id}`)
     }
     for (const d of DISCIPLINES) check(ui, `disciplines.${d}`)
+    for (const f of Object.keys(FEATURE_LEVEL)) {
+      check(ui, `level.features.${f}`)
+      check(ui, `onboarding.features.${f}`)
+    }
     for (const b of BUZZWORDS) check(mg, `buzzwords.${b}`)
     for (const q of MEETING_QUESTIONS) for (const s of MEETING_STYLES) check(mg, `meeting.questions.${q}.a.${s}`)
     expect(missing).toEqual([])

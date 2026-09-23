@@ -11,6 +11,7 @@ describe('end of quarter warning', () => {
     await i18n.changeLanguage('en')
     useGame.getState().quit()
     useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame.getState().dismissOnboarding()
   })
 
   afterEach(cleanup)
@@ -46,6 +47,7 @@ describe('levels in the shell', () => {
     await i18n.changeLanguage('en')
     useGame.getState().quit()
     useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame.getState().dismissOnboarding()
   })
 
   afterEach(cleanup)
@@ -95,5 +97,62 @@ describe('levels in the shell', () => {
     fireEvent.click(screen.getAllByRole('button', { name: /^buy$/i })[0])
     fireEvent.click(screen.getByRole('button', { name: /buy the firm/i }))
     expect(useGame.getState().game!.firms.player.stats?.acquisitions).toBe(1)
+  })
+})
+
+describe('onboarding', () => {
+  beforeEach(async () => {
+    localStorage.clear()
+    await i18n.changeLanguage('en')
+    useGame.getState().quit()
+    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+  })
+
+  afterEach(cleanup)
+
+  it('shows the guide on a new game and walks through every step', () => {
+    render(<Shell />)
+    const dialog = () => screen.getByRole('dialog')
+    expect(within(dialog()).getByText(/you've just founded test as\. you have 40 quarters/i)).toBeInTheDocument()
+    expect(within(dialog()).getByText(/step 1 of 5/i)).toBeInTheDocument()
+    expect(within(dialog()).queryByRole('button', { name: /^back$/i })).not.toBeInTheDocument()
+
+    // Enter must not end the quarter behind the guide.
+    fireEvent.keyDown(document.body, { key: 'Enter' })
+    expect(useGame.getState().game!.quarter).toBe(0)
+
+    fireEvent.click(within(dialog()).getByRole('button', { name: /^next/i }))
+    expect(within(dialog()).getByText(/post job openings under people\./i)).toBeInTheDocument()
+    for (let i = 0; i < 3; i++) fireEvent.click(within(dialog()).getByRole('button', { name: /^next/i }))
+    expect(within(dialog()).getByText(/step 5 of 5/i)).toBeInTheDocument()
+    expect(within(dialog()).getByText(/level 5 · industry heavyweight/i)).toBeInTheDocument()
+    fireEvent.click(within(dialog()).getByRole('button', { name: /^back$/i }))
+    expect(within(dialog()).getByText(/step 4 of 5/i)).toBeInTheDocument()
+    for (let i = 0; i < 3; i++) fireEvent.click(within(dialog()).getByRole('button', { name: /^back$/i }))
+    expect(within(dialog()).getByText(/step 1 of 5/i)).toBeInTheDocument()
+    expect(dialog()).toContainElement(document.activeElement as HTMLElement)
+    for (let i = 0; i < 3; i++) fireEvent.click(within(dialog()).getByRole('button', { name: /^next/i }))
+    fireEvent.click(within(dialog()).getByRole('button', { name: /^next/i }))
+    fireEvent.click(within(dialog()).getByRole('button', { name: /let's go/i }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(useGame.getState().onboarding).toBe(false)
+  })
+
+  it('can be skipped with the button or Escape', () => {
+    const { rerender } = render(<Shell />)
+    fireEvent.click(screen.getByRole('button', { name: /^skip$/i }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+    useGame.getState().newGame({ seed: 6, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    rerender(<Shell />)
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('does not show when loading a saved game', () => {
+    useGame.getState().loadState(structuredClone(useGame.getState().game!))
+    render(<Shell />)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })
