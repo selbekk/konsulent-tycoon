@@ -1,6 +1,6 @@
 import { EVENT_MAP } from '../../content/events'
 import { AI_MAX_OPEN_BIDS } from '../constants'
-import { creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from '../economy'
+import { creditLimit, disciplineSupply, headcount, quarterFinancials, spendable, staffFirm } from '../economy'
 import { canChoose } from '../events'
 import { chance, noise, nextFloat, pick, weightedPick } from '../rng'
 import { SHADY_CATALOG } from '../shady'
@@ -120,7 +120,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     stars.forEach((s) => promised.add(s.id))
     for (const d of DISCIPLINES) free[d] -= (t.seats[d] ?? 0) * (t.kind === 'framework' ? 0.5 : 1)
     const effort = (runway < 1 ? 0 : p.qualityFocus > 0.75 ? 3 : p.qualityFocus > 0.5 ? 2 : 1) as 0 | 1 | 2 | 3
-    if (firm.cash < effortCost(effort)) continue
+    if (effort > 0 && spendable(firm) < effortCost(effort)) continue
     actions.push({
       type: 'recordMinigame',
       firmId,

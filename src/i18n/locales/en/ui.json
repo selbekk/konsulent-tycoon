@@ -270,6 +270,8 @@
       "3": "Whole weekend"
     },
     "effortCost": "Costs {{cost}}.",
+    "effortFromCredit": "Paid from your credit line.",
+    "cantAfford": "You can't afford this effort ({{cost}}), not even with your credit line.",
     "stars": "Stars on the CVs",
     "noStars": "You have no stars to offer yet.",
     "notRelevant": "not a relevant discipline",

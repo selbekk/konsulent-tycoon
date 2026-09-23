@@ -13,6 +13,7 @@ import {
   listRate,
   marketLowestGuess,
   seatTotal,
+  spendable,
 } from '../../engine'
 import type { Bid } from '../../engine'
 import { useGame } from '../../store/gameStore'
@@ -34,7 +35,10 @@ export function BidForm({ tenderId }: { tenderId: string }) {
   const tender = game.tenders.find((x) => x.id === tenderId)
   const existing = tender?.bids.find((b) => b.firmId === me.id)
   const [rate, setRate] = useState(existing?.rateMultiplier ?? 1)
-  const [effort, setEffort] = useState<0 | 1 | 2 | 3>(existing?.effort ?? 1)
+  const budget = spendable(me)
+  const costOf = (e: number) => Math.max(0, effortCost(e) - (existing ? effortCost(existing.effort) : 0))
+  const affordable = (e: number) => costOf(e) === 0 || costOf(e) <= budget
+  const [effort, setEffort] = useState<0 | 1 | 2 | 3>(existing?.effort ?? (affordable(1) ? 1 : 0))
   const [starIds, setStarIds] = useState<string[]>(existing?.starIds ?? [])
 
   const promisedElsewhere = useMemo(
@@ -56,7 +60,8 @@ export function BidForm({ tenderId }: { tenderId: string }) {
     (sum, d) => sum + (tender.seats[d] ?? 0) * BILLABLE_HOURS * listRate(disciplineLevel(me, d)) * rate,
     0,
   )
-  const effortDelta = effortCost(effort) - (existing ? effortCost(existing.effort) : 0)
+  const effortDelta = costOf(effort)
+  const canAfford = affordable(effort)
   const minigame = tender.minigameResults[me.id]
   const intel = hasIntel(game, me.id, 'bids', tender.id)
   const competitors = tender.bids.filter((b) => b.firmId !== me.id)
@@ -84,7 +89,7 @@ export function BidForm({ tenderId }: { tenderId: string }) {
             </Button>
           )}
           <Button onClick={() => openBid(null)}>{t('common.cancel')}</Button>
-          <Button variant="primary" onClick={submit} disabled={effortDelta > me.cash}>
+          <Button variant="primary" onClick={submit} disabled={!canAfford}>
             {existing ? t('bid.update') : t('bid.submit')}
           </Button>
         </>
@@ -115,12 +120,16 @@ export function BidForm({ tenderId }: { tenderId: string }) {
             <span className={s.fieldLabel}>{t('bid.effort')}</span>
             <div className={s.segmented} role="group" aria-label={t('bid.effort')}>
               {([0, 1, 2, 3] as const).map((e) => (
-                <button key={e} aria-pressed={effort === e} onClick={() => setEffort(e)} disabled={existing && e < existing.effort}>
+                <button key={e} aria-pressed={effort === e} onClick={() => setEffort(e)} disabled={(existing && e < existing.effort) || !affordable(e)}>
                   {t(`bid.efforts.${e}`)}
                 </button>
               ))}
             </div>
-            <Hint>{t('bid.effortCost', { cost: formatMoney(effortCost(effort), lng) })}</Hint>
+            <Hint>
+              {t('bid.effortCost', { cost: formatMoney(effortCost(effort), lng) })}
+              {effortDelta > Math.max(0, me.cash) && canAfford && ` ${t('bid.effortFromCredit')}`}
+            </Hint>
+            {!canAfford && <p className={s.bad}>{t('bid.cantAfford', { cost: formatMoney(effortDelta, lng) })}</p>}
           </div>
 
           <div className={s.stackSm}>

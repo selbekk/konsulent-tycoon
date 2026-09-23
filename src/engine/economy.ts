@@ -250,3 +250,8 @@ export function creditLimit(firm: Firm): number {
   const annual = recent.length ? (revenue / recent.length) * 4 : 0
   return Math.max(CREDIT_MIN, annual * CREDIT_REVENUE_SHARE * 0.25)
 }
+
+/** What a firm can spend right now: cash plus what is left on the credit line. */
+export function spendable(firm: Firm): number {
+  return firm.cash + creditLimit(firm)
+}

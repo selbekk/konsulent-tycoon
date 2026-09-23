@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { creditLimit } from './economy'
 import { applyAction } from './reducer'
 import { bidQuality, bidScoreEstimate } from './tenders'
 import { deepFreeze, newTestGame } from './testUtils'
@@ -43,6 +44,23 @@ describe('reducer', () => {
     expect(placed.cvPad).toBe(false)
     expect(placed.rateMultiplier).toBe(1.4)
     expect(r.state.firms.player.cash).toBe(s.firms.player.cash - 60_000)
+  })
+
+  it('pays bid effort from the credit line when cash is negative', () => {
+    const s = newTestGame()
+    s.firms.player.cash = -500_000
+    const t = openTender(s)
+    const r = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ effort: 2 }) })
+    expect(r.error).toBeUndefined()
+    expect(r.state.firms.player.cash).toBe(-560_000)
+  })
+
+  it('rejects effort beyond the credit line but always allows a free bid', () => {
+    const s = newTestGame()
+    s.firms.player.cash = -creditLimit(s.firms.player) - 10_000
+    const t = openTender(s)
+    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ effort: 1 }) }).error).toBe('errors.notEnoughCash')
+    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ effort: 0 }) }).error).toBeUndefined()
   })
 
   it('rejects promising the same star in two open bids', () => {

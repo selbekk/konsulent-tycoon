@@ -8,6 +8,7 @@ import {
   clamp,
   quarterlySalaryCost,
 } from './constants'
+import { spendable } from './economy'
 import { handleResolveEvent } from './events'
 import { handleShady } from './shady'
 import { starSigningCost } from './stars'
@@ -105,7 +106,8 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     }
     const existing = tender.bids.find((b) => b.firmId === firm.id)
     const cost = Math.max(0, effortCost(effort) - (existing ? effortCost(existing.effort) : 0))
-    if (firm.cash < cost) return 'errors.notEnoughCash'
+    // Effort may be paid from the credit line, and a free bid is always allowed.
+    if (cost > 0 && cost > spendable(firm)) return 'errors.notEnoughCash'
     firm.cash -= cost
     const bid = {
       firmId: firm.id,

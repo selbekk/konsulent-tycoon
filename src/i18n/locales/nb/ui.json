@@ -270,6 +270,8 @@
       "3": "Hele helgen"
     },
     "effortCost": "Koster {{cost}}.",
+    "effortFromCredit": "Trekkes fra kassekreditten.",
+    "cantAfford": "Du har ikke råd til denne innsatsen ({{cost}}), heller ikke med kassekreditten.",
     "stars": "Stjerner på CV-ene",
     "noStars": "Du har ingen stjerner å tilby ennå.",
     "notRelevant": "ikke relevant fagområde",

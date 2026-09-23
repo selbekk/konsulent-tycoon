@@ -51,3 +51,14 @@ Status: Den dyktige boten overlever i omtrent 70 % av partiene og vokser til run
 Funn: Småoppdragene fylte budplassene til små firma (2–3 plasser) fordi de alltid dekkes 100 %. Da ble de mellomstore anbudene liggende. Løsningen var å la både AI-er og bot vekte etter hvor mye av benken et anbud fyller. Med det på plass gir småoppdragene en klar forbedring: konkurs 18/60 → 6/60 og median verdi 36 → 86 MNOK.
 
 Status nå: En `human`-spiller vokser til rundt 40 ansatte, havner på medianplass 19 av 25 (p10: plass 9), og verdien er 86 MNOK i median. `idle` går konkurs i 59/60. Uten innsats går det altså ikke, men fornuftig spill holder.
+
+## Bud på kassekreditt (2026-09-23)
+
+Innsatsen på et bud kan nå betales med kassekreditten (`spendable(firm) = cash + creditLimit`), og et bud uten innsats er alltid lov. Før kunne et firma med negativ saldo ikke by i det hele tatt, heller ikke med innsats 0. Det gjaldt både spilleren og AI-ene.
+
+| # | Endring | human konkurs | humanPro konkurs | AI-konkurser/parti |
+|---|---|---|---|---|
+| 0 | Referanse | 6/60 | 3/60 | 0,1 |
+| 1 | Innsats fra kassekreditt, gratis bud alltid lov | 6/60 | 2/60 | 0,1 |
+
+Funn: Innenfor støyen. `human` fikk median verdi 86 → 98 MNOK og medianplass 19 → 18. Endringen er først og fremst en UX-fiks: knappen blir ikke lenger grå uten grunn.
