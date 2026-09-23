@@ -128,11 +128,11 @@ export const SPECIALTY_DISCIPLINE_BONUS = 8
 export const SPECIALTY_DISCIPLINE_SHARE = 0.5
 /** Picking the first specialty is free; changing it later costs this. */
 export const SPECIALTY_CHANGE_COST = 1_000_000
-export const PARTNER_BONUS = 5
+export const PARTNER_BONUS = 3
 export const MAX_PARTNERSHIPS = 2
 /** Lobbying: a round of lunches with every public-sector customer. */
-export const LOBBY_COST = 400_000
-export const LOBBY_RELATION = 6
+export const LOBBY_COST = 600_000
+export const LOBBY_RELATION = 4
 export const LOBBY_COOLDOWN = 4
 /** Academy: pool levels grow this much per quarter, up to the cap. */
 export const ACADEMY_LEVEL_GAIN = 0.04

@@ -58,6 +58,7 @@ export function StrategyScreen() {
   const partners = me.partnerships ?? []
   const lobbyWait = lobbyReadyIn(game, me)
   const departments = me.departments ?? []
+  const hc = headcount(me)
   const [buying, setBuying] = useState<string | null>(null)
   const [listing, setListing] = useState(false)
   const proceeds = formatMoney(ipoProceeds(me), lng)
@@ -66,7 +67,6 @@ export function StrategyScreen() {
     .filter((f) => !f.isPlayer && !f.bankrupt && headcount(f) <= hc * ACQUIRE_MAX_SIZE_RATIO)
     .sort((a, b) => acquisitionPrice(a) - acquisitionPrice(b))
   const buyingFirm = buying ? game.firms[buying] : undefined
-  const hc = headcount(me)
   const departmentParams = {
     max: ACADEMY_MAX_LEVEL,
     bonus: SALES_BID_BONUS,

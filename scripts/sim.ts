@@ -3,6 +3,7 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { PLAYER_BOTS } from '../src/engine/ai/personalities'
 import { planAiTurn, planEventAnswers } from '../src/engine/ai/planner'
 import { planHumanProxy } from '../src/engine/ai/humanProxy'
+import type { StrategyMove } from '../src/engine/ai/humanProxy'
 import { averageMorale, headcount, quarterFinancials } from '../src/engine/economy'
 import { createNewGame } from '../src/engine/newGame'
 import { applyActionInPlace } from '../src/engine/reducer'
@@ -13,11 +14,19 @@ import { endTurn } from '../src/engine/turn'
 import { MAX_LEVEL } from '../src/engine/constants'
 import type { Difficulty, GameState } from '../src/engine/types'
 
-const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number }> = {
+const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number; strategic?: boolean | StrategyMove[] }> = {
   human: {},
   humanCheap: { price: 0.88 },
   humanSkilled: { minigame: 90 },
   humanPro: { price: 0.9, minigame: 90 },
+  humanStrategic: { strategic: true },
+  // One strategy move each, to see what carries the strategic bot.
+  humanSpecialty: { strategic: ['specialty'] },
+  humanPartner: { strategic: ['partner', 'lobby'] },
+  humanDepartments: { strategic: ['departments'] },
+  humanIpo: { strategic: ['ipo'] },
+  humanAcquire: { strategic: ['acquire'] },
+  humanNoAcquire: { strategic: ['specialty', 'partner', 'lobby', 'departments', 'ipo'] },
 }
 const args = process.argv.slice(2)
 const arg = (name: string, def: string) => {
@@ -75,6 +84,8 @@ function playGame(seed: number, strategy: string) {
     shady: state.firms[state.playerId].shadyLog.length,
     caught: state.firms[state.playerId].shadyLog.filter((e) => e.detected).length,
     missions: state.firms[state.playerId].missionsDone ?? [],
+    acquisitions: state.firms[state.playerId].stats?.acquisitions ?? 0,
+    listed: !!state.firms[state.playerId].listed,
   }
 }
 
@@ -110,6 +121,8 @@ for (const strategy of strategies) {
   const done: Record<string, number> = {}
   for (const r of results) for (const id of r.missions) done[id] = (done[id] ?? 0) + 1
   console.log(`missions median ${pct(results.map((r) => r.missions.length), 0.5)}: ${Object.entries(done).map(([k, v]) => `${k}:${v}`).join(' ')}`)
+  if (HUMAN_VARIANTS[strategy]?.strategic)
+    console.log(`listed: ${results.filter((r) => r.listed).length}/${games}, acquisitions median ${pct(results.map((r) => r.acquisitions), 0.5)} max ${Math.max(...results.map((r) => r.acquisitions))}`)
   console.log(`bankrupt: ${bankrupt.length}/${games} (median quarter ${pct(bankrupt.map((r) => r.bankruptAt!), 0.5)})`)
   console.log(`rank p10/med/p90: ${pct(results.map((r) => r.rank), 0.1)} / ${pct(results.map((r) => r.rank), 0.5)} / ${pct(results.map((r) => r.rank), 0.9)}`)
   console.log(`value median: ${m(pct(results.map((r) => r.value), 0.5))}, p90: ${m(pct(results.map((r) => r.value), 0.9))}`)

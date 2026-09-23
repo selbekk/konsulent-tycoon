@@ -1,5 +1,8 @@
 import { creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from '../economy'
+import { PARTNERSHIPS } from '../../content/strategy'
+import { acquisitionBlock, acquisitionPrice } from '../acquisitions'
 import { hasFeature, tenderLock } from '../levels'
+import { lobbyReadyIn } from '../strategy'
 import { noise } from '../rng'
 import { openTenders } from '../tenders'
 import { DISCIPLINES } from '../types'
@@ -11,7 +14,13 @@ import { seatTotal } from '../util'
  * prices a little under market, hires in small steps when busy, keeps culture decent.
  * Draws from state.rng – call on a draft only.
  */
-export function planHumanProxy(state: GameState, opts: { price?: number; minigame?: number } = {}): Action[] {
+export type StrategyMove = 'specialty' | 'partner' | 'lobby' | 'departments' | 'ipo' | 'acquire'
+const ALL_MOVES: StrategyMove[] = ['specialty', 'partner', 'lobby', 'departments', 'ipo', 'acquire']
+
+export function planHumanProxy(
+  state: GameState,
+  opts: { price?: number; minigame?: number; strategic?: boolean | StrategyMove[] } = {},
+): Action[] {
   const firmId = state.playerId
   const firm = state.firms[firmId]
   if (firm.bankrupt) return []
@@ -94,6 +103,38 @@ export function planHumanProxy(state: GameState, opts: { price?: number; minigam
       const busiest = [...DISCIPLINES].sort((a, b) => (next.demand[b] ?? 0) - (next.demand[a] ?? 0))[0]
       actions.push({ type: 'orderHires', firmId, discipline: busiest, count: Math.max(2, Math.round(hc * 0.1)) })
     }
+  }
+  if (opts.strategic) actions.push(...planStrategy(state, runway, opts.strategic === true ? ALL_MOVES : opts.strategic))
+  return actions
+}
+
+/** Balancing only: uses the Strategy tab the way a sensible player might. */
+function planStrategy(state: GameState, runway: number, moves: StrategyMove[]): Action[] {
+  const wants = (m: StrategyMove) => moves.includes(m)
+  const firmId = state.playerId
+  const firm = state.firms[firmId]
+  const actions: Action[] = []
+  const top = [...DISCIPLINES].sort((a, b) => disciplineSupply(firm, b) - disciplineSupply(firm, a))[0]
+  if (wants('specialty') && hasFeature(firm, 'strategy') && !firm.specialty) actions.push({ type: 'chooseSpecialty', firmId, specialty: top })
+  if (hasFeature(firm, 'partnerships')) {
+    const partner = PARTNERSHIPS.find((p) => p.discipline === top)
+    if (wants('partner') && partner && !(firm.partnerships ?? []).length && runway > 2) actions.push({ type: 'setPartnership', firmId, partnershipId: partner.id, on: true })
+    if (wants('lobby') && lobbyReadyIn(state, firm) === 0 && runway > 2) actions.push({ type: 'lobby', firmId })
+  }
+  if (wants('departments') && hasFeature(firm, 'departments')) {
+    for (const [id, minRunway] of [['academy', 2], ['sales', 3]] as const) {
+      const on = (firm.departments ?? []).includes(id)
+      if (!on && runway > minRunway) actions.push({ type: 'setDepartment', firmId, departmentId: id, on: true })
+      if (on && runway < 1) actions.push({ type: 'setDepartment', firmId, departmentId: id, on: false })
+    }
+  }
+  if (wants('ipo') && hasFeature(firm, 'ipo') && !firm.listed) actions.push({ type: 'ipo', firmId })
+  if (wants('acquire') && hasFeature(firm, 'acquisitions') && (firm.stats?.acquisitions ?? 0) < Math.floor(state.quarter / 8)) {
+    const target = state.firmOrder
+      .map((id) => state.firms[id])
+      .filter((f) => !acquisitionBlock(firm, f) && acquisitionPrice(f) * 2 < firm.cash)
+      .sort((a, b) => acquisitionPrice(a) - acquisitionPrice(b))[0]
+    if (target) actions.push({ type: 'acquireFirm', firmId, targetFirmId: target.id })
   }
   return actions
 }

@@ -81,3 +81,30 @@ Funn: Det var spillerens låser som kostet, ikke AI-enes. Det største enkeltbid
 Når nivåene nås (median): `human` nivå 2 i Q5, nivå 3 i Q12, nivå 4 i Q20 og nivå 5 i Q30 (101 av 150 når nivå 5). `humanPro` når dem i Q4, Q11, Q18 og Q27 (135 av 150). `npm run sim` skriver nå dette ut.
 
 Andre spillerboter (60 partier, før → etter): `balanced` 0 → 0 konkurser, median 183 → 200 MNOK. `greedy` 3 → 7 konkurser, 85 → 87 MNOK. `shady` 0 → 2 konkurser, 92 → 82 MNOK, og 26 → 18 lyssky handlinger fordi bakrommet først åpner på nivå 3 (rundt Q10). Målet om at `shady` skal slå `balanced` i median verdi var ikke nådd før nivåene heller, og er fortsatt åpent.
+
+## Strategi, mål og kontor (2026-09-23)
+
+Nytt: kontor per nivå (engangsløft for sosialt og brand), mål per nivå med små belønninger, og Strategi-fanen med spesialisering (nivå 3), partnerskap og lobbying (nivå 4), avdelinger (nivå 4), oppkjøp (nivå 5) og børsnotering (nivå 5). Botene `human`/`humanPro` bruker ingen av dem. `humanStrategic` bruker alle, og `humanSpecialty`, `humanPartner`, `humanDepartments`, `humanIpo`, `humanAcquire` og `humanNoAcquire` bruker hver sin del. Alle tall er fra 150 partier med `--seed 1000`.
+
+| Bot | Konkurs | Median verdi | Medianplass |
+|---|---|---|---|
+| `human` (kontor og mål, ingen strategi) | 27/150 | 135 MNOK | 16 |
+| `humanSpecialty` | 17/150 | 154 MNOK | 14 |
+| `humanPartner` (partnerskap og lobbying) | 18/150 | 199 MNOK | 12 |
+| `humanPartner` etter justering | 19/150 | 181 MNOK | 13 |
+| `humanDepartments` | 22/150 | 171 MNOK | 13 |
+| `humanIpo` | 25/150 | 118 MNOK | 18 |
+| `humanAcquire` | 34/150 | 113 MNOK (p90 659) | 17 |
+| `humanNoAcquire` (alt unntatt oppkjøp) | 11/150 | 253 MNOK | 10 |
+| `humanStrategic` (alt, etter justering) | 13/150 | 365 MNOK | 6 |
+
+Justering: partnerbonus 5 → 3, lobbying 400k → 600k og relasjon +6 → +4, fordi partnerskap og lobbying ga mest for minst.
+
+Funn:
+- Hver mekanikk hjelper litt for seg. Børsnotering er omtrent nøytral, som tenkt, fordi verdien etterpå bare teller eiernes andel.
+- Oppkjøp alene er høy risiko og høy gevinst: flere konkurser, men p90 på 659 MNOK.
+- Sammen gir de en stor effekt i sluttspillet. Kapitalen fra børsnoteringen finansierer oppkjøp, og strategiboten havner på plass 6 i median.
+- Åpent spørsmål: skal en spiller som bruker alt, klatre så mye? Hvis ikke, er de naturlige knottene `ACQUIRE_PREMIUM` og grensen på ett oppkjøp om gangen.
+- AI-markedet er uendret (0,1 konkurs per parti).
+
+`human` mot tidligere: 27/150 og 135 MNOK med kontor og mål, mot 22/150 og 95 MNOK med bare nivåer. Samme seed-sett på `--seed 2000` ga 23 mot 25 konkurser, så konkursforskjellen er innenfor støyen, mens verdien er høyere.

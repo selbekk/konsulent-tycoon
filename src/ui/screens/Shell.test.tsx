@@ -81,4 +81,19 @@ describe('levels in the shell', () => {
     expect(useGame.getState().levelUp).toBeNull()
     expect(screen.queryByRole('dialog', { name: /new level/i })).not.toBeInTheDocument()
   })
+
+  it('renders every strategy section at level 5 and buys a firm', () => {
+    const game = structuredClone(useGame.getState().game!)
+    Object.assign(game.firms.player, { level: 5, cash: 400_000_000 })
+    game.firms.player.pools.backend.count += 60
+    game.pendingEvents = []
+    useGame.getState().loadState(game)
+    render(<Shell />)
+    fireEvent.click(within(screen.getByRole('navigation')).getByRole('button', { name: /strategy/i }))
+    for (const name of [/specialisation/i, /partnerships/i, /lobbying/i, /departments/i, /acquisitions/i, /^ipo$/i])
+      expect(screen.getByRole('heading', { name })).toBeInTheDocument()
+    fireEvent.click(screen.getAllByRole('button', { name: /^buy$/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /buy the firm/i }))
+    expect(useGame.getState().game!.firms.player.stats?.acquisitions).toBe(1)
+  })
 })

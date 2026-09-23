@@ -165,10 +165,10 @@ Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
 3. For hvert firma:
    - fakturering og kostnader (`quarterFinancials`), deretter kassekredittrente
    - kundetilfredshet og mulig oppsigelse
-   - kultur og trivsel
+   - kultur og trivsel, deretter avdelinger (akademiet)
    - stjerner
    - turnover og ansettelser
-   - kvartalsrapport
+   - kvartalsrapport, deretter børspress for noterte firma
 4. Oppdagelse av lyssky handlinger, og nedgang i heat.
 5. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller.
 6. Kontrakter utløper eller forlenges. Rammeavtalene får avrop for neste kvartal.
@@ -207,6 +207,14 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
   - Låsene håndheves i reduceren med `errors.levelTooLow` / `errors.tenderTooBig`, altså likt for spiller og AI. `planAiTurn` og `planHumanProxy` filtrerer bort det som er låst, så de ikke bruker opp budplasser på bud som avvises.
   - Siden spilleren ikke kan endre kulturbudsjettet på nivå 1, starter spilleren med `PLAYER_START_BUDGETS`.
   - Hvert nytt nivå er en flytting til et større kontor: et navn og en ny møbelbit i `OfficeView`, og et engangsløft for sosialt miljø og arbeidsgiverbrand (`OFFICE_MOVE_*`).
+- **Strategi (`engine/strategy.ts`, `engine/acquisitions.ts`, `content/strategy.ts`):** Egen fane fra nivå 3.
+  - **Spesialisering** (nivå 3): en sektor eller et fagområde som gir bonus i `bidQuality` for anbud som passer. Første valg er gratis.
+  - **Partnerskap** (nivå 4): kvartalsvis avgift for bonus i anbud med seter i partnerens fagområde, maks to.
+  - **Lobbying** (nivå 4): løfter relasjonen til alle offentlige kunder, med nedkjøling.
+  - **Avdelinger** (nivå 4): akademi (poolnivå vokser), salg (bonus på alle bud) og nearshore (billigere frilansere). Kostnaden ligger i `quarterFinancials().strategyCost`.
+  - **Oppkjøp** (nivå 5): folk, stjerner, kontrakter og relasjoner flyttes, men ikke kontantene. Det oppkjøpte firmaet får `acquiredBy` og `bankrupt = true` (ute av markedet), men ingenting legges ut på anbud igjen.
+  - **Børsnotering** (nivå 5): kontanter for en andel av selskapet. Etterpå teller `valuation` bare eiernes andel, og hvert kvartal sammenlignes med det forrige (`ipoPressure`).
+  - Bare spilleren bruker dette i dag; AI-planleggeren gjør det ikke. Balansen måles med `humanStrategic`-variantene i simulatoren.
 - **Mål per nivå (`content/missions.ts`, `engine/missions.ts`):** Frivillige mål som vises fra et gitt nivå, med en liten belønning i samme effekt-DSL som hendelsene. Bare spilleren har mål (som gjøremålslista), og de legges aldri i `quarterTodos`.
 
 ### Tilfeldighet: den viktigste regelen
