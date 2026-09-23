@@ -21,10 +21,9 @@ export function EventModal({ event }: { event: PendingEvent }) {
       <div className={s.stack}>
         <p style={{ margin: 0, fontSize: '1.1rem' }}>{t(`game:events.${def.id}.body`, params)}</p>
         <div className={s.choiceList}>
-          {def.choices.map((c, i) => (
+          {def.choices.map((c) => (
             <Button
               key={c.id}
-              variant={i === 0 ? 'primary' : 'default'}
               disabled={!canChoose(game, event, c.id)}
               onClick={() => dispatch({ type: 'resolveEvent', pendingEventId: event.id, choiceId: c.id })}
             >

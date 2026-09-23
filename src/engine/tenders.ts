@@ -4,6 +4,7 @@ import { TREND_MAP } from '../content/trends'
 import {
   BID_NOISE,
   CAPACITY_PENALTY,
+  FLEX_AVAILABILITY,
   DEMAND_GROWTH_PER_YEAR,
   PRIORITY_BONUS,
   EFFORT_COST,
@@ -178,12 +179,20 @@ export function bidQuality(state: GameState, bid: Bid, tender: Tender): number {
   const committed = staffFirm(state, firm, tender.dueQuarter + 1).demand
   let levelSum = 0
   let available = 0
+  let otherFree = 0
   for (const d of DISCIPLINES) {
     const n = tender.seats[d] ?? 0
-    if (!n) continue
+    const free = Math.max(0, disciplineSupply(firm, d) - (committed[d] ?? 0))
+    if (!n) {
+      otherFree += free
+      continue
+    }
     levelSum += n * disciplineLevel(firm, d)
-    available += Math.min(n, Math.max(0, disciplineSupply(firm, d) - (committed[d] ?? 0)))
+    available += Math.min(n, free)
+    otherFree += Math.max(0, free - n)
   }
+  // People from other disciplines count half – customers accept some flex staffing.
+  available = Math.min(total, available + otherFree * FLEX_AVAILABILITY)
   const stars = bid.starIds.map((id) => firm.stars.find((s) => s.id === id)).filter((s) => !!s)
   let cv = levelSum / total
   let traitBonus = 0

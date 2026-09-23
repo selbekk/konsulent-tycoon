@@ -181,14 +181,24 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   return actions
 }
 
-/** Simulated players answer their events: first affordable choice. */
+/**
+ * Simulated players answer their events like a cautious human: take the first option
+ * unless it costs more than a few percent of the cash, then pick the cheapest.
+ */
 export function planEventAnswers(state: GameState, firmId: string): Action[] {
+  const firm = state.firms[firmId]
+  const hc = headcount(firm)
+  const costOf = (e: { cash?: number; cashPerHead?: number; special?: string }) =>
+    -((e.cash ?? 0) + (e.cashPerHead ?? 0) * hc) + (e.special === 'acquire_agency' ? 1e9 : 0)
   return state.pendingEvents
     .filter((pe) => pe.firmId === firmId)
     .map((pe) => {
       const def = EVENT_MAP[pe.eventId]
-      const choice = def?.choices.find((c) => canChoose(state, pe, c.id))
-      return choice ? ({ type: 'resolveEvent', pendingEventId: pe.id, choiceId: choice.id } as Action) : undefined
+      const options = def?.choices.filter((c) => canChoose(state, pe, c.id)) ?? []
+      if (!options.length) return undefined
+      const first = options[0]
+      const choice = costOf(first.effect) <= Math.max(0, firm.cash) * 0.03 ? first : [...options].sort((a, b) => costOf(a.effect) - costOf(b.effect))[0]
+      return { type: 'resolveEvent', pendingEventId: pe.id, choiceId: choice.id } as Action
     })
     .filter((a): a is Action => !!a)
 }

@@ -2,6 +2,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { PLAYER_BOTS } from '../src/engine/ai/personalities'
 import { planAiTurn, planEventAnswers } from '../src/engine/ai/planner'
+import { planHumanProxy } from '../src/engine/ai/humanProxy'
 import { averageMorale, headcount, quarterFinancials } from '../src/engine/economy'
 import { createNewGame } from '../src/engine/newGame'
 import { applyActionInPlace } from '../src/engine/reducer'
@@ -10,13 +11,19 @@ import { committedDemand, marketCapacity } from '../src/engine/tenders'
 import { endTurn } from '../src/engine/turn'
 import type { Difficulty, GameState } from '../src/engine/types'
 
+const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number }> = {
+  human: {},
+  humanCheap: { price: 0.88 },
+  humanSkilled: { minigame: 90 },
+  humanPro: { price: 0.9, minigame: 90 },
+}
 const args = process.argv.slice(2)
 const arg = (name: string, def: string) => {
   const i = args.indexOf(`--${name}`)
   return i >= 0 ? args[i + 1] : def
 }
 const games = Number(arg('games', '30'))
-const strategies = arg('strategy', 'all') === 'all' ? Object.keys(PLAYER_BOTS) : arg('strategy', 'balanced').split(',')
+const strategies = arg('strategy', 'all') === 'all' ? ['human', ...Object.keys(PLAYER_BOTS)] : arg('strategy', 'balanced').split(',')
 const baseSeed = Number(arg('seed', '1'))
 const difficulty = arg('difficulty', 'normal') as Difficulty
 const asJson = args.includes('--json')
@@ -36,7 +43,8 @@ function playGame(seed: number, strategy: string) {
     const draft = structuredClone(state)
     if (strategy !== 'idle' && bankruptAt === null) {
       for (const a of planEventAnswers(draft, draft.playerId)) applyActionInPlace(draft, a)
-      for (const a of planAiTurn(draft, draft.playerId, PLAYER_BOTS[strategy])) applyActionInPlace(draft, a)
+      const plan = strategy.startsWith('human') ? planHumanProxy(draft, HUMAN_VARIANTS[strategy]) : planAiTurn(draft, draft.playerId, PLAYER_BOTS[strategy])
+      for (const a of plan) applyActionInPlace(draft, a)
     }
     const me = draft.firms[draft.playerId]
     const fin = quarterFinancials(draft, me.id)

@@ -186,6 +186,10 @@ export function createNewGame(opts: NewGameOptions): GameState {
   // Player
   const me = baseFirm(PLAYER_ID, opts.firmName.trim() || 'Konsulent & Konsulent AS', true, 'player', 'NO')
   me.cash = START_CASH[opts.difficulty]
+  // A young firm with a bit of buzz: some network, a founders' tech culture.
+  me.reputation = 40
+  me.fagmiljo = 35
+  me.sosialt = 30
   const [d1, d2] = opts.founderDisciplines
   for (const d of opts.founderDisciplines) {
     const founder = generateStar(state, d, 4, 4)
@@ -215,7 +219,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
   // Customers
   for (const def of CUSTOMERS) {
     const relationships: Customer['relationships'] = {}
-    for (const id of state.firmOrder) relationships[id] = id === PLAYER_ID ? 15 : nextInt(state.rng, 10, 50)
+    for (const id of state.firmOrder) relationships[id] = id === PLAYER_ID ? 25 : nextInt(state.rng, 10, 50)
     state.customers[def.id] = {
       id: def.id,
       sector: def.sector,

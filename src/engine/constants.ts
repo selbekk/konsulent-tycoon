@@ -12,11 +12,13 @@ export const EMPLOYER_COST_FACTOR = 1.3
 export const quarterlySalaryCost = (level: number, premium: number) =>
   (annualSalary(level, premium) * EMPLOYER_COST_FACTOR) / 4
 export const OVERHEAD_PER_HEAD = 30_000
-export const FIXED_OVERHEAD = 150_000
+export const FIXED_OVERHEAD = 90_000
 export const HIRE_COST = 50_000
 export const FREELANCER_LEVEL = 3
 /** Own people staffed outside their discipline are billed at this level. */
 export const FLEX_LEVEL = 2.2
+/** Share of free people in other disciplines customers count as available. */
+export const FLEX_AVAILABILITY = 0
 /** Freelancers cost this share of what they are billed at (FREELANCER_LEVEL × 1.0). */
 export const FREELANCER_MARKUP = 1.05
 export const OFFSHORE_COST_FACTOR = 0.3
