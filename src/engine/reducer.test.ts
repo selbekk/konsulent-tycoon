@@ -65,6 +65,17 @@ describe('reducer', () => {
     )
   })
 
+  it('a started minigame counts as 0 until finished, and can only be finished once', () => {
+    let s = newTestGame()
+    const t = openTender(s)
+    s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 0, provisional: true }).state
+    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 90 }).error).toBe('errors.minigameAlreadyPlayed')
+    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 0, provisional: true }).error).toBe('errors.minigameAlreadyPlayed')
+    s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 80 }).state
+    expect(s.tenders.find((x) => x.id === t.id)!.minigameResults.player).toEqual({ kind: 'meeting', score: 80 })
+    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 99 }).error).toBe('errors.minigameAlreadyPlayed')
+  })
+
   it('UI estimates never touch the rng', () => {
     const s = newTestGame()
     const before = s.rng.s

@@ -119,7 +119,12 @@ Stemningen er inspirert av Theme Hospital og RollerCoaster Tycoon, men dempet. T
 > - **Startprosjektet:** 4 seter i 6 kvartaler (grunnleggerne pluss to), slik at to personer er ledige til første anbud.
 > - **Anbudsvolum:** Målet er at etterspørselen tilsvarer 92 % av markedskapasiteten. Størrelsene følger en fast fordeling, antallet styres av gapet, og fagområdene vektes etter hvilke folk markedet har.
 > - **Timer og overhead:** 420 fakturerbare timer per kvartal og 30 000 kr i overhead per hode.
-> - **Kjent problem (M9):** Over 40 kvartaler går mange AI-firma konkurs (markedsdødsspiral), og verdiene svinger mye. Det må balanseres før lansering.
+> - **Etterspørsel utenfra:** Markedet etterspør `startkapasitet × 0,85 × 1,05^år × trend`, uavhengig av hvor mange konsulenter som gjenstår. Kontraktene til konkursfirma legges ut på nytt som anbud.
+> - **Forlengelse:** Prosjekter med kundetilfredshet på minst 60 kan forlenges med 2–4 kvartaler uten nytt anbud. Sjansen er `0,5 × tilfredshet/80`.
+> - **Fleksbemanning:** Ledige folk dekker manglende seter i andre fagområder før frilansere hentes inn. De faktureres på nivå 2,2 og trekker kundetilfredsheten litt ned.
+> - **Spillerens start:** Omdømme 40, fagmiljø 35, sosialt 30 og relasjon 25 til alle kunder (45 til Kryptonitt). Faste kostnader er 90 000 kr per kvartal.
+> - **Minispill:** Når du starter et minispill, registreres det som et forsøk med score 0 (foreløpig). Det kan erstattes én gang av det ferdige resultatet. Autolagring skjer etter hver handling.
+> - **AI-marked:** 0,3–0,4 konkurser per 40-kvartalers parti. Se `docs/balance-log.md` og `npm run sim:market`.
 
 
 ### 1.1 Økonomi (per kvartal)

@@ -153,7 +153,8 @@ export interface Tender {
   dueQuarter: number
   buzzwords: string[]
   bids: Bid[]
-  minigameResults: Record<FirmId, { kind: MinigameKind; score: number }>
+  /** provisional = started but not finished; may be replaced once by the final score. */
+  minigameResults: Record<FirmId, { kind: MinigameKind; score: number; provisional?: boolean }>
   resolved: boolean
   winnerIds: FirmId[]
   /** Starter contracts are pre-awarded and never shown on the board. */
@@ -265,7 +266,7 @@ export type Action =
   | { type: 'giveRaise'; firmId: FirmId; starId: string; amount: number }
   | { type: 'placeBid'; tenderId: string; bid: Bid }
   | { type: 'withdrawBid'; firmId: FirmId; tenderId: string }
-  | { type: 'recordMinigame'; firmId: FirmId; tenderId: string; kind: MinigameKind; score: number }
+  | { type: 'recordMinigame'; firmId: FirmId; tenderId: string; kind: MinigameKind; score: number; provisional?: boolean }
   | { type: 'resolveEvent'; pendingEventId: string; choiceId: string }
   | {
       type: 'shady'

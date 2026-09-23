@@ -150,7 +150,7 @@ export function BidForm({ tenderId }: { tenderId: string }) {
           <div className={s.card}>
             <h3>{t('bid.pitch')}</h3>
             {minigame ? (
-              <span>{t('bid.pitchDone', { score: minigame.score })}</span>
+              <span>{minigame.provisional ? t('bid.pitchAbandoned') : t('bid.pitchDone', { score: minigame.score })}</span>
             ) : (
               <>
                 <Hint>{t('bid.pitchHint')}</Hint>

@@ -1,5 +1,9 @@
 {
-  "common": { "close": "Close", "cancel": "Cancel", "back": "Back" },
+  "common": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
   "disciplines": {
     "frontend": "Frontend",
     "backend": "Backend",
@@ -34,7 +38,11 @@
     "founders": "Founders' disciplines",
     "foundersHint": "Pick two. The founders are your first stars, and they never leave.",
     "difficulty": "Difficulty",
-    "difficulties": { "easy": "Gentle", "normal": "Normal", "hard": "Brutal" },
+    "difficulties": {
+      "easy": "Gentle",
+      "normal": "Normal",
+      "hard": "Brutal"
+    },
     "difficultyHints": {
       "easy": "NOK 5M in starting capital and friendly competitors.",
       "normal": "NOK 3M in starting capital. Competitors behave like the real thing.",
@@ -56,16 +64,22 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "languages": { "nb": "Norsk", "en": "English" },
+    "languages": {
+      "nb": "Norsk",
+      "en": "English"
+    },
     "theme": "Theme",
-    "themes": { "dark": "Dark", "light": "Light" },
+    "themes": {
+      "dark": "Dark",
+      "light": "Light"
+    },
     "reducedMotion": "Reduced motion",
     "doubleTime": "Double time in minigames",
     "announcements": "Show PA announcements"
   },
   "save": {
     "title": "Save game",
-    "autosaveInfo": "The game autosaves every quarter. Here you can save a separate copy.",
+    "autosaveInfo": "The game autosaves after every action. Here you can save a separate copy.",
     "slot": "Slot {{slot}}",
     "empty": "Empty",
     "saveHere": "Save here",
@@ -206,12 +220,22 @@
   },
   "tenders": {
     "title": "Tender board",
-    "intro": "Tenders are decided at the end of their deadline quarter and start the quarter after. Green seats you can staff yourself, yellow partly. The rest are filled with freelancers.",
+    "intro": "Tenders are decided at the end of their deadline quarter and start the quarter after. Green seats you can staff yourself, yellow partly. The rest is covered first by free people from other disciplines (flex, slightly lower rate), then by freelancers.",
     "filter": "Filter",
-    "filters": { "all": "All", "fits": "Fits us", "mine": "My bids" },
+    "filters": {
+      "all": "All",
+      "fits": "Fits us",
+      "mine": "My bids"
+    },
     "none": "No tenders here right now.",
-    "kind": { "project": "Project", "framework": "Framework" },
-    "sector": { "public": "Public", "private": "Private" },
+    "kind": {
+      "project": "Project",
+      "framework": "Framework"
+    },
+    "sector": {
+      "public": "Public",
+      "private": "Private"
+    },
     "duration_one": "{{count}} quarter",
     "duration_other": "{{count}} quarters",
     "relation": "relationship {{value}}",
@@ -251,14 +275,19 @@
     "estimate": "Estimate",
     "quality": "Quality",
     "chance": "Chance of winning",
-    "chances": { "low": "Low", "medium": "Medium", "high": "Good" },
+    "chances": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "Good"
+    },
     "fraudActive": "Creative CVs",
     "estimateHint": "A rough estimate. Competitors and the client's mood can surprise you.",
     "seatsTotal_one": "{{count}} seat in total.",
     "seatsTotal_other": "{{count}} seats in total.",
     "submit": "Place bid",
     "update": "Update bid",
-    "withdraw": "Withdraw bid"
+    "withdraw": "Withdraw bid",
+    "pitchAbandoned": "The meeting was cut short. The client noted 0 out of 100."
   },
   "minigame": {
     "oneShot": "You only get one attempt per tender.",
@@ -281,11 +310,13 @@
     "freelancers_other": "{{count}} freelancers",
     "offshoreSeats_one": "{{count}} offshore",
     "offshoreSeats_other": "{{count}} offshore",
-    "explain": "Low satisfaction can get you fired. Freelancers and outsourcing drag it down, good people lift it.",
+    "explain": "Low satisfaction can get you fired. Freelancers, flex and outsourcing drag it down, good people lift it. Happy clients (above 60) often extend.",
     "history": "Recently ended",
     "terminated": "terminated",
     "completed": "completed",
-    "finalSatisfaction": "satisfaction {{value}}"
+    "finalSatisfaction": "satisfaction {{value}}",
+    "flexSeats_one": "{{count}} flex",
+    "flexSeats_other": "{{count}} flex"
   },
   "market": {
     "league": "The league table",

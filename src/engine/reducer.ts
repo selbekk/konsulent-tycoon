@@ -132,8 +132,13 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const tender = openTender(state, a.tenderId)
     if (!tender) return 'errors.invalidTender'
     if (!firmOf(state, a.firmId)) return 'errors.invalid'
-    if (tender.minigameResults[a.firmId]) return 'errors.minigameAlreadyPlayed'
-    tender.minigameResults[a.firmId] = { kind: a.kind, score: clamp(Math.round(a.score), 0, 100) }
+    const existing = tender.minigameResults[a.firmId]
+    if (existing && (!existing.provisional || existing.kind !== a.kind || a.provisional)) return 'errors.minigameAlreadyPlayed'
+    tender.minigameResults[a.firmId] = {
+      kind: a.kind,
+      score: clamp(Math.round(a.score), 0, 100),
+      ...(a.provisional ? { provisional: true } : {}),
+    }
     return undefined
   },
 

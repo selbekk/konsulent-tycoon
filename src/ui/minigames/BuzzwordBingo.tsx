@@ -9,11 +9,12 @@ import s from './minigames.module.css'
 interface Props {
   tender: Tender
   firmId: string
+  onStart: () => void
   onFinish: (score: number) => void
   onClose: () => void
 }
 
-export function BuzzwordBingo({ tender, firmId, onFinish, onClose }: Props) {
+export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Props) {
   const { t } = useTranslation()
   const doubleTime = useGame((x) => x.settings.doubleTime)
   const total = BINGO_SECONDS * (doubleTime ? 2 : 1)
@@ -52,7 +53,10 @@ export function BuzzwordBingo({ tender, firmId, onFinish, onClose }: Props) {
         <div className={s.stack}>
           <p>{t('minigames:bingo.intro', { customer, seconds: total })}</p>
           <p className={s.muted}>{t('minigame.oneShot')}</p>
-          <Button variant="primary" onClick={() => setPhase('play')}>
+          <Button variant="primary" onClick={() => {
+              onStart()
+              setPhase('play')
+            }}>
             {t('minigames:bingo.start')}
           </Button>
         </div>

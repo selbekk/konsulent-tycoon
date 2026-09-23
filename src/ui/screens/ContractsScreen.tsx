@@ -41,6 +41,7 @@ export function ContractsScreen() {
                   const st = byContract.get(c.id)
                   const freelance = st ? seatTotal(st.freelance) : 0
                   const offshore = st ? seatTotal(st.offshore) : 0
+                  const flex = st ? seatTotal(st.flex) : 0
                   return (
                     <tr key={c.id}>
                       <td>
@@ -62,9 +63,10 @@ export function ContractsScreen() {
                             </Badge>
                           ))}
                         </div>
-                        {active && (freelance > 0 || offshore > 0) && (
+                        {active && (freelance > 0 || offshore > 0 || flex > 0) && (
                           <span className={`${s.small} ${s.warn}`}>
-                            {freelance > 0 && t('contracts.freelancers', { count: freelance })} {offshore > 0 && t('contracts.offshoreSeats', { count: offshore })}
+                            {flex > 0 && t('contracts.flexSeats', { count: flex })} {freelance > 0 && t('contracts.freelancers', { count: freelance })}{' '}
+                            {offshore > 0 && t('contracts.offshoreSeats', { count: offshore })}
                           </span>
                         )}
                       </td>

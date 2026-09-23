@@ -9,11 +9,12 @@ interface Props {
   tender: Tender
   firmId: string
   preference: MeetingStyle
+  onStart: () => void
   onFinish: (score: number) => void
   onClose: () => void
 }
 
-export function PresentationMeeting({ tender, firmId, preference, onFinish, onClose }: Props) {
+export function PresentationMeeting({ tender, firmId, preference, onStart, onFinish, onClose }: Props) {
   const { t } = useTranslation()
   const rounds = useMemo(() => setupMeeting(tender, firmId), [tender, firmId])
   const [step, setStep] = useState(-1)
@@ -25,6 +26,7 @@ export function PresentationMeeting({ tender, firmId, preference, onFinish, onCl
   const answered = answers[step]
 
   const start = () => {
+    onStart()
     setStep(0)
     shownAt.current = performance.now()
   }

@@ -12,7 +12,11 @@ export function MinigameHost() {
   const finish = (score: number) => {
     dispatch({ type: 'recordMinigame', firmId: game.playerId, tenderId: tender.id, kind: minigame.kind, score })
   }
-  const props = { tender, firmId: game.playerId, onFinish: finish, onClose: () => close(null) }
+  // Starting counts as an attempt (score 0) – reloading the page won't give a second try.
+  const start = () => {
+    dispatch({ type: 'recordMinigame', firmId: game.playerId, tenderId: tender.id, kind: minigame.kind, score: 0, provisional: true })
+  }
+  const props = { tender, firmId: game.playerId, onStart: start, onFinish: finish, onClose: () => close(null) }
   return minigame.kind === 'meeting' ? (
     <PresentationMeeting {...props} preference={game.customers[tender.customerId].meetingPreference} />
   ) : (

@@ -90,6 +90,9 @@ export const useGame = create<Store>((set, get) => ({
       set({ error: result.error })
       return result.error
     }
+    // Autosave after every action: closing the tab never loses bids, and minigames can't be replayed by reloading.
+    const storage = safeStorage()
+    if (storage) saveToSlot(storage, 'auto', result.state)
     set({ game: result.state, error: null })
     return undefined
   },

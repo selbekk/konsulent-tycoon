@@ -1,5 +1,9 @@
 {
-  "common": { "close": "Lukk", "cancel": "Avbryt", "back": "Tilbake" },
+  "common": {
+    "close": "Lukk",
+    "cancel": "Avbryt",
+    "back": "Tilbake"
+  },
   "disciplines": {
     "frontend": "Frontend",
     "backend": "Backend",
@@ -34,7 +38,11 @@
     "founders": "Grunnleggernes fagområder",
     "foundersHint": "Velg to. Grunnleggerne er dine første stjerner, og de slutter aldri.",
     "difficulty": "Vanskelighetsgrad",
-    "difficulties": { "easy": "Snill", "normal": "Normal", "hard": "Brutal" },
+    "difficulties": {
+      "easy": "Snill",
+      "normal": "Normal",
+      "hard": "Brutal"
+    },
     "difficultyHints": {
       "easy": "5 MNOK i startkapital og snille konkurrenter.",
       "normal": "3 MNOK i startkapital. Konkurrentene er som i virkeligheten.",
@@ -56,16 +64,22 @@
   "settings": {
     "title": "Innstillinger",
     "language": "Språk",
-    "languages": { "nb": "Norsk", "en": "English" },
+    "languages": {
+      "nb": "Norsk",
+      "en": "English"
+    },
     "theme": "Tema",
-    "themes": { "dark": "Mørkt", "light": "Lyst" },
+    "themes": {
+      "dark": "Mørkt",
+      "light": "Lyst"
+    },
     "reducedMotion": "Redusert bevegelse",
     "doubleTime": "Dobbel tid i minispill",
     "announcements": "Vis høyttalermeldinger"
   },
   "save": {
     "title": "Lagre spill",
-    "autosaveInfo": "Spillet lagres automatisk hvert kvartal. Her kan du lagre en egen kopi.",
+    "autosaveInfo": "Spillet lagres automatisk etter hver handling. Her kan du lagre en egen kopi.",
     "slot": "Plass {{slot}}",
     "empty": "Tom",
     "saveHere": "Lagre her",
@@ -206,12 +220,22 @@
   },
   "tenders": {
     "title": "Anbudstavla",
-    "intro": "Anbudene avgjøres ved slutten av fristkvartalet, og oppdraget starter kvartalet etter. Grønne seter kan du bemanne selv, gule delvis. Resten fylles med frilansere.",
+    "intro": "Anbudene avgjøres ved slutten av fristkvartalet, og oppdraget starter kvartalet etter. Grønne seter kan du bemanne selv, gule delvis. Resten fylles først av ledige folk fra andre fagområder (fleks, litt lavere pris), og så av frilansere.",
     "filter": "Filter",
-    "filters": { "all": "Alle", "fits": "Passer oss", "mine": "Mine bud" },
+    "filters": {
+      "all": "Alle",
+      "fits": "Passer oss",
+      "mine": "Mine bud"
+    },
     "none": "Ingen anbud her akkurat nå.",
-    "kind": { "project": "Prosjekt", "framework": "Rammeavtale" },
-    "sector": { "public": "Offentlig", "private": "Privat" },
+    "kind": {
+      "project": "Prosjekt",
+      "framework": "Rammeavtale"
+    },
+    "sector": {
+      "public": "Offentlig",
+      "private": "Privat"
+    },
     "duration_one": "{{count}} kvartal",
     "duration_other": "{{count}} kvartaler",
     "relation": "relasjon {{value}}",
@@ -251,14 +275,19 @@
     "estimate": "Anslag",
     "quality": "Kvalitet",
     "chance": "Vinnersjanse",
-    "chances": { "low": "Lav", "medium": "Middels", "high": "God" },
+    "chances": {
+      "low": "Lav",
+      "medium": "Middels",
+      "high": "God"
+    },
     "fraudActive": "Kreative CV-er",
     "estimateHint": "Anslaget er grovt. Konkurrentene og kundens humør kan overraske.",
     "seatsTotal_one": "{{count}} sete totalt.",
     "seatsTotal_other": "{{count}} seter totalt.",
     "submit": "Lever bud",
     "update": "Oppdater bud",
-    "withdraw": "Trekk bud"
+    "withdraw": "Trekk bud",
+    "pitchAbandoned": "Møtet ble avbrutt. Kunden noterte 0 av 100."
   },
   "minigame": {
     "oneShot": "Du får bare ett forsøk per anbud.",
@@ -281,11 +310,13 @@
     "freelancers_other": "{{count}} frilansere",
     "offshoreSeats_one": "{{count}} offshore",
     "offshoreSeats_other": "{{count}} offshore",
-    "explain": "Lav kundetilfredshet kan gi oppsigelse. Frilansere og outsourcing trekker ned, gode folk trekker opp.",
+    "explain": "Lav kundetilfredshet kan gi oppsigelse. Frilansere, fleks og outsourcing trekker ned, gode folk trekker opp. Fornøyde kunder (over 60) forlenger ofte.",
     "history": "Nylig avsluttet",
     "terminated": "sagt opp",
     "completed": "fullført",
-    "finalSatisfaction": "tilfredshet {{value}}"
+    "finalSatisfaction": "tilfredshet {{value}}",
+    "flexSeats_one": "{{count}} fleks",
+    "flexSeats_other": "{{count}} fleks"
   },
   "market": {
     "league": "Bransjetabellen",
