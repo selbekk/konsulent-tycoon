@@ -78,6 +78,7 @@ export function MainMenu() {
             </Button>
           )}
         </div>
+        <p className={m.notice} role="note">{t('menu.devNotice')}</p>
         {showIosHint && <p className={m.footer}>{t('pwa.iosHint')}</p>}
         <p className={m.footer}>{t('menu.disclaimer')}</p>
       </div>

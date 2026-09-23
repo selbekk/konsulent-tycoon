@@ -30,6 +30,7 @@
     "continue": "Continue",
     "load": "Load game",
     "settings": "Settings",
+    "devNotice": "This game isn't even in beta yet – it's in active development. Saved games may be wiped at any time.",
     "disclaimer": "Any resemblance to real companies is purely coincidental (and meant with love)."
   },
   "newGame": {

@@ -30,6 +30,7 @@
     "continue": "Fortsett",
     "load": "Last inn",
     "settings": "Innstillinger",
+    "devNotice": "Dette spillet er ikke engang i beta – det er i aktiv utvikling. Lagrede spill kan bli slettet når som helst.",
     "disclaimer": "Alle likheter med virkelige selskaper er helt tilfeldige (og kjærlig ment)."
   },
   "newGame": {

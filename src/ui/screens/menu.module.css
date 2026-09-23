@@ -54,6 +54,17 @@
   height: 72px;
 }
 
+.notice {
+  margin: 0;
+  padding: 10px 14px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--bg-2);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius);
+}
+
 .footer {
   text-align: center;
   font-size: 0.85rem;
