@@ -396,6 +396,42 @@
     },
     "top_three": {
       "name": "Become one of the three most valuable firms"
+    },
+    "specialist": {
+      "name": "Pick a specialisation"
+    },
+    "partner": {
+      "name": "Sign a partnership"
+    }
+  },
+  "partnerships": {
+    "hyperscaler": {
+      "name": "Cloud vendor partner",
+      "desc": "Gold partner with a big cloud vendor. Clients like the logo on the slides."
+    },
+    "ai_lab": {
+      "name": "AI partnership",
+      "desc": "Early access to models and a certificate for the reception."
+    },
+    "design_guild": {
+      "name": "Design guild",
+      "desc": "Membership of a design guild with its own awards and its own black jumpers."
+    },
+    "agile_institute": {
+      "name": "Agile institute",
+      "desc": "Certified scrum masters with extra letters after their names."
+    },
+    "framework_vendor": {
+      "name": "Framework partner",
+      "desc": "Official partner of a frontend framework. This week, at least."
+    },
+    "enterprise_vendor": {
+      "name": "Enterprise partner",
+      "desc": "Partner of a big business-software vendor. The licences are pricey, the badge is free."
+    },
+    "architecture_forum": {
+      "name": "Architecture forum",
+      "desc": "A permanent seat on the forum where the boxes and arrows are decided."
     }
   }
 }

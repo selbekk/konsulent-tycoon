@@ -22,6 +22,7 @@ import { MinigameHost } from '../minigames/MinigameHost'
 import { QuarterReport } from './QuarterReport'
 import { SaveDialog } from './SaveDialog'
 import { StaffScreen } from './StaffScreen'
+import { StrategyScreen } from './StrategyScreen'
 import { TenderBoard } from './TenderBoard'
 import { TodoList } from './TodoList'
 import s from './shell.module.css'
@@ -32,12 +33,13 @@ const TAB_ICONS: Record<Tab, IconName> = {
   culture: 'coffee',
   tenders: 'briefcase',
   contracts: 'handshake',
+  strategy: 'flag',
   market: 'trophy',
   backroom: 'door',
 }
 
 /** Tabs that only show up once the firm reaches the level for them. */
-const TAB_FEATURE: Partial<Record<Tab, Feature>> = { culture: 'culture', backroom: 'backroom' }
+const TAB_FEATURE: Partial<Record<Tab, Feature>> = { culture: 'culture', strategy: 'strategy', backroom: 'backroom' }
 const visibleTabs = (level: number) => TABS.filter((id) => !TAB_FEATURE[id] || level >= FEATURE_LEVEL[TAB_FEATURE[id]])
 
 const SCREENS: Record<Tab, () => React.ReactNode> = {
@@ -46,6 +48,7 @@ const SCREENS: Record<Tab, () => React.ReactNode> = {
   culture: CultureScreen,
   tenders: TenderBoard,
   contracts: ContractsScreen,
+  strategy: StrategyScreen,
   market: MarketScreen,
   backroom: BackroomScreen,
 }

@@ -55,6 +55,7 @@ describe('levels in the shell', () => {
     const nav = () => within(screen.getByRole('navigation'))
     expect(nav().queryByRole('button', { name: /culture/i })).not.toBeInTheDocument()
     expect(nav().queryByRole('button', { name: /backroom/i })).not.toBeInTheDocument()
+    expect(nav().queryByRole('button', { name: /strategy/i })).not.toBeInTheDocument()
     expect(screen.getAllByText(/level 1 · garage outfit/i).length).toBeGreaterThan(0)
 
     const game = structuredClone(useGame.getState().game!)
@@ -63,6 +64,7 @@ describe('levels in the shell', () => {
     rerender(<Shell />)
     expect(nav().getByRole('button', { name: /culture/i })).toBeInTheDocument()
     expect(nav().getByRole('button', { name: /backroom/i })).toBeInTheDocument()
+    expect(nav().getByRole('button', { name: /strategy/i })).toBeInTheDocument()
   })
 
   it('celebrates a new level once the quarter report is closed', () => {

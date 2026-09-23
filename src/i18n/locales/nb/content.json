@@ -396,6 +396,42 @@
     },
     "top_three": {
       "name": "Kom blant de tre mest verdifulle i bransjen"
+    },
+    "specialist": {
+      "name": "Velg en spesialisering"
+    },
+    "partner": {
+      "name": "Inngå et partnerskap"
+    }
+  },
+  "partnerships": {
+    "hyperscaler": {
+      "name": "Skyleverandør-partner",
+      "desc": "Gull-partner hos en stor skyleverandør. Kundene liker logoen på lysarkene."
+    },
+    "ai_lab": {
+      "name": "KI-partnerskap",
+      "desc": "Dere får tidlig tilgang til modeller og et diplom til resepsjonen."
+    },
+    "design_guild": {
+      "name": "Designlaug",
+      "desc": "Medlemskap i et designlaug med egne priser og egne sorte gensere."
+    },
+    "agile_institute": {
+      "name": "Smidig institutt",
+      "desc": "Sertifiserte skrum-mestere med ekstra mange bokstaver bak navnet."
+    },
+    "framework_vendor": {
+      "name": "Rammeverkspartner",
+      "desc": "Dere er offisiell partner for et frontend-rammeverk. Denne uka, i hvert fall."
+    },
+    "enterprise_vendor": {
+      "name": "Enterprise-partner",
+      "desc": "Partner hos en stor leverandør av forretningssystemer. Lisensene er dyre, men partnerstatusen er gratis."
+    },
+    "architecture_forum": {
+      "name": "Arkitekturforum",
+      "desc": "Et fast sete i et forum der boksene og pilene blir bestemt."
     }
   }
 }

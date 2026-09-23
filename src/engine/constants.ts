@@ -108,12 +108,29 @@ export const FEATURE_LEVEL = {
   framework: 2,
   bingo: 3,
   backroom: 3,
+  strategy: 3,
+  partnerships: 4,
 } as const
 /** Every level-up is a move to a bigger office: a one-off lift for social culture and employer brand. */
 export const OFFICE_MOVE_SOSIALT = 5
 export const OFFICE_MOVE_BRAND = 3
 /** The player can't touch culture budgets at level 1, so start from what a sensible player picks. */
 export const PLAYER_START_BUDGETS = { fagmiljoPerHead: 15_000, sosialtPerHead: 12_000, salaryPremium: 0.02 }
+
+// Strategy
+/** Bid quality bonus when a tender matches the firm's specialty. Sector specialties match about half the tenders. */
+export const SPECIALTY_SECTOR_BONUS = 4
+export const SPECIALTY_DISCIPLINE_BONUS = 8
+/** A discipline specialty matches tenders where it is at least this share of the seats. */
+export const SPECIALTY_DISCIPLINE_SHARE = 0.5
+/** Picking the first specialty is free; changing it later costs this. */
+export const SPECIALTY_CHANGE_COST = 1_000_000
+export const PARTNER_BONUS = 5
+export const MAX_PARTNERSHIPS = 2
+/** Lobbying: a round of lunches with every public-sector customer. */
+export const LOBBY_COST = 400_000
+export const LOBBY_RELATION = 6
+export const LOBBY_COOLDOWN = 4
 
 // Shady
 export const HEAT_DECAY = 10

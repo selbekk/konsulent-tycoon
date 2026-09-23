@@ -3,8 +3,8 @@ import { applyAction, createNewGame, firmLevel, endTurn as engineEndTurn, loadFr
 import type { Action, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
 
 export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'game'
-export type Tab = 'dashboard' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'market' | 'backroom'
-export const TABS: Tab[] = ['dashboard', 'staff', 'culture', 'tenders', 'contracts', 'market', 'backroom']
+export type Tab = 'dashboard' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
+export const TABS: Tab[] = ['dashboard', 'staff', 'culture', 'tenders', 'contracts', 'strategy', 'market', 'backroom']
 
 export interface Settings {
   theme: 'dark' | 'light'

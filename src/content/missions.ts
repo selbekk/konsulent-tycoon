@@ -37,6 +37,8 @@ export const MISSIONS: MissionDef[] = [
     reward: { reputation: 3 },
   },
   { id: 'award', level: 3, check: ({ firm }) => stat(firm, 'awards') >= 1, reward: { brand: 4 } },
+  { id: 'specialist', level: 3, check: ({ firm }) => !!firm.specialty, reward: { brand: 3 } },
+  { id: 'partner', level: 4, check: ({ firm }) => (firm.partnerships ?? []).length > 0, reward: { reputation: 2 } },
   { id: 'fifty', level: 4, check: ({ headcount }) => headcount >= 50, reward: { brand: 5 } },
   { id: 'top_three', level: 5, check: ({ rank }) => rank <= 3, reward: { reputation: 5 } },
 ]

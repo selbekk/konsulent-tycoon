@@ -19,6 +19,7 @@
     "culture": "Kultur",
     "tenders": "Anbud",
     "contracts": "Kontrakter",
+    "strategy": "Strategi",
     "market": "Marked",
     "backroom": "Bakrommet"
   },
@@ -514,7 +515,9 @@
       "stars": "Stjernemarkedet: hent inn navngitte stjernekonsulenter",
       "framework": "Rammeavtaler: store, lange avtaler med flere leverandører",
       "bingo": "Buzzword-bingo som alternativ til kundemøtet",
-      "backroom": "Bakrommet: triks du helst ikke forteller kunden om"
+      "backroom": "Bakrommet: triks du helst ikke forteller kunden om",
+      "strategy": "Strategi-fanen: velg en spesialisering som gir bonus i anbud",
+      "partnerships": "Partnerskap med leverandører, og lobbying hos offentlige kunder"
     },
     "seats": "Anbud på opptil {{count}} konsulenter",
     "seatsAll": "Anbud i alle størrelser",
@@ -542,5 +545,33 @@
       "morale": "+{{n}} trivsel",
       "brand": "+{{n}} arbeidsgiverbrand"
     }
+  },
+  "strategy": {
+    "title": "Strategi",
+    "intro": "Her bestemmer du hva slags selskap dere skal være. Valgene gir bonus i anbud som passer.",
+    "specialty": {
+      "title": "Spesialisering",
+      "hint": "Anbud som passer spesialiseringen får +{{sector}} i kvalitet for sektor og +{{discipline}} for fagområde. Første valg er gratis, bytte koster {{cost}}.",
+      "current": "Dere er kjent for: {{name}}",
+      "none": "Ingen spesialisering ennå.",
+      "choose": "Velg",
+      "public": "Offentlig sektor",
+      "private": "Privat sektor"
+    },
+    "partners": {
+      "title": "Partnerskap",
+      "hint": "Anbud med seter i partnerens fagområde får +{{bonus}} i kvalitet. Maks {{max}} samtidig.",
+      "fee": "{{fee}} per kvartal",
+      "join": "Bli partner",
+      "leave": "Avslutt"
+    },
+    "lobby": {
+      "title": "Lobbying",
+      "hint": "En runde lunsjer med alle offentlige kunder: +{{rel}} i relasjon hos hver. Kan gjøres hvert {{cooldown}}. kvartal.",
+      "do": "Lobby for {{cost}}",
+      "wait_one": "Klar igjen om {{count}} kvartal",
+      "wait_other": "Klar igjen om {{count}} kvartaler"
+    },
+    "locked": "Låses opp på nivå {{level}}"
   }
 }

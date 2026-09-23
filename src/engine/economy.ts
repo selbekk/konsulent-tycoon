@@ -11,6 +11,7 @@ import {
   listRate,
   quarterlySalaryCost,
 } from './constants'
+import { strategyCost } from './strategy'
 import { DISCIPLINES } from './types'
 import type { Contract, Discipline, Firm, GameState, Seats } from './types'
 
@@ -165,6 +166,8 @@ export interface Financials {
   cultureCost: number
   freelanceCost: number
   offshoreCost: number
+  /** Partnerships (and later departments). */
+  strategyCost: number
   total: number
   ebitda: number
   utilization: number
@@ -226,7 +229,8 @@ export function quarterFinancials(state: GameState, firmId: string, quarter = st
   const salary = salaryCost(firm)
   const overhead = hc * OVERHEAD_PER_HEAD + FIXED_OVERHEAD
   const cultureCost = hc * (firm.budgets.fagmiljoPerHead + firm.budgets.sosialtPerHead)
-  const total = salary + overhead + cultureCost + freelanceCost + offshoreCost
+  const strategy = strategyCost(firm)
+  const total = salary + overhead + cultureCost + freelanceCost + offshoreCost + strategy
   return {
     revenue,
     salaryCost: salary,
@@ -234,6 +238,7 @@ export function quarterFinancials(state: GameState, firmId: string, quarter = st
     cultureCost,
     freelanceCost,
     offshoreCost,
+    strategyCost: strategy,
     total,
     ebitda: revenue - total,
     utilization: staffing.utilization,

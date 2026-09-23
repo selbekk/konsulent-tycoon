@@ -131,7 +131,13 @@ export interface Firm {
   stats?: { publicWins?: number; frameworkWins?: number; biggestWin?: number; awards?: number }
   /** Mission ids completed (see content/missions.ts). */
   missionsDone?: string[]
+  specialty?: Specialty
+  /** Partnership ids (content/strategy.ts) running this quarter. */
+  partnerships?: string[]
+  lastLobbyQuarter?: number
 }
+
+export type Specialty = 'public' | 'private' | Discipline
 
 export type MeetingStyle = 'concrete' | 'visionary' | 'humble' | 'buzzword'
 
@@ -285,6 +291,9 @@ export type Action =
   | { type: 'withdrawBid'; firmId: FirmId; tenderId: string }
   | { type: 'recordMinigame'; firmId: FirmId; tenderId: string; kind: MinigameKind; score: number; provisional?: boolean }
   | { type: 'resolveEvent'; pendingEventId: string; choiceId: string }
+  | { type: 'chooseSpecialty'; firmId: FirmId; specialty: Specialty }
+  | { type: 'setPartnership'; firmId: FirmId; partnershipId: string; on: boolean }
+  | { type: 'lobby'; firmId: FirmId }
   | {
       type: 'shady'
       firmId: FirmId

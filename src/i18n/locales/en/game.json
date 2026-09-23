@@ -12,7 +12,8 @@
     "starPromised": "That consultant is already promised in another bid.",
     "minigameAlreadyPlayed": "You've already had the meeting for this tender.",
     "levelTooLow": "Your firm isn't big enough for that yet.",
-    "tenderTooBig": "That tender is too big for a firm your size."
+    "tenderTooBig": "That tender is too big for a firm your size.",
+    "tooManyPartners": "You already have as many partnerships as you can look after."
   },
   "news": {
     "game": {

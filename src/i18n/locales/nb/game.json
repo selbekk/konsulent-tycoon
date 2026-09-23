@@ -12,7 +12,8 @@
     "starPromised": "Den konsulenten er allerede lovet bort i et annet bud.",
     "minigameAlreadyPlayed": "Du har allerede hatt møtet for dette anbudet.",
     "levelTooLow": "Firmaet er ikke stort nok til det ennå.",
-    "tenderTooBig": "Anbudet er for stort for et firma på deres nivå."
+    "tenderTooBig": "Anbudet er for stort for et firma på deres nivå.",
+    "tooManyPartners": "Dere har allerede så mange partnerskap som dere rekker å pleie."
   },
   "news": {
     "game": {

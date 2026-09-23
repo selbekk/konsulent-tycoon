@@ -24,6 +24,7 @@ import { disciplineLevel, disciplineSupply, headcount, isActive, staffFirm } fro
 import { chance, nextFloat, nextInt, noise, range, shuffle, weightedPick } from './rng'
 import { checkFraudAtAward } from './shady'
 import { starBidQuality } from './stars'
+import { strategyBonus } from './strategy'
 import { DISCIPLINES } from './types'
 import type { Bid, Contract, ContractKind, Discipline, GameState, Seats, Tender } from './types'
 import { activeFirms, addNews, nextId, seatTotal } from './util'
@@ -229,6 +230,7 @@ export function bidQuality(state: GameState, bid: Bid, tender: Tender): number {
     0.15 * (bid.effort / 3) * 100 +
     0.1 * (firm.reputation - 50) +
     traitBonus +
+    strategyBonus(state, firm, tender) +
     (bid.cvPad ? 10 : 0) +
     (bid.ghostCv ? 15 : 0) -
     capacityPenalty
