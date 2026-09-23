@@ -253,7 +253,8 @@
     "qualityShort": "quality {{q}}",
     "edit": "Edit",
     "bid": "Place bid",
-    "small": "Small gig"
+    "small": "Small gig",
+    "capacityLine": "{{free}} free, {{offered}} of them offered in bids and {{idle}} with no bid. Seats in open bids: {{seats}}."
   },
   "bid": {
     "title": "Offer to {{customer}}",
@@ -412,5 +413,39 @@
     "updateReady": "A new version of the game is ready. Your game is saved.",
     "update": "Update now",
     "later": "Later"
+  },
+  "kpi": {
+    "title": "Key metrics",
+    "fg": "Utilisation",
+    "ot": "Achieved hourly rate",
+    "growthAbbr": "Growth",
+    "growth": "Headcount growth, 12 months",
+    "retentionAbbr": "Ret.",
+    "retention": "Retention, 12 months",
+    "pp": "pp",
+    "perHour": "NOK/h",
+    "vsLast": "vs. last quarter:",
+    "industry": "Industry average:",
+    "qoq": "Last quarter:",
+    "people_one": "{{count}} person",
+    "people_other": "{{count}} people",
+    "headcountTrend": "Headcount",
+    "leavers": "{{leavers}} left, {{fired}} let go in the last 12 months",
+    "explain": "Utilisation (FG) and achieved rate (OT) for this quarter are expected values from current staffing. OT counts own people only (not freelancers). Retention is the share who did not leave on their own in the last 12 months. Hover a chart to see each quarter."
+  },
+  "capacity": {
+    "title": "Capacity",
+    "now": "Now",
+    "next": "Next quarter",
+    "billing": "Billing",
+    "committed": "Committed",
+    "offered": "In open bids",
+    "bench": "On the bench",
+    "billingLegend": "Billing / committed",
+    "benchLegend": "On the bench / free, no bid",
+    "inBids": "Offered in open bids",
+    "seatsInBids_one": "({{count}} seat in bids)",
+    "seatsInBids_other": "({{count}} seats in bids)",
+    "explain": "{{count}} people in total. “Next quarter” shows who is already committed and how many of the free people you have offered in bids. Numbers read “now → next quarter”."
   }
 }

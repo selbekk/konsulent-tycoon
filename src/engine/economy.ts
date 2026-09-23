@@ -168,6 +168,10 @@ export interface Financials {
   total: number
   ebitda: number
   utilization: number
+  /** Revenue from own people (incl. flex), excluding what freelancers bill. */
+  ownRevenue: number
+  /** Hours billed by own people. */
+  ownHours: number
   staffing: FirmStaffing
 }
 
@@ -204,6 +208,7 @@ export function quarterFinancials(state: GameState, firmId: string, quarter = st
   const byId = new Map(state.contracts.map((c) => [c.id, c]))
 
   let revenue = 0
+  let freelanceRevenue = 0
   let freelanceCost = 0
   let offshoreCost = 0
   const freelanceRate = listRate(FREELANCER_LEVEL) * FREELANCER_MARKUP * BILLABLE_HOURS
@@ -212,6 +217,7 @@ export function quarterFinancials(state: GameState, firmId: string, quarter = st
     const c = byId.get(cs.contractId)!
     revenue += contractRevenue(firm, c, cs)
     for (const d of DISCIPLINES) {
+      freelanceRevenue += (cs.freelance[d] ?? 0) * BILLABLE_HOURS * listRate(FREELANCER_LEVEL) * c.rateMultiplier
       freelanceCost += (cs.freelance[d] ?? 0) * freelanceRate
       offshoreCost += (cs.offshore[d] ?? 0) * offshoreRate
     }
@@ -231,6 +237,8 @@ export function quarterFinancials(state: GameState, firmId: string, quarter = st
     total,
     ebitda: revenue - total,
     utilization: staffing.utilization,
+    ownRevenue: revenue - freelanceRevenue,
+    ownHours: staffing.billed * BILLABLE_HOURS,
     staffing,
   }
 }

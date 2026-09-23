@@ -46,9 +46,13 @@ function runFirmQuarter(state: GameState) {
       hires: firm.quarterHires,
       leavers: firm.quarterLeavers,
       fines: 0,
+      fired: firm.quarterFired ?? 0,
+      billed: fin.staffing.billed,
+      ownRevenue: fin.ownRevenue,
     })
     if (firm.history.length > HISTORY_LENGTH) firm.history.shift()
     firm.quarterHires = 0
+    firm.quarterFired = 0
     firm.quarterLeavers = 0
   }
 }

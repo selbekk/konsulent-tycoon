@@ -106,6 +106,7 @@ src/
     flavor.ts        Høyttalermeldinger og ansattes tanker
     awards.ts        Årets priser
     score.ts         Verdivurdering, rangering, sluttitler
+    metrics.ts       Nøkkeltall: FG, OT, vekst, retention, kapasitet, bransjesnitt
     minigames.ts     Rene scoringsfunksjoner for minispillene
     save.ts          Serialisering, migrasjoner, lagringsplasser
     ai/

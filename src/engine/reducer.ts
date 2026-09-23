@@ -54,6 +54,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const n = clamp(Math.round(a.count), 0, pool.count)
     if (!n) return 'errors.invalid'
     pool.count -= n
+    firm.quarterFired = (firm.quarterFired ?? 0) + n
     firm.cash -= n * quarterlySalaryCost(pool.level, firm.budgets.salaryPremium) * SEVERANCE_QUARTERS
     for (const p of Object.values(firm.pools)) p.morale = clamp(p.morale - FIRE_MORALE_HIT, 0, 100)
     for (const s of firm.stars) s.morale = clamp(s.morale - FIRE_MORALE_HIT, 0, 100)

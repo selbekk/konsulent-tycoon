@@ -66,6 +66,11 @@ describe('shady business', () => {
     expect(r.error).toBeUndefined()
     expect(r.state.pendingEvents.some((e) => e.eventId === 'poach_attempt')).toBe(true)
     expect(r.state.firms.player.stars.some((x) => x.id === star.id)).toBe(true)
+    // Letting them go counts as a leaver (retention).
+    const pe = r.state.pendingEvents.find((e) => e.eventId === 'poach_attempt')!
+    const after = applyAction(r.state, { type: 'resolveEvent', pendingEventId: pe.id, choiceId: 'let_go' }).state
+    expect(after.firms.player.stars.some((x) => x.id === star.id)).toBe(false)
+    expect(after.firms.player.quarterLeavers).toBe(r.state.firms.player.quarterLeavers + 1)
   })
 
   it('founders cannot be poached', () => {

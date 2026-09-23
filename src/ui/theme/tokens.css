@@ -14,6 +14,10 @@
   --bad: #ff5a5f;
   --warn: #ffd84d;
   --info: #8f7bff;
+  /* Chart series (validated for CVD and contrast against --panel): */
+  --series-1: #d06a10;
+  --series-2: #8f7bff;
+  --chart-line: #ff9e2c;
   --noir-bg: #0b0b10;
   --noir-panel: #16161f;
   /* Pixel font only for the logo; the rest is smooth with a retro flavour. */
@@ -46,6 +50,9 @@
   --bad: #cf3035;
   --warn: #b98800;
   --info: #5b47d6;
+  --series-1: #d9700d;
+  --series-2: #6b55e0;
+  --chart-line: #d9700d;
   --shadow: 0 3px 0 #d8caa2, 0 10px 24px rgb(59 47 26 / 0.12);
   --shadow-sm: 0 2px 0 #d8caa2;
   color-scheme: light;

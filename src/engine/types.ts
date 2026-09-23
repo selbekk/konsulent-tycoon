@@ -79,6 +79,12 @@ export interface QuarterReport {
   hires: number
   leavers: number
   fines: number
+  /** People let go by the firm (not counted in leavers). Optional in early saves. */
+  fired?: number
+  /** Own people billing this quarter. Optional in early saves. */
+  billed?: number
+  /** Revenue from own people, for achieved hourly rate. Optional in early saves. */
+  ownRevenue?: number
 }
 
 export interface Firm {
@@ -114,6 +120,7 @@ export interface Firm {
   quarterFines: number
   quarterLeavers: number
   quarterHires: number
+  quarterFired?: number
 }
 
 export type MeetingStyle = 'concrete' | 'visionary' | 'humble' | 'buzzword'

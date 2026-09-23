@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, SMALL_TENDER_MAX_SEATS, bidQuality, disciplineSupply, hasIntel, openTenders, seatTotal, staffFirm } from '../../engine'
+import { DISCIPLINES, SMALL_TENDER_MAX_SEATS, bidQuality, capacity, disciplineSupply, hasIntel, openTenders, seatTotal, staffFirm } from '../../engine'
 import type { GameState, Tender } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Panel } from '../components/ui'
@@ -75,6 +75,15 @@ export function TenderBoard() {
       }
     >
       <p className={`${s.small} ${s.muted}`}>{t('tenders.intro')}</p>
+      {(() => {
+        const cap = capacity(game, me.id)
+        return (
+          <p className={s.small}>
+            <strong>{t('capacity.next')}:</strong>{' '}
+            {t('tenders.capacityLine', { free: cap.next.offered + cap.next.idle, offered: cap.next.offered, idle: cap.next.idle, seats: cap.next.seatsInBids })}
+          </p>
+        )
+      })()}
       {shown.length === 0 ? (
         <p className={s.empty}>{t('tenders.none')}</p>
       ) : (

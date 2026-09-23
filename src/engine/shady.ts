@@ -118,6 +118,7 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
       const p = poachChance(firm, target!, a.starId!)
       if (chance(state.rng, p)) {
         const star = removeStar(state, target!, a.starId!)!
+        target!.quarterLeavers += 1
         star.salaryPremium = Math.round((star.salaryPremium + 0.1) * 100) / 100
         star.loyalty = 55
         firm.stars.push(star)

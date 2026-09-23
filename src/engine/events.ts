@@ -109,6 +109,7 @@ export function applyEffect(state: GameState, firm: Firm, effect: Effect, pe: Pe
       const attacker = state.firms[pe.params.firmId as string]
       if (star && attacker && !attacker.bankrupt) {
         const moved = removeStar(state, firm, star.id)!
+        firm.quarterLeavers += 1
         moved.salaryPremium = Math.round((moved.salaryPremium + 0.1) * 100) / 100
         moved.loyalty = 55
         attacker.stars.push(moved)

@@ -253,7 +253,8 @@
     "qualityShort": "kvalitet {{q}}",
     "edit": "Endre",
     "bid": "Lever bud",
-    "small": "Småoppdrag"
+    "small": "Småoppdrag",
+    "capacityLine": "{{free}} ledige, {{offered}} av dem tilbudt i bud og {{idle}} uten bud. Seter i åpne bud: {{seats}}."
   },
   "bid": {
     "title": "Tilbud til {{customer}}",
@@ -412,5 +413,39 @@
     "updateReady": "En ny versjon av spillet er klar. Spillet er lagret.",
     "update": "Oppdater nå",
     "later": "Senere"
+  },
+  "kpi": {
+    "title": "Nøkkeltall",
+    "fg": "Faktureringsgrad",
+    "ot": "Oppnådd timepris",
+    "growthAbbr": "Vekst",
+    "growth": "Vekst i antall ansatte, 12 mnd",
+    "retentionAbbr": "Ret.",
+    "retention": "Retention, 12 mnd",
+    "pp": "pp",
+    "perHour": "kr/t",
+    "vsLast": "Mot forrige kvartal:",
+    "industry": "Bransjesnitt:",
+    "qoq": "Siste kvartal:",
+    "people_one": "{{count}} ansatt",
+    "people_other": "{{count}} ansatte",
+    "headcountTrend": "Antall ansatte",
+    "leavers": "{{leavers}} sluttet, {{fired}} sagt opp siste 12 mnd",
+    "explain": "FG og OT for dette kvartalet er forventede tall ut fra dagens bemanning. OT regnes bare på egne folk (frilansere teller ikke). Retention er andelen som ikke har sluttet selv siste 12 måneder. Hold musa over en graf for å se hvert kvartal."
+  },
+  "capacity": {
+    "title": "Kapasitet",
+    "now": "Nå",
+    "next": "Neste kvartal",
+    "billing": "Fakturerer",
+    "committed": "Opptatt",
+    "offered": "I åpne bud",
+    "bench": "På benken",
+    "billingLegend": "Fakturerer / opptatt",
+    "benchLegend": "På benken / ledig uten bud",
+    "inBids": "Tilbudt i åpne bud",
+    "seatsInBids_one": "({{count}} sete i bud)",
+    "seatsInBids_other": "({{count}} seter i bud)",
+    "explain": "{{count}} ansatte totalt. «Neste kvartal» viser hvem som allerede er opptatt, og hvor mange av de ledige du har tilbudt i bud. Tallene står som «nå → neste kvartal»."
   }
 }
