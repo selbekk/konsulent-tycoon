@@ -923,6 +923,20 @@ Logg endringene i `docs/balance-log.md`.
 
 ---
 
+## Nivåer: idéer til senere
+
+Nivåsystemet (`engine/levels.ts`) låser foreløpig bare opp ting som finnes fra før. Idéer til nye mekanikker som kan henge på nivåene:
+
+- **Kontor som vokser:** Et større lokale på hvert nivå. Det gir plass til flere ansatte, sosialt-bonus og en ny illustrasjon i `OfficeView`.
+- **Oppkjøp:** Fra nivå 4 kan du kjøpe et lite AI-firma med folk og kunder (i dag finnes det bare som hendelse).
+- **Spesialisering:** På nivå 3 velger du en nisje, for eksempel offentlig sektor eller data, som gir bonus i én type anbud.
+- **Egne avdelinger:** Offshore-senter, designbyrå eller akademi som egne byggeklosser med drift og gevinst.
+- **Børsnotering:** Et valg på nivå 5 som gir en kapitalinjeksjon, men et kvartalspress fra markedet.
+- **Lobbying og partnerskap:** Nye «hvite» handlinger ved siden av bakrommet, for eksempel partnerstatus hos skyleverandører.
+- **Mål per nivå:** Frivillige oppdrag («vinn ditt første offentlige anbud») med en liten belønning, som ekstra krok tidlig i spillet.
+
+---
+
 ## Definition of Done (hele prosjektet)
 - `npm test`, `npm run typecheck` og `npm run build` er grønne
 - i18n-paritetstesten er grønn (nb = en)

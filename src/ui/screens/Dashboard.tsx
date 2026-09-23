@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { activeContracts, benchmark, capacity, kpis, playerRank, quarterFinancials, quarterTodos, valuation } from '../../engine'
+import { activeContracts, benchmark, capacity, hasFeature, kpis, playerRank, quarterFinancials, quarterTodos, valuation } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { bjornKey } from '../bjorn'
 import { Bjorn } from '../components/Bjorn'
@@ -9,6 +9,7 @@ import { Button, Panel, Sparkline, Stat } from '../components/ui'
 import { formatMoney, formatNumber, formatPercent, formatQuarter, newsText } from '../format'
 import { OfficeView } from '../office/OfficeView'
 import s from './screens.module.css'
+import { LevelPanel } from './LevelPanel'
 import { TodoList } from './TodoList'
 
 export function Dashboard() {
@@ -22,6 +23,7 @@ export function Dashboard() {
   const todos = quarterTodos(game, me.id)
   const contracts = activeContracts(game, me.id)
   const ending = contracts.filter((c) => c.endQuarter === game.quarter + 1)
+  const stars = hasFeature(me, 'stars') ? game.starMarket.length : 0
   const personal = game.news.filter((n) => n.personal).slice(-6).reverse()
   const cashHistory = [...me.valuationHistory.slice(-12), valuation(me)]
   const k = kpis(game, me.id)
@@ -91,7 +93,7 @@ export function Dashboard() {
         <Panel title={t('todo.title')} icon="calendar">
           <TodoList todos={todos} />
           {todos.every((x) => x.done) && <p className={`${s.small} ${s.muted}`}>{t('todo.allDone')}</p>}
-          {(ending.length > 0 || game.starMarket.length > 0) && (
+          {(ending.length > 0 || stars > 0) && (
             <ul className={s.newsList} style={{ marginTop: 12 }}>
               {ending.length > 0 && (
                 <li>
@@ -99,11 +101,11 @@ export function Dashboard() {
                   <span>{t('dashboard.endingSoon', { count: ending.length })}</span>
                 </li>
               )}
-              {game.starMarket.length > 0 && (
+              {stars > 0 && (
                 <li>
                   <span className={s.newsDot} data-tone="sassy" />
                   <span>
-                    {t('dashboard.starsAvailable', { count: game.starMarket.length })}{' '}
+                    {t('dashboard.starsAvailable', { count: stars })}{' '}
                     <Button size="small" onClick={() => setTab('staff')}>
                       {t('dashboard.goStaff')}
                     </Button>
@@ -113,6 +115,7 @@ export function Dashboard() {
             </ul>
           )}
         </Panel>
+        <LevelPanel firm={me} />
       </div>
 
       <Panel title={t('dashboard.thisQuarter', { quarter: formatQuarter(game.quarter) })} icon="coin" className={s.span7}>

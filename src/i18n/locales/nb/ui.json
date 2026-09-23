@@ -477,5 +477,41 @@
       "back": "Tilbake",
       "endAnyway": "Avslutt likevel"
     }
+  },
+  "level": {
+    "label": "Nivå {{level}}",
+    "names": {
+      "1": "Gründerbua",
+      "2": "Oppstartsselskapet",
+      "3": "Etablert aktør",
+      "4": "Mellomstor og mektig",
+      "5": "Bransjetungvekt"
+    },
+    "title": "Veien videre",
+    "next": "Neste: nivå {{level}}, {{name}}",
+    "anyOne": "Nå ett av disse målene:",
+    "goals": {
+      "headcount": "Ansatte",
+      "revenue": "Omsetning sist kvartal",
+      "tendersWon": "Anbud vunnet totalt"
+    },
+    "unlocks": "Det låser opp:",
+    "max": "Dere er på toppen. Det finnes ikke flere nivåer, bare flere møter.",
+    "features": {
+      "culture": "Kulturfanen: styr budsjett for fagmiljø, sosialt og lønn",
+      "stars": "Stjernemarkedet: hent inn navngitte stjernekonsulenter",
+      "framework": "Rammeavtaler: store, lange avtaler med flere leverandører",
+      "bingo": "Buzzword-bingo som alternativ til kundemøtet",
+      "backroom": "Bakrommet: triks du helst ikke forteller kunden om"
+    },
+    "seats": "Anbud på opptil {{count}} konsulenter",
+    "seatsAll": "Anbud i alle størrelser",
+    "shady": "Nye triks i bakrommet: {{list}}",
+    "up": "Nytt nivå: {{name}}!",
+    "upBody": "{{firm}} har vokst ut av den forrige merkelappen.",
+    "lockedHint": "Låses opp på nivå {{level}}",
+    "starsLocked": "Stjernemarkedet åpner på nivå {{level}}. Til da får gründerne gjøre jobben.",
+    "hiddenTenders_one": "{{count}} større anbud vises når dere når nivå {{level}}.",
+    "hiddenTenders_other": "{{count}} større anbud vises når dere når nivå {{level}}."
   }
 }

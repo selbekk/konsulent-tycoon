@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { firmLevel } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Bjorn } from '../components/Bjorn'
 import { Icon } from '../components/Icon'
@@ -7,6 +8,7 @@ import { Button, Modal } from '../components/ui'
 import { formatMoney, formatPercent, formatQuarter, newsText } from '../format'
 import { bjornKey } from '../bjorn'
 import { playSound } from '../sound'
+import { UnlockList } from './LevelPanel'
 import s from './screens.module.css'
 
 function Confetti() {
@@ -42,9 +44,12 @@ export function QuarterReport() {
   const awards = quarter % 4 === 3 ? game.lastAwards : []
   const scandal = news.some((n) => n.key.startsWith('news.scandal.') && n.firmId === me.id)
   const lost = news.some((n) => n.key === 'news.tender.playerLost')
+  const levelUp = me.levelUpQuarter === quarter ? firmLevel(me) : null
+  // A big quarter can skip a level; list everything that opened.
+  const fromLevel = Number(news.find((n) => n.key === 'news.level.up')?.params.from ?? (levelUp ?? 1) - 1)
 
   useEffect(() => {
-    playSound(scandal ? 'scandal' : won ? 'win' : lost ? 'lose' : 'cash')
+    playSound(scandal ? 'scandal' : won || levelUp ? 'win' : lost ? 'lose' : 'cash')
     // Once per report.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quarter])
@@ -60,8 +65,20 @@ export function QuarterReport() {
         </Button>
       }
     >
-      {won && !reducedMotion && <Confetti />}
+      {(won || levelUp) && !reducedMotion && <Confetti />}
       <div className={s.stack}>
+        {levelUp && (
+          <div className={s.card} data-highlight>
+            <h3>
+              <Icon name="trophy" size={12} /> {t('level.up', { name: t(`level.names.${levelUp}`) })}
+            </h3>
+            <span className={s.small}>{t('level.upBody', { firm: me.name })}</span>
+            <span className={`${s.small} ${s.muted}`}>{t('level.unlocks')}</span>
+            {Array.from({ length: levelUp - fromLevel }, (_, i) => fromLevel + 1 + i).map((l) => (
+              <UnlockList key={l} level={l} />
+            ))}
+          </div>
+        )}
         {r && (
           <div>
             <div className={s.reportLine}>

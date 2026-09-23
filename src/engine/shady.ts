@@ -2,6 +2,7 @@ import { HEAT_DECAY, SCANDAL_MORALE_HIT, clamp } from './constants'
 import { terminateContract, releaseStars } from './contracts'
 import { employerBrand } from './culture'
 import { isActive } from './economy'
+import { firmLevel } from './levels'
 import { chance } from './rng'
 import { removeStar } from './stars'
 import type { ActionOf, Contract, Firm, GameState, ShadyActionId, ShadyLogEntry } from './types'
@@ -11,6 +12,8 @@ export type ShadyRequirement = 'target' | 'tender' | 'contract' | 'star' | 'shar
 
 export interface ShadyDef {
   id: ShadyActionId
+  /** Firm level at which the trick shows up in the backroom. */
+  minLevel: number
   category: 'espionage' | 'outsourcing' | 'cv' | 'pr'
   cost: number
   baseDetection: number
@@ -23,20 +26,23 @@ export interface ShadyDef {
 }
 
 export const SHADY_CATALOG: Record<ShadyActionId, ShadyDef> = {
-  spy_bids: { id: 'spy_bids', category: 'espionage', cost: 100_000, baseDetection: 0.1, heat: 8, ongoing: false, requires: ['tender'], consequence: { reputation: 8, fine: 250_000 } },
-  spy_salaries: { id: 'spy_salaries', category: 'espionage', cost: 50_000, baseDetection: 0.05, heat: 4, ongoing: false, requires: ['target'], consequence: { reputation: 4, fine: 0 } },
-  plant_mole: { id: 'plant_mole', category: 'espionage', cost: 300_000, baseDetection: 0.15, heat: 12, ongoing: true, requires: ['target'], consequence: { reputation: 12, fine: 500_000 } },
-  afterwork_poach: { id: 'afterwork_poach', category: 'espionage', cost: 80_000, baseDetection: 0.2, heat: 6, ongoing: false, requires: ['target', 'star'], consequence: { reputation: 5, fine: 0 } },
-  silent_outsource: { id: 'silent_outsource', category: 'outsourcing', cost: 0, baseDetection: 0.08, heat: 10, ongoing: true, requires: ['contract', 'share'], consequence: { reputation: 15, fine: 1_000_000 } },
-  cv_pad: { id: 'cv_pad', category: 'cv', cost: 20_000, baseDetection: 0.12, heat: 5, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 0 } },
-  ghost_cv: { id: 'ghost_cv', category: 'cv', cost: 40_000, baseDetection: 0.18, heat: 8, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 400_000 } },
-  bait_and_switch: { id: 'bait_and_switch', category: 'cv', cost: 0, baseDetection: 0.15, heat: 8, ongoing: true, requires: ['contract'], consequence: { reputation: 12, fine: 0 } },
-  rumor: { id: 'rumor', category: 'pr', cost: 60_000, baseDetection: 0.1, heat: 5, ongoing: false, requires: ['target'], consequence: { reputation: 8, fine: 0 } },
-  dn_leak: { id: 'dn_leak', category: 'pr', cost: 200_000, baseDetection: 0.2, heat: 12, ongoing: false, requires: ['target'], consequence: { reputation: 15, fine: 300_000 } },
-  linkedin_post: { id: 'linkedin_post', category: 'pr', cost: 10_000, baseDetection: 0.05, heat: 2, ongoing: false, requires: ['target'], consequence: { reputation: 3, fine: 0 } },
+  spy_bids: { id: 'spy_bids', minLevel: 4, category: 'espionage', cost: 100_000, baseDetection: 0.1, heat: 8, ongoing: false, requires: ['tender'], consequence: { reputation: 8, fine: 250_000 } },
+  spy_salaries: { id: 'spy_salaries', minLevel: 3, category: 'espionage', cost: 50_000, baseDetection: 0.05, heat: 4, ongoing: false, requires: ['target'], consequence: { reputation: 4, fine: 0 } },
+  plant_mole: { id: 'plant_mole', minLevel: 5, category: 'espionage', cost: 300_000, baseDetection: 0.15, heat: 12, ongoing: true, requires: ['target'], consequence: { reputation: 12, fine: 500_000 } },
+  afterwork_poach: { id: 'afterwork_poach', minLevel: 4, category: 'espionage', cost: 80_000, baseDetection: 0.2, heat: 6, ongoing: false, requires: ['target', 'star'], consequence: { reputation: 5, fine: 0 } },
+  silent_outsource: { id: 'silent_outsource', minLevel: 4, category: 'outsourcing', cost: 0, baseDetection: 0.08, heat: 10, ongoing: true, requires: ['contract', 'share'], consequence: { reputation: 15, fine: 1_000_000 } },
+  cv_pad: { id: 'cv_pad', minLevel: 3, category: 'cv', cost: 20_000, baseDetection: 0.12, heat: 5, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 0 } },
+  ghost_cv: { id: 'ghost_cv', minLevel: 5, category: 'cv', cost: 40_000, baseDetection: 0.18, heat: 8, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 400_000 } },
+  bait_and_switch: { id: 'bait_and_switch', minLevel: 4, category: 'cv', cost: 0, baseDetection: 0.15, heat: 8, ongoing: true, requires: ['contract'], consequence: { reputation: 12, fine: 0 } },
+  rumor: { id: 'rumor', minLevel: 3, category: 'pr', cost: 60_000, baseDetection: 0.1, heat: 5, ongoing: false, requires: ['target'], consequence: { reputation: 8, fine: 0 } },
+  dn_leak: { id: 'dn_leak', minLevel: 5, category: 'pr', cost: 200_000, baseDetection: 0.2, heat: 12, ongoing: false, requires: ['target'], consequence: { reputation: 15, fine: 300_000 } },
+  linkedin_post: { id: 'linkedin_post', minLevel: 3, category: 'pr', cost: 10_000, baseDetection: 0.05, heat: 2, ongoing: false, requires: ['target'], consequence: { reputation: 3, fine: 0 } },
 }
 
 export const SHADY_IDS = Object.keys(SHADY_CATALOG) as ShadyActionId[]
+export const SHADY_LEVELS = Object.fromEntries(SHADY_IDS.map((id) => [id, SHADY_CATALOG[id].minLevel])) as Record<ShadyActionId, number>
+
+export const shadyUnlocked = (firm: Firm, id: ShadyActionId) => firmLevel(firm) >= SHADY_CATALOG[id].minLevel
 
 export function detectionChance(firm: Firm, def: ShadyDef): number {
   return clamp(def.baseDetection + firm.heat / 200, 0, 0.95)
@@ -74,6 +80,7 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
   const firm = state.firms[a.firmId]
   const def = SHADY_CATALOG[a.actionId]
   if (!firm || !def) return 'errors.invalid'
+  if (!shadyUnlocked(firm, a.actionId)) return 'errors.levelTooLow'
   const target = a.targetFirmId ? state.firms[a.targetFirmId] : undefined
   if (def.requires.includes('target') && (!target || target.id === firm.id || target.bankrupt)) return 'errors.invalidTarget'
   const tender = a.tenderId ? state.tenders.find((t) => t.id === a.tenderId && !t.resolved) : undefined

@@ -1,26 +1,27 @@
 import { describe, expect, it } from 'vitest'
 import { creditLimit } from './economy'
+import { tenderLock } from './levels'
 import { applyAction } from './reducer'
 import { bidQuality, bidScoreEstimate } from './tenders'
-import { deepFreeze, newTestGame } from './testUtils'
+import { deepFreeze, newTestGame, veteranTestGame } from './testUtils'
 import type { Bid, GameState } from './types'
 
-const openTender = (s: GameState) => s.tenders.find((t) => !t.resolved && !t.hidden)!
+const openTender = (s: GameState) => s.tenders.find((t) => !t.resolved && !t.hidden && !tenderLock(s.firms.player, t))!
 const bid = (overrides: Partial<Bid> = {}): Bid => ({
   firmId: 'player', rateMultiplier: 1, starIds: [], effort: 1, cvPad: false, ghostCv: false, ...overrides,
 })
 
 describe('reducer', () => {
   it('never mutates the input state', () => {
-    const s = deepFreeze(newTestGame())
+    const s = deepFreeze(veteranTestGame())
     const r = applyAction(s, { type: 'setBudgets', firmId: 'player', budgets: { fagmiljoPerHead: 20_000 } })
     expect(r.error).toBeUndefined()
     expect(r.state.firms.player.budgets.fagmiljoPerHead).toBe(20_000)
-    expect(s.firms.player.budgets.fagmiljoPerHead).toBe(10_000)
+    expect(s.firms.player.budgets.fagmiljoPerHead).toBe(15_000)
   })
 
   it('clamps budgets and premium', () => {
-    const r = applyAction(newTestGame(), {
+    const r = applyAction(veteranTestGame(), {
       type: 'setBudgets', firmId: 'player', budgets: { fagmiljoPerHead: 1e9, salaryPremium: 5 },
     })
     expect(r.state.firms.player.budgets.fagmiljoPerHead).toBe(40_000)
@@ -65,14 +66,14 @@ describe('reducer', () => {
 
   it('rejects promising the same star in two open bids', () => {
     let s = newTestGame()
-    const [t1, t2] = s.tenders.filter((t) => !t.resolved)
+    const [t1, t2] = s.tenders.filter((t) => !t.resolved && !tenderLock(s.firms.player, t))
     const star = s.firms.player.stars[0].id
     s = applyAction(s, { type: 'placeBid', tenderId: t1.id, bid: bid({ starIds: [star] }) }).state
     expect(applyAction(s, { type: 'placeBid', tenderId: t2.id, bid: bid({ starIds: [star] }) }).error).toBe('errors.starPromised')
   })
 
   it('allows one minigame attempt per tender', () => {
-    let s = newTestGame()
+    let s = veteranTestGame()
     const t = openTender(s)
     const r1 = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 250 })
     expect(r1.error).toBeUndefined()
@@ -84,7 +85,7 @@ describe('reducer', () => {
   })
 
   it('a started minigame counts as 0 until finished, and can only be finished once', () => {
-    let s = newTestGame()
+    let s = veteranTestGame()
     const t = openTender(s)
     s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 0, provisional: true }).state
     expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 90 }).error).toBe('errors.minigameAlreadyPlayed')
@@ -104,7 +105,7 @@ describe('reducer', () => {
   })
 
   it('hires a star from the market if affordable', () => {
-    const s = newTestGame()
+    const s = veteranTestGame()
     const star = s.starMarket[0]
     const r = applyAction(s, { type: 'hireStar', firmId: 'player', starId: star.id })
     expect(r.error).toBeUndefined()

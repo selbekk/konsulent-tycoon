@@ -13,7 +13,7 @@ describe('gameStore', () => {
     useGame.getState().newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     const game = useGame.getState().game!
     const tender = game.tenders.find((t) => !t.resolved)!
-    expect(useGame.getState().dispatch({ type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'bingo', score: 12 })).toBeUndefined()
+    expect(useGame.getState().dispatch({ type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'meeting', score: 12 })).toBeUndefined()
     const saved = loadFromSlot(localStorage, 'auto')!
     expect(saved.tenders.find((t) => t.id === tender.id)!.minigameResults.player.score).toBe(12)
   })

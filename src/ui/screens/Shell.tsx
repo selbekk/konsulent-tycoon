@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { averageMorale, creditLimit, headcount, quarterTodos } from '../../engine'
+import { FEATURE_LEVEL, averageMorale, creditLimit, firmLevel, headcount, quarterTodos } from '../../engine'
+import type { Feature } from '../../engine'
 import { TABS, useGame } from '../../store/gameStore'
 import type { Tab } from '../../store/gameStore'
 import { Icon } from '../components/Icon'
@@ -34,6 +35,10 @@ const TAB_ICONS: Record<Tab, IconName> = {
   backroom: 'door',
 }
 
+/** Tabs that only show up once the firm reaches the level for them. */
+const TAB_FEATURE: Partial<Record<Tab, Feature>> = { culture: 'culture', backroom: 'backroom' }
+const visibleTabs = (level: number) => TABS.filter((id) => !TAB_FEATURE[id] || level >= FEATURE_LEVEL[TAB_FEATURE[id]])
+
 const SCREENS: Record<Tab, () => React.ReactNode> = {
   dashboard: Dashboard,
   staff: StaffScreen,
@@ -63,6 +68,8 @@ export function Shell() {
   const modalOpen =
     report !== null || !!bidTenderId || !!minigame || pending.length > 0 || saving || confirmEnd || game.status !== 'playing'
   const lng = i18n.language
+  const level = firmLevel(me)
+  const tabs = useMemo(() => visibleTabs(level), [level])
   const openTodos = quarterTodos(game, me.id).filter((x) => !x.done)
 
   // Both the button and the Enter shortcut go through here, so neither skips the warning.
@@ -75,11 +82,11 @@ export function Shell() {
       if (modalOpen || el.closest('input, textarea, select, [role="dialog"]')) return
       if (e.key === 'Enter' && el.tagName !== 'BUTTON') tryEndTurn()
       const n = Number(e.key)
-      if (n >= 1 && n <= TABS.length) setTab(TABS[n - 1])
+      if (n >= 1 && n <= tabs.length) setTab(tabs[n - 1])
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [modalOpen, tryEndTurn, setTab])
+  }, [modalOpen, tryEndTurn, setTab, tabs])
 
   // PA chime when a new quarter's announcement becomes visible.
   const showAnnouncement = settings.announcements && !!game.announcement && hideAnnouncement !== game.quarter
@@ -88,7 +95,7 @@ export function Shell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.quarter, report === null])
 
-  const Screen = SCREENS[tab]
+  const Screen = SCREENS[tabs.includes(tab) ? tab : 'dashboard']
   const hc = headcount(me)
   const credit = creditLimit(me)
   const ticker = useMemo(() => {
@@ -109,6 +116,9 @@ export function Shell() {
             <div className={s.firmName}>{me.name}</div>
             <div className={s.quarter}>
               {formatQuarter(game.quarter)} · {t('shell.quarterOf', { n: game.quarter + 1, total: game.maxQuarters })}
+            </div>
+            <div className={s.quarter}>
+              {t('level.label', { level })} · {t(`level.names.${level}`)}
             </div>
           </div>
         </div>
@@ -147,11 +157,11 @@ export function Shell() {
       )}
 
       <nav className={s.nav} aria-label={t('shell.nav')}>
-        {TABS.map((id, i) => (
+        {tabs.map((id, i) => (
           <button
             key={id}
             className={s.navItem}
-            aria-current={tab === id ? 'page' : undefined}
+            aria-current={(tabs.includes(tab) ? tab : 'dashboard') === id ? 'page' : undefined}
             data-noir={id === 'backroom'}
             onClick={() => setTab(id)}
           >

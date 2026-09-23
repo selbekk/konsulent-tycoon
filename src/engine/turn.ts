@@ -6,6 +6,7 @@ import { updateCulture } from './culture'
 import { creditLimit, headcount, quarterFinancials } from './economy'
 import { autoResolveEvents, drawEvents } from './events'
 import { pickAnnouncement } from './flavor'
+import { updateLevels } from './levels'
 import { updateTrends } from './market'
 import { applyActionInPlace } from './reducer'
 import { valuation } from './score'
@@ -97,6 +98,7 @@ export function endTurn(input: GameState): GameState {
   }
 
   resolveDueTenders(state)
+  updateLevels(state)
   const next = state.quarter + 1
   expireContracts(state, next)
   rollCallOffs(state, next)

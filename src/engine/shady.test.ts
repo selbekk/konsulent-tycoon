@@ -1,14 +1,14 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { applyAction } from './reducer'
 import { SHADY_CATALOG, rollShadyDetection } from './shady'
-import { newTestGame } from './testUtils'
+import { veteranTestGame } from './testUtils'
 
 const original = structuredClone(SHADY_CATALOG)
 afterEach(() => Object.assign(SHADY_CATALOG, structuredClone(original)))
 
 describe('shady business', () => {
   it('silent outsourcing adds heat and logs an ongoing entry', () => {
-    const s = newTestGame()
+    const s = veteranTestGame()
     const c = s.contracts.find((x) => x.firmId === 'player')!
     const r = applyAction(s, { type: 'shady', firmId: 'player', actionId: 'silent_outsource', contractId: c.id, share: 0.5 })
     expect(r.error).toBeUndefined()
@@ -21,7 +21,7 @@ describe('shady business', () => {
 
   it('detected outsourcing terminates the contract, fines and hurts reputation', () => {
     SHADY_CATALOG.silent_outsource.baseDetection = 1
-    const s0 = newTestGame()
+    const s0 = veteranTestGame()
     const c = s0.contracts.find((x) => x.firmId === 'player')!
     const s = applyAction(s0, { type: 'shady', firmId: 'player', actionId: 'silent_outsource', contractId: c.id, share: 0.5 }).state
     const draft = structuredClone(s)
@@ -36,7 +36,7 @@ describe('shady business', () => {
 
   it('undetected actions stay hidden', () => {
     SHADY_CATALOG.rumor.baseDetection = 0
-    const s0 = newTestGame()
+    const s0 = veteranTestGame()
     const s = applyAction(s0, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: 'accentura' }).state
     expect(s.firms.accentura.reputation).toBeLessThan(s0.firms.accentura.reputation)
     const draft = structuredClone(s)
@@ -46,7 +46,7 @@ describe('shady business', () => {
   })
 
   it('cv padding requires an own bid and sets the flag', () => {
-    const s = newTestGame()
+    const s = veteranTestGame()
     const t = s.tenders.find((x) => !x.resolved)!
     expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'cv_pad', tenderId: t.id }).error).toBe('errors.noBid')
     const withBid = applyAction(s, {
@@ -58,7 +58,7 @@ describe('shady business', () => {
   })
 
   it('AI poaching the player becomes an event for the player', () => {
-    const s = newTestGame()
+    const s = veteranTestGame()
     const draft = structuredClone(s)
     const star = draft.starMarket[0]
     draft.firms.player.stars.push(star)
@@ -74,7 +74,7 @@ describe('shady business', () => {
   })
 
   it('founders cannot be poached', () => {
-    const s = newTestGame()
+    const s = veteranTestGame()
     const founder = s.firms.player.stars[0]
     expect(applyAction(s, { type: 'shady', firmId: 'accentura', actionId: 'afterwork_poach', targetFirmId: 'player', starId: founder.id }).error).toBe(
       'errors.invalidStar',

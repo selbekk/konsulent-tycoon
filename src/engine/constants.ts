@@ -85,6 +85,32 @@ export const TODO_IDLE_MIN = 2
 /** Only suggest hiring when cash plus half the credit line covers this many quarters of costs. */
 export const TODO_HIRE_MIN_RUNWAY = 1
 
+// Firm levels
+/**
+ * A firm reaches a level by meeting any one of its goals: headcount, revenue last quarter,
+ * or tenders won in total. Levels never go down. `maxSeats` caps the tenders it may bid on.
+ * Level 1 is the start; its goals are unused.
+ */
+export const LEVELS = [
+  { headcount: 0, revenue: 0, tendersWon: 0, maxSeats: 6 },
+  { headcount: 9, revenue: 5_500_000, tendersWon: 3, maxSeats: 12 },
+  { headcount: 16, revenue: 9_000_000, tendersWon: 8, maxSeats: 20 },
+  { headcount: 26, revenue: 14_000_000, tendersWon: 15, maxSeats: Infinity },
+  { headcount: 40, revenue: 22_000_000, tendersWon: 25, maxSeats: Infinity },
+] as const
+export const MAX_LEVEL = LEVELS.length
+/** Level at which each feature opens. Backroom tricks have their own `minLevel` in SHADY_CATALOG. */
+export const FEATURE_LEVEL = {
+  culture: 2,
+  stars: 2,
+  // Level 3 made the early game clearly harder for the sim bot (see docs/balance-log.md).
+  framework: 2,
+  bingo: 3,
+  backroom: 3,
+} as const
+/** The player can't touch culture budgets at level 1, so start from what a sensible player picks. */
+export const PLAYER_START_BUDGETS = { fagmiljoPerHead: 15_000, sosialtPerHead: 12_000, salaryPremium: 0.02 }
+
 // Shady
 export const HEAT_DECAY = 10
 export const SCANDAL_MORALE_HIT = 5

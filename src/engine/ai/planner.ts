@@ -3,7 +3,8 @@ import { AI_MAX_OPEN_BIDS } from '../constants'
 import { creditLimit, disciplineSupply, headcount, quarterFinancials, spendable, staffFirm } from '../economy'
 import { canChoose } from '../events'
 import { chance, noise, nextFloat, pick, weightedPick } from '../rng'
-import { SHADY_CATALOG } from '../shady'
+import { hasFeature, tenderLock } from '../levels'
+import { SHADY_CATALOG, shadyUnlocked } from '../shady'
 import { starSigningCost } from '../stars'
 import { acceptRate } from '../staff'
 import { openTenders, effortCost } from '../tenders'
@@ -58,7 +59,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
 
   // 1. Budgets
   const lean = runway < 1.2
-  actions.push({
+  if (hasFeature(firm, 'culture')) actions.push({
     type: 'setBudgets',
     firmId,
     budgets: {
@@ -104,7 +105,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   const slots = Math.max(0, maxBids - myOpen)
   const promised = new Set(open.flatMap((t) => t.bids.filter((b) => b.firmId === firmId).flatMap((b) => b.starIds)))
   const candidates = open
-    .filter((t) => !t.bids.some((b) => b.firmId === firmId))
+    .filter((t) => !t.bids.some((b) => b.firmId === firmId) && !tenderLock(firm, t))
     .map((t) => ({ t, fit: tenderFit(state, firm, t, free) * (0.8 + nextFloat(state.rng) * 0.4) }))
     .filter((x) => x.fit > (firm.isPlayer ? 0.4 : 0.12))
     .sort((a, b) => b.fit - a.fit)
@@ -136,7 +137,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   }
 
   // 4. Stars
-  if (state.starMarket.length && runway > 2.5 && chance(state.rng, p.growthAppetite * 0.25)) {
+  if (state.starMarket.length && hasFeature(firm, 'stars') && runway > 2.5 && chance(state.rng, p.growthAppetite * 0.25)) {
     const star = pick(state.rng, state.starMarket)
     if (firm.cash > starSigningCost(star, firm) * 3) actions.push({ type: 'hireStar', firmId, starId: star.id })
   }
@@ -149,19 +150,19 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   const playerWeight = (f: Firm) => (f.isPlayer ? 3 * df : 1)
 
   // 5. Poaching
-  if (runway > 1.5 && chance(state.rng, p.aggression * 0.3 * df)) {
+  if (shadyUnlocked(firm, 'afterwork_poach') && runway > 1.5 && chance(state.rng, p.aggression * 0.3 * df)) {
     const target = pickTarget((f) => (f.stars.some((s) => !s.founder) ? playerWeight(f) : 0))
     const star = target?.stars.filter((s) => !s.founder).sort((a, b) => a.loyalty - b.loyalty)[0]
     if (target && star) actions.push({ type: 'shady', firmId, actionId: 'afterwork_poach', targetFirmId: target.id, starId: star.id })
   }
 
   // 6. Shady business
-  if (runway > 1 && chance(state.rng, p.shadiness * df)) {
+  if (hasFeature(firm, 'backroom') && runway > 1 && chance(state.rng, p.shadiness * df)) {
     const options: ShadyActionId[] = ['rumor', 'linkedin_post', 'linkedin_post', 'spy_bids']
     if (p.priceBias < 0.9) options.push('silent_outsource', 'silent_outsource')
     const bidTenders = candidates.map((c) => c.t)
     if (bidTenders.length) options.push('cv_pad')
-    const actionId = pick(state.rng, options)
+    const actionId = pick(state.rng, options.filter((id) => shadyUnlocked(firm, id)))
     const target = pickTarget((f) => playerWeight(f) * (1 + f.reputation / 50))
     if (actionId === 'silent_outsource') {
       const contracts = state.contracts.filter((c) => c.firmId === firmId && !c.terminated && c.outsourcedShare === 0 && c.endQuarter > state.quarter + 1)

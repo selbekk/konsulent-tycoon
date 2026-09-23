@@ -281,6 +281,8 @@ export function resolveDueTenders(state: GameState) {
       const share = tender.kind === 'framework' ? FRAMEWORK_SHARES[rank] : 1
       const contract = createContract(state, tender, bid, share, rank + 1)
       tender.winnerIds.push(bid.firmId)
+      const winner = state.firms[bid.firmId]
+      winner.tendersWon = (winner.tendersWon ?? 0) + 1
       customer.relationships[bid.firmId] = clamp(relationship(state, customer.id, bid.firmId) + RELATION_WIN, 0, 100)
       checkFraudAtAward(state, contract)
     })

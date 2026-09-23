@@ -10,7 +10,9 @@
     "alreadyDone": "You've already done that.",
     "gameOver": "The game is over.",
     "starPromised": "That consultant is already promised in another bid.",
-    "minigameAlreadyPlayed": "You've already had the meeting for this tender."
+    "minigameAlreadyPlayed": "You've already had the meeting for this tender.",
+    "levelTooLow": "Your firm isn't big enough for that yet.",
+    "tenderTooBig": "That tender is too big for a firm your size."
   },
   "news": {
     "game": {
@@ -70,6 +72,9 @@
       "bankrupt": "{{firm}} has gone bankrupt. The foosball table is for sale online.",
       "playerBankrupt": "{{firm}} has gone bankrupt. The receiver has taken over the foosball table.",
       "bankWarning": "The bank called. They were polite, but noticeably less warm than before."
+    },
+    "level": {
+      "up": "You've moved up to level {{level}}. Someone has already ordered new business cards."
     }
   },
   "announcements": {

@@ -39,3 +39,29 @@ describe('end of quarter warning', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })
+
+describe('levels in the shell', () => {
+  beforeEach(async () => {
+    localStorage.clear()
+    await i18n.changeLanguage('en')
+    useGame.getState().quit()
+    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+  })
+
+  afterEach(cleanup)
+
+  it('hides Culture and the Backroom until the firm reaches their level', () => {
+    const { rerender } = render(<Shell />)
+    const nav = () => within(screen.getByRole('navigation'))
+    expect(nav().queryByRole('button', { name: /culture/i })).not.toBeInTheDocument()
+    expect(nav().queryByRole('button', { name: /backroom/i })).not.toBeInTheDocument()
+    expect(screen.getAllByText(/level 1 · garage outfit/i).length).toBeGreaterThan(0)
+
+    const game = structuredClone(useGame.getState().game!)
+    game.firms.player.level = 3
+    useGame.getState().loadState(game)
+    rerender(<Shell />)
+    expect(nav().getByRole('button', { name: /culture/i })).toBeInTheDocument()
+    expect(nav().getByRole('button', { name: /backroom/i })).toBeInTheDocument()
+  })
+})

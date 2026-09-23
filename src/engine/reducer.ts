@@ -10,6 +10,7 @@ import {
 } from './constants'
 import { spendable } from './economy'
 import { handleResolveEvent } from './events'
+import { hasFeature, tenderLock } from './levels'
 import { handleShady } from './shady'
 import { starSigningCost } from './stars'
 import { clampRate, effortCost } from './tenders'
@@ -31,6 +32,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   setBudgets(state, a) {
     const firm = firmOf(state, a.firmId)
     if (!firm) return 'errors.invalid'
+    if (!hasFeature(firm, 'culture')) return 'errors.levelTooLow'
     const b = a.budgets
     if (b.fagmiljoPerHead !== undefined) firm.budgets.fagmiljoPerHead = clamp(Math.round(b.fagmiljoPerHead), 0, BUDGET_MAX_PER_HEAD)
     if (b.sosialtPerHead !== undefined) firm.budgets.sosialtPerHead = clamp(Math.round(b.sosialtPerHead), 0, BUDGET_MAX_PER_HEAD)
@@ -65,6 +67,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   hireStar(state, a) {
     const firm = firmOf(state, a.firmId)
     if (!firm) return 'errors.invalid'
+    if (!hasFeature(firm, 'stars')) return 'errors.levelTooLow'
     const idx = state.starMarket.findIndex((s) => s.id === a.starId)
     if (idx < 0) return 'errors.invalidStar'
     const star = state.starMarket[idx]
@@ -95,6 +98,8 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const tender = openTender(state, a.tenderId)
     if (!firm) return 'errors.invalid'
     if (!tender) return 'errors.invalidTender'
+    const locked = tenderLock(firm, tender)
+    if (locked) return locked
     const effort = clamp(Math.round(a.bid.effort), 0, 3) as 0 | 1 | 2 | 3
     const starIds = [...new Set(a.bid.starIds)]
     for (const id of starIds) {
@@ -134,7 +139,9 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   recordMinigame(state, a) {
     const tender = openTender(state, a.tenderId)
     if (!tender) return 'errors.invalidTender'
-    if (!firmOf(state, a.firmId)) return 'errors.invalid'
+    const firm = firmOf(state, a.firmId)
+    if (!firm) return 'errors.invalid'
+    if (a.kind === 'bingo' && !hasFeature(firm, 'bingo')) return 'errors.levelTooLow'
     const existing = tender.minigameResults[a.firmId]
     if (existing && (!existing.provisional || existing.kind !== a.kind || a.provisional)) return 'errors.minigameAlreadyPlayed'
     tender.minigameResults[a.firmId] = {

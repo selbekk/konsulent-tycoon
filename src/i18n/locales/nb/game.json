@@ -10,7 +10,9 @@
     "alreadyDone": "Det har du allerede gjort.",
     "gameOver": "Spillet er over.",
     "starPromised": "Den konsulenten er allerede lovet bort i et annet bud.",
-    "minigameAlreadyPlayed": "Du har allerede hatt møtet for dette anbudet."
+    "minigameAlreadyPlayed": "Du har allerede hatt møtet for dette anbudet.",
+    "levelTooLow": "Firmaet er ikke stort nok til det ennå.",
+    "tenderTooBig": "Anbudet er for stort for et firma på deres nivå."
   },
   "news": {
     "game": {
@@ -70,6 +72,9 @@
       "bankrupt": "{{firm}} har gått konkurs. Fussballbordet selges på Finn.",
       "playerBankrupt": "{{firm}} har gått konkurs. Bobestyreren har overtatt fussballbordet.",
       "bankWarning": "Banken ringte. De var høflige, men tonen var ikke lenger like hjertelig."
+    },
+    "level": {
+      "up": "Dere har rykket opp til nivå {{level}}. Noen har allerede bestilt nye visittkort."
     }
   },
   "announcements": {

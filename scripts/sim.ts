@@ -6,9 +6,11 @@ import { planHumanProxy } from '../src/engine/ai/humanProxy'
 import { averageMorale, headcount, quarterFinancials } from '../src/engine/economy'
 import { createNewGame } from '../src/engine/newGame'
 import { applyActionInPlace } from '../src/engine/reducer'
+import { firmLevel } from '../src/engine/levels'
 import { playerRank, rankings } from '../src/engine/score'
 import { committedDemand, marketCapacity } from '../src/engine/tenders'
 import { endTurn } from '../src/engine/turn'
+import { MAX_LEVEL } from '../src/engine/constants'
 import type { Difficulty, GameState } from '../src/engine/types'
 
 const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number }> = {
@@ -28,7 +30,7 @@ const baseSeed = Number(arg('seed', '1'))
 const difficulty = arg('difficulty', 'normal') as Difficulty
 const asJson = args.includes('--json')
 
-interface Sample { cash: number; hc: number; revenue: number; morale: number; rep: number; demandRatio: number; heat: number }
+interface Sample { cash: number; hc: number; revenue: number; morale: number; rep: number; demandRatio: number; heat: number; level: number }
 
 function playGame(seed: number, strategy: string) {
   let state: GameState = createNewGame({ seed, firmName: 'Sim AS', founderDisciplines: ['backend', 'frontend'], difficulty })
@@ -55,6 +57,7 @@ function playGame(seed: number, strategy: string) {
       morale: averageMorale(me),
       rep: me.reputation,
       heat: me.heat,
+      level: firmLevel(me),
       demandRatio: committedDemand(draft, draft.quarter) / Math.max(1, marketCapacity(draft)),
     })
     state = endTurn(draft)
@@ -98,6 +101,11 @@ for (const strategy of strategies) {
     )
   }
   const bankrupt = results.filter((r) => r.status === 'lost')
+  const reached = Array.from({ length: MAX_LEVEL - 1 }, (_, i) => {
+    const qs = results.map((r) => r.samples.findIndex((x) => x.level >= i + 2)).filter((q) => q >= 0)
+    return `L${i + 2} ${qs.length}/${games} med Q${pct(qs, 0.5)}`
+  })
+  console.log(`levels: ${reached.join(' · ')}`)
   console.log(`bankrupt: ${bankrupt.length}/${games} (median quarter ${pct(bankrupt.map((r) => r.bankruptAt!), 0.5)})`)
   console.log(`rank p10/med/p90: ${pct(results.map((r) => r.rank), 0.1)} / ${pct(results.map((r) => r.rank), 0.5)} / ${pct(results.map((r) => r.rank), 0.9)}`)
   console.log(`value median: ${m(pct(results.map((r) => r.value), 0.5))}, p90: ${m(pct(results.map((r) => r.value), 0.9))}`)

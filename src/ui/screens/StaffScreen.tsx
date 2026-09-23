@@ -1,12 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import {
   DISCIPLINES,
+  FEATURE_LEVEL,
   HIRE_COST,
   SEVERANCE_QUARTERS,
   acceptRate,
   ambitionMet,
   disciplineSupply,
   employeeThoughts,
+  hasFeature,
   headcount,
   quarterlySalaryCost,
   staffFirm,
@@ -179,7 +181,9 @@ export function StaffScreen() {
       </Panel>
 
       <Panel title={t('staff.market')} icon="eye" className={s.span12}>
-        {game.starMarket.length ? (
+        {!hasFeature(me, 'stars') ? (
+          <p className={s.empty}>{t('level.starsLocked', { level: FEATURE_LEVEL.stars })}</p>
+        ) : game.starMarket.length ? (
           <div className={s.cards}>
             {game.starMarket.map((star) => (
               <StarCard key={star.id} star={star} firm={me} game={game} market />

@@ -477,5 +477,41 @@
       "back": "Back",
       "endAnyway": "End anyway"
     }
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "names": {
+      "1": "Garage outfit",
+      "2": "Startup",
+      "3": "Established player",
+      "4": "Mid-size and mighty",
+      "5": "Industry heavyweight"
+    },
+    "title": "The road ahead",
+    "next": "Next: level {{level}}, {{name}}",
+    "anyOne": "Reach any one of these:",
+    "goals": {
+      "headcount": "Employees",
+      "revenue": "Revenue last quarter",
+      "tendersWon": "Tenders won in total"
+    },
+    "unlocks": "Unlocks:",
+    "max": "You're at the top. There are no more levels, only more meetings.",
+    "features": {
+      "culture": "The Culture tab: set budgets for craft, social life and pay",
+      "stars": "The star market: hire named star consultants",
+      "framework": "Framework agreements: big, long deals shared by several vendors",
+      "bingo": "Buzzword bingo as an alternative to the client meeting",
+      "backroom": "The Backroom: tricks you'd rather not tell the client about"
+    },
+    "seats": "Tenders of up to {{count}} consultants",
+    "seatsAll": "Tenders of any size",
+    "shady": "New tricks in the Backroom: {{list}}",
+    "up": "New level: {{name}}!",
+    "upBody": "{{firm}} has outgrown its old label.",
+    "lockedHint": "Unlocks at level {{level}}",
+    "starsLocked": "The star market opens at level {{level}}. Until then, the founders will have to do.",
+    "hiddenTenders_one": "{{count}} bigger tender appears once you reach level {{level}}.",
+    "hiddenTenders_other": "{{count}} bigger tenders appear once you reach level {{level}}."
   }
 }

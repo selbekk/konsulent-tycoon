@@ -10,6 +10,7 @@ import {
   openTenders,
   poachChance,
   riskLevel,
+  shadyUnlocked,
 } from '../../engine'
 import type { ShadyActionId, ShadyDef } from '../../engine'
 import { useGame } from '../../store/gameStore'
@@ -220,25 +221,32 @@ export function BackroomScreen() {
                 <div className={s.cards}>
                   {SHADY_IDS.filter((id) => SHADY_CATALOG[id].category === cat).map((id) => {
                     const risk = riskLevel(me, id)
+                    const locked = !shadyUnlocked(me, id)
                     return (
-                      <article key={id} className={s.card}>
+                      <article key={id} className={`${s.card} ${locked ? s.locked : ''}`}>
                         <strong>{t(`content:shady.actions.${id}.name`)}</strong>
                         <span className={s.small}>{t(`content:shady.actions.${id}.desc`)}</span>
                         <div className={`${s.row} ${s.between}`}>
                           <span className={s.small}>{SHADY_CATALOG[id].cost ? formatMoney(SHADY_CATALOG[id].cost, lng) : t('backroom.free')}</span>
                           <Badge tone={risk === 'high' ? 'bad' : risk === 'medium' ? 'warn' : 'good'}>{t(`content:shady.risk.${risk}`)}</Badge>
                         </div>
-                        <Button
-                          size="small"
-                          variant="danger"
-                          onClick={() => {
-                            clearError()
-                            setFlash(null)
-                            setOpen(id)
-                          }}
-                        >
-                          {t('backroom.do')}
-                        </Button>
+                        {locked ? (
+                          <Button size="small" disabled>
+                            {t('level.lockedHint', { level: SHADY_CATALOG[id].minLevel })}
+                          </Button>
+                        ) : (
+                          <Button
+                            size="small"
+                            variant="danger"
+                            onClick={() => {
+                              clearError()
+                              setFlash(null)
+                              setOpen(id)
+                            }}
+                          >
+                            {t('backroom.do')}
+                          </Button>
+                        )}
                       </article>
                     )
                   })}

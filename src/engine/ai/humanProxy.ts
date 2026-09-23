@@ -1,4 +1,5 @@
 import { creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from '../economy'
+import { hasFeature, tenderLock } from '../levels'
 import { noise } from '../rng'
 import { openTenders } from '../tenders'
 import { DISCIPLINES } from '../types'
@@ -19,7 +20,7 @@ export function planHumanProxy(state: GameState, opts: { price?: number; minigam
   const hc = headcount(firm)
   const runway = (firm.cash + creditLimit(firm) * 0.5) / Math.max(1, fin.total)
 
-  actions.push({
+  if (hasFeature(firm, 'culture')) actions.push({
     type: 'setBudgets',
     firmId,
     budgets: { fagmiljoPerHead: runway > 1.5 ? 15_000 : 8_000, sosialtPerHead: runway > 1.5 ? 12_000 : 6_000, salaryPremium: 0.02 },
@@ -38,7 +39,7 @@ export function planHumanProxy(state: GameState, opts: { price?: number; minigam
   }
 
   const candidates = open
-    .filter((t) => !t.bids.some((b) => b.firmId === firmId))
+    .filter((t) => !t.bids.some((b) => b.firmId === firmId) && !tenderLock(firm, t))
     .map((t) => {
       const total = seatTotal(t.seats)
       const covered = DISCIPLINES.reduce((s, d) => s + Math.min(t.seats[d] ?? 0, Math.max(0, free[d])), 0)

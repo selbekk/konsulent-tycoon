@@ -3,9 +3,10 @@ import { FIRMS } from '../content/firms'
 import type { FirmDef } from '../content/firms'
 import { TRENDS } from '../content/trends'
 import { personalityFor, salaryPremiumFor } from './ai/personalities'
-import { MAX_QUARTERS, SAVE_VERSION, TARGET_DEMAND_RATIO, clamp } from './constants'
+import { MAX_QUARTERS, PLAYER_START_BUDGETS, SAVE_VERSION, TARGET_DEMAND_RATIO, clamp } from './constants'
 import { cultureEquilibrium } from './culture'
 import { pickAnnouncement } from './flavor'
+import { earnedLevel } from './levels'
 import { createRng, nextInt, noise, pick, range, weightedPick } from './rng'
 import { generateStar } from './stars'
 import { marketCapacity, publishTenders } from './tenders'
@@ -186,6 +187,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
   // Player
   const me = baseFirm(PLAYER_ID, opts.firmName.trim() || 'Konsulent & Konsulent AS', true, 'player', 'NO')
   me.cash = START_CASH[opts.difficulty]
+  me.budgets = { ...PLAYER_START_BUDGETS }
   // A young firm with a bit of buzz: some network, a founders' tech culture.
   me.reputation = 40
   me.fagmiljo = 35
@@ -244,6 +246,13 @@ export function createNewGame(opts: NewGameOptions): GameState {
 
   const firstTrend = pick(state.rng, TRENDS.filter((t) => !t.volume || t.volume > 1))
   state.trends.push({ id: firstTrend.id, untilQuarter: nextInt(state.rng, firstTrend.minDuration, firstTrend.maxDuration) })
+
+  // Everyone starts at the level their size earns; the player's garage firm is level 1.
+  for (const id of state.firmOrder) {
+    const f = state.firms[id]
+    f.level = earnedLevel(f)
+    f.tendersWon = 0
+  }
 
   state.baseDemand = marketCapacity(state) * TARGET_DEMAND_RATIO
   publishTenders(state, 0)

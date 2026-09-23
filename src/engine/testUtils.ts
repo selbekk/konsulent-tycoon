@@ -1,8 +1,16 @@
+import { MAX_LEVEL } from './constants'
 import { createNewGame } from './newGame'
 import type { GameState } from './types'
 
 export const newTestGame = (seed = 42): GameState =>
   createNewGame({ seed, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+
+/** A player firm with every level unlocked, for tests of features behind a level. */
+export function veteranTestGame(seed = 42): GameState {
+  const s = newTestGame(seed)
+  s.firms.player.level = MAX_LEVEL
+  return s
+}
 
 export function deepFreeze<T>(o: T): T {
   if (o && typeof o === 'object' && !Object.isFrozen(o)) {

@@ -170,7 +170,7 @@ Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
    - turnover og ansettelser
    - kvartalsrapport
 4. Oppdagelse av lyssky handlinger, og nedgang i heat.
-5. Anbud med frist dette kvartalet avgjøres og blir til kontrakter.
+5. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller.
 6. Kontrakter utløper eller forlenges. Rammeavtalene får avrop for neste kvartal.
 7. Trender oppdateres, og nye anbud publiseres.
 8. Etter Q4 deles årets priser ut.
@@ -201,6 +201,11 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
   - Hver handling har kostnad, heat og en grunnsannsynlighet for å bli oppdaget. Heat øker sannsynligheten.
   - CV-juks sjekkes først når du faktisk vinner.
   - Pågående handlinger (outsourcing, muldvarp, bait-and-switch) kan oppdages hvert kvartal så lenge de pågår.
+- **Nivåer (`levels.ts`):** Et firma har nivå 1–5. Spilleren starter på nivå 1, og AI-firmaene starter på nivået størrelsen gir.
+  - Et firma rykker opp når det når **ett** av målene i `LEVELS`: antall ansatte, omsetning forrige kvartal eller antall vunne anbud totalt. Nivået går aldri ned.
+  - Nivået styrer hvor store anbud firmaet kan by på (`maxSeats`), og når kultur, stjernemarkedet, rammeavtaler, bingo og bakrommet åpner (`FEATURE_LEVEL`). Hvert triks i bakrommet har sin egen `minLevel` i `SHADY_CATALOG`.
+  - Låsene håndheves i reduceren med `errors.levelTooLow` / `errors.tenderTooBig`, altså likt for spiller og AI. `planAiTurn` og `planHumanProxy` filtrerer bort det som er låst, så de ikke bruker opp budplasser på bud som avvises.
+  - Siden spilleren ikke kan endre kulturbudsjettet på nivå 1, starter spilleren med `PLAYER_START_BUDGETS`.
 
 ### Tilfeldighet: den viktigste regelen
 
@@ -315,7 +320,7 @@ Legg så til `events.team_offsite.{title, body, choices.go, choices.skip}` i `ga
 - **Ny høyttalermelding:** `content/announcements.ts` (valgfri betingelse).
 - **Nytt buzzword:** `content/buzzwords.ts`.
 - **Nytt møtespørsmål:** `content/meetingQuestions.ts`, med fire svar (ett per møtestil) i `minigames.json`. Hvert svar må være lett å kjenne igjen som sin stil, siden spilleren skal lese hva kunden liker. Spørsmål som bare passer for offentlige eller private kunder, merkes i `QUESTION_SECTOR`.
-- **Ny lyssky handling:** Legg den til i `ShadyActionId` (`types.ts`) og `SHADY_CATALOG` (`shady.ts`), og skriv effekten i `handleShady`. Du trenger også tekstene `content:shady.actions.<id>` og `game:news.scandal.<id>`.
+- **Ny lyssky handling:** Legg den til i `ShadyActionId` (`types.ts`) og `SHADY_CATALOG` (`shady.ts`) med en `minLevel`, og skriv effekten i `handleShady`. Du trenger også tekstene `content:shady.actions.<id>` og `game:news.scandal.<id>`.
 
 ## Balansering og simulator
 

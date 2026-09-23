@@ -7,6 +7,7 @@ import {
   RATE_MIN,
   bidQuality,
   bidScoreEstimate,
+  hasFeature,
   disciplineLevel,
   effortCost,
   hasIntel,
@@ -169,9 +170,11 @@ export function BidForm({ tenderId }: { tenderId: string }) {
                   <Button icon="handshake" onClick={() => openMinigame({ tenderId: tender.id, kind: 'meeting' })}>
                     {t('minigames:meeting.title')}
                   </Button>
-                  <Button icon="brain" onClick={() => openMinigame({ tenderId: tender.id, kind: 'bingo' })}>
-                    {t('minigames:bingo.title')}
-                  </Button>
+                  {hasFeature(me, 'bingo') && (
+                    <Button icon="brain" onClick={() => openMinigame({ tenderId: tender.id, kind: 'bingo' })}>
+                      {t('minigames:bingo.title')}
+                    </Button>
+                  )}
                 </div>
               </>
             )}

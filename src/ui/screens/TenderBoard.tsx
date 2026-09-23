@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, SMALL_TENDER_MAX_SEATS, bidQuality, capacity, disciplineSupply, hasIntel, openTenders, seatTotal, staffFirm } from '../../engine'
+import { DISCIPLINES, SMALL_TENDER_MAX_SEATS, bidQuality, capacity, disciplineSupply, hasIntel, openTenders, seatTotal, staffFirm, tenderLevel, tenderLock } from '../../engine'
 import type { GameState, Tender } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Panel } from '../components/ui'
@@ -54,11 +54,16 @@ export function TenderBoard() {
   const me = game.firms[game.playerId]
   const all = openTenders(game).sort((a, b) => a.dueQuarter - b.dueQuarter || seatTotal(a.seats) - seatTotal(b.seats))
   const fits = (tn: Tender) => {
+    if (tenderLock(me, tn)) return false
     const committed = staffFirm(game, me, tn.dueQuarter + 1).demand
     const free = DISCIPLINES.reduce((sum, d) => sum + Math.min(tn.seats[d] ?? 0, Math.max(0, disciplineSupply(me, d) - (committed[d] ?? 0))), 0)
     return free / seatTotal(tn.seats) >= 0.5
   }
-  const shown = all.filter((tn) => (filter === 'mine' ? tn.bids.some((b) => b.firmId === me.id) : filter === 'fits' ? fits(tn) : true))
+  // Tenders the firm is too small for stay off the board, so a new player sees only what they can act on.
+  const tooBig = all.filter((tn) => !tn.bids.some((b) => b.firmId === me.id) && tenderLock(me, tn))
+  const shown = all
+    .filter((tn) => !tooBig.includes(tn))
+    .filter((tn) => (filter === 'mine' ? tn.bids.some((b) => b.firmId === me.id) : filter === 'fits' ? fits(tn) : true))
 
   return (
     <Panel
@@ -84,6 +89,9 @@ export function TenderBoard() {
           </p>
         )
       })()}
+      {tooBig.length > 0 && (
+        <p className={`${s.small} ${s.muted}`}>{t('level.hiddenTenders', { count: tooBig.length, level: Math.min(...tooBig.map(tenderLevel)) })}</p>
+      )}
       {shown.length === 0 ? (
         <p className={s.empty}>{t('tenders.none')}</p>
       ) : (

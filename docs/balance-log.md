@@ -62,3 +62,22 @@ Innsatsen på et bud kan nå betales med kassekreditten (`spendable(firm) = cash
 | 1 | Innsats fra kassekreditt, gratis bud alltid lov | 6/60 | 2/60 | 0,1 |
 
 Funn: Innenfor støyen. `human` fikk median verdi 86 → 98 MNOK og medianplass 19 → 18. Endringen er først og fremst en UX-fiks: knappen blir ikke lenger grå uten grunn.
+
+## Nivåsystem (2026-09-23)
+
+Spilleren starter på nivå 1 og rykker opp ved å nå ett av tre mål: ansatte, omsetning forrige kvartal eller vunne anbud. Nivået låser opp større anbud, kultur, stjerner, rammeavtaler, bingo og bakrommet (se `LEVELS` og `FEATURE_LEVEL`). AI-firmaene starter på nivået størrelsen gir, og følger de samme reglene. Alle tallene under er fra 150 partier med `--seed 1000`. Det krevde 150 partier å skille effekten fra støyen; 30 og 60 partier ga motstridende A/B-resultater.
+
+| # | Endring | human konkurs | human median verdi | humanPro konkurs |
+|---|---|---|---|---|
+| 0 | Referanse uten nivåer | 28/150 | 92 MNOK | 8/150 |
+| 1 | Nivåer, rammeavtaler fra nivå 3 | 37/150 | 67 MNOK | – |
+| 1b | Som 1, men spilleren har alt ulåst fra start | 19/150 | 83 MNOK | – |
+| 1c | Som 1, men AI-ene har alt ulåst fra start | 34/150 | 67 MNOK | – |
+| 2 | Som 1, men rammeavtaler fra nivå 2 | 28/150 | 105 MNOK | – |
+| 3 | Som 2, pluss fornuftige startbudsjetter for spilleren (15k/12k/+2 %) | **22/150** | **95 MNOK** | **6/150** |
+
+Funn: Det var spillerens låser som kostet, ikke AI-enes. Det største enkeltbidraget var rammeavtalene, som er viktige for å vokse fra rundt 10 til 20 ansatte. Siden spilleren ikke kan endre kulturbudsjettet på nivå 1, starter spilleren nå med det en fornuftig spiller ville valgt. AI-markedet er uendret (0,1 konkurs per parti).
+
+Når nivåene nås (median): `human` nivå 2 i Q5, nivå 3 i Q12, nivå 4 i Q20 og nivå 5 i Q30 (101 av 150 når nivå 5). `humanPro` når dem i Q4, Q11, Q18 og Q27 (135 av 150). `npm run sim` skriver nå dette ut.
+
+Andre spillerboter (60 partier, før → etter): `balanced` 0 → 0 konkurser, median 183 → 200 MNOK. `greedy` 3 → 7 konkurser, 85 → 87 MNOK. `shady` 0 → 2 konkurser, 92 → 82 MNOK, og 26 → 18 lyssky handlinger fordi bakrommet først åpner på nivå 3 (rundt Q10). Målet om at `shady` skal slå `balanced` i median verdi var ikke nådd før nivåene heller, og er fortsatt åpent.

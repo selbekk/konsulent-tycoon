@@ -1,5 +1,6 @@
 import { TODO_HIRE_MIN_RUNWAY, TODO_IDLE_MIN, TODO_IDLE_SHARE } from './constants'
 import { creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from './economy'
+import { tenderLock } from './levels'
 import { capacity } from './metrics'
 import { openTenders } from './tenders'
 import { DISCIPLINES } from './types'
@@ -32,7 +33,7 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const idle = capacity(state, firmId).next.idle
   const threshold = Math.max(TODO_IDLE_MIN, Math.round(headcount(firm) * TODO_IDLE_SHARE))
   const fits = open.some(
-    (t) => !mine.includes(t) && DISCIPLINES.some((d) => (t.seats[d] ?? 0) > 0 && disciplineSupply(firm, d) > 0),
+    (t) => !mine.includes(t) && !tenderLock(firm, t) && DISCIPLINES.some((d) => (t.seats[d] ?? 0) > 0 && disciplineSupply(firm, d) > 0),
   )
   // A bid placed now becomes a contract starting in two quarters.
   if (matters(state.quarter + 2)) todos.push({ id: 'bid', done: idle < threshold || !fits, params: { count: idle } })

@@ -26,7 +26,7 @@ describe('quarter todos', () => {
     expect(todo(s, 'pitch')).toBeUndefined()
     s = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid() }).state
     expect(todo(s, 'pitch')).toMatchObject({ done: false, params: { count: 1 } })
-    s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 50 }).state
+    s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 50 }).state
     expect(todo(s, 'pitch')?.done).toBe(true)
   })
 

@@ -17,7 +17,7 @@ export {
   marketLowestGuess,
   trendDemand,
 } from './tenders'
-export { SHADY_CATALOG, SHADY_IDS, riskLevel, detectionChance, hasIntel, poachChance, shadyStats } from './shady'
+export { SHADY_CATALOG, SHADY_IDS, SHADY_LEVELS, shadyUnlocked, riskLevel, detectionChance, hasIntel, poachChance, shadyStats } from './shady'
 export type { ShadyDef } from './shady'
 export { canChoose } from './events'
 export { employeeThoughts } from './flavor'
@@ -32,3 +32,5 @@ export { capacity, kpis, benchmark } from './metrics'
 export { quarterTodos } from './todos'
 export type { Todo, TodoId } from './todos'
 export type { Capacity, Kpis, KpiPoint, Benchmark } from './metrics'
+export { LEVEL_GOALS, earnedLevel, firmLevel, hasFeature, levelStats, maxTenderSeats, tenderLevel, tenderLock, unlocksAt } from './levels'
+export type { Feature, LevelGoal, LevelUnlocks } from './levels'
