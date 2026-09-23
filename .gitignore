@@ -28,3 +28,6 @@ sim-output/
 
 # PWA dev artefacts
 dev-dist/
+
+# Vercel
+.vercel
