@@ -45,6 +45,15 @@ describe('quarter todos', () => {
     expect(todo(s, 'hire')?.done).toBe(true)
   })
 
+  it('stays quiet at the end of the game, when new work would start too late', () => {
+    const s = newTestGame()
+    s.quarter = s.maxQuarters - 1
+    for (const t of s.tenders) t.publishedQuarter = Math.min(t.publishedQuarter, s.quarter)
+    expect(quarterTodos(s, 'player').filter((t) => !t.done)).toEqual([])
+    s.quarter = s.maxQuarters - 3
+    expect(todo(s, 'bid')).toBeDefined()
+  })
+
   it('is pure: never mutates input or touches the rng', () => {
     const s = deepFreeze(newTestGame())
     const before = s.rng.s

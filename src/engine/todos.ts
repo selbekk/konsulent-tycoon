@@ -25,6 +25,8 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const todos: Todo[] = []
   const open = openTenders(state)
   const mine = open.filter((t) => t.bids.some((b) => b.firmId === firmId))
+  // Only nag about things that pay off before the game ends (valuation ignores backlog).
+  const matters = (quarter: number) => quarter < state.maxQuarters
 
   // Idle people next quarter and a tender in a discipline the firm actually has people in.
   const idle = capacity(state, firmId).next.idle
@@ -32,11 +34,12 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const fits = open.some(
     (t) => !mine.includes(t) && DISCIPLINES.some((d) => (t.seats[d] ?? 0) > 0 && disciplineSupply(firm, d) > 0),
   )
-  todos.push({ id: 'bid', done: idle < threshold || !fits, params: { count: idle } })
+  // A bid placed now becomes a contract starting in two quarters.
+  if (matters(state.quarter + 2)) todos.push({ id: 'bid', done: idle < threshold || !fits, params: { count: idle } })
 
   // Bids decided at the end of this quarter without a customer meeting.
   const dueNow = mine.filter((t) => t.dueQuarter === state.quarter)
-  if (dueNow.length) {
+  if (dueNow.length && matters(state.quarter + 1)) {
     const missing = dueNow.filter((t) => !t.minigameResults[firmId]).length
     todos.push({ id: 'pitch', done: missing === 0, params: { count: missing } })
   }
@@ -45,7 +48,7 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const runway = (firm.cash + creditLimit(firm) * 0.5) / Math.max(1, quarterFinancials(state, firmId).total)
   const demand = seatTotal(staffFirm(state, firm, state.quarter + 2).demand)
   const needed = demand - headcount(firm) - seatTotal(firm.pendingHires)
-  if (needed >= 1 && runway > TODO_HIRE_MIN_RUNWAY) {
+  if (needed >= 1 && runway > TODO_HIRE_MIN_RUNWAY && matters(state.quarter + 2)) {
     const ordered = seatTotal(firm.hiringOrders)
     todos.push({ id: 'hire', done: ordered >= needed, params: { count: Math.ceil(needed) } })
   }
