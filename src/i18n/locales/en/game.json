@@ -31,7 +31,8 @@
     },
     "contract": {
       "terminatedUnhappy": "{{customer}} has terminated its contract with {{firm}}. \"We're going in a different direction.\"",
-      "ended": "The engagement at {{customer}} has ended. Customer satisfaction: {{satisfaction}} out of 100."
+      "ended": "The engagement at {{customer}} has ended. Customer satisfaction: {{satisfaction}} out of 100.",
+      "renewed": "{{customer}} extends the engagement by {{count}} quarters. They were happy!"
     },
     "shady": {
       "poachSuccess": "{{name}} has moved from {{from}} to {{to}}. Apparently it happened over an IPA.",
@@ -127,167 +128,266 @@
     "ebike_scheme": {
       "title": "Bike scheme",
       "body": "A group of employees has made a 34-slide deck on why you need an e-bike scheme.",
-      "choices": { "yes": "Go for it! (NOK 150,000)", "no": "We have buses." }
+      "choices": {
+        "yes": "Go for it! (NOK 150,000)",
+        "no": "We have buses."
+      }
     },
     "friday_1655": {
       "title": "Friday, 4:55 pm",
       "body": "{{customer}} is on the phone. Prod is down. Everyone is heading home.",
-      "choices": { "hero": "Send your best person. Now.", "ignore": "We'll look at it Monday." }
+      "choices": {
+        "hero": "Send your best person. Now.",
+        "ignore": "We'll look at it Monday."
+      }
     },
     "genai_pivot": {
       "title": "The board wants AI",
       "body": "The board read an article and wants you to \"do something with AI\". What exactly is unclear.",
-      "choices": { "rebrand": "Rebrand as AI-first (NOK 100,000)", "refuse": "We'll keep doing what we're good at." }
+      "choices": {
+        "rebrand": "Rebrand as AI-first (NOK 100,000)",
+        "refuse": "We'll keep doing what we're good at."
+      }
     },
     "kickoff": {
       "title": "Annual kick-off",
       "body": "It's kick-off season. The social committee has strong opinions.",
-      "choices": { "lisbon": "Lisbon! (NOK 15,000 per head)", "lillestrom": "A conference hotel off the motorway (NOK 3,000 per head)", "skip": "Kick-off on Teams." }
+      "choices": {
+        "lisbon": "Lisbon! (NOK 15,000 per head)",
+        "lillestrom": "A conference hotel off the motorway (NOK 3,000 per head)",
+        "skip": "Kick-off on Teams."
+      }
     },
     "competitor_cake": {
       "title": "Cake war",
       "body": "{{firm}} sent a cake with their logo to one of your clients. It was apparently delicious.",
-      "choices": { "bigger_cake": "Send a bigger cake (NOK 25,000)", "ignore": "We don't compete on cake." }
+      "choices": {
+        "bigger_cake": "Send a bigger cake (NOK 25,000)",
+        "ignore": "We don't compete on cake."
+      }
     },
     "leaked_salary_sheet": {
       "title": "Salary leak",
       "body": "The salary spreadsheet ended up in the wrong Teams channel. 47 people saw it. Three took screenshots.",
-      "choices": { "raise_all": "Give everyone a bump (+3% salary)", "deny": "It was a test sheet." }
+      "choices": {
+        "raise_all": "Give everyone a bump (+3% salary)",
+        "deny": "It was a test sheet."
+      }
     },
     "kofa_complaint": {
       "title": "Procurement complaint",
       "body": "{{firm}} has filed a complaint about your contract award. They say you were \"unrealistically cheap\".",
-      "choices": { "lawyer": "Hire a lawyer (NOK 200,000)", "shrug": "We stand by our price." }
+      "choices": {
+        "lawyer": "Hire a lawyer (NOK 200,000)",
+        "shrug": "We stand by our price."
+      }
     },
     "hackathon": {
       "title": "Hackathon?",
       "body": "Someone suggests an internal hackathon. There'll be pizza and at least one idea that goes nowhere.",
-      "choices": { "host": "Of course! (NOK 80,000)", "skip": "We hack on billable time." }
+      "choices": {
+        "host": "Of course! (NOK 80,000)",
+        "skip": "We hack on billable time."
+      }
     },
     "conference_talk": {
       "title": "Conference",
       "body": "One of your stars has been invited to speak at a tech conference.",
-      "choices": { "send": "Send them (NOK 40,000)", "skip": "Billing comes first." }
+      "choices": {
+        "send": "Send them (NOK 40,000)",
+        "skip": "Billing comes first."
+      }
     },
     "burnout_wave": {
       "title": "Burnout",
       "body": "People are working too much. Some have started sleeping under their desks, and not because it's comfy.",
-      "choices": { "relief": "Bring in help and give time off (NOK 300,000)", "push": "It's just a busy period." }
+      "choices": {
+        "relief": "Bring in help and give time off (NOK 300,000)",
+        "push": "It's just a busy period."
+      }
     },
     "star_wants_remote": {
       "title": "Remote work",
       "body": "{{name}} wants to work from a cabin in Lofoten. Full-time.",
-      "choices": { "grant": "Fine, but we want northern lights on Teams.", "deny": "We believe in the office." }
+      "choices": {
+        "grant": "Fine, but we want northern lights on Teams.",
+        "deny": "We believe in the office."
+      }
     },
     "acquisition_offer": {
       "title": "Acquisition",
       "body": "A small agency with 8 good people is for sale. The owner just wants to go sailing.",
-      "choices": { "acquire": "Buy it! (NOK 4M)", "decline": "We grow organically." }
+      "choices": {
+        "acquire": "Buy it! (NOK 4M)",
+        "decline": "We grow organically."
+      }
     },
     "influencer_post_viral": {
       "title": "Viral!",
       "body": "One of you wrote a post called \"What kindergarten taught me about agile\". It went viral.",
-      "choices": { "nice": "We'll take it." }
+      "choices": {
+        "nice": "We'll take it."
+      }
     },
     "office_ping_pong": {
       "title": "Ping-pong table",
       "body": "Someone left a note in the suggestion box: \"Ping-pong table?\" It's the third one.",
-      "choices": { "buy": "Buy one (NOK 30,000)", "no": "We have a meeting room." }
+      "choices": {
+        "buy": "Buy one (NOK 30,000)",
+        "no": "We have a meeting room."
+      }
     },
     "javazone_booth": {
       "title": "Conference booth",
       "body": "Booth registration for the big developer conference is open. Everyone else is getting one.",
-      "choices": { "booth": "Big booth with a coffee bar (NOK 250,000)", "skip": "We'll go as visitors." }
+      "choices": {
+        "booth": "Big booth with a coffee bar (NOK 250,000)",
+        "skip": "We'll go as visitors."
+      }
     },
     "tax_audit": {
       "title": "Tax audit",
       "body": "The tax authority would like a chat about a few entries in your accounts. They're very polite.",
-      "choices": { "cooperate": "Cooperate fully (NOK 300,000)", "stall": "We'll find those papers… soon." }
+      "choices": {
+        "cooperate": "Cooperate fully (NOK 300,000)",
+        "stall": "We'll find those papers… soon."
+      }
     },
     "glassdoor_review": {
       "title": "Glassdoor",
       "body": "A former employee gave you one star on Glassdoor. The review is long and very accurate.",
-      "choices": { "respond": "Reply humbly and honestly", "ignore": "Nobody reads Glassdoor." }
+      "choices": {
+        "respond": "Reply humbly and honestly",
+        "ignore": "Nobody reads Glassdoor."
+      }
     },
     "client_wants_chatbot": {
       "title": "Chatbot",
       "body": "{{customer}} wants a chatbot. They don't know what it should do, but it has to ship before summer.",
-      "choices": { "yes": "Of course!", "no": "Shall we start with the problem?" }
+      "choices": {
+        "yes": "Of course!",
+        "no": "Shall we start with the problem?"
+      }
     },
     "pizza_budget_cut": {
       "title": "Pizza budget",
       "body": "Finance suggests cutting the pizza budget. It's a number nobody was supposed to know.",
-      "choices": { "cut": "Cut it (+NOK 20,000)", "keep": "Pizza is culture." }
+      "choices": {
+        "cut": "Cut it (+NOK 20,000)",
+        "keep": "Pizza is culture."
+      }
     },
     "christmas_party": {
       "title": "Christmas party",
       "body": "It's time for the Christmas party. Expectations are high after last year.",
-      "choices": { "fancy": "Hotel, three courses (NOK 6,000 per head)", "potluck": "Potluck at the office", "cancel": "We'll skip it this year." }
+      "choices": {
+        "fancy": "Hotel, three courses (NOK 6,000 per head)",
+        "potluck": "Potluck at the office",
+        "cancel": "We'll skip it this year."
+      }
     },
     "intern_program": {
       "title": "Summer interns",
       "body": "The university asks if you'd like summer interns. They're eager and know a little about everything.",
-      "choices": { "start": "Take three (NOK 150,000)", "skip": "Not this year." }
+      "choices": {
+        "start": "Take three (NOK 150,000)",
+        "skip": "Not this year."
+      }
     },
     "open_source_fame": {
       "title": "Open source",
       "body": "A small library you built has reached 10,000 stars on GitHub.",
-      "choices": { "nice": "We knew it all along." }
+      "choices": {
+        "nice": "We knew it all along."
+      }
     },
     "cloud_credit_windfall": {
       "title": "Cloud credits",
       "body": "A cloud vendor gave you a pile of credits. Someone apparently needed to hit their target.",
-      "choices": { "nice": "Thanks! (+NOK 200,000)" }
+      "choices": {
+        "nice": "Thanks! (+NOK 200,000)"
+      }
     },
     "unionization": {
       "title": "Union",
       "body": "Employees want to unionise. They've made a Miro board.",
-      "choices": { "negotiate": "Negotiate (+5% salary)", "resist": "We're one big family." }
+      "choices": {
+        "negotiate": "Negotiate (+5% salary)",
+        "resist": "We're one big family."
+      }
     },
     "fagdag_vs_billable": {
       "title": "Tech day or invoice?",
       "body": "The tech day clashes with a client who wants people on Friday. What do you prioritise?",
-      "choices": { "fagdag": "Tech day! (NOK 10,000 per head)", "bill": "Bill it (+NOK 8,000 per head)" }
+      "choices": {
+        "fagdag": "Tech day! (NOK 10,000 per head)",
+        "bill": "Bill it (+NOK 8,000 per head)"
+      }
     },
     "ceo_podcast": {
       "title": "Podcast",
       "body": "The CEO has been invited onto a leadership podcast. It'll be 90 minutes.",
-      "choices": { "record": "Yes! (NOK 10,000 for a mic)", "skip": "No, thank you." }
+      "choices": {
+        "record": "Yes! (NOK 10,000 for a mic)",
+        "skip": "No, thank you."
+      }
     },
     "rebranding_agency": {
       "title": "Rebrand",
       "body": "An agency wants to give you a new visual identity. It involves a new font and a lot of orange.",
-      "choices": { "rebrand": "Do it! (NOK 500,000)", "no": "Our logo is fine." }
+      "choices": {
+        "rebrand": "Do it! (NOK 500,000)",
+        "no": "Our logo is fine."
+      }
     },
     "wrong_reply_all": {
       "title": "Reply all",
       "body": "Someone hit reply-all on an email to the client. With a comment that wasn't meant for the client.",
-      "choices": { "apologize": "Apologise", "blame_it": "Blame IT." }
+      "choices": {
+        "apologize": "Apologise",
+        "blame_it": "Blame IT."
+      }
     },
     "coffee_machine_broke": {
       "title": "Coffee crisis",
       "body": "The coffee machine is broken. Productivity has dropped, and morale even more.",
-      "choices": { "premium": "New Italian machine (NOK 60,000)", "cheap": "Instant coffee will do." }
+      "choices": {
+        "premium": "New Italian machine (NOK 60,000)",
+        "cheap": "Instant coffee will do."
+      }
     },
     "headhunter_calls": {
       "title": "Headhunter",
       "body": "A headhunter has called {{name}} three times this week.",
-      "choices": { "counter": "Make a counter-offer (+5% salary)", "ignore": "They'll stay." }
+      "choices": {
+        "counter": "Make a counter-offer (+5% salary)",
+        "ignore": "They'll stay."
+      }
     },
     "remote_debate": {
       "title": "Office debate",
       "body": "There's a full-blown debate about remote work in #general. The thread has 312 replies.",
-      "choices": { "office": "Three days in the office", "hybrid": "Let people decide" }
+      "choices": {
+        "office": "Three days in the office",
+        "hybrid": "Let people decide"
+      }
     },
     "security_incident": {
       "title": "Security hole",
       "body": "Someone pushed an API key to a public repo. It's been there for four months.",
-      "choices": { "pay": "Clean it up properly (NOK 400,000)", "downplay": "It was barely used." }
+      "choices": {
+        "pay": "Clean it up properly (NOK 400,000)",
+        "downplay": "It was barely used."
+      }
     },
     "poach_attempt": {
       "title": "Afterwork alert",
       "body": "{{firm}} took {{name}} out for drinks. It got late, and salaries were mentioned.",
-      "choices": { "match": "Match the offer (+10% salary and half a quarter's pay)", "let_go": "Let them go", "podcast": "Cry about it on a CEO podcast" }
+      "choices": {
+        "match": "Match the offer (+10% salary and half a quarter's pay)",
+        "let_go": "Let them go",
+        "podcast": "Cry about it on a CEO podcast"
+      }
     }
   }
 }

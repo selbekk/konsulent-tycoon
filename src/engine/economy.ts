@@ -3,6 +3,7 @@ import {
   CREDIT_MIN,
   CREDIT_REVENUE_SHARE,
   FIXED_OVERHEAD,
+  FLEX_LEVEL,
   FREELANCER_LEVEL,
   FREELANCER_MARKUP,
   OFFSHORE_COST_FACTOR,
@@ -57,6 +58,8 @@ export function activeContracts(state: GameState, firmId: string, quarter = stat
 export interface ContractStaffing {
   contractId: string
   staffed: Seats
+  /** Own people from another discipline covering the seat ("knows a bit of React"). */
+  flex: Seats
   freelance: Seats
   offshore: Seats
 }
@@ -76,7 +79,8 @@ export interface FirmStaffing {
  */
 export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter): FirmStaffing {
   const contracts = activeContracts(state, firm.id, quarter)
-  const result: ContractStaffing[] = contracts.map((c) => ({ contractId: c.id, staffed: {}, freelance: {}, offshore: {} }))
+  const result: ContractStaffing[] = contracts.map((c) => ({ contractId: c.id, staffed: {}, flex: {}, freelance: {}, offshore: {} }))
+  const leftover: Partial<Record<Discipline, number>> = {}
   const demand: Seats = {}
   let billed = 0
 
@@ -126,9 +130,28 @@ export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter)
       })
       supply -= toPlace
     }
+    leftover[d] = supply
     remaining.forEach((r, i) => {
       if (r > 0) result[i].freelance[d] = r
     })
+  }
+
+  // Bench people cover missing seats in other disciplines before freelancers are called in.
+  for (const cs of result) {
+    for (const d of DISCIPLINES) {
+      let missing = cs.freelance[d] ?? 0
+      while (missing > 0) {
+        const donor = DISCIPLINES.filter((x) => x !== d && (leftover[x] ?? 0) > 0).sort((a, b) => (leftover[b] ?? 0) - (leftover[a] ?? 0))[0]
+        if (!donor) break
+        const n = Math.min(missing, leftover[donor]!)
+        leftover[donor]! -= n
+        missing -= n
+        cs.flex[d] = (cs.flex[d] ?? 0) + n
+        billed += n
+      }
+      if (missing > 0) cs.freelance[d] = missing
+      else delete cs.freelance[d]
+    }
   }
 
   const hc = headcount(firm)
@@ -155,8 +178,10 @@ export function contractRevenue(firm: Firm, c: Contract, staffing?: ContractStaf
     const seats = c.activeSeats[d] ?? 0
     if (!seats) continue
     const freelance = staffing?.freelance[d] ?? 0
-    const own = seats - freelance
+    const flex = staffing?.flex[d] ?? 0
+    const own = seats - freelance - flex
     revenue += own * BILLABLE_HOURS * listRate(disciplineLevel(firm, d)) * c.rateMultiplier
+    revenue += flex * BILLABLE_HOURS * listRate(FLEX_LEVEL) * c.rateMultiplier
     revenue += freelance * BILLABLE_HOURS * listRate(FREELANCER_LEVEL) * c.rateMultiplier
   }
   return revenue

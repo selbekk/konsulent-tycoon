@@ -12,7 +12,7 @@ import { valuation } from './score'
 import { decayHeatAndIntel, rollShadyDetection } from './shady'
 import { applyTurnover, processHiring, updateMorale } from './staff'
 import { refreshStarMarket, updateStars } from './stars'
-import { publishTenders, resolveDueTenders } from './tenders'
+import { publishTenders, resolveDueTenders, retenderContracts } from './tenders'
 import type { GameState } from './types'
 import { addNews, aiFirms, activeFirms } from './util'
 
@@ -61,7 +61,9 @@ function checkBankruptcies(state: GameState) {
     }
     if (firm.negativeCashQuarters >= BANKRUPT_AFTER_QUARTERS) {
       firm.bankrupt = true
+      const live = state.contracts.filter((c) => c.firmId === firm.id && !c.terminated && c.endQuarter > state.quarter + 1)
       for (const c of state.contracts) if (c.firmId === firm.id) c.terminated = true
+      retenderContracts(state, live, state.quarter + 1)
       for (const t of state.tenders) t.bids = t.bids.filter((b) => b.firmId !== firm.id)
       addNews(state, firm.isPlayer ? 'news.firm.playerBankrupt' : 'news.firm.bankrupt', { firm: firm.name }, 'sassy', {
         firmId: firm.id,

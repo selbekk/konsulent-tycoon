@@ -15,6 +15,8 @@ export const OVERHEAD_PER_HEAD = 30_000
 export const FIXED_OVERHEAD = 150_000
 export const HIRE_COST = 50_000
 export const FREELANCER_LEVEL = 3
+/** Own people staffed outside their discipline are billed at this level. */
+export const FLEX_LEVEL = 2.2
 /** Freelancers cost this share of what they are billed at (FREELANCER_LEVEL × 1.0). */
 export const FREELANCER_MARKUP = 1.05
 export const OFFSHORE_COST_FACTOR = 0.3
@@ -63,7 +65,12 @@ export const BID_NOISE = 5
 export const CAPACITY_PENALTY = 30
 export const PRIORITY_BONUS = 8
 export const AI_MAX_OPEN_BIDS = 8
-export const TARGET_DEMAND_RATIO = 0.92
+/** Happy clients often extend instead of re-tendering. */
+export const RENEWAL_MIN_SATISFACTION = 60
+export const RENEWAL_CHANCE = 0.5
+export const TARGET_DEMAND_RATIO = 0.85
+/** Market demand grows slowly and does not follow surviving capacity. */
+export const DEMAND_GROWTH_PER_YEAR = 0.05
 
 // Shady
 export const HEAT_DECAY = 10

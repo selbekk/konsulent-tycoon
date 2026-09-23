@@ -47,8 +47,8 @@ export const ARCHETYPES: Record<Archetype, Personality> = {
     startLevel: 3.1,
   }),
   mid_generalist: archetype('mid_generalist', {
-    priceBias: 1.0,
-    qualityFocus: 0.55,
+    priceBias: 0.96,
+    qualityFocus: 0.6,
     aggression: 0.15,
     shadiness: 0.06,
     growthAppetite: 0.55,
@@ -63,7 +63,7 @@ export const ARCHETYPES: Record<Archetype, Personality> = {
     startLevel: 2.7,
   }),
   budget_bulk: archetype('budget_bulk', {
-    priceBias: 0.82,
+    priceBias: 0.87,
     qualityFocus: 0.3,
     aggression: 0.15,
     shadiness: 0.12,
@@ -111,8 +111,8 @@ export const RIVALS: Record<string, Personality> = {
   },
   knowitall: {
     id: 'knowitall',
-    priceBias: 1.0,
-    qualityFocus: 0.55,
+    priceBias: 0.96,
+    qualityFocus: 0.6,
     aggression: 0.25,
     shadiness: 0.07,
     growthAppetite: 0.65,
@@ -121,7 +121,7 @@ export const RIVALS: Record<string, Personality> = {
   },
   soppsteria: {
     id: 'soppsteria',
-    priceBias: 0.8,
+    priceBias: 0.86,
     qualityFocus: 0.3,
     aggression: 0.2,
     shadiness: 0.22,
@@ -141,4 +141,9 @@ export const PLAYER_BOTS: Record<string, Personality> = {
 
 export function personalityFor(id: string): Personality {
   return RIVALS[id] ?? ARCHETYPES[id as Archetype] ?? PLAYER_BOTS[id] ?? ARCHETYPES.mid_generalist
+}
+
+/** Cheap firms pay below market, quality firms above. */
+export function salaryPremiumFor(p: Personality): number {
+  return Math.round((p.qualityFocus - 0.5) * 0.25 * 100) / 100
 }

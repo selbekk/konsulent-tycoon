@@ -31,7 +31,8 @@
     },
     "contract": {
       "terminatedUnhappy": "{{customer}} har sagt opp avtalen med {{firm}}. «Vi går i en annen retning.»",
-      "ended": "Oppdraget hos {{customer}} er avsluttet. Kundetilfredshet: {{satisfaction}} av 100."
+      "ended": "Oppdraget hos {{customer}} er avsluttet. Kundetilfredshet: {{satisfaction}} av 100.",
+      "renewed": "{{customer}} forlenger oppdraget med {{count}} kvartaler. De var fornøyde!"
     },
     "shady": {
       "poachSuccess": "{{name}} har byttet fra {{from}} til {{to}}. Det skjedde visstnok over en IPA.",
@@ -127,167 +128,266 @@
     "ebike_scheme": {
       "title": "Sykkelordning",
       "body": "En gruppe ansatte har laget en presentasjon på 34 slides om hvorfor dere trenger en el-sykkelordning.",
-      "choices": { "yes": "Kjør på! (150 000 kr)", "no": "Vi har buss." }
+      "choices": {
+        "yes": "Kjør på! (150 000 kr)",
+        "no": "Vi har buss."
+      }
     },
     "friday_1655": {
       "title": "Fredag 16:55",
       "body": "{{customer}} ringer. Prod er nede. Alle er på vei hjem.",
-      "choices": { "hero": "Send den flinkeste. Nå.", "ignore": "Vi ser på det mandag." }
+      "choices": {
+        "hero": "Send den flinkeste. Nå.",
+        "ignore": "Vi ser på det mandag."
+      }
     },
     "genai_pivot": {
       "title": "Styret vil ha AI",
       "body": "Styret har lest en artikkel og vil at dere skal «gjøre noe med AI». Det de sikter til, er uklart.",
-      "choices": { "rebrand": "Rebrand til AI-first (100 000 kr)", "refuse": "Vi gjør det vi kan." }
+      "choices": {
+        "rebrand": "Rebrand til AI-first (100 000 kr)",
+        "refuse": "Vi gjør det vi kan."
+      }
     },
     "kickoff": {
       "title": "Årets kick-off",
       "body": "Det er tid for kick-off. Sosialkomiteen har sterke meninger.",
-      "choices": { "lisbon": "Lisboa! (15 000 kr per hode)", "lillestrom": "Scandic Lillestrøm (3 000 kr per hode)", "skip": "Vi har kick-off på Teams." }
+      "choices": {
+        "lisbon": "Lisboa! (15 000 kr per hode)",
+        "lillestrom": "Scandic Lillestrøm (3 000 kr per hode)",
+        "skip": "Vi har kick-off på Teams."
+      }
     },
     "competitor_cake": {
       "title": "Kakekrig",
       "body": "{{firm}} sendte en kake med logoen sin til en av kundene deres. Den var visst god.",
-      "choices": { "bigger_cake": "Send en større kake (25 000 kr)", "ignore": "Vi konkurrerer ikke på kake." }
+      "choices": {
+        "bigger_cake": "Send en større kake (25 000 kr)",
+        "ignore": "Vi konkurrerer ikke på kake."
+      }
     },
     "leaked_salary_sheet": {
       "title": "Lønnslekkasje",
       "body": "Lønnsarket havnet i feil Teams-kanal. 47 personer har sett det. Tre har tatt skjermbilde.",
-      "choices": { "raise_all": "Løft alle litt (+3 % lønn)", "deny": "Det var et testark." }
+      "choices": {
+        "raise_all": "Løft alle litt (+3 % lønn)",
+        "deny": "Det var et testark."
+      }
     },
     "kofa_complaint": {
       "title": "KOFA-klage",
       "body": "{{firm}} har klaget tildelingen deres inn for KOFA. De mener dere var «urealistisk billige».",
-      "choices": { "lawyer": "Hyr advokat (200 000 kr)", "shrug": "Vi står for prisen." }
+      "choices": {
+        "lawyer": "Hyr advokat (200 000 kr)",
+        "shrug": "Vi står for prisen."
+      }
     },
     "hackathon": {
       "title": "Hackathon?",
       "body": "Noen foreslår et internt hackathon. Det blir pizza og minst én idé som aldri blir noe av.",
-      "choices": { "host": "Selvfølgelig! (80 000 kr)", "skip": "Vi hacker på fakturerbar tid." }
+      "choices": {
+        "host": "Selvfølgelig! (80 000 kr)",
+        "skip": "Vi hacker på fakturerbar tid."
+      }
     },
     "conference_talk": {
       "title": "Konferanse",
       "body": "En av stjernene deres er invitert til å holde foredrag på en fagkonferanse.",
-      "choices": { "send": "Send dem (40 000 kr)", "skip": "Fakturering først." }
+      "choices": {
+        "send": "Send dem (40 000 kr)",
+        "skip": "Fakturering først."
+      }
     },
     "burnout_wave": {
       "title": "Utbrenthet",
       "body": "Folk jobber for mye. Noen har begynt å sove under pulten, og det er ikke fordi den er komfortabel.",
-      "choices": { "relief": "Leie inn hjelp og gi fri (300 000 kr)", "push": "Det er bare en travel periode." }
+      "choices": {
+        "relief": "Leie inn hjelp og gi fri (300 000 kr)",
+        "push": "Det er bare en travel periode."
+      }
     },
     "star_wants_remote": {
       "title": "Hjemmekontor",
       "body": "{{name}} vil jobbe fra en hytte i Lofoten. På heltid.",
-      "choices": { "grant": "Greit, men vi vil se nordlys på Teams.", "deny": "Vi tror på kontoret." }
+      "choices": {
+        "grant": "Greit, men vi vil se nordlys på Teams.",
+        "deny": "Vi tror på kontoret."
+      }
     },
     "acquisition_offer": {
       "title": "Oppkjøp",
       "body": "Et lite byrå med 8 flinke folk vil selges. Eieren vil bare seile.",
-      "choices": { "acquire": "Kjøp! (4 MNOK)", "decline": "Vi vokser organisk." }
+      "choices": {
+        "acquire": "Kjøp! (4 MNOK)",
+        "decline": "Vi vokser organisk."
+      }
     },
     "influencer_post_viral": {
       "title": "Viralt!",
       "body": "En av dere skrev et innlegg om «Hva barnehagen lærte meg om smidig». Det gikk viralt.",
-      "choices": { "nice": "Vi tar det." }
+      "choices": {
+        "nice": "Vi tar det."
+      }
     },
     "office_ping_pong": {
       "title": "Pingpongbord",
       "body": "Noen har lagt en lapp i forslagskassa: «Pingpongbord?» Det er den tredje lappen.",
-      "choices": { "buy": "Kjøp et (30 000 kr)", "no": "Vi har et møterom." }
+      "choices": {
+        "buy": "Kjøp et (30 000 kr)",
+        "no": "Vi har et møterom."
+      }
     },
     "javazone_booth": {
       "title": "JavaZone",
       "body": "Det er stand-påmelding til JavaZone. Alle de andre skal ha stand.",
-      "choices": { "booth": "Stor stand med kaffebar (250 000 kr)", "skip": "Vi går som besøkende." }
+      "choices": {
+        "booth": "Stor stand med kaffebar (250 000 kr)",
+        "skip": "Vi går som besøkende."
+      }
     },
     "tax_audit": {
       "title": "Bokettersyn",
       "body": "Skatteetaten vil ha en prat om noen poster i regnskapet. De er veldig høflige.",
-      "choices": { "cooperate": "Samarbeid fullt ut (300 000 kr)", "stall": "Vi finner fram papirene … snart." }
+      "choices": {
+        "cooperate": "Samarbeid fullt ut (300 000 kr)",
+        "stall": "Vi finner fram papirene … snart."
+      }
     },
     "glassdoor_review": {
       "title": "Glassdoor",
       "body": "En tidligere ansatt har gitt dere én stjerne på Glassdoor. Anmeldelsen er lang og veldig presis.",
-      "choices": { "respond": "Svar ydmykt og ærlig", "ignore": "Ingen leser Glassdoor." }
+      "choices": {
+        "respond": "Svar ydmykt og ærlig",
+        "ignore": "Ingen leser Glassdoor."
+      }
     },
     "client_wants_chatbot": {
       "title": "Chatbot",
       "body": "{{customer}} vil ha en chatbot. De vet ikke hva den skal gjøre, men den må komme før sommeren.",
-      "choices": { "yes": "Selvsagt!", "no": "Kanskje vi skal starte med problemet?" }
+      "choices": {
+        "yes": "Selvsagt!",
+        "no": "Kanskje vi skal starte med problemet?"
+      }
     },
     "pizza_budget_cut": {
       "title": "Pizzabudsjettet",
       "body": "Økonomi foreslår å kutte pizzabudsjettet. Det er et tall ingen skal ha visst om.",
-      "choices": { "cut": "Kutt (+20 000 kr)", "keep": "Pizza er kultur." }
+      "choices": {
+        "cut": "Kutt (+20 000 kr)",
+        "keep": "Pizza er kultur."
+      }
     },
     "christmas_party": {
       "title": "Julebord",
       "body": "Det er tid for julebord. Forventningene er høye etter i fjor.",
-      "choices": { "fancy": "Hotell med tre retter (6 000 kr per hode)", "potluck": "Knyttkalas på kontoret", "cancel": "Vi dropper det i år." }
+      "choices": {
+        "fancy": "Hotell med tre retter (6 000 kr per hode)",
+        "potluck": "Knyttkalas på kontoret",
+        "cancel": "Vi dropper det i år."
+      }
     },
     "intern_program": {
       "title": "Sommerstudenter",
       "body": "Universitetet spør om dere vil ta inn sommerstudenter. De er ivrige og vet litt om alt.",
-      "choices": { "start": "Ta inn tre (150 000 kr)", "skip": "Ikke i år." }
+      "choices": {
+        "start": "Ta inn tre (150 000 kr)",
+        "skip": "Ikke i år."
+      }
     },
     "open_source_fame": {
       "title": "Open source",
       "body": "Et lite bibliotek dere har laget, har fått 10 000 stjerner på GitHub.",
-      "choices": { "nice": "Vi visste det hele tiden." }
+      "choices": {
+        "nice": "Vi visste det hele tiden."
+      }
     },
     "cloud_credit_windfall": {
       "title": "Skykreditter",
       "body": "En skyleverandør har gitt dere en haug kreditter. Noen trengte visst å nå målet sitt.",
-      "choices": { "nice": "Takk! (+200 000 kr)" }
+      "choices": {
+        "nice": "Takk! (+200 000 kr)"
+      }
     },
     "unionization": {
       "title": "Fagforening",
       "body": "De ansatte vil organisere seg. De har laget et Miro-brett.",
-      "choices": { "negotiate": "Forhandle (+5 % lønn)", "resist": "Vi er én stor familie." }
+      "choices": {
+        "negotiate": "Forhandle (+5 % lønn)",
+        "resist": "Vi er én stor familie."
+      }
     },
     "fagdag_vs_billable": {
       "title": "Fagdag eller faktura?",
       "body": "Fagdagen kolliderer med en kunde som vil ha folk fredag. Hva prioriterer dere?",
-      "choices": { "fagdag": "Fagdag! (10 000 kr per hode)", "bill": "Fakturer (+8 000 kr per hode)" }
+      "choices": {
+        "fagdag": "Fagdag! (10 000 kr per hode)",
+        "bill": "Fakturer (+8 000 kr per hode)"
+      }
     },
     "ceo_podcast": {
       "title": "Podcast",
       "body": "Daglig leder er invitert til en podcast om ledelse. Det blir 90 minutter.",
-      "choices": { "record": "Ja! (10 000 kr i mikrofon)", "skip": "Vi sier nei takk." }
+      "choices": {
+        "record": "Ja! (10 000 kr i mikrofon)",
+        "skip": "Vi sier nei takk."
+      }
     },
     "rebranding_agency": {
       "title": "Ny profil",
       "body": "Et byrå vil gi dere en ny visuell profil. Det innebærer en ny font og veldig mye oransje.",
-      "choices": { "rebrand": "Kjør på! (500 000 kr)", "no": "Logoen vår er fin." }
+      "choices": {
+        "rebrand": "Kjør på! (500 000 kr)",
+        "no": "Logoen vår er fin."
+      }
     },
     "wrong_reply_all": {
       "title": "Svar alle",
       "body": "Noen svarte alle på en e-post til kunden. Med en kommentar som ikke var ment for kunden.",
-      "choices": { "apologize": "Be om unnskyldning", "blame_it": "Skyld på IT." }
+      "choices": {
+        "apologize": "Be om unnskyldning",
+        "blame_it": "Skyld på IT."
+      }
     },
     "coffee_machine_broke": {
       "title": "Kaffekrise",
       "body": "Kaffemaskinen er ødelagt. Produktiviteten har falt, og humøret enda mer.",
-      "choices": { "premium": "Ny italiensk maskin (60 000 kr)", "cheap": "Pulverkaffe får duge." }
+      "choices": {
+        "premium": "Ny italiensk maskin (60 000 kr)",
+        "cheap": "Pulverkaffe får duge."
+      }
     },
     "headhunter_calls": {
       "title": "Hodejeger",
       "body": "En hodejeger har ringt {{name}} tre ganger denne uka.",
-      "choices": { "counter": "Gi et mottilbud (+5 % lønn)", "ignore": "Hen blir." }
+      "choices": {
+        "counter": "Gi et mottilbud (+5 % lønn)",
+        "ignore": "Hen blir."
+      }
     },
     "remote_debate": {
       "title": "Kontordebatt",
       "body": "Det er full debatt om hjemmekontor i #general. Tråden har 312 svar.",
-      "choices": { "office": "Tre dager på kontoret", "hybrid": "Folk bestemmer selv" }
+      "choices": {
+        "office": "Tre dager på kontoret",
+        "hybrid": "Folk bestemmer selv"
+      }
     },
     "security_incident": {
       "title": "Sikkerhetshull",
       "body": "Noen har lagt en API-nøkkel i et offentlig repo. Den har vært der i fire måneder.",
-      "choices": { "pay": "Rydd opp skikkelig (400 000 kr)", "downplay": "Den var nesten ikke brukt." }
+      "choices": {
+        "pay": "Rydd opp skikkelig (400 000 kr)",
+        "downplay": "Den var nesten ikke brukt."
+      }
     },
     "poach_attempt": {
       "title": "Afterwork-alarm",
       "body": "{{firm}} har tatt med {{name}} på afterwork. Det ble visst sent, og det var snakk om lønn.",
-      "choices": { "match": "Match tilbudet (+10 % lønn og en halv kvartalslønn)", "let_go": "La hen gå", "podcast": "Gråt i en CEO-podcast" }
+      "choices": {
+        "match": "Match tilbudet (+10 % lønn og en halv kvartalslønn)",
+        "let_go": "La hen gå",
+        "podcast": "Gråt i en CEO-podcast"
+      }
     }
   }
 }

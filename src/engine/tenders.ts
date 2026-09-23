@@ -4,6 +4,7 @@ import { TREND_MAP } from '../content/trends'
 import {
   BID_NOISE,
   CAPACITY_PENALTY,
+  DEMAND_GROWTH_PER_YEAR,
   PRIORITY_BONUS,
   EFFORT_COST,
   FRAMEWORK_SHARES,
@@ -20,7 +21,7 @@ import { chance, nextFloat, nextInt, noise, range, shuffle, weightedPick } from 
 import { checkFraudAtAward } from './shady'
 import { starBidQuality } from './stars'
 import { DISCIPLINES } from './types'
-import type { Bid, Discipline, GameState, Seats, Tender } from './types'
+import type { Bid, Contract, ContractKind, Discipline, GameState, Seats, Tender } from './types'
 import { activeFirms, addNews, nextId, seatTotal } from './util'
 
 export function trendDemand(state: GameState, d: Discipline): number {
@@ -73,12 +74,46 @@ function tenderSize(state: GameState, kind: 'project' | 'framework', budgetFacto
   return Math.max(2, Math.round(base * (0.8 + budgetFactor * 0.2)))
 }
 
+/** Total seats customers want, independent of how many consultants survive. Grows slowly. */
+export function marketDemand(state: GameState, quarter: number): number {
+  const base = state.baseDemand ?? marketCapacity(state) * TARGET_DEMAND_RATIO
+  return base * (1 + DEMAND_GROWTH_PER_YEAR) ** (quarter / 4) * trendFactor(state, 'volume')
+}
+
+function buildTender(
+  state: GameState,
+  customerId: string,
+  kind: ContractKind,
+  seats: Seats,
+  duration: number,
+  publishedQuarter: number,
+): Tender {
+  const customer = state.customers[customerId]
+  const priceWeight = clamp(customer.priceWeight * trendFactor(state, 'priceWeight') + noise(state.rng, 0.08), 0.1, 0.95)
+  const trendWords = state.trends.flatMap((t) => TREND_MAP[t.id]?.buzzwords ?? [])
+  const buzzwords = [...new Set([...trendWords, ...shuffle(state.rng, BUZZWORDS)])].slice(0, nextInt(state.rng, 4, 6))
+  return {
+    id: nextId(state, 't'),
+    customerId,
+    kind,
+    seats,
+    duration,
+    priceWeight: Math.round(priceWeight * 100) / 100,
+    qualityWeight: Math.round((1 - priceWeight) * 100) / 100,
+    publishedQuarter,
+    dueQuarter: publishedQuarter + 1,
+    buzzwords,
+    bids: [],
+    minigameResults: {},
+    resolved: false,
+    winnerIds: [],
+  }
+}
+
 export function publishTenders(state: GameState, publishedQuarter: number) {
   const capacity = marketCapacity(state)
-  const volume = trendFactor(state, 'volume')
   const startQuarter = publishedQuarter + 2
-  const gap =
-    capacity * TARGET_DEMAND_RATIO * volume - committedDemand(state, startQuarter) - pipelineDemand(state) * 0.8
+  const gap = marketDemand(state, startQuarter) - committedDemand(state, startQuarter) - pipelineDemand(state) * 0.8
   const minCount = clamp(Math.round(capacity / 150), 4, 8)
   const supplyShare = marketSupplyShare(state)
   let budget = Math.max(gap, minCount * 6)
@@ -109,26 +144,17 @@ export function publishTenders(state: GameState, publishedQuarter: number) {
         placed += n
       }
     })
-    const priceWeight = clamp(customer.priceWeight * trendFactor(state, 'priceWeight') + noise(state.rng, 0.08), 0.1, 0.95)
-    const trendWords = state.trends.flatMap((t) => TREND_MAP[t.id]?.buzzwords ?? [])
-    const buzzwords = [...new Set([...trendWords, ...shuffle(state.rng, BUZZWORDS)])].slice(0, nextInt(state.rng, 4, 6))
-    const tender: Tender = {
-      id: nextId(state, 't'),
-      customerId: def.id,
-      kind,
-      seats,
-      duration: kind === 'framework' ? nextInt(state.rng, 8, 16) : nextInt(state.rng, 2, 6),
-      priceWeight: Math.round(priceWeight * 100) / 100,
-      qualityWeight: Math.round((1 - priceWeight) * 100) / 100,
-      publishedQuarter,
-      dueQuarter: publishedQuarter + 1,
-      buzzwords,
-      bids: [],
-      minigameResults: {},
-      resolved: false,
-      winnerIds: [],
-    }
-    state.tenders.push(tender)
+    const duration = kind === 'framework' ? nextInt(state.rng, 8, 16) : nextInt(state.rng, 2, 6)
+    state.tenders.push(buildTender(state, def.id, kind, seats, duration, publishedQuarter))
+  }
+}
+
+/** When a firm goes bust its clients still need the people: live contracts go back out to tender. */
+export function retenderContracts(state: GameState, contracts: Contract[], publishedQuarter: number) {
+  for (const c of contracts) {
+    const remaining = c.endQuarter - (publishedQuarter + 2)
+    if (remaining < 2 || seatTotal(c.baseSeats) === 0) continue
+    state.tenders.push(buildTender(state, c.customerId, c.kind, { ...c.baseSeats }, remaining, publishedQuarter))
   }
 }
 

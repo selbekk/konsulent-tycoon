@@ -2,13 +2,13 @@ import { CUSTOMERS } from '../content/customers'
 import { FIRMS } from '../content/firms'
 import type { FirmDef } from '../content/firms'
 import { TRENDS } from '../content/trends'
-import { personalityFor } from './ai/personalities'
-import { MAX_QUARTERS, SAVE_VERSION, clamp } from './constants'
+import { personalityFor, salaryPremiumFor } from './ai/personalities'
+import { MAX_QUARTERS, SAVE_VERSION, TARGET_DEMAND_RATIO, clamp } from './constants'
 import { cultureEquilibrium } from './culture'
 import { pickAnnouncement } from './flavor'
 import { createRng, nextInt, noise, pick, range, weightedPick } from './rng'
 import { generateStar } from './stars'
-import { publishTenders } from './tenders'
+import { marketCapacity, publishTenders } from './tenders'
 import { DISCIPLINES } from './types'
 import type { Contract, Customer, Difficulty, Discipline, Firm, GameState, Seats } from './types'
 import { addNews, emptyPools, nextId, seatTotal } from './util'
@@ -84,12 +84,12 @@ function createAiFirm(state: GameState, def: FirmDef): Firm {
   firm.budgets = {
     fagmiljoPerHead: Math.round((4_000 + 22_000 * p.qualityFocus) / 1000) * 1000,
     sosialtPerHead: Math.round((5_000 + 12_000 * p.qualityFocus) / 1000) * 1000,
-    salaryPremium: Math.round((p.qualityFocus - 0.5) * 0.15 * 100) / 100,
+    salaryPremium: salaryPremiumFor(p),
   }
   firm.fagmiljo = cultureEquilibrium(firm.budgets.fagmiljoPerHead)
   firm.sosialt = cultureEquilibrium(firm.budgets.sosialtPerHead)
   firm.reputation = clamp(def.startReputation + noise(state.rng, 4), 0, 100)
-  firm.cash = Math.round(hc * 450_000 * AI_CASH_FACTOR[state.difficulty])
+  firm.cash = Math.round(hc * 650_000 * AI_CASH_FACTOR[state.difficulty])
   return firm
 }
 
@@ -241,6 +241,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
   const firstTrend = pick(state.rng, TRENDS.filter((t) => !t.volume || t.volume > 1))
   state.trends.push({ id: firstTrend.id, untilQuarter: nextInt(state.rng, firstTrend.minDuration, firstTrend.maxDuration) })
 
+  state.baseDemand = marketCapacity(state) * TARGET_DEMAND_RATIO
   publishTenders(state, 0)
   for (let i = 0; i < 2; i++) state.starMarket.push(generateStar(state))
   addNews(state, 'news.game.welcome', { firm: me.name }, 'good', { personal: true })

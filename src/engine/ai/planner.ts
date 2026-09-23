@@ -10,7 +10,7 @@ import { openTenders, effortCost } from '../tenders'
 import { DISCIPLINES } from '../types'
 import type { Action, Difficulty, Firm, GameState, ShadyActionId, Tender } from '../types'
 import { activeFirms, seatTotal } from '../util'
-import { personalityFor } from './personalities'
+import { personalityFor, salaryPremiumFor } from './personalities'
 import type { Personality } from './personalities'
 
 const DIFFICULTY_FACTOR: Record<Difficulty, number> = { easy: 0.6, normal: 1, hard: 1.4 }
@@ -19,7 +19,7 @@ function tenderFit(state: GameState, firm: Firm, t: Tender, freeByDiscipline: Re
   const total = seatTotal(t.seats)
   const hc = headcount(firm)
   // Simulated players are small and hungry: they bid bigger and hire to fill.
-  const maxShare = firm.isPlayer ? 1.2 : 0.8
+  const maxShare = firm.isPlayer ? 1.2 : 1
   if (!total || total > Math.max(firm.isPlayer ? 8 : 4, hc * maxShare)) return 0
   let covered = 0
   for (const d of DISCIPLINES) {
@@ -27,10 +27,14 @@ function tenderFit(state: GameState, firm: Firm, t: Tender, freeByDiscipline: Re
     if (!n) continue
     const supply = disciplineSupply(firm, d)
     if (!firm.isPlayer && supply === 0 && n > 1) return 0
-    covered += Math.min(n, Math.max(0, freeByDiscipline[d] ?? 0) + (firm.isPlayer ? n * 0.3 : supply * 0.1))
+    // Firms expect to hire or use subcontractors for part of a win.
+    covered += Math.min(n, Math.max(0, freeByDiscipline[d] ?? 0) + (firm.isPlayer ? n * 0.3 : supply * 0.3))
   }
   const rel = state.customers[t.customerId]?.relationships[firm.id] ?? 20
-  return (covered / total) * (0.7 + rel / 150)
+  // Big firms don't bother with tiny deals, and nobody likes a crowded tender.
+  const sizeFit = firm.isPlayer ? 1 : Math.min(1, 0.3 + total / Math.max(2, hc * 0.12))
+  const crowd = 1 / (1 + 0.25 * t.bids.length)
+  return (covered / total) * (0.7 + rel / 150) * sizeFit * crowd
 }
 
 /**
@@ -57,7 +61,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     budgets: {
       fagmiljoPerHead: Math.round(((4_000 + 22_000 * p.qualityFocus) * (lean ? 0.4 : 1)) / 1000) * 1000,
       sosialtPerHead: Math.round(((5_000 + 12_000 * p.qualityFocus) * (lean ? 0.4 : 1)) / 1000) * 1000,
-      salaryPremium: Math.round((p.qualityFocus - 0.5) * 0.15 * 100) / 100,
+      salaryPremium: salaryPremiumFor(p),
     },
   })
 
@@ -72,23 +76,26 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     free[d] = supply - demand
     if (runway > (firm.isPlayer ? 1 : 1.5) && fin.ebitda > -burn * 0.1) {
       const shortfall = Math.max(0, demand - supply - (firm.pendingHires[d] ?? 0))
-      const growth = util > 0.75 ? supply * 0.08 * p.growthAppetite * (p.mix[d] ? 1 : 0.3) : 0
+      const growth = util > 0.75 ? supply * 0.12 * p.growthAppetite * (p.mix[d] ? 1 : 0.3) : 0
       const want = Math.round((shortfall * 0.8 + growth) / rate)
       if (want > 0) actions.push({ type: 'orderHires', firmId, discipline: d, count: Math.min(want, 12) })
     }
   }
-  // Losing money: let the bench go, harder the shorter the runway.
-  if (fin.ebitda < 0 && util < 0.7 && runway < 3 && hc > 6) {
-    const share = runway < 1.5 ? 0.5 : 0.25
+  // Only let people go when the money is actually running out.
+  if (fin.ebitda < 0 && util < 0.65 && runway < 2.5 && hc > 6) {
     for (const d of DISCIPLINES) {
-      const bench = Math.min(firm.pools[d].count, free[d])
-      const n = Math.floor(bench * share)
+      const n = Math.floor(Math.min(firm.pools[d].count, free[d]) * 0.25)
       if (n > 0) actions.push({ type: 'fire', firmId, discipline: d, count: n })
     }
   }
 
   // 3. Bids
   const open = openTenders(state)
+  // Seats already offered in open bids are not free for new bids.
+  for (const t of open) {
+    if (!t.bids.some((b) => b.firmId === firmId)) continue
+    for (const d of DISCIPLINES) free[d] -= (t.seats[d] ?? 0) * (t.kind === 'framework' ? 0.5 : 1)
+  }
   const myOpen = open.filter((t) => t.bids.some((b) => b.firmId === firmId)).length
   const maxBids = firm.isPlayer ? 5 : Math.min(AI_MAX_OPEN_BIDS, Math.max(2, Math.round(hc / 12)) + (util < 0.6 ? 3 : 0))
   const slots = Math.max(0, maxBids - myOpen)
@@ -96,7 +103,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   const candidates = open
     .filter((t) => !t.bids.some((b) => b.firmId === firmId))
     .map((t) => ({ t, fit: tenderFit(state, firm, t, free) * (0.8 + nextFloat(state.rng) * 0.4) }))
-    .filter((x) => x.fit > (firm.isPlayer ? 0.4 : 0.2))
+    .filter((x) => x.fit > (firm.isPlayer ? 0.4 : 0.12))
     .sort((a, b) => b.fit - a.fit)
     .slice(0, slots)
   for (const { t } of candidates) {
@@ -108,6 +115,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
       .sort((a, b) => b.level - a.level)
       .slice(0, 2)
     stars.forEach((s) => promised.add(s.id))
+    for (const d of DISCIPLINES) free[d] -= (t.seats[d] ?? 0) * (t.kind === 'framework' ? 0.5 : 1)
     const effort = (runway < 1 ? 0 : p.qualityFocus > 0.75 ? 3 : p.qualityFocus > 0.5 ? 2 : 1) as 0 | 1 | 2 | 3
     if (firm.cash < effortCost(effort)) continue
     actions.push({

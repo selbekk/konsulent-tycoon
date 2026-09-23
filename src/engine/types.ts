@@ -236,6 +236,8 @@ export interface GameState {
   starMarket: Star[]
   announcement?: { key: string; params: Params }
   lastAwards: Award[]
+  /** Seats customers want at game start; see marketDemand(). Optional for early saves. */
+  baseDemand?: number
   /** Event id → last quarter it fired. */
   eventHistory: Record<string, number>
   status: 'playing' | 'lost' | 'finished'

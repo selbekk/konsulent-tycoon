@@ -1,7 +1,7 @@
-import { OFFSHORE_SATISFACTION_HIT, clamp } from './constants'
+import { OFFSHORE_SATISFACTION_HIT, RENEWAL_CHANCE, RENEWAL_MIN_SATISFACTION, clamp } from './constants'
 import { disciplineLevel, isActive } from './economy'
 import type { FirmStaffing } from './economy'
-import { chance, range } from './rng'
+import { chance, nextInt, range } from './rng'
 import { DISCIPLINES } from './types'
 import type { Bid, Contract, Firm, GameState, Seats, Tender } from './types'
 import { addNews, nextId, seatTotal } from './util'
@@ -64,7 +64,7 @@ export function updateContracts(state: GameState, firm: Firm, staffing: FirmStaf
     c.lastFreelance = cs.freelance
     const total = seatTotal(c.activeSeats)
     if (!total) continue
-    const freelanceShare = seatTotal(cs.freelance) / total
+    const freelanceShare = (seatTotal(cs.freelance) + seatTotal(cs.flex) * 0.5) / total
     const offshoreShare = seatTotal(cs.offshore) / total
     let level = 0
     for (const d of DISCIPLINES) level += (c.activeSeats[d] ?? 0) * disciplineLevel(firm, d)
@@ -104,6 +104,21 @@ export function releaseStars(state: GameState, c: Contract) {
 export function expireContracts(state: GameState, quarter: number) {
   for (const c of state.contracts) {
     if (c.terminated || c.endQuarter !== quarter) continue
+    const firm = state.firms[c.firmId]
+    // Happy clients extend without a new tender. Frameworks run their course.
+    if (
+      c.kind === 'project' &&
+      !firm.bankrupt &&
+      c.satisfaction >= RENEWAL_MIN_SATISFACTION &&
+      chance(state.rng, RENEWAL_CHANCE * (c.satisfaction / 80))
+    ) {
+      const extra = nextInt(state.rng, 2, 4)
+      c.endQuarter += extra
+      if (c.firmId === state.playerId) {
+        addNews(state, 'news.contract.renewed', { customer: c.customerId, count: extra }, 'good', { personal: true })
+      }
+      continue
+    }
     releaseStars(state, c)
     const cust = state.customers[c.customerId]
     cust.relationships[c.firmId] = clamp((cust.relationships[c.firmId] ?? 20) + (c.satisfaction - 50) / 5, 0, 100)
