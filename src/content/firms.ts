@@ -1,0 +1,45 @@
+import type { Archetype } from '../engine/types'
+
+export interface FirmDef {
+  id: string
+  name: string
+  /** Kept in code only – never shown in the UI. */
+  parodyOf: string
+  country: string
+  /** Rivals have their own personality id, others use their archetype. */
+  personalityId: string
+  archetype: Archetype
+  rival?: boolean
+  startHeadcount: number
+  startReputation: number
+  colors: [string, string]
+}
+
+export const FIRMS: FirmDef[] = [
+  { id: 'bekkerson', name: 'Bekkerson', parodyOf: 'Bekk', country: 'NO', personalityId: 'bekkerson', archetype: 'boutique_nerd', rival: true, startHeadcount: 35, startReputation: 70, colors: ['#ff5c8a', '#2b2118'] },
+  { id: 'accentura', name: 'Accentura', parodyOf: 'Accenture', country: 'GLOBAL', personalityId: 'accentura', archetype: 'nordic_giant', rival: true, startHeadcount: 60, startReputation: 62, colors: ['#a100ff', '#fdf8ec'] },
+  { id: 'knowitall', name: 'Knowit-All', parodyOf: 'Knowit', country: 'SE', personalityId: 'knowitall', archetype: 'mid_generalist', rival: true, startHeadcount: 45, startReputation: 55, colors: ['#48d597', '#14122b'] },
+  { id: 'soppsteria', name: 'Sopp Steria', parodyOf: 'Sopra Steria', country: 'FR', personalityId: 'soppsteria', archetype: 'budget_bulk', rival: true, startHeadcount: 50, startReputation: 48, colors: ['#e2231a', '#fdf8ec'] },
+  { id: 'kompottas', name: 'Kompottas', parodyOf: 'Computas', country: 'NO', personalityId: 'mid_generalist', archetype: 'mid_generalist', startHeadcount: 40, startReputation: 55, colors: ['#c2185b', '#ffd84d'] },
+  { id: 'iteraigjen', name: 'Itera Igjen', parodyOf: 'Itera', country: 'NO', personalityId: 'mid_generalist', archetype: 'mid_generalist', startHeadcount: 30, startReputation: 50, colors: ['#ff9e2c', '#14122b'] },
+  { id: 'smiles', name: 'Smiles', parodyOf: 'Miles', country: 'NO', personalityId: 'boutique_nerd', archetype: 'boutique_nerd', startHeadcount: 25, startReputation: 58, colors: ['#ffd84d', '#2b2118'] },
+  { id: 'webstepdans', name: 'Webstepdans', parodyOf: 'Webstep', country: 'NO', personalityId: 'mid_generalist', archetype: 'mid_generalist', startHeadcount: 35, startReputation: 50, colors: ['#00a3e0', '#fdf8ec'] },
+  { id: 'kantegne', name: 'Kantegne', parodyOf: 'Kantega', country: 'NO', personalityId: 'boutique_design', archetype: 'boutique_design', startHeadcount: 20, startReputation: 56, colors: ['#e84e1b', '#fdf8ec'] },
+  { id: 'tietoevig', name: 'TietoEvig', parodyOf: 'Tietoevry', country: 'FI', personalityId: 'nordic_giant', archetype: 'nordic_giant', startHeadcount: 120, startReputation: 45, colors: ['#1c1a5e', '#48d597'] },
+  { id: 'bouffet', name: 'Bouffet', parodyOf: 'Bouvet', country: 'NO', personalityId: 'nordic_giant', archetype: 'nordic_giant', startHeadcount: 90, startReputation: 57, colors: ['#e30613', '#fdf8ec'] },
+  { id: 'invariant', name: 'Invariant', parodyOf: 'Variant', country: 'NO', personalityId: 'boutique_nerd', archetype: 'boutique_nerd', startHeadcount: 15, startReputation: 60, colors: ['#ff8fab', '#14122b'] },
+  { id: 'reiterate', name: 'Reiterate', parodyOf: 'Iterate', country: 'NO', personalityId: 'boutique_nerd', archetype: 'boutique_nerd', startHeadcount: 12, startReputation: 57, colors: ['#fdf8ec', '#14122b'] },
+  { id: 'geita', name: 'Geita', parodyOf: 'Capra', country: 'NO', personalityId: 'specialist_cloud', archetype: 'specialist_cloud', startHeadcount: 18, startReputation: 54, colors: ['#8f7bff', '#fdf8ec'] },
+  { id: 'fargestift', name: 'Fargestift', parodyOf: 'Crayon', country: 'NO', personalityId: 'specialist_cloud', archetype: 'specialist_cloud', startHeadcount: 40, startReputation: 50, colors: ['#ff5a5f', '#ffd84d'] },
+  { id: 'kappgjemini', name: 'Kapp & Gjemini', parodyOf: 'Capgemini', country: 'FR', personalityId: 'budget_bulk', archetype: 'budget_bulk', startHeadcount: 70, startReputation: 47, colors: ['#0070ad', '#fdf8ec'] },
+  { id: 'nattlys', name: 'Nattlys', parodyOf: 'Netlight', country: 'SE', personalityId: 'boutique_nerd', archetype: 'boutique_nerd', startHeadcount: 30, startReputation: 58, colors: ['#14122b', '#ffd84d'] },
+  { id: 'hikkeq', name: 'Hikke-Q', parodyOf: 'HiQ', country: 'SE', personalityId: 'mid_generalist', archetype: 'mid_generalist', startHeadcount: 35, startReputation: 50, colors: ['#ff4f00', '#fdf8ec'] },
+  { id: 'riddertech', name: 'Riddertech', parodyOf: 'Knightec', country: 'SE', personalityId: 'specialist_data', archetype: 'specialist_data', startHeadcount: 25, startReputation: 52, colors: ['#5a6b7d', '#fdf8ec'] },
+  { id: 'rektor', name: 'Rektor', parodyOf: 'Reaktor', country: 'FI', personalityId: 'boutique_nerd', archetype: 'boutique_nerd', startHeadcount: 20, startReputation: 60, colors: ['#fdf8ec', '#ff5a5f'] },
+  { id: 'futuriis', name: 'Futuriis', parodyOf: 'Futurice', country: 'FI', personalityId: 'boutique_design', archetype: 'boutique_design', startHeadcount: 25, startReputation: 57, colors: ['#48d597', '#fdf8ec'] },
+  { id: 'solitaer', name: 'Solitær', parodyOf: 'Solita', country: 'FI', personalityId: 'specialist_data', archetype: 'specialist_data', startHeadcount: 25, startReputation: 54, colors: ['#ff2d55', '#14122b'] },
+  { id: 'trigaffel', name: 'Trigaffel', parodyOf: 'Trifork', country: 'DK', personalityId: 'specialist_cloud', archetype: 'specialist_cloud', startHeadcount: 20, startReputation: 55, colors: ['#3aa8c1', '#fdf8ec'] },
+  { id: 'nettkompaniet', name: 'Nettkompaniet', parodyOf: 'Netcompany', country: 'DK', personalityId: 'nordic_giant', archetype: 'nordic_giant', startHeadcount: 80, startReputation: 52, colors: ['#0d1b3e', '#ff9e2c'] },
+]
+
+export const PLAYER_COLORS: [string, string] = ['#ff9e2c', '#14122b']
