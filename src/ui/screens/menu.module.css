@@ -85,3 +85,35 @@
   border-radius: 999px;
   cursor: pointer;
 }
+
+.about section {
+  display: grid;
+  gap: 8px;
+}
+
+.about h3 {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.about p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.about a {
+  color: var(--accent);
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+
+.links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}

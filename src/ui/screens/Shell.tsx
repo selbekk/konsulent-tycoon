@@ -146,6 +146,7 @@ export function Shell() {
             {t('shell.save')}
           </Button>
           <Button size="small" variant="ghost" icon="gear" onClick={() => go('settings')} aria-label={t('menu.settings')} />
+          <Button size="small" variant="ghost" icon="info" onClick={() => go('about')} aria-label={t('menu.about')} />
         </div>
       </header>
 

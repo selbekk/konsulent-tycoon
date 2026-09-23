@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useGame } from './store/gameStore'
-import { LoadScreen, MainMenu, NewGame, SettingsScreen } from './ui/screens/Menus'
+import { AboutScreen, LoadScreen, MainMenu, NewGame, SettingsScreen } from './ui/screens/Menus'
 import { PwaPrompt } from './ui/pwa/PwaPrompt'
 import { Shell } from './ui/screens/Shell'
 
@@ -25,6 +25,8 @@ export default function App() {
         <LoadScreen />
       ) : screen === 'settings' ? (
         <SettingsScreen />
+      ) : screen === 'about' ? (
+        <AboutScreen />
       ) : (
         <MainMenu />
       )}

@@ -31,7 +31,8 @@
     "load": "Last inn",
     "settings": "Innstillinger",
     "devNotice": "Dette spillet er ikke engang i beta – det er i aktiv utvikling. Lagrede spill kan bli slettet når som helst.",
-    "disclaimer": "Alle likheter med virkelige selskaper er helt tilfeldige (og kjærlig ment)."
+    "disclaimer": "Alle likheter med virkelige selskaper er helt tilfeldige (og kjærlig ment).",
+    "about": "Om spillet"
   },
   "newGame": {
     "title": "Start et selskap",
@@ -712,5 +713,63 @@
       "upsell": "mersalg"
     },
     "bjorn": "Jeg er styreleder. Jeg dukker opp med råd når det passer meg. Lykke til!"
+  },
+  "about": {
+    "title": "Om Konsulent Tycoon",
+    "game": {
+      "title": "Hva er dette?",
+      "body": [
+        "Konsulent Tycoon er et turbasert strategispill der du driver ditt eget IT-konsulentselskap. Du har {{quarters}} kvartaler, fra {{start}} til {{end}}, på å bygge det mest verdifulle selskapet i landet. {{rivals}} konkurrenter har tenkt det samme.",
+        "Du ansetter folk, byr på anbud, holder kundene fornøyde og passer på at kassa ikke går tom. Den som har det mest verdifulle selskapet når tiden er ute, vinner. Er du for lenge over kassekreditten, går du konkurs."
+      ]
+    },
+    "creator": {
+      "title": "Hvem står bak?",
+      "body": [
+        "Spillet er laget av Kristofer Giltvedt Selbekk, som har jobbet i Bekk siden 2013 og er stolt av det.",
+        "Han har alltid vært glad i tycoon-spill, særlig Transport Tycoon, Theme Hospital og Theme Park, og ville lage noe i samme ånd, bare i en bransje han kjenner fra innsiden. Konsulentbransjen er nemlig interessant, sammensatt, morsom og vanskelig på én gang."
+      ]
+    },
+    "satire": {
+      "title": "Hvor mye er sant?",
+      "body": [
+        "Ikke så mye. Spillet leker med vanlige misforståelser og fordommer om hva konsulentselskaper egentlig driver med. Selv har Kristofer aldri møtt annet enn dønn profesjonelle aktører i bransjen, men det finnes nok av fordommer å ha det gøy med.",
+        "Alle firmanavnene er oppdiktet. At noen av dem minner om Kristofers egen arbeidsgiver og konkurrentene, er mest for moro skyld."
+      ]
+    },
+    "making": {
+      "title": "Slik ble det laget",
+      "body": [
+        "Spillet er laget med Claude Code, mye brukertesting og mange runder med iterasjon, prøving og feiling, omtrent som alle andre produkter Kristofer jobber med. Det tok betraktelig kortere tid enn noe han har bygget før.",
+        "Spillet er fortsatt under utvikling, så ting kan endre seg underveis."
+      ]
+    },
+    "privacy": {
+      "title": "Dine data",
+      "body": [
+        "Spillet er gratis og kjører i nettleseren. Lagrede spill ligger på din egen enhet, og ingenting sendes noe sted. I alle fall ikke ennå: sporing eller en server kan komme senere."
+      ]
+    },
+    "thanks": {
+      "title": "Takk",
+      "body": [
+        "Tusen takk til alle som har brukertestet, gitt tilbakemeldinger underveis og sagt at dette minnet dem om noe de spilte i barndommen."
+      ]
+    },
+    "contact": {
+      "title": "Ta kontakt",
+      "body": "Har du funnet en feil, fått en idé eller vil bare si hei? Kristofer er å finne her:",
+      "email": "E-post",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    },
+    "share": {
+      "title": "Del spillet",
+      "body": "Liker du spillet? Send det gjerne videre til en kollega. Eller til en konkurrent.",
+      "button": "Del spillet",
+      "text": "Bygg ditt eget konsulentselskap. Ett kvartal av gangen.",
+      "copied": "Lenken er kopiert.",
+      "failed": "Kunne ikke kopiere. Lenken er {{url}}"
+    }
   }
 }

@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, screen, within } from '@testing-librar
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import i18n from '../../i18n'
 import { useGame } from '../../store/gameStore'
+import { AboutScreen } from './Menus'
 import { Shell } from './Shell'
 
 describe('end of quarter warning', () => {
@@ -154,5 +155,30 @@ describe('onboarding', () => {
     useGame.getState().loadState(structuredClone(useGame.getState().game!))
     render(<Shell />)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+})
+
+describe('about page', () => {
+  beforeEach(async () => {
+    localStorage.clear()
+    await i18n.changeLanguage('en')
+    useGame.getState().quit()
+    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame.getState().dismissOnboarding()
+  })
+
+  afterEach(cleanup)
+
+  it('opens from the header and goes back to the game', () => {
+    render(<Shell />)
+    fireEvent.click(screen.getByRole('button', { name: /^about$/i }))
+    expect(useGame.getState().screen).toBe('about')
+    cleanup()
+
+    render(<AboutScreen />)
+    expect(screen.getByRole('heading', { name: /about konsulent tycoon/i })).toBeInTheDocument()
+    expect(screen.getByText(/40 quarters/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /^back$/i }))
+    expect(useGame.getState().screen).toBe('game')
   })
 })

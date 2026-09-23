@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, deleteSlot, listSlots } from '../../engine'
+import { DISCIPLINES, MAX_QUARTERS, deleteSlot, listSlots } from '../../engine'
+import { FIRMS } from '../../content/firms'
 import type { Difficulty, Discipline, SlotId } from '../../engine'
 import { LOCALES, setLocale } from '../../i18n'
 import { useGame } from '../../store/gameStore'
@@ -72,6 +73,7 @@ export function MainMenu() {
           )}
           <Button onClick={() => go('load')}>{t('menu.load')}</Button>
           <Button onClick={() => go('settings')}>{t('menu.settings')}</Button>
+          <Button onClick={() => go('about')}>{t('menu.about')}</Button>
           {canInstall && (
             <Button variant="ghost" icon="disk" onClick={() => void promptInstall()}>
               {t('pwa.install')}
@@ -290,6 +292,93 @@ export function SettingsScreen() {
                 </Button>
               </div>
             )}
+            <Button onClick={() => go(game && previous === 'game' ? 'game' : 'menu')}>{t('common.back')}</Button>
+          </div>
+        </Panel>
+      </div>
+    </div>
+  )
+}
+
+const ABOUT_SECTIONS = ['game', 'creator', 'satire', 'making', 'privacy', 'thanks'] as const
+const CONTACT_LINKS = [
+  { key: 'email', href: 'mailto:selbeezy@gmail.com', label: 'selbeezy@gmail.com' },
+  { key: 'linkedin', href: 'https://www.linkedin.com/in/selbekk', label: 'linkedin.com/in/selbekk' },
+  { key: 'github', href: 'https://github.com/selbekk', label: 'github.com/selbekk' },
+] as const
+
+export function AboutScreen() {
+  const { t } = useTranslation()
+  const go = useGame((x) => x.go)
+  const previous = useGame((x) => x.previousScreen)
+  const game = useGame((x) => x.game)
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
+  const params = {
+    quarters: MAX_QUARTERS,
+    start: formatQuarter(0),
+    end: formatQuarter(MAX_QUARTERS - 1),
+    rivals: FIRMS.length,
+  }
+  const url = window.location.origin
+
+  const share = async () => {
+    const data = { title: 'Konsulent Tycoon', text: t('about.share.text'), url }
+    if (navigator.share) {
+      try {
+        await navigator.share(data)
+        return
+      } catch (e) {
+        // The user closed the share sheet; that's an answer, not an error.
+        if (e instanceof DOMException && e.name === 'AbortError') return
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url)
+      setShareStatus('copied')
+    } catch {
+      setShareStatus('failed')
+    }
+  }
+
+  return (
+    <div className={m.wrap}>
+      <div className={m.menu}>
+        <Panel title={t('about.title')} icon="info">
+          <div className={`${s.stack} ${m.about}`}>
+            {ABOUT_SECTIONS.map((id) => (
+              <section key={id}>
+                <h3>{t(`about.${id}.title`)}</h3>
+                {(t(`about.${id}.body`, { ...params, returnObjects: true }) as string[]).map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
+              </section>
+            ))}
+            <section>
+              <h3>{t('about.contact.title')}</h3>
+              <p>{t('about.contact.body')}</p>
+              <ul className={m.links}>
+                {CONTACT_LINKS.map((l) => (
+                  <li key={l.key}>
+                    <span className={s.muted}>{t(`about.contact.${l.key}`)}</span>{' '}
+                    <a href={l.href} {...(l.key === 'email' ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section>
+              <h3>{t('about.share.title')}</h3>
+              <p>{t('about.share.body')}</p>
+              <div className={s.row}>
+                <Button variant="primary" onClick={() => void share()}>
+                  {t('about.share.button')}
+                </Button>
+                <span className={`${s.small} ${s.muted}`} role="status">
+                  {shareStatus === 'copied' ? t('about.share.copied') : shareStatus === 'failed' ? t('about.share.failed', { url }) : ''}
+                </span>
+              </div>
+            </section>
             <Button onClick={() => go(game && previous === 'game' ? 'game' : 'menu')}>{t('common.back')}</Button>
           </div>
         </Panel>

@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { applyAction, createNewGame, firmLevel, endTurn as engineEndTurn, loadFromSlot, saveToSlot } from '../engine'
 import type { Action, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
 
-export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'game'
+export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'about' | 'game'
 export type Tab = 'dashboard' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
 export const TABS: Tab[] = ['dashboard', 'staff', 'culture', 'tenders', 'contracts', 'strategy', 'market', 'backroom']
 
