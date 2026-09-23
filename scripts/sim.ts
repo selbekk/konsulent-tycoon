@@ -26,15 +26,21 @@ interface Sample { cash: number; hc: number; revenue: number; morale: number; re
 function playGame(seed: number, strategy: string) {
   let state: GameState = createNewGame({ seed, firmName: 'Sim AS', founderDisciplines: ['backend', 'frontend'], difficulty })
   const samples: Sample[] = []
-  while (state.status === 'playing') {
+  let bankruptAt: number | null = null
+  // Keep the market running after the player goes bust, so AI health is measured over 40 quarters.
+  while (state.status === 'playing' || (state.status === 'lost' && state.quarter < state.maxQuarters)) {
+    if (state.status === 'lost') {
+      bankruptAt ??= state.quarter
+      state = { ...state, status: 'playing' }
+    }
     const draft = structuredClone(state)
-    if (strategy !== 'idle') {
+    if (strategy !== 'idle' && bankruptAt === null) {
       for (const a of planEventAnswers(draft, draft.playerId)) applyActionInPlace(draft, a)
       for (const a of planAiTurn(draft, draft.playerId, PLAYER_BOTS[strategy])) applyActionInPlace(draft, a)
     }
     const me = draft.firms[draft.playerId]
     const fin = quarterFinancials(draft, me.id)
-    samples.push({
+    if (bankruptAt === null) samples.push({
       cash: me.cash,
       hc: headcount(me),
       revenue: fin.revenue,
@@ -49,8 +55,8 @@ function playGame(seed: number, strategy: string) {
   const aiBankrupt = Object.values(state.firms).filter((f) => !f.isPlayer && f.bankrupt).map((f) => f.id)
   return {
     samples,
-    status: state.status,
-    bankruptAt: state.status === 'lost' ? state.quarter : null,
+    status: bankruptAt !== null ? 'lost' : state.status,
+    bankruptAt,
     rank: playerRank(state),
     value: ranks.find((r) => r.firmId === state.playerId)!.value,
     top: ranks.slice(0, 3).map((r) => r.firmId),
