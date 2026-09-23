@@ -151,6 +151,1842 @@
           "humble": "We're curious, but careful not to over-promise.",
           "buzzword": "GenAI-driven innovation with a sustainable data strategy."
         }
+      },
+      "dlv_waterfall": {
+        "q": "We're used to waterfall. Do we have to go agile now?",
+        "a": {
+          "concrete": "No. We can deliver in phases with fixed milestones and demo something every month.",
+          "visionary": "Method is secondary. What matters is where we're headed.",
+          "humble": "Not at all. We'll adapt to how you work, not the other way round.",
+          "buzzword": "We offer a hybrid, scalable agile-waterfall framework with built-in flexibility."
+        }
+      },
+      "dlv_deadline_slip": {
+        "q": "What do you do when it's clear the deadline won't hold?",
+        "a": {
+          "concrete": "We tell you straight away and offer three options: cut scope, move the date or add people.",
+          "visionary": "Then we lift our gaze and ask what truly has to be there on the day.",
+          "humble": "We say so early, even when it's awkward. You should never be surprised.",
+          "buzzword": "We re-prioritise the backlog end-to-end and re-baseline the delivery."
+        }
+      },
+      "dlv_testing": {
+        "q": "How do you test?",
+        "a": {
+          "concrete": "Automated tests on every change, and a round with real users before each release.",
+          "visionary": "Quality isn't a phase. It's a culture.",
+          "humble": "Thoroughly, but we don't catch everything. That's why we'd like your testers involved.",
+          "buzzword": "We shift left with continuous, fully automated quality assurance across the pipeline."
+        }
+      },
+      "dlv_code_review": {
+        "q": "Who checks the code before it goes live?",
+        "a": {
+          "concrete": "At least one other developer approves every change. Nobody approves their own code.",
+          "visionary": "The whole team. We own the code together – today and ten years from now.",
+          "humble": "A colleague, always. We make mistakes, and better we find them than you.",
+          "buzzword": "We run a cross-functional peer review flow with four-eyes by default."
+        }
+      },
+      "dlv_documentation": {
+        "q": "Will there be documentation, or just code?",
+        "a": {
+          "concrete": "An architecture overview, a runbook and an up-to-date README. It's in the delivery plan.",
+          "visionary": "We document not just what we did, but why – for those who come after.",
+          "humble": "Honestly, docs are rarely perfect. But you'll be able to understand them.",
+          "buzzword": "We deliver living, docs-as-code knowledge management."
+        }
+      },
+      "dlv_handover": {
+        "q": "What happens when the contract ends?",
+        "a": {
+          "concrete": "Four weeks of overlap and a checklist we work through together, item by item.",
+          "visionary": "Then your next chapter begins – on foundations that hold.",
+          "humble": "Then you should manage without us. That's really the goal.",
+          "buzzword": "We ensure a seamless exit transition with end-to-end knowledge transfer."
+        }
+      },
+      "dlv_status_reports": {
+        "q": "How often do we get status reports?",
+        "a": {
+          "concrete": "Every Friday: one page with progress, risks and what we need from you.",
+          "visionary": "You won't need reports. You'll feel the progress.",
+          "humble": "As often as you like. Tell us what's useful and we'll do that.",
+          "buzzword": "We offer real-time dashboards with KPIs and insights across the portfolio."
+        }
+      },
+      "dlv_meetings": {
+        "q": "Is this going to mean lots of meetings?",
+        "a": {
+          "concrete": "A fifteen-minute standup daily and a demo every other week. The rest goes on chat.",
+          "visionary": "We meet when it creates something. Otherwise we let the work speak.",
+          "humble": "We try to keep it down, but tell us if we're taking too much of your time.",
+          "buzzword": "We run a lean ceremony structure optimised for asynchronous alignment."
+        }
+      },
+      "dlv_risk": {
+        "q": "How do you manage risk?",
+        "a": {
+          "concrete": "We keep a risk log with an owner and an action per item, and review it weekly.",
+          "visionary": "The biggest risk is not daring at all. We dare – with our eyes open.",
+          "humble": "We won't spot everything up front, but we'll tell you as soon as we see something.",
+          "buzzword": "Through proactive, holistic risk mitigation embedded in the value chain."
+        }
+      },
+      "dlv_other_vendors": {
+        "q": "You'll have to work with two other vendors. Is that okay?",
+        "a": {
+          "concrete": "Yes. We suggest a shared board, a weekly sync and clear interfaces.",
+          "visionary": "Together we become an ecosystem greater than the sum of its parts.",
+          "humble": "That's fine. We don't have every answer, and others know things we don't.",
+          "buzzword": "We orchestrate multi-vendor synergies in a shared delivery ecosystem."
+        }
+      },
+      "dlv_mvp": {
+        "q": "What's the smallest thing we could launch?",
+        "a": {
+          "concrete": "Login, the application form and a receipt. Everything else can wait for round two.",
+          "visionary": "A small seed that holds the whole tree.",
+          "humble": "You know that best. We'd suggest asking a few of your users first.",
+          "buzzword": "An MVP with minimal friction and maximum value delivery."
+        }
+      },
+      "dlv_prioritisation": {
+        "q": "Everything is equally important to us. So how do you prioritise?",
+        "a": {
+          "concrete": "We rank everything in one list with you. Whatever's on top gets built first.",
+          "visionary": "We ask what you want to be known for in five years, and start there.",
+          "humble": "We can suggest, but you're the ones who know what matters most.",
+          "buzzword": "We use a value-based, data-driven prioritisation matrix with impact scoring."
+        }
+      },
+      "dlv_success_metrics": {
+        "q": "How will we know the project was a success?",
+        "a": {
+          "concrete": "We agree on three metrics today and measure them before and after launch.",
+          "visionary": "When nobody remembers what it was like before.",
+          "humble": "When your users are happy. We'd rather ask them than guess.",
+          "buzzword": "Through a holistic benefits realisation framework with OKRs and KPIs."
+        }
+      },
+      "dlv_user_involvement": {
+        "q": "Will our users really be involved, or is that just talk?",
+        "a": {
+          "concrete": "We test with five users every third week. You get the recordings and findings.",
+          "visionary": "Users won't be involved. They'll be co-creators.",
+          "humble": "That depends on getting access to them. We'll need your help there.",
+          "buzzword": "We run continuous user insight in a human-centred design sprint loop."
+        }
+      },
+      "dlv_go_live": {
+        "q": "What does launch day look like?",
+        "a": {
+          "concrete": "We switch on for ten percent first, watch the errors and roll out the rest the next day.",
+          "visionary": "Like the start of something, not the end.",
+          "humble": "Hopefully boring. And if it isn't, we'll all be there.",
+          "buzzword": "A phased, risk-minimised canary rollout with full observability."
+        }
+      },
+      "dlv_on_call": {
+        "q": "Who picks up if the system goes down at 3 a.m.?",
+        "a": {
+          "concrete": "We run an on-call rota with two people and a 30-minute response time.",
+          "visionary": "We build systems that don't need to wake anyone up.",
+          "humble": "We do, if that's agreed. But let's be upfront about what it costs first.",
+          "buzzword": "Our SRE-driven 24/7 incident ecosystem ensures resilient uptime."
+        }
+      },
+      "dlv_incident": {
+        "q": "Tell us about a time something went badly wrong in production.",
+        "a": {
+          "concrete": "A database migration failed. We rolled back in 20 minutes and wrote a report.",
+          "visionary": "Every failure has made us the vendor we are today.",
+          "humble": "We forgot to check an integration. It was our fault, and we learned a lot.",
+          "buzzword": "We had a learning opportunity that strengthened our resilience and failure culture."
+        }
+      },
+      "dlv_tech_debt": {
+        "q": "How do you keep technical debt from piling up?",
+        "a": {
+          "concrete": "We reserve 20 percent of each sprint for clean-up. It's in the plan.",
+          "visionary": "We build for the next decade, not the next quarter.",
+          "humble": "We can't avoid it entirely. But we'll tell you when we take shortcuts.",
+          "buzzword": "We run a sustainable, architecture-led debt strategy with continuous refactoring."
+        }
+      },
+      "dlv_inhouse_staff": {
+        "q": "How will you work with our own developers?",
+        "a": {
+          "concrete": "In the same team, on the same board. We pair program at least two days a week.",
+          "visionary": "We become one team. Eventually you can't tell who the consultants are.",
+          "humble": "They know your systems better than we do. We have a lot to learn from them.",
+          "buzzword": "We co-create value through cross-functional, hybrid team constellations."
+        }
+      },
+      "dlv_steering_committee": {
+        "q": "What do you expect from the steering committee?",
+        "a": {
+          "concrete": "One meeting a month, quick decisions and one clear owner on your side.",
+          "visionary": "That it holds the course when the wind picks up.",
+          "humble": "That it tells us if we're not delivering what you need. Simple as that.",
+          "buzzword": "Strategic anchoring and governance across the stakeholder landscape."
+        }
+      },
+      "dlv_sprint_length": {
+        "q": "How long are your sprints, and why?",
+        "a": {
+          "concrete": "Two weeks. Short enough to change course, long enough to finish something.",
+          "visionary": "We don't measure in sprints, but in how far we've come.",
+          "humble": "Usually two weeks, but we're happy to match your rhythm.",
+          "buzzword": "We run adaptive iteration cycles calibrated for optimal velocity."
+        }
+      },
+      "dlv_demo": {
+        "q": "When do we get to see something that actually works?",
+        "a": {
+          "concrete": "In two weeks. We'll show you login and the first screen in the test environment.",
+          "visionary": "Soon. And you'll see more than a system – you'll see a direction.",
+          "humble": "Sooner than you'd think, but it'll be rough. That's the point.",
+          "buzzword": "We deliver incremental, demonstrable value from day one."
+        }
+      },
+      "dlv_bad_news": {
+        "q": "How do you break bad news to us?",
+        "a": {
+          "concrete": "The same day, by phone, with a plan for what we do next.",
+          "visionary": "We don't see bad news. We see crossroads.",
+          "humble": "Plainly and early. Better an awkward talk than a surprise.",
+          "buzzword": "Through transparent, trust-based expectation management."
+        }
+      },
+      "dlv_definition_of_done": {
+        "q": "When is something actually done, in your book?",
+        "a": {
+          "concrete": "When it's tested, reviewed, documented and in production.",
+          "visionary": "Never quite. Good systems keep growing.",
+          "humble": "When you say it's done, not when we think it is.",
+          "buzzword": "When it meets our holistic definition of done across the value stream."
+        }
+      },
+      "dlv_requirements_spec": {
+        "q": "Our requirements spec is 400 pages long. Have you read it?",
+        "a": {
+          "concrete": "Yes. We've flagged 38 requirements with questions and brought the list today.",
+          "visionary": "We've read between the lines – and seen what you're really dreaming of.",
+          "humble": "Most of it. Some parts we don't fully understand yet, so we'd like to ask.",
+          "buzzword": "We've done a holistic requirements analysis and mapped it to the target state."
+        }
+      },
+      "dlv_productivity": {
+        "q": "How do you measure the team's productivity?",
+        "a": {
+          "concrete": "Lead time from idea to production, and how many changes we ship a week.",
+          "visionary": "Not in hours, but in how much better your working day becomes.",
+          "humble": "It's harder than it sounds. We'll show you the numbers and what they don't tell you.",
+          "buzzword": "With DORA metrics, velocity tracking and flow-based throughput analysis."
+        }
+      },
+      "dlv_scope_creep": {
+        "q": "What happens when we ask for just one more little thing?",
+        "a": {
+          "concrete": "We estimate it, and you choose what comes out to make room.",
+          "visionary": "We take it as a sign you're seeing even bigger possibilities.",
+          "humble": "We say yes when we can, but we'll also tell you when it isn't that little.",
+          "buzzword": "Our agile change management absorbs scope dynamics seamlessly."
+        }
+      },
+      "dlv_test_environment": {
+        "q": "We don't have a test environment. Is that a problem?",
+        "a": {
+          "concrete": "We'll set one up in the first week. It's about three days' work.",
+          "visionary": "Not a problem – a blank canvas.",
+          "humble": "A bit, yes. But it's common, and we're glad to help get one in place.",
+          "buzzword": "We provision scalable, containerised environments on demand via infrastructure as code."
+        }
+      },
+      "dlv_release_frequency": {
+        "q": "How often will you release new versions?",
+        "a": {
+          "concrete": "Several times a week, in small chunks, always during office hours.",
+          "visionary": "All the time. The system never stands still.",
+          "humble": "As often as you're comfortable with. We'll start carefully.",
+          "buzzword": "We have a fully automated CI/CD value stream with continuous delivery."
+        }
+      },
+      "dlv_contact": {
+        "q": "How do we reach you if we have a question?",
+        "a": {
+          "concrete": "A shared chat channel, answers within two hours on workdays, and one named contact.",
+          "visionary": "Our door is always open. We become part of the house.",
+          "humble": "Any time. No question is too small, and we appreciate them.",
+          "buzzword": "Through an omnichannel communication platform with seamless stakeholder touchpoints."
+        }
+      },
+      "dlv_vendor_delay": {
+        "q": "What do you do if another vendor holds you up?",
+        "a": {
+          "concrete": "We log it as a risk, build a temporary stand-in and keep working.",
+          "visionary": "We don't see others as obstacles, but as fellow travellers on the same journey.",
+          "humble": "We tell you, without pointing fingers. We've been the late one ourselves.",
+          "buzzword": "We decouple dependencies through an API-first, loosely coupled architecture."
+        }
+      },
+      "dlv_retrospective": {
+        "q": "How do you get better as the project goes on?",
+        "a": {
+          "concrete": "A retro every other week, with at most three actions we actually follow up.",
+          "visionary": "We're never done learning. That's the whole point.",
+          "humble": "We ask you regularly what we could do better, and we take it on board.",
+          "buzzword": "Through a continuous improvement culture with built-in feedback loops."
+        }
+      },
+      "dlv_product_owner": {
+        "q": "We don't have a product owner. Do we need one?",
+        "a": {
+          "concrete": "Yes. About half a position, with authority to prioritise. We can help write the role.",
+          "visionary": "You need someone to carry the vision. We'll help you find that person.",
+          "humble": "It helps a lot. We can't make those decisions for you, and we shouldn't.",
+          "buzzword": "We offer product ownership as a service with full business alignment."
+        }
+      },
+      "dlv_summer_holiday": {
+        "q": "What happens to progress over the summer holidays?",
+        "a": {
+          "concrete": "Two people stay on in July, and we freeze all launches from 1 July to 10 August.",
+          "visionary": "Summer is when the best ideas ripen.",
+          "humble": "Things will slow down a bit. We won't pretend otherwise.",
+          "buzzword": "We ensure delivery continuity through a seasonally adjusted capacity model."
+        }
+      },
+      "dlv_budget_tracking": {
+        "q": "How do we keep track of whether the budget holds?",
+        "a": {
+          "concrete": "You get hours and a forecast every month, plus an alert when 80 percent is used.",
+          "visionary": "Think of the budget as an investment in your future, not a cost.",
+          "humble": "We'll warn you well in advance if it looks like overrunning. No surprises.",
+          "buzzword": "Through real-time financial governance and portfolio-level cost insight."
+        }
+      },
+      "dlv_user_training": {
+        "q": "Who's going to train our staff on the new system?",
+        "a": {
+          "concrete": "We'll make a short video series and run two training sessions per department.",
+          "visionary": "We'll build a system so intuitive that training becomes unnecessary.",
+          "humble": "Happy to, together with some of your own people. They know their colleagues best.",
+          "buzzword": "We offer a holistic change management package with digital adoption and super-user networks."
+        }
+      },
+      "dlv_prototype": {
+        "q": "Could you build a prototype before we decide?",
+        "a": {
+          "concrete": "Yes. A clickable prototype in ten days, tested with five of your users.",
+          "visionary": "We can show you the future before it exists.",
+          "humble": "Gladly. That way we'll also find out if we actually work well together.",
+          "buzzword": "We run a rapid design sprint to validate hypotheses and de-risk the solution space."
+        }
+      },
+      "dlv_monitoring": {
+        "q": "How do you spot errors before the users do?",
+        "a": {
+          "concrete": "Alerts on error rate and response time that go straight to the on-call phone.",
+          "visionary": "The goal is a system that tells us how it's feeling.",
+          "humble": "Not always. But when users find something first, we want to hear right away.",
+          "buzzword": "With full-stack observability and predictive anomaly detection."
+        }
+      },
+      "dlv_tech_decisions": {
+        "q": "Who makes the technical decisions – you or us?",
+        "a": {
+          "concrete": "We propose, you approve. Every major choice goes into a decision log.",
+          "visionary": "We make them together, with our eyes on where you'll be in ten years.",
+          "humble": "Ultimately you. You're the ones who have to live with them.",
+          "buzzword": "Through a federated architecture board with clear decision rights and governance."
+        }
+      },
+      "dlv_rollback": {
+        "q": "Can we roll back if the new version doesn't work?",
+        "a": {
+          "concrete": "Yes, with one click. We rehearse rollbacks before every major launch.",
+          "visionary": "We only look forward. But we always have a way home.",
+          "humble": "Yes. And we won't be too proud to do it if we need to.",
+          "buzzword": "We have robust blue-green deployments with automated failover."
+        }
+      },
+      "dlv_pair_programming": {
+        "q": "We hear you sit two to a computer. Are we paying double?",
+        "a": {
+          "concrete": "No. We pair on the hardest parts, about 30 percent of the time, and get fewer bugs.",
+          "visionary": "You're paying for two minds thinking as one.",
+          "humble": "Fair question. We only do it where we think it pays off for you.",
+          "buzzword": "Pairing delivers synergistic knowledge sharing and quality by design."
+        }
+      },
+      "dlv_green_status": {
+        "q": "With our last vendor, everything was green until it suddenly wasn't. And you?",
+        "a": {
+          "concrete": "We report actual deliveries against plan, not gut feeling. You'll see the numbers yourselves.",
+          "visionary": "With us, it's not about colours. It's about direction.",
+          "humble": "We've been too optimistic at times too. So we'd rather call amber too early.",
+          "buzzword": "We have a data-driven, multidimensional status framework with predictive insight."
+        }
+      },
+      "ppl_seniority_mix": {
+        "q": "What's the mix of seniors and juniors on the team?",
+        "a": {
+          "concrete": "Three seniors and two juniors, and each junior has a named senior to pair with.",
+          "visionary": "We blend experience and curiosity into something bigger than the sum.",
+          "humble": "We'd suggest a mix, but we'd rather hear what you need most.",
+          "buzzword": "We run a balanced competence pyramid with scalable seniority."
+        }
+      },
+      "ppl_resigns": {
+        "q": "What if the consultant resigns in the middle of the project?",
+        "a": {
+          "concrete": "Three months' notice, and a replacement is in place before their last day.",
+          "visionary": "Then we'll have built something that survives people moving on.",
+          "humble": "It can happen. We promise to tell you right away, not hide it.",
+          "buzzword": "Our robust transition model ensures a seamless value flow."
+        }
+      },
+      "ppl_sick_leave": {
+        "q": "What if a consultant goes on long-term sick leave?",
+        "a": {
+          "concrete": "We bring in someone new within two weeks, at no extra cost to you.",
+          "visionary": "A strong team carries each other, even when someone drops out.",
+          "humble": "First we look after the person who's ill. Then we find a fix with you.",
+          "buzzword": "We have capacity buffers built into our entire resource ecosystem."
+        }
+      },
+      "ppl_turnover": {
+        "q": "How high is your staff turnover?",
+        "a": {
+          "concrete": "Six per cent last year. Average tenure is five years.",
+          "visionary": "People don't leave us. They become ambassadors.",
+          "humble": "Higher than we'd like last year. We've made changes, and we're tracking it.",
+          "buzzword": "We have sustainable talent retention with positive employer-brand leverage."
+        }
+      },
+      "ppl_recruiting": {
+        "q": "How do you find good people?",
+        "a": {
+          "concrete": "Three interviews, a practical assignment and reference checks for everyone.",
+          "visionary": "We don't look for people. We attract the ones who want to change things.",
+          "humble": "We take our time, and we still get it wrong now and then.",
+          "buzzword": "Through a data-driven talent acquisition funnel with culture-fit scoring."
+        }
+      },
+      "ppl_onboarding": {
+        "q": "How long before a new consultant is actually useful?",
+        "a": {
+          "concrete": "Week one is planned day by day. After two weeks they ship to production.",
+          "visionary": "From day one they bring fresh eyes – that's worth something on its own.",
+          "humble": "Much depends on how we're welcomed. We'll need a bit of help from you.",
+          "buzzword": "We run a streamlined onboarding journey with rapid time-to-value."
+        }
+      },
+      "ppl_courses": {
+        "q": "How much do you invest in courses and professional development?",
+        "a": {
+          "concrete": "Each consultant gets ten learning days and a 30,000-kroner course budget a year.",
+          "visionary": "We invest in our people as if the future depends on it. It does.",
+          "humble": "We do a fair bit, but honestly we learn most from projects like yours.",
+          "buzzword": "We have a continuous learning ecosystem focused on upskilling and reskilling."
+        }
+      },
+      "ppl_certifications": {
+        "q": "Are your consultants certified?",
+        "a": {
+          "concrete": "Yes. The list of certifications and expiry dates is attached to the bid.",
+          "visionary": "Paperwork is nice, but what we really do is build what comes next.",
+          "humble": "Some are. We won't pretend a course certificate makes anyone an expert.",
+          "buzzword": "We're fully certified across the entire cloud-native value chain."
+        }
+      },
+      "ppl_diversity": {
+        "q": "How do you work on diversity and inclusion?",
+        "a": {
+          "concrete": "We track gender balance in every hiring round and publish the numbers yearly.",
+          "visionary": "We want our team to look like the society it builds solutions for.",
+          "humble": "We're not there yet. We have a lot to learn and welcome your input.",
+          "buzzword": "Diversity is a strategic driver in our inclusive innovation culture."
+        }
+      },
+      "ppl_office_days": {
+        "q": "How many days a week will you be at our office?",
+        "a": {
+          "concrete": "Three fixed days with you – Tuesday to Thursday – and the rest as needed.",
+          "visionary": "We'll be wherever value is created. The office is just the address.",
+          "humble": "As many as you'd like. You know what works best here.",
+          "buzzword": "We run a flexible hybrid-first model with on-demand co-location."
+        }
+      },
+      "ppl_hybrid": {
+        "q": "How do you collaborate when half the team is working from home?",
+        "a": {
+          "concrete": "Fixed stand-up at 9, everything written in one channel, cameras on in workshops.",
+          "visionary": "Distance matters little when everyone sees the same goal.",
+          "humble": "It isn't always easy. We try things out and adjust as we go.",
+          "buzzword": "Through asynchronous collaboration surfaces in a distributed digital workspace."
+        }
+      },
+      "ppl_overtime": {
+        "q": "What happens when the project needs overtime?",
+        "a": {
+          "concrete": "Overtime is agreed in advance, billed per contract and logged weekly.",
+          "visionary": "When something truly matters, we stand together – even late at night.",
+          "humble": "We can stretch for a while, but we'll tell you if it becomes a habit.",
+          "buzzword": "We have elastic capacity that scales dynamically with delivery demand."
+        }
+      },
+      "ppl_work_life": {
+        "q": "How do you make sure people don't work themselves into the ground?",
+        "a": {
+          "concrete": "We review timesheets weekly and step in above 45 hours.",
+          "visionary": "Rested people build better things. That's the whole philosophy.",
+          "humble": "We're not perfect at this. But we ask, and we take the answers seriously.",
+          "buzzword": "We have a holistic well-being framework for sustainable performance."
+        }
+      },
+      "ppl_conflict": {
+        "q": "How do you handle conflicts within the team?",
+        "a": {
+          "concrete": "A talk between those involved, then the team lead, then us within a week.",
+          "visionary": "Friction is where the best ideas are born.",
+          "humble": "We deal with it early and openly – and own up if we're part of the problem.",
+          "buzzword": "Through psychologically safe dialogue arenas and constructive conflict capability."
+        }
+      },
+      "ppl_bad_fit": {
+        "q": "What do you do if a consultant doesn't fit in here?",
+        "a": {
+          "concrete": "Tell us, and you'll have a new candidate to interview within ten days.",
+          "visionary": "Then we find the person who fits – and lifts the whole team.",
+          "humble": "It's a shame, but it happens. We won't take it personally, and we'll fix it.",
+          "buzzword": "We re-match the resource through our cultural alignment process."
+        }
+      },
+      "ppl_team_lead": {
+        "q": "Who actually leads the team day to day?",
+        "a": {
+          "concrete": "Our team lead, with twelve years' experience. She reports to you every Friday.",
+          "visionary": "Leadership is something the whole team takes on. But yes, we have a captain.",
+          "humble": "We should agree on that together. Maybe you have someone who should lead?",
+          "buzzword": "We use a servant leadership model with distributed decision authority."
+        }
+      },
+      "ppl_domain": {
+        "q": "How will your consultants learn our line of business?",
+        "a": {
+          "concrete": "Two days with your experts, a glossary and a fixed Q&A slot every week.",
+          "visionary": "We want to understand you so well we see opportunities you haven't spotted yet.",
+          "humble": "By listening a lot and asking silly questions. You're the experts here.",
+          "buzzword": "Through domain-driven insight capture and cross-functional business understanding."
+        }
+      },
+      "ppl_norwegian": {
+        "q": "Do all your consultants speak Norwegian?",
+        "a": {
+          "concrete": "Four out of five do. The fifth is at B2 level and takes lessons with us.",
+          "visionary": "We speak your users' language. That's what counts.",
+          "humble": "Not all of them. If that matters to you, we'd rather say so up front.",
+          "buzzword": "We're a language-agnostic team with a global mindset and local anchoring."
+        }
+      },
+      "ppl_clearance": {
+        "q": "Do you have people with security clearance?",
+        "a": {
+          "concrete": "Three are cleared to SECRET, and two more applications are in progress.",
+          "visionary": "Trust is the foundation of all we build – including what you can't talk about.",
+          "humble": "A few do. The process takes time, so we should start it early together.",
+          "buzzword": "We have a security-cleared capacity pool with a zero-trust mindset."
+        }
+      },
+      "ppl_values": {
+        "q": "What are your values, really?",
+        "a": {
+          "concrete": "We have three, and we measure them in our staff survey twice a year.",
+          "visionary": "We believe in technology that makes the world a bit better, one project at a time.",
+          "humble": "They're on the wall. But you'd probably do better asking our clients.",
+          "buzzword": "We live a values-based, purpose-driven culture with authentic DNA."
+        }
+      },
+      "ppl_culture_word": {
+        "q": "How would you describe your culture in one word?",
+        "a": {
+          "concrete": "“Thorough.” We do what we say, and we write it down.",
+          "visionary": "“Bold.” We dare to think bigger than the brief.",
+          "humble": "It's hard to say about yourself. “Curious,” maybe?",
+          "buzzword": "“Synergistic.” Or “agile.” Possibly “holistic.”"
+        }
+      },
+      "ppl_fagmiljo": {
+        "q": "What kind of professional community do your consultants lean on?",
+        "a": {
+          "concrete": "Ten practice groups meeting monthly, and an internal channel that answers within the hour.",
+          "visionary": "A community of people who want to move the whole industry forward.",
+          "humble": "A good one, we think. But judge it by what the team delivers.",
+          "buzzword": "A cross-functional community of practice with strong knowledge synergy."
+        }
+      },
+      "ppl_knowledge_sharing": {
+        "q": "How do you share lessons across projects?",
+        "a": {
+          "concrete": "Lunch talks every Thursday and a shared, searchable lessons-learned base.",
+          "visionary": "What one of us learns, we all learn. That's how we keep pace with the future.",
+          "humble": "We could be better at it, but we ask each other a lot – no question is stupid.",
+          "buzzword": "Through knowledge management that enables learning across silos."
+        }
+      },
+      "ppl_friday_drinks": {
+        "q": "Will your consultants join our Friday drinks?",
+        "a": {
+          "concrete": "Happily, every other Friday. We'll buy our own round, of course.",
+          "visionary": "That table is where the truly great ideas are born.",
+          "humble": "If we're invited, we'd love to. We don't want to intrude.",
+          "buzzword": "We see informal arenas as a key driver of relational value creation."
+        }
+      },
+      "ppl_cabin_trip": {
+        "q": "Will the consultants be coming on our staff cabin trip too?",
+        "a": {
+          "concrete": "If you'd like. Friday counts as a workshop day, and Saturday isn't billable.",
+          "visionary": "It's up in the mountains that you see how far you can go together.",
+          "humble": "That's your call. We'd understand if it's just for your own staff.",
+          "buzzword": "An offsite is a unique opportunity for team alignment and trust building."
+        }
+      },
+      "ppl_motivation": {
+        "q": "How do you keep your consultants motivated over time?",
+        "a": {
+          "concrete": "A one-to-one every quarter and the option to switch projects after two years.",
+          "visionary": "We give them something to believe in. The rest follows.",
+          "humble": "We ask them regularly – and listen, even when it's not what we hoped to hear.",
+          "buzzword": "Through intrinsic motivation design and meaningful engagement architecture."
+        }
+      },
+      "ppl_burnout": {
+        "q": "What do you do if a consultant is heading for burnout?",
+        "a": {
+          "concrete": "Their manager talks to them that week, we lighten the load and follow up.",
+          "visionary": "We build a working life where people flourish, not burn out.",
+          "humble": "We put the person first, even if it costs us. And we'll let you know.",
+          "buzzword": "We have proactive resilience monitoring embedded in our people strategy."
+        }
+      },
+      "ppl_mentoring": {
+        "q": "Do your juniors have someone to ask when they get stuck?",
+        "a": {
+          "concrete": "Yes, everyone has a mentor, with an hour a week booked in the calendar.",
+          "visionary": "We lift the next generation – the people who will one day lift us.",
+          "humble": "Yes, and we tell them it's perfectly fine not to know everything.",
+          "buzzword": "We run a structured mentoring scheme with peer-to-peer learning tracks."
+        }
+      },
+      "ppl_junior_billing": {
+        "q": "Why should we pay for your juniors to learn on the job?",
+        "a": {
+          "concrete": "You shouldn't. The first 100 hours are free, and their rate is lower.",
+          "visionary": "Because you're getting tomorrow's seniors – from day one.",
+          "humble": "That's a fair question. We can set up an arrangement you're comfortable with.",
+          "buzzword": "Juniors deliver a cost-efficient capacity mix with a high learning ROI."
+        }
+      },
+      "ppl_senior_hands_on": {
+        "q": "Do your seniors still write code, or just slides?",
+        "a": {
+          "concrete": "Seniors spend at least 70 per cent of their time coding. It's in the contract.",
+          "visionary": "They write code – and draw the map of where we go next.",
+          "humble": "Admittedly, some have made a few too many slides. We'll pick the coders.",
+          "buzzword": "Our seniors are T-shaped hands-on architects with strategic oversight."
+        }
+      },
+      "ppl_bench": {
+        "q": "What do your consultants do between assignments?",
+        "a": {
+          "concrete": "Internal projects, courses and certifications. It lasts three weeks on average.",
+          "visionary": "They explore what's next. That's where innovation begins.",
+          "humble": "Honestly? They wait, a bit impatiently, for a project like yours.",
+          "buzzword": "They're in a strategic competence-acceleration phase."
+        }
+      },
+      "ppl_parental_leave": {
+        "q": "What if the consultant goes on parental leave?",
+        "a": {
+          "concrete": "We usually know early, so we plan four months' overlap with the replacement.",
+          "visionary": "We're proud to be a place where people can have a life. It makes us stronger.",
+          "humble": "Then we say congratulations – and find an arrangement that works for everyone.",
+          "buzzword": "We use life-phase-adapted resource planning with built-in flexibility."
+        }
+      },
+      "ppl_underperform": {
+        "q": "How do you deal with a consultant who isn't delivering?",
+        "a": {
+          "concrete": "We set concrete goals for four weeks. If they're not met, we swap the person.",
+          "visionary": "We help people find the place where they truly shine.",
+          "humble": "First we want to understand why. Often it's something we should have caught sooner.",
+          "buzzword": "Through a solution-oriented performance dialogue with clear KPIs."
+        }
+      },
+      "ppl_feedback": {
+        "q": "How can we give feedback on the consultants?",
+        "a": {
+          "concrete": "A short form every quarter, and a meeting with us if anything's urgent.",
+          "visionary": "Feedback is the fuel that makes us better with every delivery.",
+          "humble": "Any time, and ideally straight to us. We can take it.",
+          "buzzword": "Through a continuous feedback loop embedded in our customer insight flow."
+        }
+      },
+      "ppl_one_team": {
+        "q": "Will the consultants join our team, or keep to themselves?",
+        "a": {
+          "concrete": "They sit with you, follow your routines and use your tools.",
+          "visionary": "After a month, nobody will be able to tell consultant from employee.",
+          "humble": "We'd like to be part of the team, but you set the terms.",
+          "buzzword": "We operate as a seamlessly integrated one-team with shared ownership."
+        }
+      },
+      "ppl_train_staff": {
+        "q": "Will you train our own staff along the way?",
+        "a": {
+          "concrete": "Yes. One of your people joins every task, and we run two courses every six months.",
+          "visionary": "Our goal is that one day you won't need us.",
+          "humble": "Gladly. We'll probably learn as much from them as they do from us.",
+          "buzzword": "We have a capability-uplifting enablement model for knowledge transfer."
+        }
+      },
+      "ppl_hire_away": {
+        "q": "What if we'd like to hire your consultant?",
+        "a": {
+          "concrete": "It's in the contract: no earlier than twelve months, for an agreed fee.",
+          "visionary": "Then we've done our job. We grow people others want.",
+          "humble": "We'd take that as a compliment. But let's talk about it first.",
+          "buzzword": "We're open to flexible talent mobility models within the partnership."
+        }
+      },
+      "ppl_age": {
+        "q": "Are all your consultants under 30?",
+        "a": {
+          "concrete": "No. Average age is 38, and the eldest has worked in IT since 1989.",
+          "visionary": "We're young at heart – and that's where innovation lives.",
+          "humble": "We look young on our website. In reality we're more of a mix.",
+          "buzzword": "We have a generationally diverse team with cross-generational synergy."
+        }
+      },
+      "ppl_scale_up": {
+        "q": "How quickly can you scale up if we need more people?",
+        "a": {
+          "concrete": "Two more in two weeks and five more within six. We already have names.",
+          "visionary": "We grow in step with your ambitions – however big they get.",
+          "humble": "A little, quickly. A lot takes time, and we won't send you the wrong people.",
+          "buzzword": "We offer on-demand scalability in an elastic delivery ecosystem."
+        }
+      },
+      "ppl_dress_code": {
+        "q": "Will the consultants turn up in suits or hoodies?",
+        "a": {
+          "concrete": "We follow your dress code. Suits for board meetings, otherwise like everyone else.",
+          "visionary": "We dress for the future. Apparently it wears a hoodie.",
+          "humble": "You tell us. We'd rather not stand out.",
+          "buzzword": "We have a contextual, stakeholder-adapted dress-code strategy."
+        }
+      },
+      "ppl_working_hours": {
+        "q": "When during the day can we expect to reach the consultants?",
+        "a": {
+          "concrete": "Core hours are 9 to 3, and everyone replies within an hour during that time.",
+          "visionary": "We're there when it matters. Good ideas don't watch the clock.",
+          "humble": "Normal working hours. We have families too, but we'll show up if things catch fire.",
+          "buzzword": "We ensure availability through a flexible, asynchronous response model."
+        }
+      },
+      "ppl_account_follow_up": {
+        "q": "Who on your side follows up the consultants along the way?",
+        "a": {
+          "concrete": "A dedicated account manager, with a status meeting at your office every six weeks.",
+          "visionary": "The whole company stands behind them. That's what you're really buying.",
+          "humble": "One of the partners. And if something isn't working, we want you to call us.",
+          "buzzword": "We have a holistic stakeholder management structure with close governance."
+        }
+      },
+      "ppl_tenure": {
+        "q": "How long have the proposed consultants been with you?",
+        "a": {
+          "concrete": "Between two and eleven years. It's all in the CV appendix.",
+          "visionary": "Long enough to know us – short enough to still be hungry.",
+          "humble": "One of them started last year. We'd rather just say so.",
+          "buzzword": "We have a balanced tenure profile with strong organisational anchoring."
+        }
+      },
+      "ppl_soft_skills": {
+        "q": "Can your developers talk to normal people?",
+        "a": {
+          "concrete": "Yes. All have run user tests, and two have taught courses for caseworkers.",
+          "visionary": "They build bridges between technology and people. That's the whole point.",
+          "humble": "Most can. And the quieter ones are good listeners.",
+          "buzzword": "Our developers have strong stakeholder communication and empathic design thinking."
+        }
+      },
+      "ppl_speak_up": {
+        "q": "Will your consultants dare to speak up when we're wrong?",
+        "a": {
+          "concrete": "Yes. Risks and disagreements are a fixed item at every status meeting.",
+          "visionary": "We're not here to agree with you. We're here to make you better.",
+          "humble": "We try, respectfully. But we know we're not always right ourselves.",
+          "buzzword": "We have a psychologically safe speak-up culture with radical transparency."
+        }
+      },
+      "ppl_learning_days": {
+        "q": "Do the consultants take learning days on our dime?",
+        "a": {
+          "concrete": "No. We pay for learning days, and they always fall between your sprints.",
+          "visionary": "Every learning day comes back to you as fresh ideas.",
+          "humble": "No, of course not. But we'll give you plenty of notice when someone's away.",
+          "buzzword": "The competence uplift is a value-adding contribution to the partnership."
+        }
+      },
+      "tec_cloud_provider": {
+        "q": "Which cloud provider do you recommend?",
+        "a": {
+          "concrete": "It depends on your requirements. We compare three providers on price, operations and data location.",
+          "visionary": "The cloud isn't a place, it's a way of thinking. We'll pick the one that takes you furthest.",
+          "humble": "We have no favourite to push. Tell us what you need and we'll help you choose.",
+          "buzzword": "We recommend a cloud-agnostic, hybrid multi-cloud strategy with cloud native as a guiding principle."
+        }
+      },
+      "tec_vendor_lockin": {
+        "q": "How do we avoid getting locked in to a single vendor?",
+        "a": {
+          "concrete": "Open formats, standard APIs and an exit plan we actually rehearse once a year.",
+          "visionary": "Freedom is a design choice. We build systems you can always leave – which is why you'll stay.",
+          "humble": "Avoiding it completely is hard. But we can be honest about where the ties are and what they cost.",
+          "buzzword": "With a portable, containerised platform abstraction that decouples the value stream from infrastructure."
+        }
+      },
+      "tec_open_source": {
+        "q": "What's your view on open source?",
+        "a": {
+          "concrete": "We use a lot of it, check licences automatically and pick projects with active maintainers.",
+          "visionary": "Open source is humanity's greatest group effort. We want you to be part of it.",
+          "humble": "We stand on the shoulders of many volunteers, and try to give a little back where we can.",
+          "buzzword": "We embrace an open, community-driven innovation ecosystem with co-creation built in."
+        }
+      },
+      "tec_microservices": {
+        "q": "Should we split the system into microservices?",
+        "a": {
+          "concrete": "Maybe not. With one team of six, a tidy monolith is often faster and cheaper.",
+          "visionary": "Your architecture should mirror the organisation you want to become, not the one you are today.",
+          "humble": "We'd like to understand the problem first. Microservices solve some things and create others.",
+          "buzzword": "We recommend a domain-driven, event-based modular micro-architecture with clear bounded contexts."
+        }
+      },
+      "tec_architecture_decisions": {
+        "q": "How do you make architecture decisions?",
+        "a": {
+          "concrete": "Every decision goes on one page: context, options, choice and consequences.",
+          "visionary": "We draw a north star, and let every decision bring us a little closer.",
+          "humble": "Together with you. And we write down why, so it's easy to admit when we got it wrong.",
+          "buzzword": "Through a federated, evolutionary architecture forum with data-driven decision gates."
+        }
+      },
+      "tec_data_driven": {
+        "q": "We want to become data-driven. Where do we start?",
+        "a": {
+          "concrete": "With three questions management actually wants answered, and the data needed to answer them.",
+          "visionary": "Picture an organisation where every decision is made with its eyes open. That's where we're going.",
+          "humble": "We'd start by hearing which decisions you find hard to make today.",
+          "buzzword": "With a data mesh-based insight ecosystem that democratises data end-to-end."
+        }
+      },
+      "tec_data_quality": {
+        "q": "Our data is pretty messy. Is that a problem?",
+        "a": {
+          "concrete": "We measure first: duplicates, empty fields and bad formats. Then we fix the ten worst sources.",
+          "visionary": "Messy data is just stories waiting to be told properly.",
+          "humble": "Everyone has messy data, us included. What matters is that you know about it, and you do.",
+          "buzzword": "We establish a data governance framework with proactive quality observability and clear data ownership."
+        }
+      },
+      "tec_gdpr": {
+        "q": "How do you protect privacy?",
+        "a": {
+          "concrete": "We only store what we need, delete on fixed schedules and have a data processing agreement in place.",
+          "visionary": "Privacy is trust, and trust is the only currency that matters online.",
+          "humble": "We're not lawyers, so we involve your data protection officer early and would rather ask once too often.",
+          "buzzword": "With privacy by design as an integral part of a trust-based, compliance-oriented delivery model."
+        }
+      },
+      "tec_accessibility": {
+        "q": "How do you ensure accessibility?",
+        "a": {
+          "concrete": "We follow WCAG level AA, test automatically on every build and manually with a screen reader before launch.",
+          "visionary": "A service that isn't for everyone isn't finished. We build for everyone.",
+          "humble": "We still make mistakes here. That's why we test with real users, who often find what we miss.",
+          "buzzword": "Accessibility is an inclusive quality dimension we shift left across the entire value stream."
+        }
+      },
+      "tec_accessibility_audit": {
+        "q": "The regulator found 47 accessibility violations. What now?",
+        "a": {
+          "concrete": "We sort them by severity, fix the critical ones in four weeks and update the accessibility statement.",
+          "visionary": "This isn't a crisis, it's an invitation to become the most accessible service in the country.",
+          "humble": "It's annoying, but it's good they were found. We'd like to read the report first.",
+          "buzzword": "We mobilise a cross-functional remediation programme with continuous compliance monitoring."
+        }
+      },
+      "tec_passwords": {
+        "q": "What's your relationship with passwords?",
+        "a": {
+          "concrete": "Password manager for everyone, two-factor everywhere and no secrets in code. Checked automatically.",
+          "visionary": "We look forward to the day passwords are museum pieces. That day is closer than you think.",
+          "humble": "A strained one, like everyone's. That's why we trust tools rather than our own memory.",
+          "buzzword": "We follow a passwordless, identity-centric zero trust model with continuous verification."
+        }
+      },
+      "tec_pentest": {
+        "q": "Do you do penetration testing?",
+        "a": {
+          "concrete": "Yes, an external test before launch and once a year after. Findings are closed within an agreed deadline.",
+          "visionary": "We think like an attacker, so you never have to meet a real one.",
+          "humble": "We test ourselves, but we recommend someone from outside does it too. We're too fond of our own code.",
+          "buzzword": "We offer offensive security as a service, integrated into a holistic threat-led approach."
+        }
+      },
+      "tec_supply_chain": {
+        "q": "How do you handle vulnerabilities in third-party libraries?",
+        "a": {
+          "concrete": "We scan dependencies on every build, keep a bill of materials and patch critical issues within 48 hours.",
+          "visionary": "Software is a food chain. We look after every single link.",
+          "humble": "We use hundreds of packages we didn't write. We can't promise zero, but we keep a close eye.",
+          "buzzword": "With shift-left supply chain security and real-time SBOM-driven risk insight."
+        }
+      },
+      "tec_logging": {
+        "q": "What do you log, and how long do you keep it?",
+        "a": {
+          "concrete": "Events and errors, no personal data. Kept for 90 days, access logs for a year.",
+          "visionary": "Logs are the system's memory. We make sure it remembers what matters.",
+          "humble": "As little as possible, and we should agree that with you. We've logged too much before.",
+          "buzzword": "We have a centralised, structured telemetry strategy with policy-driven lifecycle management."
+        }
+      },
+      "tec_security_incident": {
+        "q": "What do you do if we get hacked?",
+        "a": {
+          "concrete": "We follow an incident plan: isolate, notify within 72 hours, restore and write a report.",
+          "visionary": "Then we stand with you, and come out the other side stronger than before.",
+          "humble": "We call you straight away, even if it's our fault. Especially then.",
+          "buzzword": "We activate a resilient, event-driven response framework with cross-functional crisis synergy."
+        }
+      },
+      "tec_performance": {
+        "q": "Our solution is slow. What would you do?",
+        "a": {
+          "concrete": "Measure first. Usually three slow queries and one oversized image account for most of it.",
+          "visionary": "Speed is a feeling. We want users to feel the service is one step ahead of them.",
+          "humble": "We'd ask where users feel it's slow. It's not always where we'd guess.",
+          "buzzword": "We'd run end-to-end performance optimisation powered by observability-driven insight."
+        }
+      },
+      "tec_peak_load": {
+        "q": "What happens when everyone logs in on deadline day?",
+        "a": {
+          "concrete": "We load test at ten times normal traffic and set up autoscaling. And a queue page.",
+          "visionary": "That's when the service shines. Deadline day becomes the day people say nice things about you.",
+          "humble": "It's the day we dread the most. That's why we rehearse it well in advance.",
+          "buzzword": "An elastic, scalable platform handles peak load seamlessly through automated capacity."
+        }
+      },
+      "tec_app_vs_web": {
+        "q": "Do we need an app, or is a website enough?",
+        "a": {
+          "concrete": "Your users visit twice a year. A good mobile-friendly website will do.",
+          "visionary": "The question isn't app or web. It's where in your users' lives you want to be.",
+          "humble": "We don't know yet. Let's ask some users before spending money on either.",
+          "buzzword": "We recommend a mobile-first, omnichannel customer journey with cross-platform synergy."
+        }
+      },
+      "tec_offline": {
+        "q": "Our people work in the mountains with no signal. Is that doable?",
+        "a": {
+          "concrete": "Yes. The app stores data locally and syncs when you're back online. We've tested it in a tunnel.",
+          "visionary": "Technology should follow people where they are, not just where the masts are.",
+          "humble": "It's harder than it sounds. Could we join you in the field one day to see how you work?",
+          "buzzword": "With an offline-first, event-based sync architecture at the edge of the network."
+        }
+      },
+      "tec_design_system": {
+        "q": "Why should we spend money on a design system?",
+        "a": {
+          "concrete": "Because you have twelve different buttons today. Shared components save time on every screen.",
+          "visionary": "A design system is a shared language. It lets the whole organisation speak with one voice.",
+          "humble": "Maybe you shouldn't yet. It only pays off once several teams are building screens.",
+          "buzzword": "A scalable, token-based design system drives brand consistency and developer synergy across the board."
+        }
+      },
+      "tec_tech_stack": {
+        "q": "How do you choose technology?",
+        "a": {
+          "concrete": "We pick what your team can run, what's been stable for five years and what's easy to hire for.",
+          "visionary": "We choose the tech you'll be proud of in ten years, not the one that's trendy this year.",
+          "humble": "We have our favourites, but you're the ones who'll live with it. We'd like to hear what you know.",
+          "buzzword": "Through a future-proof, cloud-based tech radar framework with evidence-based assessment."
+        }
+      },
+      "tec_new_framework": {
+        "q": "Our developers want to use a brand-new framework. Is that wise?",
+        "a": {
+          "concrete": "Maybe. Try it in one small module for two weeks and measure whether it's actually faster.",
+          "visionary": "Curiosity is the engine of all innovation. We shouldn't stifle it.",
+          "humble": "We've said yes to new frameworks we later regretted. Happy to share what we learned.",
+          "buzzword": "A modern, component-based framework can significantly accelerate the developer journey."
+        }
+      },
+      "tec_api": {
+        "q": "What makes a good API?",
+        "a": {
+          "concrete": "Versioning, clear error messages, up-to-date docs and examples that actually work.",
+          "visionary": "A good API is an open door. It lets others build things you never imagined.",
+          "humble": "That the people using it find it easy. We ask them rather than assume.",
+          "buzzword": "API-first, contract-driven and consumer-centric, as part of a composable enterprise."
+        }
+      },
+      "tec_integrations": {
+        "q": "We have over forty integrations. How do we get an overview?",
+        "a": {
+          "concrete": "We map them all, with owner, format and what happens when they fail. Takes about three weeks.",
+          "visionary": "Every integration is a relationship. We'll help you see the whole network.",
+          "humble": "Sounds like something you've been wrestling with for a while. Who knows the most about them today?",
+          "buzzword": "With an event-driven integration platform that seamlessly orchestrates data across silos."
+        }
+      },
+      "tec_migration": {
+        "q": "How do we move data from the old system to the new one?",
+        "a": {
+          "concrete": "We run trial migrations weekly, reconcile totals against the source and have a rollback plan.",
+          "visionary": "A migration is a move. It's a chance to bring only what truly matters.",
+          "humble": "Carefully. Migrations almost always take longer than planned, and we'd rather say that now.",
+          "buzzword": "Through a phased, de-risked modernisation journey with automated data lineage."
+        }
+      },
+      "tec_cloud_cost": {
+        "q": "Our cloud bill has doubled. What do we do?",
+        "a": {
+          "concrete": "We tag every resource with an owner, shut down what's idle and set budget alerts.",
+          "visionary": "The cloud should give you freedom, not worry. We'll turn the bill into a tool.",
+          "humble": "It happens to a lot of people. We'd like to look at the bill with you before saying more.",
+          "buzzword": "We introduce FinOps as a cross-functional cost optimisation culture with real-time unit economics."
+        }
+      },
+      "tec_data_location": {
+        "q": "Does our data have to be stored in Norway?",
+        "a": {
+          "concrete": "Not necessarily, but within the EEA. We document where everything is and who has access.",
+          "visionary": "Your data is part of society's memory. It deserves a safe home.",
+          "humble": "That's a legal question we don't want to answer too quickly. Let's take it to your lawyers.",
+          "buzzword": "We ensure sovereign data residency through a regionally anchored, compliance-governed cloud architecture."
+        }
+      },
+      "tec_devops": {
+        "q": "What does DevOps mean to you, concretely?",
+        "a": {
+          "concrete": "The team that writes the code also runs it, with monitoring, on-call duty and ownership of bugs.",
+          "visionary": "That the wall between those who build and those who operate finally comes down.",
+          "humble": "The word means different things to everyone. What does it mean to you? Let's start there.",
+          "buzzword": "A cultural transformation towards cross-functional, automated and continuous flow of value."
+        }
+      },
+      "tec_backup": {
+        "q": "When did you last test that a backup can actually be restored?",
+        "a": {
+          "concrete": "Last month. We restore to a test environment automatically every week and log how long it takes.",
+          "visionary": "A backup is a promise to the future. We keep our promises.",
+          "humble": "Honestly? Too long ago. And last time it didn't go entirely well. We learned from that.",
+          "buzzword": "We have a robust, policy-based data resilience strategy with automated recovery validation."
+        }
+      },
+      "tec_disaster_recovery": {
+        "q": "What do we do if the whole data centre goes down?",
+        "a": {
+          "concrete": "We keep copies in another region, a two-page plan and aim to be back up within four hours.",
+          "visionary": "That's when we find out if we've built something that can withstand the world. And we have.",
+          "humble": "It's scary to think about, but we have to. We suggest we rehearse it together once a year.",
+          "buzzword": "Through a geo-redundant, self-healing architecture with built-in business continuity."
+        }
+      },
+      "tec_green_it": {
+        "q": "How do you approach sustainable IT?",
+        "a": {
+          "concrete": "We turn off test environments at night, pick data centres on renewables and measure usage.",
+          "visionary": "Every line of code leaves a footprint on the planet. We want yours to be a light one.",
+          "humble": "We're no experts, and we probably travel too much. But we try to get the simple things right.",
+          "buzzword": "With a climate-neutral, circular digitalisation strategy and ESG-integrated value creation."
+        }
+      },
+      "tec_chatbot": {
+        "q": "Can we get a chatbot on our website?",
+        "a": {
+          "concrete": "Yes, but we'd first look at the 20 most common questions. Many are solved by a better page.",
+          "visionary": "Picture a service that's always awake, always patient and always kind.",
+          "humble": "We can, but a lot of users find them annoying. We'd like to test it before you decide.",
+          "buzzword": "An AI-powered conversational assistant delivers a hyper-personalised, seamless omnichannel experience."
+        }
+      },
+      "tec_ai_own_data": {
+        "q": "Can we use AI on our own documents?",
+        "a": {
+          "concrete": "Yes. We start with one archive, a hundred test questions and measure how often it's right.",
+          "visionary": "Everything the organisation has ever known, available to everyone in seconds. That's the future.",
+          "humble": "It can work well, but it's sometimes wrong with great confidence. You should know that up front.",
+          "buzzword": "With a RAG-based knowledge platform that unlocks the value in unstructured data."
+        }
+      },
+      "tec_ai_code": {
+        "q": "Do you use AI to write the code?",
+        "a": {
+          "concrete": "Yes, as a tool. All code is read and approved by a human and passes the same tests.",
+          "visionary": "We're in the middle of the biggest shift in the craft since the compiler. We want to lead it.",
+          "humble": "A bit. It's fast, but it gets things wrong. So we read everything it suggests, and we're open about it.",
+          "buzzword": "We have an AI-augmented, agentic development flow that 10x-es productivity."
+        }
+      },
+      "tec_ai_risk": {
+        "q": "What if the AI solution gives citizens wrong answers?",
+        "a": {
+          "concrete": "We log answers, spot-check weekly and always show the source and a way to reach a human.",
+          "visionary": "We build AI with a conscience. Trust isn't a feature, it's a foundation.",
+          "humble": "It will happen. The point is to catch it fast and say so, not to pretend it doesn't.",
+          "buzzword": "With a responsible AI framework built on explainability, guardrails and human-in-the-loop governance."
+        }
+      },
+      "tec_low_code": {
+        "q": "Couldn't we just use a low-code tool instead?",
+        "a": {
+          "concrete": "For simple forms and internal workflows, yes. Beyond a few integrations it gets expensive fast.",
+          "visionary": "Low-code hands power back to those who know the problem. It's a small revolution.",
+          "humble": "Maybe. Then you'd need us less, and we're happy to say so.",
+          "buzzword": "Low-code enables citizen developers and hyperautomation in a composable enterprise."
+        }
+      },
+      "tec_login": {
+        "q": "How should our users log in?",
+        "a": {
+          "concrete": "Through the national login service for citizens, and work accounts for your own staff.",
+          "visionary": "Logging in should be so easy nobody notices. That's the best a login can hope for.",
+          "humble": "Depends on who they are. We'd like to see how they log in today and what they struggle with.",
+          "buzzword": "Through a federated, seamless digital identity journey with adaptive authentication."
+        }
+      },
+      "tec_national_components": {
+        "q": "Do you use the shared national components, or build your own?",
+        "a": {
+          "concrete": "We use them where they exist: login, digital mail and registries. We've integrated with all of them.",
+          "visionary": "Every shared component is a brick in a common digital nation. We build on it, not beside it.",
+          "humble": "We use them. They're not always perfect, but building your own is almost always worse.",
+          "buzzword": "We leverage the national ecosystem to realise joined-up services and cross-sector benefits."
+        }
+      },
+      "tec_archiving": {
+        "q": "How do you meet the requirements of the archives act?",
+        "a": {
+          "concrete": "We clarify archiving duties early with your archivists and export to an approved format automatically.",
+          "visionary": "We're writing history. In a hundred years, someone should be able to read what was decided today.",
+          "humble": "It's a field we respect and don't know everything about. We'd like your archivist involved from day one.",
+          "buzzword": "Through lifecycle-oriented information management with built-in preservation automation."
+        }
+      },
+      "tec_spreadsheet": {
+        "q": "Half our operations run on one spreadsheet. Is that a problem?",
+        "a": {
+          "concrete": "Only if just one person understands it, or it isn't backed up. We'd check both first.",
+          "visionary": "That spreadsheet is a prototype of the system you really need. We should honour it.",
+          "humble": "Not necessarily. It works. We'd be careful touching it before we understand it.",
+          "buzzword": "We can transform it into a scalable, cloud-based process platform with built-in automation."
+        }
+      },
+      "tec_realtime": {
+        "q": "Management wants everything in real time. What does that involve?",
+        "a": {
+          "concrete": "It costs more. Most reports are fine with overnight data. We find the ones that really need to be fresh.",
+          "visionary": "Real time means the organisation sees the world as it is now, not as it was yesterday.",
+          "humble": "We'd ask what they'd do differently with the numbers if they arrived sooner.",
+          "buzzword": "With a streaming, event-driven real-time architecture delivering instant insight."
+        }
+      },
+      "tec_open_data": {
+        "q": "We're going to publish open data. How do we do it right?",
+        "a": {
+          "concrete": "Open licence, machine-readable format, a simple API and a description of every field. No personal data.",
+          "visionary": "Open data is fuel for a thousand services you'll never have to build yourselves.",
+          "humble": "We'd talk to people who'll actually use the data first. Otherwise it's easy to share the wrong thing.",
+          "buzzword": "We establish an open data ecosystem that catalyses cross-sector value creation and innovation."
+        }
+      },
+      "tec_search": {
+        "q": "Users can't find anything with our search. Can you fix it?",
+        "a": {
+          "concrete": "We look at the hundred most common searches with no hits and add synonyms. That often fixes half of it.",
+          "visionary": "Search is about understanding what people mean, not just what they type.",
+          "humble": "We can try. Often the problem is the content, not the search engine, so we'd look at both.",
+          "buzzword": "With semantic, AI-powered search and context-aware, real-time relevance optimisation."
+        }
+      },
+      "com_fixed_price": {
+        "q": "Can you deliver this at a fixed price?",
+        "a": {
+          "concrete": "Yes, for phase one. We'll price the rest after four weeks of real data.",
+          "visionary": "The price is fixed. The possibilities aren't.",
+          "humble": "We can, but then we have to be honest about how uncertain the estimate is.",
+          "buzzword": "We'd recommend a hybrid, value-based pricing model with agile delivery gates."
+        }
+      },
+      "com_discount": {
+        "q": "What kind of discount can you offer?",
+        "a": {
+          "concrete": "Eight percent on a two-year deal, twelve percent above 5,000 hours.",
+          "visionary": "The biggest discount is every mistake you won't make in the next ten years.",
+          "humble": "We don't have much room, but we're happy to look at it with you.",
+          "buzzword": "We offer a scalable discount matrix based on mutual value creation."
+        }
+      },
+      "com_budget_overrun": {
+        "q": "What happens if the project goes over budget?",
+        "a": {
+          "concrete": "You're alerted at 80 percent spend, and nothing goes over without written approval.",
+          "visionary": "Then we've probably discovered something worth more than the budget.",
+          "humble": "It can happen. If it does, you'll hear it early – not on the final invoice.",
+          "buzzword": "We run proactive, data-driven cost governance end-to-end."
+        }
+      },
+      "com_change_orders": {
+        "q": "How do you handle change orders?",
+        "a": {
+          "concrete": "Written estimate within three days, and no work starts until you've signed.",
+          "visionary": "Change isn't a deviation. It's the journey itself.",
+          "humble": "We flag it when something really is a change, so it never comes as a surprise.",
+          "buzzword": "Through an agile change flow anchored in the portfolio value stream."
+        }
+      },
+      "com_sla_penalties": {
+        "q": "Will you accept penalties if you miss the SLAs?",
+        "a": {
+          "concrete": "Yes, capped at ten percent of the monthly fee, with clearly defined metrics.",
+          "visionary": "We aim so high that penalties become a footnote.",
+          "humble": "That's fair. We just want to be sure we're measuring the right things.",
+          "buzzword": "We prefer a benefit-based, KPI-driven incentive framework."
+        }
+      },
+      "com_references": {
+        "q": "Can we speak to some references?",
+        "a": {
+          "concrete": "Of course. Here are three clients with names, numbers and project dates.",
+          "visionary": "Our best references are the clients we haven't met yet.",
+          "humble": "Yes – and feel free to call a few we didn't pick ourselves.",
+          "buzzword": "We have a broad reference portfolio across value chains and domains."
+        }
+      },
+      "com_biggest_failure": {
+        "q": "What's your biggest failure?",
+        "a": {
+          "concrete": "An integration project that ran three months late. We've held weekly risk reviews since.",
+          "visionary": "Failures are just successes that aren't finished yet.",
+          "humble": "We once promised a client too much. We learned a lot from that.",
+          "buzzword": "We call them learning-driven pivots on an iterative value journey."
+        }
+      },
+      "com_first_30_days": {
+        "q": "What will you do in the first 30 days?",
+        "a": {
+          "concrete": "Week one interviews, week two mapping, then a plan for you to approve.",
+          "visionary": "We lay the foundations for how you'll work for the next decade.",
+          "humble": "Mostly listen. You know the business far better than we do.",
+          "buzzword": "We run a holistic discovery phase with cross-functional insight sprints."
+        }
+      },
+      "com_competitors": {
+        "q": "What do you think of your competitors?",
+        "a": {
+          "concrete": "They're good. We're cheaper to run and faster to respond.",
+          "visionary": "We don't compete with others. We compete with tomorrow.",
+          "humble": "Several of them are very capable, and you should talk to them too.",
+          "buzzword": "We position ourselves in a different segment of the ecosystem value map."
+        }
+      },
+      "com_smaller_firm": {
+        "q": "You're much smaller than the others. Why should we take the risk?",
+        "a": {
+          "concrete": "Our partners sit in the team, and we have named backups for every role.",
+          "visionary": "Every big firm started small. Come along for the ride.",
+          "humble": "Fair question. For us, you'd be one of our most important clients.",
+          "buzzword": "We're a lean, focused boutique with enterprise-grade delivery capability."
+        }
+      },
+      "com_bigger_firm": {
+        "q": "Won't we be a small fish at a firm your size?",
+        "a": {
+          "concrete": "You get a named contact and a monthly meeting with the accountable partner.",
+          "visionary": "There are no small fish with us – only an ocean of opportunity.",
+          "humble": "We understand the concern. Tell us if you ever feel that way.",
+          "buzzword": "We combine global scale with local, customer-centric intimacy."
+        }
+      },
+      "com_subcontractors": {
+        "q": "Do you use subcontractors?",
+        "a": {
+          "concrete": "One, for test automation. Name and contract are in appendix four.",
+          "visionary": "We see it as a community of the best minds in the industry.",
+          "humble": "Sometimes, and we always tell you beforehand.",
+          "buzzword": "We orchestrate a curated partner ecosystem for maximum delivery synergy."
+        }
+      },
+      "com_conflict_interest": {
+        "q": "Do you work for any of our competitors?",
+        "a": {
+          "concrete": "For one, in a different area. Separate teams and signed NDAs.",
+          "visionary": "We work for the industry as a whole – and for the future.",
+          "humble": "Yes, one. We'd rather tell you now than have you hear it elsewhere.",
+          "buzzword": "We have robust governance mechanisms for conflict-of-interest mitigation."
+        }
+      },
+      "com_know_us": {
+        "q": "What do you actually know about us?",
+        "a": {
+          "concrete": "We've read your annual report, your strategy and your last three tenders.",
+          "visionary": "We know who you could become.",
+          "humble": "Some, but far from everything. That's why we're here to listen.",
+          "buzzword": "We have a holistic understanding of your strategic value landscape."
+        }
+      },
+      "com_industry": {
+        "q": "Do you have experience in our industry?",
+        "a": {
+          "concrete": "Four projects in three years, two under the same regulations as yours.",
+          "visionary": "Industry lines are blurring. We're already on the other side.",
+          "humble": "Not as much as we'd like, but we learn fast and ask a lot.",
+          "buzzword": "We have domain-agnostic expertise with cross-sector transferability."
+        }
+      },
+      "com_value_money": {
+        "q": "Why are you worth the money?",
+        "a": {
+          "concrete": "Our last client halved running costs in 18 months. The numbers are attached.",
+          "visionary": "Because what you're really buying is a new way of thinking.",
+          "humble": "That's for you to judge. We try to make it easy to see.",
+          "buzzword": "We deliver measurable ROI through synergistic end-to-end value creation."
+        }
+      },
+      "com_late": {
+        "q": "What happens if you deliver late?",
+        "a": {
+          "concrete": "Then we work without billing until it's delivered. It's in the contract.",
+          "visionary": "Great things arrive when the time is right.",
+          "humble": "Then we own it, explain why, and find a way forward with you.",
+          "buzzword": "We re-baseline the roadmap and optimise delivery velocity."
+        }
+      },
+      "com_invoicing": {
+        "q": "How do you invoice?",
+        "a": {
+          "concrete": "Monthly in arrears, with timesheets per person and task.",
+          "visionary": "We bill for the future you're building, not for the hours.",
+          "humble": "However suits you. Tell us how your finance team likes it.",
+          "buzzword": "Through a streamlined, digital order-to-cash value chain."
+        }
+      },
+      "com_exit_clause": {
+        "q": "Can we get out of the contract if it isn't working?",
+        "a": {
+          "concrete": "Yes, with three months' notice and a full handover of code and docs.",
+          "visionary": "We don't think you'll ever want to.",
+          "humble": "Of course. We don't want you staying because you have to.",
+          "buzzword": "We have a flexible exit strategy with seamless transition governance."
+        }
+      },
+      "com_call_offs": {
+        "q": "How do you handle call-offs under a framework agreement?",
+        "a": {
+          "concrete": "We respond within two working days, with CVs and estimated hours.",
+          "visionary": "A framework agreement is the start of something bigger than its call-offs.",
+          "humble": "We only respond when we actually have the right people available.",
+          "buzzword": "We run an agile call-off engine with demand-driven capacity allocation."
+        }
+      },
+      "com_partnership": {
+        "q": "How do you see a long-term partnership?",
+        "a": {
+          "concrete": "Annual reviews, a shared roadmap and fixed contacts on both sides.",
+          "visionary": "As a shared journey towards something neither of us can quite see yet.",
+          "humble": "That's something we have to earn, one project at a time.",
+          "buzzword": "As a strategic, mutually value-creating co-creation partnership."
+        }
+      },
+      "com_measure_success": {
+        "q": "How will you measure your own success?",
+        "a": {
+          "concrete": "Delivery against plan, production defects and a quarterly client survey.",
+          "visionary": "When you can no longer remember how things were before.",
+          "humble": "You should decide that. We'd like to hear what matters to you.",
+          "buzzword": "Through a balanced scorecard of OKRs, KPIs and benefits realisation."
+        }
+      },
+      "com_estimates": {
+        "q": "How accurate are your estimates?",
+        "a": {
+          "concrete": "Eleven percent average deviation over our last twenty projects. We can show you.",
+          "visionary": "We don't estimate hours. We estimate potential.",
+          "humble": "Better than they used to be, but an estimate is still just an estimate.",
+          "buzzword": "We use data-driven, probabilistic estimation with continuous calibration."
+        }
+      },
+      "com_code_ownership": {
+        "q": "Who owns the code when the project is done?",
+        "a": {
+          "concrete": "You do. Rights transfer on payment, and everything lives in your own repository.",
+          "visionary": "The code belongs to you. The ideas belong to the world.",
+          "humble": "You, of course. We don't want you to depend on us.",
+          "buzzword": "We ensure open, platform-agnostic IP management with zero lock-in."
+        }
+      },
+      "com_warranty": {
+        "q": "What warranty do you give on the delivery?",
+        "a": {
+          "concrete": "Six months. Defects we caused are fixed free of charge within five working days.",
+          "visionary": "We guarantee you'll never look back.",
+          "humble": "We fix what we got wrong. Frankly, that should go without saying.",
+          "buzzword": "Holistic quality assurance across the full lifecycle."
+        }
+      },
+      "com_travel_expenses": {
+        "q": "Will there be travel expenses on top?",
+        "a": {
+          "concrete": "No, travel within Oslo is included. Beyond that, at government rates.",
+          "visionary": "The most important journey we take together costs nothing.",
+          "humble": "Possibly some, but we always agree them with you first.",
+          "buzzword": "We have a hybrid, location-independent delivery model with a minimal footprint."
+        }
+      },
+      "com_price_increase": {
+        "q": "How much will your prices go up next year?",
+        "a": {
+          "concrete": "No more than CPI, adjusted once a year. See clause 7.2.",
+          "visionary": "The value will grow faster than the price. That's a promise.",
+          "humble": "We don't know yet, but you'll hear well in advance.",
+          "buzzword": "We run a dynamic, market-indexed pricing strategy aligned with value growth."
+        }
+      },
+      "com_liability": {
+        "q": "How much liability will you take on if things go wrong?",
+        "a": {
+          "concrete": "Up to twelve months' contract value, backed by 50 million in liability cover.",
+          "visionary": "We take responsibility for making something big actually happen.",
+          "humble": "As much as is reasonable for a firm our size. Let's talk it through.",
+          "buzzword": "We have a balanced, risk-adjusted liability model with shared ownership."
+        }
+      },
+      "com_trial_job": {
+        "q": "Could you do a small job first, as a trial?",
+        "a": {
+          "concrete": "Yes. Six weeks, fixed price, and a concrete result to judge us by.",
+          "visionary": "Every great journey begins with a single step.",
+          "humble": "Gladly. It's only fair that we prove ourselves first.",
+          "buzzword": "We'd suggest an MVP-based pilot with clear success criteria and a scaling track."
+        }
+      },
+      "com_lost_last_tender": {
+        "q": "Why did you lose our last tender?",
+        "a": {
+          "concrete": "We were 14 percent more expensive. This time we've cut management hours.",
+          "visionary": "I think our ideas were simply a little ahead of their time.",
+          "humble": "We weren't good enough that time. We've read the feedback carefully.",
+          "buzzword": "We ran a thorough retrospective with actions across the bid value chain."
+        }
+      },
+      "cur_questions_for_us": {
+        "q": "Do you have any questions for us?",
+        "a": {
+          "concrete": "Yes: who makes the final decision, and when?",
+          "visionary": "Just one: what do you dream this could become?",
+          "humble": "Yes – what are you most worried about?",
+          "buzzword": "How do you view strategic roadmap alignment across the portfolio?"
+        }
+      },
+      "cur_three_words": {
+        "q": "Describe your firm in three words.",
+        "a": {
+          "concrete": "Precise, honest, on schedule.",
+          "visionary": "Courage. Direction. Future.",
+          "humble": "We try hard.",
+          "buzzword": "Holistic. Agile. End-to-end."
+        }
+      },
+      "cur_worst_client": {
+        "q": "What would your worst client say about you?",
+        "a": {
+          "concrete": "That we were strict about change orders. We stand by that.",
+          "visionary": "That we saw further ahead than they were ready for.",
+          "humble": "Probably that we should have spoken up sooner. They'd have a point.",
+          "buzzword": "That we challenged their established value streams a bit too disruptively."
+        }
+      },
+      "cur_animal": {
+        "q": "If your firm were an animal, what would it be?",
+        "a": {
+          "concrete": "A beaver. Builds solid things, works steadily, keeps to schedule.",
+          "visionary": "An eagle. We see the whole landscape and fly where no one has been.",
+          "humble": "Maybe a sheepdog. We watch, we listen and we look after the flock.",
+          "buzzword": "A chameleon: adaptive, context-aware and ecosystem-integrated."
+        }
+      },
+      "cur_last_client_left": {
+        "q": "Why did your last client leave you?",
+        "a": {
+          "concrete": "The project was done. We handed over on schedule, and they're a reference today.",
+          "visionary": "They were ready to fly on their own. That was the whole point.",
+          "humble": "They found a supplier who suited them better. We respect that.",
+          "buzzword": "They entered a new strategic phase with shifting capability needs."
+        }
+      },
+      "cur_coffee": {
+        "q": "What's the coffee like at your office?",
+        "a": {
+          "concrete": "Light roast from a local roaster. We descale the machine every Friday.",
+          "visionary": "The coffee machine is where ideas are born.",
+          "humble": "Honestly, fine. But you're very welcome to come and try it.",
+          "buzzword": "We have a sustainable, community-driven barista culture with cross-functional flow."
+        }
+      },
+      "cur_projector_dies": {
+        "q": "The projector dies mid-pitch. The panel stares at you in silence.",
+        "a": {
+          "concrete": "I'll give you the three main points verbally. First: price.",
+          "visionary": "Perhaps it's a sign. Let's talk about what won't fit on a screen.",
+          "humble": "Sorry, that wasn't the plan. Shall we just talk instead?",
+          "buzzword": "This really illustrates the need for a robust, cloud-native presentation platform."
+        }
+      },
+      "cur_half_price": {
+        "q": "Can you do it for half the price?",
+        "a": {
+          "concrete": "Yes, if we drop the integrations and the reporting module. Here's what that means.",
+          "visionary": "We can halve the price. Not the dream.",
+          "humble": "Not without delivering something worse, and we won't promise you that.",
+          "buzzword": "We can look at a lean, MVP-focused scope rationalisation."
+        }
+      },
+      "cur_blockchain": {
+        "q": "Our CEO read about blockchain on a plane. Thoughts?",
+        "a": {
+          "concrete": "We can do a two-week analysis of whether it solves a real problem for you.",
+          "visionary": "Maybe that's where it starts. Big ideas often arrive at thirty thousand feet.",
+          "humble": "It's not our strongest area, but we're happy to help you work it out.",
+          "buzzword": "We see huge potential in a decentralised, trust-based value chain."
+        }
+      },
+      "cur_weakness": {
+        "q": "What's your greatest weakness?",
+        "a": {
+          "concrete": "We only have two cloud architects. Two more start this autumn.",
+          "visionary": "Perhaps we care a little too much about what's possible.",
+          "humble": "We're small and can't do everything. We'd rather say so than pretend.",
+          "buzzword": "We may be too forward-leaning in our innovation-driven approach."
+        }
+      },
+      "cur_five_years": {
+        "q": "Where do you see your firm in five years?",
+        "a": {
+          "concrete": "Around 80 people, two offices and the same focus as today.",
+          "visionary": "As one of the firms that shaped how Norway builds digital services.",
+          "humble": "Hopefully still around, with happy clients like you.",
+          "buzzword": "As a scalable, platform-based provider of holistic value creation."
+        }
+      },
+      "cur_why_consultant": {
+        "q": "Why did you actually become a consultant?",
+        "a": {
+          "concrete": "I like variety. Twelve clients in eight years has given me exactly that.",
+          "visionary": "To change the world, one engagement at a time.",
+          "humble": "I like learning from people who know their field better than I do.",
+          "buzzword": "To create cross-functional value where business meets technology."
+        }
+      },
+      "cur_explain_like_five": {
+        "q": "Explain your proposal as if we were five years old.",
+        "a": {
+          "concrete": "We build a new system. It takes a year, and we tidy up after ourselves.",
+          "visionary": "Imagine if everything got a little easier – forever.",
+          "humble": "We help with the hard bits, and we ask when we don't understand.",
+          "buzzword": "We make an agile, user-centric platform out of scalable building blocks."
+        }
+      },
+      "cur_arrived_late": {
+        "q": "You arrived seven minutes late. Why should we trust your schedule?",
+        "a": {
+          "concrete": "We should have allowed time for parking. Our schedule has a 15 percent buffer.",
+          "visionary": "Because our plan is measured in years, not minutes.",
+          "humble": "That's a fair question. We're sorry – it won't happen again.",
+          "buzzword": "We operate an adaptive, event-driven time management model."
+        }
+      },
+      "cur_superpower": {
+        "q": "If you could have one superpower, what would it be?",
+        "a": {
+          "concrete": "Reading the whole requirements spec in five minutes. Right now it takes two days.",
+          "visionary": "Seeing ten years ahead. We're working on it.",
+          "humble": "Understanding what clients mean before they say it. We're still practising.",
+          "buzzword": "Seamless, real-time value creation across all channels and silos."
+        }
+      },
+      "cur_said_no": {
+        "q": "When did you last say no to a client?",
+        "a": {
+          "concrete": "In March. They wanted to launch untested, so we put the risks in writing.",
+          "visionary": "Every no to mediocrity is a yes to something greater.",
+          "humble": "Recently. It was awkward, but it was right for them.",
+          "buzzword": "We practise strategic expectation management across the value stream."
+        }
+      },
+      "cur_two_minutes": {
+        "q": "We have two minutes left. Why should we remember you?",
+        "a": {
+          "concrete": "Lowest total price, three strong references and a start in two weeks.",
+          "visionary": "Because in five years you'll say this is where it all began.",
+          "humble": "Maybe because we listened the most. Thank you for having us.",
+          "buzzword": "We're the partner connecting strategy, technology and people end-to-end."
+        }
+      },
+      "cur_promised_moon": {
+        "q": "Our last supplier promised us the moon. Can you beat that?",
+        "a": {
+          "concrete": "We promise three deliveries in Q1, with dates. The moon can wait.",
+          "visionary": "The moon is just a stopover.",
+          "humble": "No, and we think that's a good thing. We'd rather promise less and keep it.",
+          "buzzword": "We offer an ambitious yet risk-adjusted moonshot roadmap."
+        }
+      },
+      "sec_hospital_clinicians": {
+        "q": "Our doctors spend more time looking at screens than at patients. Can you fix that?",
+        "a": {
+          "concrete": "We measure clicks and time per task on one ward first, then remove the ten most common detours.",
+          "visionary": "We picture a hospital where technology steps aside and doctors can look patients in the eye again.",
+          "humble": "We don't know enough about your day-to-day yet. Could we shadow a few shifts with the doctors first?",
+          "buzzword": "We deliver a clinician-centric, frictionless workflow with seamless end-to-end EHR integration."
+        }
+      },
+      "sec_hospital_always_on": {
+        "q": "The system is in use around the clock. When can you even update it?",
+        "a": {
+          "concrete": "Without downtime. We roll out gradually, one ward at a time, and can roll back in under five minutes.",
+          "visionary": "A hospital never sleeps, and neither should its systems. We build for a world without maintenance windows.",
+          "humble": "You and the night nurses should answer that. They know best when it hurts the least.",
+          "buzzword": "We run a zero-downtime blue-green deployment strategy with 24/7 continuous delivery."
+        }
+      },
+      "sec_kommune_one_it_person": {
+        "q": "We have one IT person, and he's off all of July. Who keeps this running then?",
+        "a": {
+          "concrete": "We write a ten-page runbook, route alerts to us and put ourselves on the on-call rota for July.",
+          "visionary": "The goal is a municipality where nobody is indispensable and everyone can take a guilt-free holiday.",
+          "humble": "That's a genuine weak spot. We should talk to him before we promise anything at all.",
+          "buzzword": "We offer a scalable managed service model with proactive monitoring and holistic ownership."
+        }
+      },
+      "sec_kommune_merger": {
+        "q": "Since the merger we have three versions of every system. Where do we start?",
+        "a": {
+          "concrete": "With a list: which systems, who uses them and what they cost. Then we take one service area at a time.",
+          "visionary": "This is a chance to build the new municipality from the ground up, not just glue the old ones together.",
+          "humble": "We start by hearing how the staff are doing. A merger is about more than systems.",
+          "buzzword": "We run a holistic harmonisation process, consolidating the application portfolio across silos."
+        }
+      },
+      "sec_bank_inspection": {
+        "q": "The regulator is visiting in March. What do we need to have in place by then?",
+        "a": {
+          "concrete": "An updated risk assessment, traceable changes and a log of who did what. We'll draft the checklist today.",
+          "visionary": "We want the regulator to leave inspired, not worried. Compliance can be a strength.",
+          "humble": "We've never sat on your side of the table for one of these. What have they asked about before?",
+          "buzzword": "We ensure compliance by design through a holistic GRC framework with full audit traceability."
+        }
+      },
+      "sec_bank_fraud": {
+        "q": "Fraudsters call our customers pretending to be the bank. What can we do?",
+        "a": {
+          "concrete": "Warn in the app when large sums go to new payees, and add a delay on unusual payments.",
+          "visionary": "Trust should be something customers recognise instantly, as clearly as a handshake.",
+          "humble": "There's no silver bullet. But customer service hears these stories every day, so we'd start there.",
+          "buzzword": "We implement real-time AI-driven anomaly detection with adaptive, omnichannel risk scoring."
+        }
+      },
+      "sec_retail_change_freeze": {
+        "q": "We have a change freeze from October to New Year. How do you fit into that?",
+        "a": {
+          "concrete": "Everything for peak season is fully tested by 1 October. After that we only fix bugs.",
+          "visionary": "The calm before the storm is when the best ideas are born. That's when we plan next year.",
+          "humble": "That's wise of you. We once wrecked a November launch ourselves, and we won't do it again.",
+          "buzzword": "We align release cadence with seasonal business rhythms through agile, risk-adjusted delivery."
+        }
+      },
+      "sec_retail_abandoned_cart": {
+        "q": "People put things in their basket and then just leave. Why?",
+        "a": {
+          "concrete": "We go through the last thousand abandoned checkouts. Often it's the shipping cost showing up too late.",
+          "visionary": "An abandoned basket is a broken promise. Buying should become something people look forward to.",
+          "humble": "We don't know. Maybe we should ask a few of them before we start guessing?",
+          "buzzword": "We optimise the conversion funnel through a data-driven, personalised omnichannel customer journey."
+        }
+      },
+      "sec_energy_sensors": {
+        "q": "We have 40,000 sensors on the grid, and half of them send rubbish. What do we do?",
+        "a": {
+          "concrete": "We flag sensors that flatline, jump around or report frost in July, and deal with the worst first.",
+          "visionary": "Every sensor tells part of the grid's story. We need to learn to hear the whole thing.",
+          "humble": "Your field technicians probably know which ones are lying. Could we talk to them first?",
+          "buzzword": "We establish a scalable IoT data platform with edge analytics and AI-driven data quality governance."
+        }
+      },
+      "sec_energy_isolated_network": {
+        "q": "Our control network must never touch the internet. How do you work with that?",
+        "a": {
+          "concrete": "On your machines, in your control room. No remote access, and anything we bring in gets checked first.",
+          "visionary": "When the lights in people's homes are at stake, staying disconnected is the forward-looking choice.",
+          "humble": "More slowly than we're used to, and that's perfectly fine. You set the rules here.",
+          "buzzword": "We run segmented zero trust with an air-gapped OT environment and seamless IT/OT convergence."
+        }
+      },
+      "sec_transport_realtime": {
+        "q": "The bus is in the app but not at the stop. Why does nobody trust the real-time data?",
+        "a": {
+          "concrete": "Positions are sent every 30 seconds, and the prediction ignores traffic. We can fix both.",
+          "visionary": "Trust is the most important route you run. Every departure should be a promise kept.",
+          "humble": "We've stood there freezing too. We don't know the cause yet, but we'll find it.",
+          "buzzword": "We deliver predictive, real-time mobility insights via an event-driven data platform."
+        }
+      },
+      "sec_transport_winter": {
+        "q": "When the snow arrives, everything runs late. How do passengers get the right message?",
+        "a": {
+          "concrete": "Traffic controllers get one button for cancellations that updates the app, screens and texts at once.",
+          "visionary": "Winter is part of who we are. The information should be as dependable as the snowplough.",
+          "humble": "We can't promise you'll run on time, but we can help you be honest when you don't.",
+          "buzzword": "We orchestrate proactive, channel-agnostic disruption comms with automated customer engagement."
+        }
+      },
+      "sec_edu_exam_day": {
+        "q": "Exams can't be rescheduled. What's plan B if the system fails halfway through?",
+        "a": {
+          "concrete": "Answers are saved locally every minute, and the school keeps paper exams ready in a sealed envelope.",
+          "visionary": "Students should be thinking about the questions, not the technology. That's all that matters that day.",
+          "humble": "Honestly, pen and paper is still a good plan B. We shouldn't be too proud to keep one.",
+          "buzzword": "We have a resilient, fault-tolerant assessment platform with seamless failover and learner-centric uptime."
+        }
+      },
+      "sec_edu_teachers": {
+        "q": "Teachers don't have time for yet another system. How do we win them over?",
+        "a": {
+          "concrete": "We retire two systems for every new one, and teachers try it on a training day, not mid-term.",
+          "visionary": "We want to give teachers their time back, so they can do what they love: teach.",
+          "humble": "We'd ask them what they'd most like to get rid of. They probably have a long list.",
+          "buzzword": "We drive adoption through user-led change management and a holistic, pedagogically grounded platform."
+        }
+      },
+      "sec_media_paywall": {
+        "q": "How much of our journalism should sit behind the paywall?",
+        "a": {
+          "concrete": "We test it. Ten per cent of readers get a different limit for four weeks, then we compare sign-ups and churn.",
+          "visionary": "Good journalism is priceless, but never free. The paywall should remind people of exactly that.",
+          "humble": "That's an editorial decision, and it isn't ours to make. But we can show you what the numbers say.",
+          "buzzword": "We recommend a dynamic, data-driven metered paywall with a personalised conversion strategy."
+        }
+      },
+      "sec_media_newsroom": {
+        "q": "Our reporters say phoning in a story is faster than using the publishing tool.",
+        "a": {
+          "concrete": "We time a news shift. If an update takes seven clicks, we get it down to two.",
+          "visionary": "News doesn't wait. The tool should feel like an extension of a reporter's instinct.",
+          "humble": "Then we believe the reporters. Could we sit at the news desk on a busy evening?",
+          "buzzword": "We deliver a headless, API-first content platform with seamless real-time omnichannel publishing."
+        }
+      },
+      "sec_insurance_claims": {
+        "q": "A simple claim takes three weeks to process. Can it go faster?",
+        "a": {
+          "concrete": "Yes. Simple claims under a set amount can be auto-approved. A similar client went from twelve days to two.",
+          "visionary": "Imagine a claim settled before the customer has time to worry. That's where we're headed.",
+          "humble": "Probably. But your claims handlers likely know why it takes so long, and we'd like to hear them first.",
+          "buzzword": "We digitise the claims journey end to end with intelligent automation and straight-through processing."
+        }
+      },
+      "sec_insurance_driving_data": {
+        "q": "We want to price car insurance on how people drive. Is that wise?",
+        "a": {
+          "concrete": "It can work, but it needs consent, clear terms and a plan for the customers whose price goes up.",
+          "visionary": "Insurance that rewards good choices could make the roads safer for everyone. That's big.",
+          "humble": "We're not sure. It's as much about fairness as technology, and that call should be yours.",
+          "buzzword": "We enable usage-based, data-driven hyper-personalisation through telematics and predictive analytics."
+        }
+      },
+      "sec_logistics_gloves": {
+        "q": "Our warehouse staff wear gloves and use handheld scanners. How do you test for that?",
+        "a": {
+          "concrete": "We put the gloves on. Testing happens in the warehouse, on the real scanners, in the cold by gate four.",
+          "visionary": "The best solution is the one that disappears in the hands of the people using it.",
+          "humble": "We've never worked in a warehouse ourselves. Could we do a shift with them first?",
+          "buzzword": "We take a user-centric, mobile-first approach with robust field validation in real-world environments."
+        }
+      },
+      "sec_logistics_trucks_waiting": {
+        "q": "Every minute a lorry waits at the gate costs us money. What can you do about it?",
+        "a": {
+          "concrete": "Drivers get a gate and a time slot before they arrive. That way they skip the queue.",
+          "visionary": "We want the warehouse to beat in time with the whole supply chain, like a heart.",
+          "humble": "We don't have the answer. But the drivers probably have some thoughts on where they end up waiting.",
+          "buzzword": "We optimise flow through real-time yard management and data-driven supply chain orchestration."
+        }
+      },
+      "sec_startup_equity": {
+        "q": "We don't have much money. Could we pay you partly in shares?",
+        "a": {
+          "concrete": "Up to 20 per cent of the fee in shares, with a standard shareholder agreement. The rest we bill monthly.",
+          "visionary": "We'd love to invest in your future. That's how the great stories begin.",
+          "humble": "We're not investors, and we're not good at judging that. Maybe we should make the job smaller instead?",
+          "buzzword": "We're open to a flexible, value-based partnership model with shared upside and skin in the game."
+        }
+      },
+      "sec_startup_cloud_credits": {
+        "q": "We have free cloud credits for a year. What happens when they run out?",
+        "a": {
+          "concrete": "We set up cost alerts from day one and work out the cost per user long before the credits expire.",
+          "visionary": "By then, hopefully, you'll have so many customers that the bill is a luxury problem.",
+          "humble": "It's a trap we've seen plenty of people fall into. We should talk about it now, not in eleven months.",
+          "buzzword": "We ensure cost-efficient, scalable FinOps governance with cloud-native optimisation from day zero."
+        }
+      },
+      "sec_ministry_unpassed_law": {
+        "q": "How do you build a system for a law that hasn't been passed yet?",
+        "a": {
+          "concrete": "We keep the rules out of the code, so rates change without a redeploy. And we read the consultation paper.",
+          "visionary": "A good system lets democracy do its job. We build for a society in motion.",
+          "humble": "Cautiously. We've got this wrong before, so we build what we know and leave the rest for later.",
+          "buzzword": "We have a rules-driven, future-proof architecture with policy-as-code and agile regulatory adoption."
+        }
+      },
+      "sec_ministry_press_conference": {
+        "q": "The minister wants something to show off at a press conference in six weeks.",
+        "a": {
+          "concrete": "We can do that if we pick one service and finish it for one user group, rather than half-finish it for all.",
+          "visionary": "Then we won't just show a service, but a whole new way for government to meet people.",
+          "humble": "We can try. But better the minister shows something small that works than something big that doesn't.",
+          "buzzword": "We deliver a high-profile, user-centric pilot with rapid time-to-value and clear benefits realisation."
+        }
+      },
+      "sec_members_board_passwords": {
+        "q": "Our board changes every year, and nobody knows the passwords. Can you help?",
+        "a": {
+          "concrete": "Yes. We tie access to roles instead of people, with a simple handover checklist for every AGM.",
+          "visionary": "An association should outlive every board. We build for the next fifty years.",
+          "humble": "It's more common than you'd think. We'd start by finding out who actually holds the keys today.",
+          "buzzword": "We introduce holistic, role-based identity and access management with seamless board transition."
+        }
       }
     }
   }

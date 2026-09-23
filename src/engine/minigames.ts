@@ -1,5 +1,6 @@
 import { BUZZWORDS } from '../content/buzzwords'
-import { MEETING_QUESTIONS, MEETING_STYLES, OPPOSITE_STYLE } from '../content/meetingQuestions'
+import { CUSTOMERS } from '../content/customers'
+import { MEETING_QUESTIONS, MEETING_STYLES, OPPOSITE_STYLE, QUESTION_SECTOR } from '../content/meetingQuestions'
 import type { MeetingQuestion } from '../content/meetingQuestions'
 import { clamp } from './constants'
 import { createRng, hashString, shuffle } from './rng'
@@ -19,7 +20,9 @@ export interface MeetingRound {
 
 export function setupMeeting(tender: Tender, firmId: string): MeetingRound[] {
   const rng = uiRng(tender, firmId, 'meeting')
-  return shuffle(rng, MEETING_QUESTIONS)
+  const sector = CUSTOMERS.find((c) => c.id === tender.customerId)?.sector
+  const fits = MEETING_QUESTIONS.filter((q) => !QUESTION_SECTOR[q] || QUESTION_SECTOR[q] === sector)
+  return shuffle(rng, fits)
     .slice(0, 3)
     .map((question) => ({ question, styles: shuffle(rng, MEETING_STYLES) }))
 }

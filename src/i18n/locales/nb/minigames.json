@@ -151,6 +151,1842 @@
           "humble": "Vi er nysgjerrige, men forsiktige med å love for mye.",
           "buzzword": "GenAI-drevet innovasjon med bærekraftig datastrategi."
         }
+      },
+      "dlv_waterfall": {
+        "q": "Vi er vant til fossefall. Må vi bli smidige nå?",
+        "a": {
+          "concrete": "Nei. Vi kan levere i faser med faste milepæler og vise fram noe hver måned.",
+          "visionary": "Metoden er underordnet. Det som teller, er hvor vi skal.",
+          "humble": "Nei da. Vi tilpasser oss måten dere jobber på, ikke omvendt.",
+          "buzzword": "Vi tilbyr en hybrid, skalerbar smidig-fossefall-modell med innebygd fleksibilitet."
+        }
+      },
+      "dlv_deadline_slip": {
+        "q": "Hva gjør dere hvis vi ser at fristen ikke holder?",
+        "a": {
+          "concrete": "Vi sier fra med en gang og legger fram tre valg: kutte, utsette eller forsterke.",
+          "visionary": "Da løfter vi blikket og spør hva som virkelig må være på plass den dagen.",
+          "humble": "Vi sier det tidlig, selv når det er ubehagelig. Dere skal aldri bli overrasket.",
+          "buzzword": "Vi reprioriterer backloggen ende-til-ende og re-baseliner leveransen."
+        }
+      },
+      "dlv_testing": {
+        "q": "Hvordan tester dere?",
+        "a": {
+          "concrete": "Automatiske tester på hver endring, og en testrunde med brukere før hver release.",
+          "visionary": "Kvalitet er ikke en fase. Det er en kultur.",
+          "humble": "Grundig, men vi finner ikke alt. Derfor vil vi gjerne ha med testere fra dere.",
+          "buzzword": "Vi shifter left med kontinuerlig, helautomatisert kvalitetssikring i hele pipelinen."
+        }
+      },
+      "dlv_code_review": {
+        "q": "Hvem sjekker koden før den går i produksjon?",
+        "a": {
+          "concrete": "Minst én annen utvikler godkjenner hver endring. Ingen godkjenner sin egen kode.",
+          "visionary": "Hele teamet. Vi eier koden sammen – i dag og om ti år.",
+          "humble": "Alltid en kollega. Vi gjør feil, og det er bedre at vi finner dem enn dere.",
+          "buzzword": "Vi har en tverrfaglig peer review-flyt med firøyneprinsipp som standard."
+        }
+      },
+      "dlv_documentation": {
+        "q": "Blir det dokumentasjon, eller bare kode?",
+        "a": {
+          "concrete": "Arkitekturbeskrivelse, driftshåndbok og oppdatert README. Det står i leveranseplanen.",
+          "visionary": "Vi dokumenterer ikke bare hva vi gjorde, men hvorfor – for dem som kommer etter.",
+          "humble": "Den blir sjelden perfekt, for å være ærlig. Men dere skal kunne forstå den.",
+          "buzzword": "Vi leverer levende, docs-as-code-basert kunnskapsforvaltning."
+        }
+      },
+      "dlv_handover": {
+        "q": "Hva skjer når kontrakten er over?",
+        "a": {
+          "concrete": "Fire ukers overlapp og en sjekkliste vi går gjennom sammen, punkt for punkt.",
+          "visionary": "Da starter deres neste kapittel – på et fundament som bærer.",
+          "humble": "Da skal dere klare dere uten oss. Det er egentlig målet.",
+          "buzzword": "Vi sikrer en sømløs exit-transisjon med kompetanseoverføring ende-til-ende."
+        }
+      },
+      "dlv_status_reports": {
+        "q": "Hvor ofte får vi statusrapporter?",
+        "a": {
+          "concrete": "Hver fredag: én side med fremdrift, risiko og hva vi trenger fra dere.",
+          "visionary": "Dere kommer ikke til å trenge rapporter. Dere kommer til å merke fremdriften.",
+          "humble": "Så ofte dere vil. Si hva som er nyttig for dere, så gjør vi det.",
+          "buzzword": "Vi tilbyr sanntidsdashboards med KPI-er og innsikt på tvers av porteføljen."
+        }
+      },
+      "dlv_meetings": {
+        "q": "Kommer dette til å bety mange møter?",
+        "a": {
+          "concrete": "Et kvarters standup hver dag og en demo annenhver uke. Resten tar vi på chat.",
+          "visionary": "Vi møtes når det skaper noe. Ellers lar vi arbeidet tale for seg.",
+          "humble": "Vi prøver å holde det nede, men si fra hvis vi tar for mye av tiden deres.",
+          "buzzword": "Vi har en slank seremonistruktur optimalisert for asynkron alignment."
+        }
+      },
+      "dlv_risk": {
+        "q": "Hvordan håndterer dere risiko?",
+        "a": {
+          "concrete": "Vi har en risikologg med eier og tiltak på hvert punkt, og går gjennom den ukentlig.",
+          "visionary": "Den største risikoen er å ikke tørre. Vi tør – med åpne øyne.",
+          "humble": "Vi ser ikke alt på forhånd, men vi sier fra så snart vi ser noe.",
+          "buzzword": "Gjennom proaktiv, helhetlig risikomitigering integrert i verdikjeden."
+        }
+      },
+      "dlv_other_vendors": {
+        "q": "Dere må samarbeide med to andre leverandører. Går det greit?",
+        "a": {
+          "concrete": "Ja. Vi foreslår felles tavle, et ukentlig koordineringsmøte og tydelige grensesnitt.",
+          "visionary": "Sammen blir vi et økosystem som er større enn summen av delene.",
+          "humble": "Helt greit. Vi har ikke alle svarene, og andre kan ting vi ikke kan.",
+          "buzzword": "Vi orkestrerer multileverandørsynergier i et felles leveranseøkosystem."
+        }
+      },
+      "dlv_mvp": {
+        "q": "Hva er det minste vi kan lansere?",
+        "a": {
+          "concrete": "Innlogging, søknadsskjema og kvittering. Resten kan vente til runde to.",
+          "visionary": "Et lite frø som bærer hele treet i seg.",
+          "humble": "Det vet dere best. Vi foreslår at vi spør noen av brukerne først.",
+          "buzzword": "En MVP med minimal friksjon og maksimal verdileveranse."
+        }
+      },
+      "dlv_prioritisation": {
+        "q": "Alt er like viktig for oss. Hvordan prioriterer dere da?",
+        "a": {
+          "concrete": "Vi rangerer alt i én liste sammen med dere. Det som står øverst, lages først.",
+          "visionary": "Vi spør hva dere vil være kjent for om fem år, og begynner der.",
+          "humble": "Vi kan foreslå, men det er dere som vet hva som betyr mest.",
+          "buzzword": "Vi bruker en verdibasert, datadrevet prioriteringsmatrise med impact-scoring."
+        }
+      },
+      "dlv_success_metrics": {
+        "q": "Hvordan vet vi at prosjektet ble en suksess?",
+        "a": {
+          "concrete": "Vi blir enige om tre måltall i dag, og måler dem før og etter lansering.",
+          "visionary": "Når ingen lenger husker hvordan det var før.",
+          "humble": "Når brukerne deres er fornøyde. Vi spør dem heller enn å gjette.",
+          "buzzword": "Gjennom et helhetlig rammeverk for gevinstrealisering med OKR-er og KPI-er."
+        }
+      },
+      "dlv_user_involvement": {
+        "q": "Blir brukerne våre faktisk involvert, eller er det bare prat?",
+        "a": {
+          "concrete": "Vi tester med fem brukere hver tredje uke. Dere får opptakene og funnene.",
+          "visionary": "Brukerne blir ikke involvert. De blir medskapere.",
+          "humble": "Det kommer an på om vi får tilgang til dem. Der trenger vi hjelp fra dere.",
+          "buzzword": "Vi kjører kontinuerlig brukerinnsikt i en menneskesentrert design sprint-loop."
+        }
+      },
+      "dlv_go_live": {
+        "q": "Hvordan ser lanseringsdagen ut?",
+        "a": {
+          "concrete": "Vi slår på for ti prosent først, følger med på feil og ruller ut resten dagen etter.",
+          "visionary": "Som begynnelsen på noe, ikke slutten.",
+          "humble": "Forhåpentligvis kjedelig. Og blir den ikke det, er vi alle på plass.",
+          "buzzword": "En gradvis, risikominimert canary-utrulling med full observerbarhet."
+        }
+      },
+      "dlv_on_call": {
+        "q": "Hvem tar telefonen hvis systemet går ned klokka tre om natta?",
+        "a": {
+          "concrete": "Vi har vaktordning med to personer på rotasjon og 30 minutters responstid.",
+          "visionary": "Vi bygger systemer som ikke trenger å vekke noen.",
+          "humble": "Vi, hvis det er avtalt. Men la oss være ærlige om hva det koster først.",
+          "buzzword": "Vårt SRE-drevne 24/7-hendelsesøkosystem sikrer robust oppetid."
+        }
+      },
+      "dlv_incident": {
+        "q": "Fortell om en gang noe gikk skikkelig galt i produksjon.",
+        "a": {
+          "concrete": "En databasemigrering feilet. Vi rullet tilbake på 20 minutter og skrev en rapport.",
+          "visionary": "Hver feil har gjort oss til den leverandøren vi er i dag.",
+          "humble": "Vi glemte å sjekke en integrasjon. Det var vår feil, og vi lærte mye av det.",
+          "buzzword": "Vi hadde en læringsmulighet som styrket resiliensen og feilkulturen vår."
+        }
+      },
+      "dlv_tech_debt": {
+        "q": "Hvordan hindrer dere at teknisk gjeld hoper seg opp?",
+        "a": {
+          "concrete": "Vi setter av 20 prosent av hver sprint til opprydding. Det står i planen.",
+          "visionary": "Vi bygger for neste tiår, ikke neste kvartal.",
+          "humble": "Helt unngå det klarer vi ikke. Men vi sier fra når vi tar snarveier.",
+          "buzzword": "Vi har en bærekraftig, arkitekturdrevet gjeldsstrategi med kontinuerlig refaktorering."
+        }
+      },
+      "dlv_inhouse_staff": {
+        "q": "Hvordan vil dere jobbe sammen med våre egne utviklere?",
+        "a": {
+          "concrete": "I samme team, på samme tavle. Vi parprogrammerer minst to dager i uka.",
+          "visionary": "Vi blir ett lag. Etter hvert er det umulig å se hvem som er konsulent.",
+          "humble": "De kjenner systemene bedre enn oss. Vi har mye å lære av dem.",
+          "buzzword": "Vi samskaper verdi gjennom tverrfaglige, hybride teamkonstellasjoner."
+        }
+      },
+      "dlv_steering_committee": {
+        "q": "Hva forventer dere av styringsgruppa?",
+        "a": {
+          "concrete": "Ett møte i måneden, raske beslutninger og én tydelig eier på deres side.",
+          "visionary": "At den holder kursen når det blåser.",
+          "humble": "At den sier fra hvis vi ikke leverer det dere trenger. Rett og slett.",
+          "buzzword": "Strategisk forankring og governance på tvers av interessentlandskapet."
+        }
+      },
+      "dlv_sprint_length": {
+        "q": "Hvor lange er sprintene deres, og hvorfor?",
+        "a": {
+          "concrete": "To uker. Kort nok til å justere kursen, langt nok til å bli ferdig med noe.",
+          "visionary": "Vi måler ikke i sprinter, men i hvor langt vi har kommet.",
+          "humble": "Vanligvis to uker, men vi tilpasser oss gjerne rytmen deres.",
+          "buzzword": "Vi kjører adaptive iterasjonssykluser kalibrert for optimal velocity."
+        }
+      },
+      "dlv_demo": {
+        "q": "Når får vi se noe som faktisk virker?",
+        "a": {
+          "concrete": "Om to uker. Da viser vi innlogging og første skjermbilde i testmiljøet.",
+          "visionary": "Snart. Og da ser dere mer enn et system – dere ser en retning.",
+          "humble": "Tidligere enn dere tror, men det blir litt uferdig. Det er meningen.",
+          "buzzword": "Vi leverer inkrementell, demonstrerbar verdi fra dag én."
+        }
+      },
+      "dlv_bad_news": {
+        "q": "Hvordan gir dere oss dårlige nyheter?",
+        "a": {
+          "concrete": "Samme dag, på telefon, med en plan for hva vi gjør videre.",
+          "visionary": "Vi ser ikke dårlige nyheter. Vi ser veiskiller.",
+          "humble": "Rett ut og tidlig. Heller en ubehagelig samtale enn en overraskelse.",
+          "buzzword": "Gjennom transparent, tillitsbasert forventningsstyring."
+        }
+      },
+      "dlv_definition_of_done": {
+        "q": "Når er noe egentlig «ferdig» hos dere?",
+        "a": {
+          "concrete": "Når det er testet, kodegjennomgått, dokumentert og i produksjon.",
+          "visionary": "Aldri helt. Gode systemer vokser videre.",
+          "humble": "Når dere sier det er ferdig, ikke når vi synes det.",
+          "buzzword": "Når det oppfyller vår helhetlige definition of done på tvers av verdistrømmen."
+        }
+      },
+      "dlv_requirements_spec": {
+        "q": "Kravspesifikasjonen vår er på 400 sider. Har dere lest den?",
+        "a": {
+          "concrete": "Ja. Vi har merket 38 krav med spørsmål og tatt med lista i dag.",
+          "visionary": "Vi har lest mellom linjene – og sett hva dere egentlig drømmer om.",
+          "humble": "Det meste. Noen deler forstår vi ikke helt ennå, så vi vil gjerne spørre.",
+          "buzzword": "Vi har gjort en helhetlig kravanalyse og mappet den mot målbildet."
+        }
+      },
+      "dlv_productivity": {
+        "q": "Hvordan måler dere produktiviteten til teamet?",
+        "a": {
+          "concrete": "Ledetid fra idé til produksjon, og hvor mange endringer vi leverer i uka.",
+          "visionary": "Ikke i timer, men i hvor mye bedre hverdagen deres blir.",
+          "humble": "Det er vanskeligere enn det høres ut. Vi viser dere tallene og hva de ikke sier.",
+          "buzzword": "Med DORA-metrikker, velocity-tracking og flytbasert throughput-analyse."
+        }
+      },
+      "dlv_scope_creep": {
+        "q": "Hva skjer når vi ber om «bare en liten ting til»?",
+        "a": {
+          "concrete": "Vi estimerer den, og dere velger hva som eventuelt må ut for å gi plass.",
+          "visionary": "Da tar vi det som et tegn på at dere ser enda større muligheter.",
+          "humble": "Vi sier ja når vi kan, men vi sier også fra når det ikke er så lite.",
+          "buzzword": "Vi har en smidig endringshåndtering som absorberer scope-dynamikk sømløst."
+        }
+      },
+      "dlv_test_environment": {
+        "q": "Vi har ikke noe testmiljø. Er det et problem?",
+        "a": {
+          "concrete": "Vi setter opp ett første uka. Det tar rundt tre dagsverk.",
+          "visionary": "Ikke et problem – et blankt ark.",
+          "humble": "Litt, ja. Men det er vanlig, og vi hjelper gjerne med å få det på plass.",
+          "buzzword": "Vi provisjonerer skalerbare, containeriserte miljøer on demand med infrastruktur som kode."
+        }
+      },
+      "dlv_release_frequency": {
+        "q": "Hvor ofte kommer dere til å rulle ut nye versjoner?",
+        "a": {
+          "concrete": "Flere ganger i uka, i små biter, og alltid i arbeidstiden.",
+          "visionary": "Hele tiden. Systemet blir aldri stående stille.",
+          "humble": "Så ofte dere er komfortable med. Vi begynner forsiktig.",
+          "buzzword": "Vi har en helautomatisert CI/CD-verdistrøm med kontinuerlig leveranse."
+        }
+      },
+      "dlv_contact": {
+        "q": "Hvordan når vi dere hvis vi lurer på noe?",
+        "a": {
+          "concrete": "Felles chattekanal, svar innen to timer i arbeidstiden og én fast kontaktperson.",
+          "visionary": "Døra vår står alltid åpen. Vi blir en del av huset.",
+          "humble": "Når som helst. Ingen spørsmål er for små, og vi setter pris på dem.",
+          "buzzword": "Via en omnikanal-kommunikasjonsplattform med sømløse stakeholder-touchpoints."
+        }
+      },
+      "dlv_vendor_delay": {
+        "q": "Hva gjør dere hvis en annen leverandør forsinker dere?",
+        "a": {
+          "concrete": "Vi fører det i risikologgen, lager en midlertidig løsning og jobber videre.",
+          "visionary": "Vi ser ikke andre som hindringer, men som medspillere på samme reise.",
+          "humble": "Vi sier fra til dere, uten å peke på noen. Vi har selv vært den som var sen.",
+          "buzzword": "Vi dekobler avhengigheter gjennom en API-first, løst koblet arkitektur."
+        }
+      },
+      "dlv_retrospective": {
+        "q": "Hvordan blir dere bedre underveis i prosjektet?",
+        "a": {
+          "concrete": "Retrospektiv annenhver uke, med maks tre tiltak som vi faktisk følger opp.",
+          "visionary": "Vi blir aldri ferdige med å lære. Det er hele poenget.",
+          "humble": "Vi spør dere jevnlig hva vi kan gjøre bedre, og vi tar det til oss.",
+          "buzzword": "Gjennom en kontinuerlig forbedringskultur med innebygde feedback-looper."
+        }
+      },
+      "dlv_product_owner": {
+        "q": "Vi har ingen produkteier. Trenger vi det?",
+        "a": {
+          "concrete": "Ja. Omtrent en halv stilling, med mandat til å prioritere. Vi hjelper med rollebeskrivelsen.",
+          "visionary": "Dere trenger noen som bærer visjonen. Vi hjelper dere å finne den personen.",
+          "humble": "Det hjelper mye. Vi kan ikke ta de beslutningene for dere, og bør heller ikke.",
+          "buzzword": "Vi tilbyr product ownership as a service med full forretningsforankring."
+        }
+      },
+      "dlv_summer_holiday": {
+        "q": "Hva skjer med fremdriften i fellesferien?",
+        "a": {
+          "concrete": "To personer jobber i juli, og vi fryser alle lanseringer fra 1. juli til 10. august.",
+          "visionary": "Det er om sommeren de beste ideene modnes.",
+          "humble": "Det går nok litt saktere. Det skal vi ikke legge skjul på.",
+          "buzzword": "Vi sikrer leveransekontinuitet gjennom en sesongjustert kapasitetsmodell."
+        }
+      },
+      "dlv_budget_tracking": {
+        "q": "Hvordan følger vi med på at budsjettet holder?",
+        "a": {
+          "concrete": "Dere får timer og prognose hver måned, og et varsel når 80 prosent er brukt.",
+          "visionary": "Se på budsjettet som en investering i fremtiden deres, ikke en utgift.",
+          "humble": "Vi sier fra i god tid hvis det ser ut til å sprekke. Ingen overraskelser.",
+          "buzzword": "Gjennom finansiell styring i sanntid og kostnadsinnsikt på porteføljenivå."
+        }
+      },
+      "dlv_user_training": {
+        "q": "Hvem skal lære opp de ansatte i det nye systemet?",
+        "a": {
+          "concrete": "Vi lager en kort videoserie og holder to opplæringsøkter per avdeling.",
+          "visionary": "Vi lager et system så intuitivt at opplæring blir overflødig.",
+          "humble": "Gjerne vi, sammen med noen av deres egne. De kjenner kollegaene best.",
+          "buzzword": "Vi har en helhetlig endringsledelsespakke med digital adopsjon og superbrukernettverk."
+        }
+      },
+      "dlv_prototype": {
+        "q": "Kan dere lage en prototype før vi bestemmer oss?",
+        "a": {
+          "concrete": "Ja. Klikkbar prototype på ti dager, testet med fem av brukerne deres.",
+          "visionary": "Vi kan vise dere fremtiden før den finnes.",
+          "humble": "Gjerne. Da får vi også se om vi faktisk fungerer godt sammen.",
+          "buzzword": "Vi kjører en rask design sprint for å validere hypoteser og de-riske løsningsrommet."
+        }
+      },
+      "dlv_monitoring": {
+        "q": "Hvordan oppdager dere feil før brukerne gjør det?",
+        "a": {
+          "concrete": "Alarmer på feilrate og responstid, som går rett til vakttelefonen.",
+          "visionary": "Målet er et system som selv forteller hvordan det har det.",
+          "humble": "Ikke alltid. Men når brukerne finner noe først, vil vi vite det med en gang.",
+          "buzzword": "Med full-stack observability og prediktiv anomalideteksjon."
+        }
+      },
+      "dlv_tech_decisions": {
+        "q": "Hvem tar de tekniske beslutningene – dere eller oss?",
+        "a": {
+          "concrete": "Vi foreslår, dere godkjenner. Alle større valg skrives ned i en beslutningslogg.",
+          "visionary": "Vi tar dem sammen, med blikket festet på hvor dere skal om ti år.",
+          "humble": "Til syvende og sist dere. Det er dere som skal leve med dem.",
+          "buzzword": "Gjennom et føderert arkitekturråd med tydelig beslutningsmandat og governance."
+        }
+      },
+      "dlv_rollback": {
+        "q": "Kan vi rulle tilbake hvis den nye versjonen ikke fungerer?",
+        "a": {
+          "concrete": "Ja, med ett klikk. Vi øver på tilbakerulling før hver større lansering.",
+          "visionary": "Vi ser bare fremover. Men vi har alltid en vei hjem.",
+          "humble": "Ja. Og vi skal ikke være for stolte til å gjøre det hvis det trengs.",
+          "buzzword": "Vi har robuste blue-green-deployments med automatisert failover."
+        }
+      },
+      "dlv_pair_programming": {
+        "q": "Vi har hørt at dere sitter to og to ved én maskin. Betaler vi dobbelt?",
+        "a": {
+          "concrete": "Nei. Vi parprogrammerer på det vanskeligste, rundt 30 prosent av tiden, og får færre feil.",
+          "visionary": "Dere betaler for to hoder som tenker som ett.",
+          "humble": "Rimelig spørsmål. Vi gjør det bare der vi mener det lønner seg for dere.",
+          "buzzword": "Parprogrammering gir synergistisk kunnskapsdeling og innebygd kvalitet by design."
+        }
+      },
+      "dlv_green_status": {
+        "q": "Hos forrige leverandør var alt «grønt» helt til det ikke var det. Og hos dere?",
+        "a": {
+          "concrete": "Vi rapporterer faktiske leveranser mot plan, ikke magefølelse. Dere ser tallene selv.",
+          "visionary": "Hos oss handler det ikke om farger, men om retning.",
+          "humble": "Vi har nok også vært for optimistiske. Derfor sier vi heller «gult» for tidlig.",
+          "buzzword": "Vi har et datadrevet, flerdimensjonalt statusrammeverk med prediktiv innsikt."
+        }
+      },
+      "ppl_seniority_mix": {
+        "q": "Hva er fordelingen mellom seniorer og juniorer i teamet?",
+        "a": {
+          "concrete": "Tre seniorer og to juniorer, og hver junior har en fast senior å sparre med.",
+          "visionary": "Vi blander erfaring og nysgjerrighet til noe som er større enn summen.",
+          "humble": "Vi foreslår en miks, men vil gjerne høre hva dere trenger mest.",
+          "buzzword": "Vi har en balansert kompetansepyramide med skalerbar senioritet."
+        }
+      },
+      "ppl_resigns": {
+        "q": "Hva gjør dere hvis konsulenten sier opp midt i prosjektet?",
+        "a": {
+          "concrete": "Vi har tre måneders oppsigelsestid, og erstatteren er på plass før siste dag.",
+          "visionary": "Da har vi uansett bygget noe som tåler at folk går videre.",
+          "humble": "Det kan skje. Vi lover å si fra med en gang, ikke gjemme det bort.",
+          "buzzword": "Vi har en robust transisjonsmodell som sikrer sømløs verdiflyt."
+        }
+      },
+      "ppl_sick_leave": {
+        "q": "Hva om en konsulent blir langtidssykmeldt?",
+        "a": {
+          "concrete": "Vi setter inn en ny person innen to uker, uten ekstra kostnad for dere.",
+          "visionary": "Et sterkt team bærer hverandre, også når noen faller ut.",
+          "humble": "Først tar vi vare på den som er syk. Så finner vi en løsning sammen med dere.",
+          "buzzword": "Vi har kapasitetsbuffere integrert i hele ressursøkosystemet vårt."
+        }
+      },
+      "ppl_turnover": {
+        "q": "Hvor høy er turnoveren hos dere?",
+        "a": {
+          "concrete": "Seks prosent i fjor. Snittansienniteten er fem år.",
+          "visionary": "Folk slutter ikke hos oss. De blir ambassadører.",
+          "humble": "Høyere enn vi skulle ønske i fjor. Vi har gjort noen grep, og vi måler det.",
+          "buzzword": "Vi har bærekraftig talentretensjon med positiv employer brand-effekt."
+        }
+      },
+      "ppl_recruiting": {
+        "q": "Hvordan finner dere gode folk?",
+        "a": {
+          "concrete": "Tre intervjuer, en praktisk oppgave og referansesjekk på alle.",
+          "visionary": "Vi leter ikke etter folk. Vi tiltrekker oss dem som vil forandre noe.",
+          "humble": "Vi bruker god tid, og vi bommer av og til likevel.",
+          "buzzword": "Via en datadrevet talent acquisition-funnel med kulturell match-scoring."
+        }
+      },
+      "ppl_onboarding": {
+        "q": "Hvor lang tid tar det før en ny konsulent er til nytte?",
+        "a": {
+          "concrete": "Første uke er planlagt dag for dag. Etter to uker leverer de i produksjon.",
+          "visionary": "Fra dag én bidrar de med nye øyne – det er verdifullt i seg selv.",
+          "humble": "Mye avhenger av hvordan vi blir tatt imot. Vi trenger litt hjelp fra dere.",
+          "buzzword": "Vi har en strømlinjeformet onboarding-reise med rask time-to-value."
+        }
+      },
+      "ppl_courses": {
+        "q": "Hvor mye satser dere på kurs og kompetanseutvikling?",
+        "a": {
+          "concrete": "Hver konsulent har ti fagdager og 30 000 kroner i kursbudsjett i året.",
+          "visionary": "Vi investerer i folkene våre som om fremtiden avhenger av det. Det gjør den.",
+          "humble": "Vi gjør en del, men ærlig talt lærer vi mest av prosjekter som deres.",
+          "buzzword": "Vi har et kontinuerlig læringsøkosystem med fokus på upskilling og reskilling."
+        }
+      },
+      "ppl_certifications": {
+        "q": "Er konsulentene deres sertifiserte?",
+        "a": {
+          "concrete": "Ja. Listen over sertifiseringer og utløpsdatoer ligger vedlagt tilbudet.",
+          "visionary": "Papirer er fint, men det vi egentlig driver med, er å bygge det neste.",
+          "humble": "Noen er det. Vi skal ikke late som et kursbevis gjør noen til ekspert.",
+          "buzzword": "Vi er fullt sertifisert på tvers av hele den skybaserte verdikjeden."
+        }
+      },
+      "ppl_diversity": {
+        "q": "Hvordan jobber dere med mangfold og inkludering?",
+        "a": {
+          "concrete": "Vi måler kjønnsbalansen i hver rekrutteringsrunde og publiserer tallene årlig.",
+          "visionary": "Vi vil at teamet skal se ut som samfunnet det bygger løsninger for.",
+          "humble": "Vi er ikke i mål. Vi har mye å lære, og tar gjerne imot innspill.",
+          "buzzword": "Mangfold er en strategisk driver i vår inkluderende innovasjonskultur."
+        }
+      },
+      "ppl_office_days": {
+        "q": "Hvor mange dager i uka vil dere sitte hos oss?",
+        "a": {
+          "concrete": "Tre faste dager hos dere – tirsdag til torsdag – og resten etter behov.",
+          "visionary": "Vi er der verdien skapes. Kontoret er bare adressen.",
+          "humble": "Så mange dere ønsker. Det er dere som vet hva som fungerer her.",
+          "buzzword": "Vi kjører en fleksibel hybrid-first-modell med co-location on demand."
+        }
+      },
+      "ppl_hybrid": {
+        "q": "Hvordan samarbeider dere når halve teamet sitter hjemme?",
+        "a": {
+          "concrete": "Fast morgenmøte kl. 9, alt skriftlig i én kanal og kamera på i workshops.",
+          "visionary": "Avstand betyr lite når alle ser det samme målet.",
+          "humble": "Det er ikke alltid like lett. Vi prøver oss fram og justerer underveis.",
+          "buzzword": "Via asynkrone samhandlingsflater i et distribuert, digitalt arbeidsrom."
+        }
+      },
+      "ppl_overtime": {
+        "q": "Hva skjer når prosjektet krever overtid?",
+        "a": {
+          "concrete": "Overtid avtales på forhånd, faktureres etter avtalen og føres ukentlig.",
+          "visionary": "Når noe virkelig betyr noe, står vi sammen – også sent på kvelden.",
+          "humble": "Vi kan strekke oss en periode, men sier fra hvis det blir en vane.",
+          "buzzword": "Vi har elastisk kapasitet som skalerer dynamisk med leveransebehovet."
+        }
+      },
+      "ppl_work_life": {
+        "q": "Hvordan sørger dere for at folk ikke jobber seg i hjel?",
+        "a": {
+          "concrete": "Vi går gjennom timelistene hver uke og griper inn over 45 timer.",
+          "visionary": "Uthvilte folk bygger bedre løsninger. Det er hele filosofien.",
+          "humble": "Vi er ikke perfekte her. Men vi spør, og vi tar svarene på alvor.",
+          "buzzword": "Vi har et holistisk well-being-rammeverk for bærekraftig ytelse."
+        }
+      },
+      "ppl_conflict": {
+        "q": "Hvordan håndterer dere konflikter i teamet?",
+        "a": {
+          "concrete": "Først en prat mellom de involverte, så teamleder, og deretter oss innen en uke.",
+          "visionary": "Friksjon er der de beste ideene blir til.",
+          "humble": "Vi tar det tidlig og åpent – og innrømmer det hvis vi selv er en del av problemet.",
+          "buzzword": "Gjennom psykologisk trygge dialogarenaer og konstruktiv konfliktkapabilitet."
+        }
+      },
+      "ppl_bad_fit": {
+        "q": "Hva gjør dere hvis en konsulent ikke passer inn hos oss?",
+        "a": {
+          "concrete": "Si fra, så har dere en ny kandidat til intervju innen ti dager.",
+          "visionary": "Da finner vi personen som passer – og som løfter hele teamet.",
+          "humble": "Det er leit, men det skjer. Vi tar det ikke personlig, og vi ordner det.",
+          "buzzword": "Vi re-matcher ressursen via vår prosess for kulturell alignment."
+        }
+      },
+      "ppl_team_lead": {
+        "q": "Hvem er det egentlig som leder teamet til daglig?",
+        "a": {
+          "concrete": "Teamlederen vår, med tolv års erfaring. Hun rapporterer til dere hver fredag.",
+          "visionary": "Lederskap er noe hele teamet tar. Men ja, vi har en kaptein.",
+          "humble": "Det bør vi avklare sammen. Kanskje dere har noen som bør ha den rollen?",
+          "buzzword": "Vi har en tjenende lederskapsmodell med distribuert beslutningsmyndighet."
+        }
+      },
+      "ppl_domain": {
+        "q": "Hvordan skal konsulentene lære seg fagområdet vårt?",
+        "a": {
+          "concrete": "To dager med fagfolkene deres, en ordliste og en fast spørretime hver uke.",
+          "visionary": "Vi vil forstå dere så godt at vi ser muligheter dere ikke har sett ennå.",
+          "humble": "Ved å lytte mye og stille dumme spørsmål. Det er dere som er ekspertene.",
+          "buzzword": "Via domenedrevet innsiktsinnhenting og tverrfaglig forretningsforståelse."
+        }
+      },
+      "ppl_norwegian": {
+        "q": "Snakker alle konsulentene norsk?",
+        "a": {
+          "concrete": "Fire av fem gjør det. Den femte er på B2-nivå og tar norskkurs hos oss.",
+          "visionary": "Vi snakker språket til brukerne deres. Det er det som teller.",
+          "humble": "Ikke alle. Er det viktig for dere, sier vi det heller rett ut nå.",
+          "buzzword": "Vi er et språkagnostisk team med global mindset og lokal forankring."
+        }
+      },
+      "ppl_clearance": {
+        "q": "Har dere folk med sikkerhetsklarering?",
+        "a": {
+          "concrete": "Tre er klarert for HEMMELIG, og to søknader til er under behandling.",
+          "visionary": "Tillit er grunnmuren i alt vi bygger – også det dere ikke kan snakke om.",
+          "humble": "Noen har det. Prosessen tar tid, så vi bør starte den tidlig sammen.",
+          "buzzword": "Vi har en sikkerhetsklarert kapasitetspool med zero trust-mindset."
+        }
+      },
+      "ppl_values": {
+        "q": "Hva er egentlig verdiene deres?",
+        "a": {
+          "concrete": "Vi har tre, og vi måler dem i medarbeiderundersøkelsen hvert halvår.",
+          "visionary": "Vi tror på teknologi som gjør verden litt bedre, ett prosjekt om gangen.",
+          "humble": "De henger på veggen. Men det er nok bedre at dere spør kundene våre.",
+          "buzzword": "Vi lever en verdibasert, purpose-drevet kultur med autentisk DNA."
+        }
+      },
+      "ppl_culture_word": {
+        "q": "Hvordan vil dere beskrive kulturen deres med ett ord?",
+        "a": {
+          "concrete": "«Ordentlig.» Vi gjør det vi sier, og vi skriver det ned.",
+          "visionary": "«Modig.» Vi tør å tenke større enn oppdraget.",
+          "humble": "Det er vanskelig å si om seg selv. Kanskje «nysgjerrig»?",
+          "buzzword": "«Synergistisk.» Eller «smidig». Muligens «helhetlig»."
+        }
+      },
+      "ppl_fagmiljo": {
+        "q": "Hva slags fagmiljø har konsulentene å lene seg på?",
+        "a": {
+          "concrete": "Ti faggrupper som møtes månedlig, og en intern kanal som svarer innen en time.",
+          "visionary": "Et fellesskap av folk som vil flytte hele bransjen fremover.",
+          "humble": "Et godt et, synes vi. Men dere får bedømme det ut fra hva teamet leverer.",
+          "buzzword": "Et tverrfaglig community of practice med sterk kunnskapssynergi."
+        }
+      },
+      "ppl_knowledge_sharing": {
+        "q": "Hvordan deler dere erfaringer på tvers av prosjekter?",
+        "a": {
+          "concrete": "Lunsjforedrag hver torsdag og en felles erfaringsbase med søk.",
+          "visionary": "Det én av oss lærer, lærer alle. Slik holder vi følge med fremtiden.",
+          "humble": "Vi kunne vært flinkere, men vi spør hverandre mye – og ingen spørsmål er dumme.",
+          "buzzword": "Gjennom kunnskapsforvaltning som enabler læring på tvers av siloer."
+        }
+      },
+      "ppl_friday_drinks": {
+        "q": "Blir konsulentene med på fredagspilsen vår?",
+        "a": {
+          "concrete": "Gjerne annenhver fredag. Vi spanderer vår egen runde, selvfølgelig.",
+          "visionary": "Det er rundt det bordet de virkelig gode ideene blir født.",
+          "humble": "Hvis vi blir invitert, blir vi glade. Vi vil ikke trenge oss på.",
+          "buzzword": "Vi ser uformelle arenaer som en viktig driver for relasjonell verdiskaping."
+        }
+      },
+      "ppl_cabin_trip": {
+        "q": "Skal konsulentene være med på hytteturen vår også?",
+        "a": {
+          "concrete": "Hvis dere vil. Fredagen regnes som workshopdag, og lørdagen fakturerer vi ikke.",
+          "visionary": "Det er på fjellet man ser hvor langt man kan komme sammen.",
+          "humble": "Det bestemmer dere. Vi skjønner godt om den er for de faste ansatte.",
+          "buzzword": "En offsite er en unik mulighet for team-alignment og tillitsbygging."
+        }
+      },
+      "ppl_motivation": {
+        "q": "Hvordan holder dere konsulentene motiverte over tid?",
+        "a": {
+          "concrete": "Medarbeidersamtale hvert kvartal og mulighet til å bytte oppdrag etter to år.",
+          "visionary": "Vi gir dem noe å tro på. Resten følger av seg selv.",
+          "humble": "Vi spør dem jevnlig – og lytter, også når svaret ikke er det vi håpet på.",
+          "buzzword": "Gjennom indre motivasjonsdesign og meningsfull engasjementsarkitektur."
+        }
+      },
+      "ppl_burnout": {
+        "q": "Hva gjør dere hvis en konsulent holder på å gå på veggen?",
+        "a": {
+          "concrete": "Nærmeste leder tar en prat samme uke, vi letter på belastningen og følger opp.",
+          "visionary": "Vi bygger en arbeidshverdag der folk blomstrer, ikke brenner ut.",
+          "humble": "Da setter vi mennesket først, også om det koster oss noe. Og vi sier fra til dere.",
+          "buzzword": "Vi har proaktiv resiliensmonitorering integrert i vår people-strategi."
+        }
+      },
+      "ppl_mentoring": {
+        "q": "Har juniorene deres noen å spørre når de står fast?",
+        "a": {
+          "concrete": "Ja, alle har en fast mentor og en time i uka satt av i kalenderen.",
+          "visionary": "Vi løfter neste generasjon – de som en dag skal løfte oss.",
+          "humble": "Ja, og vi sier til dem at det er helt greit å ikke kunne alt.",
+          "buzzword": "Vi har en strukturert mentorordning med peer-to-peer-læringsløp."
+        }
+      },
+      "ppl_junior_billing": {
+        "q": "Hvorfor skal vi betale for at juniorene deres skal lære?",
+        "a": {
+          "concrete": "Det skal dere ikke. De første 100 timene er gratis, og timeprisen er lavere.",
+          "visionary": "Fordi dere får morgendagens seniorer – allerede fra første dag.",
+          "humble": "Det er et rimelig spørsmål. Vi kan lage en ordning dere synes er grei.",
+          "buzzword": "Juniorer gir en kostnadseffektiv kapasitetsmiks med høy læringsavkastning."
+        }
+      },
+      "ppl_senior_hands_on": {
+        "q": "Skriver seniorene deres fortsatt kode, eller bare lysark?",
+        "a": {
+          "concrete": "Seniorene bruker minst 70 prosent av tiden på kode. Det står i kontrakten.",
+          "visionary": "De skriver kode – og tegner kartet for hvor vi skal etterpå.",
+          "humble": "Noen har nok laget litt mange lysark. Vi velger dem som koder.",
+          "buzzword": "Våre seniorer er T-formede hands-on-arkitekter med strategisk overblikk."
+        }
+      },
+      "ppl_bench": {
+        "q": "Hva gjør konsulentene deres mellom to oppdrag?",
+        "a": {
+          "concrete": "Interne prosjekter, kurs og sertifiseringer. I snitt varer det tre uker.",
+          "visionary": "De utforsker det neste. Det er der innovasjonen starter.",
+          "humble": "Ærlig talt? Da venter de litt utålmodig på et oppdrag som deres.",
+          "buzzword": "De er i en strategisk kompetanseakselerasjonsfase."
+        }
+      },
+      "ppl_parental_leave": {
+        "q": "Hva om konsulenten går ut i foreldrepermisjon?",
+        "a": {
+          "concrete": "Det vet vi som regel tidlig, så vi planlegger fire måneder overlapp med erstatteren.",
+          "visionary": "Vi er stolte av å være et sted der folk kan ha et liv. Det gjør oss sterkere.",
+          "humble": "Da gratulerer vi – og så finner vi en ordning som er god for alle.",
+          "buzzword": "Vi har livsfasetilpasset ressursplanlegging med innebygd fleksibilitet."
+        }
+      },
+      "ppl_underperform": {
+        "q": "Hvordan følger dere opp en konsulent som ikke leverer?",
+        "a": {
+          "concrete": "Vi setter konkrete mål for fire uker. Nås de ikke, bytter vi person.",
+          "visionary": "Vi hjelper folk å finne stedet der de virkelig skinner.",
+          "humble": "Først vil vi forstå hvorfor. Ofte er det noe vi burde ha sett tidligere.",
+          "buzzword": "Via en løsningsorientert prestasjonsdialog med tydelige KPI-er."
+        }
+      },
+      "ppl_feedback": {
+        "q": "Hvordan kan vi gi tilbakemelding på konsulentene?",
+        "a": {
+          "concrete": "Et kort skjema hvert kvartal, og et møte med oss hvis noe haster.",
+          "visionary": "Tilbakemeldinger er drivstoffet som gjør oss bedre for hver leveranse.",
+          "humble": "Når som helst, og helst rett til oss. Vi tåler å høre det.",
+          "buzzword": "Via en kontinuerlig feedback-loop integrert i vår kundeinnsiktsflyt."
+        }
+      },
+      "ppl_one_team": {
+        "q": "Blir konsulentene en del av teamet vårt, eller holder de seg for seg selv?",
+        "a": {
+          "concrete": "De sitter hos dere, følger rutinene deres og bruker verktøyene deres.",
+          "visionary": "Etter en måned skal ingen se forskjell på konsulent og ansatt.",
+          "humble": "Vi vil gjerne være en del av teamet, men det er dere som setter rammene.",
+          "buzzword": "Vi opererer som et sømløst integrert one-team med felles ownership."
+        }
+      },
+      "ppl_train_staff": {
+        "q": "Lærer dere opp våre egne ansatte underveis?",
+        "a": {
+          "concrete": "Ja. En av deres er med på hver oppgave, og vi holder to kurs hvert halvår.",
+          "visionary": "Målet vårt er at dere en dag ikke trenger oss.",
+          "humble": "Gjerne. Vi lærer nok like mye av dem som de lærer av oss.",
+          "buzzword": "Vi har en kapabilitetsløftende enablement-modell for kunnskapsoverføring."
+        }
+      },
+      "ppl_hire_away": {
+        "q": "Hva om vi har lyst til å ansette konsulenten deres?",
+        "a": {
+          "concrete": "Det står i kontrakten: tidligst etter tolv måneder, mot et avtalt honorar.",
+          "visionary": "Da har vi gjort jobben vår. Vi utvikler folk som andre vil ha.",
+          "humble": "Det tar vi som et kompliment. Men la oss snakke om det først.",
+          "buzzword": "Vi er åpne for fleksible talentmobilitetsmodeller i partnerskapet."
+        }
+      },
+      "ppl_age": {
+        "q": "Er alle konsulentene deres under 30?",
+        "a": {
+          "concrete": "Nei. Snittalderen er 38, og den eldste har jobbet med IT siden 1989.",
+          "visionary": "Vi er unge i sinnet – og det er der innovasjonen bor.",
+          "humble": "Vi ser unge ut på nettsiden. I virkeligheten er vi mer blandet.",
+          "buzzword": "Vi har et generasjonsmangfoldig team med tverrgenerasjonell synergi."
+        }
+      },
+      "ppl_scale_up": {
+        "q": "Hvor raskt kan dere skalere opp hvis vi trenger flere folk?",
+        "a": {
+          "concrete": "To til på to uker og fem til innen seks uker. Navnene har vi klare.",
+          "visionary": "Vi vokser i takt med ambisjonene deres – hvor store de enn blir.",
+          "humble": "Litt kan gå raskt. Mye tar tid, og vi vil ikke sende dere feil folk.",
+          "buzzword": "Vi tilbyr on demand-skalerbarhet i et elastisk leveranseøkosystem."
+        }
+      },
+      "ppl_dress_code": {
+        "q": "Kommer konsulentene i dress eller i hettegenser?",
+        "a": {
+          "concrete": "Vi følger klesstilen deres. Dress i styremøter, ellers som resten av huset.",
+          "visionary": "Vi kler oss for fremtiden. Den går visstnok i hettegenser.",
+          "humble": "Det får dere si. Vi vil helst ikke stikke oss ut.",
+          "buzzword": "Vi har en kontekstuell, interessenttilpasset dress code-strategi."
+        }
+      },
+      "ppl_working_hours": {
+        "q": "Når på dagen kan vi regne med å nå konsulentene?",
+        "a": {
+          "concrete": "Kjernetiden er 9–15, og da svarer alle på meldinger innen en time.",
+          "visionary": "Vi er der når det gjelder. Gode ideer ser ikke på klokka.",
+          "humble": "I vanlig arbeidstid. Vi har familier også, men vi stiller når det brenner.",
+          "buzzword": "Vi sikrer tilgjengelighet via en fleksibel, asynkron responsmodell."
+        }
+      },
+      "ppl_account_follow_up": {
+        "q": "Hvem hos dere følger opp konsulentene underveis?",
+        "a": {
+          "concrete": "En fast kundeansvarlig, med statusmøte hos dere hver sjette uke.",
+          "visionary": "Hele selskapet står bak dem. Det er det dere egentlig kjøper.",
+          "humble": "En av partnerne. Og hvis noe ikke fungerer, vil vi at dere ringer oss.",
+          "buzzword": "Vi har en helhetlig stakeholder management-struktur med tett governance."
+        }
+      },
+      "ppl_tenure": {
+        "q": "Hvor lenge har de tilbudte konsulentene vært hos dere?",
+        "a": {
+          "concrete": "Mellom to og elleve år. Alt står i CV-vedlegget.",
+          "visionary": "Lenge nok til å kjenne oss – kort nok til å være sultne.",
+          "humble": "Én av dem begynte i fjor. Det sier vi heller rett ut.",
+          "buzzword": "Vi har en balansert tenure-profil med høy organisatorisk forankring."
+        }
+      },
+      "ppl_soft_skills": {
+        "q": "Kan utviklerne deres snakke med vanlige folk?",
+        "a": {
+          "concrete": "Ja. Alle har kjørt brukertester, og to har holdt kurs for saksbehandlere.",
+          "visionary": "De bygger bro mellom teknologi og mennesker. Det er hele poenget.",
+          "humble": "De fleste. Og de som er litt stille, er gode til å lytte.",
+          "buzzword": "Utviklerne våre har sterk interessentkommunikasjon og empatisk design thinking."
+        }
+      },
+      "ppl_speak_up": {
+        "q": "Tør konsulentene deres å si ifra når vi tar feil?",
+        "a": {
+          "concrete": "Ja. Risiko og uenighet er et fast punkt på hvert statusmøte.",
+          "visionary": "Vi er ikke her for å være enige. Vi er her for å gjøre dere bedre.",
+          "humble": "Vi prøver, på en skikkelig måte. Men vi vet at vi ikke alltid har rett selv.",
+          "buzzword": "Vi har en psykologisk trygg speak-up-kultur med radikal transparens."
+        }
+      },
+      "ppl_learning_days": {
+        "q": "Tar konsulentene fagdager på vår regning?",
+        "a": {
+          "concrete": "Nei. Fagdagene betaler vi selv, og de legges alltid mellom sprintene deres.",
+          "visionary": "Hver fagdag kommer tilbake til dere som nye ideer.",
+          "humble": "Nei, det skulle bare mangle. Men vi sier fra i god tid når noen er borte.",
+          "buzzword": "Kompetanseløftet er et verdiadderende bidrag inn i partnerskapet."
+        }
+      },
+      "tec_cloud_provider": {
+        "q": "Hvilken skyleverandør anbefaler dere?",
+        "a": {
+          "concrete": "Det avhenger av kravene. Vi sammenligner tre leverandører på pris, drift og datalagring i en tabell.",
+          "visionary": "Skyen er ikke et sted, det er en måte å tenke på. Vi velger den som tar dere lengst.",
+          "humble": "Vi har ikke en favoritt vi må selge inn. Fortell oss hva dere trenger, så hjelper vi dere å velge.",
+          "buzzword": "Vi anbefaler en sky-agnostisk, hybrid multisky-strategi med cloud native som bærende prinsipp."
+        }
+      },
+      "tec_vendor_lockin": {
+        "q": "Hvordan unngår vi å bli låst til én leverandør?",
+        "a": {
+          "concrete": "Åpne formater, standard-API-er og en exit-plan som vi faktisk prøver ut en gang i året.",
+          "visionary": "Frihet er et designvalg. Vi bygger systemer dere alltid kan gå fra – og derfor vil bli i.",
+          "humble": "Helt unngå det er vanskelig. Men vi kan være ærlige om hvor bindingene er og hva de koster.",
+          "buzzword": "Med en portabel, containerisert plattformabstraksjon som frikobler verdistrømmen fra infrastrukturen."
+        }
+      },
+      "tec_open_source": {
+        "q": "Hva mener dere om åpen kildekode?",
+        "a": {
+          "concrete": "Vi bruker det mye, sjekker lisenser automatisk og velger prosjekter med aktive vedlikeholdere.",
+          "visionary": "Åpen kildekode er menneskehetens største dugnad. Vi vil at dere skal være med på den.",
+          "humble": "Vi står på skuldrene til mange frivillige, og prøver å bidra litt tilbake der vi kan.",
+          "buzzword": "Vi omfavner et åpent, fellesskapsdrevet innovasjonsøkosystem med innebygd samskaping."
+        }
+      },
+      "tec_microservices": {
+        "q": "Bør vi dele opp systemet i mikrotjenester?",
+        "a": {
+          "concrete": "Kanskje ikke. Med ett team på seks personer er en ryddig monolitt ofte både raskere og billigere.",
+          "visionary": "Arkitekturen skal speile organisasjonen dere vil bli, ikke den dere er i dag.",
+          "humble": "Vi vil gjerne forstå problemet først. Mikrotjenester løser noen ting og skaper andre.",
+          "buzzword": "Vi anbefaler en domenedrevet, hendelsesbasert modulær mikroarkitektur med tydelige avgrensede kontekster."
+        }
+      },
+      "tec_architecture_decisions": {
+        "q": "Hvordan tar dere arkitekturbeslutninger?",
+        "a": {
+          "concrete": "Hver beslutning skrives ned på én side: kontekst, alternativer, valg og konsekvenser.",
+          "visionary": "Vi tegner et nordstjernebilde, og lar hver beslutning bringe oss litt nærmere.",
+          "humble": "Sammen med dere. Og vi skriver ned hvorfor, så det er lett å innrømme det når vi tok feil.",
+          "buzzword": "Gjennom et føderert, evolusjonært arkitekturforum med datadrevne beslutningsporter."
+        }
+      },
+      "tec_data_driven": {
+        "q": "Vi vil bli datadrevne. Hvor begynner vi?",
+        "a": {
+          "concrete": "Med tre spørsmål ledelsen faktisk vil ha svar på, og de dataene som trengs for å svare på dem.",
+          "visionary": "Tenk dere en organisasjon der hver beslutning tas med øynene åpne. Dit skal vi.",
+          "humble": "Vi ville begynt med å høre hvilke beslutninger dere synes er vanskelige i dag.",
+          "buzzword": "Med et datamesh-basert innsiktsøkosystem som demokratiserer data ende-til-ende."
+        }
+      },
+      "tec_data_quality": {
+        "q": "Dataene våre er ganske rotete. Er det et problem?",
+        "a": {
+          "concrete": "Vi måler først: duplikater, tomme felt og feil formater. Så fikser vi de ti verste kildene.",
+          "visionary": "Rotete data er bare historier som venter på å bli fortalt ordentlig.",
+          "humble": "Alle har rotete data, også vi. Det viktigste er at dere vet om det, og det gjør dere.",
+          "buzzword": "Vi etablerer et datastyringsrammeverk med proaktiv kvalitetsobservabilitet og tydelig dataeierskap."
+        }
+      },
+      "tec_gdpr": {
+        "q": "Hvordan ivaretar dere personvernet?",
+        "a": {
+          "concrete": "Vi lagrer bare det som trengs, sletter etter faste frister og har databehandleravtale på plass.",
+          "visionary": "Personvern er tillit, og tillit er den eneste valutaen som betyr noe på nett.",
+          "humble": "Vi er ikke jurister, så vi involverer personvernombudet deres tidlig og spør heller én gang for mye.",
+          "buzzword": "Med innebygd personvern som en integrert del av en tillitsbasert, etterlevelsesorientert leveransemodell."
+        }
+      },
+      "tec_accessibility": {
+        "q": "Hvordan sikrer dere universell utforming?",
+        "a": {
+          "concrete": "Vi følger WCAG på nivå AA, tester automatisk i hvert bygg og manuelt med skjermleser før lansering.",
+          "visionary": "En tjeneste som ikke er for alle, er ikke ferdig. Vi bygger for alle.",
+          "humble": "Vi gjør fortsatt feil her. Derfor tester vi med ekte brukere, som ofte finner det vi overser.",
+          "buzzword": "Tilgjengelighet er en inkluderende kvalitetsdimensjon vi shift-lefter inn i hele verdistrømmen."
+        }
+      },
+      "tec_accessibility_audit": {
+        "q": "Tilsynet har funnet 47 brudd på løsningen vår. Hva nå?",
+        "a": {
+          "concrete": "Vi sorterer bruddene etter alvorlighet, fikser de kritiske på fire uker og oppdaterer erklæringen.",
+          "visionary": "Dette er ikke en krise, det er en invitasjon til å bli best i landet på tilgjengelighet.",
+          "humble": "Det er kjedelig, men det er bra at det ble funnet. Vi vil gjerne se rapporten først.",
+          "buzzword": "Vi mobiliserer et tverrfaglig remedieringsprogram med kontinuerlig etterlevelsesovervåking."
+        }
+      },
+      "tec_passwords": {
+        "q": "Hva er deres forhold til passord?",
+        "a": {
+          "concrete": "Passordhvelv for alle, tofaktor overalt, og ingen hemmeligheter i koden. Det sjekkes automatisk.",
+          "visionary": "Vi ser frem til den dagen passordet er et museumsobjekt. Den dagen er nærmere enn dere tror.",
+          "humble": "Et anstrengt et, som alle andres. Derfor stoler vi på verktøy og ikke på hukommelsen vår.",
+          "buzzword": "Vi jobber etter en passordløs, identitetssentrisk nulltillitsmodell med kontinuerlig verifisering."
+        }
+      },
+      "tec_pentest": {
+        "q": "Gjør dere penetrasjonstester?",
+        "a": {
+          "concrete": "Ja, en ekstern test før lansering og én gang i året etterpå. Funnene lukkes innen avtalt frist.",
+          "visionary": "Vi tenker som en angriper, så dere slipper å møte en ekte.",
+          "humble": "Vi tester selv, men vi anbefaler at noen utenfra gjør det. Vi er for glade i vår egen kode.",
+          "buzzword": "Vi tilbyr offensiv sikkerhet som en tjeneste, integrert i en helhetlig trusselbasert tilnærming."
+        }
+      },
+      "tec_supply_chain": {
+        "q": "Hvordan håndterer dere sårbarheter i tredjepartsbiblioteker?",
+        "a": {
+          "concrete": "Vi skanner avhengigheter i hvert bygg, har en komponentliste og oppdaterer kritiske feil innen 48 timer.",
+          "visionary": "Programvare er en næringskjede. Vi passer på hvert eneste ledd.",
+          "humble": "Vi bruker hundrevis av pakker vi ikke har skrevet selv. Vi kan ikke love null, men vi følger med.",
+          "buzzword": "Med shift-left forsyningskjedesikkerhet og sanntids SBOM-drevet risikoinnsikt."
+        }
+      },
+      "tec_logging": {
+        "q": "Hva logger dere, og hvor lenge tar dere vare på det?",
+        "a": {
+          "concrete": "Hendelser og feil, uten personopplysninger. Lagres i 90 dager, tilgangslogger i ett år.",
+          "visionary": "Loggene er systemets hukommelse. Vi sørger for at den husker det viktige.",
+          "humble": "Så lite som mulig, og det bør vi avtale med dere. Vi har logget for mye før.",
+          "buzzword": "Vi har en sentralisert, strukturert telemetristrategi med policystyrt livssyklusforvaltning."
+        }
+      },
+      "tec_security_incident": {
+        "q": "Hva gjør dere hvis vi blir hacket?",
+        "a": {
+          "concrete": "Vi følger en beredskapsplan: isolere, varsle innen 72 timer, gjenopprette og skrive rapport.",
+          "visionary": "Da står vi sammen med dere, og kommer ut på andre siden sterkere enn før.",
+          "humble": "Vi ringer dere med en gang, også om det er vår feil. Særlig da.",
+          "buzzword": "Vi aktiverer et robust, hendelsesdrevet responsrammeverk med tverrfaglig krisesynergi."
+        }
+      },
+      "tec_performance": {
+        "q": "Løsningen vår er treg. Hva ville dere gjort?",
+        "a": {
+          "concrete": "Målt først. Ofte er det tre trege spørringer og ett for stort bilde som står for det meste.",
+          "visionary": "Fart er en følelse. Vi vil at brukerne skal føle at tjenesten er ett skritt foran dem.",
+          "humble": "Vi ville spurt hvor brukerne opplever det som tregt. Det er ikke alltid der vi tror.",
+          "buzzword": "Vi ville gjennomført en ende-til-ende ytelsesoptimalisering med observabilitetsdrevet innsikt."
+        }
+      },
+      "tec_peak_load": {
+        "q": "Hva skjer når alle skal inn på fristdagen?",
+        "a": {
+          "concrete": "Vi lasttester med ti ganger normal trafikk og setter opp automatisk skalering. Og en køside.",
+          "visionary": "Da skal tjenesten skinne. Fristdagen skal bli dagen folk snakker pent om dere.",
+          "humble": "Det er den dagen vi gruer oss mest til. Derfor øver vi på den i god tid.",
+          "buzzword": "En elastisk, skalerbar plattform håndterer toppbelastning sømløst gjennom automatisert kapasitet."
+        }
+      },
+      "tec_app_vs_web": {
+        "q": "Trenger vi en app, eller holder det med nettsider?",
+        "a": {
+          "concrete": "Brukerne deres besøker dere to ganger i året. Da holder det med en god mobilvennlig nettside.",
+          "visionary": "Spørsmålet er ikke app eller web. Det er hvor i livet til brukerne dere vil være.",
+          "humble": "Det vet vi ikke ennå. La oss spørre noen brukere før vi bruker penger på noe av det.",
+          "buzzword": "Vi anbefaler en mobil-først, omnikanal kundereise med kryssplattform-synergi."
+        }
+      },
+      "tec_offline": {
+        "q": "Folkene våre jobber på fjellet uten dekning. Går det?",
+        "a": {
+          "concrete": "Ja. Appen lagrer lokalt og synkroniserer når dere får nett. Vi har testet det i en tunnel.",
+          "visionary": "Teknologien skal følge folk dit de er, ikke bare dit det er master.",
+          "humble": "Det er vanskeligere enn det høres ut. Kan vi få bli med ut en dag og se hvordan dere jobber?",
+          "buzzword": "Med en offline-først, hendelsesbasert synkroniseringsarkitektur på kanten av nettverket."
+        }
+      },
+      "tec_design_system": {
+        "q": "Hvorfor skal vi bruke penger på et designsystem?",
+        "a": {
+          "concrete": "Fordi dere har tolv ulike knapper i dag. Felles komponenter sparer tid på hver eneste skjerm.",
+          "visionary": "Et designsystem er et felles språk. Med det kan hele organisasjonen snakke med én stemme.",
+          "humble": "Kanskje dere ikke skal det ennå. Det lønner seg først når flere team lager skjermbilder.",
+          "buzzword": "Et skalerbart, tokenbasert designsystem skaper merkevarekonsistens og utviklersynergi på tvers."
+        }
+      },
+      "tec_tech_stack": {
+        "q": "Hvordan velger dere teknologi?",
+        "a": {
+          "concrete": "Vi velger det teamet deres kan drifte, som har vært stabilt i fem år og som er lett å rekruttere til.",
+          "visionary": "Vi velger teknologien dere vil være stolte av om ti år, ikke den som er populær i år.",
+          "humble": "Vi har våre favoritter, men det er dere som skal leve med valget. Vi vil gjerne høre hva dere kan.",
+          "buzzword": "Gjennom et fremtidsrettet, skybasert teknologiradarrammeverk med evidensbasert vurdering."
+        }
+      },
+      "tec_new_framework": {
+        "q": "Utviklerne våre vil bruke et helt nytt rammeverk. Er det lurt?",
+        "a": {
+          "concrete": "Kanskje. Test det i én liten modul i to uker, og mål om det faktisk går raskere.",
+          "visionary": "Nysgjerrighet er motoren i all innovasjon. Den skal vi ikke kvele.",
+          "humble": "Vi har sagt ja til nye rammeverk vi senere har angret på. Vi deler gjerne erfaringene.",
+          "buzzword": "Et moderne, komponentbasert rammeverk kan akselerere utviklerreisen betydelig."
+        }
+      },
+      "tec_api": {
+        "q": "Hva kjennetegner et godt API?",
+        "a": {
+          "concrete": "Versjonering, tydelige feilmeldinger, oppdatert dokumentasjon og eksempler som faktisk virker.",
+          "visionary": "Et godt API er en åpen dør. Det lar andre bygge ting dere aldri hadde forestilt dere.",
+          "humble": "At de som bruker det, synes det er greit. Vi spør dem heller enn å anta.",
+          "buzzword": "API-først, kontraktsdrevet og konsumentsentrert, som en del av en komponerbar virksomhet."
+        }
+      },
+      "tec_integrations": {
+        "q": "Vi har over førti integrasjoner. Hvordan får vi oversikt?",
+        "a": {
+          "concrete": "Vi lager et kart over alle, med eier, format og hva som skjer når de feiler. Tar rundt tre uker.",
+          "visionary": "Hver integrasjon er en relasjon. Vi hjelper dere å se hele nettverket.",
+          "humble": "Det høres ut som en jobb dere har stått i lenge. Hvem er det som vet mest om dem i dag?",
+          "buzzword": "Med en hendelsesdrevet integrasjonsplattform som orkestrerer data sømløst på tvers av siloene."
+        }
+      },
+      "tec_migration": {
+        "q": "Hvordan flytter vi data fra gammelt til nytt system?",
+        "a": {
+          "concrete": "Vi kjører prøvemigreringer hver uke, sammenligner tall mot kilden og har en plan for å rulle tilbake.",
+          "visionary": "En migrering er en flytting. Det er en sjanse til å ta med bare det som betyr noe.",
+          "humble": "Forsiktig. Migreringer tar nesten alltid lengre tid enn planlagt, og det vil vi si høyt nå.",
+          "buzzword": "Gjennom en trinnvis, risikoredusert moderniseringsreise med automatisert datalinjeføring."
+        }
+      },
+      "tec_cloud_cost": {
+        "q": "Skyregningen vår har doblet seg. Hva gjør vi?",
+        "a": {
+          "concrete": "Vi merker alle ressurser med eier, slår av det som står ubrukt og setter varsler på budsjettet.",
+          "visionary": "Skyen skal gi dere frihet, ikke bekymringer. Vi gjør regningen til et verktøy.",
+          "humble": "Det skjer mange. Vi vil gjerne se regningen sammen med dere før vi sier noe mer.",
+          "buzzword": "Vi innfører FinOps som en tverrfaglig kostnadsoptimaliseringskultur med sanntids enhetsøkonomi."
+        }
+      },
+      "tec_data_location": {
+        "q": "Må dataene våre ligge i Norge?",
+        "a": {
+          "concrete": "Ikke nødvendigvis, men innenfor EØS. Vi dokumenterer hvor alt ligger og hvem som har tilgang.",
+          "visionary": "Dataene deres er en del av samfunnets hukommelse. De fortjener et trygt hjem.",
+          "humble": "Det er et juridisk spørsmål vi ikke vil svare for raskt på. La oss ta det med juristene deres.",
+          "buzzword": "Vi sikrer suveren datalagring gjennom en regionalt forankret, etterlevelsesstyrt skyarkitektur."
+        }
+      },
+      "tec_devops": {
+        "q": "Hva betyr DevOps for dere, helt konkret?",
+        "a": {
+          "concrete": "At teamet som skriver koden også drifter den, med overvåking, vakt og ansvar for feilene.",
+          "visionary": "At muren mellom de som bygger og de som drifter endelig faller.",
+          "humble": "Ordet betyr forskjellige ting for alle. Hva betyr det for dere? Så starter vi der.",
+          "buzzword": "En kulturell transformasjon mot tverrfaglig, automatisert og kontinuerlig flyt av verdi."
+        }
+      },
+      "tec_backup": {
+        "q": "Når testet dere sist at en backup faktisk kan gjenopprettes?",
+        "a": {
+          "concrete": "Forrige måned. Vi gjenoppretter automatisk til et testmiljø hver uke og logger hvor lang tid det tar.",
+          "visionary": "En backup er et løfte til fremtiden. Vi holder det vi lover.",
+          "humble": "Ærlig talt: for lenge siden. Og sist gang gikk det ikke helt bra. Det har vi lært av.",
+          "buzzword": "Vi har en robust, policybasert data-resiliensstrategi med automatisert gjenopprettingsvalidering."
+        }
+      },
+      "tec_disaster_recovery": {
+        "q": "Hva gjør vi hvis hele datasenteret går ned?",
+        "a": {
+          "concrete": "Vi har kopier i en annen region, en plan på to sider og mål om å være oppe igjen innen fire timer.",
+          "visionary": "Da viser det seg om vi har bygget noe som tåler verden. Og det har vi.",
+          "humble": "Det er skummelt å tenke på, men det må vi. Vi foreslår at vi øver på det sammen en gang i året.",
+          "buzzword": "Gjennom en georedundant, selvhelende arkitektur med innebygd forretningskontinuitet."
+        }
+      },
+      "tec_green_it": {
+        "q": "Hvordan jobber dere med bærekraftig IT?",
+        "a": {
+          "concrete": "Vi skrur av testmiljøer om natten, velger datasentre med fornybar strøm og måler forbruket.",
+          "visionary": "Hver linje kode setter et avtrykk på planeten. Vi vil at deres skal være lett.",
+          "humble": "Vi er ikke eksperter, og vi reiser nok for mye. Men vi prøver å gjøre de enkle tingene riktig.",
+          "buzzword": "Med en klimanøytral, sirkulær digitaliseringsstrategi og ESG-integrert verdiskaping."
+        }
+      },
+      "tec_chatbot": {
+        "q": "Kan vi få en chatbot på nettsidene våre?",
+        "a": {
+          "concrete": "Ja, men vi ville først sett på de 20 vanligste spørsmålene. Mange løses med en bedre side.",
+          "visionary": "Tenk dere en tjeneste som alltid er våken, alltid tålmodig og alltid vennlig.",
+          "humble": "Det kan vi, men mange brukere blir irriterte på dem. Vi vil gjerne teste det før dere bestemmer dere.",
+          "buzzword": "En KI-drevet konversasjonsassistent gir en hyperpersonalisert, sømløs omnikanalopplevelse."
+        }
+      },
+      "tec_ai_own_data": {
+        "q": "Kan vi bruke KI på våre egne dokumenter?",
+        "a": {
+          "concrete": "Ja. Vi starter med ett arkiv, hundre testspørsmål og måler hvor ofte svaret er riktig.",
+          "visionary": "Alt organisasjonen noen gang har visst, tilgjengelig for alle på sekunder. Det er fremtiden.",
+          "humble": "Det kan fungere bra, men den tar av og til feil med stor selvtillit. Det skal dere vite på forhånd.",
+          "buzzword": "Med en RAG-basert kunnskapsplattform som låser opp verdien i ustrukturerte data."
+        }
+      },
+      "tec_ai_code": {
+        "q": "Bruker dere KI til å skrive koden?",
+        "a": {
+          "concrete": "Ja, som hjelpemiddel. All kode blir lest og godkjent av et menneske og går gjennom de samme testene.",
+          "visionary": "Vi står midt i den største endringen i faget siden kompilatoren. Vi vil være i front.",
+          "humble": "Litt. Den er rask, men den tar feil. Så vi leser alt den foreslår, og vi er åpne om at vi bruker den.",
+          "buzzword": "Vi har en KI-forsterket, agentisk utviklingsflyt som 10x-er produktiviteten."
+        }
+      },
+      "tec_ai_risk": {
+        "q": "Hva gjør dere hvis KI-løsningen gir innbyggere feil svar?",
+        "a": {
+          "concrete": "Vi logger svarene, stikkprøver hver uke og viser alltid kilde og en vei til et menneske.",
+          "visionary": "Vi bygger KI med samvittighet. Tillit er ikke en funksjon, det er et fundament.",
+          "humble": "Det kommer til å skje. Poenget er at vi oppdager det fort og sier fra, ikke at vi later som det ikke skjer.",
+          "buzzword": "Med et ansvarlig KI-rammeverk basert på forklarbarhet, rekkverk og menneske-i-løkka-styring."
+        }
+      },
+      "tec_low_code": {
+        "q": "Kan vi ikke bare bruke et lavkodeverktøy i stedet?",
+        "a": {
+          "concrete": "For enkle skjemaer og interne arbeidsflyter, ja. Over noen få integrasjoner blir det fort dyrt.",
+          "visionary": "Lavkode gir makten tilbake til de som kjenner problemet. Det er en liten revolusjon.",
+          "humble": "Kanskje det. Da trenger dere oss mindre, og det sier vi gjerne høyt.",
+          "buzzword": "Lavkode muliggjør borgerutviklere og hyperautomatisering i en komponerbar virksomhet."
+        }
+      },
+      "tec_login": {
+        "q": "Hvordan skal brukerne våre logge inn?",
+        "a": {
+          "concrete": "Med den nasjonale innloggingsløsningen for innbyggere, og med jobbkontoen for egne ansatte.",
+          "visionary": "Innlogging skal være så enkelt at ingen legger merke til den. Det er det beste den kan få.",
+          "humble": "Det avhenger av hvem de er. Vi vil gjerne se hvordan de logger inn i dag, og hva de sliter med.",
+          "buzzword": "Gjennom en føderert, sømløs digital identitetsreise med adaptiv autentisering."
+        }
+      },
+      "tec_national_components": {
+        "q": "Bruker dere de nasjonale fellesløsningene, eller lager dere egne?",
+        "a": {
+          "concrete": "Vi bruker dem når de finnes: innlogging, digital post og registre. Vi har integrert mot alle før.",
+          "visionary": "Hver fellesløsning er en murstein i et felles digitalt Norge. Vi vil bygge videre, ikke ved siden av.",
+          "humble": "Vi bruker dem. De er ikke alltid perfekte, men å lage egne er nesten alltid verre.",
+          "buzzword": "Vi utnytter det nasjonale økosystemet for å realisere sammenhengende tjenester og gevinster på tvers."
+        }
+      },
+      "tec_archiving": {
+        "q": "Hvordan oppfyller dere kravene i arkivloven?",
+        "a": {
+          "concrete": "Vi avklarer arkivplikten tidlig med arkivarene deres og eksporterer til godkjent format automatisk.",
+          "visionary": "Vi skriver historie. Om hundre år skal noen kunne lese hva som ble bestemt i dag.",
+          "humble": "Det er et fagfelt vi respekterer og ikke kan alt om. Vi tar gjerne arkivaren deres med fra dag én.",
+          "buzzword": "Gjennom en livssyklusorientert informasjonsforvaltning med innebygd bevaringsautomatikk."
+        }
+      },
+      "tec_spreadsheet": {
+        "q": "Halve driften vår går på ett regneark. Er det et problem?",
+        "a": {
+          "concrete": "Bare hvis én person kan det, eller det ikke tas backup av. Vi sjekker begge deler først.",
+          "visionary": "Det regnearket er en prototyp på systemet dere egentlig trenger. Den skal vi hedre.",
+          "humble": "Ikke nødvendigvis. Det virker jo. Vi ville vært forsiktige med å røre det uten å forstå det.",
+          "buzzword": "Vi kan transformere det til en skalerbar, skybasert prosessplattform med innebygd automatisering."
+        }
+      },
+      "tec_realtime": {
+        "q": "Ledelsen vil ha alt i sanntid. Hva innebærer det?",
+        "a": {
+          "concrete": "Det koster mer. De fleste rapporter holder med tall fra i natt. Vi finner de som faktisk må være ferske.",
+          "visionary": "Sanntid betyr at organisasjonen ser verden slik den er nå, ikke slik den var i går.",
+          "humble": "Vi ville spurt hva de skal gjøre annerledes med tallene hvis de kommer raskere.",
+          "buzzword": "Med en strømmebasert, hendelsesdrevet sanntidsarkitektur som gir umiddelbar innsikt."
+        }
+      },
+      "tec_open_data": {
+        "q": "Vi skal dele data åpent. Hvordan gjør vi det riktig?",
+        "a": {
+          "concrete": "Åpen lisens, maskinlesbart format, et enkelt API og en beskrivelse av hvert felt. Og ingen personopplysninger.",
+          "visionary": "Åpne data er drivstoff for tusen tjenester dere aldri trenger å lage selv.",
+          "humble": "Vi ville snakket med noen som skal bruke dataene først. Ellers deler vi fort feil ting.",
+          "buzzword": "Vi etablerer et åpent dataøkosystem som katalyserer verdiskaping og innovasjon på tvers av sektorer."
+        }
+      },
+      "tec_search": {
+        "q": "Brukerne finner ingenting med søket vårt. Kan dere fikse det?",
+        "a": {
+          "concrete": "Vi ser på de hundre vanligste søkene uten treff og legger til synonymer. Det løser ofte halve problemet.",
+          "visionary": "Søk handler om å forstå hva folk mener, ikke bare hva de skriver.",
+          "humble": "Vi kan prøve. Ofte er problemet innholdet og ikke søkemotoren, så vi må se på begge.",
+          "buzzword": "Med semantisk, KI-drevet søk og kontekstbevisst relevansoptimalisering i sanntid."
+        }
+      },
+      "com_fixed_price": {
+        "q": "Kan dere levere dette til fastpris?",
+        "a": {
+          "concrete": "Ja, for fase én. Resten prisfester vi etter fire uker med faktiske tall.",
+          "visionary": "Prisen er fast. Mulighetene er det ikke.",
+          "humble": "Det kan vi, men da må vi være ærlige om hvor usikkert estimatet er.",
+          "buzzword": "Vi anbefaler en hybrid, verdibasert prismodell med smidige leveranseporter."
+        }
+      },
+      "com_discount": {
+        "q": "Hva slags rabatt kan dere gi?",
+        "a": {
+          "concrete": "Åtte prosent ved to års avtale, tolv prosent over 5000 timer.",
+          "visionary": "Den største rabatten er alle feilene dere slipper å gjøre de neste ti årene.",
+          "humble": "Vi har ikke mye å gå på, men vi ser gjerne på det sammen med dere.",
+          "buzzword": "Vi tilbyr en skalerbar rabattmatrise basert på gjensidig verdiskaping."
+        }
+      },
+      "com_budget_overrun": {
+        "q": "Hva skjer hvis prosjektet sprekker budsjettet?",
+        "a": {
+          "concrete": "Dere får varsel ved 80 prosent forbruk, og ingenting over rammen uten skriftlig ja.",
+          "visionary": "Da har vi sannsynligvis oppdaget noe som er verdt mer enn budsjettet.",
+          "humble": "Det kan skje. Da sier vi fra tidlig – ikke på siste faktura.",
+          "buzzword": "Vi har en proaktiv, datadrevet kostnadsgovernance ende-til-ende."
+        }
+      },
+      "com_change_orders": {
+        "q": "Hvordan håndterer dere endringsordre?",
+        "a": {
+          "concrete": "Skriftlig estimat innen tre dager, og ingen oppstart før dere har signert.",
+          "visionary": "Endring er ikke et avvik. Det er selve reisen.",
+          "humble": "Vi sier fra når noe faktisk er en endring, så det aldri blir en overraskelse.",
+          "buzzword": "Gjennom en smidig endringsflyt forankret i porteføljens verdistrøm."
+        }
+      },
+      "com_sla_penalties": {
+        "q": "Godtar dere dagbøter hvis SLA-ene ikke holdes?",
+        "a": {
+          "concrete": "Ja, med tak på ti prosent av månedsbeløpet og tydelige målepunkter.",
+          "visionary": "Vi sikter så høyt at dagbøter blir en fotnote.",
+          "humble": "Det er rimelig. Vi vil bare være sikre på at vi måler de riktige tingene.",
+          "buzzword": "Vi foretrekker et gevinstbasert, KPI-drevet insentivrammeverk."
+        }
+      },
+      "com_references": {
+        "q": "Kan vi snakke med noen referanser?",
+        "a": {
+          "concrete": "Selvsagt. Her er tre kunder med navn, telefonnummer og prosjektperiode.",
+          "visionary": "Våre beste referanser er kundene vi ikke har møtt ennå.",
+          "humble": "Ja – og ring gjerne noen vi ikke har plukket ut selv også.",
+          "buzzword": "Vi har en bred referanseportefølje på tvers av verdikjeder og domener."
+        }
+      },
+      "com_biggest_failure": {
+        "q": "Hva er deres største fiasko?",
+        "a": {
+          "concrete": "Et integrasjonsprosjekt som ble tre måneder forsinket. Siden har vi ukentlige risikomøter.",
+          "visionary": "Fiaskoer er bare suksesser som ikke er ferdige ennå.",
+          "humble": "Vi lovet en kunde for mye en gang. Det lærte vi mye av.",
+          "buzzword": "Vi kaller det læringsdrevne pivoteringer på en iterativ verdireise."
+        }
+      },
+      "com_first_30_days": {
+        "q": "Hva gjør dere de første 30 dagene?",
+        "a": {
+          "concrete": "Uke én intervjuer, uke to kartlegging, og deretter en plan dere kan godkjenne.",
+          "visionary": "Vi legger grunnmuren for hvordan dere skal jobbe det neste tiåret.",
+          "humble": "Mest lytte. Dere kjenner virksomheten langt bedre enn oss.",
+          "buzzword": "Vi kjører en helhetlig discovery-fase med tverrfaglige innsiktssprinter."
+        }
+      },
+      "com_competitors": {
+        "q": "Hva synes dere om konkurrentene deres?",
+        "a": {
+          "concrete": "De er gode. Vi er rimeligere på drift og har kortere responstid.",
+          "visionary": "Vi konkurrerer ikke med andre. Vi konkurrerer med morgendagen.",
+          "humble": "Flere av dem er dyktige, og dere bør gjerne snakke med dem også.",
+          "buzzword": "Vi posisjonerer oss i et annet segment av økosystemets verdikart."
+        }
+      },
+      "com_smaller_firm": {
+        "q": "Dere er mye mindre enn de andre. Hvorfor skal vi tørre?",
+        "a": {
+          "concrete": "Partnerne sitter selv i teamet, og vi har navngitte reserver for hver rolle.",
+          "visionary": "Alle store selskaper var små en gang. Bli med på reisen.",
+          "humble": "Godt spørsmål. For oss ville dere blitt en av de aller viktigste kundene.",
+          "buzzword": "Vi er en lean, fokusert boutique med leveransekapasitet i enterprise-klassen."
+        }
+      },
+      "com_bigger_firm": {
+        "q": "Blir ikke vi en liten fisk hos et så stort selskap?",
+        "a": {
+          "concrete": "Dere får fast kontaktperson og et månedlig møte med ansvarlig partner.",
+          "visionary": "Hos oss finnes ingen små fisker, bare et stort hav av muligheter.",
+          "humble": "Den bekymringen skjønner vi. Si fra hvis dere noen gang føler det sånn.",
+          "buzzword": "Vi kombinerer global skala med lokal, kundesentrisk nærhet."
+        }
+      },
+      "com_subcontractors": {
+        "q": "Bruker dere underleverandører?",
+        "a": {
+          "concrete": "Én, for testautomatisering. Navn og avtale ligger i vedlegg fire.",
+          "visionary": "Vi ser det som et fellesskap av de beste hodene i bransjen.",
+          "humble": "Av og til, og da sier vi alltid fra på forhånd.",
+          "buzzword": "Vi orkestrerer et kuratert partnerøkosystem for maksimal leveransesynergi."
+        }
+      },
+      "com_conflict_interest": {
+        "q": "Jobber dere for noen av konkurrentene våre?",
+        "a": {
+          "concrete": "For én, på et annet område. Adskilte team og signerte taushetserklæringer.",
+          "visionary": "Vi jobber for bransjen som helhet – og for fremtiden.",
+          "humble": "Ja, for én. Det vil vi heller si nå enn at dere hører det fra andre.",
+          "buzzword": "Vi har robuste governance-mekanismer for mitigering av interessekonflikter."
+        }
+      },
+      "com_know_us": {
+        "q": "Hva vet dere egentlig om oss?",
+        "a": {
+          "concrete": "Vi har lest årsrapporten, strategien og de tre siste anbudene deres.",
+          "visionary": "Vi vet hvem dere kan bli.",
+          "humble": "Noe, men langt fra alt. Det er derfor vi er her for å høre.",
+          "buzzword": "Vi har en helhetlig forståelse av deres strategiske verdilandskap."
+        }
+      },
+      "com_industry": {
+        "q": "Har dere erfaring fra vår bransje?",
+        "a": {
+          "concrete": "Fire prosjekter på tre år, to av dem under samme regelverk som dere.",
+          "visionary": "Bransjegrensene viskes ut. Vi står allerede på den andre siden.",
+          "humble": "Ikke så mye som vi skulle ønske, men vi lærer fort og spør mye.",
+          "buzzword": "Vi har domeneagnostisk kompetanse med tverrsektoriell overføringsverdi."
+        }
+      },
+      "com_value_money": {
+        "q": "Hvorfor er dere verdt pengene?",
+        "a": {
+          "concrete": "Forrige kunde halverte driftskostnadene på 18 måneder. Tallene ligger vedlagt.",
+          "visionary": "Fordi det dere egentlig kjøper, er en ny måte å tenke på.",
+          "humble": "Det må dere avgjøre. Vi prøver å gjøre det lett å se.",
+          "buzzword": "Vi leverer målbar ROI gjennom synergistisk verdiskaping ende-til-ende."
+        }
+      },
+      "com_late": {
+        "q": "Hva skjer hvis dere leverer for sent?",
+        "a": {
+          "concrete": "Da jobber vi uten å fakturere til leveransen er på plass. Det står i avtalen.",
+          "visionary": "Store ting kommer når tiden er moden.",
+          "humble": "Da tar vi ansvar, forklarer hvorfor og finner en løsning sammen med dere.",
+          "buzzword": "Da re-baselinjerer vi veikartet og optimaliserer leveranse-velocityen."
+        }
+      },
+      "com_invoicing": {
+        "q": "Hvordan fakturerer dere?",
+        "a": {
+          "concrete": "Månedlig og etterskuddsvis, med timelister per person og oppgave.",
+          "visionary": "Vi fakturerer for fremtiden dere bygger, ikke for timene.",
+          "humble": "Slik det passer dere best. Si hvordan økonomiavdelingen vil ha det.",
+          "buzzword": "Via en strømlinjeformet, digital order-to-cash-verdikjede."
+        }
+      },
+      "com_exit_clause": {
+        "q": "Kan vi komme oss ut av avtalen hvis det ikke fungerer?",
+        "a": {
+          "concrete": "Ja, med tre måneders oppsigelse og full overlevering av kode og dokumentasjon.",
+          "visionary": "Vi tror ikke dere kommer til å ville det.",
+          "humble": "Selvfølgelig. Vi vil ikke at dere skal bli værende fordi dere må.",
+          "buzzword": "Vi har en fleksibel exit-strategi med sømløs transisjonsgovernance."
+        }
+      },
+      "com_call_offs": {
+        "q": "Hvordan håndterer dere avrop på en rammeavtale?",
+        "a": {
+          "concrete": "Vi svarer innen to virkedager, med CV-er og timeanslag.",
+          "visionary": "En rammeavtale er starten på noe større enn summen av avropene.",
+          "humble": "Vi svarer bare når vi faktisk har de rette folkene ledige.",
+          "buzzword": "Vi har en agil avropsmotor med behovsdrevet kapasitetsallokering."
+        }
+      },
+      "com_partnership": {
+        "q": "Hvordan ser dere på et langsiktig samarbeid?",
+        "a": {
+          "concrete": "Årlig evaluering, felles veikart og faste kontaktpersoner på begge sider.",
+          "visionary": "Som en felles reise mot noe ingen av oss kan se helt ennå.",
+          "humble": "Det må vi gjøre oss fortjent til, ett prosjekt av gangen.",
+          "buzzword": "Som et strategisk, gjensidig verdiskapende co-creation-partnerskap."
+        }
+      },
+      "com_measure_success": {
+        "q": "Hvordan vil dere måle deres egen suksess?",
+        "a": {
+          "concrete": "Leveranse mot plan, feil i produksjon og en kvartalsvis kundeundersøkelse.",
+          "visionary": "Når dere ikke lenger husker hvordan det var før.",
+          "humble": "Det bør dere bestemme. Vi vil gjerne høre hva som betyr noe for dere.",
+          "buzzword": "Gjennom et balansert scorecard av OKR-er, KPI-er og gevinstrealisering."
+        }
+      },
+      "com_estimates": {
+        "q": "Hvor treffsikre er estimatene deres?",
+        "a": {
+          "concrete": "Snittavvik på elleve prosent de siste tjue prosjektene. Vi kan vise tallene.",
+          "visionary": "Vi estimerer ikke timer. Vi estimerer potensial.",
+          "humble": "Bedre enn før, men et estimat er alltid bare et estimat.",
+          "buzzword": "Vi bruker datadrevet, probabilistisk estimering med kontinuerlig kalibrering."
+        }
+      },
+      "com_code_ownership": {
+        "q": "Hvem eier koden når prosjektet er ferdig?",
+        "a": {
+          "concrete": "Dere. Rettighetene overføres ved betaling, og alt ligger i deres eget repo.",
+          "visionary": "Koden tilhører dere. Ideene tilhører verden.",
+          "humble": "Dere, selvsagt. Vi vil ikke at dere skal bli avhengige av oss.",
+          "buzzword": "Vi sikrer åpen, plattformagnostisk IP-forvaltning uten innlåsing."
+        }
+      },
+      "com_warranty": {
+        "q": "Hva slags garanti gir dere på leveransen?",
+        "a": {
+          "concrete": "Seks måneder. Feil vi har laget, retter vi gratis innen fem virkedager.",
+          "visionary": "Vi garanterer at dere aldri kommer til å se tilbake.",
+          "humble": "Vi retter det vi har gjort feil. Det burde egentlig være en selvfølge.",
+          "buzzword": "Helhetlig kvalitetssikring gjennom hele livssyklusen."
+        }
+      },
+      "com_travel_expenses": {
+        "q": "Kommer det reiseutgifter i tillegg?",
+        "a": {
+          "concrete": "Nei, reiser i Oslo er inkludert. Utenfor Oslo etter statens satser.",
+          "visionary": "Den viktigste reisen vi tar sammen, koster ingenting.",
+          "humble": "Kanskje noen, men vi avtaler det alltid med dere først.",
+          "buzzword": "Vi har en hybrid, lokasjonsuavhengig leveransemodell med minimalt fotavtrykk."
+        }
+      },
+      "com_price_increase": {
+        "q": "Hvor mye øker prisene deres neste år?",
+        "a": {
+          "concrete": "Maks konsumprisindeksen, justert én gang i året. Se punkt 7.2.",
+          "visionary": "Verdien kommer til å vokse mer enn prisen. Det lover vi.",
+          "humble": "Det vet vi ikke ennå, men dere får beskjed i god tid.",
+          "buzzword": "Vi har en dynamisk, markedsindeksert prisstrategi i takt med verdiutviklingen."
+        }
+      },
+      "com_liability": {
+        "q": "Hvor mye ansvar er dere villige til å ta hvis noe går galt?",
+        "a": {
+          "concrete": "Opptil tolv måneders kontraktsverdi, og vi har ansvarsforsikring på 50 millioner.",
+          "visionary": "Vi tar ansvar for at noe stort faktisk skjer.",
+          "humble": "Så mye som er rimelig for et selskap på vår størrelse. La oss snakke om det.",
+          "buzzword": "Vi har en balansert, risikojustert ansvarsmodell med felles eierskap."
+        }
+      },
+      "com_trial_job": {
+        "q": "Kan dere ta et lite oppdrag først, som en prøve?",
+        "a": {
+          "concrete": "Ja. Seks uker, fast pris og et konkret resultat dere kan vurdere oss på.",
+          "visionary": "Alle store reiser begynner med ett lite skritt.",
+          "humble": "Gjerne. Det er bare rettferdig at vi viser hva vi kan først.",
+          "buzzword": "Vi anbefaler en MVP-basert pilot med tydelige suksesskriterier og skaleringsløp."
+        }
+      },
+      "com_lost_last_tender": {
+        "q": "Hvorfor tapte dere forrige anbud hos oss?",
+        "a": {
+          "concrete": "Vi var 14 prosent dyrere. Denne gangen har vi kuttet i ledelsestimene.",
+          "visionary": "Ideene våre var nok bare litt forut for sin tid.",
+          "humble": "Vi var ikke gode nok den gangen. Vi har lest begrunnelsen nøye.",
+          "buzzword": "Vi har kjørt en grundig retrospektiv med tiltak på tvers av bid-verdikjeden."
+        }
+      },
+      "cur_questions_for_us": {
+        "q": "Har dere noen spørsmål til oss?",
+        "a": {
+          "concrete": "Ja: Hvem tar den endelige beslutningen, og når?",
+          "visionary": "Bare ett: Hva drømmer dere om at dette skal bli?",
+          "humble": "Ja – hva er dere mest bekymret for?",
+          "buzzword": "Hvordan ser dere på den strategiske veikart-alignmenten i porteføljen?"
+        }
+      },
+      "cur_three_words": {
+        "q": "Beskriv selskapet deres med tre ord.",
+        "a": {
+          "concrete": "Presise, ærlige, i rute.",
+          "visionary": "Mot. Retning. Fremtid.",
+          "humble": "Vi gjør vårt beste.",
+          "buzzword": "Helhetlig. Smidig. Ende-til-ende."
+        }
+      },
+      "cur_worst_client": {
+        "q": "Hva ville deres verste kunde sagt om dere?",
+        "a": {
+          "concrete": "At vi var strenge på endringsordre. Det står vi for.",
+          "visionary": "At vi så lenger fram enn de var klare for.",
+          "humble": "Sikkert at vi burde sagt fra tidligere. Der har de nok et poeng.",
+          "buzzword": "At vi utfordret deres etablerte verdistrømmer litt for disruptivt."
+        }
+      },
+      "cur_animal": {
+        "q": "Hvis selskapet deres var et dyr, hvilket ville det vært?",
+        "a": {
+          "concrete": "En bever. Bygger solid, jobber jevnt og holder tidsplanen.",
+          "visionary": "En ørn. Vi ser hele landskapet og flyr dit ingen har vært før.",
+          "humble": "Kanskje en gjeterhund. Vi følger med, lytter og passer på flokken.",
+          "buzzword": "En kameleon: adaptiv, kontekstsensitiv og økosystemintegrert."
+        }
+      },
+      "cur_last_client_left": {
+        "q": "Hvorfor sluttet forrige kunde å bruke dere?",
+        "a": {
+          "concrete": "Prosjektet var ferdig. Vi overleverte etter plan, og i dag er de referanse.",
+          "visionary": "De var klare til å fly på egne vinger. Det var hele poenget.",
+          "humble": "De fant en leverandør som passet dem bedre. Det må man respektere.",
+          "buzzword": "De gikk inn i en ny strategisk fase med endrede kapabilitetsbehov."
+        }
+      },
+      "cur_coffee": {
+        "q": "Hvordan er kaffen på kontoret deres?",
+        "a": {
+          "concrete": "Lysbrent fra et lokalt brenneri. Maskinen avkalkes hver fredag.",
+          "visionary": "Det er ved kaffemaskinen ideene blir født.",
+          "humble": "Helt grei, egentlig. Men dere er hjertelig velkomne til å smake.",
+          "buzzword": "Vi har en bærekraftig, community-drevet baristakultur med tverrfaglig flyt."
+        }
+      },
+      "cur_projector_dies": {
+        "q": "Projektoren dør midt i presentasjonen. Panelet ser på deg i stillhet.",
+        "a": {
+          "concrete": "Da tar jeg de tre hovedpunktene muntlig. Det første er pris.",
+          "visionary": "Kanskje et tegn. La oss snakke om det som ikke får plass på en skjerm.",
+          "humble": "Beklager, det var ikke planen. Skal vi bare prate sammen i stedet?",
+          "buzzword": "Dette illustrerer egentlig behovet for en robust, skybasert presentasjonsplattform."
+        }
+      },
+      "cur_half_price": {
+        "q": "Kan dere gjøre det for halve prisen?",
+        "a": {
+          "concrete": "Ja, hvis vi dropper integrasjonene og rapportmodulen. Her er hva det betyr.",
+          "visionary": "Vi kan halvere prisen. Men ikke drømmen.",
+          "humble": "Ikke uten å levere dårligere, og det vil vi ikke love dere.",
+          "buzzword": "Vi kan se på en lean, MVP-fokusert omfangsrasjonalisering."
+        }
+      },
+      "cur_blockchain": {
+        "q": "Konsernsjefen leste om blokkjede på et fly. Hva tenker dere?",
+        "a": {
+          "concrete": "Vi kan gjøre en toukers analyse av om det løser et reelt problem for dere.",
+          "visionary": "Kanskje var det der det startet. Store ideer kommer ofte på ti tusen meter.",
+          "humble": "Det er ikke vårt sterkeste felt, men vi hjelper gjerne med å finne ut av det.",
+          "buzzword": "Vi ser et enormt potensial i en desentralisert, tillitsbasert verdikjede."
+        }
+      },
+      "cur_weakness": {
+        "q": "Hva er deres største svakhet?",
+        "a": {
+          "concrete": "Vi har bare to skyarkitekter. To til begynner i høst.",
+          "visionary": "Vi bryr oss kanskje litt for mye om hva som er mulig.",
+          "humble": "Vi er små og kan ikke alt. Det sier vi heller fra om enn å late som.",
+          "buzzword": "Vi er kanskje for fremoverlente i vår innovasjonsdrevne tilnærming."
+        }
+      },
+      "cur_five_years": {
+        "q": "Hvor ser dere selskapet om fem år?",
+        "a": {
+          "concrete": "Rundt 80 ansatte, to kontorer og samme faglige fokus som i dag.",
+          "visionary": "Som et av selskapene som formet hvordan Norge bygger digitale tjenester.",
+          "humble": "Forhåpentligvis fortsatt her, med fornøyde kunder som dere.",
+          "buzzword": "Som en skalerbar, plattformbasert leverandør av helhetlig verdiskaping."
+        }
+      },
+      "cur_why_consultant": {
+        "q": "Hvorfor ble du egentlig konsulent?",
+        "a": {
+          "concrete": "Jeg liker variasjon. Tolv kunder på åtte år har gitt meg akkurat det.",
+          "visionary": "For å forandre verden, ett oppdrag om gangen.",
+          "humble": "Jeg liker å lære av folk som kan faget sitt bedre enn meg.",
+          "buzzword": "For å skape tverrfaglig verdi i skjæringspunktet mellom forretning og teknologi."
+        }
+      },
+      "cur_explain_like_five": {
+        "q": "Forklar tilbudet deres som om vi var fem år gamle.",
+        "a": {
+          "concrete": "Vi bygger et nytt system. Det tar ett år, og vi rydder etter oss.",
+          "visionary": "Tenk deg at alt blir litt enklere – for alltid.",
+          "humble": "Vi hjelper dere med det som er vanskelig, og spør når vi ikke skjønner.",
+          "buzzword": "Vi lager en smidig, brukersentrisk plattform av skalerbare byggeklosser."
+        }
+      },
+      "cur_arrived_late": {
+        "q": "Dere kom sju minutter for sent. Hvorfor skal vi stole på tidsplanen?",
+        "a": {
+          "concrete": "Vi burde beregnet tid til parkering. Tidsplanen har 15 prosent buffer.",
+          "visionary": "Fordi planen vår måles i år, ikke i minutter.",
+          "humble": "Det er et rettferdig spørsmål. Beklager – det skal ikke skje igjen.",
+          "buzzword": "Vi opererer med en adaptiv, hendelsesdrevet tidsstyringsmodell."
+        }
+      },
+      "cur_superpower": {
+        "q": "Hvis dere kunne hatt én superkraft, hva ville det vært?",
+        "a": {
+          "concrete": "Å lese hele kravspesifikasjonen på fem minutter. I dag bruker vi to dager.",
+          "visionary": "Å se ti år fram i tid. Vi jobber med saken.",
+          "humble": "Å skjønne hva kunden mener før de har sagt det. Vi øver fortsatt.",
+          "buzzword": "Sømløs verdiskaping i sanntid på tvers av alle kanaler og siloer."
+        }
+      },
+      "cur_said_no": {
+        "q": "Når sa dere sist nei til en kunde?",
+        "a": {
+          "concrete": "I mars. De ville lansere uten testing, så vi la fram risikoen skriftlig.",
+          "visionary": "Hver gang vi sier nei til det middelmådige, sier vi ja til noe større.",
+          "humble": "Nylig. Det var ubehagelig, men det var riktig for dem.",
+          "buzzword": "Vi praktiserer strategisk forventningsstyring i hele verdistrømmen."
+        }
+      },
+      "cur_two_minutes": {
+        "q": "Vi har to minutter igjen. Hvorfor skal vi huske dere?",
+        "a": {
+          "concrete": "Lavest totalpris, tre sterke referanser og oppstart om to uker.",
+          "visionary": "Fordi dere om fem år kommer til å si at det var her det begynte.",
+          "humble": "Kanskje fordi vi var de som lyttet mest. Takk for at vi fikk komme.",
+          "buzzword": "Vi er partneren som kobler strategi, teknologi og mennesker ende-til-ende."
+        }
+      },
+      "cur_promised_moon": {
+        "q": "Forrige leverandør lovet oss månen. Kan dere slå det?",
+        "a": {
+          "concrete": "Vi lover tre leveranser i første kvartal, med datoer. Månen får vente.",
+          "visionary": "Månen er bare et mellomstopp.",
+          "humble": "Nei, og det tror vi er en fordel. Vi lover heller litt mindre og holder det.",
+          "buzzword": "Vi tilbyr et ambisiøst, men risikojustert moonshot-veikart."
+        }
+      },
+      "sec_hospital_clinicians": {
+        "q": "Legene våre bruker mer tid på skjermen enn på pasientene. Kan dere gjøre noe med det?",
+        "a": {
+          "concrete": "Vi måler klikk og tid per oppgave på én avdeling først, og fjerner de ti vanligste omveiene.",
+          "visionary": "Vi ser for oss et sykehus der teknologien trer til side, og legen igjen ser pasienten i øynene.",
+          "humble": "Vi vet for lite om hverdagen deres ennå. Kan vi få gå noen vakter sammen med legene først?",
+          "buzzword": "Vi leverer en klinikernær, friksjonsfri arbeidsflyt med sømløs journalintegrasjon ende-til-ende."
+        }
+      },
+      "sec_hospital_always_on": {
+        "q": "Systemet brukes døgnet rundt. Når kan dere i det hele tatt oppdatere det?",
+        "a": {
+          "concrete": "Uten nedetid. Vi ruller ut gradvis, én avdeling om gangen, og kan snu på under fem minutter.",
+          "visionary": "Et sykehus sover aldri, og det skal ikke løsningen heller. Vi bygger for en verden uten servicevinduer.",
+          "humble": "Det må dere og nattsykepleierne svare på. De vet best når det gjør minst vondt.",
+          "buzzword": "Vi har en zero-downtime deployment-strategi med blue-green og kontinuerlig leveranse 24/7."
+        }
+      },
+      "sec_kommune_one_it_person": {
+        "q": "Vi har én IT-ansatt, og han har ferie hele juli. Hvem drifter dette da?",
+        "a": {
+          "concrete": "Vi skriver en driftsinstruks på ti sider, setter opp varsling til oss og står selv på vaktlista i juli.",
+          "visionary": "Målet er en kommune der ingen er uunnværlige, og alle kan ta ferie med god samvittighet.",
+          "humble": "Det er et reelt sårbarhetspunkt. Vi bør snakke med ham før vi lover noe som helst.",
+          "buzzword": "Vi tilbyr en skalerbar managed service-modell med proaktiv overvåkning og helhetlig eierskap."
+        }
+      },
+      "sec_kommune_merger": {
+        "q": "Etter sammenslåingen har vi tre utgaver av hvert system. Hvor begynner vi?",
+        "a": {
+          "concrete": "Med en liste: hvilke systemer, hvem som bruker dem og hva de koster. Så tar vi ett fagområde om gangen.",
+          "visionary": "Dette er sjansen til å bygge den nye kommunen fra grunnen av, ikke bare lime sammen de gamle.",
+          "humble": "Vi begynner med å høre hvordan de ansatte har det. En sammenslåing handler om mer enn systemer.",
+          "buzzword": "Vi kjører en helhetlig harmoniseringsprosess med konsolidering av applikasjonsporteføljen på tvers av siloer."
+        }
+      },
+      "sec_bank_inspection": {
+        "q": "Tilsynet kommer på besøk i mars. Hva må vi ha på plass til da?",
+        "a": {
+          "concrete": "Oppdatert risikovurdering, sporbare endringer og logg over hvem som gjorde hva. Sjekklisten lager vi i dag.",
+          "visionary": "Vi vil at tilsynet skal gå herfra inspirert, ikke bekymret. Etterlevelse kan være en styrke.",
+          "humble": "Vi har aldri sittet på deres side av bordet i et slikt tilsyn. Hva har de spurt om tidligere?",
+          "buzzword": "Vi sikrer compliance by design gjennom et helhetlig GRC-rammeverk med full revisjonssporbarhet."
+        }
+      },
+      "sec_bank_fraud": {
+        "q": "Svindlere ringer kundene våre og later som de er banken. Hva kan vi gjøre?",
+        "a": {
+          "concrete": "Varsle i appen når store beløp går til nye mottakere, og legge inn en ventetid ved uvanlige betalinger.",
+          "visionary": "Tillit skal være noe kundene kjenner igjen med en gang, like tydelig som et håndtrykk.",
+          "humble": "Vi har ingen mirakelkur. Men kundeservice hører disse historiene hver dag, så vi begynner der.",
+          "buzzword": "Vi implementerer sanntids KI-drevet anomalideteksjon med adaptiv risikoscoring på tvers av kanaler."
+        }
+      },
+      "sec_retail_change_freeze": {
+        "q": "Vi har endringsstopp fra oktober til nyttår. Hvordan passer dere inn i det?",
+        "a": {
+          "concrete": "Alt til høysesongen er ferdig testet 1. oktober. Etter det retter vi bare feil.",
+          "visionary": "Stillheten før stormen er da de beste ideene blir til. Da legger vi planene for neste år.",
+          "humble": "Det er klokt av dere. Vi har selv ødelagt en novemberlansering en gang, og det gjør vi ikke igjen.",
+          "buzzword": "Vi tilpasser release-kadensen til en sesongbasert forretningsrytme med smidig, risikojustert leveranse."
+        }
+      },
+      "sec_retail_abandoned_cart": {
+        "q": "Folk legger varer i handlekurven og går sin vei. Hvorfor det?",
+        "a": {
+          "concrete": "Vi går gjennom de siste tusen avbrutte kjøpene. Ofte er det fraktprisen som dukker opp for sent.",
+          "visionary": "En forlatt handlekurv er et løfte som ikke ble innfridd. Kjøpet skal bli noe folk gleder seg til.",
+          "humble": "Vi vet ikke. Kanskje vi skal spørre noen av dem før vi begynner å gjette?",
+          "buzzword": "Vi optimaliserer konverteringstrakten gjennom en datadrevet, personalisert omnikanal-kundereise."
+        }
+      },
+      "sec_energy_sensors": {
+        "q": "Vi har 40 000 sensorer i nettet, og halvparten sender tull. Hva gjør vi?",
+        "a": {
+          "concrete": "Vi flagger sensorer som står stille, hopper eller melder frost i juli, og tar de verste først.",
+          "visionary": "Hver sensor forteller noe om nettet. Vi skal lære oss å lytte til hele fortellingen.",
+          "humble": "Montørene deres vet sikkert hvilke som lyver. Kan vi snakke med dem først?",
+          "buzzword": "Vi etablerer en skalerbar IoT-dataplattform med edge-analyse og KI-basert datakvalitetsstyring."
+        }
+      },
+      "sec_energy_isolated_network": {
+        "q": "Driftsnettet vårt skal ikke henge på internett. Hvordan jobber dere da?",
+        "a": {
+          "concrete": "På deres maskiner, i deres kontrollrom. Ingen fjerntilgang, og alt vi tar med inn blir sjekket først.",
+          "visionary": "Når lyset i folks hjem står på spill, er det fremtidsrettet å la noe være frakoblet.",
+          "humble": "Tregere enn vi er vant til, og det er helt greit. Her er det dere som setter reglene.",
+          "buzzword": "Vi opererer i en segmentert zero trust-arkitektur med air-gapped OT-miljø og sømløs IT/OT-konvergens."
+        }
+      },
+      "sec_transport_realtime": {
+        "q": "Bussen står i appen, men ikke på holdeplassen. Hvorfor stoler ingen på sanntiden?",
+        "a": {
+          "concrete": "Posisjonen sendes hvert 30. sekund, og prognosen tar ikke hensyn til kø. Begge deler kan vi rette.",
+          "visionary": "Tillit er den viktigste ruten dere kjører. Hver avgang skal være et løfte som holdes.",
+          "humble": "Vi har stått der og frosset selv. Vi vet ikke årsaken ennå, men vi skal finne den.",
+          "buzzword": "Vi leverer prediktiv, sanntidsbasert mobilitetsinnsikt via en hendelsesdrevet dataplattform."
+        }
+      },
+      "sec_transport_winter": {
+        "q": "Når snøen kommer, blir alt forsinket. Hvordan får de reisende riktig beskjed?",
+        "a": {
+          "concrete": "Trafikklederne får én knapp for innstilte avganger som oppdaterer app, skjermer og SMS på én gang.",
+          "visionary": "Vinteren er en del av hvem vi er. Informasjonen skal være like pålitelig som brøytebilen.",
+          "humble": "Vi kan ikke love at dere holder rutetabellen, men vi kan hjelpe dere å si ærlig ifra når dere ikke gjør det.",
+          "buzzword": "Vi orkestrerer proaktiv, kanaluavhengig avvikskommunikasjon med automatisert kundedialog."
+        }
+      },
+      "sec_edu_exam_day": {
+        "q": "Eksamen kan ikke flyttes. Hva er plan B hvis løsningen svikter midt i?",
+        "a": {
+          "concrete": "Besvarelsen lagres lokalt hvert minutt, og skolen har papiroppgaver klare i en forseglet konvolutt.",
+          "visionary": "Elevene skal tenke på oppgaven, ikke på teknologien. Det er det eneste som betyr noe den dagen.",
+          "humble": "Ærlig talt er papir og blyant fortsatt en god plan B. Det bør vi ikke være for stolte til å ha.",
+          "buzzword": "Vi har en resilient, feiltolerant vurderingsplattform med sømløs failover og elevsentrert kontinuitet."
+        }
+      },
+      "sec_edu_teachers": {
+        "q": "Lærerne har ikke tid til enda et system. Hvordan får vi dem med?",
+        "a": {
+          "concrete": "Vi fjerner to systemer for hvert nye, og lærerne får prøve det på en planleggingsdag, ikke midt i terminen.",
+          "visionary": "Vi vil gi lærerne tiden tilbake, så de kan gjøre det de brenner for: å undervise.",
+          "humble": "Vi spør dem hva de helst vil bli kvitt. De har sikkert en lang liste.",
+          "buzzword": "Vi sikrer adopsjon gjennom brukerdrevet endringsledelse og en helhetlig, pedagogisk forankret plattform."
+        }
+      },
+      "sec_media_paywall": {
+        "q": "Hvor mye av journalistikken vår bør ligge bak betalingsmuren?",
+        "a": {
+          "concrete": "Det tester vi. Ti prosent av leserne får en annen grense i fire uker, så ser vi på tegninger og oppsigelser.",
+          "visionary": "God journalistikk er uvurderlig, men aldri gratis. Muren bør minne folk på nettopp det.",
+          "humble": "Det er en redaksjonell avgjørelse, og den er ikke vår. Men vi kan vise dere hva tallene sier.",
+          "buzzword": "Vi anbefaler en dynamisk, datadrevet metered paywall med personalisert konverteringsstrategi."
+        }
+      },
+      "sec_media_newsroom": {
+        "q": "Journalistene sier det går fortere å ringe inn saken enn å bruke publiseringsverktøyet.",
+        "a": {
+          "concrete": "Vi tar tiden på en nyhetsvakt. Tar en oppdatering sju klikk, skal det ned til to.",
+          "visionary": "Nyheter venter ikke. Verktøyet skal føles som en forlengelse av journalistens instinkt.",
+          "humble": "Da tror vi på journalistene. Kan vi få sitte ved nyhetsdesken en travel kveld?",
+          "buzzword": "Vi leverer en headless, API-first innholdsplattform med sømløs omnikanal-publisering i sanntid."
+        }
+      },
+      "sec_insurance_claims": {
+        "q": "Det tar tre uker å behandle en enkel skademelding. Kan det gå fortere?",
+        "a": {
+          "concrete": "Ja. Enkle saker under en viss sum kan godkjennes automatisk. En lignende kunde gikk fra tolv dager til to.",
+          "visionary": "Tenk om en skade kunne gjøres opp før kunden rakk å bekymre seg. Dit skal vi.",
+          "humble": "Sikkert. Men saksbehandlerne vet nok hvorfor det tar tid, og dem vil vi gjerne høre først.",
+          "buzzword": "Vi digitaliserer skadereisen ende-til-ende med intelligent automatisering og straight-through processing."
+        }
+      },
+      "sec_insurance_driving_data": {
+        "q": "Vi vil prise bilforsikring etter hvordan folk kjører. Er det lurt?",
+        "a": {
+          "concrete": "Det kan fungere, men det krever samtykke, klare vilkår og en plan for kundene som får høyere pris.",
+          "visionary": "Forsikring som belønner gode valg, kan gjøre veiene tryggere for alle. Det er stort.",
+          "humble": "Vi er usikre. Det handler like mye om rettferdighet som om teknologi, og det valget bør være deres.",
+          "buzzword": "Vi muliggjør bruksbasert, datadrevet hyperpersonalisering gjennom telematikk og prediktiv analyse."
+        }
+      },
+      "sec_logistics_gloves": {
+        "q": "Lagerfolkene våre jobber med hansker og håndskannere. Hvordan tester dere for det?",
+        "a": {
+          "concrete": "Vi tar på oss hanskene. Testene gjøres på lageret, med de ekte skannerne, i kulda ved port fire.",
+          "visionary": "Den beste løsningen er den som forsvinner i hendene på dem som bruker den.",
+          "humble": "Vi har aldri jobbet på lager selv. Kan vi få gå et skift sammen med dem først?",
+          "buzzword": "Vi har en brukersentrert, mobile first-tilnærming med robust feltvalidering i reelle driftsmiljøer."
+        }
+      },
+      "sec_logistics_trucks_waiting": {
+        "q": "Hvert minutt en lastebil venter ved porten, koster oss penger. Hva kan dere gjøre?",
+        "a": {
+          "concrete": "Sjåførene får tildelt port og tidspunkt før de er framme. Da slipper de å stå i kø.",
+          "visionary": "Vi vil få lageret til å slå i takt med hele verdikjeden, som et hjerte.",
+          "humble": "Vi har ingen fasit. Men sjåførene har nok noen tanker om hvor de står og venter.",
+          "buzzword": "Vi optimaliserer flyten gjennom sanntids yard management og datadrevet orkestrering av verdikjeden."
+        }
+      },
+      "sec_startup_equity": {
+        "q": "Vi har ikke mye penger. Kan vi betale dere delvis i aksjer?",
+        "a": {
+          "concrete": "Vi kan ta inntil 20 prosent av honoraret i aksjer, med vanlig aksjonæravtale. Resten fakturerer vi månedlig.",
+          "visionary": "Vi investerer gjerne i fremtiden deres. Det er sånn de store historiene begynner.",
+          "humble": "Vi er ikke investorer og er dårlige til å vurdere slikt. Kanskje vi heller skal gjøre oppdraget mindre?",
+          "buzzword": "Vi er åpne for en fleksibel, verdibasert partnermodell med felles oppside og skin in the game."
+        }
+      },
+      "sec_startup_cloud_credits": {
+        "q": "Vi har gratis skykreditter i ett år. Hva skjer når de tar slutt?",
+        "a": {
+          "concrete": "Vi setter opp kostnadsvarsler fra første dag og regner ut prisen per bruker lenge før kredittene går ut.",
+          "visionary": "Da har dere forhåpentligvis så mange kunder at regningen er et luksusproblem.",
+          "humble": "Det er en felle vi har sett mange gå i. Vi bør snakke om det nå, ikke om elleve måneder.",
+          "buzzword": "Vi sikrer kostnadseffektiv, skalerbar FinOps-styring med cloud native-optimalisering fra dag null."
+        }
+      },
+      "sec_ministry_unpassed_law": {
+        "q": "Hvordan lager dere et system for en lov som ikke er vedtatt ennå?",
+        "a": {
+          "concrete": "Vi holder reglene utenfor koden, så satser kan endres uten ny utrulling. Og vi leser høringsnotatet.",
+          "visionary": "Et godt system tåler at demokratiet gjør jobben sin. Vi bygger for et samfunn i bevegelse.",
+          "humble": "Varsomt. Vi har bommet på slikt før, så vi bygger det vi vet og venter med resten.",
+          "buzzword": "Vi har en regelstyrt, fremtidsrettet arkitektur med policy-as-code og smidig regelverksadopsjon."
+        }
+      },
+      "sec_ministry_press_conference": {
+        "q": "Statsråden vil ha noe å vise fram på en pressekonferanse om seks uker.",
+        "a": {
+          "concrete": "Det rekker vi hvis vi velger én tjeneste og gjør den ferdig for én målgruppe, ikke halvferdig for alle.",
+          "visionary": "Da viser vi ikke bare fram en tjeneste, men en helt ny måte for staten å møte folk på.",
+          "humble": "Vi kan prøve. Men det er bedre at statsråden viser noe lite som virker, enn noe stort som ikke gjør det.",
+          "buzzword": "Vi leverer en høyprofilert, brukerorientert pilot med rask time-to-value og tydelig gevinstrealisering."
+        }
+      },
+      "sec_members_board_passwords": {
+        "q": "Styret byttes ut hvert år, og ingen vet passordene. Kan dere hjelpe oss?",
+        "a": {
+          "concrete": "Ja. Vi knytter tilgangene til roller, ikke personer, og lager en overleveringsliste til hvert årsmøte.",
+          "visionary": "En forening skal leve lenger enn hvert enkelt styre. Vi bygger for de neste femti årene.",
+          "humble": "Det er vanligere enn dere tror. Vi begynner med å finne ut hvem som faktisk har nøklene i dag.",
+          "buzzword": "Vi innfører helhetlig, rollebasert identitets- og tilgangsstyring med sømløs styreoverlapp."
+        }
       }
     }
   }

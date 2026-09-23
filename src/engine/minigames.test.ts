@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { CUSTOMERS } from '../content/customers'
+import { QUESTION_SECTOR } from '../content/meetingQuestions'
 import { scoreBingo, scoreMeeting, setupBingo, setupMeeting } from './minigames'
 import { newTestGame } from './testUtils'
 
@@ -19,6 +21,16 @@ describe('minigames', () => {
     expect(setupMeeting(tender, 'player')).toEqual(setupMeeting(tender, 'player'))
     expect(setupMeeting(tender, 'player')).toHaveLength(3)
     expect(s.rng.s).toBe(before)
+  })
+
+  it('meeting questions fit the customer sector', () => {
+    for (const sector of ['public', 'private'] as const) {
+      const customer = CUSTOMERS.find((c) => c.sector === sector)!
+      for (let i = 0; i < 50; i++) {
+        const rounds = setupMeeting({ ...tender, id: `t${i}`, customerId: customer.id }, 'player')
+        for (const r of rounds) expect(QUESTION_SECTOR[r.question] ?? sector).toBe(sector)
+      }
+    }
   })
 
   it('bingo board contains all correct words among 16', () => {

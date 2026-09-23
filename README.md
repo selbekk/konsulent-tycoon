@@ -314,7 +314,7 @@ Legg så til `events.team_offsite.{title, body, choices.go, choices.skip}` i `ga
 - **Ny trait:** `content/traits.ts` (modifikatorer).
 - **Ny høyttalermelding:** `content/announcements.ts` (valgfri betingelse).
 - **Nytt buzzword:** `content/buzzwords.ts`.
-- **Nytt møtespørsmål:** `content/meetingQuestions.ts`, med fire svar (ett per møtestil) i `minigames.json`.
+- **Nytt møtespørsmål:** `content/meetingQuestions.ts`, med fire svar (ett per møtestil) i `minigames.json`. Hvert svar må være lett å kjenne igjen som sin stil, siden spilleren skal lese hva kunden liker. Spørsmål som bare passer for offentlige eller private kunder, merkes i `QUESTION_SECTOR`.
 - **Ny lyssky handling:** Legg den til i `ShadyActionId` (`types.ts`) og `SHADY_CATALOG` (`shady.ts`), og skriv effekten i `handleShady`. Du trenger også tekstene `content:shady.actions.<id>` og `game:news.scandal.<id>`.
 
 ## Balansering og simulator
