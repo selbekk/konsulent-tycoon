@@ -65,6 +65,17 @@
   border-radius: var(--radius);
 }
 
+.dropped {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropped p {
+  margin: 0;
+}
+
 .footer {
   text-align: center;
   font-size: 0.85rem;

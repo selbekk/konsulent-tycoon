@@ -1,4 +1,5 @@
 import { SAVE_VERSION } from './constants'
+import { hasValidShape } from './saveShape'
 import type { GameState } from './types'
 
 type AnyState = Record<string, unknown> & { saveVersion: number }
@@ -20,7 +21,8 @@ export function deserialize(raw: string, migs: Record<number, Migration> = migra
     if (!m) throw new Error('save.noMigration')
     s = { ...m(s), saveVersion: s.saveVersion + 1 }
   }
-  return s as unknown as GameState
+  if (!hasValidShape(s)) throw new Error('save.incompatible')
+  return s
 }
 
 export type SlotId = 'auto' | '1' | '2' | '3'
@@ -50,13 +52,46 @@ export function saveToSlot(storage: Storage, slot: SlotId, state: GameState, now
   }
 }
 
-export function loadFromSlot(storage: Storage, slot: SlotId): GameState | null {
+/**
+ * - `missing`: nothing stored.
+ * - `incompatible`: stored, but unreadable by this version of the game (broken, wrong shape, no migration).
+ * - `tooNew`: written by a newer build (e.g. a stale service worker running old code). Keep it.
+ */
+export type SlotRead = { state: GameState } | { error: 'missing' | 'incompatible' | 'tooNew' }
+
+export function readSlot(storage: Storage, slot: SlotId): SlotRead {
+  let raw: string | null
   try {
-    const raw = storage.getItem(saveKey(slot))
-    return raw ? deserialize(raw) : null
+    raw = storage.getItem(saveKey(slot))
   } catch {
-    return null
+    return { error: 'missing' }
   }
+  if (!raw) return { error: 'missing' }
+  try {
+    return { state: deserialize(raw) }
+  } catch (e) {
+    return { error: e instanceof Error && e.message === 'save.tooNew' ? 'tooNew' : 'incompatible' }
+  }
+}
+
+export function loadFromSlot(storage: Storage, slot: SlotId): GameState | null {
+  const r = readSlot(storage, slot)
+  return 'state' in r ? r.state : null
+}
+
+/**
+ * Deletes saves the current game can't load (and metadata left without a save), so the menu
+ * never offers to continue them. Returns the slots that held a real save that was dropped.
+ */
+export function purgeIncompatibleSaves(storage: Storage): SlotId[] {
+  const dropped: SlotId[] = []
+  for (const slot of SLOTS) {
+    const r = readSlot(storage, slot)
+    if ('state' in r || r.error === 'tooNew') continue
+    if (r.error === 'incompatible') dropped.push(slot)
+    deleteSlot(storage, slot)
+  }
+  return dropped
 }
 
 export function listSlots(storage: Storage): SlotMeta[] {

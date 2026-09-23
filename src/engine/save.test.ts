@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { deleteSlot, deserialize, listSlots, loadFromSlot, saveToSlot, serialize } from './save'
+import { deleteSlot, deserialize, listSlots, loadFromSlot, purgeIncompatibleSaves, readSlot, saveToSlot, serialize } from './save'
 import { newTestGame } from './testUtils'
 
 class MemoryStorage implements Storage {
@@ -44,5 +44,32 @@ describe('save', () => {
     deleteSlot(storage, '1')
     expect(loadFromSlot(storage, '1')).toBeNull()
     expect(saveToSlot(new BrokenStorage(), 'auto', s)).toBe(false)
+  })
+
+  it('rejects saves with the wrong shape', () => {
+    const s = JSON.parse(serialize(newTestGame()))
+    delete s.firms.player.pools
+    expect(() => deserialize(JSON.stringify(s))).toThrow('save.incompatible')
+  })
+
+  it('purges saves this version cannot read, but keeps ones from newer builds', () => {
+    const storage = new MemoryStorage()
+    const good = newTestGame()
+    saveToSlot(storage, 'auto', good)
+    saveToSlot(storage, '1', good)
+    saveToSlot(storage, '2', good)
+    const broken = JSON.parse(serialize(good))
+    delete broken.firms.player.stars
+    storage.setItem('kt.save.1', JSON.stringify(broken))
+    storage.setItem('kt.save.2', JSON.stringify({ ...good, saveVersion: 999 }))
+    // Metadata without a save behind it.
+    storage.setItem('kt.meta.3', JSON.stringify({ slot: '3', firmName: 'Borte AS', quarter: 4, savedAt: '', cash: 0, status: 'playing' }))
+
+    expect(readSlot(storage, '1')).toEqual({ error: 'incompatible' })
+    expect(readSlot(storage, '2')).toEqual({ error: 'tooNew' })
+    expect(purgeIncompatibleSaves(storage)).toEqual(['1'])
+    expect(listSlots(storage).map((m) => m.slot)).toEqual(['auto', '2'])
+    expect(loadFromSlot(storage, 'auto')).toEqual(good)
+    expect(storage.getItem('kt.save.2')).not.toBeNull()
   })
 })

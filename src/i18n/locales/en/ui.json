@@ -31,6 +31,9 @@
     "load": "Load game",
     "settings": "Settings",
     "devNotice": "This game isn't even in beta yet – it's in active development. Saved games may be wiped at any time.",
+    "savesDropped_one": "A saved game was deleted because the game logic has changed since it was saved. Sorry, you'll have to start a new game.",
+    "savesDropped_other": "{{count}} saved games were deleted because the game logic has changed since they were saved. Sorry, you'll have to start a new game.",
+    "savesDroppedOk": "Got it",
     "disclaimer": "Any resemblance to real companies is purely coincidental (and meant with love).",
     "about": "About"
   },

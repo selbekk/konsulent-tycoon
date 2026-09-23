@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { applyAction, createNewGame, firmLevel, endTurn as engineEndTurn, loadFromSlot, saveToSlot } from '../engine'
+import { applyAction, createNewGame, deleteSlot, firmLevel, endTurn as engineEndTurn, purgeIncompatibleSaves, readSlot, saveToSlot } from '../engine'
 import type { Action, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
 
 export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'about' | 'game'
@@ -58,6 +58,8 @@ interface Store {
   /** The intro guide, shown once when a new game starts. UI state only, never saved. */
   onboarding: boolean
   settings: Settings
+  /** Saves deleted because this version of the game can't read them; the main menu explains. */
+  droppedSaves: SlotId[]
 
   go: (screen: Screen) => void
   setTab: (tab: Tab) => void
@@ -72,6 +74,7 @@ interface Store {
   dismissReport: () => void
   dismissLevelUp: () => void
   dismissOnboarding: () => void
+  dismissDroppedSaves: () => void
   openBid: (tenderId: string | null) => void
   openMinigame: (m: { tenderId: string; kind: MinigameKind } | null) => void
   setSettings: (s: Partial<Settings>) => void
@@ -89,6 +92,10 @@ export const useGame = create<Store>((set, get) => ({
   levelUp: null,
   onboarding: false,
   settings: typeof window === 'undefined' ? defaultSettings : loadSettings(),
+  droppedSaves: (() => {
+    const storage = safeStorage()
+    return storage ? purgeIncompatibleSaves(storage) : []
+  })(),
 
   go: (screen) => set({ screen, previousScreen: get().screen }),
   setTab: (tab) => set({ tab }),
@@ -135,9 +142,16 @@ export const useGame = create<Store>((set, get) => ({
 
   load: (slot) => {
     const storage = safeStorage()
-    const game = storage ? loadFromSlot(storage, slot) : null
-    if (!game) return false
-    get().loadState(game)
+    if (!storage) return false
+    const read = readSlot(storage, slot)
+    if ('error' in read) {
+      if (read.error === 'incompatible') {
+        deleteSlot(storage, slot)
+        set({ droppedSaves: [slot] })
+      }
+      return false
+    }
+    get().loadState(read.state)
     return true
   },
 
@@ -149,6 +163,7 @@ export const useGame = create<Store>((set, get) => ({
   dismissReport: () => set({ report: null }),
   dismissLevelUp: () => set({ levelUp: null }),
   dismissOnboarding: () => set({ onboarding: false }),
+  dismissDroppedSaves: () => set({ droppedSaves: [] }),
   openBid: (bidTenderId) => set({ bidTenderId, error: null }),
   openMinigame: (minigame) => set({ minigame }),
 

@@ -31,6 +31,9 @@
     "load": "Last inn",
     "settings": "Innstillinger",
     "devNotice": "Dette spillet er ikke engang i beta – det er i aktiv utvikling. Lagrede spill kan bli slettet når som helst.",
+    "savesDropped_one": "Et lagret spill ble slettet fordi spillogikken har endret seg siden det ble lagret. Du må dessverre starte et nytt spill.",
+    "savesDropped_other": "{{count}} lagrede spill ble slettet fordi spillogikken har endret seg siden de ble lagret. Du må dessverre starte et nytt spill.",
+    "savesDroppedOk": "Skjønner",
     "disclaimer": "Alle likheter med virkelige selskaper er helt tilfeldige (og kjærlig ment).",
     "about": "Om spillet"
   },

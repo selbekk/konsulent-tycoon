@@ -295,6 +295,7 @@ Praktisk:
   3. Skriv en test for migrasjonen i `save.test.ts`.
 
   Før første lansering holder vi `SAVE_VERSION = 1`. Nye felt gjøres valgfrie med en fornuftig standardverdi (se `baseDemand`).
+- Etter eventuelle migrasjoner sjekker `saveShape.ts` at alle påkrevde felt finnes. Lister over påkrevde nøkler håndheves av typesjekken, så et nytt påkrevd felt må også legges inn der. Ved oppstart sletter `purgeIncompatibleSaves` lagringer som ikke kan leses (feil form, ødelagt JSON eller manglende migrasjon), og hovedmenyen sier fra om at spillet må startes på nytt. Lagringer fra en *nyere* versjon (`save.tooNew`, for eksempel fra en gammel service worker) blir aldri slettet.
 
 ## PWA (installerbar app)
 

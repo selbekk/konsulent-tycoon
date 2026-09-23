@@ -38,10 +38,27 @@ function Skyline() {
   )
 }
 
+/** Shown after saves this version of the game can't read were deleted. */
+function DroppedSavesNotice() {
+  const { t } = useTranslation()
+  const dropped = useGame((x) => x.droppedSaves)
+  const dismiss = useGame((x) => x.dismissDroppedSaves)
+  if (dropped.length === 0) return null
+  return (
+    <div className={`${m.notice} ${m.dropped}`} role="alert">
+      <p>{t('menu.savesDropped', { count: dropped.length })}</p>
+      <Button size="small" onClick={dismiss}>
+        {t('menu.savesDroppedOk')}
+      </Button>
+    </div>
+  )
+}
+
 export function MainMenu() {
   const { t } = useTranslation()
   const go = useGame((x) => x.go)
   const load = useGame((x) => x.load)
+  useGame((x) => x.droppedSaves)
   const canInstall = useCanInstall()
   const showIosHint = !canInstall && isIosSafari() && !isStandalone()
   const hasAuto = (() => {
@@ -61,6 +78,7 @@ export function MainMenu() {
         </h1>
         <p className={m.tagline}>{t('menu.tagline')}</p>
         <Skyline />
+        <DroppedSavesNotice />
         <p className={m.press}>{t('menu.press')}</p>
         <div className={m.buttons}>
           <Button variant="primary" size="big" onClick={() => go('newGame')}>
@@ -193,6 +211,7 @@ export function LoadScreen() {
       <div className={m.menu}>
         <Panel title={t('load.title')} icon="disk">
           <div className={s.stack}>
+            <DroppedSavesNotice />
             {slots.length === 0 && <p className={s.empty}>{t('load.none')}</p>}
             {slots.map((meta) => (
               <div key={meta.slot} className={`${s.card} ${s.row} ${s.between}`}>
@@ -205,7 +224,11 @@ export function LoadScreen() {
                   </span>
                 </span>
                 <span className={s.row}>
-                  <Button variant="primary" size="small" onClick={() => setFailed(!load(meta.slot as SlotId))}>
+                  <Button variant="primary" size="small" onClick={() => {
+                      const ok = load(meta.slot as SlotId)
+                      setFailed(!ok && useGame.getState().droppedSaves.length === 0)
+                      setVersion((v) => v + 1)
+                    }}>
                     {t('load.load')}
                   </Button>
                   <Button
