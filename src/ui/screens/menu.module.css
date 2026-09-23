@@ -1,0 +1,75 @@
+.wrap {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px var(--gutter);
+}
+
+.menu {
+  width: min(560px, 100%);
+  display: grid;
+  gap: 20px;
+}
+
+.logo {
+  text-align: center;
+  font-family: var(--font-title);
+  line-height: 1.25;
+  color: var(--accent);
+  text-shadow: 4px 4px 0 var(--border-dark), 8px 8px 0 var(--accent-2);
+  font-size: clamp(1.4rem, 7vw, 2.6rem);
+  margin: 0;
+}
+
+.tagline {
+  text-align: center;
+  margin: -6px 0 0;
+  color: var(--muted);
+}
+
+.press {
+  text-align: center;
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  color: var(--warn);
+  animation: blink 1.2s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.buttons {
+  display: grid;
+  gap: 10px;
+}
+
+.buttons > button {
+  width: 100%;
+}
+
+.skyline {
+  display: block;
+  width: 100%;
+  height: 72px;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.suggestion {
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  background: var(--bg-2);
+  border: 2px solid var(--border-dark);
+  cursor: pointer;
+}

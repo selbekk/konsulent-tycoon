@@ -111,6 +111,17 @@ Stemningen er inspirert av Theme Hospital og RollerCoaster Tycoon, men dempet. T
 
 ## 1. Spillmodell (referanse for alle oppgaver)
 
+> **Endringer etter første balanserunde (2026-09-23).** Disse gjelder foran tallene lenger ned, og `src/engine/constants.ts` er fasit.
+> - **Kassekreditt:** Du kan gå i minus ned til `max(2 MNOK, 12,5 % av årsomsetningen)`, med 3 % rente per kvartal. Konkurs inntreffer først etter 2 kvartaler under grensen.
+> - **Kapasitetsstraff:** Straffen avhenger av hvor mange **ledige** folk du har når oppdraget starter. Opptil halvparten av setene kan komme fra underleverandører uten straff. Deretter øker straffen lineært til −30 kvalitet.
+> - **Prioritetsbonus:** Kunden gir +8 poeng (eller +4) når oppdraget utgjør ≥ 25 % (eller ≥ 10 %) av firmaets størrelse. Dermed har små firma en sjanse på små anbud.
+> - **Frilansere:** De faktureres på nivå 3 og koster 1,05 × det, så de gir et lite tap i stedet for et stort.
+> - **Startprosjektet:** 4 seter i 6 kvartaler (grunnleggerne pluss to), slik at to personer er ledige til første anbud.
+> - **Anbudsvolum:** Målet er at etterspørselen tilsvarer 92 % av markedskapasiteten. Størrelsene følger en fast fordeling, antallet styres av gapet, og fagområdene vektes etter hvilke folk markedet har.
+> - **Timer og overhead:** 420 fakturerbare timer per kvartal og 30 000 kr i overhead per hode.
+> - **Kjent problem (M9):** Over 40 kvartaler går mange AI-firma konkurs (markedsdødsspiral), og verdiene svinger mye. Det må balanseres før lansering.
+
+
 ### 1.1 Økonomi (per kvartal)
 - **Fakturerbare timer per konsulent:** 400
 - **Listepris per time:** `900 + 200 × nivå` NOK (nivå 3 gir 1 500)

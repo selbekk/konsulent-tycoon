@@ -1,0 +1,293 @@
+{
+  "errors": {
+    "invalid": "Det gikk ikke.",
+    "notEnoughCash": "Ikke nok penger på konto.",
+    "invalidTarget": "Ugyldig mål.",
+    "invalidTender": "Anbudet er ikke åpent lenger.",
+    "noBid": "Du må levere et bud først.",
+    "invalidContract": "Fant ikke kontrakten.",
+    "invalidStar": "Den konsulenten er ikke tilgjengelig.",
+    "alreadyDone": "Det har du allerede gjort.",
+    "gameOver": "Spillet er over.",
+    "starPromised": "Den konsulenten er allerede lovet bort i et annet bud.",
+    "minigameAlreadyPlayed": "Du har allerede hatt møtet for dette anbudet."
+  },
+  "news": {
+    "game": {
+      "welcome": "{{firm}} er stiftet! Org.nr. er bestilt, kaffemaskinen er leaset og LinkedIn-posten har 14 likes."
+    },
+    "staff": {
+      "leftMany": "{{count}} ansatte sluttet dette kvartalet. Avskjedskaken var tørr.",
+      "arrived": "{{count}} nye konsulenter har møtt opp med ny laptop og store forventninger.",
+      "starLeft": "{{name}} har sluttet i {{firm}}."
+    },
+    "tender": {
+      "noBids": "Ingen leverte bud på anbudet fra {{customer}}. Innkjøpsavdelingen tar en lang lunsj.",
+      "playerWon": "Dere vant anbudet hos {{customer}}! {{bidders}} leverte bud.",
+      "playerWonFramework": "Dere ble rangert som nr. {{rank}} på rammeavtalen hos {{customer}}.",
+      "playerLost": "Dere tapte anbudet hos {{customer}}. {{firm}} stakk av med det.",
+      "awarded": "{{firm}} vant anbudet hos {{customer}} i konkurranse med {{bidders}} andre.",
+      "frameworkAwarded": "{{firm}} topper rammeavtalen hos {{customer}}. {{bidders}} firma kjempet om plassene."
+    },
+    "contract": {
+      "terminatedUnhappy": "{{customer}} har sagt opp avtalen med {{firm}}. «Vi går i en annen retning.»",
+      "ended": "Oppdraget hos {{customer}} er avsluttet. Kundetilfredshet: {{satisfaction}} av 100."
+    },
+    "shady": {
+      "poachSuccess": "{{name}} har byttet fra {{from}} til {{to}}. Det skjedde visstnok over en IPA.",
+      "poachFailed": "Afterworken med folk fra {{from}} ga bare en stor regning.",
+      "rumorVictim": "Det går rykter om dere i bransjen. Ingen vet hvem som startet dem.",
+      "dnLeak": "DN avslører: «Slik jobber de egentlig i {{firm}}». Saken ligger bak betalingsmur, men alle har lest den."
+    },
+    "scandal": {
+      "spy_bids": "{{firm}} tatt i å snoke i konkurrentenes anbud. Bot: {{fine}}.",
+      "spy_salaries": "{{firm}} har samlet inn lønnsslipper fra {{target}}. Ingen synes det var koselig.",
+      "plant_mole": "Muldvarp avslørt! {{firm}} hadde en «trainee» hos {{target}} i fire måneder. Bot: {{fine}}.",
+      "afterwork_poach": "Afterworken til {{firm}} ble for tydelig. {{target}} er ikke imponert.",
+      "silent_outsource": "{{customer}} oppdaget at teamet til {{firm}} satt i en annen tidssone. Avtalen er sagt opp. Bot: {{fine}}.",
+      "cv_pad": "«Ekspert på Kubernetes siden 2009»? {{customer}} har sjekket CV-ene til {{firm}}. Avtalen er tapt.",
+      "ghost_cv": "{{firm}} tilbød konsulenter som ikke finnes. {{customer}} fant det ut. Bot: {{fine}}.",
+      "bait_and_switch": "{{customer}} fikk juniorer i stedet for de lovede seniorene fra {{firm}}. Relasjonen er iskald.",
+      "rumor": "Det viste seg at ryktene om {{target}} kom fra {{firm}}. Pinlig.",
+      "dn_leak": "Lekkasjen om {{target}} er sporet tilbake til {{firm}}. Bot: {{fine}}.",
+      "linkedin_post": "LinkedIn-posten til {{firm}} om {{target}} ble delt av mange av feil grunner."
+    },
+    "award": {
+      "best_fagmiljo": "Årets fagmiljø {{year}}: {{firm}}!",
+      "coffee_machine": "Bransjens beste kaffemaskin {{year}}: {{firm}}.",
+      "tender_champion": "Årets anbudsvinner {{year}}: {{firm}}.",
+      "rocket_growth": "Årets vekstrakett {{year}}: {{firm}}.",
+      "creative_timesheets": "Mest kreative timeføring {{year}}: {{firm}}. Juryen var imponert og litt bekymret.",
+      "glassdoor_disaster": "Årets Glassdoor-katastrofe {{year}}: {{firm}}."
+    },
+    "trend": {
+      "started": "Ny trend i markedet: {{trend}}.",
+      "ended": "Trenden «{{trend}}» er over. Alle later som de aldri var med."
+    },
+    "firm": {
+      "acquired": "{{firm}} har kjøpt opp et lite {{discipline}}-byrå. Visittkortene er allerede trykket på nytt.",
+      "bankrupt": "{{firm}} har gått konkurs. Fussballbordet selges på Finn.",
+      "playerBankrupt": "{{firm}} har gått konkurs. Bobestyreren har overtatt fussballbordet.",
+      "bankWarning": "Banken ringte. De var høflige, men tonen var ikke lenger like hjertelig."
+    }
+  },
+  "announcements": {
+    "mug_meeting_room": "Vil {{name}} vennligst hente koppen sin på møterom Fjordgløtt.",
+    "friday_beer_alcohol_free": "Minner om at fredagspilsen i dag er alkoholfri. Ingen vet hvorfor.",
+    "fridge_cleanup": "Kjøleskapet tømmes fredag kl. 15. Dette gjelder også yoghurten fra i fjor.",
+    "printer_on_fire": "Printeren i 3. etasje er ikke i brann. Den bare lukter sånn.",
+    "wifi_password": "Nytt Wi-Fi-passord: Passord123. IT ber oss slutte å spørre.",
+    "standup_standing": "Minner om at stand-up betyr at man står. Det er i navnet.",
+    "cake_in_kitchen": "Det er kake på kjøkkenet. Ingen vet hvem som har bursdag. Spis likevel.",
+    "timesheet_reminder": "Timelistene må føres innen fredag. Ja, også de fra forrige måned.",
+    "lost_macbook_charger": "Er det noen som har sett en USB-C-lader? Den er hvit. Alle er hvite.",
+    "fire_drill": "Brannøvelse kl. 14. Vennligst ikke ta med laptopen og fortsett å kode i trappa.",
+    "parking_spot": "{{name}} har parkert på plassen til daglig leder. Igjen.",
+    "jira_down": "Jira er nede. Produktiviteten har økt med 40 prosent.",
+    "someone_microwaved_fish": "Den som varmet fisk i mikroen: vi vet hvem du er.",
+    "meeting_room_hostage": "Møterom Havblikk er booket av et møte som aldri tar slutt. Send kaffe.",
+    "sprint_retro_cake": "Retro-kaken er spist før retroen startet. Det tas opp på retroen.",
+    "dress_code": "Påminnelse: Hettegenser er ikke kundemøteantrekk. Med mindre kunden har hettegenser.",
+    "intern_lost": "Har noen sett traineen? Han gikk for å hente kaffe på tirsdag.",
+    "ceo_birthday": "Daglig leder har bursdag. Kortet ligger i resepsjonen. Skriv noe hyggelig.",
+    "coffee_beans_out": "Kaffebønnene er tomme. Budsjettet til nye kommer neste kvartal.",
+    "fagdag_room": "Fagdagen fortsetter i kantina. Ta med egen stol og sterke meninger om TypeScript.",
+    "kombucha_on_tap": "Kombuchaen på tappekranen er fylt opp. Ikke spør hvem som bestilte den.",
+    "bench_reminder": "Påminnelse: Er du på benken, oppdater CV-en din. Og kanskje en til gang.",
+    "overtime_pizza": "Pizza til alle som jobber sent i kveld. Altså alle.",
+    "compliance_tor": "Tor fra compliance ønsker en prat med alle. Én og én. Med døra lukket.",
+    "shredder_busy": "Makuleringsmaskinen er opptatt til kl. 17. Vennligst ikke spør.",
+    "journalists_in_lobby": "Det står noen fra DN i resepsjonen. Si at vi er på teambuilding.",
+    "morale_survey": "Trivselsundersøkelsen er ute. Den er helt anonym. Helt.",
+    "pingpong_final": "Pingpongfinalen spilles kl. 16. Innsatsen er æren og en gavekort-hotdog.",
+    "new_office_plants": "Kontoret har fått nye planter. De er ekte. Vi har sjekket.",
+    "elevator_pitch": "Heisen er full av konsulenter som øver på elevator pitch. Ta trappa.",
+    "small_office": "Påminnelse: Kontorplassen er liten. Vennligst ikke ha videomøte på do.",
+    "cash_low": "Økonomiavdelingen ber alle vurdere om de virkelig trenger nye Post-it-lapper."
+  },
+  "thoughts": {
+    "overworked": "Jeg har ikke sett familien min siden forrige sprint.",
+    "bench_bored": "Jeg har ikke fakturert på tre uker og har begynt å male kontoret.",
+    "good_flow": "Endelig et prosjekt der ting faktisk skjer.",
+    "embarrassed": "Jeg sier ikke hvor jeg jobber på fest lenger.",
+    "suspicious": "Hvorfor har vi plutselig en «ekstern ressurs» i Manila som svarer på mailene mine?",
+    "star_restless": "{{name}} har oppdatert LinkedIn-profilen tre ganger denne uka.",
+    "underpaid": "Jeg tror jeg er underbetalt. Nei, jeg vet det.",
+    "good_pay": "Lønna er faktisk ganske grei her.",
+    "no_learning": "Jeg har ikke lært noe nytt siden jQuery.",
+    "fagdag_good": "Fagdagen var faktisk bra. Jeg forsto nesten alt.",
+    "lonely": "Det er stille på kontoret. Veldig stille.",
+    "great_colleagues": "Jeg liker kollegaene mine. Er det lov å si?",
+    "rival_sushi": "Hørte at {{firm}} har sushi-fredag…",
+    "who_are_freelancers": "Hvem er alle disse folka som ikke har tilgangskort?",
+    "startup_vibes": "Det føles litt som et startup. På en god måte, stort sett.",
+    "all_quiet": "Alt er som det skal. Mistenkelig."
+  },
+  "events": {
+    "ebike_scheme": {
+      "title": "Sykkelordning",
+      "body": "En gruppe ansatte har laget en presentasjon på 34 slides om hvorfor dere trenger en el-sykkelordning.",
+      "choices": { "yes": "Kjør på! (150 000 kr)", "no": "Vi har buss." }
+    },
+    "friday_1655": {
+      "title": "Fredag 16:55",
+      "body": "{{customer}} ringer. Prod er nede. Alle er på vei hjem.",
+      "choices": { "hero": "Send den flinkeste. Nå.", "ignore": "Vi ser på det mandag." }
+    },
+    "genai_pivot": {
+      "title": "Styret vil ha AI",
+      "body": "Styret har lest en artikkel og vil at dere skal «gjøre noe med AI». Det de sikter til, er uklart.",
+      "choices": { "rebrand": "Rebrand til AI-first (100 000 kr)", "refuse": "Vi gjør det vi kan." }
+    },
+    "kickoff": {
+      "title": "Årets kick-off",
+      "body": "Det er tid for kick-off. Sosialkomiteen har sterke meninger.",
+      "choices": { "lisbon": "Lisboa! (15 000 kr per hode)", "lillestrom": "Scandic Lillestrøm (3 000 kr per hode)", "skip": "Vi har kick-off på Teams." }
+    },
+    "competitor_cake": {
+      "title": "Kakekrig",
+      "body": "{{firm}} sendte en kake med logoen sin til en av kundene deres. Den var visst god.",
+      "choices": { "bigger_cake": "Send en større kake (25 000 kr)", "ignore": "Vi konkurrerer ikke på kake." }
+    },
+    "leaked_salary_sheet": {
+      "title": "Lønnslekkasje",
+      "body": "Lønnsarket havnet i feil Teams-kanal. 47 personer har sett det. Tre har tatt skjermbilde.",
+      "choices": { "raise_all": "Løft alle litt (+3 % lønn)", "deny": "Det var et testark." }
+    },
+    "kofa_complaint": {
+      "title": "KOFA-klage",
+      "body": "{{firm}} har klaget tildelingen deres inn for KOFA. De mener dere var «urealistisk billige».",
+      "choices": { "lawyer": "Hyr advokat (200 000 kr)", "shrug": "Vi står for prisen." }
+    },
+    "hackathon": {
+      "title": "Hackathon?",
+      "body": "Noen foreslår et internt hackathon. Det blir pizza og minst én idé som aldri blir noe av.",
+      "choices": { "host": "Selvfølgelig! (80 000 kr)", "skip": "Vi hacker på fakturerbar tid." }
+    },
+    "conference_talk": {
+      "title": "Konferanse",
+      "body": "En av stjernene deres er invitert til å holde foredrag på en fagkonferanse.",
+      "choices": { "send": "Send dem (40 000 kr)", "skip": "Fakturering først." }
+    },
+    "burnout_wave": {
+      "title": "Utbrenthet",
+      "body": "Folk jobber for mye. Noen har begynt å sove under pulten, og det er ikke fordi den er komfortabel.",
+      "choices": { "relief": "Leie inn hjelp og gi fri (300 000 kr)", "push": "Det er bare en travel periode." }
+    },
+    "star_wants_remote": {
+      "title": "Hjemmekontor",
+      "body": "{{name}} vil jobbe fra en hytte i Lofoten. På heltid.",
+      "choices": { "grant": "Greit, men vi vil se nordlys på Teams.", "deny": "Vi tror på kontoret." }
+    },
+    "acquisition_offer": {
+      "title": "Oppkjøp",
+      "body": "Et lite byrå med 8 flinke folk vil selges. Eieren vil bare seile.",
+      "choices": { "acquire": "Kjøp! (4 MNOK)", "decline": "Vi vokser organisk." }
+    },
+    "influencer_post_viral": {
+      "title": "Viralt!",
+      "body": "En av dere skrev et innlegg om «Hva barnehagen lærte meg om smidig». Det gikk viralt.",
+      "choices": { "nice": "Vi tar det." }
+    },
+    "office_ping_pong": {
+      "title": "Pingpongbord",
+      "body": "Noen har lagt en lapp i forslagskassa: «Pingpongbord?» Det er den tredje lappen.",
+      "choices": { "buy": "Kjøp et (30 000 kr)", "no": "Vi har et møterom." }
+    },
+    "javazone_booth": {
+      "title": "JavaZone",
+      "body": "Det er stand-påmelding til JavaZone. Alle de andre skal ha stand.",
+      "choices": { "booth": "Stor stand med kaffebar (250 000 kr)", "skip": "Vi går som besøkende." }
+    },
+    "tax_audit": {
+      "title": "Bokettersyn",
+      "body": "Skatteetaten vil ha en prat om noen poster i regnskapet. De er veldig høflige.",
+      "choices": { "cooperate": "Samarbeid fullt ut (300 000 kr)", "stall": "Vi finner fram papirene … snart." }
+    },
+    "glassdoor_review": {
+      "title": "Glassdoor",
+      "body": "En tidligere ansatt har gitt dere én stjerne på Glassdoor. Anmeldelsen er lang og veldig presis.",
+      "choices": { "respond": "Svar ydmykt og ærlig", "ignore": "Ingen leser Glassdoor." }
+    },
+    "client_wants_chatbot": {
+      "title": "Chatbot",
+      "body": "{{customer}} vil ha en chatbot. De vet ikke hva den skal gjøre, men den må komme før sommeren.",
+      "choices": { "yes": "Selvsagt!", "no": "Kanskje vi skal starte med problemet?" }
+    },
+    "pizza_budget_cut": {
+      "title": "Pizzabudsjettet",
+      "body": "Økonomi foreslår å kutte pizzabudsjettet. Det er et tall ingen skal ha visst om.",
+      "choices": { "cut": "Kutt (+20 000 kr)", "keep": "Pizza er kultur." }
+    },
+    "christmas_party": {
+      "title": "Julebord",
+      "body": "Det er tid for julebord. Forventningene er høye etter i fjor.",
+      "choices": { "fancy": "Hotell med tre retter (6 000 kr per hode)", "potluck": "Knyttkalas på kontoret", "cancel": "Vi dropper det i år." }
+    },
+    "intern_program": {
+      "title": "Sommerstudenter",
+      "body": "Universitetet spør om dere vil ta inn sommerstudenter. De er ivrige og vet litt om alt.",
+      "choices": { "start": "Ta inn tre (150 000 kr)", "skip": "Ikke i år." }
+    },
+    "open_source_fame": {
+      "title": "Open source",
+      "body": "Et lite bibliotek dere har laget, har fått 10 000 stjerner på GitHub.",
+      "choices": { "nice": "Vi visste det hele tiden." }
+    },
+    "cloud_credit_windfall": {
+      "title": "Skykreditter",
+      "body": "En skyleverandør har gitt dere en haug kreditter. Noen trengte visst å nå målet sitt.",
+      "choices": { "nice": "Takk! (+200 000 kr)" }
+    },
+    "unionization": {
+      "title": "Fagforening",
+      "body": "De ansatte vil organisere seg. De har laget et Miro-brett.",
+      "choices": { "negotiate": "Forhandle (+5 % lønn)", "resist": "Vi er én stor familie." }
+    },
+    "fagdag_vs_billable": {
+      "title": "Fagdag eller faktura?",
+      "body": "Fagdagen kolliderer med en kunde som vil ha folk fredag. Hva prioriterer dere?",
+      "choices": { "fagdag": "Fagdag! (10 000 kr per hode)", "bill": "Fakturer (+8 000 kr per hode)" }
+    },
+    "ceo_podcast": {
+      "title": "Podcast",
+      "body": "Daglig leder er invitert til en podcast om ledelse. Det blir 90 minutter.",
+      "choices": { "record": "Ja! (10 000 kr i mikrofon)", "skip": "Vi sier nei takk." }
+    },
+    "rebranding_agency": {
+      "title": "Ny profil",
+      "body": "Et byrå vil gi dere en ny visuell profil. Det innebærer en ny font og veldig mye oransje.",
+      "choices": { "rebrand": "Kjør på! (500 000 kr)", "no": "Logoen vår er fin." }
+    },
+    "wrong_reply_all": {
+      "title": "Svar alle",
+      "body": "Noen svarte alle på en e-post til kunden. Med en kommentar som ikke var ment for kunden.",
+      "choices": { "apologize": "Be om unnskyldning", "blame_it": "Skyld på IT." }
+    },
+    "coffee_machine_broke": {
+      "title": "Kaffekrise",
+      "body": "Kaffemaskinen er ødelagt. Produktiviteten har falt, og humøret enda mer.",
+      "choices": { "premium": "Ny italiensk maskin (60 000 kr)", "cheap": "Pulverkaffe får duge." }
+    },
+    "headhunter_calls": {
+      "title": "Hodejeger",
+      "body": "En hodejeger har ringt {{name}} tre ganger denne uka.",
+      "choices": { "counter": "Gi et mottilbud (+5 % lønn)", "ignore": "Hen blir." }
+    },
+    "remote_debate": {
+      "title": "Kontordebatt",
+      "body": "Det er full debatt om hjemmekontor i #general. Tråden har 312 svar.",
+      "choices": { "office": "Tre dager på kontoret", "hybrid": "Folk bestemmer selv" }
+    },
+    "security_incident": {
+      "title": "Sikkerhetshull",
+      "body": "Noen har lagt en API-nøkkel i et offentlig repo. Den har vært der i fire måneder.",
+      "choices": { "pay": "Rydd opp skikkelig (400 000 kr)", "downplay": "Den var nesten ikke brukt." }
+    },
+    "poach_attempt": {
+      "title": "Afterwork-alarm",
+      "body": "{{firm}} har tatt med {{name}} på afterwork. Det ble visst sent, og det var snakk om lønn.",
+      "choices": { "match": "Match tilbudet (+10 % lønn og en halv kvartalslønn)", "let_go": "La hen gå", "podcast": "Gråt i en CEO-podcast" }
+    }
+  }
+}

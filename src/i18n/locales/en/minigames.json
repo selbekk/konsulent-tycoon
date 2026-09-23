@@ -1,0 +1,157 @@
+{
+  "buzzwords": {
+    "agile": "agile",
+    "scalable": "scalable",
+    "userJourney": "user journey",
+    "genai": "GenAI",
+    "platformTeam": "platform team",
+    "devsecops": "DevSecOps",
+    "dataDriven": "data-driven",
+    "sustainability": "sustainability",
+    "cloudNative": "cloud-native",
+    "microservices": "microservices",
+    "zeroTrust": "zero trust",
+    "lowCode": "low-code",
+    "productTeam": "product team",
+    "continuousDelivery": "continuous delivery",
+    "digitalTwin": "digital twin",
+    "dataMesh": "data mesh",
+    "mvp": "MVP",
+    "crossFunctional": "cross-functional",
+    "valueStream": "value stream",
+    "observability": "observability",
+    "serverless": "serverless",
+    "userCentric": "user-centric",
+    "selfService": "self-service",
+    "innovation": "innovation",
+    "synergy": "synergy",
+    "blockchain": "blockchain",
+    "holistic": "holistic",
+    "endToEnd": "end-to-end"
+  },
+  "bingo": {
+    "title": "Buzzword bingo",
+    "intro": "Read the announcement from {{customer}}. Then click the words the client actually used. You have {{seconds}} seconds.",
+    "announcementTitle": "Announcement",
+    "fragments": [
+      "We're looking for a supplier who thinks {{w}} in everything they do.",
+      "The solution must be {{w}} from day one.",
+      "We believe in {{w}} as a way of working.",
+      "The supplier must have documented experience with {{w}}.",
+      "Our ambition is to lead the Nordics in {{w}}.",
+      "All work must be infused with {{w}}."
+    ],
+    "start": "I'm ready",
+    "timeLeft": "{{seconds}} s left",
+    "done": "Submit",
+    "result": "You scored {{score}} out of 100.",
+    "resultGood": "The head of procurement nodded approvingly.",
+    "resultBad": "The head of procurement wrote something in the margin. It didn't look good."
+  },
+  "meeting": {
+    "title": "Pitch meeting",
+    "intro": "Three people from {{customer}} are waiting with coffee and a checklist. Answer three questions.",
+    "start": "Enter the meeting room",
+    "question": "Question {{n}} of 3",
+    "next": "Next",
+    "finish": "Thanks for having us",
+    "result": "The meeting scored {{score}} out of 100.",
+    "reactions": {
+      "love": "The panel nods eagerly. Someone writes \"good!\" in the margin.",
+      "ok": "The panel takes polite notes.",
+      "hate": "The head of procurement makes a note. It doesn't look positive."
+    },
+    "questions": {
+      "continuity": {
+        "q": "How do you ensure continuity in the team?",
+        "a": {
+          "concrete": "Every role has overlap and we have a documented handover routine.",
+          "visionary": "We build a team that lives on long after we're gone.",
+          "humble": "We know it's a risk, and we're open about how we handle it.",
+          "buzzword": "Through a holistic, cross-functional competence strategy."
+        }
+      },
+      "public_sector": {
+        "q": "What public sector experience do you have?",
+        "a": {
+          "concrete": "We've delivered three similar solutions in the last two years. Here are the references.",
+          "visionary": "We want to help shape the public services of the future.",
+          "humble": "Less than some competitors, but we learn fast and listen well.",
+          "buzzword": "We have a clear digital transformation strategy for the public sector."
+        }
+      },
+      "start_monday": {
+        "q": "Can you start on Monday?",
+        "a": {
+          "concrete": "Yes, two people on Monday and the rest within two weeks.",
+          "visionary": "We've already started – in our heads.",
+          "humble": "We'll do our best, but we won't promise more than we can keep.",
+          "buzzword": "We have an agile onboarding value stream that scales."
+        }
+      },
+      "changes": {
+        "q": "What do you do when requirements change along the way?",
+        "a": {
+          "concrete": "We bring it into the next sprint planning and show the budget impact.",
+          "visionary": "Change is the whole point. That's where real innovation happens.",
+          "humble": "We talk to you about it early, before it becomes a problem.",
+          "buzzword": "We're change-driven, continuous and end-to-end oriented."
+        }
+      },
+      "why_you": {
+        "q": "Why should we choose you?",
+        "a": {
+          "concrete": "Because we've done exactly this before, and we're cheaper than you think.",
+          "visionary": "Because we see what you don't see yet.",
+          "humble": "That's for you to judge, but we think we're a good fit.",
+          "buzzword": "Because we deliver synergy across the whole value chain."
+        }
+      },
+      "price": {
+        "q": "Your hourly rate is high. Why?",
+        "a": {
+          "concrete": "We use fewer hours. Here's the maths.",
+          "visionary": "Quality has its price, but also its value.",
+          "humble": "We can look at it. We'd rather have a good partnership than a high price.",
+          "buzzword": "It reflects our value-based delivery model."
+        }
+      },
+      "security": {
+        "q": "How do you approach security?",
+        "a": {
+          "concrete": "Threat modelling every sprint and automated vulnerability scanning in the pipeline.",
+          "visionary": "Security isn't a requirement for us, it's a culture.",
+          "humble": "We're not experts in everything, but we know when to bring in help.",
+          "buzzword": "Zero trust, DevSecOps and full observability."
+        }
+      },
+      "team": {
+        "q": "Who exactly are we getting?",
+        "a": {
+          "concrete": "The same people on the CVs. Here they are.",
+          "visionary": "A team that's passionate about making a difference.",
+          "humble": "People who are skilled and nice. You can meet them first.",
+          "buzzword": "A self-organising, cross-functional product team."
+        }
+      },
+      "legacy": {
+        "q": "What do you think of our old system?",
+        "a": {
+          "concrete": "We've looked at the code. We suggest replacing one module at a time.",
+          "visionary": "It's the foundation for something completely new.",
+          "humble": "It has served you well for 20 years. We should respect that.",
+          "buzzword": "It's ripe for a cloud-native microservices migration."
+        }
+      },
+      "ai": {
+        "q": "What's your AI strategy?",
+        "a": {
+          "concrete": "We use it where it saves time, and we measure the effect.",
+          "visionary": "AI will change everything. We want to lead the way.",
+          "humble": "We're curious, but careful not to over-promise.",
+          "buzzword": "GenAI-driven innovation with a sustainable data strategy."
+        }
+      }
+    }
+  }
+}

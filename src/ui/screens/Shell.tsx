@@ -1,0 +1,188 @@
+import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { averageMorale, creditLimit, headcount } from '../../engine'
+import { TABS, useGame } from '../../store/gameStore'
+import type { Tab } from '../../store/gameStore'
+import { Icon } from '../components/Icon'
+import type { IconName } from '../components/Icon'
+import { Button, Stat } from '../components/ui'
+import { formatMoney, formatQuarter, newsText } from '../format'
+import { BackroomScreen } from './BackroomScreen'
+import { BidForm } from './BidForm'
+import { ContractsScreen } from './ContractsScreen'
+import { CultureScreen } from './CultureScreen'
+import { Dashboard } from './Dashboard'
+import { EndGame } from './EndGame'
+import { EventModal } from './EventModal'
+import { MarketScreen } from './MarketScreen'
+import { MinigameHost } from '../minigames/MinigameHost'
+import { QuarterReport } from './QuarterReport'
+import { SaveDialog } from './SaveDialog'
+import { StaffScreen } from './StaffScreen'
+import { TenderBoard } from './TenderBoard'
+import s from './shell.module.css'
+
+const TAB_ICONS: Record<Tab, IconName> = {
+  dashboard: 'chart',
+  staff: 'people',
+  culture: 'coffee',
+  tenders: 'briefcase',
+  contracts: 'handshake',
+  market: 'trophy',
+  backroom: 'door',
+}
+
+const SCREENS: Record<Tab, () => React.ReactNode> = {
+  dashboard: Dashboard,
+  staff: StaffScreen,
+  culture: CultureScreen,
+  tenders: TenderBoard,
+  contracts: ContractsScreen,
+  market: MarketScreen,
+  backroom: BackroomScreen,
+}
+
+export function Shell() {
+  const { t, i18n } = useTranslation()
+  const game = useGame((x) => x.game)!
+  const tab = useGame((x) => x.tab)
+  const setTab = useGame((x) => x.setTab)
+  const endTurn = useGame((x) => x.endTurn)
+  const report = useGame((x) => x.report)
+  const bidTenderId = useGame((x) => x.bidTenderId)
+  const minigame = useGame((x) => x.minigame)
+  const settings = useGame((x) => x.settings)
+  const go = useGame((x) => x.go)
+  const [saving, setSaving] = useState(false)
+  const [hideAnnouncement, setHideAnnouncement] = useState<number | null>(null)
+  const me = game.firms[game.playerId]
+  const pending = game.pendingEvents.filter((e) => e.firmId === me.id)
+  const modalOpen = report !== null || !!bidTenderId || !!minigame || pending.length > 0 || saving || game.status !== 'playing'
+  const lng = i18n.language
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement
+      if (modalOpen || el.closest('input, textarea, select, [role="dialog"]')) return
+      if (e.key === 'Enter' && el.tagName !== 'BUTTON') endTurn()
+      const n = Number(e.key)
+      if (n >= 1 && n <= TABS.length) setTab(TABS[n - 1])
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [modalOpen, endTurn, setTab])
+
+  const Screen = SCREENS[tab]
+  const hc = headcount(me)
+  const credit = creditLimit(me)
+  const ticker = useMemo(() => {
+    const market = game.news.filter((n) => !n.personal)
+    return (market.length ? market : game.news).slice(-12).reverse()
+  }, [game.news])
+
+  return (
+    <div className={s.shell}>
+      <header className={s.topbar}>
+        <div className={s.brand}>
+          <span className={s.logo}>
+            KONSULENT
+            <br />
+            TYCOON
+          </span>
+          <div>
+            <div className={s.firmName}>{me.name}</div>
+            <div className={s.quarter}>
+              {formatQuarter(game.quarter)} · {t('shell.quarterOf', { n: game.quarter + 1, total: game.maxQuarters })}
+            </div>
+          </div>
+        </div>
+        <div className={s.stats}>
+          <Stat
+            icon="coin"
+            label={me.cash < 0 ? t('shell.cashCredit', { limit: formatMoney(credit, lng) }) : t('shell.cash')}
+            value={formatMoney(me.cash, lng)}
+            tone={me.cash < 0 ? 'bad' : undefined}
+          />
+          <Stat icon="people" label={t('shell.headcount')} value={hc} />
+          <Stat icon="star" label={t('shell.reputation')} value={Math.round(me.reputation)} />
+          <Stat icon="coffee" label={t('shell.morale')} value={Math.round(averageMorale(me))} />
+          {me.heat > 0 && <Stat icon="flame" label={t('shell.heat')} value={Math.round(me.heat)} tone={me.heat > 40 ? 'bad' : undefined} />}
+        </div>
+        <div className={s.topActions}>
+          <Button size="small" icon="disk" onClick={() => setSaving(true)}>
+            {t('shell.save')}
+          </Button>
+          <Button size="small" variant="ghost" icon="gear" onClick={() => go('settings')} aria-label={t('menu.settings')} />
+        </div>
+      </header>
+
+      {settings.announcements && game.announcement && hideAnnouncement !== game.quarter ? (
+        <div className={s.announce} role="status">
+          <Icon name="news" />
+          <span>
+            <strong>{t('shell.announcement')}</strong> {t(`game:${game.announcement.key}`, game.announcement.params)}
+          </span>
+          <button onClick={() => setHideAnnouncement(game.quarter)} aria-label={t('common.close')}>
+            ×
+          </button>
+        </div>
+      ) : (
+        <div />
+      )}
+
+      <nav className={s.nav} aria-label={t('shell.nav')}>
+        {TABS.map((id, i) => (
+          <button
+            key={id}
+            className={s.navItem}
+            aria-current={tab === id ? 'page' : undefined}
+            data-noir={id === 'backroom'}
+            onClick={() => setTab(id)}
+          >
+            <Icon name={TAB_ICONS[id]} size={14} />
+            {t(`tabs.${id}`)}
+            <span className={s.navKey}>{i + 1}</span>
+          </button>
+        ))}
+      </nav>
+
+      <main className={s.main}>
+        <Screen />
+      </main>
+
+      <div className={s.endTurn}>
+        {pending.length > 0 && <span className={s.endTurnHint}>{t('shell.pendingEvents', { count: pending.length })}</span>}
+        <Button variant="primary" size="big" onClick={endTurn} disabled={pending.length > 0 || game.status !== 'playing'}>
+          {t('shell.endTurn')} ▶
+        </Button>
+      </div>
+
+      <div className={s.ticker} aria-label={t('shell.ticker')}>
+        <span className={s.tickerLabel}>{t('shell.news')}</span>
+        {settings.reducedMotion ? (
+          <span className={s.tickerStatic}>{ticker[0] ? newsText(ticker[0], t, lng) : ''}</span>
+        ) : (
+          <div className={s.tickerTrack} key={game.quarter}>
+            {[...ticker, ...ticker].map((n, i) => (
+              <span key={`${n.id}-${i}`} aria-hidden={i >= ticker.length}>
+                {formatQuarter(n.quarter)} · {newsText(n, t, lng)}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {report !== null && <QuarterReport />}
+      {report === null && pending.length > 0 && game.status === 'playing' && <EventModal event={pending[0]} />}
+      {bidTenderId && (
+        // Kept mounted (but hidden) during the minigame so the draft bid survives.
+        <div style={minigame ? { display: 'none' } : undefined}>
+          <BidForm tenderId={bidTenderId} />
+        </div>
+      )}
+      {minigame && <MinigameHost />}
+      {saving && <SaveDialog onClose={() => setSaving(false)} />}
+      {game.status !== 'playing' && report === null && <EndGame />}
+    </div>
+  )
+}

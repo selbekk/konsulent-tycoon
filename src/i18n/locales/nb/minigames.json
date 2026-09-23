@@ -1,0 +1,157 @@
+{
+  "buzzwords": {
+    "agile": "smidig",
+    "scalable": "skalerbar",
+    "userJourney": "brukerreise",
+    "genai": "GenAI",
+    "platformTeam": "plattformteam",
+    "devsecops": "DevSecOps",
+    "dataDriven": "datadrevet",
+    "sustainability": "bærekraft",
+    "cloudNative": "skybasert",
+    "microservices": "mikrotjenester",
+    "zeroTrust": "nulltillit",
+    "lowCode": "lavkode",
+    "productTeam": "produktteam",
+    "continuousDelivery": "kontinuerlige leveranser",
+    "digitalTwin": "digital tvilling",
+    "dataMesh": "data mesh",
+    "mvp": "MVP",
+    "crossFunctional": "tverrfaglig",
+    "valueStream": "verdistrøm",
+    "observability": "observerbarhet",
+    "serverless": "serverløs",
+    "userCentric": "brukersentrert",
+    "selfService": "selvbetjening",
+    "innovation": "innovasjon",
+    "synergy": "synergi",
+    "blockchain": "blokkjede",
+    "holistic": "helhetlig",
+    "endToEnd": "ende-til-ende"
+  },
+  "bingo": {
+    "title": "Buzzword-bingo",
+    "intro": "Les kunngjøringen fra {{customer}}. Klikk så på ordene kunden faktisk brukte. Du har {{seconds}} sekunder.",
+    "announcementTitle": "Kunngjøring",
+    "fragments": [
+      "Vi søker en leverandør som tenker {{w}} i alt de gjør.",
+      "Løsningen skal være {{w}} fra dag én.",
+      "Vi har tro på {{w}} som arbeidsform.",
+      "Leverandøren må ha dokumentert erfaring med {{w}}.",
+      "Vår ambisjon er å bli ledende på {{w}} i Norden.",
+      "Alt arbeid skal gjennomsyres av {{w}}."
+    ],
+    "start": "Jeg er klar",
+    "timeLeft": "{{seconds}} s igjen",
+    "done": "Levér",
+    "result": "Du fikk {{score}} av 100.",
+    "resultGood": "Innkjøpssjefen nikket anerkjennende.",
+    "resultBad": "Innkjøpssjefen skrev noe i margen. Det så ikke bra ut."
+  },
+  "meeting": {
+    "title": "Presentasjonsmøte",
+    "intro": "Tre personer fra {{customer}} sitter klare med kaffe og en sjekkliste. Svar på tre spørsmål.",
+    "start": "Inn i møterommet",
+    "question": "Spørsmål {{n}} av 3",
+    "next": "Neste",
+    "finish": "Takk for møtet",
+    "result": "Møtet fikk {{score}} av 100.",
+    "reactions": {
+      "love": "Panelet nikker ivrig. Noen skriver «bra!» i margen.",
+      "ok": "Panelet noterer høflig.",
+      "hate": "Innkjøpssjefen noterer noe. Det ser ikke positivt ut."
+    },
+    "questions": {
+      "continuity": {
+        "q": "Hvordan sikrer dere kontinuitet i teamet?",
+        "a": {
+          "concrete": "Vi har overlapp på alle roller og en dokumentert overleveringsrutine.",
+          "visionary": "Vi bygger et team som lever videre lenge etter oss.",
+          "humble": "Vi vet at det er en risiko, og vi er åpne om hvordan vi håndterer den.",
+          "buzzword": "Gjennom en helhetlig, tverrfaglig kompetansestrategi."
+        }
+      },
+      "public_sector": {
+        "q": "Hvilken erfaring har dere fra offentlig sektor?",
+        "a": {
+          "concrete": "Vi har levert tre lignende løsninger de siste to årene. Her er referansene.",
+          "visionary": "Vi ønsker å være med å forme framtidens offentlige tjenester.",
+          "humble": "Mindre enn noen av konkurrentene, men vi lærer fort og lytter godt.",
+          "buzzword": "Vi har en tydelig strategi for digital transformasjon i offentlig sektor."
+        }
+      },
+      "start_monday": {
+        "q": "Kan dere starte på mandag?",
+        "a": {
+          "concrete": "Ja, to personer mandag og resten innen to uker.",
+          "visionary": "Vi har allerede startet – i hodet.",
+          "humble": "Vi skal gjøre vårt beste, men vi lover ikke mer enn vi kan holde.",
+          "buzzword": "Vi har en smidig onboarding-verdistrøm som skalerer."
+        }
+      },
+      "changes": {
+        "q": "Hva gjør dere når kravene endrer seg underveis?",
+        "a": {
+          "concrete": "Vi tar det inn i neste sprintplanlegging og viser konsekvensen for budsjettet.",
+          "visionary": "Endring er selve poenget. Da skjer den virkelige innovasjonen.",
+          "humble": "Vi snakker med dere om det tidlig, før det blir et problem.",
+          "buzzword": "Vi er endringsdrevne, kontinuerlige og ende-til-ende-orienterte."
+        }
+      },
+      "why_you": {
+        "q": "Hvorfor skal vi velge akkurat dere?",
+        "a": {
+          "concrete": "Fordi vi har gjort akkurat dette før, og fordi vi er billigere enn dere tror.",
+          "visionary": "Fordi vi ser det dere ikke ser ennå.",
+          "humble": "Det må dere vurdere selv, men vi tror vi passer godt.",
+          "buzzword": "Fordi vi leverer synergi i hele verdikjeden."
+        }
+      },
+      "price": {
+        "q": "Timeprisen deres er høy. Hvorfor?",
+        "a": {
+          "concrete": "Vi bruker færre timer. Her er regnestykket.",
+          "visionary": "Kvalitet har sin pris, men også sin verdi.",
+          "humble": "Vi kan se på det. Vi vil heller ha et godt samarbeid enn en høy pris.",
+          "buzzword": "Det reflekterer vår verdibaserte leveransemodell."
+        }
+      },
+      "security": {
+        "q": "Hvordan jobber dere med sikkerhet?",
+        "a": {
+          "concrete": "Trusselmodellering i hver sprint og automatisk sårbarhetsskanning i pipelinen.",
+          "visionary": "Sikkerhet er ikke et krav for oss, det er en kultur.",
+          "humble": "Vi er ikke eksperter på alt, men vi vet når vi må hente inn hjelp.",
+          "buzzword": "Nulltillit, DevSecOps og full observerbarhet."
+        }
+      },
+      "team": {
+        "q": "Hvem er det egentlig vi får?",
+        "a": {
+          "concrete": "De samme folkene som står på CV-ene. Her er de.",
+          "visionary": "Et team som brenner for å gjøre en forskjell.",
+          "humble": "Folk som er flinke og hyggelige. Dere kan hilse på dem først.",
+          "buzzword": "Et selvorganiserende, tverrfaglig produktteam."
+        }
+      },
+      "legacy": {
+        "q": "Hva tenker dere om det gamle systemet vårt?",
+        "a": {
+          "concrete": "Vi har sett på koden. Vi foreslår å bytte ut én modul av gangen.",
+          "visionary": "Det er fundamentet for noe helt nytt.",
+          "humble": "Det har tjent dere godt i 20 år. Det skal vi respektere.",
+          "buzzword": "Det er modent for en skybasert mikrotjeneste-migrering."
+        }
+      },
+      "ai": {
+        "q": "Hva er deres AI-strategi?",
+        "a": {
+          "concrete": "Vi bruker det der det sparer tid, og vi måler effekten.",
+          "visionary": "AI kommer til å endre alt. Vi vil være i front.",
+          "humble": "Vi er nysgjerrige, men forsiktige med å love for mye.",
+          "buzzword": "GenAI-drevet innovasjon med bærekraftig datastrategi."
+        }
+      }
+    }
+  }
+}

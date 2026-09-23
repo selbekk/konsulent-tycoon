@@ -1,0 +1,293 @@
+{
+  "errors": {
+    "invalid": "That didn't work.",
+    "notEnoughCash": "Not enough cash in the bank.",
+    "invalidTarget": "Invalid target.",
+    "invalidTender": "That tender is no longer open.",
+    "noBid": "You need to submit a bid first.",
+    "invalidContract": "Couldn't find that contract.",
+    "invalidStar": "That consultant isn't available.",
+    "alreadyDone": "You've already done that.",
+    "gameOver": "The game is over.",
+    "starPromised": "That consultant is already promised in another bid.",
+    "minigameAlreadyPlayed": "You've already had the meeting for this tender."
+  },
+  "news": {
+    "game": {
+      "welcome": "{{firm}} is founded! The company number is on its way, the coffee machine is leased and the LinkedIn post has 14 likes."
+    },
+    "staff": {
+      "leftMany": "{{count}} employees quit this quarter. The farewell cake was dry.",
+      "arrived": "{{count}} new consultants showed up with shiny laptops and high hopes.",
+      "starLeft": "{{name}} has left {{firm}}."
+    },
+    "tender": {
+      "noBids": "Nobody bid on the tender from {{customer}}. Procurement is taking a long lunch.",
+      "playerWon": "You won the tender at {{customer}}! {{bidders}} firms bid.",
+      "playerWonFramework": "You were ranked #{{rank}} on the framework agreement at {{customer}}.",
+      "playerLost": "You lost the tender at {{customer}}. {{firm}} walked away with it.",
+      "awarded": "{{firm}} won the tender at {{customer}}, beating {{bidders}} others.",
+      "frameworkAwarded": "{{firm}} tops the framework agreement at {{customer}}. {{bidders}} firms fought for a spot."
+    },
+    "contract": {
+      "terminatedUnhappy": "{{customer}} has terminated its contract with {{firm}}. \"We're going in a different direction.\"",
+      "ended": "The engagement at {{customer}} has ended. Customer satisfaction: {{satisfaction}} out of 100."
+    },
+    "shady": {
+      "poachSuccess": "{{name}} has moved from {{from}} to {{to}}. Apparently it happened over an IPA.",
+      "poachFailed": "The afterwork with people from {{from}} only produced a large bar tab.",
+      "rumorVictim": "There are rumours about you going around. Nobody knows who started them.",
+      "dnLeak": "Business daily exposé: \"How {{firm}} really works\". It's behind a paywall, but everyone has read it."
+    },
+    "scandal": {
+      "spy_bids": "{{firm}} caught snooping on competitors' bids. Fine: {{fine}}.",
+      "spy_salaries": "{{firm}} has been collecting payslips from {{target}}. Nobody found it charming.",
+      "plant_mole": "Mole exposed! {{firm}} had a \"trainee\" at {{target}} for four months. Fine: {{fine}}.",
+      "afterwork_poach": "{{firm}}'s afterwork was a bit too obvious. {{target}} is not impressed.",
+      "silent_outsource": "{{customer}} found out that {{firm}}'s team was in a different time zone. Contract terminated. Fine: {{fine}}.",
+      "cv_pad": "\"Kubernetes expert since 2009\"? {{customer}} checked {{firm}}'s CVs. The contract is gone.",
+      "ghost_cv": "{{firm}} offered consultants who don't exist. {{customer}} noticed. Fine: {{fine}}.",
+      "bait_and_switch": "{{customer}} got juniors instead of the promised seniors from {{firm}}. The relationship is frosty.",
+      "rumor": "Turns out the rumours about {{target}} came from {{firm}}. Awkward.",
+      "dn_leak": "The leak about {{target}} was traced back to {{firm}}. Fine: {{fine}}.",
+      "linkedin_post": "{{firm}}'s LinkedIn post about {{target}} was widely shared for all the wrong reasons."
+    },
+    "award": {
+      "best_fagmiljo": "Best Engineering Culture {{year}}: {{firm}}!",
+      "coffee_machine": "Best Coffee Machine in the Industry {{year}}: {{firm}}.",
+      "tender_champion": "Tender Champion {{year}}: {{firm}}.",
+      "rocket_growth": "Rocket Growth {{year}}: {{firm}}.",
+      "creative_timesheets": "Most Creative Timesheets {{year}}: {{firm}}. The jury was impressed and slightly worried.",
+      "glassdoor_disaster": "Glassdoor Disaster of the Year {{year}}: {{firm}}."
+    },
+    "trend": {
+      "started": "New market trend: {{trend}}.",
+      "ended": "The \"{{trend}}\" trend is over. Everyone pretends they were never into it."
+    },
+    "firm": {
+      "acquired": "{{firm}} acquired a small {{discipline}} agency. The business cards have already been reprinted.",
+      "bankrupt": "{{firm}} has gone bankrupt. The foosball table is for sale online.",
+      "playerBankrupt": "{{firm}} has gone bankrupt. The receiver has taken over the foosball table.",
+      "bankWarning": "The bank called. They were polite, but noticeably less warm than before."
+    }
+  },
+  "announcements": {
+    "mug_meeting_room": "Would {{name}} please collect their mug from meeting room Fjord View.",
+    "friday_beer_alcohol_free": "A reminder that today's Friday beer is alcohol-free. Nobody knows why.",
+    "fridge_cleanup": "The fridge will be emptied on Friday at 3 pm. This includes last year's yoghurt.",
+    "printer_on_fire": "The printer on the third floor is not on fire. It just smells like that.",
+    "wifi_password": "New Wi-Fi password: Password123. IT asks that you stop asking.",
+    "standup_standing": "A reminder that stand-up means standing up. It's in the name.",
+    "cake_in_kitchen": "There's cake in the kitchen. Nobody knows whose birthday it is. Eat anyway.",
+    "timesheet_reminder": "Timesheets are due Friday. Yes, including last month's.",
+    "lost_macbook_charger": "Has anyone seen a USB-C charger? It's white. They're all white.",
+    "fire_drill": "Fire drill at 2 pm. Please don't bring your laptop and keep coding in the stairwell.",
+    "parking_spot": "{{name}} has parked in the CEO's spot. Again.",
+    "jira_down": "Jira is down. Productivity is up 40 percent.",
+    "someone_microwaved_fish": "To whoever microwaved fish: we know who you are.",
+    "meeting_room_hostage": "Meeting room Ocean Glimpse is booked by a meeting that never ends. Send coffee.",
+    "sprint_retro_cake": "The retro cake was eaten before the retro started. This will be raised at the retro.",
+    "dress_code": "Reminder: a hoodie is not client-meeting attire. Unless the client is wearing a hoodie.",
+    "intern_lost": "Has anyone seen the intern? He went to get coffee on Tuesday.",
+    "ceo_birthday": "It's the CEO's birthday. The card is at reception. Write something nice.",
+    "coffee_beans_out": "We're out of coffee beans. The budget for new ones arrives next quarter.",
+    "fagdag_room": "The tech day continues in the canteen. Bring your own chair and strong opinions on TypeScript.",
+    "kombucha_on_tap": "The kombucha tap has been refilled. Don't ask who ordered it.",
+    "bench_reminder": "Reminder: if you're on the bench, update your CV. And maybe once more.",
+    "overtime_pizza": "Pizza for everyone working late tonight. So, everyone.",
+    "compliance_tor": "Tor from compliance would like a word with everyone. One at a time. Door closed.",
+    "shredder_busy": "The shredder is busy until 5 pm. Please don't ask.",
+    "journalists_in_lobby": "There's someone from the business press in reception. Say we're at a team-building event.",
+    "morale_survey": "The wellbeing survey is out. It's completely anonymous. Completely.",
+    "pingpong_final": "The ping-pong final is at 4 pm. The prize is glory and a hot-dog voucher.",
+    "new_office_plants": "The office has new plants. They're real. We checked.",
+    "elevator_pitch": "The lift is full of consultants practising their elevator pitch. Take the stairs.",
+    "small_office": "Reminder: office space is limited. Please don't take video calls in the loo.",
+    "cash_low": "Finance asks everyone to consider whether they really need new Post-it notes."
+  },
+  "thoughts": {
+    "overworked": "I haven't seen my family since last sprint.",
+    "bench_bored": "I haven't billed an hour in three weeks and have started painting the office.",
+    "good_flow": "Finally a project where things actually happen.",
+    "embarrassed": "I don't tell people where I work at parties anymore.",
+    "suspicious": "Why is an \"external resource\" in Manila suddenly answering my emails?",
+    "star_restless": "{{name}} has updated their LinkedIn profile three times this week.",
+    "underpaid": "I think I'm underpaid. No, I know I am.",
+    "good_pay": "The pay is actually pretty decent here.",
+    "no_learning": "I haven't learned anything new since jQuery.",
+    "fagdag_good": "The tech day was actually good. I understood almost all of it.",
+    "lonely": "It's quiet in the office. Very quiet.",
+    "great_colleagues": "I like my colleagues. Is that allowed?",
+    "rival_sushi": "Heard {{firm}} has sushi Fridays…",
+    "who_are_freelancers": "Who are all these people without access cards?",
+    "startup_vibes": "It feels a bit like a startup. In a good way, mostly.",
+    "all_quiet": "Everything's fine. Suspiciously fine."
+  },
+  "events": {
+    "ebike_scheme": {
+      "title": "Bike scheme",
+      "body": "A group of employees has made a 34-slide deck on why you need an e-bike scheme.",
+      "choices": { "yes": "Go for it! (NOK 150,000)", "no": "We have buses." }
+    },
+    "friday_1655": {
+      "title": "Friday, 4:55 pm",
+      "body": "{{customer}} is on the phone. Prod is down. Everyone is heading home.",
+      "choices": { "hero": "Send your best person. Now.", "ignore": "We'll look at it Monday." }
+    },
+    "genai_pivot": {
+      "title": "The board wants AI",
+      "body": "The board read an article and wants you to \"do something with AI\". What exactly is unclear.",
+      "choices": { "rebrand": "Rebrand as AI-first (NOK 100,000)", "refuse": "We'll keep doing what we're good at." }
+    },
+    "kickoff": {
+      "title": "Annual kick-off",
+      "body": "It's kick-off season. The social committee has strong opinions.",
+      "choices": { "lisbon": "Lisbon! (NOK 15,000 per head)", "lillestrom": "A conference hotel off the motorway (NOK 3,000 per head)", "skip": "Kick-off on Teams." }
+    },
+    "competitor_cake": {
+      "title": "Cake war",
+      "body": "{{firm}} sent a cake with their logo to one of your clients. It was apparently delicious.",
+      "choices": { "bigger_cake": "Send a bigger cake (NOK 25,000)", "ignore": "We don't compete on cake." }
+    },
+    "leaked_salary_sheet": {
+      "title": "Salary leak",
+      "body": "The salary spreadsheet ended up in the wrong Teams channel. 47 people saw it. Three took screenshots.",
+      "choices": { "raise_all": "Give everyone a bump (+3% salary)", "deny": "It was a test sheet." }
+    },
+    "kofa_complaint": {
+      "title": "Procurement complaint",
+      "body": "{{firm}} has filed a complaint about your contract award. They say you were \"unrealistically cheap\".",
+      "choices": { "lawyer": "Hire a lawyer (NOK 200,000)", "shrug": "We stand by our price." }
+    },
+    "hackathon": {
+      "title": "Hackathon?",
+      "body": "Someone suggests an internal hackathon. There'll be pizza and at least one idea that goes nowhere.",
+      "choices": { "host": "Of course! (NOK 80,000)", "skip": "We hack on billable time." }
+    },
+    "conference_talk": {
+      "title": "Conference",
+      "body": "One of your stars has been invited to speak at a tech conference.",
+      "choices": { "send": "Send them (NOK 40,000)", "skip": "Billing comes first." }
+    },
+    "burnout_wave": {
+      "title": "Burnout",
+      "body": "People are working too much. Some have started sleeping under their desks, and not because it's comfy.",
+      "choices": { "relief": "Bring in help and give time off (NOK 300,000)", "push": "It's just a busy period." }
+    },
+    "star_wants_remote": {
+      "title": "Remote work",
+      "body": "{{name}} wants to work from a cabin in Lofoten. Full-time.",
+      "choices": { "grant": "Fine, but we want northern lights on Teams.", "deny": "We believe in the office." }
+    },
+    "acquisition_offer": {
+      "title": "Acquisition",
+      "body": "A small agency with 8 good people is for sale. The owner just wants to go sailing.",
+      "choices": { "acquire": "Buy it! (NOK 4M)", "decline": "We grow organically." }
+    },
+    "influencer_post_viral": {
+      "title": "Viral!",
+      "body": "One of you wrote a post called \"What kindergarten taught me about agile\". It went viral.",
+      "choices": { "nice": "We'll take it." }
+    },
+    "office_ping_pong": {
+      "title": "Ping-pong table",
+      "body": "Someone left a note in the suggestion box: \"Ping-pong table?\" It's the third one.",
+      "choices": { "buy": "Buy one (NOK 30,000)", "no": "We have a meeting room." }
+    },
+    "javazone_booth": {
+      "title": "Conference booth",
+      "body": "Booth registration for the big developer conference is open. Everyone else is getting one.",
+      "choices": { "booth": "Big booth with a coffee bar (NOK 250,000)", "skip": "We'll go as visitors." }
+    },
+    "tax_audit": {
+      "title": "Tax audit",
+      "body": "The tax authority would like a chat about a few entries in your accounts. They're very polite.",
+      "choices": { "cooperate": "Cooperate fully (NOK 300,000)", "stall": "We'll find those papers… soon." }
+    },
+    "glassdoor_review": {
+      "title": "Glassdoor",
+      "body": "A former employee gave you one star on Glassdoor. The review is long and very accurate.",
+      "choices": { "respond": "Reply humbly and honestly", "ignore": "Nobody reads Glassdoor." }
+    },
+    "client_wants_chatbot": {
+      "title": "Chatbot",
+      "body": "{{customer}} wants a chatbot. They don't know what it should do, but it has to ship before summer.",
+      "choices": { "yes": "Of course!", "no": "Shall we start with the problem?" }
+    },
+    "pizza_budget_cut": {
+      "title": "Pizza budget",
+      "body": "Finance suggests cutting the pizza budget. It's a number nobody was supposed to know.",
+      "choices": { "cut": "Cut it (+NOK 20,000)", "keep": "Pizza is culture." }
+    },
+    "christmas_party": {
+      "title": "Christmas party",
+      "body": "It's time for the Christmas party. Expectations are high after last year.",
+      "choices": { "fancy": "Hotel, three courses (NOK 6,000 per head)", "potluck": "Potluck at the office", "cancel": "We'll skip it this year." }
+    },
+    "intern_program": {
+      "title": "Summer interns",
+      "body": "The university asks if you'd like summer interns. They're eager and know a little about everything.",
+      "choices": { "start": "Take three (NOK 150,000)", "skip": "Not this year." }
+    },
+    "open_source_fame": {
+      "title": "Open source",
+      "body": "A small library you built has reached 10,000 stars on GitHub.",
+      "choices": { "nice": "We knew it all along." }
+    },
+    "cloud_credit_windfall": {
+      "title": "Cloud credits",
+      "body": "A cloud vendor gave you a pile of credits. Someone apparently needed to hit their target.",
+      "choices": { "nice": "Thanks! (+NOK 200,000)" }
+    },
+    "unionization": {
+      "title": "Union",
+      "body": "Employees want to unionise. They've made a Miro board.",
+      "choices": { "negotiate": "Negotiate (+5% salary)", "resist": "We're one big family." }
+    },
+    "fagdag_vs_billable": {
+      "title": "Tech day or invoice?",
+      "body": "The tech day clashes with a client who wants people on Friday. What do you prioritise?",
+      "choices": { "fagdag": "Tech day! (NOK 10,000 per head)", "bill": "Bill it (+NOK 8,000 per head)" }
+    },
+    "ceo_podcast": {
+      "title": "Podcast",
+      "body": "The CEO has been invited onto a leadership podcast. It'll be 90 minutes.",
+      "choices": { "record": "Yes! (NOK 10,000 for a mic)", "skip": "No, thank you." }
+    },
+    "rebranding_agency": {
+      "title": "Rebrand",
+      "body": "An agency wants to give you a new visual identity. It involves a new font and a lot of orange.",
+      "choices": { "rebrand": "Do it! (NOK 500,000)", "no": "Our logo is fine." }
+    },
+    "wrong_reply_all": {
+      "title": "Reply all",
+      "body": "Someone hit reply-all on an email to the client. With a comment that wasn't meant for the client.",
+      "choices": { "apologize": "Apologise", "blame_it": "Blame IT." }
+    },
+    "coffee_machine_broke": {
+      "title": "Coffee crisis",
+      "body": "The coffee machine is broken. Productivity has dropped, and morale even more.",
+      "choices": { "premium": "New Italian machine (NOK 60,000)", "cheap": "Instant coffee will do." }
+    },
+    "headhunter_calls": {
+      "title": "Headhunter",
+      "body": "A headhunter has called {{name}} three times this week.",
+      "choices": { "counter": "Make a counter-offer (+5% salary)", "ignore": "They'll stay." }
+    },
+    "remote_debate": {
+      "title": "Office debate",
+      "body": "There's a full-blown debate about remote work in #general. The thread has 312 replies.",
+      "choices": { "office": "Three days in the office", "hybrid": "Let people decide" }
+    },
+    "security_incident": {
+      "title": "Security hole",
+      "body": "Someone pushed an API key to a public repo. It's been there for four months.",
+      "choices": { "pay": "Clean it up properly (NOK 400,000)", "downplay": "It was barely used." }
+    },
+    "poach_attempt": {
+      "title": "Afterwork alert",
+      "body": "{{firm}} took {{name}} out for drinks. It got late, and salaries were mentioned.",
+      "choices": { "match": "Match the offer (+10% salary and half a quarter's pay)", "let_go": "Let them go", "podcast": "Cry about it on a CEO podcast" }
+    }
+  }
+}

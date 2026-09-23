@@ -1,0 +1,135 @@
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.room {
+  height: 110px;
+  padding: 8px;
+  background: repeating-linear-gradient(90deg, #cbb994 0 16px, #c2af89 16px 32px);
+  border: 3px solid var(--border-dark);
+}
+
+.question {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.answers {
+  display: grid;
+  gap: 8px;
+}
+
+.answer {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--panel-2);
+  border: var(--px) solid var(--border-dark);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.answer:hover:not(:disabled) {
+  background: var(--bg-2);
+}
+
+.answer[data-picked='true'] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.answer:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.reaction {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 6px solid var(--muted);
+  background: var(--bg-2);
+}
+
+.reaction[data-mood='love'] { border-color: var(--good); }
+.reaction[data-mood='hate'] { border-color: var(--bad); }
+
+.score {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  color: var(--accent);
+  text-align: center;
+}
+
+.nod {
+  animation: nod 0.5s steps(2) 3;
+}
+
+@keyframes nod {
+  50% { transform: translateY(1px); }
+}
+
+.announcement {
+  padding: 12px 14px;
+  background: #fffdf5;
+  color: #2b2118;
+  border: 3px solid var(--border-dark);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.announcement p {
+  margin: 6px 0 0;
+}
+
+.timer {
+  justify-self: start;
+  padding: 4px 10px;
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  background: var(--panel-2);
+  border: 2px solid var(--border-dark);
+}
+
+.timer[data-low='true'] {
+  background: var(--bad);
+  color: #fff;
+  animation: blink 0.5s steps(2) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0.6; }
+}
+
+.bingo {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.bingoCell {
+  min-height: 56px;
+  padding: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: var(--panel-2);
+  border: var(--px) solid var(--border-dark);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.bingoCell[aria-pressed='true'] {
+  background: var(--warn);
+  color: #2a2200;
+  transform: translate(1px, 1px);
+}
+
+@media (max-width: 520px) {
+  .bingo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

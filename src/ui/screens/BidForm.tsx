@@ -1,0 +1,208 @@
+import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import {
+  BILLABLE_HOURS,
+  DISCIPLINES,
+  RATE_MAX,
+  RATE_MIN,
+  bidQuality,
+  bidScoreEstimate,
+  disciplineLevel,
+  effortCost,
+  hasIntel,
+  listRate,
+  marketLowestGuess,
+  seatTotal,
+} from '../../engine'
+import type { Bid } from '../../engine'
+import { useGame } from '../../store/gameStore'
+import { Badge, Button, Hint, Modal, Slider } from '../components/ui'
+import { formatMoney } from '../format'
+import s from './screens.module.css'
+import { SeatBadges, WeightBar } from './TenderBoard'
+
+export function BidForm({ tenderId }: { tenderId: string }) {
+  const { t, i18n } = useTranslation()
+  const lng = i18n.language
+  const game = useGame((x) => x.game)!
+  const dispatch = useGame((x) => x.dispatch)
+  const openBid = useGame((x) => x.openBid)
+  const openMinigame = useGame((x) => x.openMinigame)
+  const error = useGame((x) => x.error)
+  const me = game.firms[game.playerId]
+  const tender = game.tenders.find((x) => x.id === tenderId)
+  const existing = tender?.bids.find((b) => b.firmId === me.id)
+  const [rate, setRate] = useState(existing?.rateMultiplier ?? 1)
+  const [effort, setEffort] = useState<0 | 1 | 2 | 3>(existing?.effort ?? 1)
+  const [starIds, setStarIds] = useState<string[]>(existing?.starIds ?? [])
+
+  const promisedElsewhere = useMemo(
+    () =>
+      new Set(
+        game.tenders
+          .filter((x) => x.id !== tenderId && !x.resolved)
+          .flatMap((x) => x.bids.filter((b) => b.firmId === me.id).flatMap((b) => b.starIds)),
+      ),
+    [game.tenders, tenderId, me.id],
+  )
+
+  if (!tender) return null
+  const draft: Bid = { firmId: me.id, rateMultiplier: rate, starIds, effort, cvPad: existing?.cvPad ?? false, ghostCv: existing?.ghostCv ?? false }
+  const quality = bidQuality(game, draft, tender)
+  const score = bidScoreEstimate(game, draft, tender, Math.min(rate, marketLowestGuess(tender)))
+  const chance = score >= 78 ? 'high' : score >= 66 ? 'medium' : 'low'
+  const revenue = DISCIPLINES.reduce(
+    (sum, d) => sum + (tender.seats[d] ?? 0) * BILLABLE_HOURS * listRate(disciplineLevel(me, d)) * rate,
+    0,
+  )
+  const effortDelta = effortCost(effort) - (existing ? effortCost(existing.effort) : 0)
+  const minigame = tender.minigameResults[me.id]
+  const intel = hasIntel(game, me.id, 'bids', tender.id)
+  const competitors = tender.bids.filter((b) => b.firmId !== me.id)
+
+  const submit = () => {
+    const err = dispatch({ type: 'placeBid', tenderId: tender.id, bid: draft })
+    if (!err) openBid(null)
+  }
+  const withdraw = () => {
+    if (!dispatch({ type: 'withdrawBid', firmId: me.id, tenderId: tender.id })) openBid(null)
+  }
+
+  return (
+    <Modal
+      wide
+      icon="briefcase"
+      title={t('bid.title', { customer: t(`content:customers.${tender.customerId}.name`) })}
+      onClose={() => openBid(null)}
+      actions={
+        <>
+          {existing && (
+            <Button variant="ghost" onClick={withdraw}>
+              {t('bid.withdraw')}
+            </Button>
+          )}
+          <Button onClick={() => openBid(null)}>{t('common.cancel')}</Button>
+          <Button variant="primary" onClick={submit} disabled={effortDelta > me.cash}>
+            {existing ? t('bid.update') : t('bid.submit')}
+          </Button>
+        </>
+      }
+    >
+      <div className={s.grid}>
+        <div className={`${s.span7} ${s.stack}`}>
+          <div className={s.row}>
+            <Badge tone={tender.kind === 'framework' ? 'accent' : undefined}>{t(`tenders.kind.${tender.kind}`)}</Badge>
+            <span className={s.small}>{t('tenders.duration', { count: tender.duration })}</span>
+            {tender.kind === 'framework' && <span className={`${s.small} ${s.muted}`}>{t('bid.frameworkInfo')}</span>}
+          </div>
+          <SeatBadges tender={tender} game={game} />
+          <WeightBar tender={tender} />
+
+          <Slider
+            label={t('bid.rate')}
+            value={Math.round(rate * 100)}
+            min={RATE_MIN * 100}
+            max={RATE_MAX * 100}
+            step={1}
+            onChange={(v) => setRate(v / 100)}
+            display={`×${rate.toFixed(2)} · ${formatMoney(listRate(3) * rate, lng, { compact: false })}${t('bid.perHour')}`}
+            hint={t('bid.rateHint', { revenue: formatMoney(revenue, lng) })}
+          />
+
+          <div className={s.stackSm}>
+            <span className={s.fieldLabel}>{t('bid.effort')}</span>
+            <div className={s.segmented} role="group" aria-label={t('bid.effort')}>
+              {([0, 1, 2, 3] as const).map((e) => (
+                <button key={e} aria-pressed={effort === e} onClick={() => setEffort(e)} disabled={existing && e < existing.effort}>
+                  {t(`bid.efforts.${e}`)}
+                </button>
+              ))}
+            </div>
+            <Hint>{t('bid.effortCost', { cost: formatMoney(effortCost(effort), lng) })}</Hint>
+          </div>
+
+          <div className={s.stackSm}>
+            <span className={s.fieldLabel}>{t('bid.stars')}</span>
+            {me.stars.length === 0 && <Hint>{t('bid.noStars')}</Hint>}
+            {me.stars.map((star) => {
+              const busy = promisedElsewhere.has(star.id)
+              const relevant = (tender.seats[star.discipline] ?? 0) > 0
+              return (
+                <label key={star.id} className={s.checkRow} style={{ opacity: busy ? 0.5 : 1 }}>
+                  <input
+                    type="checkbox"
+                    disabled={busy}
+                    checked={starIds.includes(star.id)}
+                    onChange={(e) => setStarIds((ids) => (e.target.checked ? [...ids, star.id] : ids.filter((x) => x !== star.id)))}
+                  />
+                  <span>
+                    {star.name} · {t(`disciplines.${star.discipline}`)} {'★'.repeat(star.level)}
+                    {!relevant && <span className={s.muted}> ({t('bid.notRelevant')})</span>}
+                    {busy && <span className={s.muted}> ({t('bid.promised')})</span>}
+                  </span>
+                </label>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className={`${s.span5} ${s.stack}`}>
+          <div className={s.card}>
+            <h3>{t('bid.pitch')}</h3>
+            {minigame ? (
+              <span>{t('bid.pitchDone', { score: minigame.score })}</span>
+            ) : (
+              <>
+                <Hint>{t('bid.pitchHint')}</Hint>
+                <div className={s.row}>
+                  <Button icon="handshake" onClick={() => openMinigame({ tenderId: tender.id, kind: 'meeting' })}>
+                    {t('minigames:meeting.title')}
+                  </Button>
+                  <Button icon="brain" onClick={() => openMinigame({ tenderId: tender.id, kind: 'bingo' })}>
+                    {t('minigames:bingo.title')}
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className={s.card}>
+            <h3>{t('bid.estimate')}</h3>
+            <div className={`${s.row} ${s.between}`}>
+              <span>{t('bid.quality')}</span>
+              <strong className="num">{Math.round(quality)} / 100</strong>
+            </div>
+            <div className={`${s.row} ${s.between}`}>
+              <span>{t('bid.chance')}</span>
+              <Badge tone={chance === 'high' ? 'good' : chance === 'medium' ? 'warn' : 'bad'}>{t(`bid.chances.${chance}`)}</Badge>
+            </div>
+            {(existing?.cvPad || existing?.ghostCv) && <Badge tone="bad">{t('bid.fraudActive')}</Badge>}
+            <Hint>{t('bid.estimateHint')}</Hint>
+          </div>
+
+          {intel && (
+            <div className={s.card}>
+              <h3>{t('tenders.intel')}</h3>
+              {competitors.length ? (
+                <ul className={s.newsList}>
+                  {competitors.map((b) => (
+                    <li key={b.firmId}>
+                      <span className={s.newsDot} data-tone="sassy" />
+                      <span>
+                        {game.firms[b.firmId].name}: ×{b.rateMultiplier.toFixed(2)} · {t('tenders.qualityShort', { q: Math.round(bidQuality(game, b, tender)) })}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Hint>{t('tenders.noCompetitors')}</Hint>
+              )}
+            </div>
+          )}
+          {error && <p className={s.bad}>{t(`game:${error}`)}</p>}
+          <p className={`${s.small} ${s.muted}`}>{t('bid.seatsTotal', { count: seatTotal(tender.seats) })}</p>
+        </div>
+      </div>
+    </Modal>
+  )
+}

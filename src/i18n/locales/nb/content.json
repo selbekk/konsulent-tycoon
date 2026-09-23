@@ -1,0 +1,124 @@
+{
+  "firms": {
+    "bekkerson": { "tagline": "Vi har en faggruppe for det.", "blurb": "Fagnerder med egen konferanse, egen podcast og en egen faggruppe for faggrupper." },
+    "accentura": { "tagline": "Vi har en deck for det.", "blurb": "Global, grundig og alltid klar med 140 slides og en partner som flyr inn fra København." },
+    "knowitall": { "tagline": "Vi kan alt. Spør oss.", "blurb": "Bredt, stort og glad i å kjøpe opp alt som står stille lenge nok." },
+    "soppsteria": { "tagline": "Vokser best i mørket.", "blurb": "Billig, effektiv og mistenkelig god på å levere fra flere tidssoner samtidig." },
+    "kompottas": { "tagline": "Alt blir bedre med litt syltetøy.", "blurb": "Solide folk med sans for både arkitektur og vafler." },
+    "iteraigjen": { "tagline": "Vi gjør det én gang til. Og én til.", "blurb": "Smidige til fingerspissene. Sprinten er aldri helt ferdig." },
+    "smiles": { "tagline": "Verdens gladeste konsulenter (egenrapportert).", "blurb": "Små, lokale kontorer og en trivselsundersøkelse som alltid viser 100 %." },
+    "webstepdans": { "tagline": "Fem, seks, sju, åtte – deploy!", "blurb": "Rytmiske leveranser og et overraskende godt julebordsshow." },
+    "kantegne": { "tagline": "Vi tegner det først. På tavla. Lenge.", "blurb": "Designdrevne og trondheimsstolte. Tavlene er fulle." },
+    "tietoevig": { "tagline": "Prosjektet ditt varer evig. Det gjør vi også.", "blurb": "Nordisk gigant med en rammeavtale på det meste." },
+    "bouffet": { "tagline": "Forsyn deg. Alle fagområder på ett bord.", "blurb": "Stort, bredt og alltid med noe for enhver smak." },
+    "invariant": { "tagline": "Samme høye kvalitet, uansett input.", "blurb": "Et lite, åpent og ekstremt ryddig selskap. Lønnsarket ligger på nett." },
+    "reiterate": { "tagline": "Har du prøvd å skru det av og på igjen?", "blurb": "Et kollektiv av nysgjerrige utviklere som helst lager egne produkter." },
+    "geita": { "tagline": "Vi klatrer dit andre ikke kommer.", "blurb": "Skyspesialister som trives best på steder uten rekkverk." },
+    "fargestift": { "tagline": "Vi fargelegger skyregningen din.", "blurb": "Lisenser, sky og en overraskende stor data-avdeling." },
+    "kappgjemini": { "tagline": "Kappen på, tallene gjemt.", "blurb": "Stort, effektivt og alltid klart til å skalere. Opp og ned." },
+    "nattlys": { "tagline": "Vi lyser opp de mørkeste backlogger.", "blurb": "Svensk, flat struktur og konsulenter som ser veldig uthvilte ut." },
+    "hikkeq": { "tagline": "Hikk! Vi mener: høy IQ.", "blurb": "Svensk kvalitet og en ukentlig fika som ingen får hoppe over." },
+    "riddertech": { "tagline": "Til hest mot teknisk gjeld.", "blurb": "Dataingeniører i skinnende rustning. Og hettegenser." },
+    "rektor": { "tagline": "Møt opp på kontoret mitt. Med en god PR.", "blurb": "Finsk presisjon, sauna-kultur og kodegjennomganger som er strenge men rettferdige." },
+    "futuriis": { "tagline": "Framtiden, servert med ris.", "blurb": "Finsk designhus med sans for tjenestedesign og lunsj." },
+    "solitaer": { "tagline": "Vi spiller best alene, men leverer i team.", "blurb": "Dataglade finner med et hjerte for offentlig sektor." },
+    "trigaffel": { "tagline": "Tre tinder. Null spagettikode.", "blurb": "Danske utviklere med egen konferanse og sterke meninger om Erlang." },
+    "nettkompaniet": { "tagline": "Offentlig sektor? Vi har lest anbudsloven. To ganger.", "blurb": "Dansk gigant som leverer store systemer til store etater." }
+  },
+  "customers": {
+    "navet": { "name": "NAVet", "blurb": "Norges største fagsystem-samling. Alltid midt i en modernisering." },
+    "skatteetatn": { "name": "Skatteetat'n", "blurb": "Liker regnearket ditt. Vil gjerne se det." },
+    "veivesen": { "name": "Statens Veivesen", "blurb": "Asfalt, bompenger og overraskende mange API-er." },
+    "helsesov": { "name": "Helse Sør-Øst-Vest", "blurb": "Et helseforetak med én journal og tre systemer for å lese den." },
+    "kommunenorge": { "name": "Kommune-Norge IKS", "blurb": "356 kommuner, ett felles innkjøp og et stramt budsjett." },
+    "laanekassen": { "name": "Lånekassen for Livet", "blurb": "Studentlån, stipend og en innboks full av bekymrede foreldre." },
+    "dnbank": { "name": "DNBank", "blurb": "Stor bank med stor appetitt på alt som heter plattform." },
+    "equinaer": { "name": "Equinær", "blurb": "Energi, data og et styre som elsker ordet «omstilling»." },
+    "postenbring": { "name": "Posten & Bring-meg", "blurb": "Pakker, sporing og et lager fullt av Raspberry Pi-er." },
+    "kryptonitt": { "name": "Kryptonitt", "blurb": "Fintech-startup med stort pitch-deck og lite budsjett. Betaler i tide (som regel)." },
+    "tipptopp": { "name": "Norsk Tipp-Topp", "blurb": "Spill, lotto og en ansvarlighetsavdeling som alltid er med i møtet." },
+    "rutah": { "name": "Rutah", "blurb": "Kollektivtrafikk, billettapper og en sanntidsskjerm som nesten alltid stemmer." },
+    "telenorr": { "name": "Telenorr", "blurb": "Telekom med nett i hele Norden og et innkjøpsteam i hele Asia." },
+    "sparebank123": { "name": "SpareBank 1-2-3", "blurb": "Lokalbank med lokale beslutninger og nasjonale ambisjoner." }
+  },
+  "trends": {
+    "genai_hype": { "name": "GenAI-hype", "desc": "Alle vil ha AI. Data-folk er gull verdt." },
+    "cloud_migration": { "name": "Skymigrering", "desc": "Datasentrene tømmes. Skyfolk og arkitekter er ettertraktet." },
+    "public_budget_cuts": { "name": "Budsjettkutt i staten", "desc": "Færre anbud, og prisen teller mer enn før." },
+    "design_renaissance": { "name": "Designrenessanse", "desc": "Brukeropplevelse er tilbake på agendaen. Designere og frontend er etterspurt." },
+    "data_mesh_mania": { "name": "Data mesh-mani", "desc": "Alle skal ha dataprodukter. Ingen vet helt hva det er." },
+    "pm_winter": { "name": "Prosjektledervinter", "desc": "Produktteam er inn, prosjektledere er ut." },
+    "security_panic": { "name": "Sikkerhetspanikk", "desc": "Et stort datainnbrudd har skremt alle. Sikkerhet er plutselig viktig." },
+    "boom": { "name": "Høykonjunktur", "desc": "Pengene sitter løst. Flere anbud enn på lenge." }
+  },
+  "traits": {
+    "linkedin_influencer": { "name": "LinkedIn-influencer", "desc": "Styrker arbeidsgiverbrandet, men får mange tilbud." },
+    "kaffesnobb": { "name": "Kaffesnobb", "desc": "Trives bare med godt sosialt miljø (og god kaffe)." },
+    "tech_debt_hunter": { "name": "Teknisk gjeld-jeger", "desc": "Gjør kundene fornøyde over tid." },
+    "sjefsdiplomat": { "name": "Sjefsdiplomat", "desc": "Bygger relasjoner til kunden." },
+    "tenx_ego": { "name": "10x-ego", "desc": "Imponerer i anbud, men kan gå kollegaene på nervene." },
+    "remote_hardliner": { "name": "Hjemmekontor-hardliner", "desc": "Krever hjemmekontor. Ellers synker lojaliteten." },
+    "mentor": { "name": "Mentor", "desc": "Løfter nivået til kollegaene i samme fagområde." },
+    "conference_speaker": { "name": "Konferansetaler", "desc": "Gir omdømme og imponerer i anbud." },
+    "workaholic": { "name": "Arbeidsnarkoman", "desc": "Leverer mye, men sliter seg ut." },
+    "slack_poet": { "name": "Slack-poet", "desc": "Gjør #random til et bedre sted." },
+    "certification_collector": { "name": "Sertifikatsamler", "desc": "Har alle sertifiseringene. CV-en er fire sider." },
+    "loyal_as_a_dog": { "name": "Trofast", "desc": "Blir. Uansett." }
+  },
+  "ambitions": {
+    "salary": "Vil ha god lønn",
+    "growth": "Vil lære og vokse",
+    "leadership": "Vil lede noe",
+    "remote": "Vil jobbe hjemmefra"
+  },
+  "shady": {
+    "categories": {
+      "espionage": "Spionasje",
+      "outsourcing": "Outsourcing",
+      "cv": "CV-kreativitet",
+      "pr": "PR-krigføring"
+    },
+    "actions": {
+      "spy_bids": { "name": "Snok på anbudet", "desc": "Se konkurrentenes bud på ett anbud før fristen." },
+      "spy_salaries": { "name": "Lønnsspionasje", "desc": "Finn ut hva et firma betaler og hvordan folk har det." },
+      "plant_mole": { "name": "Plant en muldvarp", "desc": "En «trainee» gir deg innsyn i et firma i fire kvartaler." },
+      "afterwork_poach": { "name": "Afterwork-rekruttering", "desc": "Ta med en stjerne fra et annet firma på afterwork og se hva som skjer." },
+      "silent_outsource": { "name": "Stille outsourcing", "desc": "La et offshore-team gjøre en del av jobben på en kontrakt. Kunden trenger ikke vite det." },
+      "cv_pad": { "name": "Pynt på CV-ene", "desc": "Litt mer erfaring her, et sertifikat der. Gir bedre kvalitet på buddet." },
+      "ghost_cv": { "name": "Spøkelses-CV-er", "desc": "Tilby konsulenter dere «kanskje ansetter». Fjerner kapasitetsstraffen." },
+      "bait_and_switch": { "name": "Bytt ut stjernene", "desc": "Flytt de lovede stjernene fra en kontrakt og send juniorer i stedet." },
+      "rumor": { "name": "Spre rykter", "desc": "Nevn noe i forbifarten på neste frokostseminar." },
+      "dn_leak": { "name": "Lekk til DN", "desc": "Gi en journalist et tips om et annet firma. Gir mål-firmaet en skandale." },
+      "linkedin_post": { "name": "Passiv-aggressiv LinkedIn-post", "desc": "«Noen firma tror visst at …» Styrker ditt brand og svekker målets." }
+    },
+    "risk": { "low": "Lav risiko", "medium": "Middels risiko", "high": "Høy risiko" }
+  },
+  "awards": {
+    "best_fagmiljo": "Årets fagmiljø",
+    "coffee_machine": "Bransjens beste kaffemaskin",
+    "tender_champion": "Årets anbudsvinner",
+    "rocket_growth": "Årets vekstrakett",
+    "creative_timesheets": "Mest kreative timeføring",
+    "glassdoor_disaster": "Årets Glassdoor-katastrofe"
+  },
+  "endTitles": {
+    "bankrupt": { "title": "Konkurs", "desc": "Bobestyreren har overtatt fussballbordet. Det var gøy så lenge det varte." },
+    "ethical_champion": { "title": "Etisk fyrtårn", "desc": "Størst i bransjen, uten å jukse én eneste gang. Compliance-Tor gråt en liten tåre." },
+    "cheated_to_top": { "title": "Jukset deg til toppen", "desc": "Nr. 1 i bransjen. Ikke spør hvordan." },
+    "industry_leader": { "title": "Bransjens Bekkerson", "desc": "Nr. 1 i markedet. Konkurrentene lager faggrupper om deg." },
+    "caught_pants_down": { "title": "Tatt med buksa nede", "desc": "Du ble tatt, og mer enn én gang. DN har en egen tag for deg." },
+    "solid_challenger": { "title": "Solid utfordrer", "desc": "Blant de fem største. Neste gang blir det kanskje toppen." },
+    "midfield": { "title": "Trygt midtfelt", "desc": "Et ordentlig konsulentselskap med ordentlige folk. Ingen skriver om dere, og det er helt greit." },
+    "acquired": { "title": "Oppkjøpt for en slikk og ingenting", "desc": "Accentura har kjøpt dere. Logoen er borte, men kaffemaskinen fikk bli." }
+  },
+  "countries": { "NO": "Norge", "SE": "Sverige", "FI": "Finland", "DK": "Danmark", "FR": "Frankrike", "GLOBAL": "Globalt" },
+  "archetypes": {
+    "boutique_nerd": "Fagboutique",
+    "boutique_design": "Designhus",
+    "mid_generalist": "Generalist",
+    "nordic_giant": "Nordisk gigant",
+    "budget_bulk": "Volumleverandør",
+    "specialist_cloud": "Skyspesialist",
+    "specialist_data": "Dataspesialist"
+  }
+}
