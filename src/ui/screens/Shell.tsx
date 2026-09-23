@@ -167,17 +167,19 @@ export function Shell() {
 
       <div className={s.ticker} aria-label={t('shell.ticker')}>
         <span className={s.tickerLabel}>{t('shell.news')}</span>
-        {settings.reducedMotion ? (
-          <span className={s.tickerStatic}>{ticker[0] ? newsText(ticker[0], t, lng) : ''}</span>
-        ) : (
-          <div className={s.tickerTrack} key={game.quarter}>
-            {[...ticker, ...ticker].map((n, i) => (
-              <span key={`${n.id}-${i}`} aria-hidden={i >= ticker.length}>
-                {formatQuarter(n.quarter)} · {newsText(n, t, lng)}
-              </span>
-            ))}
-          </div>
-        )}
+        <div className={s.tickerViewport}>
+          {settings.reducedMotion ? (
+            <span className={s.tickerStatic}>{ticker[0] ? newsText(ticker[0], t, lng) : ''}</span>
+          ) : (
+            <div className={s.tickerTrack} key={game.quarter}>
+              {[...ticker, ...ticker].map((n, i) => (
+                <span key={`${n.id}-${i}`} aria-hidden={i >= ticker.length}>
+                  {formatQuarter(n.quarter)} · {newsText(n, t, lng)}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {report !== null && <QuarterReport />}

@@ -162,6 +162,8 @@
 }
 
 .tickerLabel {
+  position: relative;
+  z-index: 1;
   flex-shrink: 0;
   padding: 0 10px;
   height: 100%;
@@ -171,6 +173,16 @@
   font-size: 0.75rem;
   background: var(--bad);
   color: #fff;
+}
+
+/* The scrolling text is clipped here, so it never slides under the label. */
+.tickerViewport {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .tickerTrack {
