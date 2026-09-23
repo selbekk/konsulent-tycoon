@@ -403,5 +403,13 @@
     "shady": "You did {{total}} shady things and got caught {{detected}} times.",
     "menu": "Main menu",
     "again": "Play again"
+  },
+  "pwa": {
+    "install": "Install the game",
+    "iosHint": "Play as an app: tap Share, then “Add to Home Screen”.",
+    "offlineReady": "The game is ready to play offline.",
+    "updateReady": "A new version of the game is ready. Your game is saved.",
+    "update": "Update now",
+    "later": "Later"
   }
 }

@@ -18,6 +18,7 @@ Stemningen er inspirert av Theme Hospital og RollerCoaster Tycoon: tørr, varm h
 - [UI-et](#ui-et)
 - [Tekster og språk (i18n)](#tekster-og-språk-i18n)
 - [Lagring og migrasjoner](#lagring-og-migrasjoner)
+- [PWA (installerbar app)](#pwa-installerbar-app)
 - [Innhold: slik legger du til ting](#innhold-slik-legger-du-til-ting)
 - [Balansering og simulator](#balansering-og-simulator)
 - [Testing](#testing)
@@ -35,7 +36,7 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-Det finnes ingen backend. Alt kjører i nettleseren, og spillet lagres i `localStorage`.
+Det finnes ingen backend. Alt kjører i nettleseren, og spillet lagres i `localStorage`. Spillet er en installerbar PWA som virker helt offline, se [PWA](#pwa-installerbar-app).
 
 ## Kommandoer
 
@@ -50,6 +51,7 @@ Det finnes ingen backend. Alt kjører i nettleseren, og spillet lagres i `localS
 | `npm run lint` | Kjører oxlint |
 | `npm run sim -- [flagg]` | Spiller hele partier headless med spillerboter (se [Balansering](#balansering-og-simulator)) |
 | `npm run sim:market -- 20 [-v]` | Måler hvor sunt AI-markedet er over 40 kvartaler, uten spiller |
+| `npm run icons` | Genererer app-ikonene i `public/` fra `public/icon.svg` |
 
 Før du committer, bør `npm run typecheck`, `npm test` og `npm run build` være grønne.
 
@@ -215,7 +217,7 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
 - **Styling:** CSS Modules og design-tokens i `ui/theme/tokens.css`.
   - Mørkt tema er standard, og det lyse ligger under `:root[data-theme='light']`.
   - Bruk tokens (`var(--accent)` osv.), ikke hardkodede farger.
-  - Fontene kommer fra Google Fonts: «Press Start 2P» bare i logoen, «Bungee» i overskrifter og på store knapper, «IBM Plex Sans» i brødtekst og «IBM Plex Mono» for tall (`--font-mono`, klassen `.num`).
+  - Fontene ligger i appen via `@fontsource` (bare latin-delsettet), importert i `main.tsx`: «Press Start 2P» bare i logoen, «Bungee» i overskrifter og på store knapper, «IBM Plex Sans» i brødtekst og «IBM Plex Mono» for tall (`--font-mono`, klassen `.num`).
   - Uttrykket skal være retro, men rolig: avrundede hjørner (`--radius`), myke skygger og få harde kanter. Piksler hører hjemme i illustrasjonene (ikoner, kontoret, portretter), ikke i tekst og UI-elementer.
 - **Ikoner:** Pikselikonene i `components/Icon.tsx` er 8×8 ASCII-bitmaps (`#` = fyll, `o` = aksentfarge). Nye ikoner legges til rett i objektet `ICONS`. Ikke bruk emoji i UI-et.
 - **Lyd:** `ui/sound.ts` syntetiserer små 8-bit-effekter med Web Audio, uten lydfiler. Kall `playSound('win')` osv. fra UI-et.
@@ -269,6 +271,17 @@ Praktisk:
   3. Skriv en test for migrasjonen i `save.test.ts`.
 
   Før første lansering holder vi `SAVE_VERSION = 1`. Nye felt gjøres valgfrie med en fornuftig standardverdi (se `baseDemand`).
+
+## PWA (installerbar app)
+
+Spillet er en Progressive Web App via `vite-plugin-pwa` (konfigurert i `vite.config.ts`).
+
+- **Offline:** Service workeren legger alt i cache (JS, CSS, HTML, ikoner og fonter), så spillet virker uten nett. Det er ingen eksterne kall: fontene er lagt inn i appen, og lagringen skjer lokalt.
+- **Manifest:** Navn, farger og ikoner er definert i `vite.config.ts`. Ikonene genereres fra `public/icon.svg` med `npm run icons` (`pwa-assets.config.ts`, skarp skalering for pikselkunst). Kjør kommandoen igjen etter at du har endret ikonet, og commit PNG-filene.
+- **Oppdateringer:** `registerType: 'prompt'`. Når en ny versjon er klar, viser `ui/pwa/PwaPrompt.tsx` et varsel med «Oppdater nå». Vi oppdaterer ikke automatisk, fordi en ny innlasting midt i et minispill ville brukt opp forsøket.
+- **Installering:** `ui/pwa/install.ts` fanger `beforeinstallprompt` (Chromium) og viser «Installer spillet» i hovedmenyen. På iOS Safari finnes ingen slik hendelse, så der vises et hint om «Del → Legg til på Hjem-skjerm».
+- **Utvikling:** Service workeren er bare aktiv i bygget. Test PWA-oppførselen med `npm run build && npm run preview`. Under `npm run dev` er den av, så cachen ikke skaper forvirring.
+- **Publisering:** `dist/` må serveres over HTTPS (eller localhost). Pass på at `sw.js` ikke caches for hardt av CDN-et, ellers kommer ikke oppdateringer frem.
 
 ## Innhold: slik legger du til ting
 
@@ -372,4 +385,4 @@ Botene er grovere enn en ekte spiller. De bruker for eksempel ikke stjerner, bak
 - Sluttrangeringen bruker absolutt verdi mot mye større AI-er. Forslaget er å rangere på verdivekst i forhold til startstørrelsen.
 - Hjelpebobler første gang du spiller (onboarding) er ikke laget.
 - Det finnes nesten ingen tester for UI-komponentene.
-- Publisering er ikke satt opp. `npm run build` gir en statisk `dist/` som kan legges på Vercel, Netlify eller GitHub Pages.
+- Publisering er ikke satt opp. `npm run build` gir en statisk `dist/` (med service worker) som kan legges på Vercel, Netlify eller GitHub Pages.

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useGame } from './store/gameStore'
 import { LoadScreen, MainMenu, NewGame, SettingsScreen } from './ui/screens/Menus'
+import { PwaPrompt } from './ui/pwa/PwaPrompt'
 import { Shell } from './ui/screens/Shell'
 
 export default function App() {
@@ -14,9 +15,20 @@ export default function App() {
     document.documentElement.dataset.motion = reducedMotion ? 'reduced' : 'full'
   }, [theme, reducedMotion])
 
-  if (screen === 'game' && game) return <Shell />
-  if (screen === 'newGame') return <NewGame />
-  if (screen === 'load') return <LoadScreen />
-  if (screen === 'settings') return <SettingsScreen />
-  return <MainMenu />
+  return (
+    <>
+      {screen === 'game' && game ? (
+        <Shell />
+      ) : screen === 'newGame' ? (
+        <NewGame />
+      ) : screen === 'load' ? (
+        <LoadScreen />
+      ) : screen === 'settings' ? (
+        <SettingsScreen />
+      ) : (
+        <MainMenu />
+      )}
+      <PwaPrompt />
+    </>
+  )
 }

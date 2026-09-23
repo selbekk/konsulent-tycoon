@@ -1,0 +1,35 @@
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 16px;
+  z-index: 80;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  width: min(520px, calc(100% - 32px));
+  padding: 10px 14px;
+  transform: translateX(-50%);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: drop 220ms ease-out;
+}
+
+.toast > span {
+  flex: 1;
+  min-width: 180px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+@keyframes drop {
+  from {
+    transform: translate(-50%, -12px);
+    opacity: 0;
+  }
+}

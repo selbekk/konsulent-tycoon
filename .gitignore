@@ -25,3 +25,6 @@ dist-ssr
 
 # Sim output
 sim-output/
+
+# PWA dev artefacts
+dev-dist/

@@ -403,5 +403,13 @@
     "shady": "Du gjorde {{total}} lyssky ting og ble tatt {{detected}} ganger.",
     "menu": "Til hovedmenyen",
     "again": "Spill igjen"
+  },
+  "pwa": {
+    "install": "Installer spillet",
+    "iosHint": "Spill som app: trykk Del og så «Legg til på Hjem-skjerm».",
+    "offlineReady": "Spillet er klart til å spilles offline.",
+    "updateReady": "En ny versjon av spillet er klar. Spillet er lagret.",
+    "update": "Oppdater nå",
+    "later": "Senere"
   }
 }

@@ -5,6 +5,7 @@ import type { Difficulty, Discipline, SlotId } from '../../engine'
 import { LOCALES, setLocale } from '../../i18n'
 import { useGame } from '../../store/gameStore'
 import { Button, Hint, Panel, Slider } from '../components/ui'
+import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/install'
 import { playSound } from '../sound'
 import { formatMoney, formatQuarter } from '../format'
 import m from './menu.module.css'
@@ -40,6 +41,8 @@ export function MainMenu() {
   const { t } = useTranslation()
   const go = useGame((x) => x.go)
   const load = useGame((x) => x.load)
+  const canInstall = useCanInstall()
+  const showIosHint = !canInstall && isIosSafari() && !isStandalone()
   const hasAuto = (() => {
     try {
       return listSlots(localStorage).some((x) => x.slot === 'auto' && x.status === 'playing')
@@ -69,7 +72,13 @@ export function MainMenu() {
           )}
           <Button onClick={() => go('load')}>{t('menu.load')}</Button>
           <Button onClick={() => go('settings')}>{t('menu.settings')}</Button>
+          {canInstall && (
+            <Button variant="ghost" icon="disk" onClick={() => void promptInstall()}>
+              {t('pwa.install')}
+            </Button>
+          )}
         </div>
+        {showIosHint && <p className={m.footer}>{t('pwa.iosHint')}</p>}
         <p className={m.footer}>{t('menu.disclaimer')}</p>
       </div>
     </div>
