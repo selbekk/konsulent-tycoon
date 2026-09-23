@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import i18n from '../../i18n'
 import { useGame } from '../../store/gameStore'
@@ -63,5 +63,20 @@ describe('levels in the shell', () => {
     rerender(<Shell />)
     expect(nav().getByRole('button', { name: /culture/i })).toBeInTheDocument()
     expect(nav().getByRole('button', { name: /backroom/i })).toBeInTheDocument()
+  })
+
+  it('celebrates a new level once the quarter report is closed', () => {
+    const game = structuredClone(useGame.getState().game!)
+    game.firms.player.tendersWon = 3
+    useGame.getState().loadState(game)
+    render(<Shell />)
+    act(() => useGame.getState().endTurn())
+    expect(useGame.getState().levelUp).toEqual({ from: 1, to: 2 })
+    fireEvent.click(screen.getByRole('button', { name: /^on to/i }))
+    const dialog = screen.getByRole('dialog', { name: /new level: startup/i })
+    expect(within(dialog).getByText(/the culture tab/i)).toBeInTheDocument()
+    fireEvent.click(within(dialog).getByRole('button', { name: /back to work/i }))
+    expect(useGame.getState().levelUp).toBeNull()
+    expect(screen.queryByRole('dialog', { name: /new level/i })).not.toBeInTheDocument()
   })
 })

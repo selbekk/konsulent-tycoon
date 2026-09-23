@@ -498,6 +498,7 @@
     "unlocks": "Unlocks:",
     "max": "You're at the top. There are no more levels, only more meetings.",
     "features": {
+      "kpis": "Key figures on the overview: utilisation, hourly rate, growth and retention",
       "culture": "The Culture tab: set budgets for craft, social life and pay",
       "stars": "The star market: hire named star consultants",
       "framework": "Framework agreements: big, long deals shared by several vendors",
@@ -508,10 +509,17 @@
     "seatsAll": "Tenders of any size",
     "shady": "New tricks in the Backroom: {{list}}",
     "up": "New level: {{name}}!",
-    "upBody": "{{firm}} has outgrown its old label.",
+    "upBody": "{{firm}} is now {{name}}. Someone has already ordered new business cards.",
     "lockedHint": "Unlocks at level {{level}}",
     "starsLocked": "The star market opens at level {{level}}. Until then, the founders will have to do.",
     "hiddenTenders_one": "{{count}} bigger tender appears once you reach level {{level}}.",
-    "hiddenTenders_other": "{{count}} bigger tenders appear once you reach level {{level}}."
+    "hiddenTenders_other": "{{count}} bigger tenders appear once you reach level {{level}}.",
+    "upContinue": "Back to work",
+    "bjorn": {
+      "2": "We're a proper company now. I bought a new pen.",
+      "3": "People are starting to know our name. Not all for good reasons, but still.",
+      "4": "Mid-size. I've always wanted a boardroom with a view.",
+      "5": "Industry heavyweight. I'll be mentioning it at every dinner party from now on."
+    }
   }
 }

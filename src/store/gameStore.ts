@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { applyAction, createNewGame, endTurn as engineEndTurn, loadFromSlot, saveToSlot } from '../engine'
+import { applyAction, createNewGame, firmLevel, endTurn as engineEndTurn, loadFromSlot, saveToSlot } from '../engine'
 import type { Action, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
 
 export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'game'
@@ -53,6 +53,8 @@ interface Store {
   report: number | null
   bidTenderId: string | null
   minigame: { tenderId: string; kind: MinigameKind } | null
+  /** Levels the player just moved between; shown as a celebration once the report is closed. */
+  levelUp: { from: number; to: number } | null
   settings: Settings
 
   go: (screen: Screen) => void
@@ -66,6 +68,7 @@ interface Store {
   quit: () => void
   clearError: () => void
   dismissReport: () => void
+  dismissLevelUp: () => void
   openBid: (tenderId: string | null) => void
   openMinigame: (m: { tenderId: string; kind: MinigameKind } | null) => void
   setSettings: (s: Partial<Settings>) => void
@@ -80,6 +83,7 @@ export const useGame = create<Store>((set, get) => ({
   report: null,
   bidTenderId: null,
   minigame: null,
+  levelUp: null,
   settings: typeof window === 'undefined' ? defaultSettings : loadSettings(),
 
   go: (screen) => set({ screen, previousScreen: get().screen }),
@@ -89,7 +93,7 @@ export const useGame = create<Store>((set, get) => ({
     const game = createNewGame(opts)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', game)
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null })
+    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null })
   },
 
   dispatch: (action) => {
@@ -113,7 +117,10 @@ export const useGame = create<Store>((set, get) => ({
     const next = engineEndTurn(game)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', next)
-    set({ game: next, report: game.quarter, bidTenderId: null, minigame: null, error: null })
+    const from = firmLevel(game.firms[game.playerId])
+    const to = firmLevel(next.firms[next.playerId])
+    const levelUp = to > from ? { from, to } : null
+    set({ game: next, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp })
   },
 
   save: (slot) => {
@@ -130,11 +137,13 @@ export const useGame = create<Store>((set, get) => ({
     return true
   },
 
-  loadState: (game) => set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null }),
+  loadState: (game) =>
+    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null }),
 
-  quit: () => set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null }),
+  quit: () => set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null }),
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),
+  dismissLevelUp: () => set({ levelUp: null }),
   openBid: (bidTenderId) => set({ bidTenderId, error: null }),
   openMinigame: (minigame) => set({ minigame }),
 

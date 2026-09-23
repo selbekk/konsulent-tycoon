@@ -101,6 +101,7 @@ export const LEVELS = [
 export const MAX_LEVEL = LEVELS.length
 /** Level at which each feature opens. Backroom tricks have their own `minLevel` in SHADY_CATALOG. */
 export const FEATURE_LEVEL = {
+  kpis: 2,
   culture: 2,
   stars: 2,
   // Level 3 made the early game clearly harder for the sim bot (see docs/balance-log.md).

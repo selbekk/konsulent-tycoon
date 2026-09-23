@@ -16,6 +16,7 @@ import { CultureScreen } from './CultureScreen'
 import { Dashboard } from './Dashboard'
 import { EndGame } from './EndGame'
 import { EventModal } from './EventModal'
+import { LevelUpModal } from './LevelUpModal'
 import { MarketScreen } from './MarketScreen'
 import { MinigameHost } from '../minigames/MinigameHost'
 import { QuarterReport } from './QuarterReport'
@@ -58,6 +59,7 @@ export function Shell() {
   const report = useGame((x) => x.report)
   const bidTenderId = useGame((x) => x.bidTenderId)
   const minigame = useGame((x) => x.minigame)
+  const levelUp = useGame((x) => x.levelUp)
   const settings = useGame((x) => x.settings)
   const go = useGame((x) => x.go)
   const [saving, setSaving] = useState(false)
@@ -66,7 +68,7 @@ export function Shell() {
   const me = game.firms[game.playerId]
   const pending = game.pendingEvents.filter((e) => e.firmId === me.id)
   const modalOpen =
-    report !== null || !!bidTenderId || !!minigame || pending.length > 0 || saving || confirmEnd || game.status !== 'playing'
+    report !== null || !!levelUp || !!bidTenderId || !!minigame || pending.length > 0 || saving || confirmEnd || game.status !== 'playing'
   const lng = i18n.language
   const level = firmLevel(me)
   const tabs = useMemo(() => visibleTabs(level), [level])
@@ -201,7 +203,8 @@ export function Shell() {
       </div>
 
       {report !== null && <QuarterReport />}
-      {report === null && pending.length > 0 && game.status === 'playing' && <EventModal event={pending[0]} />}
+      {report === null && levelUp && game.status === 'playing' && <LevelUpModal from={levelUp.from} to={levelUp.to} />}
+      {report === null && !levelUp && pending.length > 0 && game.status === 'playing' && <EventModal event={pending[0]} />}
       {bidTenderId && (
         // Kept mounted (but hidden) during the minigame so the draft bid survives.
         <div style={minigame ? { display: 'none' } : undefined}>

@@ -498,6 +498,7 @@
     "unlocks": "Det låser opp:",
     "max": "Dere er på toppen. Det finnes ikke flere nivåer, bare flere møter.",
     "features": {
+      "kpis": "Nøkkeltall på oversikten: faktureringsgrad, timepris, vekst og retention",
       "culture": "Kulturfanen: styr budsjett for fagmiljø, sosialt og lønn",
       "stars": "Stjernemarkedet: hent inn navngitte stjernekonsulenter",
       "framework": "Rammeavtaler: store, lange avtaler med flere leverandører",
@@ -508,10 +509,17 @@
     "seatsAll": "Anbud i alle størrelser",
     "shady": "Nye triks i bakrommet: {{list}}",
     "up": "Nytt nivå: {{name}}!",
-    "upBody": "{{firm}} har vokst ut av den forrige merkelappen.",
+    "upBody": "{{firm}} er nå {{name}}. Noen har allerede bestilt nye visittkort.",
     "lockedHint": "Låses opp på nivå {{level}}",
     "starsLocked": "Stjernemarkedet åpner på nivå {{level}}. Til da får gründerne gjøre jobben.",
     "hiddenTenders_one": "{{count}} større anbud vises når dere når nivå {{level}}.",
-    "hiddenTenders_other": "{{count}} større anbud vises når dere når nivå {{level}}."
+    "hiddenTenders_other": "{{count}} større anbud vises når dere når nivå {{level}}.",
+    "upContinue": "Tilbake til jobben",
+    "bjorn": {
+      "2": "Nå er vi et ordentlig selskap. Jeg har kjøpt en ny penn.",
+      "3": "Folk begynner å kjenne navnet vårt. Ikke alle av gode grunner, men likevel.",
+      "4": "Mellomstor. Jeg har alltid ønsket meg et styrerom med utsikt.",
+      "5": "Bransjetungvekt. Jeg skal nevne det i alle middagsselskaper fra nå av."
+    }
   }
 }

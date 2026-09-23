@@ -74,7 +74,7 @@
       "bankWarning": "Banken ringte. De var høflige, men tonen var ikke lenger like hjertelig."
     },
     "level": {
-      "up": "Dere har rykket opp til nivå {{level}}. Noen har allerede bestilt nye visittkort."
+      "up": "Dere har rykket opp til nivå {{level}}."
     }
   },
   "announcements": {

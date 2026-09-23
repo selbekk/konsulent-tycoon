@@ -37,51 +37,53 @@ export function Dashboard() {
 
   return (
     <div className={s.grid}>
-      <Panel title={t('kpi.title')} icon="chart" className={s.span12}>
-        <div className={m.tiles}>
-          <KpiTile
-            abbr="FG"
-            name={t('kpi.fg')}
-            value={pct(k.fg.now)}
-            trend={<TrendLine points={k.fg.trend} format={pct} label={t('kpi.fg')} />}
-            lines={[
-              <>{t('kpi.vsLast')} <Delta diff={vsLast(k.fg.now, k.fg.last)} format={pp} /></>,
-              <>{t('kpi.industry')} {bench.fg !== undefined ? pct(bench.fg) : '–'}</>,
-            ]}
-          />
-          <KpiTile
-            abbr="OT"
-            name={t('kpi.ot')}
-            value={k.ot.now !== undefined ? rate(k.ot.now) : '–'}
-            trend={<TrendLine points={k.ot.trend} format={rate} label={t('kpi.ot')} />}
-            lines={[
-              <>{t('kpi.vsLast')} <Delta diff={vsLast(k.ot.now, k.ot.last)} format={(v) => rate(v)} /></>,
-              <>{t('kpi.industry')} {bench.ot !== undefined ? rate(bench.ot) : '–'}</>,
-            ]}
-          />
-          <KpiTile
-            abbr={t('kpi.growthAbbr')}
-            name={t('kpi.growth')}
-            value={k.growth.yoy !== undefined ? signedPct(k.growth.yoy) : '–'}
-            trend={<TrendLine points={k.growth.trend} format={(v) => t('kpi.people', { count: v })} label={t('kpi.headcountTrend')} />}
-            lines={[
-              <>{t('kpi.qoq')} {k.growth.qoq !== undefined ? signedPct(k.growth.qoq) : '–'}</>,
-              <>{t('kpi.industry')} {bench.growth !== undefined ? signedPct(bench.growth) : '–'}</>,
-            ]}
-          />
-          <KpiTile
-            abbr={t('kpi.retentionAbbr')}
-            name={t('kpi.retention')}
-            value={k.retention.value !== undefined ? pct(k.retention.value) : '–'}
-            trend={<TrendLine points={k.retention.trend} format={pct} label={t('kpi.retention')} />}
-            lines={[
-              <>{t('kpi.leavers', { leavers: k.retention.leavers, fired: k.retention.fired })}</>,
-              <>{t('kpi.industry')} {bench.retention !== undefined ? pct(bench.retention) : '–'}</>,
-            ]}
-          />
-        </div>
-        <p className={`${s.small} ${s.muted}`} style={{ marginBottom: 0 }}>{t('kpi.explain')}</p>
-      </Panel>
+      {hasFeature(me, 'kpis') && (
+        <Panel title={t('kpi.title')} icon="chart" className={s.span12}>
+          <div className={m.tiles}>
+            <KpiTile
+              abbr="FG"
+              name={t('kpi.fg')}
+              value={pct(k.fg.now)}
+              trend={<TrendLine points={k.fg.trend} format={pct} label={t('kpi.fg')} />}
+              lines={[
+                <>{t('kpi.vsLast')} <Delta diff={vsLast(k.fg.now, k.fg.last)} format={pp} /></>,
+                <>{t('kpi.industry')} {bench.fg !== undefined ? pct(bench.fg) : '–'}</>,
+              ]}
+            />
+            <KpiTile
+              abbr="OT"
+              name={t('kpi.ot')}
+              value={k.ot.now !== undefined ? rate(k.ot.now) : '–'}
+              trend={<TrendLine points={k.ot.trend} format={rate} label={t('kpi.ot')} />}
+              lines={[
+                <>{t('kpi.vsLast')} <Delta diff={vsLast(k.ot.now, k.ot.last)} format={(v) => rate(v)} /></>,
+                <>{t('kpi.industry')} {bench.ot !== undefined ? rate(bench.ot) : '–'}</>,
+              ]}
+            />
+            <KpiTile
+              abbr={t('kpi.growthAbbr')}
+              name={t('kpi.growth')}
+              value={k.growth.yoy !== undefined ? signedPct(k.growth.yoy) : '–'}
+              trend={<TrendLine points={k.growth.trend} format={(v) => t('kpi.people', { count: v })} label={t('kpi.headcountTrend')} />}
+              lines={[
+                <>{t('kpi.qoq')} {k.growth.qoq !== undefined ? signedPct(k.growth.qoq) : '–'}</>,
+                <>{t('kpi.industry')} {bench.growth !== undefined ? signedPct(bench.growth) : '–'}</>,
+              ]}
+            />
+            <KpiTile
+              abbr={t('kpi.retentionAbbr')}
+              name={t('kpi.retention')}
+              value={k.retention.value !== undefined ? pct(k.retention.value) : '–'}
+              trend={<TrendLine points={k.retention.trend} format={pct} label={t('kpi.retention')} />}
+              lines={[
+                <>{t('kpi.leavers', { leavers: k.retention.leavers, fired: k.retention.fired })}</>,
+                <>{t('kpi.industry')} {bench.retention !== undefined ? pct(bench.retention) : '–'}</>,
+              ]}
+            />
+          </div>
+          <p className={`${s.small} ${s.muted}`} style={{ marginBottom: 0 }}>{t('kpi.explain')}</p>
+        </Panel>
+      )}
 
       <Panel title={t('capacity.title')} icon="people" className={s.span7}>
         <CapacityChart cap={cap} />
