@@ -1,6 +1,19 @@
-import { OFFSHORE_SATISFACTION_HIT, RENEWAL_CHANCE, RENEWAL_MIN_SATISFACTION, clamp } from './constants'
+import {
+  DISCOVERY_RATE_SHARE,
+  DISCOVERY_RENEWAL_FACTOR,
+  OFFSHORE_SATISFACTION_HIT,
+  PROMISE_BROKEN_RELATION,
+  PROMISE_BROKEN_SATISFACTION,
+  PROMISE_FULL_TEAM_MAX_GAP,
+  PROMISE_KEPT_RELATION,
+  PROMISE_KEPT_SATISFACTION,
+  PROMISE_PHASED_MAX_GAP,
+  RENEWAL_CHANCE,
+  RENEWAL_MIN_SATISFACTION,
+  clamp,
+} from './constants'
 import { disciplineLevel, isActive } from './economy'
-import type { FirmStaffing } from './economy'
+import type { ContractStaffing, FirmStaffing } from './economy'
 import { chance, nextInt, range } from './rng'
 import { DISCIPLINES } from './types'
 import type { Bid, Contract, Firm, GameState, Seats, Tender } from './types'
@@ -27,6 +40,14 @@ export function createContract(state: GameState, tender: Tender, bid: Bid, share
     outsourcedShare: 0,
     fraud: { cvPad: bid.cvPad, ghostCv: bid.ghostCv, baitAndSwitch: false },
     terminated: false,
+  }
+  if (bid.promise) {
+    contract.promise = bid.promise
+    // A paid survey first: the first quarter bills at a reduced rate, restored once it is delivered.
+    if (bid.promise === 'discovery') {
+      contract.fullRate = bid.rateMultiplier
+      contract.rateMultiplier = bid.rateMultiplier * DISCOVERY_RATE_SHARE
+    }
   }
   for (const id of bid.starIds) {
     const star = firm.stars.find((s) => s.id === id)
@@ -90,7 +111,32 @@ export function updateContracts(state: GameState, firm: Firm, staffing: FirmStaf
       100,
     )
     c.satisfaction = clamp(c.satisfaction + (target - c.satisfaction) * 0.35, 0, 100)
+    if (c.promise && c.promiseKept === undefined) checkPromise(state, c, cs, total)
     if (c.satisfaction < 30 && chance(state.rng, 0.25)) terminateContract(state, c, 'news.contract.terminatedUnhappy')
+  }
+}
+
+/** After the first quarter of delivery: did the firm do what it promised in the bid? */
+function checkPromise(state: GameState, c: Contract, cs: ContractStaffing, total: number) {
+  const gap = (seatTotal(cs.freelance) + seatTotal(cs.flex) + seatTotal(cs.offshore)) / total
+  const kept =
+    c.promise === 'fullTeam' ? gap <= PROMISE_FULL_TEAM_MAX_GAP : c.promise === 'phased' ? gap <= PROMISE_PHASED_MAX_GAP : true
+  c.promiseKept = kept
+  if (c.fullRate !== undefined) {
+    c.rateMultiplier = c.fullRate
+    delete c.fullRate
+  }
+  c.satisfaction = clamp(c.satisfaction + (kept ? PROMISE_KEPT_SATISFACTION : -PROMISE_BROKEN_SATISFACTION), 0, 100)
+  const cust = state.customers[c.customerId]
+  cust.relationships[c.firmId] = clamp(
+    (cust.relationships[c.firmId] ?? 20) + (kept ? PROMISE_KEPT_RELATION : -PROMISE_BROKEN_RELATION),
+    0,
+    100,
+  )
+  if (c.firmId === state.playerId) {
+    addNews(state, `news.promise.${kept ? 'kept' : 'broken'}.${c.promise}`, { customer: c.customerId }, kept ? 'good' : 'bad', {
+      personal: true,
+    })
   }
 }
 
@@ -125,7 +171,7 @@ export function expireContracts(state: GameState, quarter: number) {
       c.kind === 'project' &&
       !firm.bankrupt &&
       c.satisfaction >= RENEWAL_MIN_SATISFACTION &&
-      chance(state.rng, RENEWAL_CHANCE * (c.satisfaction / 80))
+      chance(state.rng, RENEWAL_CHANCE * (c.satisfaction / 80) * (c.promise === 'discovery' ? DISCOVERY_RENEWAL_FACTOR : 1))
     ) {
       const extra = nextInt(state.rng, 2, 4)
       c.endQuarter += extra

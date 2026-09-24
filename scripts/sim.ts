@@ -2,6 +2,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { PLAYER_BOTS } from '../src/engine/ai/personalities'
 import { planAiTurn, planEventAnswers } from '../src/engine/ai/planner'
+import { HUMAN_CRISIS_STYLE, planCrisisAnswers } from '../src/engine/ai/crises'
 import { planHumanProxy } from '../src/engine/ai/humanProxy'
 import type { StrategyMove } from '../src/engine/ai/humanProxy'
 import { averageMorale, headcount, quarterFinancials } from '../src/engine/economy'
@@ -72,6 +73,9 @@ function playGame(seed: number, strategy: string) {
     const draft = structuredClone(state)
     if (strategy !== 'idle' && bankruptAt === null) {
       for (const a of planEventAnswers(draft, draft.playerId)) applyActionInPlace(draft, a)
+      // Crisis talks use the same skill as the pitch meeting for each bot.
+      const talk = HUMAN_VARIANTS[strategy]?.minigame ?? HUMAN_CRISIS_STYLE.talk
+      for (const a of planCrisisAnswers(draft, draft.playerId, { ...HUMAN_CRISIS_STYLE, talk })) applyActionInPlace(draft, a)
       const plan =
         strategy === 'spam'
           ? planSpam(draft)

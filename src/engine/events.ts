@@ -45,7 +45,7 @@ export function drawEvents(state: GameState) {
   }
 }
 
-function applyMorale(firm: Firm, delta: number) {
+export function applyMorale(firm: Firm, delta: number) {
   for (const d of DISCIPLINES) firm.pools[d].morale = clamp(firm.pools[d].morale + delta, 0, 100)
   for (const s of firm.stars) s.morale = clamp(s.morale + delta, 0, 100)
 }

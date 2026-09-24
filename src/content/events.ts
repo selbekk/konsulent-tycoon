@@ -197,10 +197,6 @@ export const EVENTS: EventDef[] = [
     { id: 'office', effect: { sosialt: 4, morale: -2 } },
     { id: 'hybrid', effect: { morale: 3 } },
   ] },
-  { id: 'security_incident', weight: 0.8, cooldown: 8, minQuarter: 4, choices: [
-    { id: 'pay', effect: { cash: -400_000 } },
-    { id: 'downplay', effect: { reputation: -6 } },
-  ] },
   { id: 'poach_attempt', weight: 0, cooldown: 0, special: true, choices: [
     { id: 'match', effect: { special: 'poach_match' } },
     { id: 'let_go', effect: { special: 'poach_let_go' } },

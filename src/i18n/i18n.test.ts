@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { CRISES, EXPOSED_STAGE } from '../content/crises'
+import { CRISIS_TALKS, CRISIS_TALK_QUESTIONS, TALK_STYLES } from '../content/crisisTalks'
 import { EVENTS } from '../content/events'
 import { ANNOUNCEMENTS } from '../content/announcements'
 import { FIRMS } from '../content/firms'
@@ -53,6 +55,19 @@ describe('i18n', () => {
       check(game, `events.${e.id}.body`)
       for (const c of e.choices) check(game, `events.${e.id}.choices.${c.id}`)
     }
+    for (const c of CRISES) {
+      check(game, `crises.${c.id}.title`)
+      check(game, c.scope === 'market' ? `crises.${c.id}.news` : `crises.${c.id}.gossip`)
+      for (const st of c.stages) {
+        if (st.route) continue
+        if (st.reveals) for (const sev of ['low', 'high']) check(game, `crises.${c.id}.${st.id}.body.${sev}`)
+        else check(game, `crises.${c.id}.${st.id}.body`)
+        for (const ch of st.choices) check(game, `crises.${c.id}.${st.id}.choices.${ch.id}`)
+      }
+      check(ui, `crisis.categories.${c.category}`)
+    }
+    check(game, `crises.${EXPOSED_STAGE.id}.body`)
+    for (const ch of EXPOSED_STAGE.choices) check(game, `crises.${EXPOSED_STAGE.id}.choices.${ch.id}`)
     for (const a of ANNOUNCEMENTS) check(game, `announcements.${a.id}`)
     for (const m of MISSIONS) check(content, `missions.${m.id}.name`)
     for (const p of PARTNERSHIPS) check(content, `partnerships.${p.id}.name`)
@@ -75,6 +90,17 @@ describe('i18n', () => {
       check(ui, `onboarding.features.${f}`)
     }
     for (const b of BUZZWORDS) check(mg, `buzzwords.${b}`)
+    for (const st of TALK_STYLES) check(mg, `crisisTalk.learned.${st}`)
+    for (const k of CRISIS_TALKS) {
+      check(mg, `crisisTalk.${k}.title`)
+      check(mg, `crisisTalk.${k}.intro`)
+      check(ui, `crisis.talk.${k}`)
+      for (const st of TALK_STYLES) check(mg, `crisisTalk.${k}.clues.${st}`)
+      for (const q of CRISIS_TALK_QUESTIONS[k]) {
+        check(mg, `crisisTalk.${k}.questions.${q}.q`)
+        for (const a of TALK_STYLES) check(mg, `crisisTalk.${k}.questions.${q}.a.${a}`)
+      }
+    }
     for (const q of MEETING_QUESTIONS) for (const s of MEETING_STYLES) check(mg, `meeting.questions.${q}.a.${s}`)
     expect(missing).toEqual([])
   })

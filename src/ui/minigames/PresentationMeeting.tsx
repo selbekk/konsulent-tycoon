@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { reactionFor, scoreMeeting, setupMeeting } from '../../engine/minigames'
-import type { MeetingStyle, Tender } from '../../engine'
+import type { CustomerNeed, MeetingStyle, Tender } from '../../engine'
 import { Button, Modal } from '../components/ui'
 import { playSound } from '../sound'
 import s from './minigames.module.css'
@@ -10,12 +10,14 @@ interface Props {
   tender: Tender
   firmId: string
   preference: MeetingStyle
+  /** What the customer lets on beforehand (see customerNeeds). */
+  needs: CustomerNeed[]
   onStart: () => void
   onFinish: (score: number) => void
   onClose: () => void
 }
 
-export function PresentationMeeting({ tender, firmId, preference, onStart, onFinish, onClose }: Props) {
+export function PresentationMeeting({ tender, firmId, preference, needs, onStart, onFinish, onClose }: Props) {
   const { t } = useTranslation()
   const rounds = useMemo(() => setupMeeting(tender, firmId), [tender, firmId])
   const [step, setStep] = useState(-1)
@@ -56,6 +58,14 @@ export function PresentationMeeting({ tender, firmId, preference, onStart, onFin
             <Panelists />
           </div>
           <p>{t('minigames:meeting.intro', { customer })}</p>
+          <div>
+            <strong>{t('minigames:meeting.brief')}</strong>
+            <ul className={s.brief}>
+              {needs.map((n) => (
+                <li key={n}>{t(`ui:bid.needItems.${n}`)}</li>
+              ))}
+            </ul>
+          </div>
           <p className={s.muted}>{t('minigame.oneShot')}</p>
           <Button variant="primary" onClick={start}>
             {t('minigames:meeting.start')}
@@ -64,6 +74,7 @@ export function PresentationMeeting({ tender, firmId, preference, onStart, onFin
       ) : score !== null ? (
         <div className={s.stack}>
           <p className={s.score}>{t('minigames:meeting.result', { score })}</p>
+          <p>{t(`minigames:meeting.learned.${preference}`)}</p>
           <Button variant="primary" onClick={onClose}>
             {t('minigame.back')}
           </Button>

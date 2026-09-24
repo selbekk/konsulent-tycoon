@@ -51,11 +51,18 @@
   "meeting": {
     "title": "Pitch meeting",
     "intro": "Three people from {{customer}} are waiting with coffee and a checklist. Answer three questions.",
+    "brief": "What you know about the customer:",
     "start": "Enter the meeting room",
     "question": "Question {{n}} of 3",
     "next": "Next",
     "finish": "Thanks for having us",
     "result": "The meeting scored {{score}} out of 100.",
+    "learned": {
+      "concrete": "The panel liked concrete answers best. Worth remembering.",
+      "visionary": "The panel liked the big vision best. Worth remembering.",
+      "humble": "The panel liked honesty and humility best. Worth remembering.",
+      "buzzword": "The panel liked the buzzwords best. No judgement."
+    },
     "reactions": {
       "love": "The panel nods eagerly. Someone writes \"good!\" in the margin.",
       "ok": "The panel takes polite notes.",
@@ -1988,6 +1995,203 @@
           "buzzword": "We introduce holistic, role-based identity and access management with seamless board transition."
         }
       }
+    }
+  },
+  "crisisTalk": {
+    "timer": "{{seconds}} s",
+    "timeout": "You stood there thinking. It was noted.",
+    "question": "Question {{n}} of 3",
+    "next": "Next",
+    "finish": "Done",
+    "start": "Go in",
+    "result": "The talk scored {{score}} out of 100.",
+    "tier": {
+      "good": "That went well. People left feeling somebody is in control.",
+      "ok": "That went fine. Nobody will remember it in a week.",
+      "bad": "That went badly. A quote of yours is already doing the rounds."
+    },
+    "reactions": {
+      "love": "A few nods. It feels like a turning point.",
+      "ok": "Polite note-taking.",
+      "hate": "The room goes quiet. Not the good kind of quiet."
+    },
+    "press": {
+      "title": "Press conference",
+      "intro": "Five journalists, two cameras and a microphone that squeals. You have {{seconds}} seconds per question.",
+      "questions": {
+        "who_knew": {
+          "q": "When did management know about this?",
+          "a": {
+            "candid": "We knew on Tuesday. We should have said so on Tuesday.",
+            "caring": "Our first thought was the people affected. That's why we called them before we called you.",
+            "facts": "The alert came at 09:14 on Tuesday. Measures were in place by 11:40. The full timeline is on our website.",
+            "spin": "We have maintained a proactive, holistic focus on this from day one."
+          }
+        },
+        "responsible": {
+          "q": "Who is responsible?",
+          "a": {
+            "candid": "I am.",
+            "caring": "We take responsibility as a company, and we're looking after the team in the middle of it.",
+            "facts": "A change went out without review. We've checked 214 similar changes, and none had the same flaw.",
+            "spin": "This is a challenge the whole industry needs to tackle together."
+          }
+        },
+        "again": {
+          "q": "Could this happen again?",
+          "a": {
+            "candid": "Yes, if we change nothing. So we're changing things.",
+            "caring": "We'll do everything we can so nobody has to go through this again.",
+            "facts": "We've added three new checks and an external audit every six months.",
+            "spin": "We are now better equipped than ever to meet the challenges of the future."
+          }
+        },
+        "affected": {
+          "q": "What do you say to the people affected?",
+          "a": {
+            "candid": "Sorry. This was our fault.",
+            "caring": "That we understand they're worried, and they can call us directly. We answer around the clock.",
+            "facts": "It affects 1,400 people. All of them have had a letter, and we've already spoken to 92 per cent.",
+            "spin": "Fortunately, the vast majority haven't noticed anything at all."
+          }
+        },
+        "resign": {
+          "q": "Are you considering stepping down?",
+          "a": {
+            "candid": "No. I'm going to fix this, and you can hold me to it.",
+            "caring": "Right now the most important thing is to be here for the team and our clients.",
+            "facts": "The board has considered it and given me three concrete targets by New Year.",
+            "spin": "I have never been more motivated to take the company into its next phase."
+          }
+        }
+      },
+      "clues": {
+        "candid": "The journalists have talked to sources. They know more than you think.",
+        "caring": "The papers are mostly writing about the people affected.",
+        "facts": "It's the trade press, and they've brought spreadsheets.",
+        "spin": "It's late in the news day. They just need a quote for the web story."
+      }
+    },
+    "townhall": {
+      "title": "All-hands",
+      "intro": "The whole firm in the canteen. Someone brought popcorn. You have {{seconds}} seconds per question.",
+      "questions": {
+        "why_now": {
+          "q": "Why are we only hearing about this now?",
+          "a": {
+            "candid": "Because we were too slow. That's on me.",
+            "caring": "Because we wanted to protect the people involved. But I know it's been a heavy week for you.",
+            "facts": "We found out nine days ago. The lawyers asked us to wait until the facts were checked.",
+            "spin": "We have communicated in line with our values of openness throughout."
+          }
+        },
+        "safe": {
+          "q": "Is it safe to speak up here?",
+          "a": {
+            "candid": "Not safe enough, it seems. We have to fix that.",
+            "caring": "It should be. And you can always come to me, after hours too.",
+            "facts": "From next month we'll have an external whistleblowing channel. Every case gets an answer within five days.",
+            "spin": "There's a policy for that on the intranet."
+          }
+        },
+        "bonus": {
+          "q": "Does this affect the bonus?",
+          "a": {
+            "candid": "Maybe. I'll tell you as soon as I know.",
+            "caring": "I know a lot of you are worried. Nobody will get a nasty surprise in the post.",
+            "facts": "Profit drops by about three per cent. The bonus model is unchanged.",
+            "spin": "Let's stay focused on what matters here."
+          }
+        },
+        "trust": {
+          "q": "Why should we trust management now?",
+          "a": {
+            "candid": "Don't take our word for it. Watch what we do.",
+            "caring": "Because we're in this together, and I'll be standing here until it's sorted.",
+            "facts": "We'll publish progress every Friday, with numbers. You can check for yourselves.",
+            "spin": "Because we're management."
+          }
+        },
+        "next": {
+          "q": "What happens now?",
+          "a": {
+            "candid": "We clean it up, and it'll be uncomfortable for a while.",
+            "caring": "Now we look after each other. There's cake in the canteen, and my door is open.",
+            "facts": "Three actions. I'll email them after this meeting, with owners and deadlines.",
+            "spin": "Business as usual!"
+          }
+        }
+      },
+      "clues": {
+        "candid": "People are angry, and they've noticed when they were talked around.",
+        "caring": "People are mostly tired and scared. Many haven't slept well.",
+        "facts": "The developers have already started a Slack thread full of questions and numbers.",
+        "spin": "Half the firm is at client sites, watching the stream on mute."
+      }
+    },
+    "client": {
+      "title": "Crisis meeting with the client",
+      "intro": "The client's leadership team sits in a row. Nobody has taken their coat off. You have {{seconds}} seconds per question.",
+      "questions": {
+        "what_happened": {
+          "q": "What actually happened?",
+          "a": {
+            "candid": "We made a mistake. Full stop.",
+            "caring": "First: we understand this has hit you and your users hard.",
+            "facts": "Here's the timeline minute by minute, and here's the root cause.",
+            "spin": "It's a complex matter with lots of learning points for all parties."
+          }
+        },
+        "fix": {
+          "q": "What are you doing to put it right?",
+          "a": {
+            "candid": "Our best person is on it, and it costs you nothing.",
+            "caring": "We're here for as long as it takes. You'll have my mobile number.",
+            "facts": "Four actions with deadlines, and a status report every Friday.",
+            "spin": "We propose a pre-study to map the need."
+          }
+        },
+        "money": {
+          "q": "Why should we pay for this?",
+          "a": {
+            "candid": "You shouldn't. This one's on us.",
+            "caring": "We don't want this to spoil a good partnership. Let's find a solution together.",
+            "facts": "We'll credit 38 hours. That's what the fault cost you.",
+            "spin": "The contract is fairly clear on that point."
+          }
+        },
+        "again": {
+          "q": "How do we know it won't happen again?",
+          "a": {
+            "candid": "You don't. But you'll see everything we do to prevent it.",
+            "caring": "Because we care about what you're building, and we're watching extra closely now.",
+            "facts": "Review on everything, automated tests right here, and you get access to the logs.",
+            "spin": "It was a one-off."
+          }
+        },
+        "trust": {
+          "q": "Why should we keep working with you?",
+          "a": {
+            "candid": "Because we tell you when something goes wrong. Like now.",
+            "caring": "Because we know your people, and we want them to succeed.",
+            "facts": "We've delivered on time in 94 per cent of sprints.",
+            "spin": "Who else would you hire?"
+          }
+        }
+      },
+      "clues": {
+        "candid": "The client has been around a long time and hates excuses.",
+        "caring": "Their contact person has been told off by their own management over this.",
+        "facts": "The client brought their head of procurement and an engineer with a notepad.",
+        "spin": "The client's management just needs a nice line to pass on to the board."
+      }
+    },
+    "brief": "What you know:",
+    "learned": {
+      "candid": "They wanted straight honesty. Worth remembering.",
+      "caring": "They needed to feel seen and looked after. Worth remembering.",
+      "facts": "They wanted facts, numbers and a plan. Worth remembering.",
+      "spin": "They just wanted a nice turn of phrase. No judgement."
     }
   }
 }

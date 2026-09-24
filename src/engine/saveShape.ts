@@ -6,6 +6,7 @@ import type {
   Bid,
   Budgets,
   Contract,
+  Crisis,
   Customer,
   Firm,
   GameState,
@@ -49,6 +50,7 @@ const TREND = required<ActiveTrend>()(['id', 'untilQuarter'])
 const PENDING = required<PendingEvent>()(['id', 'eventId', 'firmId', 'params'])
 const NEWS = required<NewsItem>()(['id', 'quarter', 'key', 'params', 'tone'])
 const AWARD = required<Award>()(['awardId', 'firmId', 'year'])
+const CRISIS = required<Crisis>()(['id', 'defId', 'firmId', 'stage', 'severity', 'startQuarter', 'stageQuarter', 'params', 'status', 'log'])
 
 type Obj = Record<string, unknown>
 const isObj = (v: unknown): v is Obj => typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -100,6 +102,7 @@ export function hasValidShape(s: unknown): s is GameState {
     all(s.news, (n) => hasKeys(n, NEWS)) &&
     all(s.starMarket, (x) => hasKeys(x, STAR)) &&
     all(s.lastAwards, (a) => hasKeys(a, AWARD)) &&
-    isObj(s.eventHistory)
+    isObj(s.eventHistory) &&
+    (s.crises === undefined || all(s.crises, (c) => hasKeys(c, CRISIS) && isObj(c.params) && Array.isArray(c.log)))
   )
 }

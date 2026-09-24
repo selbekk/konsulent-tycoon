@@ -51,11 +51,18 @@
   "meeting": {
     "title": "Presentasjonsmøte",
     "intro": "Tre personer fra {{customer}} sitter klare med kaffe og en sjekkliste. Svar på tre spørsmål.",
+    "brief": "Det dere vet om kunden:",
     "start": "Inn i møterommet",
     "question": "Spørsmål {{n}} av 3",
     "next": "Neste",
     "finish": "Takk for møtet",
     "result": "Møtet fikk {{score}} av 100.",
+    "learned": {
+      "concrete": "Panelet likte konkrete svar best. Greit å vite til neste gang.",
+      "visionary": "Panelet likte de store visjonene best. Greit å vite til neste gang.",
+      "humble": "Panelet likte ærlighet og ydmykhet best. Greit å vite til neste gang.",
+      "buzzword": "Panelet likte buzzordene best. Ingen dømmer."
+    },
     "reactions": {
       "love": "Panelet nikker ivrig. Noen skriver «bra!» i margen.",
       "ok": "Panelet noterer høflig.",
@@ -1988,6 +1995,203 @@
           "buzzword": "Vi innfører helhetlig, rollebasert identitets- og tilgangsstyring med sømløs styreoverlapp."
         }
       }
+    }
+  },
+  "crisisTalk": {
+    "timer": "{{seconds}} s",
+    "timeout": "Du ble stående og tenke. Det ble notert.",
+    "question": "Spørsmål {{n}} av 3",
+    "next": "Neste",
+    "finish": "Ferdig",
+    "start": "Gå inn",
+    "result": "Samtalen fikk {{score}} av 100.",
+    "tier": {
+      "good": "Det gikk bra. Folk gikk derfra med en følelse av at noen har kontroll.",
+      "ok": "Det gikk greit. Ingen husker det om en uke.",
+      "bad": "Det gikk dårlig. Et sitat fra deg er allerede på vei rundt."
+    },
+    "reactions": {
+      "love": "Noen nikker. Det føles som et vendepunkt.",
+      "ok": "Det noteres høflig.",
+      "hate": "Rommet blir stille. Ikke den gode typen stille."
+    },
+    "press": {
+      "title": "Pressekonferanse",
+      "intro": "Fem journalister, to kameraer og en mikrofon som piper. Du har {{seconds}} sekunder på hvert spørsmål.",
+      "questions": {
+        "who_knew": {
+          "q": "Når visste ledelsen om dette?",
+          "a": {
+            "candid": "Vi visste det på tirsdag. Vi burde sagt det på tirsdag.",
+            "caring": "Det første vi tenkte på, var dem som er rammet. Derfor ringte vi dem før vi ringte dere.",
+            "facts": "Varselet kom tirsdag 09.14. Tiltakene var på plass 11.40. Hele tidslinjen ligger på nettsiden vår.",
+            "spin": "Vi har hatt et proaktivt og helhetlig fokus på saken fra dag én."
+          }
+        },
+        "responsible": {
+          "q": "Hvem har ansvaret?",
+          "a": {
+            "candid": "Det har jeg.",
+            "caring": "Vi tar ansvar som selskap, og vi tar vare på teamet som står midt i dette.",
+            "facts": "En endring gikk ut uten review. Vi har sjekket 214 lignende endringer, og ingen andre hadde samme feil.",
+            "spin": "Dette er en utfordring hele bransjen må løfte i fellesskap."
+          }
+        },
+        "again": {
+          "q": "Kan dette skje igjen?",
+          "a": {
+            "candid": "Ja, hvis vi ikke endrer noe. Derfor endrer vi noe.",
+            "caring": "Vi skal gjøre alt vi kan for at ingen skal oppleve dette igjen.",
+            "facts": "Vi har innført tre nye kontroller og en ekstern revisjon hvert halvår.",
+            "spin": "Vi er nå bedre rustet enn noen gang til å møte fremtidens utfordringer."
+          }
+        },
+        "affected": {
+          "q": "Hva sier dere til dem som er rammet?",
+          "a": {
+            "candid": "Unnskyld. Dette var vår feil.",
+            "caring": "At vi forstår at de er bekymret, og at de kan ringe oss direkte. Vi svarer hele døgnet.",
+            "facts": "Det gjelder 1 400 personer. Alle har fått brev, og 92 prosent har vi allerede snakket med.",
+            "spin": "De aller fleste har heldigvis ikke merket noe som helst."
+          }
+        },
+        "resign": {
+          "q": "Vurderer du å gå av?",
+          "a": {
+            "candid": "Nei. Jeg skal rydde opp, og dere kan måle meg på det.",
+            "caring": "Akkurat nå er det viktigste å være her for teamet og kundene.",
+            "facts": "Styret har vurdert det og gitt meg tre konkrete mål innen nyttår.",
+            "spin": "Jeg har aldri vært mer motivert for å ta selskapet inn i neste fase."
+          }
+        }
+      },
+      "clues": {
+        "candid": "Journalistene har snakket med kilder. De vet mer enn du tror.",
+        "caring": "Avisene skriver mest om menneskene som er rammet.",
+        "facts": "Det er fagpressen som møter opp, og de har tatt med regneark.",
+        "spin": "Det er sent på en nyhetsdag. De trenger bare et sitat til nettsaken."
+      }
+    },
+    "townhall": {
+      "title": "Allmøte",
+      "intro": "Hele firmaet i kantina. Noen har tatt med popkorn. Du har {{seconds}} sekunder på hvert spørsmål.",
+      "questions": {
+        "why_now": {
+          "q": "Hvorfor hører vi om dette først nå?",
+          "a": {
+            "candid": "Fordi vi var for trege. Det tar jeg på meg.",
+            "caring": "Fordi vi ville skåne dem det gjelder. Men jeg skjønner at det har vært en tung uke for dere.",
+            "facts": "Vi fikk vite det for ni dager siden. Juristene ba oss vente til fakta var sjekket.",
+            "spin": "Vi har hele veien kommunisert i tråd med verdiene våre om åpenhet."
+          }
+        },
+        "safe": {
+          "q": "Er det trygt å si ifra her?",
+          "a": {
+            "candid": "Ikke godt nok, ser det ut til. Det må vi fikse.",
+            "caring": "Det skal det være. Og du kan alltid komme til meg, også etter jobb.",
+            "facts": "Fra neste måned får vi en ekstern varslingskanal. Alle saker får svar innen fem dager.",
+            "spin": "Vi har en policy for det på intranettet."
+          }
+        },
+        "bonus": {
+          "q": "Påvirker dette bonusen?",
+          "a": {
+            "candid": "Kanskje. Jeg sier ifra så fort jeg vet.",
+            "caring": "Jeg vet at mange er usikre. Ingen skal få en overraskelse i posten.",
+            "facts": "Resultatet går ned med rundt tre prosent. Bonusmodellen er uendret.",
+            "spin": "La oss holde fokus på det som er viktig her."
+          }
+        },
+        "trust": {
+          "q": "Hvorfor skal vi stole på ledelsen nå?",
+          "a": {
+            "candid": "Ikke på ordet. Se på hva vi gjør.",
+            "caring": "Fordi vi er i dette sammen, og jeg står her til det er løst.",
+            "facts": "Vi legger ut fremdriften hver fredag, med tall. Da kan dere sjekke selv.",
+            "spin": "Fordi vi er ledelsen."
+          }
+        },
+        "next": {
+          "q": "Hva skjer nå?",
+          "a": {
+            "candid": "Vi rydder opp, og det blir ubehagelig en stund.",
+            "caring": "Nå tar vi vare på hverandre. Det er kake i kantina, og døren min er åpen.",
+            "facts": "Tre tiltak. Jeg sender dem på e-post etter møtet, med ansvarlig og frist.",
+            "spin": "Business as usual!"
+          }
+        }
+      },
+      "clues": {
+        "candid": "Folk er sinte, og de har merket når de har blitt snakket rundt.",
+        "caring": "Folk er mest slitne og redde. Mange har ikke sovet godt.",
+        "facts": "Utviklerne har allerede laget en egen Slack-tråd med spørsmål og tall.",
+        "spin": "Halve firmaet sitter på oppdrag og ser på streamen uten lyd."
+      }
+    },
+    "client": {
+      "title": "Krisemøte med kunden",
+      "intro": "Ledergruppen hos kunden sitter på rad. Ingen har tatt av seg jakken. Du har {{seconds}} sekunder på hvert spørsmål.",
+      "questions": {
+        "what_happened": {
+          "q": "Hva er det egentlig som har skjedd?",
+          "a": {
+            "candid": "Vi gjorde en feil. Punktum.",
+            "caring": "Først: vi skjønner at dette har gått hardt ut over dere og brukerne deres.",
+            "facts": "Her er tidslinjen minutt for minutt, og her er rotårsaken.",
+            "spin": "Det er en sammensatt sak med mange læringspunkter for alle parter."
+          }
+        },
+        "fix": {
+          "q": "Hva gjør dere for å rette det opp?",
+          "a": {
+            "candid": "Vi setter vår beste person på det, og det koster dere ingenting.",
+            "caring": "Vi er her så lenge det trengs. Dere får mobilnummeret mitt.",
+            "facts": "Fire tiltak med frist, og en statusrapport hver fredag.",
+            "spin": "Vi foreslår et forprosjekt for å kartlegge behovet."
+          }
+        },
+        "money": {
+          "q": "Hvorfor skal vi betale for dette?",
+          "a": {
+            "candid": "Det skal dere ikke. Denne er på oss.",
+            "caring": "Vi vil ikke at dette skal ødelegge et godt samarbeid. La oss finne en løsning sammen.",
+            "facts": "Vi krediterer 38 timer. Det er tiden feilen kostet dere.",
+            "spin": "Kontrakten er ganske tydelig på det punktet."
+          }
+        },
+        "again": {
+          "q": "Hvordan vet vi at det ikke skjer igjen?",
+          "a": {
+            "candid": "Det vet dere ikke. Men dere får se alt vi gjør for å hindre det.",
+            "caring": "Fordi vi bryr oss om det dere lager, og vi følger ekstra godt med nå.",
+            "facts": "Review på alt, automatiske tester akkurat her, og dere får tilgang til loggene.",
+            "spin": "Det var et engangstilfelle."
+          }
+        },
+        "trust": {
+          "q": "Hvorfor skal vi fortsette med dere?",
+          "a": {
+            "candid": "Fordi vi sier ifra når noe går galt. Som nå.",
+            "caring": "Fordi vi kjenner folkene deres, og vi vil at de skal lykkes.",
+            "facts": "Vi har levert i tide i 94 prosent av sprintene.",
+            "spin": "Hvem andre skulle dere tatt?"
+          }
+        }
+      },
+      "clues": {
+        "candid": "Kunden har vært i bransjen lenge og hater bortforklaringer.",
+        "caring": "Kontaktpersonen deres har fått kjeft av sin egen ledelse for dette.",
+        "facts": "Kunden har tatt med innkjøpssjefen og en ingeniør med notatblokk.",
+        "spin": "Kundens ledelse trenger bare en fin setning å gi videre til styret."
+      }
+    },
+    "brief": "Det du vet:",
+    "learned": {
+      "candid": "De ville ha ærlighet rett på sak. Greit å vite til neste gang.",
+      "caring": "De trengte å bli sett og tatt vare på. Greit å vite til neste gang.",
+      "facts": "De ville ha fakta, tall og en plan. Greit å vite til neste gang.",
+      "spin": "De ville bare ha en fin formulering. Ingen dømmer."
     }
   }
 }

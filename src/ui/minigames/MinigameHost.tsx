@@ -1,3 +1,4 @@
+import { customerNeeds } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { BuzzwordBingo } from './BuzzwordBingo'
 import { PresentationMeeting } from './PresentationMeeting'
@@ -18,7 +19,11 @@ export function MinigameHost() {
   }
   const props = { tender, firmId: game.playerId, onStart: start, onFinish: finish, onClose: () => close(null) }
   return minigame.kind === 'meeting' ? (
-    <PresentationMeeting {...props} preference={game.customers[tender.customerId].meetingPreference} />
+    <PresentationMeeting
+      {...props}
+      preference={game.customers[tender.customerId].meetingPreference}
+      needs={customerNeeds(game, tender, game.playerId)}
+    />
   ) : (
     <BuzzwordBingo {...props} />
   )

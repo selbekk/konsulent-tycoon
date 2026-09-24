@@ -41,6 +41,11 @@ export function resolveParams(params: Params, t: TFunction, lng: string): Params
   if (typeof params.discipline === 'string') out.discipline = t(`ui:disciplines.${params.discipline}`).toLowerCase()
   if (typeof params.fine === 'number') out.fine = formatMoney(params.fine, lng)
   if (typeof params.mission === 'string') out.mission = t(`content:missions.${params.mission}.name`)
+  // Why a tender was lost or won: factor ids (see BidFactor) become a short sentence.
+  if (typeof params.weak === 'string') out.weak = t(`game:factors.weak.${params.weak}`)
+  if (typeof params.strong === 'string') out.strong = t(`game:factors.strong.${params.strong}`)
+  // A crisis title may itself name the customer, star or discipline, so it goes last.
+  if (typeof params.crisis === 'string') out.crisis = t(`game:crises.${params.crisis}.title`, out)
   return out
 }
 

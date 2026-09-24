@@ -55,6 +55,13 @@ export function ContractsScreen() {
                             {c.kind === 'framework' ? t('contracts.frameworkRank', { rank: c.rank }) : t('tenders.kind.project')}
                           </Badge>
                           {!active && <Badge tone="info">{t('contracts.upcoming')}</Badge>}
+                          {c.promise && (
+                            <Badge tone={c.promiseKept === undefined ? 'info' : c.promiseKept ? 'good' : 'bad'}>
+                              {t(`contracts.promise.${c.promiseKept === undefined ? 'pending' : c.promiseKept ? 'kept' : 'broken'}`, {
+                                promise: t(`contracts.promises.${c.promise}`),
+                              })}
+                            </Badge>
+                          )}
                           {c.outsourcedShare > 0 && <Badge tone="bad">{t('contracts.offshore', { pct: Math.round(c.outsourcedShare * 100) })}</Badge>}
                           {(c.fraud.cvPad || c.fraud.ghostCv || c.fraud.baitAndSwitch) && <Badge tone="bad">{t('contracts.fraud')}</Badge>}
                         </div>

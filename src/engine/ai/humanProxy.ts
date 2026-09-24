@@ -5,8 +5,9 @@ import { starBusyThrough } from '../contracts'
 import { hasFeature, tenderLock } from '../levels'
 import { lobbyReadyIn } from '../strategy'
 import { planContractMoves } from './contractMoves'
+import { choosePromise } from './promises'
 import { noise } from '../rng'
-import { openTenders } from '../tenders'
+import { isKeyTender, openTenders } from '../tenders'
 import { DISCIPLINES } from '../types'
 import type { Action, Discipline, GameState } from '../types'
 import { seatTotal } from '../util'
@@ -69,13 +70,15 @@ export function planHumanProxy(
       .filter((s) => !promised.has(s.id) && (t.seats[s.discipline] ?? 0) > 0 && starBusyThrough(state, firm, s.id, t) === undefined)
       .slice(0, 2)
     stars.forEach((s) => promised.add(s.id))
-    actions.push({
-      type: 'recordMinigame',
-      firmId,
-      tenderId: t.id,
-      kind: 'meeting',
-      score: Math.max(0, Math.min(100, (opts.minigame ?? 70) + noise(state.rng, 15))),
-    })
+    // Only key tenders have a customer meeting.
+    if (isKeyTender(t))
+      actions.push({
+        type: 'recordMinigame',
+        firmId,
+        tenderId: t.id,
+        kind: 'meeting',
+        score: Math.max(0, Math.min(100, (opts.minigame ?? 70) + noise(state.rng, 15))),
+      })
     actions.push({
       type: 'placeBid',
       tenderId: t.id,
@@ -86,6 +89,7 @@ export function planHumanProxy(
         effort: runway > 1 ? 2 : 1,
         cvPad: false,
         ghostCv: false,
+        promise: choosePromise(t, free),
       },
     })
     for (const d of DISCIPLINES) free[d] -= t.seats[d] ?? 0

@@ -150,7 +150,7 @@ Hjelpere som er trygge å kalle fra UI-et for estimater og visning: `quarterFina
 
 Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
 
-`setBudgets`, `orderHires`, `fire`, `hireStar`, `giveRaise`, `placeBid`, `withdrawBid`, `recordMinigame`, `resolveEvent`, `shady`, strategihandlingene og kontrakthandlingene (`renegotiateContract`, `cancelContract`, `upsellContract`, `nurtureContract`).
+`setBudgets`, `orderHires`, `fire`, `hireStar`, `giveRaise`, `placeBid`, `withdrawBid`, `recordMinigame`, `resolveEvent`, `resolveCrisis`, `startCrisisTalk`, `shady`, strategihandlingene og kontrakthandlingene (`renegotiateContract`, `cancelContract`, `upsellContract`, `nurtureContract`).
 
 - `applyAction` lager en kopi med `structuredClone`, kjører handleren og returnerer den nye staten.
 - Ved feil returneres den **opprinnelige** staten sammen med en feilnøkkel, for eksempel `'errors.notEnoughCash'`. Feilnøkkelen er en i18n-nøkkel i `game`-namespacet.
@@ -161,21 +161,22 @@ Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
 `endTurn` kjører stegene i fast rekkefølge. Rekkefølgen er viktig, så ikke endre den uten å tenke deg om:
 
 1. Ubesvarte hendelser løses automatisk (siste valg du har råd til).
-2. AI-firmaene planlegger og utfører turen sin (`planAiTurn`).
-3. For hvert firma:
+2. AI-firmaene planlegger og utfører turen sin (`planAiTurn`), og svarer først på sine kriser.
+3. Ubesvarte krisefaser tar reservevalget sitt (`autoResolveCrises`). Det skjer før faktureringen, så folk som tas av oppdrag koster allerede dette kvartalet.
+4. For hvert firma:
    - fakturering og kostnader (`quarterFinancials`), deretter kassekredittrente
    - kundetilfredshet og mulig oppsigelse
    - kultur og trivsel, deretter avdelinger (akademiet)
    - stjerner
    - turnover og ansettelser
    - kvartalsrapport, deretter børspress for noterte firma
-4. Oppdagelse av lyssky handlinger, og nedgang i heat.
-5. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller.
-6. Kontrakter utløper eller forlenges. Rammeavtalene får avrop for neste kvartal.
-7. Trender oppdateres, og nye anbud publiseres.
-8. Etter Q4 deles årets priser ut. Deretter sjekkes spillerens mål per nivå (`checkMissions`).
-9. Konkurssjekk. Kontraktene til konkursfirma legges ut på nytt som anbud.
-10. `quarter++`. Deretter fornyes stjernemarkedet, nye hendelser trekkes og en høyttalermelding velges.
+5. Oppdagelse av lyssky handlinger, og nedgang i heat. Kriser som er lagt i skuffen, kan sprekke (`rollCrisisExposure`).
+6. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller.
+7. Kontrakter utløper eller forlenges. Rammeavtalene får avrop for neste kvartal.
+8. Trender oppdateres, og nye anbud publiseres.
+9. Etter Q4 deles årets priser ut. Deretter sjekkes spillerens mål per nivå (`checkMissions`).
+10. Konkurssjekk. Kontraktene til konkursfirma legges ut på nytt som anbud.
+11. `quarter++`. Deretter fornyes stjernemarkedet, besvarte kriser går til neste fase (`advanceCrises`), nye hendelser og kriser trekkes (`drawCrises`), og en høyttalermelding velges.
 
 ### Tidslinjen for et anbud
 
@@ -194,7 +195,10 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
 - **Bemanning (`staffFirm`):** Egne folk i riktig fagområde fyller setene først. Deretter kommer **fleks**, altså ledige folk fra andre fagområder, fakturert på nivå 2,2. Til slutt fylles resten med **frilansere**, som gir et lite tap.
 - **Kassekreditt:** Et firma kan ha negativ kontantbeholdning ned til `max(2 MNOK, 12,5 % av årsomsetningen)`, med 3 % rente per kvartal. Firmaet går konkurs etter to kvartaler under grensen.
 - **Anbud:** Score = `prisvekt × prisscore + kvalitetsvekt × kvalitet + 0,1 × relasjon + prioritetsbonus + støy`.
-  - Kvaliteten avhenger av CV-nivå, fagmiljø, minispill, innsats, omdømme og stjernenes traits.
+  - Kvaliteten avhenger av CV-nivå, fagmiljø, minispill, innsats, omdømme, stjernenes traits og løftet om oppstart. `bidQualityParts` gir hver del for seg, og `bidQuality` summerer dem.
+  - **Viktige anbud** (`isKeyTender`: rammeavtaler og prosjekter med minst `KEY_TENDER_MIN_SEATS` seter) har kundemøte og **løfte om oppstart** (`fullTeam`, `phased`, `discovery`). Løftet følger kontrakten og sjekkes etter første kvartal i `contracts.ts`. **Rutineanbud** har ikke møte: alle får `ROUTINE_MEETING_SCORE`, og spilleren kan sende et standardtilbud (`quickBid`) med ett klikk.
+  - Kundens behov (`customerNeeds`) vises før møtet: hvilket løfte kunden ønsker (`wants` i `content/customers.ts`), prisfølsomhet og, med god nok relasjon, møtestilen.
+  - Ved tildeling forklarer nyheten til spilleren hvorfor budet vant eller tapte (`weak`/`strong`, se `game:factors`). Forklaringen sammenligner spillerens poeng per faktor med vinneren (eller beste taper), og sier «flaks» når støyen avgjorde mot resten.
   - Kapasitetsstraffen gjelder når du ikke har nok **ledige** folk ved oppstart.
   - Bud under `MIN_AWARD_QUALITY` i kvalitet avvises, også når ingen andre byr. Ellers kunne gratis bud på alt, bemannet med frilansere, vinne alle anbud uten konkurranse.
   - En stjerne kan stå på ett åpent bud om gangen, og bare hvis kontrakten stjernen sitter på er ferdig når den nye starter (`starBusyThrough`). Å flytte en stjerne midt i en kontrakt går bare via bakrommet (`bait_and_switch`).
@@ -225,6 +229,7 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
   - **Mersalg** (nivå 3): bare prosjekter (rammeavtaler styres av avrop). Setene fakturerer fra samme kvartal, innenfor nivåets `maxSeats`, med nedkjøling.
   - Et nei fra kunden er et **utfall**, ikke en feil. Handleren returnerer `undefined`, så straffen og det brukte forsøket blir stående. En feilnøkkel ville fått `applyAction` til å kaste draften. Utfallet trekkes fra `state.rng` i reduceren (som `afterwork_poach`), og autolagringen hindrer nytt forsøk ved å laste inn på nytt.
   - `contractMoveBlock` er felles for reducer, planleggere og UI. AI-er og `planHumanProxy` bruker `ai/contractMoves.ts`: pleie ved fare, reforhandling når sjansen er høy og mersalg bare med folk på benken. Ingen av dem sier opp.
+- **Kriser (`content/crises.ts`, `engine/crises.ts`):** Omtrent én krise hvert 3.–4. kvartal (`CRISIS_CHANCE`, `CRISIS_GAP`), aldri mens firmaet har negativ kasse utover kreditten. En krise går over flere kvartaler, og alvorlighetsgraden er skjult til en fase avslører den. Valg kan koste penger, ta folk av oppdrag dette kvartalet (`Firm.benched`, som `staffFirm` trekker fra), sette en krisesamtale i gang, eller dysse saken ned. Da kan den sprekke senere (`CRISIS_EXPOSE_CHANCE`). En ubesvart fase tar et gratis reservevalg, som ofte gjør saken verre. UI: `CrisisModal` dukker opp én gang per ny fase, `CrisisPanel` på oversikten følger alle kriser, og gjøremålslista har punktet `crisis`.
 - **Mål per nivå (`content/missions.ts`, `engine/missions.ts`):** Frivillige mål som vises fra et gitt nivå, med en liten belønning i samme effekt-DSL som hendelsene. Bare spilleren har mål (som gjøremålslista), og de legges aldri i `quarterTodos`.
 
 ### Tilfeldighet: den viktigste regelen
@@ -332,14 +337,39 @@ Legg så til `events.team_offsite.{title, body, choices.go, choices.skip}` i `ga
 - `params` kan velge en kunde (`activeCustomer`), en stjerne (`someStar`) eller en rival (`someRival`) som tekstene kan referere til.
 - `cooldown: Infinity` gir en hendelse som bare skjer én gang.
 
+**Ny krise** (`content/crises.ts`): En krise går over flere kvartaler, med skjult alvorlighetsgrad (`highChance`) som trekkes ved start. Den består av faser (`stages`), og hver fase har valg:
+
+```ts
+{ id: 'coffee_strike', category: 'hr', minLevel: 1, weight: 1, cooldown: 12, highChance: 0.4,
+  stages: [
+    { id: 'strike', choices: [
+      { id: 'new_machine', effect: { cash: -80_000, sosialt: 4 }, outcome: 'good' },
+      { id: 'wait', effect: {}, next: 'verdict', fallback: true },
+    ] },
+    { id: 'verdict', reveals: true, onEnter: { high: { leavers: 1 } }, choices: [
+      { id: 'shrug', effect: {}, outcome: { low: 'good', high: 'bad' }, fallback: true },
+    ] },
+  ] }
+```
+
+- Et valg med `next` åpner neste fase kvartalet etter. Uten `next` avsluttes krisen med `outcome`. `bury: true` legger saken i skuffen, og da kan den sprekke senere som fasen `exposed` (felles for alle kriser).
+- Hver fase har nøyaktig ett `fallback`-valg per alvorlighetsgrad. Det brukes når spilleren ikke svarer, og det skal aldri koste penger eller ha krav (`needs`).
+- Faser med `reveals: true` viser den ekte alvorlighetsgraden. Bare der kan valg ha `only: 'low' | 'high'`. I faser som ikke avslører, kan valg med `next` ikke ha `low`/`high`-effekter, siden tallene ellers røper hvor ille det er.
+- Effekt-DSL-en (`CrisisEffect`) har hendelsenes felt, og i tillegg `satisfaction`, `satisfactionAll`, `rateCut`, `contractRevenue`, `bench` (andel folk av oppdrag dette kvartalet), `benchStar`, `loseStar`, `leavers`, `hires`, `terminate` og `scandal`.
+- `talk: 'press' | 'townhall' | 'client'` gjør valget til en krisesamtale (minispill). Poengsummen gir `talkGood` eller `talkBad` i tillegg.
+- `scope: 'market'` treffer alle firma samtidig og starter en `trend` med `crisisOnly: true`.
+- AI-firmaene får egne kriser (`CRISIS_AI_CHANCE`), men rammes med `CRISIS_AI_IMPACT`. De svarer gjennom `ai/crises.ts`. Lysten til å dysse ned regnes ut fra personligheten (`CRISIS_AI_HUSH`), og sakene deres sprekker oftere (`CRISIS_AI_EXPOSE_FACTOR`). Det blir sladder i nyhetsstripen.
+- Tekster i `game.json`: `crises.<id>.title` og `gossip` (eller `news` for markedskriser), og per fase `<fase>.body` (eller `body.low`/`body.high` når fasen avslører) og `<fase>.choices.<valg>`. Kategorinavnet ligger i `ui:crisis.categories`. `engine/crises.test.ts` sjekker at krisen henger sammen, og i18n-testen sjekker tekstene.
+
 **Andre typer innhold:**
 
 - **Nytt konkurrentfirma:** Legg det til i `content/firms.ts` (id, arketype, antall ansatte, omdømme, farger). Legg også til `firms.<id>.tagline` og `.blurb` i `content.json`.
-- **Ny kunde:** Legg den til i `content/customers.ts` (sektor, budsjett, møtepreferanse, prisvekt, foretrukne fagområder, vekt). Legg også til `customers.<id>.name` og `.blurb`.
+- **Ny kunde:** Legg den til i `content/customers.ts` (sektor, budsjett, møtepreferanse, prisvekt, foretrukne fagområder, vekt og ønsket oppstart `wants`). Legg også til `customers.<id>.name` og `.blurb`.
 - **Ny trend:** `content/trends.ts` (etterspørsel per fagområde, volum og prisvekt).
 - **Ny trait:** `content/traits.ts` (modifikatorer).
 - **Ny høyttalermelding:** `content/announcements.ts` (valgfri betingelse).
 - **Nytt buzzword:** `content/buzzwords.ts`.
+- **Nytt krisesamtalespørsmål:** `content/crisisTalks.ts`, med ett svar per stil (`candid`, `caring`, `facts`, `spin`) i `minigames.json` (`crisisTalk.<type>.questions.<id>.a.<stil>`). Publikum har en skjult favorittstil (`TALK_PREFERENCE_WEIGHTS`) og hater den motsatte (`OPPOSITE_TALK_STYLE`). Hver stil trenger et hint i `crisisTalk.<type>.clues.<stil>`. Hvert svar må være lett å kjenne igjen som sin stil.
 - **Nytt møtespørsmål:** `content/meetingQuestions.ts`, med fire svar (ett per møtestil) i `minigames.json`. Hvert svar må være lett å kjenne igjen som sin stil, siden spilleren skal lese hva kunden liker. Spørsmål som bare passer for offentlige eller private kunder, merkes i `QUESTION_SECTOR`.
 - **Ny lyssky handling:** Legg den til i `ShadyActionId` (`types.ts`) og `SHADY_CATALOG` (`shady.ts`) med en `minLevel`, og skriv effekten i `handleShady`. Du trenger også tekstene `content:shady.actions.<id>` og `game:news.scandal.<id>`.
 

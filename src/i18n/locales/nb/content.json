@@ -187,6 +187,14 @@
     "boom": {
       "name": "Høykonjunktur",
       "desc": "Pengene sitter løst. Flere anbud enn på lenge."
+    },
+    "ai_act_freeze": {
+      "name": "KI-frys",
+      "desc": "Kundene har satt dataprosjekter på vent mens juristene leser KI-forordningen."
+    },
+    "krone_crash": {
+      "name": "Kronekollaps",
+      "desc": "Svak krone og nervøse kunder. Pris betyr mer enn vanlig."
     }
   },
   "traits": {

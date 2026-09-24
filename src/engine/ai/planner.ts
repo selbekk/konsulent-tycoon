@@ -8,11 +8,13 @@ import { hasFeature, tenderLock } from '../levels'
 import { SHADY_CATALOG, shadyUnlocked } from '../shady'
 import { starSigningCost } from '../stars'
 import { acceptRate } from '../staff'
-import { openTenders, effortCost } from '../tenders'
+import { openTenders, effortCost, isKeyTender } from '../tenders'
 import { DISCIPLINES } from '../types'
 import type { Action, Difficulty, Firm, GameState, ShadyActionId, Tender } from '../types'
 import { activeFirms, seatTotal } from '../util'
 import { planContractMoves } from './contractMoves'
+import { planCrisisAnswers } from './crises'
+import { choosePromise } from './promises'
 import { personalityFor, salaryPremiumFor } from './personalities'
 import type { Personality } from './personalities'
 
@@ -58,6 +60,9 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   // Runway counts the credit line too – that's what it's for.
   const runway = (firm.cash + (firm.isPlayer ? creditLimit(firm) * 0.6 : 0)) / burn
   const hc = headcount(firm)
+
+  // 0. Crises first: a bench choice changes who is free for the rest of the plan.
+  if (!firm.isPlayer) actions.push(...planCrisisAnswers(state, firmId))
 
   // 1. Budgets
   const lean = runway < 1.2
@@ -121,20 +126,23 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
       .sort((a, b) => b.level - a.level)
       .slice(0, 2)
     stars.forEach((s) => promised.add(s.id))
+    const promise = choosePromise(t, free)
     for (const d of DISCIPLINES) free[d] -= (t.seats[d] ?? 0) * (t.kind === 'framework' ? 0.5 : 1)
     const effort = (runway < 1 ? 0 : p.qualityFocus > 0.75 ? 3 : p.qualityFocus > 0.5 ? 2 : 1) as 0 | 1 | 2 | 3
     if (effort > 0 && spendable(firm) < effortCost(effort)) continue
-    actions.push({
-      type: 'recordMinigame',
-      firmId,
-      tenderId: t.id,
-      kind: 'meeting',
-      score: Math.max(0, Math.min(100, (firm.isPlayer ? 70 : p.qualityFocus * 80) + noise(state.rng, 12))),
-    })
+    // Only key tenders have a customer meeting.
+    if (isKeyTender(t))
+      actions.push({
+        type: 'recordMinigame',
+        firmId,
+        tenderId: t.id,
+        kind: 'meeting',
+        score: Math.max(0, Math.min(100, (firm.isPlayer ? 70 : p.qualityFocus * 80) + noise(state.rng, 12))),
+      })
     actions.push({
       type: 'placeBid',
       tenderId: t.id,
-      bid: { firmId, rateMultiplier, starIds: stars.map((s) => s.id), effort, cvPad: false, ghostCv: false },
+      bid: { firmId, rateMultiplier, starIds: stars.map((s) => s.id), effort, cvPad: false, ghostCv: false, promise },
     })
   }
 

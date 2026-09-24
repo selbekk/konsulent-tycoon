@@ -10,16 +10,35 @@ export { acceptRate, turnoverChance, moraleTarget } from './staff'
 export { ambitionMet, starSigningCost, starBidQuality } from './stars'
 export {
   bidQuality,
+  bidQualityParts,
   bidScoreEstimate,
+  customerNeeds,
+  customerWants,
+  isKeyTender,
+  quickBid,
   openTenders,
   effortCost,
   relationship,
   marketLowestGuess,
   trendDemand,
 } from './tenders'
+export type { CustomerNeed, QualityParts } from './tenders'
 export { SHADY_CATALOG, SHADY_IDS, SHADY_LEVELS, shadyUnlocked, riskLevel, detectionChance, hasIntel, poachChance, shadyStats } from './shady'
 export type { ShadyDef } from './shady'
 export { canChoose } from './events'
+export {
+  crisesOf,
+  openCrises,
+  crisisDef,
+  crisisStage,
+  crisisChoices,
+  crisisChoiceBlock,
+  crisisChoicePreview,
+  crisisProgress,
+  talkTier,
+  STAKE_AXES,
+} from './crises'
+export type { ChoicePreview, Stake, StakeAxis, TalkTier } from './crises'
 export { employeeThoughts } from './flavor'
 export type { Thought } from './flavor'
 export { valuation, rankings, playerRank, endTitle, valuationMultiple } from './score'

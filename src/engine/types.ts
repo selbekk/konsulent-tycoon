@@ -131,6 +131,8 @@ export interface Firm {
   tendersWon?: number
   /** Running totals for missions. */
   stats?: { publicWins?: number; frameworkWins?: number; biggestWin?: number; awards?: number; acquisitions?: number }
+  /** Crises ended so far, by outcome (hushed-up ones count once they are over). */
+  crisisOutcomes?: Partial<Record<CrisisOutcome, number>>
   /** Mission ids completed (see content/missions.ts). */
   missionsDone?: string[]
   specialty?: Specialty
@@ -141,6 +143,8 @@ export interface Firm {
   departments?: string[]
   /** Set once the firm is listed on the stock exchange. */
   listed?: { quarter: number; share: number }
+  /** People taken off billable work by a crisis choice, for one quarter only. */
+  benched?: { quarter: number; seats: Seats; starIds: string[] }
 }
 
 export type Specialty = 'public' | 'private' | Discipline
@@ -166,7 +170,27 @@ export interface Bid {
   effort: 0 | 1 | 2 | 3
   cvPad: boolean
   ghostCv: boolean
+  /** Binding promise about the start, only on key tenders. Follows the contract. */
+  promise?: PromiseId
 }
+
+/** fullTeam: everyone from day one. phased: some now, the rest next quarter. discovery: a paid survey first. */
+export type PromiseId = 'fullTeam' | 'phased' | 'discovery'
+export const PROMISES = ['fullTeam', 'phased', 'discovery'] as const satisfies readonly PromiseId[]
+
+/** Parts of a bid's score, used to explain why a tender was won or lost. */
+export type BidFactor =
+  | 'price'
+  | 'cv'
+  | 'fagmiljo'
+  | 'meeting'
+  | 'effort'
+  | 'reputation'
+  | 'extras'
+  | 'capacity'
+  | 'promise'
+  | 'relationship'
+  | 'priority'
 
 export type MinigameKind = 'meeting' | 'bingo'
 
@@ -220,6 +244,11 @@ export interface Contract {
   nurtureQuarter?: number
   /** Ended early by the firm itself (not the customer). */
   cancelled?: boolean
+  /** Promise made in the bid, checked after the first quarter of delivery. */
+  promise?: PromiseId
+  promiseKept?: boolean
+  /** Discovery: the agreed rate, billed once the first (reduced) quarter is delivered. */
+  fullRate?: number
 }
 
 export interface ActiveTrend {
@@ -232,6 +261,40 @@ export interface PendingEvent {
   eventId: string
   firmId: FirmId
   params: Params
+}
+
+export type CrisisCategory = 'hr' | 'client' | 'macro' | 'disaster' | 'security' | 'engagement'
+export type CrisisSeverity = 'low' | 'high'
+export type CrisisOutcome = 'good' | 'ok' | 'bad'
+export type CrisisMinigame = 'press' | 'townhall' | 'client'
+
+/** A running (or recently ended) crisis for one firm. See content/crises.ts and engine/crises.ts. */
+export interface Crisis {
+  id: string
+  defId: string
+  firmId: FirmId
+  /** Current stage id. */
+  stage: string
+  /** Rolled when the crisis starts. Hidden from the player until a stage reveals it. */
+  severity: CrisisSeverity
+  startQuarter: number
+  /** Quarter the current stage opened. */
+  stageQuarter: number
+  params: Params
+  /** active: a decision is open this quarter. waiting: answered, the next stage opens next quarter.
+   *  buried: hushed up and may resurface. over: done (kept a while for the dashboard). */
+  status: 'active' | 'waiting' | 'buried' | 'over'
+  nextStage?: string
+  /** Decisions so far, oldest first. */
+  log: { stage: string; choiceId: string; quarter: number; auto?: boolean; score?: number }[]
+  /** Set once a stage has shown the true severity. */
+  revealed?: boolean
+  outcome?: CrisisOutcome
+  endQuarter?: number
+  /** Buried: may resurface until this quarter. */
+  buriedUntil?: number
+  /** A crisis talk was started for this choice; reloading can't give a second try. */
+  minigameStarted?: string
 }
 
 export type NewsTone = 'good' | 'bad' | 'neutral' | 'sassy'
@@ -276,8 +339,10 @@ export interface GameState {
   lastAwards: Award[]
   /** Seats customers want at game start; see marketDemand(). Optional for early saves. */
   baseDemand?: number
-  /** Event id → last quarter it fired. */
+  /** Event id → last quarter it fired. Crisis ids are kept here too. */
   eventHistory: Record<string, number>
+  /** Running and recently ended crises for all firms. Optional in early saves. */
+  crises?: Crisis[]
   status: 'playing' | 'lost' | 'finished'
   idCounter: number
 }
@@ -305,6 +370,9 @@ export type Action =
   | { type: 'withdrawBid'; firmId: FirmId; tenderId: string }
   | { type: 'recordMinigame'; firmId: FirmId; tenderId: string; kind: MinigameKind; score: number; provisional?: boolean }
   | { type: 'resolveEvent'; pendingEventId: string; choiceId: string }
+  /** `score` (0–100) only for choices with a crisis talk; see startCrisisTalk. */
+  | { type: 'resolveCrisis'; firmId: FirmId; crisisId: string; choiceId: string; score?: number }
+  | { type: 'startCrisisTalk'; firmId: FirmId; crisisId: string; choiceId: string }
   | { type: 'chooseSpecialty'; firmId: FirmId; specialty: Specialty }
   | { type: 'setPartnership'; firmId: FirmId; partnershipId: string; on: boolean }
   | { type: 'lobby'; firmId: FirmId }

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { applyAction, createNewGame, deleteSlot, firmLevel, endTurn as engineEndTurn, purgeIncompatibleSaves, readSlot, saveToSlot } from '../engine'
-import type { Action, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
+import type { Action, Crisis, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
 
 export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'about' | 'game'
 export type Tab = 'dashboard' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
@@ -55,6 +55,12 @@ interface Store {
   minigame: { tenderId: string; kind: MinigameKind } | null
   /** Levels the player just moved between; shown as a celebration once the report is closed. */
   levelUp: { from: number; to: number } | null
+  /** Crisis shown in the crisis dialog. */
+  crisisId: string | null
+  /** Crisis talk (minigame) being played for a crisis choice. */
+  crisisTalk: { crisisId: string; choiceId: string } | null
+  /** Crisis stages already shown once (`id:stage:quarter`), so each new stage pops up by itself only once. UI state only. */
+  seenCrises: string[]
   /** The intro guide, shown once when a new game starts. UI state only, never saved. */
   onboarding: boolean
   settings: Settings
@@ -77,8 +83,15 @@ interface Store {
   dismissDroppedSaves: () => void
   openBid: (tenderId: string | null) => void
   openMinigame: (m: { tenderId: string; kind: MinigameKind } | null) => void
+  openCrisis: (crisisId: string | null) => void
+  openCrisisTalk: (talk: { crisisId: string; choiceId: string } | null) => void
   setSettings: (s: Partial<Settings>) => void
 }
+
+const noCrisis = { crisisId: null, crisisTalk: null, seenCrises: [] }
+
+/** Identifies one stage of one crisis, for "has the player seen this yet". */
+export const crisisSeenKey = (c: Pick<Crisis, 'id' | 'stage' | 'stageQuarter'>) => `${c.id}:${c.stage}:${c.stageQuarter}`
 
 export const useGame = create<Store>((set, get) => ({
   game: null,
@@ -90,6 +103,9 @@ export const useGame = create<Store>((set, get) => ({
   bidTenderId: null,
   minigame: null,
   levelUp: null,
+  crisisId: null,
+  crisisTalk: null,
+  seenCrises: [],
   onboarding: false,
   settings: typeof window === 'undefined' ? defaultSettings : loadSettings(),
   droppedSaves: (() => {
@@ -104,7 +120,7 @@ export const useGame = create<Store>((set, get) => ({
     const game = createNewGame(opts)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', game)
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true })
+    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
   },
 
   dispatch: (action) => {
@@ -131,7 +147,7 @@ export const useGame = create<Store>((set, get) => ({
     const from = firmLevel(game.firms[game.playerId])
     const to = firmLevel(next.firms[next.playerId])
     const levelUp = to > from ? { from, to } : null
-    set({ game: next, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp })
+    set({ game: next, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp, crisisId: null, crisisTalk: null })
   },
 
   save: (slot) => {
@@ -156,9 +172,9 @@ export const useGame = create<Store>((set, get) => ({
   },
 
   loadState: (game) =>
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false }),
+    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis }),
 
-  quit: () => set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false }),
+  quit: () => set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis }),
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),
   dismissLevelUp: () => set({ levelUp: null }),
@@ -166,6 +182,12 @@ export const useGame = create<Store>((set, get) => ({
   dismissDroppedSaves: () => set({ droppedSaves: [] }),
   openBid: (bidTenderId) => set({ bidTenderId, error: null }),
   openMinigame: (minigame) => set({ minigame }),
+  openCrisis: (crisisId) => {
+    const c = crisisId ? get().game?.crises?.find((x) => x.id === crisisId) : undefined
+    const seen = c ? crisisSeenKey(c) : undefined
+    set({ crisisId, error: null, ...(seen && !get().seenCrises.includes(seen) ? { seenCrises: [...get().seenCrises, seen] } : {}) })
+  },
+  openCrisisTalk: (crisisTalk) => set({ crisisTalk }),
 
   setSettings: (s) => {
     const settings = { ...get().settings, ...s }

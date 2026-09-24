@@ -3,26 +3,29 @@ import { useTranslation } from 'react-i18next'
 import {
   BILLABLE_HOURS,
   DISCIPLINES,
+  PROMISES,
   MIN_AWARD_QUALITY,
   RATE_MAX,
   RATE_MIN,
   bidQuality,
-  bidScoreEstimate,
+  customerNeeds,
+  customerWants,
   hasFeature,
+  isKeyTender,
   disciplineLevel,
   effortCost,
   hasIntel,
   listRate,
-  marketLowestGuess,
   seatTotal,
   spendable,
   starBusyThrough,
 } from '../../engine'
-import type { Bid } from '../../engine'
+import type { Bid, PromiseId } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Hint, Modal, Slider } from '../components/ui'
 import { formatMoney, formatQuarter } from '../format'
 import { playSound } from '../sound'
+import { bidChance, chanceTone } from './bidChance'
 import s from './screens.module.css'
 import { SeatBadges, WeightBar } from './TenderBoard'
 
@@ -43,6 +46,7 @@ export function BidForm({ tenderId }: { tenderId: string }) {
   const affordable = (e: number) => costOf(e) === 0 || costOf(e) <= budget
   const [effort, setEffort] = useState<0 | 1 | 2 | 3>(existing?.effort ?? (affordable(1) ? 1 : 0))
   const [starIds, setStarIds] = useState<string[]>(existing?.starIds ?? [])
+  const [promise, setPromise] = useState<PromiseId | undefined>(existing?.promise)
 
   const promisedElsewhere = useMemo(
     () =>
@@ -55,11 +59,18 @@ export function BidForm({ tenderId }: { tenderId: string }) {
   )
 
   if (!tender) return null
-  const draft: Bid = { firmId: me.id, rateMultiplier: rate, starIds, effort, cvPad: existing?.cvPad ?? false, ghostCv: existing?.ghostCv ?? false }
-  const quality = bidQuality(game, draft, tender)
-  const score = bidScoreEstimate(game, draft, tender, Math.min(rate, marketLowestGuess(tender)))
-  const tooWeak = quality < MIN_AWARD_QUALITY
-  const chance = tooWeak ? 'low' : score >= 78 ? 'high' : score >= 66 ? 'medium' : 'low'
+  const key = isKeyTender(tender)
+  const draft: Bid = {
+    firmId: me.id,
+    rateMultiplier: rate,
+    starIds,
+    effort,
+    cvPad: existing?.cvPad ?? false,
+    ghostCv: existing?.ghostCv ?? false,
+    ...(key && promise ? { promise } : {}),
+  }
+  const wants = customerWants(tender.customerId)
+  const { quality, tooWeak, chance } = bidChance(game, draft, tender)
   const revenue = DISCIPLINES.reduce(
     (sum, d) => sum + (tender.seats[d] ?? 0) * BILLABLE_HOURS * listRate(disciplineLevel(me, d)) * rate,
     0,
@@ -165,12 +176,53 @@ export function BidForm({ tenderId }: { tenderId: string }) {
               )
             })}
           </div>
+
+          {key && (
+            <div className={s.stackSm}>
+              <span className={s.fieldLabel}>{t('bid.promise')}</span>
+              <div className={s.promises} role="radiogroup" aria-label={t('bid.promise')}>
+                {([undefined, ...PROMISES] as const).map((p) => {
+                  const id = p ?? 'none'
+                  return (
+                    <label key={id} className={s.promiseOption} data-selected={promise === p || undefined}>
+                      <input type="radio" name="promise" checked={promise === p} onChange={() => setPromise(p)} />
+                      <span className={s.stackSm}>
+                        <strong>
+                          {t(`bid.promises.${id}.label`)}
+                          {p && p === wants && <Badge tone="good">{t('bid.wanted')}</Badge>}
+                        </strong>
+                        <span className={s.small}>+ {t(`bid.promises.${id}.pro`)}</span>
+                        <span className={`${s.small} ${s.muted}`}>− {t(`bid.promises.${id}.con`)}</span>
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+              <Hint>{t('bid.promiseHint')}</Hint>
+            </div>
+          )}
         </div>
 
         <div className={`${s.span5} ${s.stack}`}>
+          {key && (
+            <div className={s.card}>
+              <h3>{t('bid.needs')}</h3>
+              <ul className={s.newsList}>
+                {customerNeeds(game, tender, me.id).map((n) => (
+                  <li key={n}>
+                    <span className={s.newsDot} data-tone={n === 'styleUnknown' ? 'neutral' : 'sassy'} />
+                    <span>{t(`bid.needItems.${n}`)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className={s.card}>
             <h3>{t('bid.pitch')}</h3>
-            {minigame ? (
+            {!key ? (
+              <Hint>{t('bid.routineInfo')}</Hint>
+            ) : minigame ? (
               <span>{minigame.provisional ? t('bid.pitchAbandoned') : t('bid.pitchDone', { score: minigame.score })}</span>
             ) : (
               <>
@@ -197,7 +249,7 @@ export function BidForm({ tenderId }: { tenderId: string }) {
             </div>
             <div className={`${s.row} ${s.between}`}>
               <span>{t('bid.chance')}</span>
-              <Badge tone={chance === 'high' ? 'good' : chance === 'medium' ? 'warn' : 'bad'}>{t(`bid.chances.${chance}`)}</Badge>
+              <Badge tone={chanceTone(chance)}>{t(`bid.chances.${chance}`)}</Badge>
             </div>
             {tooWeak && <p className={s.bad}>{t('bid.belowMinimum', { min: MIN_AWARD_QUALITY })}</p>}
             {(existing?.cvPad || existing?.ghostCv) && <Badge tone="bad">{t('bid.fraudActive')}</Badge>}

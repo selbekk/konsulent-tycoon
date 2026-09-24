@@ -150,3 +150,69 @@ Endringer:
 Funn:
 - Med botfiksen er spillet mye lettere for en fornuftig spiller enn loggen har vist: `human` går nesten aldri konkurs og ender rundt plass 4, og `humanStrategic` vinner i median. Målene for `human` bør vurderes på nytt før videre justering.
 - Et enslig bud får fortsatt full prisscore uansett pris, fordi det sammenlignes med seg selv. Det er ikke lenger lønnsomt å utnytte (se spam), men det er den naturlige knotten hvis det dukker opp igjen.
+
+## Viktige anbud, løfter og forklaringer (2026-09-24)
+
+Fase 1 av `docs/plans/2026-09-24-mindre-anbudsmas.md`. Bare viktige anbud (rammeavtaler og prosjekter med minst `KEY_TENDER_MIN_SEATS` = 6 seter) har kundemøte og løfte om oppstart. På rutineanbud får alle firma `ROUTINE_MEETING_SCORE` i møtescore. AI og boter møter bare på viktige anbud og velger løfte med `ai/promises.ts`. Alle tall er fra 60 partier med `--seed 1`, og markedet er målt med `sim:market 20`.
+
+| Kjøring | human konkurs / verdi / plass | humanPro konkurs / verdi / plass | Etterspørsel/kap. | AI-døde/parti |
+|---|---|---|---|---|
+| Referanse (`main`) | 0/60 · 708 MNOK · 4 | 0/60 · 920 MNOK · 3 | 0,73–0,90 | 0,1 |
+| Viktige anbud + løfter (`ROUTINE_MEETING_SCORE = 50`) | 0/60 · 604 MNOK · 5 | 0/60 · 785 MNOK · 3 | 0,69–0,89 | 0,0 |
+| Samme, uten løfter hos botene | 0/60 · 609 MNOK · 5 | 0/60 · 786 MNOK · 3 | – | – |
+| `ROUTINE_MEETING_SCORE = 60` (forkastet) | 0/60 · 635 MNOK · 4 | 0/60 · 725 MNOK · 3 | 0,71–0,89 | 0,0 |
+
+Funn:
+- Løftene er omtrent nøytrale for balansen. Nedgangen på 10–15 % i verdi kommer av at botene før spilte møtet på *alle* anbud med 70 (`human`) eller 90 (`humanPro`), mens AI-ene snitter rundt `qualityFocus × 80`. Når rutineanbud gir alle 50, forsvinner spillerens møtefordel på dem. Det er tilsiktet: møteferdighet skal bety mye der det er møter, ikke overalt.
+- Med 60 ble tallene ikke entydig bedre (støy), så 50 beholdes. Kundene regner da med et møte på snittet av AI-markedet.
+- AI-markedet er uendret innenfor støyen.
+
+## Kriser (2026-09-24)
+
+Nytt system: kriser over flere kvartaler med skjult alvorlighetsgrad (se `docs/plans/2026-09-24-kriser.md`). Det er 12 kriser i seks kategorier. Spilleren får omtrent én hvert 3.–4. kvartal (`CRISIS_CHANCE = 0.45`, `CRISIS_GAP = 2`). AI-firmaene får egne kriser med `CRISIS_AI_CHANCE = 0.05` per kvartal, og rammes halvt så hardt (`CRISIS_AI_IMPACT = 0.5`). Hendelsen `security_incident` er erstattet av krisen `data_leak`. Botene (`human*`) svarer med `ai/crises.ts` og en «fornuftig» stil (`HUMAN_CRISIS_STYLE`). Alle tall er fra 60 partier med `--seed 1`, og markedet er målt med `sim:market`.
+
+| Kjøring | human konkurs / verdi / plass | humanPro konkurs / verdi / plass | Etterspørsel/kap. | AI-døde/parti |
+|---|---|---|---|---|
+| Referanse (før kriser) | 0/60 · 561 MNOK · 5 | 0/60 · 670 MNOK · 4 | 0,71–0,89 (20) | 0,0 (20) |
+| Kriser for alle, botene snakker på 60 i samtaler (under `CRISIS_TALK_GOOD`) | 0/60 · 635 MNOK · 4 | 1/60 · 709 MNOK · 3 | 0,72–0,91 (20) | 0,2 (20) · 0,1 (60) |
+| Samme, botene snakker som i kundemøtet (70 / 90) | 0/60 · 690 MNOK · 3 | 0/60 · 789 MNOK · 3 | – | – |
+| + `talkGood` halvert (gjeldende) | 0/60 · 634 MNOK · 3 | 0/60 · 701 MNOK · 4 | – | – |
+| Kriser bare for AI (spilleren slipper) | 0/60 · 622 MNOK · 4 | 0/60 · 746 MNOK · 3 | – | – |
+
+Håndteringsstil, målt med `humanProxy` over 40 partier (`--seed 1`–`40`) med kriser på:
+
+| Stil | Median verdi |
+|---|---|
+| Fornuftig (`HUMAN_CRISIS_STYLE`) | 597 MNOK |
+| Ignorerer alt (reservevalget hver gang) | 529 MNOK |
+| Billig og lyssky (`care 0`, `shady 0.8`, dårlig i samtaler), før skjerpet avsløring | 600 MNOK |
+| Som over, med skjerpet avsløring | 506 MNOK |
+
+Funn:
+- Første kjøring snakket botene på 60, altså alltid i «greit»-sjiktet. `sim.ts` gir nå hver bot samme ferdighet i krisesamtaler som i kundemøter. Da ble krisene netto *positive* (690 / 789 MNOK), så gevinsten ved en god samtale (`talkGood`) er halvert. Tabellen over «håndteringsstil» er målt før denne endringen.
+- For en fornuftig spiller er krisene nå omtrent nøytrale på verdi (634 mot 622 MNOK for `human`, 701 mot 746 for `humanPro`), innenfor støyen. Konkursraten er uendret. Det svir i kvartalet det skjer, med 5–25 000 kr per ansatt, folk av oppdrag eller en tapt kontrakt, men en godt håndtert krise kan også gi noe tilbake.
+- Å ignorere kriser koster rundt 11 % av verdien. Eskaleringen virker.
+- Med den første avsløringen (omdømme −5, skandale 6, heat 10) lønte det seg like godt å dysse ned alt som å håndtere krisene ordentlig. Avsløringen (`EXPOSED_STAGE`) gir nå omdømme −8, skandale 8, heat 15 og −5 i tilfredshet på alle kontrakter. Da faller den lyssky stilen til 506 MNOK. Den fornuftige boten dysser aldri ned, så tallene dens er uendret.
+- Spilleren får 9,9 kriser per parti (20 partier). Utfallene er 68 % godt, 28 % greit og 4 % dårlig for den fornuftige boten. AI-firmaene får til sammen rundt 60 per parti, markedskriser medregnet. Det gir omtrent én sladdernyhet per kvartal.
+- Boten avsluttet aldri et kvartal med et åpent krisepunkt på gjøremålslista (0 av 400 kvartaler). `endTurn` tar i snitt 9 ms, med maks 17 ms.
+- AI-markedet er friskt. 0,2 AI-døde per parti på 20 partier falt til 0,1 på 60, som er innenfor det loggen har vist før (0,0–0,1).
+- Spredningen i utfall økte ikke. For `humanPro` falt p90 fra 1458 til 1338 MNOK. Målet om mer spredning er ikke nådd.
+- AI-firmaene dysser i praksis aldri ned (0 av 20 partier). Nedgraving scorer bare positivt i planleggeren ved `shadiness > 0,4`, og ingen arketype er så lyssky, så `news.crisis.exposedRival` vises aldri ennå.
+- `whistleblower` dukket ikke opp i utvalget, fordi boten sjelden ansetter stjerner. Den er bare testet strukturelt.
+- Naturlige knotter: `CRISIS_CHANCE`, `CRISIS_AI_IMPACT`, `CRISIS_EXPOSE_CHANCE`, og kostnadene per valg i `content/crises.ts`.
+
+## Skjult vri i krisesamtalene, og AI-firmaer som dysser ned (2026-09-24)
+
+**Samtalene:** Hvert spørsmål har nå fire svar, ett per stil: ærlig (`candid`), omsorgsfull (`caring`), fakta (`facts`) og spinn (`spin`). Publikum har en skjult favoritt, trukket per krise med hash-RNG etter `TALK_PREFERENCE_WEIGHTS`, og hater den motsatte stilen (ærlig mot spinn, omsorg mot fakta). Pressen liker oftest ærlighet, allmøtet omsorg og kunden fakta, men alle kan forekomme. Introen gir et hint, og reaksjonene underveis røper resten, som i kundemøtet. Poengskalaen er den samme som før: 33 for favoritten, 15 for de nøytrale og 0 for den hatede eller for å gå tom for tid. Botene bruker fortsatt en fast ferdighet, så spillersimen påvirkes ikke.
+
+**AI som dysser ned:** Planleggeren leser lyst til å dysse ned fra `CRISIS_AI_HUSH` (grunnverdi + 3 × `shadiness` + 0,6 × (1 − `qualityFocus`)). Billige og store firmaer dysser ned, butikkfirmaene holder seg ærlige. AI-firmaenes nedgravde saker sprekker `CRISIS_AI_EXPOSE_FACTOR = 2` ganger så ofte, og `CRISIS_AI_CHANCE` er økt fra 0,05 til 0,07. Planleggeren vekter også penger som andel av kvartalsomsetningen, ikke per ansatt. Den gamle vektingen fikk store firmaer til å overvurdere små kostnader, for eksempel én person tatt av oppdrag. `ransomware.locked.pay_ransom` er nå en nedgraving («i all stillhet»).
+
+| Kjøring (20 partier, `sim:market`-oppsett) | AI nedgravd/parti | Konkurrentavsløringer/parti |
+|---|---|---|
+| Før | 0 | 0 |
+| + `CRISIS_AI_HUSH` (0,1 / 3 / 0,5) | 1,3 | 0,3 |
+| + grunn 0,2, uforsiktighet 0,6, avsløring × 2 | 1,6 | 1,0 |
+| + pengevekting mot omsetning | 2,1 | 1,4 |
+| + `CRISIS_AI_CHANCE = 0,07` (gjeldende) | 3,0 | 1,9 |
+
+Markedet med `sim:market 60` holder seg friskt: etterspørsel mot kapasitet er 0,72–0,90, og AI-døde per parti er 0,1. Spillerbotene (60 partier, `--seed 1`): `human` 2/60 konkurs · 678 MNOK · plass 3, `humanPro` 0/60 · 828 MNOK · plass 3. Tidligere var tallene 0/60 · 634 og 0/60 · 701. Økningen kommer trolig av at rivalene får flere kriser, pluss den nye pengevektingen i botenes krisevalg. To konkurser er innenfor støyen (±5 av 60).

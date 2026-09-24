@@ -180,6 +180,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
     starMarket: [],
     lastAwards: [],
     eventHistory: {},
+    crises: [],
     status: 'playing',
     idCounter: 0,
   }

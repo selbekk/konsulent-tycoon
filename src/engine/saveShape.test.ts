@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { planHumanProxy } from './ai/humanProxy'
+import { planCrisisAnswers } from './ai/crises'
 import { planEventAnswers } from './ai/planner'
 import { applyActionInPlace } from './reducer'
 import { hasValidShape } from './saveShape'
@@ -13,6 +14,7 @@ function playThrough(start: GameState, check: (s: GameState) => void) {
   while (s.status === 'playing') {
     const draft = structuredClone(s)
     for (const a of planEventAnswers(draft, draft.playerId)) applyActionInPlace(draft, a)
+    for (const a of planCrisisAnswers(draft, draft.playerId)) applyActionInPlace(draft, a)
     for (const a of planHumanProxy(draft, { strategic: true })) applyActionInPlace(draft, a)
     s = endTurn(draft)
     check(JSON.parse(JSON.stringify(s)))

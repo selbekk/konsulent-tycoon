@@ -3,7 +3,7 @@ import { LEVELS, MAX_LEVEL, MIN_AWARD_QUALITY, OFFICE_MOVE_BRAND, OFFICE_MOVE_SO
 import { earnedLevel, firmLevel, hasFeature, levelStats, maxTenderSeats, tenderLevel, tenderLock, unlocksAt, updateLevels } from './levels'
 import { applyAction } from './reducer'
 import { SHADY_LEVELS } from './shady'
-import { deepFreeze, newTestGame } from './testUtils'
+import { deepFreeze, makeKeyTender, newTestGame } from './testUtils'
 import { quarterTodos } from './todos'
 import { bidQuality, resolveDueTenders } from './tenders'
 import type { Bid, GameState, Tender } from './types'
@@ -60,9 +60,9 @@ describe('firm levels', () => {
   })
 
   it('locks culture, stars, bingo and the backroom at level 1', () => {
-    const s = deepFreeze(newTestGame())
-    const me = s.firms.player
-    const tender = open(s).find((t) => !tenderLock(me, t))!
+    const game = newTestGame()
+    const tender = makeKeyTender(open(game).find((t) => !tenderLock(game.firms.player, t))!)
+    const s = deepFreeze(game)
     const rival = s.firmOrder[1]
     expect(applyAction(s, { type: 'setBudgets', firmId: 'player', budgets: { fagmiljoPerHead: 20_000 } }).error).toBe('errors.levelTooLow')
     expect(applyAction(s, { type: 'hireStar', firmId: 'player', starId: s.starMarket[0].id }).error).toBe('errors.levelTooLow')
@@ -131,7 +131,7 @@ describe('firm levels', () => {
     expect(bidQuality(s, t.bids[0], t)).toBeLessThan(MIN_AWARD_QUALITY)
     resolveDueTenders(s)
     expect(s.firms.player.tendersWon ?? 0).toBe(0)
-    expect(s.news.some((n) => n.key === 'news.tender.playerRejected')).toBe(true)
+    expect(s.news.some((n) => n.key.startsWith('news.tender.playerRejected'))).toBe(true)
   })
 
   it('does not ask for bids on tenders the firm is too small for', () => {

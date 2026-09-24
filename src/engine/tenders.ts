@@ -11,7 +11,17 @@ import {
   DEMAND_GROWTH_PER_YEAR,
   PRIORITY_BONUS,
   EFFORT_COST,
+  FEEDBACK_MIN_STRENGTH,
   FRAMEWORK_SHARES,
+  KEY_TENDER_MIN_SEATS,
+  NEEDS_STYLE_RELATION,
+  PROMISE_FULL_TEAM_QUALITY,
+  PROMISE_MATCH_QUALITY,
+  PROMISE_PHASED_CAPACITY,
+  PROMISE_PHASED_QUALITY,
+  QUICK_BID_PRICE_RATE,
+  QUICK_BID_RATE,
+  ROUTINE_MEETING_SCORE,
   MIN_AWARD_QUALITY,
   RATE_MAX,
   RATE_MIN,
@@ -27,7 +37,7 @@ import { checkFraudAtAward } from './shady'
 import { starBidQuality } from './stars'
 import { strategyBonus } from './strategy'
 import { DISCIPLINES } from './types'
-import type { Bid, Contract, ContractKind, Discipline, GameState, Seats, Tender } from './types'
+import type { Bid, BidFactor, Contract, ContractKind, Discipline, GameState, MeetingStyle, PromiseId, Seats, Tender } from './types'
 import { activeFirms, addNews, nextId, seatTotal } from './util'
 
 export function trendDemand(state: GameState, d: Discipline): number {
@@ -187,11 +197,23 @@ export function clampRate(r: number) {
   return clamp(r, RATE_MIN, RATE_MAX)
 }
 
-/** Pure – never touches state.rng. Safe for UI estimates. */
-export function bidQuality(state: GameState, bid: Bid, tender: Tender): number {
+/** Frameworks and bigger projects: worth a customer meeting and a promise. Everything else is routine. */
+export function isKeyTender(tender: Tender): boolean {
+  return tender.kind === 'framework' || seatTotal(tender.seats) >= KEY_TENDER_MIN_SEATS
+}
+
+/** The start the customer hopes for. */
+export function customerWants(customerId: string): PromiseId | undefined {
+  return CUSTOMERS.find((c) => c.id === customerId)?.wants
+}
+
+export type QualityParts = Record<'cv' | 'fagmiljo' | 'meeting' | 'effort' | 'reputation' | 'extras' | 'capacity' | 'promise', number>
+
+/** Everything that goes into bid quality, before clamping. Pure – never touches state.rng. */
+export function bidQualityParts(state: GameState, bid: Bid, tender: Tender): QualityParts | undefined {
   const firm = state.firms[bid.firmId]
   const total = seatTotal(tender.seats)
-  if (!firm || total === 0) return 0
+  if (!firm || total === 0) return undefined
   // What the firm has free when the contract would start.
   const committed = staffFirm(state, firm, tender.dueQuarter + 1).demand
   let levelSum = 0
@@ -222,20 +244,34 @@ export function bidQuality(state: GameState, bid: Bid, tender: Tender): number {
   // Customers check whether the people on the CVs are actually available – unless you invent them.
   // Up to half the seats from subcontractors is fine; beyond that it hurts.
   const unavailable = 1 - available / total
-  const capacityPenalty = bid.ghostCv ? 0 : CAPACITY_PENALTY * Math.max(0, (unavailable - 0.5) * 2)
-  const minigame = tender.minigameResults[bid.firmId]?.score ?? 0
-  const q =
-    0.5 * (cv / 5) * 100 +
-    0.2 * firm.fagmiljo +
-    0.15 * minigame +
-    0.15 * (bid.effort / 3) * 100 +
-    0.1 * (firm.reputation - 50) +
-    traitBonus +
-    strategyBonus(state, firm, tender) +
-    (bid.cvPad ? 10 : 0) +
-    (bid.ghostCv ? 15 : 0) -
-    capacityPenalty
-  return clamp(q, 0, 100)
+  const promise = isKeyTender(tender) ? bid.promise : undefined
+  const capacityPenalty = bid.ghostCv
+    ? 0
+    : CAPACITY_PENALTY * Math.max(0, (unavailable - 0.5) * 2) * (promise === 'phased' ? PROMISE_PHASED_CAPACITY : 1)
+  // Routine tenders have no meeting: everyone gets an average impression.
+  const minigame = isKeyTender(tender) ? (tender.minigameResults[bid.firmId]?.score ?? 0) : ROUTINE_MEETING_SCORE
+  const promisePart = !promise
+    ? 0
+    : (promise === 'fullTeam' ? PROMISE_FULL_TEAM_QUALITY : promise === 'phased' ? PROMISE_PHASED_QUALITY : 0) +
+      (customerWants(tender.customerId) === promise ? PROMISE_MATCH_QUALITY : 0)
+  return {
+    cv: 0.5 * (cv / 5) * 100,
+    fagmiljo: 0.2 * firm.fagmiljo,
+    meeting: 0.15 * minigame,
+    effort: 0.15 * (bid.effort / 3) * 100,
+    reputation: 0.1 * (firm.reputation - 50),
+    extras: traitBonus + strategyBonus(state, firm, tender) + (bid.cvPad ? 10 : 0) + (bid.ghostCv ? 15 : 0),
+    capacity: -capacityPenalty,
+    promise: promisePart,
+  }
+}
+
+const sumParts = (p: QualityParts) => Object.values(p).reduce((a, b) => a + b, 0)
+
+/** Pure – never touches state.rng. Safe for UI estimates. */
+export function bidQuality(state: GameState, bid: Bid, tender: Tender): number {
+  const parts = bidQualityParts(state, bid, tender)
+  return parts ? clamp(sumParts(parts), 0, 100) : 0
 }
 
 export function relationship(state: GameState, customerId: string, firmId: string): number {
@@ -260,6 +296,77 @@ export function bidScoreEstimate(state: GameState, bid: Bid, tender: Tender, low
   )
 }
 
+/** A bid's score split by factor, for explaining the outcome. Quality parts are weighted by the tender. */
+function scoreFactors(state: GameState, bid: Bid, tender: Tender, lowestRate: number): Record<BidFactor, number> {
+  const parts = bidQualityParts(state, bid, tender)!
+  const w = tender.qualityWeight
+  return {
+    price: tender.priceWeight * (lowestRate / bid.rateMultiplier) * 100,
+    cv: w * parts.cv,
+    fagmiljo: w * parts.fagmiljo,
+    meeting: w * parts.meeting,
+    effort: w * parts.effort,
+    reputation: w * parts.reputation,
+    extras: w * parts.extras,
+    capacity: w * parts.capacity,
+    promise: w * parts.promise,
+    relationship: 0.1 * relationship(state, tender.customerId, bid.firmId),
+    priority: priorityBonus(state, bid, tender),
+  }
+}
+
+type Scored = { bid: Bid; score: number; noise: number }
+
+/**
+ * Why `mine` beat or lost to `rival`: the factor that made the biggest difference, plus the
+ * biggest one pulling the other way when losing ("the price was fine"). `luck` when the
+ * noise decided it against the rest.
+ */
+function explainOutcome(state: GameState, tender: Tender, lowest: number, mine: Scored, rival: Scored, won: boolean) {
+  const a = scoreFactors(state, mine.bid, tender, lowest)
+  const b = scoreFactors(state, rival.bid, tender, lowest)
+  const diffs = (Object.keys(a) as BidFactor[]).map((f) => ({ f, d: a[f] - b[f] })).sort((x, y) => x.d - y.d)
+  const rest = diffs.reduce((s, x) => s + x.d, 0)
+  if (won ? rest < 0 : rest > 0) return { main: 'luck' as const }
+  const main = won ? diffs[diffs.length - 1] : diffs[0]
+  const other = won ? undefined : diffs[diffs.length - 1]
+  return { main: main.f, strength: other && other.d >= FEEDBACK_MIN_STRENGTH ? other.f : undefined }
+}
+
+/** Why a bid fell below the minimum quality. */
+export function rejectionReason(state: GameState, bid: Bid, tender: Tender): BidFactor {
+  const parts = bidQualityParts(state, bid, tender)
+  return parts && parts.capacity <= -10 ? 'capacity' : 'cv'
+}
+
+/** A sensible offer for routine tenders, sent with one click. Pure. */
+export function quickBid(state: GameState, firmId: string, tender: Tender): Bid {
+  const firm = state.firms[firmId]
+  const effort = firm && effortCost(1) <= Math.max(0, firm.cash) ? 1 : 0
+  return {
+    firmId,
+    rateMultiplier: tender.priceWeight > 0.6 ? QUICK_BID_PRICE_RATE : QUICK_BID_RATE,
+    starIds: [],
+    effort,
+    cvPad: false,
+    ghostCv: false,
+  }
+}
+
+export type CustomerNeed = PromiseId | 'tightBudget' | 'qualityFirst' | MeetingStyle | 'styleUnknown'
+
+/** What the customer lets on before the meeting. How they like to be talked to shows with a good relationship. Pure. */
+export function customerNeeds(state: GameState, tender: Tender, firmId: string): CustomerNeed[] {
+  const needs: CustomerNeed[] = []
+  const wants = customerWants(tender.customerId)
+  if (wants) needs.push(wants)
+  if (tender.priceWeight >= 0.55) needs.push('tightBudget')
+  else if (tender.priceWeight <= 0.4) needs.push('qualityFirst')
+  const style = state.customers[tender.customerId]?.meetingPreference
+  needs.push(style && relationship(state, tender.customerId, firmId) >= NEEDS_STYLE_RELATION ? style : 'styleUnknown')
+  return needs
+}
+
 /** Rough win-chance hint for the UI: compares against a typical market bid. */
 export function marketLowestGuess(tender: Tender) {
   return tender.priceWeight > 0.6 ? 0.8 : 0.9
@@ -278,15 +385,20 @@ export function resolveDueTenders(state: GameState) {
     const bids = valid.filter((b) => quality.get(b)! >= MIN_AWARD_QUALITY)
     const playerRejected = valid.some((b) => b.firmId === state.playerId) && !bids.some((b) => b.firmId === state.playerId)
     if (playerRejected) {
-      addNews(state, 'news.tender.playerRejected', { customer: tender.customerId }, 'bad', { firmId: state.playerId, personal: true })
+      const bid = valid.find((b) => b.firmId === state.playerId)!
+      const key = rejectionReason(state, bid, tender) === 'capacity' ? 'news.tender.playerRejectedCapacity' : 'news.tender.playerRejected'
+      addNews(state, key, { customer: tender.customerId }, 'bad', { firmId: state.playerId, personal: true })
     }
     if (!bids.length) {
       if (!tender.hidden && !playerRejected) addNews(state, 'news.tender.noneGoodEnough', { customer: tender.customerId }, 'neutral')
       continue
     }
     const lowest = Math.min(...bids.map((b) => b.rateMultiplier))
-    const scored = bids
-      .map((bid) => ({ bid, score: bidScoreEstimate(state, bid, tender, lowest, quality.get(bid)) + noise(state.rng, BID_NOISE) }))
+    const scored: Scored[] = bids
+      .map((bid) => {
+        const n = noise(state.rng, BID_NOISE)
+        return { bid, noise: n, score: bidScoreEstimate(state, bid, tender, lowest, quality.get(bid)) + n }
+      })
       .sort((a, b) => b.score - a.score)
     const winners = tender.kind === 'framework' ? scored.slice(0, FRAMEWORK_SHARES.length) : scored.slice(0, 1)
     const customer = state.customers[tender.customerId]
@@ -309,20 +421,27 @@ export function resolveDueTenders(state: GameState) {
 
     const top = state.firms[winners[0].bid.firmId]
     const playerWon = winners.some((w) => w.bid.firmId === state.playerId)
-    const playerBid = bids.some((b) => b.firmId === state.playerId)
-    if (playerWon) {
+    const mine = scored.find((x) => x.bid.firmId === state.playerId)
+    if (playerWon && mine) {
       const rank = winners.findIndex((w) => w.bid.firmId === state.playerId) + 1
+      const rival = scored[winners.length]
+      const why = rival ? explainOutcome(state, tender, lowest, mine, rival, true).main : 'alone'
       addNews(
         state,
         tender.kind === 'framework' ? 'news.tender.playerWonFramework' : 'news.tender.playerWon',
-        { customer: tender.customerId, rank, bidders: bids.length },
+        { customer: tender.customerId, rank, bidders: bids.length, strong: why },
         'good',
         { firmId: state.playerId, personal: true },
       )
-    } else if (playerBid && !playerRejected) {
-      addNews(state, 'news.tender.playerLost', { customer: tender.customerId, firm: top.name }, 'bad', {
-        personal: true,
-      })
+    } else if (mine) {
+      // The bar to clear: the winner, or the last framework place.
+      const why = explainOutcome(state, tender, lowest, mine, winners[winners.length - 1], false)
+      const params = { customer: tender.customerId, firm: top.name, weak: why.main }
+      if (why.main !== 'luck' && why.strength) {
+        addNews(state, 'news.tender.playerLostBoth', { ...params, strong: why.strength }, 'bad', { personal: true })
+      } else {
+        addNews(state, 'news.tender.playerLost', params, 'bad', { personal: true })
+      }
     }
     if (!tender.hidden && (bids.length >= 4 || seatTotal(tender.seats) >= 10)) {
       addNews(state, tender.kind === 'framework' ? 'news.tender.frameworkAwarded' : 'news.tender.awarded', {

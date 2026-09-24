@@ -68,6 +68,13 @@ export const CAPACITY_PENALTY = 30
 /** Customers turn down bids below this quality, even when it is the only bid. Stops free copy-paste bids on everything. */
 export const MIN_AWARD_QUALITY = 35
 export const PRIORITY_BONUS = 8
+/** Key tenders (frameworks and bigger projects) get a customer meeting and a promise. The rest are routine. */
+export const KEY_TENDER_MIN_SEATS = 6
+/** Meeting score counted on routine tenders, where nobody meets the customer. Roughly an average meeting. */
+export const ROUTINE_MEETING_SCORE = 50
+/** One-click offer on routine tenders: rate, and a lower one when the customer is price-driven (priceWeight > 0.6). */
+export const QUICK_BID_RATE = 0.97
+export const QUICK_BID_PRICE_RATE = 0.9
 export const AI_MAX_OPEN_BIDS = 8
 /** Happy clients often extend instead of re-tendering. */
 export const RENEWAL_MIN_SATISFACTION = 60
@@ -79,6 +86,30 @@ export const SMALL_TENDER_MAX_SEATS = 2
 export const TARGET_DEMAND_RATIO = 0.85
 /** Market demand grows slowly and does not follow surviving capacity. */
 export const DEMAND_GROWTH_PER_YEAR = 0.05
+
+// Promises on key tenders
+/** Bid quality for promising the whole team from day one. */
+export const PROMISE_FULL_TEAM_QUALITY = 4
+/** A phased start looks less keen, but customers accept that not everyone is free yet. */
+export const PROMISE_PHASED_QUALITY = -2
+/** Share of the capacity penalty a phased start still takes. */
+export const PROMISE_PHASED_CAPACITY = 0.4
+/** Bid quality when the promise is what the customer asked for (CustomerDef.wants). */
+export const PROMISE_MATCH_QUALITY = 4
+/** A full-team promise is kept when at most this share of seats needs freelancers, flex or offshore in the first quarter. */
+export const PROMISE_FULL_TEAM_MAX_GAP = 0.1
+export const PROMISE_PHASED_MAX_GAP = 0.5
+export const PROMISE_KEPT_SATISFACTION = 8
+export const PROMISE_BROKEN_SATISFACTION = 20
+export const PROMISE_KEPT_RELATION = 3
+export const PROMISE_BROKEN_RELATION = 8
+/** Discovery: the first quarter bills at this share of the rate, and renewal is likelier afterwards. */
+export const DISCOVERY_RATE_SHARE = 0.5
+export const DISCOVERY_RENEWAL_FACTOR = 1.3
+/** Customer needs: how they like to be talked to shows once the relationship is at least this good. */
+export const NEEDS_STYLE_RELATION = 40
+/** Explaining results: a strength is mentioned when it was worth at least this many score points. */
+export const FEEDBACK_MIN_STRENGTH = 1.5
 
 // Contract actions (cancelling and customer care are open from level 1)
 /** Renegotiating the rate: once per contract, after at least one quarter of delivery. */
@@ -199,6 +230,34 @@ export const IPO_MULTIPLE_BONUS = 0.5
 export const IPO_MISS_REPUTATION = 2
 export const IPO_MISS_MORALE = 3
 export const IPO_BEAT_REPUTATION = 1
+
+// Crises (content/crises.ts, engine/crises.ts)
+/** No crises before this quarter. */
+export const CRISIS_MIN_QUARTER = 3
+/** Chance per quarter that the player gets a new crisis, once CRISIS_GAP quarters have passed since the last. ~One per 3–4 quarters. */
+export const CRISIS_CHANCE = 0.45
+export const CRISIS_GAP = 2
+export const CRISIS_MAX_OPEN = 2
+/** AI firms: chance per quarter of their own crisis, and how hard crises hit them (they get gossip, not ruin). */
+export const CRISIS_AI_CHANCE = 0.07
+export const CRISIS_AI_IMPACT = 0.5
+/**
+ * How keen an AI firm is to hush a crisis up (0–1): a base, plus its shadiness and how little it cares about
+ * quality. Above ~0.4 burying starts to look attractive to the planner: the bulk and giant firms do, the boutiques don't.
+ */
+export const CRISIS_AI_HUSH = { base: 0.2, perShadiness: 3, perCarelessness: 0.6 } as const
+/** Crisis talk (minigame) score thresholds for the good and bad extra effects. AI and sim bots use their skill instead. */
+export const CRISIS_TALK_GOOD = 67
+export const CRISIS_TALK_BAD = 34
+/** Client wants out: they stay if the contract's satisfaction is at least this when they decide. */
+export const CRISIS_CLIENT_STAY = { low: 45, high: 65 } as const
+/** Hushed-up crises may resurface for this many quarters, with this chance per quarter. */
+export const CRISIS_BURY_QUARTERS = 8
+export const CRISIS_EXPOSE_CHANCE = { low: 0.06, high: 0.14 } as const
+/** The press loves a big name: AI firms' hushed-up crises come out this much more often. */
+export const CRISIS_AI_EXPOSE_FACTOR = 2
+/** Ended crises stay on the dashboard this long. */
+export const CRISIS_KEEP_QUARTERS = 4
 
 // Shady
 export const HEAT_DECAY = 10

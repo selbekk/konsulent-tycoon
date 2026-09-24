@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FEATURE_LEVEL, averageMorale, creditLimit, firmLevel, headcount, quarterTodos } from '../../engine'
+import { EVENT_MAP } from '../../content/events'
+import { FEATURE_LEVEL, averageMorale, creditLimit, firmLevel, headcount, openCrises, quarterTodos } from '../../engine'
 import type { Feature } from '../../engine'
-import { TABS, useGame } from '../../store/gameStore'
+import { TABS, crisisSeenKey, useGame } from '../../store/gameStore'
 import type { Tab } from '../../store/gameStore'
 import { Icon } from '../components/Icon'
 import type { IconName } from '../components/Icon'
@@ -12,6 +13,8 @@ import { playSound } from '../sound'
 import { BackroomScreen } from './BackroomScreen'
 import { BidForm } from './BidForm'
 import { ContractsScreen } from './ContractsScreen'
+import { CrisisModal } from './CrisisModal'
+import { CrisisTalk } from '../minigames/CrisisTalk'
 import { CultureScreen } from './CultureScreen'
 import { Dashboard } from './Dashboard'
 import { EndGame } from './EndGame'
@@ -64,6 +67,10 @@ export function Shell() {
   const bidTenderId = useGame((x) => x.bidTenderId)
   const minigame = useGame((x) => x.minigame)
   const levelUp = useGame((x) => x.levelUp)
+  const crisisId = useGame((x) => x.crisisId)
+  const crisisTalk = useGame((x) => x.crisisTalk)
+  const seenCrises = useGame((x) => x.seenCrises)
+  const openCrisis = useGame((x) => x.openCrisis)
   const onboarding = useGame((x) => x.onboarding)
   const settings = useGame((x) => x.settings)
   const go = useGame((x) => x.go)
@@ -71,13 +78,31 @@ export function Shell() {
   const [confirmEnd, setConfirmEnd] = useState(false)
   const [hideAnnouncement, setHideAnnouncement] = useState<number | null>(null)
   const me = game.firms[game.playerId]
-  const pending = game.pendingEvents.filter((e) => e.firmId === me.id)
+  // Events whose content was removed would otherwise block the End Turn button forever.
+  const pending = game.pendingEvents.filter((e) => e.firmId === me.id && EVENT_MAP[e.eventId])
   const modalOpen =
-    onboarding || report !== null || !!levelUp || !!bidTenderId || !!minigame || pending.length > 0 || saving || confirmEnd || game.status !== 'playing'
+    onboarding ||
+    report !== null ||
+    !!levelUp ||
+    !!bidTenderId ||
+    !!minigame ||
+    !!crisisId ||
+    !!crisisTalk ||
+    pending.length > 0 ||
+    saving ||
+    confirmEnd ||
+    game.status !== 'playing'
   const lng = i18n.language
   const level = firmLevel(me)
   const tabs = useMemo(() => visibleTabs(level), [level])
   const openTodos = quarterTodos(game, me.id).filter((x) => !x.done)
+
+  // A crisis stage the player hasn't seen yet pops up by itself once, when nothing else is in the way.
+  const unseenCrisis = openCrises(game, me.id).find((c) => !seenCrises.includes(crisisSeenKey(c)))
+  const calm = !onboarding && report === null && !levelUp && pending.length === 0 && !bidTenderId && !minigame && !saving && !confirmEnd
+  useEffect(() => {
+    if (calm && !crisisId && !crisisTalk && unseenCrisis && game.status === 'playing') openCrisis(unseenCrisis.id)
+  }, [calm, crisisId, crisisTalk, unseenCrisis, game.status, openCrisis])
 
   // Both the button and the Enter shortcut go through here, so neither skips the warning.
   const hasOpenTodos = openTodos.length > 0
@@ -221,6 +246,8 @@ export function Shell() {
         </div>
       )}
       {minigame && <MinigameHost />}
+      {crisisId && !crisisTalk && game.status === 'playing' && <CrisisModal crisisId={crisisId} />}
+      {crisisTalk && game.status === 'playing' && <CrisisTalk />}
       {saving && <SaveDialog onClose={() => setSaving(false)} />}
       {confirmEnd && (
         <Modal
