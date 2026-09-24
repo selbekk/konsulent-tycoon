@@ -8,6 +8,7 @@ import {
 } from './constants'
 import { headcount } from './economy'
 import { hasFeature } from './levels'
+import { addPeople } from './roster'
 import { valuation } from './score'
 import { DISCIPLINES } from './types'
 import type { ActionOf, Firm, GameState } from './types'
@@ -41,14 +42,19 @@ export function handleAcquire(state: GameState, a: ActionOf<'acquireFirm'>): str
     const from = target.pools[d]
     const to = buyer.pools[d]
     if (!from.count) continue
-    const n = to.count + from.count
-    to.level = (to.level * to.count + from.level * from.count) / n
-    to.morale = (to.morale * to.count + clamp(from.morale - ACQUIRE_MORALE_HIT, 0, 100) * from.count) / n
-    to.count = n
+    const morale = clamp(from.morale - ACQUIRE_MORALE_HIT, 0, 100)
+    if (buyer.roster) addPeople(state, buyer, d, from.count, from.level, morale)
+    else {
+      const n = to.count + from.count
+      to.level = (to.level * to.count + from.level * from.count) / n
+      to.morale = (to.morale * to.count + morale * from.count) / n
+      to.count = n
+    }
     from.count = 0
   }
   for (const star of target.stars) {
     star.loyalty = clamp(star.loyalty - ACQUIRE_STAR_LOYALTY_HIT, 0, 100)
+    star.joinedQuarter = state.quarter
     buyer.stars.push(star)
   }
   target.stars = []

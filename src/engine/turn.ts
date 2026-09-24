@@ -4,6 +4,7 @@ import { BANKRUPT_AFTER_QUARTERS, CREDIT_INTEREST, HISTORY_LENGTH } from './cons
 import { advanceCrises, autoResolveCrises, drawCrises, rollCrisisExposure } from './crises'
 import { expireContracts, rollCallOffs, updateContracts } from './contracts'
 import { updateCulture } from './culture'
+import { developRoster } from './development'
 import { creditLimit, headcount, quarterFinancials } from './economy'
 import { autoResolveEvents, drawEvents } from './events'
 import { pickAnnouncement } from './flavor'
@@ -37,6 +38,7 @@ function runFirmQuarter(state: GameState) {
     const hc = headcount(firm)
     updateCulture(firm)
     runDepartments(firm)
+    developRoster(state, firm)
     updateMorale(firm, fin.utilization)
     updateStars(state, firm, fin.utilization, hc)
     applyTurnover(state, firm)

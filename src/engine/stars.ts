@@ -1,6 +1,6 @@
-import { FIRST_NAMES, LAST_NAMES, NICKNAMES } from '../content/starNames'
 import { TRAITS, TRAIT_MAP } from '../content/traits'
 import { MAX_POOL_LEVEL, STAR_MARKET_MAX, clamp, quarterlySalaryCost } from './constants'
+import { personName, raiseLevel } from './roster'
 import { moraleTarget } from './staff'
 import { chance, nextFloat, nextInt, pick, range } from './rng'
 import type { RngState } from './rng'
@@ -8,12 +8,10 @@ import { DISCIPLINES } from './types'
 import type { Ambition, Discipline, Firm, GameState, Star } from './types'
 import { addNews, nextId } from './util'
 
-const AMBITIONS: Ambition[] = ['salary', 'growth', 'leadership', 'remote']
+export const AMBITIONS: Ambition[] = ['salary', 'growth', 'leadership', 'remote']
 
 export function generateStarName(rng: RngState): string {
-  const first = pick(rng, FIRST_NAMES)
-  const last = pick(rng, LAST_NAMES)
-  return chance(rng, 0.35) ? `${first} «${pick(rng, NICKNAMES)}» ${last}` : `${first} ${last}`
+  return personName(rng, 0.35)
 }
 
 export function generateStar(state: GameState, discipline?: Discipline, minLevel = 3, maxLevel = 5): Star {
@@ -76,10 +74,7 @@ export function updateStars(state: GameState, firm: Firm, util: number, headcoun
       if (t.wantsRemote && !star.remoteGranted) loyaltyDelta -= 3
       if (t.needsSosialt !== undefined) moraleDrift += firm.sosialt >= t.needsSosialt ? 2 : -3
       if (t.reputationPerQuarter) firm.reputation = clamp(firm.reputation + t.reputationPerQuarter, 0, 100)
-      if (t.poolLevelPerQuarter) {
-        const p = firm.pools[star.discipline]
-        p.level = clamp(p.level + t.poolLevelPerQuarter, 1, MAX_POOL_LEVEL)
-      }
+      if (t.poolLevelPerQuarter) raiseLevel(firm, star.discipline, t.poolLevelPerQuarter, MAX_POOL_LEVEL)
       if (t.satisfactionPerQuarter && star.assignedContractId) {
         const c = state.contracts.find((x) => x.id === star.assignedContractId)
         if (c) c.satisfaction = clamp(c.satisfaction + t.satisfactionPerQuarter, 0, 100)
@@ -114,6 +109,7 @@ export function removeStar(state: GameState, firm: Firm, starId: string): Star |
     for (const b of t.bids) if (b.firmId === firm.id) b.starIds = b.starIds.filter((id) => id !== starId)
   }
   star.assignedContractId = undefined
+  for (const e of firm.roster ?? []) if (e.mentorStarId === starId) delete e.mentorStarId
   return star
 }
 

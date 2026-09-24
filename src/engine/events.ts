@@ -3,6 +3,7 @@ import type { Effect, EventCtx } from '../content/events'
 import { PREMIUM_MAX, PREMIUM_MIN, clamp } from './constants'
 import { averageMorale, headcount, staffFirm } from './economy'
 import { chance, pick, weightedPick } from './rng'
+import { addPeople } from './roster'
 import { removeStar, starSigningCost } from './stars'
 import { DISCIPLINES } from './types'
 import type { ActionOf, Firm, GameState, PendingEvent } from './types'
@@ -80,21 +81,13 @@ export function applyEffect(state: GameState, firm: Firm, effect: Effect, pe: Pe
       break
     case 'acquire_agency': {
       const d = pick(state.rng, DISCIPLINES)
-      const p = firm.pools[d]
-      const n = 8
-      p.level = (p.level * p.count + 3.2 * n) / (p.count + n)
-      p.morale = (p.morale * p.count + 60 * n) / (p.count + n)
-      p.count += n
+      addPeople(state, firm, d, 8, 3.2, 60)
       firm.reputation = clamp(firm.reputation + 2, 0, 100)
       addNews(state, 'news.firm.acquired', { firm: firm.name, discipline: d }, 'good', { personal: true })
       break
     }
     case 'hire_interns': {
-      for (const d of ['frontend', 'backend', 'design'] as const) {
-        const p = firm.pools[d]
-        p.level = (p.level * p.count + 1.5) / (p.count + 1)
-        p.count += 1
-      }
+      for (const d of ['frontend', 'backend', 'design'] as const) addPeople(state, firm, d, 1, 1.5)
       break
     }
     case 'poach_match':

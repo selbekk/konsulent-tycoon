@@ -13,8 +13,10 @@ import { handleAcquire } from './acquisitions'
 import { handleCancel, handleNurture, handleRenegotiate, handleUpsell } from './contractActions'
 import { starBusyThrough } from './contracts'
 import { handleResolveCrisis, handleStartCrisisTalk } from './crises'
+import { handleCareerTalk, handlePromote, handleSetMentor, handleSetStretch, handleTrain } from './development'
 import { handleResolveEvent } from './events'
 import { hasFeature, tenderLock } from './levels'
+import { employeeOf, removePeople } from './roster'
 import { handleShady } from './shady'
 import { handleChooseSpecialty, handleIpo, handleLobby, handleSetDepartment, handleSetPartnership } from './strategy'
 import { starSigningCost } from './stars'
@@ -60,11 +62,15 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const firm = firmOf(state, a.firmId)
     if (!firm) return 'errors.invalid'
     const pool = firm.pools[a.discipline]
-    const n = clamp(Math.round(a.count), 0, pool.count)
+    const n = a.employeeId ? 1 : clamp(Math.round(a.count), 0, pool.count)
     if (!n) return 'errors.invalid'
-    pool.count -= n
+    if (a.employeeId && employeeOf(firm, a.employeeId)?.discipline !== a.discipline) return 'errors.invalidEmployee'
+    const level = pool.level
+    // With a roster, pay for the people who actually go; without one they are average.
+    const gone = removePeople(state, firm, a.discipline, n, a.employeeId ? { employeeId: a.employeeId } : 'weakest')
+    const levels = firm.roster ? gone.map((e) => e.level) : Array<number>(n).fill(level)
     firm.quarterFired = (firm.quarterFired ?? 0) + n
-    firm.cash -= n * quarterlySalaryCost(pool.level, firm.budgets.salaryPremium) * SEVERANCE_QUARTERS
+    firm.cash -= levels.reduce((s, l) => s + quarterlySalaryCost(l, firm.budgets.salaryPremium), 0) * SEVERANCE_QUARTERS
     for (const p of Object.values(firm.pools)) p.morale = clamp(p.morale - FIRE_MORALE_HIT, 0, 100)
     for (const s of firm.stars) s.morale = clamp(s.morale - FIRE_MORALE_HIT, 0, 100)
     return undefined
@@ -83,6 +89,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     state.starMarket.splice(idx, 1)
     star.loyalty = 65
     star.morale = 75
+    star.joinedQuarter = state.quarter
     firm.stars.push(star)
     firm.quarterHires += 1
     return undefined
@@ -176,6 +183,11 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   cancelContract: handleCancel,
   upsellContract: handleUpsell,
   nurtureContract: handleNurture,
+  trainEmployee: handleTrain,
+  promoteEmployee: handlePromote,
+  setMentor: handleSetMentor,
+  setStretch: handleSetStretch,
+  careerTalk: handleCareerTalk,
 }
 
 /** Mutates `draft` in place. Use inside engine code that already owns a draft (AI turns, sim). */

@@ -2,7 +2,6 @@ import { TRAIT_MAP } from '../content/traits'
 import {
   HIRE_BASE_ACCEPT,
   HIRE_COST,
-  MAX_POOL_LEVEL,
   MORALE_ADJUST_RATE,
   MORALE_BASE,
   MORALE_CULTURE_WEIGHT,
@@ -16,6 +15,7 @@ import { employerBrand } from './culture'
 import { binomial, noise } from './rng'
 import { DISCIPLINES } from './types'
 import type { Discipline, Firm, GameState } from './types'
+import { addPeople, removePeople } from './roster'
 import { addNews } from './util'
 
 export function utilizationEffect(util: number): number {
@@ -69,7 +69,7 @@ export function applyTurnover(state: GameState, firm: Firm) {
   for (const d of DISCIPLINES) {
     const p = firm.pools[d]
     const n = binomial(state.rng, p.count, turnoverChance(p.morale))
-    p.count -= n
+    removePeople(state, firm, d, n)
     leavers += n
   }
   firm.quarterLeavers += leavers
@@ -111,12 +111,8 @@ export function processHiring(state: GameState, firm: Firm) {
   for (const d of DISCIPLINES) {
     const n = arriving[d] ?? 0
     if (!n) continue
-    const p = firm.pools[d]
     const level = clamp(newHireLevel(firm) + noise(state.rng, 0.5), 1, 4.5)
-    const total = p.count + n
-    p.level = clamp((p.level * p.count + level * n) / total, 1, MAX_POOL_LEVEL)
-    p.morale = (p.morale * p.count + 72 * n) / total
-    p.count = total
+    addPeople(state, firm, d, n, level, 72)
     arrived += n
   }
   firm.quarterHires += arrived

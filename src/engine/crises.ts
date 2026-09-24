@@ -25,6 +25,7 @@ import { contractRevenue, headcount, isActive, activeContracts, spendable } from
 import { applyMorale } from './events'
 import { firmLevel } from './levels'
 import { chance, nextInt, pick, weightedPick } from './rng'
+import { addPeople, removePeople } from './roster'
 import { removeStar } from './stars'
 import { DISCIPLINES } from './types'
 import type { ActionOf, Crisis, CrisisOutcome, CrisisSeverity, Discipline, Firm, GameState, Params } from './types'
@@ -248,21 +249,18 @@ function bench(state: GameState, firm: Firm, c: Crisis, share: number) {
   }
 }
 
-function leave(firm: Firm, c: Crisis, n: number) {
+function leave(state: GameState, firm: Firm, c: Crisis, n: number) {
   for (let i = 0; i < n; i++) {
     const d = disciplineOrder(c.params.discipline, (x) => firm.pools[x].count).find((x) => firm.pools[x].count > 0)
     if (!d) return
-    firm.pools[d].count -= 1
+    removePeople(state, firm, d, 1)
     firm.quarterLeavers += 1
   }
 }
 
-function hire(firm: Firm, c: Crisis, n: number) {
+function hire(state: GameState, firm: Firm, c: Crisis, n: number) {
   const d = DISCIPLINES.find((x) => x === c.params.discipline) ?? disciplineOrder(undefined, (x) => firm.pools[x].count)[0]
-  const p = firm.pools[d]
-  p.level = (p.level * p.count + 2.8 * n) / (p.count + n)
-  p.morale = (p.morale * p.count + 60 * n) / (p.count + n)
-  p.count += n
+  addPeople(state, firm, d, n, 2.8, 60)
   firm.quarterHires += n
 }
 
@@ -292,8 +290,8 @@ export function applyCrisisEffect(state: GameState, firm: Firm, c: Crisis, e: Cr
     firm.quarterLeavers += 1
   }
   if (e.bench) bench(state, firm, c, e.bench)
-  if (e.leavers) leave(firm, c, e.leavers)
-  if (e.hires) hire(firm, c, e.hires)
+  if (e.leavers) leave(state, firm, c, e.leavers)
+  if (e.hires) hire(state, firm, c, e.hires)
   if (e.terminate && running) terminateContract(state, running, undefined, 0)
 }
 

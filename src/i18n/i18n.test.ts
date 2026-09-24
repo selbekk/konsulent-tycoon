@@ -8,6 +8,7 @@ import { FIRMS } from '../content/firms'
 import { CUSTOMERS } from '../content/customers'
 import { TRENDS } from '../content/trends'
 import { TRAITS } from '../content/traits'
+import { QUIRKS } from '../content/quirks'
 import { BUZZWORDS } from '../content/buzzwords'
 import { MEETING_QUESTIONS, MEETING_STYLES } from '../content/meetingQuestions'
 import { MISSIONS } from '../content/missions'
@@ -78,6 +79,10 @@ describe('i18n', () => {
     for (const c of CUSTOMERS) check(content, `customers.${c.id}.name`)
     for (const t of TRENDS) check(content, `trends.${t.id}.name`)
     for (const t of TRAITS) check(content, `traits.${t.id}.name`)
+    for (const q of QUIRKS) {
+      check(content, `quirks.${q.id}.name`)
+      check(content, `quirks.${q.id}.desc`)
+    }
     for (const s of SHADY_IDS) {
       check(content, `shady.actions.${s}.name`)
       check(game, `news.scandal.${s}`)

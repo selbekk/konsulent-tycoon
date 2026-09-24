@@ -5,84 +5,20 @@ import {
   HIRE_COST,
   SEVERANCE_QUARTERS,
   acceptRate,
-  ambitionMet,
   disciplineSupply,
   employeeThoughts,
   hasFeature,
-  headcount,
   quarterlySalaryCost,
   staffFirm,
-  starSigningCost,
 } from '../../engine'
-import type { Firm, GameState, Star } from '../../engine'
+import type { Discipline } from '../../engine'
 import { useGame } from '../../store/gameStore'
-import { Badge, Button, Meter, Panel, Stepper } from '../components/ui'
+import { Button, Meter, Panel, Stepper } from '../components/ui'
 import { formatMoney, formatNumber, formatPercent } from '../format'
+import { Levels } from '../components/Levels'
+import { PeoplePanel } from './People'
+import { StarCard } from './StarCard'
 import s from './screens.module.css'
-
-function Levels({ level }: { level: number }) {
-  const full = Math.round(level)
-  return (
-    <span aria-label={`${level.toFixed(1)} / 5`} title={level.toFixed(1)} style={{ letterSpacing: 1, color: 'var(--warn)' }}>
-      {'★'.repeat(full)}
-      <span style={{ opacity: 0.25 }}>{'★'.repeat(Math.max(0, 5 - full))}</span>
-    </span>
-  )
-}
-
-export function StarCard({ star, firm, game, market }: { star: Star; firm: Firm; game: GameState; market?: boolean }) {
-  const { t, i18n } = useTranslation()
-  const dispatch = useGame((x) => x.dispatch)
-  const contract = star.assignedContractId ? game.contracts.find((c) => c.id === star.assignedContractId) : undefined
-  const met = ambitionMet(firm, star, headcount(firm))
-  const cost = starSigningCost(star, firm)
-  return (
-    <article className={s.card}>
-      <div className={s.cardTitle}>
-        <span>{star.name}</span>
-        {star.founder && <Badge tone="accent">{t('staff.founder')}</Badge>}
-      </div>
-      <div className={s.row}>
-        <Badge>{t(`disciplines.${star.discipline}`)}</Badge>
-        <Levels level={star.level} />
-      </div>
-      <div className={s.seats}>
-        {star.traits.map((tr) => (
-          <span key={tr} title={t(`content:traits.${tr}.desc`)}>
-            <Badge tone="info">{t(`content:traits.${tr}.name`)}</Badge>
-          </span>
-        ))}
-      </div>
-      <span className={s.small}>
-        {t(`content:ambitions.${star.ambition}`)}
-        {!market && !star.founder && <span className={met ? s.good : s.bad}> · {met ? t('staff.ambitionMet') : t('staff.ambitionUnmet')}</span>}
-      </span>
-      {!market && (
-        <>
-          <Meter label={t('staff.morale')} value={star.morale} />
-          {!star.founder && <Meter label={t('staff.loyalty')} value={star.loyalty} />}
-          <span className={`${s.small} ${s.muted}`}>
-            {contract ? t('staff.assignedTo', { customer: t(`content:customers.${contract.customerId}.name`) }) : t('staff.unassigned')}
-          </span>
-        </>
-      )}
-      <span className={`${s.small} ${s.muted}`}>
-        {t('staff.premium', { premium: formatPercent(star.salaryPremium, i18n.language) })}
-      </span>
-      {market ? (
-        <Button variant="primary" size="small" disabled={firm.cash < cost} onClick={() => dispatch({ type: 'hireStar', firmId: firm.id, starId: star.id })}>
-          {t('staff.hireStar', { cost: formatMoney(cost, i18n.language) })}
-        </Button>
-      ) : (
-        !star.founder && (
-          <Button size="small" onClick={() => dispatch({ type: 'giveRaise', firmId: firm.id, starId: star.id, amount: 0.05 })}>
-            {t('staff.raise')}
-          </Button>
-        )
-      )}
-    </article>
-  )
-}
 
 export function StaffScreen() {
   const { t, i18n } = useTranslation()
@@ -94,6 +30,8 @@ export function StaffScreen() {
   const rate = acceptRate(me)
   const ordered = DISCIPLINES.reduce((sum, d) => sum + (me.hiringOrders[d] ?? 0), 0)
   const thoughts = employeeThoughts(game, me.id)
+  // "Let one go" picks the weakest person, so the severance is theirs.
+  const weakest = (d: Discipline) => Math.min(...(me.roster ?? []).filter((e) => e.discipline === d).map((e) => e.level), me.pools[d].level)
 
   return (
     <div className={s.grid}>
@@ -141,7 +79,7 @@ export function StaffScreen() {
                         size="small"
                         variant="ghost"
                         disabled={!p.count}
-                        title={t('staff.fireHint', { cost: formatMoney(quarterlySalaryCost(p.level, me.budgets.salaryPremium) * SEVERANCE_QUARTERS, lng) })}
+                        title={t('staff.fireHint', { cost: formatMoney(quarterlySalaryCost(weakest(d), me.budgets.salaryPremium) * SEVERANCE_QUARTERS, lng) })}
                         onClick={() => dispatch({ type: 'fire', firmId: me.id, discipline: d, count: 1 })}
                       >
                         {t('staff.fire')}
@@ -171,6 +109,8 @@ export function StaffScreen() {
           ))}
         </ul>
       </Panel>
+
+      <PeoplePanel game={game} firm={me} />
 
       <Panel title={t('staff.stars')} icon="star" className={s.span12}>
         <div className={s.cards}>

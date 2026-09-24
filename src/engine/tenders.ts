@@ -34,6 +34,7 @@ import { createContract } from './contracts'
 import { disciplineLevel, disciplineSupply, headcount, isActive, staffFirm } from './economy'
 import { chance, nextFloat, nextInt, noise, range, shuffle, weightedPick } from './rng'
 import { checkFraudAtAward } from './shady'
+import { mentorPenalty } from './roster'
 import { starBidQuality } from './stars'
 import { strategyBonus } from './strategy'
 import { DISCIPLINES } from './types'
@@ -239,7 +240,7 @@ export function bidQualityParts(state: GameState, bid: Bid, tender: Tender): Qua
   if (k > 0) {
     const starLevels = stars.slice(0, k).map((s) => (tender.seats[s.discipline] ? s.level : s.level - 1.5))
     cv = (cv * (total - k) + starLevels.reduce((a, b) => a + b, 0)) / total
-    traitBonus = stars.slice(0, k).reduce((s, x) => s + starBidQuality(x), 0)
+    traitBonus = stars.slice(0, k).reduce((s, x) => s + starBidQuality(x) - mentorPenalty(firm, x.id), 0)
   }
   // Customers check whether the people on the CVs are actually available – unless you invent them.
   // Up to half the seats from subcontractors is fine; beyond that it hurts.

@@ -175,7 +175,7 @@
   "staff": {
     "pools": "Konsulentene",
     "discipline": "Fagområde",
-    "people": "Antall",
+    "people": "Folka",
     "level": "Nivå",
     "morale": "Trivsel",
     "demandNext": "Behov neste kv.",
@@ -196,7 +196,63 @@
     "raise": "Gi lønnsøkning (+5 %)",
     "hireStar": "Ansett (signering {{cost}})",
     "market": "Stjernemarkedet",
-    "marketEmpty": "Ingen stjerner ledige akkurat nå. Følg med neste kvartal."
+    "marketEmpty": "Ingen stjerner ledige akkurat nå. Følg med neste kvartal.",
+    "filterAll": "Alle",
+    "sort": "Sorter",
+    "peopleCount_one": "{{count}} person",
+    "peopleCount_other": "{{count}} personer",
+    "sorts": {
+      "level": "Nivå",
+      "tenure": "Ansiennitet",
+      "potential": "Potensial",
+      "name": "Navn"
+    },
+    "peopleEmpty": "Ingen her ennå.",
+    "status": {
+      "course": "På kurs",
+      "mentor": "Har mentor",
+      "stretch": "Strekkoppdrag",
+      "promise": "Lovet vekst",
+      "promotable": "Klar for forfremmelse"
+    },
+    "potential": "Potensial",
+    "potentials": {
+      "unknown": "Ukjent",
+      "low": "Lavt",
+      "medium": "Middels",
+      "high": "Høyt"
+    },
+    "homegrown": "Hjemmedyrket",
+    "mentoring": "Mentor for {{name}}",
+    "openProfile": "Vis profilen til {{name}}",
+    "profile": {
+      "joined": "Ansatt siden {{quarter}}",
+      "bio": "{{first}} jobber med {{discipline}} og har vært her i {{tenure}}.",
+      "bioNew": "{{first}} begynte nettopp. Laptopen har fortsatt plast på.",
+      "tenure_one": "{{count}} kvartal",
+      "tenure_other": "{{count}} kvartaler",
+      "quirks": "Særtrekk",
+      "thinks": "Tenker akkurat nå",
+      "develop": "Utvikling",
+      "developLocked": "Kurs, mentorer og karrieresamtaler åpner på nivå {{level}}.",
+      "potentialHint": "Potensialet viser seg etter et kurs, med en mentor, eller etter {{quarters}} kvartaler i firmaet.",
+      "course": "Send på kurs ({{cost}})",
+      "courseHint": "Løfter nivået over {{quarters}} kvartaler, opp til {{max}}. Hen fakturerer som vanlig.",
+      "courseActive": "På kurs, ferdig etter {{quarter}}.",
+      "mentor": "Mentor",
+      "mentorNone": "Ingen mentor",
+      "mentorHint": "En stjerne i samme fag kan ta én adept. Stjernen byr litt svakere så lenge.",
+      "stretch": "Strekkoppdrag",
+      "stretchNone": "Ikke noe strekkoppdrag",
+      "stretchHint": "Rask vekst på et oppdrag over nivået. Kunden kan merke det.",
+      "careerTalk": "Ta en karrieresamtale",
+      "careerHint": "Du lover {{growth}} nivå vekst innen {{quarters}} kvartaler. Hen vokser raskere, men slutter hvis du ikke holder løftet.",
+      "promise": "Lovet vekst innen {{quarter}}: {{done}} av {{goal}} nivå.",
+      "promote": "Forfrem til stjerne ({{cost}})",
+      "promoteHint": "Krever nivå {{level}} og høyt potensial. Én forfremmelse i året.",
+      "fire": "Si opp ({{cost}})"
+    },
+    "starBadge": "Stjerne"
   },
   "culture": {
     "budgets": "Budsjetter",
@@ -634,7 +690,8 @@
       "acquisitions": "Oppkjøp: kjøp mindre konkurrenter med folk, kunder og kontrakter",
       "ipo": "Børsnotering: hent kapital, men lev med kvartalspresset",
       "renegotiate": "Reforhandling: be fornøyde kunder om høyere timepris",
-      "upsell": "Mersalg: tilby flere folk på prosjekter som går"
+      "upsell": "Mersalg: tilby flere folk på prosjekter som går",
+      "development": "Utvikling: kurs, mentorer og karrieresamtaler for dine egne folk"
     },
     "seats": "Anbud på opptil {{count}} konsulenter",
     "seatsAll": "Anbud i alle størrelser",
@@ -777,7 +834,8 @@
       "acquisitions": "oppkjøp",
       "ipo": "børsnotering",
       "renegotiate": "reforhandling",
-      "upsell": "mersalg"
+      "upsell": "mersalg",
+      "development": "utvikling av ansatte"
     },
     "bjorn": "Jeg er styreleder. Jeg dukker opp med råd når det passer meg. Lykke til!"
   },

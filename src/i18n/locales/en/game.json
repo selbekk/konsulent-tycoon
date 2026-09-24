@@ -27,7 +27,18 @@
     "crisisClosed": "That crisis isn't waiting for an answer right now.",
     "crisisNeedsStar": "That person is no longer with you.",
     "crisisNeedsContract": "That engagement isn't running any more.",
-    "crisisNeedsCustomer": "There is no client to ask."
+    "crisisNeedsCustomer": "There is no client to ask.",
+    "invalidEmployee": "Couldn't find that person.",
+    "alreadyOnCourse": "Already on a course.",
+    "courseMaxLevel": "Has reached the ceiling for this.",
+    "noPotential": "Hasn't shown enough potential to become a star.",
+    "notReadyForPromotion": "Needs a bit more experience before a promotion.",
+    "mentorDiscipline": "The mentor must work in the same discipline.",
+    "mentorLevel": "The mentor has nothing more to teach here.",
+    "mentorBusy": "That star is already mentoring someone.",
+    "stretchContract": "That engagement doesn't fit.",
+    "promiseActive": "You've already made a promise in a career talk.",
+    "promotedRecently": "You promoted someone recently. It's one promotion a year."
   },
   "news": {
     "game": {
@@ -36,7 +47,13 @@
     "staff": {
       "leftMany": "{{count}} employees quit this quarter. The farewell cake was dry.",
       "arrived": "{{count}} new consultants showed up with shiny laptops and high hopes.",
-      "starLeft": "{{name}} has left {{firm}}."
+      "starLeft": "{{name}} has left {{firm}}.",
+      "talentSpotted": "{{name}} has turned out to be a real talent. A future star in {{discipline}}?",
+      "promiseKept": "{{name}} got the growth you promised in the career talk.",
+      "promiseBroken": "{{name}} has quit. The promise from the career talk was never kept.",
+      "promoted": "{{name}} has been promoted to star consultant in {{discipline}}.",
+      "courseDone_one": "{{name}} has finished the course and has a new certificate on LinkedIn.",
+      "courseDone_other": "{{count}} people have finished their courses and have new certificates on LinkedIn."
     },
     "tender": {
       "noBids": "Nobody bid on the tender from {{customer}}. Procurement is taking a long lunch.",

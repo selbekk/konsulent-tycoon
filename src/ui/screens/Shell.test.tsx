@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import i18n from '../../i18n'
+import { syncRosterToPools } from '../../engine/testUtils'
 import { useGame } from '../../store/gameStore'
 import { AboutScreen } from './Menus'
 import { Shell } from './Shell'
@@ -89,6 +90,7 @@ describe('levels in the shell', () => {
     const game = structuredClone(useGame.getState().game!)
     Object.assign(game.firms.player, { level: 5, cash: 400_000_000 })
     game.firms.player.pools.backend.count += 60
+    syncRosterToPools(game)
     game.pendingEvents = []
     useGame.getState().loadState(game)
     render(<Shell />)

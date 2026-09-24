@@ -1,4 +1,5 @@
 import { SAVE_VERSION } from './constants'
+import { buildRoster } from './roster'
 import { hasValidShape } from './saveShape'
 import type { GameState } from './types'
 
@@ -22,6 +23,9 @@ export function deserialize(raw: string, migs: Record<number, Migration> = migra
     s = { ...m(s), saveVersion: s.saveVersion + 1 }
   }
   if (!hasValidShape(s)) throw new Error('save.incompatible')
+  // Saves from before rosters: give the player's people names from their pools.
+  const me = s.firms[s.playerId]
+  if (!me.roster) buildRoster(s, me)
   return s
 }
 

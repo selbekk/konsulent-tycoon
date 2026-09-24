@@ -6,10 +6,12 @@ import { hasFeature, tenderLock } from '../levels'
 import { lobbyReadyIn } from '../strategy'
 import { planContractMoves } from './contractMoves'
 import { choosePromise } from './promises'
+import { CAREER_PROMISE_GROWTH, COURSE_MAX_LEVEL, PROMOTE_MIN_POTENTIAL } from '../constants'
+import { mentorBlock, promotionBlock, stretchContracts } from '../development'
 import { noise } from '../rng'
 import { isKeyTender, openTenders } from '../tenders'
 import { DISCIPLINES } from '../types'
-import type { Action, Discipline, GameState } from '../types'
+import type { Action, Discipline, Employee, GameState } from '../types'
 import { seatTotal } from '../util'
 
 /**
@@ -22,7 +24,7 @@ const ALL_MOVES: StrategyMove[] = ['specialty', 'partner', 'lobby', 'departments
 
 export function planHumanProxy(
   state: GameState,
-  opts: { price?: number; minigame?: number; strategic?: boolean | StrategyMove[] } = {},
+  opts: { price?: number; minigame?: number; strategic?: boolean | StrategyMove[]; develop?: boolean } = {},
 ): Action[] {
   const firmId = state.playerId
   const firm = state.firms[firmId]
@@ -118,7 +120,50 @@ export function planHumanProxy(
   }
   // Care whenever the reducer allows it, so the to-do item never stays open.
   actions.push(...planContractMoves(state, firmId, fin.staffing.demand, { runway, eagerness: 1, nurtureRunway: -Infinity }))
+  if (opts.develop !== false) actions.push(...planDevelopment(state, runway))
   if (opts.strategic) actions.push(...planStrategy(state, runway, opts.strategic === true ? ALL_MOVES : opts.strategic))
+  return actions
+}
+
+/**
+ * Grows its own people the way a keen player might: promote whoever is ready, send a few on
+ * courses (talents first), give every star a mentee, stretch talents who hit the course ceiling,
+ * and have a career talk only when the course will clearly keep the promise.
+ */
+function planDevelopment(state: GameState, runway: number): Action[] {
+  const firmId = state.playerId
+  const firm = state.firms[firmId]
+  if (!firm.roster || !hasFeature(firm, 'development')) return []
+  const actions: Action[] = []
+  const talent = (e: Employee) => !!e.potentialRevealed && e.potential >= PROMOTE_MIN_POTENTIAL
+  const ready = firm.roster.find((e) => !promotionBlock(state, firm, e))
+  if (ready) actions.push({ type: 'promoteEmployee', firmId, employeeId: ready.id })
+  if (runway > 1.5) {
+    const courses = firm.roster
+      .filter((e) => e.id !== ready?.id && !e.course && e.level < COURSE_MAX_LEVEL && (!e.potentialRevealed || e.potential >= 0.4))
+      .sort((a, b) => Number(talent(b)) - Number(talent(a)) || Number(!!a.potentialRevealed) - Number(!!b.potentialRevealed) || a.level - b.level)
+      .slice(0, Math.max(1, Math.round(firm.roster.length / 15)))
+    for (const e of courses) {
+      actions.push({ type: 'trainEmployee', firmId, discipline: e.discipline, employeeId: e.id })
+      if (talent(e) && !e.promise && e.level + CAREER_PROMISE_GROWTH <= COURSE_MAX_LEVEL) actions.push({ type: 'careerTalk', firmId, employeeId: e.id })
+    }
+  }
+  const mentored = new Set(firm.roster.filter((e) => e.mentorStarId).map((e) => e.id))
+  for (const star of firm.stars) {
+    if (firm.roster.some((e) => e.mentorStarId === star.id)) continue
+    const mentee = firm.roster
+      .filter((e) => e.id !== ready?.id && !mentored.has(e.id) && !mentorBlock(firm, e, star))
+      .sort((a, b) => Number(talent(b)) - Number(talent(a)) || a.level - b.level)[0]
+    if (mentee) {
+      actions.push({ type: 'setMentor', firmId, employeeId: mentee.id, starId: star.id })
+      mentored.add(mentee.id)
+    }
+  }
+  for (const e of firm.roster) {
+    if (e.id === ready?.id || !talent(e) || e.level < COURSE_MAX_LEVEL || e.stretchContractId) continue
+    const c = stretchContracts(state, firm, e).sort((a, b) => b.satisfaction - a.satisfaction)[0]
+    if (c && c.satisfaction >= 70) actions.push({ type: 'setStretch', firmId, employeeId: e.id, contractId: c.id })
+  }
   return actions
 }
 

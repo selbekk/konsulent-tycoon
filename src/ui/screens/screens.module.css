@@ -647,3 +647,61 @@
   .crisisChoice { transition: none; }
 }
 :root[data-motion='reduced'] .crisisChoice { transition: none; }
+
+/* Staff: the list of people */
+.people {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.person {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'face name level' 'face badges badges';
+  align-items: center;
+  gap: 2px 10px;
+  width: 100%;
+  padding: 8px 10px;
+  text-align: left;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.person[data-star] {
+  border-color: color-mix(in srgb, var(--warn) 60%, var(--border));
+}
+
+.person:hover,
+.person:focus-visible {
+  border-color: var(--accent);
+}
+
+.person > svg { grid-area: face; }
+.person > .personName { grid-area: name; }
+.person > span[aria-label] { grid-area: level; }
+.person > .seats { grid-area: badges; }
+.person > .seats:empty { display: none; }
+
+.personName {
+  display: grid;
+  min-width: 0;
+}
+
+.personName > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 720px) {
+  .person {
+    grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1.2fr);
+    grid-template-areas: 'face name level badges';
+  }
+  .person > .seats { justify-content: flex-end; }
+}
