@@ -22,6 +22,7 @@ import {
   clamp,
 } from './constants'
 import { hasFeature } from './levels'
+import { raiseLevel } from './roster'
 import { valuation } from './score'
 import { DISCIPLINES } from './types'
 import type { ActionOf, Firm, GameState, Specialty, Tender } from './types'
@@ -72,8 +73,7 @@ export const freelancerMarkup = (firm: Firm) => (hasDepartment(firm, 'nearshore'
 export function runDepartments(firm: Firm) {
   if (!hasDepartment(firm, 'academy')) return
   for (const d of DISCIPLINES) {
-    const p = firm.pools[d]
-    if (p.count && p.level < ACADEMY_MAX_LEVEL) p.level = Math.min(ACADEMY_MAX_LEVEL, p.level + ACADEMY_LEVEL_GAIN)
+    if (firm.pools[d].count) raiseLevel(firm, d, ACADEMY_LEVEL_GAIN, ACADEMY_MAX_LEVEL)
   }
 }
 

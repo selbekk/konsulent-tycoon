@@ -77,6 +77,8 @@ src/
     economy.ts        Bemanning, omsetning, kostnader, kassekreditt
     staff.ts          Trivsel, turnover, rekruttering
     stars.ts          Stjernekonsulenter, traits, stjernemarkedet
+    roster.ts         Spillerens ansatte som personer, synket mot poolene
+    development.ts    Kurs, mentor, strekkoppdrag, karrieresamtale, forfremmelse
     culture.ts        Fagmiljø, sosialt miljø, arbeidsgiverbrand
     tenders.ts        Anbud: generering, kvalitet, scoring, tildeling, forklaring
     contracts.ts      Kontrakter, avrop, forlengelse, løfter
@@ -198,6 +200,18 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Bud under `MIN_AWARD_QUALITY` i kvalitet avvises, også når ingen andre byr. Ellers kunne gratis bud på alt, bemannet med frilansere, vinne alle anbud uten konkurranse.
   - En stjerne kan stå på ett åpent bud om gangen, og bare hvis kontrakten stjernen sitter på er ferdig når den nye starter (`starBusyThrough`). Å flytte en stjerne midt i en kontrakt går bare via bakrommet (`bait_and_switch`).
 - **Ansettelser:** De som takker ja til kvartalets bestillinger, begynner ved kvartalsskiftet og fakturerer fra neste kvartal.
+- **Ansattlista (`roster.ts`):** Spillerens firma har `Firm.roster`, en liste med `Employee`. For et firma med liste er `pools[d].count` og `.level` avledet av lista, mens trivselen fortsatt er per pool. AI-firmaene har ingen liste.
+  - **All endring av antall eller nivå i en pool skal gå via `addPeople`, `removePeople` eller `raiseLevel`.** De holder lista og poolen i takt, og uten liste gjør de den gamle pool-aritmetikken. Å skrive direkte til `pools[d].count` bryter lista. Tester som setter poolene for hånd, kaller `syncRosterToPools(state)` etterpå.
+  - Navn, særtrekk, potensial og hvem som slutter trekkes fra `rosterRng` (hash av seed, firma og `Firm.rosterSeq`), aldri fra `state.rng`. Derfor er AI-markedet bit-likt med og uten liste.
+  - Gamle lagringer uten liste får en ved innlasting (`buildRoster` i `deserialize`), med samme snittnivå som poolen.
+- **Utvikling (`development.ts`):** Nivå 2 (`FEATURE_LEVEL.development`). Kvartalssteget `developRoster` kjører etter avdelingene og før trivselen.
+  - **Kurs** koster `COURSE_COST` og løfter nivået over `COURSE_QUARTERS` kvartaler, opp til `COURSE_MAX_LEVEL`. Personen fakturerer som vanlig. Uten liste (AI) løfter kurset puljesnittet med samme totale gevinst.
+  - **Mentor:** én adept per stjerne i samme fag, opp til stjernens nivå minus `MENTOR_LEVEL_GAP` (0, så en stjerne på nivå 4 kan løfte noen til forfremmelse). Når taket er nådd, slutter mentorskapet av seg selv. Stjernen byr `MENTOR_BID_PENALTY` svakere så lenge (`mentorPenalty` i `bidQualityParts`).
+  - **Strekkoppdrag:** på en løpende kontrakt i eget fag. Personen vokser raskt opp mot 5, men kunden kan miste tilfredshet.
+  - **Karrieresamtale:** et løfte om `CAREER_PROMISE_GROWTH` nivåer innen `CAREER_PROMISE_QUARTERS`. Personen vokser raskere og blir ikke valgt ved turnover, men slutter hvis løftet brytes.
+  - **Potensial** er skjult til et kurs er fullført, en mentor er satt, eller personen har vært der i `POTENTIAL_REVEAL_TENURE` kvartaler. Det gir raskere vekst og avgjør om personen kan bli stjerne.
+  - **Forfremmelse** krever `stars`, nivå `PROMOTE_MIN_LEVEL` og høyt potensial, høyst én per `PROMOTE_COOLDOWN` kvartaler. Personen blir en `Star` med `homegrown: true`, traits fra særtrekkenes `becomesTrait`, høy lojalitet og lavt lønnstillegg.
+  - `*Block`-funksjonene er rene og felles for reducer, UI og boter.
 - **Etterspørsel:** Markedet etterspør `baseDemand` (startkapasiteten × `TARGET_DEMAND_RATIO`) × vekst per år (`DEMAND_GROWTH_PER_YEAR`) × trender. Etterspørselen følger bevisst **ikke** kapasiteten nedover. Da ville markedet havnet i en dødsspiral (se `docs/balance-log.md`).
 - **Bakrommet (`shady.ts`):**
   - Hver handling har kostnad, heat og en grunnsannsynlighet for å bli oppdaget. Heat øker sannsynligheten.
@@ -365,6 +379,7 @@ Legg så til `events.team_offsite.{title, body, choices.go, choices.skip}` i `ga
 - **Ny kunde:** Legg den til i `content/customers.ts` (sektor, budsjett, møtepreferanse, prisvekt, foretrukne fagområder, vekt og ønsket oppstart `wants`). Legg også til `customers.<id>.name` og `.blurb`.
 - **Ny trend:** `content/trends.ts` (etterspørsel per fagområde, volum og prisvekt).
 - **Ny trait:** `content/traits.ts` (modifikatorer).
+- **Nytt særtrekk for ansatte:** `content/quirks.ts` (valgfritt `growth`, `potential`, `mood` og `becomesTrait`), og tekstene `quirks.<id>.name` og `.desc` i `content.json`.
 - **Ny høyttalermelding:** `content/announcements.ts` (valgfri betingelse).
 - **Nytt buzzword:** `content/buzzwords.ts`.
 - **Ny ansatt-tanke:** Øk `variants` for utløseren i `content/thoughts.ts`, og legg til teksten som `thoughts.<id>.<nummer>` i `game.json`. En ny utløser trenger også en betingelse i `employeeThoughts` (`engine/flavor.ts`). Hvilken variant som vises, avhenger av firma og kvartal, ikke av `state.rng`. Bland det realistiske og det litt absurde.

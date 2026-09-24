@@ -464,5 +464,127 @@
       "name": "Nearshore-senteret",
       "desc": "Egne folk i Gdańsk som fyller hull. Frilansere koster {{pct}} av det de fakturerer i stedet for {{normal}}."
     }
+  },
+  "quirks": {
+    "fagdag_speaker": {
+      "name": "Fagdagtaler",
+      "desc": "Tar alltid ordet på fagdagen, også når det ikke er satt av tid."
+    },
+    "docs_volunteer": {
+      "name": "Dokumenterer",
+      "desc": "Skriver dokumentasjon frivillig. Ingen vet hvorfor."
+    },
+    "coffee_nerd": {
+      "name": "Kaffenerd",
+      "desc": "Har egen kvern på pulten og meninger om vannhardhet."
+    },
+    "linkedin_daily": {
+      "name": "LinkedIn-aktiv",
+      "desc": "Poster noe inspirerende på LinkedIn hver morgen før ni."
+    },
+    "cert_hoarder": {
+      "name": "Sertifiseringssamler",
+      "desc": "Har flere sertifiseringer enn feriedager."
+    },
+    "explains_well": {
+      "name": "Forklarer godt",
+      "desc": "Forklarer ting så også sjefen skjønner dem."
+    },
+    "client_whisperer": {
+      "name": "Kundehvisker",
+      "desc": "Kundene spør etter hen ved navn."
+    },
+    "slack_emoji": {
+      "name": "Emoji-kunstner",
+      "desc": "Har laget førti egne Slack-emojier. Alle er i bruk."
+    },
+    "never_offline": {
+      "name": "Alltid pålogget",
+      "desc": "Svarer på Slack klokka elleve om kvelden."
+    },
+    "home_office": {
+      "name": "Hjemmekontorist",
+      "desc": "Har vært på kontoret to ganger, begge gangene for kake."
+    },
+    "rewrites_everything": {
+      "name": "Vil skrive om alt",
+      "desc": "Mener det meste hadde vært bedre i Rust."
+    },
+    "been_here_forever": {
+      "name": "Husker alt",
+      "desc": "Kjenner alle hemmelighetene i den gamle kodebasen."
+    },
+    "raspberry_pi": {
+      "name": "Hjemmelab",
+      "desc": "Har tre Raspberry Pi-er hjemme og en plan for hver av dem."
+    },
+    "vim_user": {
+      "name": "Vim-bruker",
+      "desc": "Har aldri forlatt vim. Kanskje fordi hen ikke vet hvordan."
+    },
+    "cake_baker": {
+      "name": "Kakebaker",
+      "desc": "Baker kake hver fredag. Trivselen stiger merkbart."
+    },
+    "dark_mode": {
+      "name": "Mørk modus",
+      "desc": "Nekter å se på noe som har lys bakgrunn."
+    },
+    "side_projects": {
+      "name": "Sideprosjekter",
+      "desc": "Har fjorten uferdige sideprosjekter og gleder seg til nummer femten."
+    },
+    "standup_novelist": {
+      "name": "Lange standuper",
+      "desc": "Standup-oppdateringene varer i ti minutter og har en vri på slutten."
+    },
+    "quiet_genius": {
+      "name": "Stille og god",
+      "desc": "Sier lite i møter og leverer mye etterpå."
+    },
+    "focus_time": {
+      "name": "Fokustid",
+      "desc": "Har blokkert hele kalenderen med «fokustid»."
+    },
+    "jira_poet": {
+      "name": "Jira-poet",
+      "desc": "Skriver Jira-saker i tre akter."
+    },
+    "board_gamer": {
+      "name": "Brettspiller",
+      "desc": "Arrangerer brettspillkveld annenhver torsdag."
+    },
+    "runs_to_work": {
+      "name": "Løper til jobb",
+      "desc": "Løper til jobb og forteller gjerne om det."
+    },
+    "hobby_scrum_master": {
+      "name": "Hobby-scrummaster",
+      "desc": "Foreslår retro etter lunsj."
+    },
+    "loud_keyboard": {
+      "name": "Mekanisk tastatur",
+      "desc": "Tastaturet høres ut som hagl på et blikktak."
+    },
+    "framework_hopper": {
+      "name": "Rammeverkshopper",
+      "desc": "Har prøvd hvert nye rammeverk før lunsj."
+    },
+    "excel_wizard": {
+      "name": "Excel-trollmann",
+      "desc": "Kan gjøre alt i Excel, også ting man ikke bør."
+    },
+    "plant_parent": {
+      "name": "Planteforelder",
+      "desc": "Har tretti planter ved pulten og navn på alle."
+    },
+    "five_whys": {
+      "name": "Spør hvorfor",
+      "desc": "Spør «hvorfor?» fem ganger før noe blir bestemt."
+    },
+    "late_bloomer": {
+      "name": "Seint ute",
+      "desc": "Startet rolig, men har begynt å ta av."
+    }
   }
 }

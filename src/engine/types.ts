@@ -30,6 +30,33 @@ export interface Star {
   founder?: boolean
   remoteGranted?: boolean
   assignedContractId?: string
+  /** Promoted from the firm's own roster. */
+  homegrown?: boolean
+}
+
+/**
+ * One of the player's people. Only the player's firm has a roster; for it, `pools[d].count` and
+ * `.level` are derived from these (see engine/roster.ts). Morale stays per pool.
+ */
+export interface Employee {
+  id: string
+  name: string
+  discipline: Discipline
+  /** 1–5, fractional. */
+  level: number
+  /** 0–1, hidden until revealed by development or tenure. */
+  potential: number
+  potentialRevealed?: boolean
+  /** Ids from content/quirks.ts. */
+  quirks: string[]
+  joinedQuarter: number
+  /** On a course that finishes at the end of quarter `untilQuarter - 1`. */
+  course?: { untilQuarter: number }
+  mentorStarId?: string
+  /** On a contract above their level. */
+  stretchContractId?: string
+  /** Career talk: promised to grow them by `dueQuarter`. */
+  promise?: { dueQuarter: number; levelAtTalk: number }
 }
 
 export interface Budgets {
@@ -145,6 +172,11 @@ export interface Firm {
   listed?: { quarter: number; share: number }
   /** People taken off billable work by a crisis choice, for one quarter only. */
   benched?: { quarter: number; seats: Seats; starIds: string[] }
+  /** The player's people as individuals. Missing for AI firms. */
+  roster?: Employee[]
+  /** Counter for roster ids and roster draws. */
+  rosterSeq?: number
+  lastPromotionQuarter?: number
 }
 
 export type Specialty = 'public' | 'private' | Discipline
@@ -363,7 +395,16 @@ export type ShadyActionId =
 export type Action =
   | { type: 'setBudgets'; firmId: FirmId; budgets: Partial<Budgets> }
   | { type: 'orderHires'; firmId: FirmId; discipline: Discipline; count: number }
-  | { type: 'fire'; firmId: FirmId; discipline: Discipline; count: number }
+  /** With a roster, `employeeId` picks who goes; otherwise the lowest level go first. */
+  | { type: 'fire'; firmId: FirmId; discipline: Discipline; count: number; employeeId?: string }
+  /** Without a roster (AI), the course lifts the pool average instead of one person. */
+  | { type: 'trainEmployee'; firmId: FirmId; discipline: Discipline; employeeId?: string }
+  | { type: 'promoteEmployee'; firmId: FirmId; employeeId: string }
+  /** No `starId` ends the mentorship. */
+  | { type: 'setMentor'; firmId: FirmId; employeeId: string; starId?: string }
+  /** No `contractId` ends the stretch assignment. */
+  | { type: 'setStretch'; firmId: FirmId; employeeId: string; contractId?: string }
+  | { type: 'careerTalk'; firmId: FirmId; employeeId: string }
   | { type: 'hireStar'; firmId: FirmId; starId: string }
   | { type: 'giveRaise'; firmId: FirmId; starId: string; amount: number }
   | { type: 'placeBid'; tenderId: string; bid: Bid }

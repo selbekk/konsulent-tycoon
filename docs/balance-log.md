@@ -219,3 +219,34 @@ Funn:
 | + `CRISIS_AI_CHANCE = 0,07` (gjeldende) | 3,0 | 1,9 |
 
 Markedet med `sim:market 60` holder seg friskt: etterspørsel mot kapasitet er 0,72–0,90, og AI-døde per parti er 0,1. Spillerbotene (60 partier, `--seed 1`): `human` 2/60 konkurs · 678 MNOK · plass 3, `humanPro` 0/60 · 828 MNOK · plass 3. Tidligere var tallene 0/60 · 634 og 0/60 · 701. Økningen kommer trolig av at rivalene får flere kriser, pluss den nye pengevektingen i botenes krisevalg. To konkurser er innenfor støyen (±5 av 60).
+
+## Ansatte som folk: liste, utvikling og egne stjerner (2026-09-24)
+
+Nytt system (se `docs/plans/2026-09-24-ansatte.md`). Spilleren har nå en liste med personer (`Firm.roster`), og puljene regnes ut fra den. Personene kan sendes på kurs, få en stjerne som mentor, settes på strekkoppdrag og få en karrieresamtale. De med høyt potensial kan forfremmes til stjerne. AI-firmaene har fortsatt bare puljer, men kan sende folk på kurs (`AI_COURSE_SHARE`), som løfter puljesnittet. `human` og `humanPro` bruker alle virkemidlene (`planDevelopment` i `humanProxy.ts`). `humanNoDev` og `humanProNoDev` bruker ingen av dem.
+
+Endelige tall, 150 partier med `--seed 1000` (baseline fra `1538ac4`). Markedet er målt med `sim:market 60`.
+
+| Kjøring | human verdi / plass | humanPro verdi / plass | Egne stjerner (median) | AI-døde/parti |
+|---|---|---|---|---|
+| Før (ingen liste) | 675 MNOK / 4 | 782 / 3 | – | 0,1–0,2 |
+| Bare lista (AI-kurs av, botene uten utvikling) | 679 / 4 | 778 / 3 | – | – |
+| AI-kurs på, botene uten utvikling | 674 / 4 | 708 / 3 | 0 | 0,0 |
+| Alt på (gjeldende) | 1067 / 2 | 991 / 2 | 5 / 4 | 0,0 |
+
+Veien dit (60 partier):
+
+| Utkast | human verdi | Egne stjerner |
+|---|---|---|
+| Kurs 40k opp til 4,0, forfremmelse fra 3,8, én per kvartal, AI 3 % (30 partier) | 819 MNOK | 12 |
+| Kurs 100k opp til 3,5, forfremmelse fra 4,0 og én i året, AI 2 % | 963 MNOK | 5 |
+| + mentorskap slutter ved taket, og stjerner på nivå 4 kan løfte til 4 (`MENTOR_LEVEL_GAP = 0`) | se 150-tabellen | 5 |
+
+Funn:
+- Lista alene er nøytral: 679/778 mot 675/782 MNOK. Den trekker aldri fra `state.rng` (navn, særtrekk, potensial og hvem som slutter kommer fra en hash), så AI-markedet er bit-likt.
+- AI-kursene koster `humanPro` rundt 9 % (778 → 708) når spilleren ikke utvikler folkene sine selv. `human` merker det ikke. Markedet blir ikke sykere av det, 0,0 døde per parti.
+- Første utkast var en stjernefabrikk: 12 egne stjerner per parti. Kurs var altfor billige for en varig nivåøkning. Nå er kurs for juniorer og mellomnivå (tak 3,5), og forfremmelse krever nivå 4, altså mentor eller strekkoppdrag i tillegg, med høyst én i året (`PROMOTE_COOLDOWN`).
+- To feil ble rettet etter 60-partierskjøringen. Et mentorskap sluttet aldri, så stjernen byr svakere for alltid og fikk aldri en ny adept. Og stjerner på nivå 4 kunne ikke løfte noen over kurstaket. Etter rettingen steg `human` med utvikling.
+- Nå gir utvikling +58 % i verdi for `human` og +40 % for `humanPro`, for en bot som bruker alt hver eneste gang. Det er mer enn ønskelig om ekte spillere gjør det samme, men mindre enn Strategi-fanen ga da den kom (135 → 365 MNOK). Det bør følges opp i spilletesting.
+- Rart: med utvikling ender `humanPro` under `human` (991 mot 1067). Ikke undersøkt.
+- `endTurn` tar rundt 12 ms sent i spillet med lista.
+- Naturlige knotter hvis det blir for sterkt: `COURSE_COST`, `COURSE_MAX_LEVEL`, `PROMOTE_COOLDOWN`, `PROMOTE_MIN_LEVEL`, `MENTOR_LEVEL_GAIN`, `STRETCH_LEVEL_GAIN` og `POTENTIAL_EXPONENT`. For AI-siden: `AI_COURSE_SHARE`.

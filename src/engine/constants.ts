@@ -178,6 +178,8 @@ export const FEATURE_LEVEL = {
   // Level 3 made the early game clearly harder for the sim bot (see docs/balance-log.md).
   framework: 2,
   renegotiate: 2,
+  /** Courses, mentors, stretch assignments and career talks. Promotion also needs `stars`. */
+  development: 2,
   bingo: 3,
   upsell: 3,
   backroom: 3,
@@ -286,6 +288,55 @@ export const STAR_MARKET_MAX = 4
 
 export const MAX_STAR_LEVEL = 5
 export const MAX_POOL_LEVEL = 5
+
+// Roster: the player's people as individuals (engine/roster.ts, docs/plans/2026-09-24-ansatte.md)
+/** A newcomer's level lands this far either side of the level the group was hired at. */
+export const ROSTER_LEVEL_SPREAD = 0.4
+export const EMPLOYEE_MIN_LEVEL = 1
+/** Share of ordinary employees with a nickname (stars: 0.35). */
+/** Name draws before a duplicate on the roster is accepted. */
+export const EMPLOYEE_NAME_TRIES = 5
+export const EMPLOYEE_NICKNAME_CHANCE = 0.15
+/** Potential is a uniform draw to this power, so high potential is rare (≈13 % reach PROMOTE_MIN_POTENTIAL). */
+export const POTENTIAL_EXPONENT = 2
+/** Potential shows by itself after this many quarters in the firm. */
+export const POTENTIAL_REVEAL_TENURE = 8
+/** Development: every level gain is multiplied by 1 + this × potential. */
+export const POTENTIAL_GROWTH_BONUS = 0.75
+/**
+ * Course or certification: paid up front, the gain comes over COURSE_QUARTERS, up to COURSE_MAX_LEVEL
+ * (for juniors and mid-levels; beyond that it takes a mentor or a stretch assignment). People keep billing.
+ */
+export const COURSE_COST = 100_000
+export const COURSE_QUARTERS = 2
+export const COURSE_LEVEL_GAIN = 0.4
+export const COURSE_MAX_LEVEL = 3.5
+/** Mentor: one mentee per star, up to the star's level minus MENTOR_LEVEL_GAP; then the mentorship ends. The star bids a little weaker meanwhile. */
+export const MENTOR_LEVEL_GAIN = 0.1
+export const MENTOR_TRAIT_FACTOR = 1.5
+export const MENTOR_LEVEL_GAP = 0
+export const MENTOR_BID_PENALTY = 3
+/** Stretch assignment: on a running contract in their own discipline, with some risk to satisfaction. No cap below 5. */
+export const STRETCH_LEVEL_GAIN = 0.15
+/** Chance per quarter of a satisfaction hit, falling with level: this × (5 − level) / 4. */
+export const STRETCH_SATISFACTION_CHANCE = 0.4
+export const STRETCH_SATISFACTION_HIT = 4
+/** Career talk: a promise to grow someone by CAREER_PROMISE_GROWTH levels within CAREER_PROMISE_QUARTERS. */
+export const CAREER_PROMISE_QUARTERS = 4
+export const CAREER_PROMISE_GROWTH = 0.5
+export const CAREER_GROWTH_FACTOR = 1.5
+export const CAREER_KEPT_MORALE = 2
+export const CAREER_BROKEN_MORALE = 4
+/** Promotion to star: needs this level (above the course ceiling) and revealed potential; at most one per PROMOTE_COOLDOWN quarters. */
+export const PROMOTE_MIN_LEVEL = 4
+export const PROMOTE_MIN_POTENTIAL = 0.75
+export const PROMOTE_COST = 250_000
+export const PROMOTE_COOLDOWN = 4
+export const HOMEGROWN_LOYALTY = 80
+export const HOMEGROWN_PREMIUM = 0.05
+/** AI firms with money to spare send this share of their people on a course each quarter, times their quality focus. */
+export const AI_COURSE_SHARE = 0.02
+export const AI_COURSE_MIN_RUNWAY = 2
 
 export function clamp(v: number, min: number, max: number) {
   return Math.max(min, Math.min(max, v))

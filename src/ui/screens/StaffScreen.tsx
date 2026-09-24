@@ -14,21 +14,13 @@ import {
   staffFirm,
   starSigningCost,
 } from '../../engine'
-import type { Firm, GameState, Star } from '../../engine'
+import type { Discipline, Firm, GameState, Star } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Meter, Panel, Stepper } from '../components/ui'
 import { formatMoney, formatNumber, formatPercent } from '../format'
+import { Portrait } from '../components/Portrait'
+import { Levels, PeoplePanel } from './People'
 import s from './screens.module.css'
-
-function Levels({ level }: { level: number }) {
-  const full = Math.round(level)
-  return (
-    <span aria-label={`${level.toFixed(1)} / 5`} title={level.toFixed(1)} style={{ letterSpacing: 1, color: 'var(--warn)' }}>
-      {'★'.repeat(full)}
-      <span style={{ opacity: 0.25 }}>{'★'.repeat(Math.max(0, 5 - full))}</span>
-    </span>
-  )
-}
 
 export function StarCard({ star, firm, game, market }: { star: Star; firm: Firm; game: GameState; market?: boolean }) {
   const { t, i18n } = useTranslation()
@@ -36,11 +28,14 @@ export function StarCard({ star, firm, game, market }: { star: Star; firm: Firm;
   const contract = star.assignedContractId ? game.contracts.find((c) => c.id === star.assignedContractId) : undefined
   const met = ambitionMet(firm, star, headcount(firm))
   const cost = starSigningCost(star, firm)
+  const mentee = firm.roster?.find((e) => e.mentorStarId === star.id)
   return (
     <article className={s.card}>
       <div className={s.cardTitle}>
+        <Portrait seed={star.id} size={32} />
         <span>{star.name}</span>
         {star.founder && <Badge tone="accent">{t('staff.founder')}</Badge>}
+        {star.homegrown && <Badge tone="good">{t('staff.homegrown')}</Badge>}
       </div>
       <div className={s.row}>
         <Badge>{t(`disciplines.${star.discipline}`)}</Badge>
@@ -61,6 +56,7 @@ export function StarCard({ star, firm, game, market }: { star: Star; firm: Firm;
         <>
           <Meter label={t('staff.morale')} value={star.morale} />
           {!star.founder && <Meter label={t('staff.loyalty')} value={star.loyalty} />}
+          {mentee && <span className={s.small}>{t('staff.mentoring', { name: mentee.name })}</span>}
           <span className={`${s.small} ${s.muted}`}>
             {contract ? t('staff.assignedTo', { customer: t(`content:customers.${contract.customerId}.name`) }) : t('staff.unassigned')}
           </span>
@@ -94,6 +90,8 @@ export function StaffScreen() {
   const rate = acceptRate(me)
   const ordered = DISCIPLINES.reduce((sum, d) => sum + (me.hiringOrders[d] ?? 0), 0)
   const thoughts = employeeThoughts(game, me.id)
+  // "Let one go" picks the weakest person, so the severance is theirs.
+  const weakest = (d: Discipline) => Math.min(...(me.roster ?? []).filter((e) => e.discipline === d).map((e) => e.level), me.pools[d].level)
 
   return (
     <div className={s.grid}>
@@ -141,7 +139,7 @@ export function StaffScreen() {
                         size="small"
                         variant="ghost"
                         disabled={!p.count}
-                        title={t('staff.fireHint', { cost: formatMoney(quarterlySalaryCost(p.level, me.budgets.salaryPremium) * SEVERANCE_QUARTERS, lng) })}
+                        title={t('staff.fireHint', { cost: formatMoney(quarterlySalaryCost(weakest(d), me.budgets.salaryPremium) * SEVERANCE_QUARTERS, lng) })}
                         onClick={() => dispatch({ type: 'fire', firmId: me.id, discipline: d, count: 1 })}
                       >
                         {t('staff.fire')}
@@ -171,6 +169,8 @@ export function StaffScreen() {
           ))}
         </ul>
       </Panel>
+
+      <PeoplePanel game={game} firm={me} />
 
       <Panel title={t('staff.stars')} icon="star" className={s.span12}>
         <div className={s.cards}>

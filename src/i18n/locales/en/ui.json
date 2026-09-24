@@ -175,7 +175,7 @@
   "staff": {
     "pools": "The consultants",
     "discipline": "Discipline",
-    "people": "Count",
+    "people": "The people",
     "level": "Level",
     "morale": "Morale",
     "demandNext": "Needed next q.",
@@ -196,7 +196,62 @@
     "raise": "Give a raise (+5%)",
     "hireStar": "Hire (signing {{cost}})",
     "market": "The star market",
-    "marketEmpty": "No stars available right now. Check back next quarter."
+    "marketEmpty": "No stars available right now. Check back next quarter.",
+    "filterAll": "All",
+    "sort": "Sort",
+    "peopleCount_one": "{{count}} person",
+    "peopleCount_other": "{{count}} people",
+    "sorts": {
+      "level": "Level",
+      "tenure": "Tenure",
+      "potential": "Potential",
+      "name": "Name"
+    },
+    "peopleEmpty": "Nobody here yet.",
+    "status": {
+      "course": "On a course",
+      "mentor": "Has a mentor",
+      "stretch": "Stretch assignment",
+      "promise": "Promised growth",
+      "promotable": "Ready for promotion"
+    },
+    "potential": "Potential",
+    "potentials": {
+      "unknown": "Unknown",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "homegrown": "Homegrown",
+    "mentoring": "Mentoring {{name}}",
+    "openProfile": "Show {{name}}'s profile",
+    "profile": {
+      "joined": "Joined {{quarter}}",
+      "bio": "{{first}} works in {{discipline}} and has been here for {{tenure}}.",
+      "bioNew": "{{first}} just started. The laptop still has the plastic on.",
+      "tenure_one": "{{count}} quarter",
+      "tenure_other": "{{count}} quarters",
+      "quirks": "Quirks",
+      "thinks": "Thinking right now",
+      "develop": "Development",
+      "developLocked": "Courses, mentors and career talks open at level {{level}}.",
+      "potentialHint": "Potential shows after a course, with a mentor, or after {{quarters}} quarters at the firm.",
+      "course": "Send on a course ({{cost}})",
+      "courseHint": "Raises their level over {{quarters}} quarters, up to {{max}}. They keep billing as usual.",
+      "courseActive": "On a course, done after {{quarter}}.",
+      "mentor": "Mentor",
+      "mentorNone": "No mentor",
+      "mentorHint": "A star in the same discipline can take one mentee. The star bids a little weaker meanwhile.",
+      "stretch": "Stretch assignment",
+      "stretchNone": "No stretch assignment",
+      "stretchHint": "Fast growth on an engagement above their level. The client may notice.",
+      "careerTalk": "Have a career talk",
+      "careerHint": "You promise {{growth}} levels of growth within {{quarters}} quarters. They grow faster, but leave if you don't keep your word.",
+      "promise": "Promised growth by {{quarter}}: {{done}} of {{goal}} levels.",
+      "promote": "Promote to star ({{cost}})",
+      "promoteHint": "Needs level {{level}} and high potential. One promotion a year.",
+      "fire": "Let go ({{cost}})"
+    }
   },
   "culture": {
     "budgets": "Budgets",
@@ -634,7 +689,8 @@
       "acquisitions": "Acquisitions: buy smaller rivals with their people, clients and contracts",
       "ipo": "IPO: raise capital, but live with quarterly pressure",
       "renegotiate": "Renegotiation: ask happy clients for a higher rate",
-      "upsell": "Upselling: offer more people on running projects"
+      "upsell": "Upselling: offer more people on running projects",
+      "development": "Development: courses, mentors and career talks for your own people"
     },
     "seats": "Tenders of up to {{count}} consultants",
     "seatsAll": "Tenders of any size",
@@ -777,7 +833,8 @@
       "acquisitions": "acquisitions",
       "ipo": "going public",
       "renegotiate": "renegotiation",
-      "upsell": "upselling"
+      "upsell": "upselling",
+      "development": "developing your people"
     },
     "bjorn": "I'm the chair of the board. I'll turn up with advice whenever it suits me. Good luck!"
   },

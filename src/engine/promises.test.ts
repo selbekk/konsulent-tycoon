@@ -11,7 +11,7 @@ import { createContract, updateContracts } from './contracts'
 import { staffFirm } from './economy'
 import { applyAction } from './reducer'
 import { bidQuality, bidQualityParts, customerNeeds, customerWants, isKeyTender, quickBid, resolveDueTenders } from './tenders'
-import { makeKeyTender, newTestGame } from './testUtils'
+import { makeKeyTender, newTestGame, syncRosterToPools } from './testUtils'
 import type { Bid, GameState, PromiseId, Tender } from './types'
 
 const bid = (overrides: Partial<Bid> = {}): Bid => ({
@@ -93,6 +93,7 @@ describe('promises', () => {
     const s = newTestGame()
     const firm = s.firms.player
     firm.pools.backend.count = backendPeople
+    syncRosterToPools(s)
     const t = makeKeyTender(firstOpen(s))
     const c = createContract(s, t, bid({ promise, rateMultiplier: rate }), 1, 1)
     s.quarter = c.startQuarter
@@ -134,6 +135,7 @@ describe('explaining the result', () => {
   function duel(playerRate: number, rivalRate: number) {
     const s = newTestGame()
     s.firms.player.pools.backend.count += 10
+    syncRosterToPools(s)
     const rival = structuredClone(s.firms.player)
     Object.assign(rival, { id: 'rival', isPlayer: false, name: 'Rival AS' })
     s.firms.rival = rival
@@ -162,6 +164,7 @@ describe('explaining the result', () => {
   it('says the player was alone when nobody else bid', () => {
     const s = newTestGame()
     s.firms.player.pools.backend.count += 10
+    syncRosterToPools(s)
     const t = routine(firstOpen(s))
     t.dueQuarter = s.quarter
     t.bids = [bid()]

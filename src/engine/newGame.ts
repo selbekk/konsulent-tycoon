@@ -17,6 +17,7 @@ import { cultureEquilibrium } from './culture'
 import { pickAnnouncement } from './flavor'
 import { earnedLevel } from './levels'
 import { createRng, nextInt, noise, pick, range, weightedPick } from './rng'
+import { buildRoster } from './roster'
 import { generateStar } from './stars'
 import { marketCapacity, publishTenders } from './tenders'
 import { DISCIPLINES } from './types'
@@ -216,6 +217,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
     me.pools[d].level = 2.5
     me.pools[d].morale = 72
   }
+  buildRoster(state, me)
   state.firms[me.id] = me
   state.firmOrder.push(me.id)
 

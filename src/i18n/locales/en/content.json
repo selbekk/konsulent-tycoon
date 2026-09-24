@@ -464,5 +464,127 @@
       "name": "The nearshore centre",
       "desc": "Your own people in Gdańsk to fill gaps. Freelancers cost {{pct}} of what they bill instead of {{normal}}."
     }
+  },
+  "quirks": {
+    "fagdag_speaker": {
+      "name": "Tech-day regular",
+      "desc": "Always takes the floor at tech day, time slot or not."
+    },
+    "docs_volunteer": {
+      "name": "Documents things",
+      "desc": "Writes documentation voluntarily. Nobody knows why."
+    },
+    "coffee_nerd": {
+      "name": "Coffee nerd",
+      "desc": "Keeps a grinder on the desk and has opinions on water hardness."
+    },
+    "linkedin_daily": {
+      "name": "LinkedIn regular",
+      "desc": "Posts something inspiring on LinkedIn every morning before nine."
+    },
+    "cert_hoarder": {
+      "name": "Certificate hoarder",
+      "desc": "Has more certifications than days off."
+    },
+    "explains_well": {
+      "name": "Good explainer",
+      "desc": "Explains things so even the boss gets it."
+    },
+    "client_whisperer": {
+      "name": "Client whisperer",
+      "desc": "Clients ask for them by name."
+    },
+    "slack_emoji": {
+      "name": "Emoji artist",
+      "desc": "Has made forty custom Slack emoji. Every one of them gets used."
+    },
+    "never_offline": {
+      "name": "Always online",
+      "desc": "Replies on Slack at eleven at night."
+    },
+    "home_office": {
+      "name": "Home-office loyalist",
+      "desc": "Has been to the office twice, both times for cake."
+    },
+    "rewrites_everything": {
+      "name": "Wants to rewrite it all",
+      "desc": "Believes most things would be better in Rust."
+    },
+    "been_here_forever": {
+      "name": "Remembers everything",
+      "desc": "Knows every secret of the old codebase."
+    },
+    "raspberry_pi": {
+      "name": "Home lab",
+      "desc": "Has three Raspberry Pis at home and a plan for each."
+    },
+    "vim_user": {
+      "name": "Vim user",
+      "desc": "Has never left vim. Possibly because they don't know how."
+    },
+    "cake_baker": {
+      "name": "Baker",
+      "desc": "Bakes a cake every Friday. Morale rises noticeably."
+    },
+    "dark_mode": {
+      "name": "Dark mode",
+      "desc": "Refuses to look at anything with a light background."
+    },
+    "side_projects": {
+      "name": "Side projects",
+      "desc": "Has fourteen unfinished side projects and can't wait for number fifteen."
+    },
+    "standup_novelist": {
+      "name": "Long stand-ups",
+      "desc": "Stand-up updates run ten minutes and have a twist at the end."
+    },
+    "quiet_genius": {
+      "name": "Quietly brilliant",
+      "desc": "Says little in meetings and delivers a lot afterwards."
+    },
+    "focus_time": {
+      "name": "Focus time",
+      "desc": "Has blocked the whole calendar as “focus time”."
+    },
+    "jira_poet": {
+      "name": "Jira poet",
+      "desc": "Writes Jira tickets in three acts."
+    },
+    "board_gamer": {
+      "name": "Board gamer",
+      "desc": "Runs a board game night every other Thursday."
+    },
+    "runs_to_work": {
+      "name": "Runs to work",
+      "desc": "Runs to work and is happy to tell you about it."
+    },
+    "hobby_scrum_master": {
+      "name": "Hobby scrum master",
+      "desc": "Suggests a retro after lunch."
+    },
+    "loud_keyboard": {
+      "name": "Mechanical keyboard",
+      "desc": "The keyboard sounds like hail on a tin roof."
+    },
+    "framework_hopper": {
+      "name": "Framework hopper",
+      "desc": "Has tried every new framework by lunch."
+    },
+    "excel_wizard": {
+      "name": "Excel wizard",
+      "desc": "Can do anything in Excel, including things one shouldn't."
+    },
+    "plant_parent": {
+      "name": "Plant parent",
+      "desc": "Has thirty plants at the desk, every one of them named."
+    },
+    "five_whys": {
+      "name": "Asks why",
+      "desc": "Asks “why?” five times before anything gets decided."
+    },
+    "late_bloomer": {
+      "name": "Late bloomer",
+      "desc": "Started slowly, but is picking up speed."
+    }
   }
 }

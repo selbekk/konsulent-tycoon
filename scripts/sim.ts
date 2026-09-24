@@ -16,8 +16,11 @@ import { HUMAN_CRISIS_STYLE, MAX_LEVEL, RATE_MAX } from '../src/engine/constants
 import { tenderLock } from '../src/engine/levels'
 import type { Action, Difficulty, GameState } from '../src/engine/types'
 
-const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number; strategic?: boolean | StrategyMove[] }> = {
+const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number; strategic?: boolean | StrategyMove[]; develop?: boolean }> = {
   human: {},
+  // Without courses, mentors, stretch assignments, career talks or promotions.
+  humanNoDev: { develop: false },
+  humanProNoDev: { price: 0.9, minigame: 90, develop: false },
   humanCheap: { price: 0.88 },
   humanSkilled: { minigame: 90 },
   humanPro: { price: 0.9, minigame: 90 },
@@ -113,7 +116,15 @@ function playGame(seed: number, strategy: string) {
     missions: state.firms[state.playerId].missionsDone ?? [],
     acquisitions: state.firms[state.playerId].stats?.acquisitions ?? 0,
     listed: !!state.firms[state.playerId].listed,
+    homegrown: state.firms[state.playerId].stars.filter((x) => x.homegrown).length,
+    poolLevel: averagePoolLevel(state.firms[state.playerId]),
   }
+}
+
+function averagePoolLevel(f: GameState['firms'][string]) {
+  const pools = Object.values(f.pools)
+  const n = pools.reduce((a, p) => a + p.count, 0)
+  return n ? pools.reduce((a, p) => a + p.level * p.count, 0) / n : 0
 }
 
 const pct = (xs: number[], p: number) => {
@@ -150,6 +161,8 @@ for (const strategy of strategies) {
   console.log(`missions median ${pct(results.map((r) => r.missions.length), 0.5)}: ${Object.entries(done).map(([k, v]) => `${k}:${v}`).join(' ')}`)
   if (HUMAN_VARIANTS[strategy]?.strategic)
     console.log(`listed: ${results.filter((r) => r.listed).length}/${games}, acquisitions median ${pct(results.map((r) => r.acquisitions), 0.5)} max ${Math.max(...results.map((r) => r.acquisitions))}`)
+  if (strategy.startsWith('human'))
+    console.log(`people: homegrown stars median ${pct(results.map((r) => r.homegrown), 0.5)} max ${Math.max(...results.map((r) => r.homegrown))}, end pool level median ${pct(results.map((r) => r.poolLevel), 0.5).toFixed(2)}`)
   console.log(`bankrupt: ${bankrupt.length}/${games} (median quarter ${pct(bankrupt.map((r) => r.bankruptAt!), 0.5)})`)
   console.log(`rank p10/med/p90: ${pct(results.map((r) => r.rank), 0.1)} / ${pct(results.map((r) => r.rank), 0.5)} / ${pct(results.map((r) => r.rank), 0.9)}`)
   console.log(`value median: ${m(pct(results.map((r) => r.value), 0.5))}, p90: ${m(pct(results.map((r) => r.value), 0.9))}`)

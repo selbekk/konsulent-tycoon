@@ -47,7 +47,8 @@ Kundene (`content/customers.ts`) er parodier på offentlige og private kunder: *
 ### Folk og kultur
 
 - Sju fagområder: `frontend`, `backend`, `cloud`, `data`, `design`, `architecture` og `pm`.
-- **Ansatte** er en hybrid. Anonyme **pools** per fagområde har antall, snittnivå (1–5) og trivsel. **Stjernekonsulenter** har navn, traits, ambisjon og lojalitet. De kjøpes i stjernemarkedet, og lav lojalitet gjør dem sårbare for poaching.
+- **Ansatte** er en hybrid. Simuleringen regner på **pools** per fagområde med antall, snittnivå (1–5) og trivsel. Hos spilleren er poolen en **liste med personer**: hver har navn, portrett, nivå, et par særtrekk og et skjult potensial, og poolens antall og nivå regnes ut fra lista. AI-firmaene har bare pools. **Stjernekonsulenter** har navn, traits, ambisjon og lojalitet. De kjøpes i stjernemarkedet, og lav lojalitet gjør dem sårbare for poaching.
+- **Utvikling** (nivå 2): Du kan sende en ansatt på kurs, gi hen en stjerne som mentor, sette hen på et strekkoppdrag eller ta en karrieresamtale. En med høyt potensial kan forfremmes til stjerne, høyst én i året. En egen stjerne er billigere og mer lojal enn en fra markedet. AI-firmaene sender folk på kurs, som løfter snittnivået. Bakgrunn: [`plans/2026-09-24-ansatte.md`](plans/2026-09-24-ansatte.md).
 - **Fagmiljø** og **sosialt miljø** (0–100) drives av budsjett per hode og forfaller hvert kvartal. Sammen med omdømmet gir de **arbeidsgiverbrand**.
 - **Trivsel** trekkes mot et mål som avhenger av kultur, utnyttelse (for lite å gjøre kjeder, for mye brenner ut), lønnstillegg og skandaler. Lav trivsel gir turnover.
 - **Rekruttering:** Du bestiller folk per fagområde. Hvor mange som takker ja, avhenger av brand, lønn og omdømme. De begynner ved kvartalsskiftet og fakturerer fra neste kvartal.

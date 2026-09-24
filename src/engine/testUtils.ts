@@ -1,5 +1,6 @@
 import { KEY_TENDER_MIN_SEATS, MAX_LEVEL } from './constants'
 import { createNewGame } from './newGame'
+import { buildRoster } from './roster'
 import type { GameState, Tender } from './types'
 
 export const newTestGame = (seed = 42): GameState =>
@@ -9,6 +10,12 @@ export const newTestGame = (seed = 42): GameState =>
 export function veteranTestGame(seed = 42): GameState {
   const s = newTestGame(seed)
   s.firms.player.level = MAX_LEVEL
+  return s
+}
+
+/** After a test has set the player's pool counts by hand: rebuild the roster to match them. */
+export function syncRosterToPools(s: GameState): GameState {
+  buildRoster(s, s.firms[s.playerId])
   return s
 }
 

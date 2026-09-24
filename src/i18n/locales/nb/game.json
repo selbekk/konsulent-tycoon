@@ -27,7 +27,18 @@
     "crisisClosed": "Den krisen venter ikke på noe svar nå.",
     "crisisNeedsStar": "Den personen er ikke lenger hos dere.",
     "crisisNeedsContract": "Oppdraget er ikke i gang lenger.",
-    "crisisNeedsCustomer": "Det er ingen kunde å spørre."
+    "crisisNeedsCustomer": "Det er ingen kunde å spørre.",
+    "invalidEmployee": "Fant ikke den personen.",
+    "alreadyOnCourse": "Er allerede på kurs.",
+    "courseMaxLevel": "Har nådd taket for dette.",
+    "noPotential": "Har ikke vist nok potensial til å bli stjerne.",
+    "notReadyForPromotion": "Trenger litt mer erfaring før en forfremmelse.",
+    "mentorDiscipline": "Mentoren må jobbe i samme fagområde.",
+    "mentorLevel": "Mentoren har ikke mer å lære bort her.",
+    "mentorBusy": "Stjernen er allerede mentor for noen andre.",
+    "stretchContract": "Det oppdraget passer ikke.",
+    "promiseActive": "Du har allerede lovet noe i en karrieresamtale.",
+    "promotedRecently": "Du har forfremmet noen nylig. Det blir én forfremmelse i året."
   },
   "news": {
     "game": {
@@ -36,7 +47,13 @@
     "staff": {
       "leftMany": "{{count}} ansatte sluttet dette kvartalet. Avskjedskaken var tørr.",
       "arrived": "{{count}} nye konsulenter har møtt opp med ny laptop og store forventninger.",
-      "starLeft": "{{name}} har sluttet i {{firm}}."
+      "starLeft": "{{name}} har sluttet i {{firm}}.",
+      "talentSpotted": "{{name}} har vist seg å være et talent. En fremtidig stjerne innen {{discipline}}?",
+      "promiseKept": "{{name}} fikk den utviklingen du lovet i karrieresamtalen.",
+      "promiseBroken": "{{name}} har sluttet. Løftet fra karrieresamtalen ble aldri holdt.",
+      "promoted": "{{name}} er forfremmet til stjernekonsulent innen {{discipline}}.",
+      "courseDone_one": "{{name}} er ferdig med kurset og har et nytt kursbevis på LinkedIn.",
+      "courseDone_other": "{{count}} ansatte er ferdige med kurs og har nye kursbevis på LinkedIn."
     },
     "tender": {
       "noBids": "Ingen leverte bud på anbudet fra {{customer}}. Innkjøpsavdelingen tar en lang lunsj.",

@@ -1,5 +1,5 @@
 import { EVENT_MAP } from '../../content/events'
-import { AI_MAX_OPEN_BIDS } from '../constants'
+import { AI_COURSE_MIN_RUNWAY, AI_COURSE_SHARE, AI_MAX_OPEN_BIDS, COURSE_MAX_LEVEL } from '../constants'
 import { creditLimit, disciplineSupply, headcount, quarterFinancials, spendable, staffFirm } from '../economy'
 import { starBusyThrough } from '../contracts'
 import { canChoose } from '../events'
@@ -98,6 +98,15 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
       const n = Math.floor(Math.min(firm.pools[d].count, free[d]) * 0.25)
       if (n > 0) actions.push({ type: 'fire', firmId, discipline: d, count: n })
     }
+  }
+
+  // 2b. Courses: quality-minded firms with money to spare lift their biggest pools a little.
+  if (hasFeature(firm, 'development') && runway > AI_COURSE_MIN_RUNWAY && fin.ebitda > 0) {
+    const pools = DISCIPLINES.filter((d) => firm.pools[d].count > 0 && firm.pools[d].level < COURSE_MAX_LEVEL).sort(
+      (a, b) => firm.pools[b].count - firm.pools[a].count,
+    )
+    const n = Math.floor(hc * p.qualityFocus * AI_COURSE_SHARE)
+    for (let i = 0; i < n && pools.length; i++) actions.push({ type: 'trainEmployee', firmId, discipline: pools[i % pools.length] })
   }
 
   // 3. Bids
