@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
 import { loadFromSlot } from '../engine'
+import type { NewGameOptions } from '../engine'
 import { makeKeyTender } from '../engine/testUtils'
 import { useGame } from './gameStore'
 
@@ -25,6 +26,28 @@ describe('gameStore', () => {
     expect(useGame.getState().game!.quarter).toBe(1)
     expect(useGame.getState().report).toBe(0)
     expect(loadFromSlot(localStorage, 'auto')!.quarter).toBe(1)
+  })
+
+  it('gives each new game its own analytics id and keeps it through save and load', () => {
+    const opts: NewGameOptions = { seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' }
+    useGame.getState().newGame(opts)
+    const first = useGame.getState().game!.gameId
+    expect(first).toBeTruthy()
+    useGame.getState().quit()
+    expect(useGame.getState().load('auto')).toBe(true)
+    expect(useGame.getState().game!.gameId).toBe(first)
+    useGame.getState().newGame(opts)
+    expect(useGame.getState().game!.gameId).not.toBe(first)
+  })
+
+  it('gives an old save without an analytics id one on load', () => {
+    useGame.getState().newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    const old = JSON.parse(localStorage.getItem('kt.save.auto')!)
+    delete old.gameId
+    localStorage.setItem('kt.save.auto', JSON.stringify(old))
+    useGame.getState().quit()
+    expect(useGame.getState().load('auto')).toBe(true)
+    expect(useGame.getState().game!.gameId).toBeTruthy()
   })
 
   it('deletes a save it cannot read and says so', () => {

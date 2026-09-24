@@ -377,6 +377,8 @@ export interface GameState {
   eventHistory: Record<string, number>
   /** Running and recently ended crises for all firms. Optional in early saves. */
   crises?: Crisis[]
+  /** Random id for this playthrough, set by the store for analytics. The engine never reads it. Optional for early saves. */
+  gameId?: string
   status: 'playing' | 'lost' | 'finished'
   idCounter: number
 }

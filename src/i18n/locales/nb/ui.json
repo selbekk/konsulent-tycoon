@@ -875,7 +875,7 @@
       "title": "Dine data",
       "body": [
         "Spillet er gratis og kjører i nettleseren. Lagrede spill ligger på din egen enhet og sendes ingen steder.",
-        "Sier du ja til bruksstatistikk, sender spillet anonyme hendelser til PostHog, med servere i EU: hvilke skjermer du åpner, hva du gjør i spillet (som bud, ansettelser og valg i kriser), hvordan kvartalene går og feilmeldinger hvis noe krasjer. Med følger også det nettleseren forteller om seg selv, som nettlesertype, operativsystem, skjermstørrelse, omtrentlig land og hvilken side du kom fra. Vi lagrer en tilfeldig ID på enheten din, slik at vi ser at det er samme spiller neste gang. Vi lagrer ikke IP-adressen din, og vi sender ikke navnet på firmaet ditt eller noe annet du skriver selv.",
+        "Sier du ja til bruksstatistikk, sender spillet anonyme hendelser til PostHog, med servere i EU: hvilke skjermer du åpner, hva du gjør i spillet (som bud, ansettelser og valg i kriser), hvordan kvartalene går og feilmeldinger hvis noe krasjer. Med følger også det nettleseren forteller om seg selv, som nettlesertype, operativsystem, skjermstørrelse, omtrentlig land og hvilken side du kom fra. Vi lagrer en tilfeldig ID på enheten din, slik at vi ser at det er samme spiller neste gang, og hvert parti får også sin egen tilfeldige ID. Vi lagrer ikke IP-adressen din, og vi sender ikke navnet på firmaet ditt eller noe annet du skriver selv.",
         "Sier du nei, lastes ikke PostHog i det hele tatt. Du kan ombestemme deg når som helst under Innstillinger. Spiller du uten nett, sendes hendelsene når du er på nett igjen, så lenge spillet fortsatt er åpent."
       ]
     },

@@ -22,6 +22,8 @@ let posthog: PostHog | null = null
 let loading: Promise<void> | null = null
 /** Events tracked while the SDK chunk is still loading. */
 let queue: [string, Props | undefined][] = []
+/** The playthrough the player is in, sent as `game_id` with every event while set. */
+let gameId: string | null = null
 const timers = new Map<string, ReturnType<typeof setTimeout>>()
 
 function superProps(): Props {
@@ -84,6 +86,7 @@ export function initAnalytics() {
 
 export function track(event: string, props?: Props) {
   if (!consentGranted() || !KEY) return
+  if (gameId) props = { ...props, game_id: gameId }
   if (posthog) posthog.capture(event, props)
   else {
     queue.push([event, props])
@@ -102,6 +105,11 @@ export function trackSettled(key: string, event: string, props: Props, ms = 1500
       track(event, props)
     }, ms),
   )
+}
+
+/** Tags every later event with the current playthrough, so funnels can count games and not just players. `null` when back in the menu. */
+export function setGameId(id: string | null) {
+  gameId = id
 }
 
 /** Properties sent with every later event, e.g. the language. */

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { track, trackSettled } from '../analytics'
+import { setGameId, track, trackSettled } from '../analytics'
 import { describeAction, gameContext, quarterSummary, settleKey } from '../analytics/gameEvents'
 import {
   applyAction,
@@ -30,6 +30,9 @@ export interface Settings {
   /** 0–1 */
   soundVolume: number
 }
+
+/** Analytics id for a playthrough. Only the store makes one; the engine stays deterministic. */
+const newGameId = () => globalThis.crypto?.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
 
 const SETTINGS_KEY = 'kt.settings'
 const defaultSettings: Settings = {
@@ -140,7 +143,8 @@ export const useGame = create<Store>((set, get) => ({
   },
 
   newGame: (opts, meta) => {
-    const game = createNewGame(opts)
+    const game: GameState = { ...createNewGame(opts), gameId: newGameId() }
+    setGameId(game.gameId!)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', game)
     set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
@@ -224,12 +228,17 @@ export const useGame = create<Store>((set, get) => ({
     return true
   },
 
-  loadState: (game) =>
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis }),
+  loadState: (loaded) => {
+    // Saves from before game_id get one now; it's stored with the next autosave.
+    const game = loaded.gameId ? loaded : { ...loaded, gameId: newGameId() }
+    setGameId(game.gameId!)
+    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+  },
 
   quit: () => {
     const { game } = get()
     if (game && game.status === 'playing') track('game_quit', gameContext(game))
+    setGameId(null)
     set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
   },
   clearError: () => set({ error: null }),
