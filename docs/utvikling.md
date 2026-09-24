@@ -380,6 +380,7 @@ Legg så til `events.team_offsite.{title, body, choices.go, choices.skip}` i `ga
 - **Ny trend:** `content/trends.ts` (etterspørsel per fagområde, volum og prisvekt).
 - **Ny trait:** `content/traits.ts` (modifikatorer).
 - **Nytt særtrekk for ansatte:** `content/quirks.ts` (valgfritt `growth`, `potential`, `mood` og `becomesTrait`), og tekstene `quirks.<id>.name` og `.desc` i `content.json`.
+- **Ny nyhet:** En ny nøkkel under `game:news` (eller en ny krise) trenger også en sak bak tickeren: `articles.<nøkkel uten news.>.1.headline` og `.body` i `game.json`, med samme parametere som nyhetslinja. Nyheter med `count` kan ha `body_one`/`body_other`. Flere varianter registreres i `ARTICLE_VARIANTS` (`content/articles.ts`) og velges med en hash av nyheten. i18n-testen sjekker at alle nyheter har en sak. `{{player}}` er alltid spillerens firmanavn.
 - **Ny høyttalermelding:** `content/announcements.ts` (valgfri betingelse).
 - **Nytt buzzword:** `content/buzzwords.ts`.
 - **Ny ansatt-tanke:** Øk `variants` for utløseren i `content/thoughts.ts`, og legg til teksten som `thoughts.<id>.<nummer>` i `game.json`. En ny utløser trenger også en betingelse i `employeeThoughts` (`engine/flavor.ts`). Hvilken variant som vises, avhenger av firma og kvartal, ikke av `state.rng`. Bland det realistiske og det litt absurde.

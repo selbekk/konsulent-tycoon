@@ -1108,5 +1108,592 @@
         }
       }
     }
+  },
+  "articles": {
+    "game": {
+      "welcome": {
+        "1": {
+          "headline": "New consultancy opens its doors",
+          "body": "{{firm}} has been registered and already has more vision statements than employees. The founders promise “a new way of doing consulting”, as founders do.\n\nThe first client is Kryptonitt. The rest will have to be won."
+        }
+      }
+    },
+    "staff": {
+      "leftMany": {
+        "1": {
+          "headline": "Exodus at {{player}}",
+          "body": "{{count}} employees handed in their notice at {{player}} this quarter. Our sources point to everything from pay to the coffee machine.\n\nHR says the farewell cake was “within budget”."
+        }
+      },
+      "arrived": {
+        "1": {
+          "headline": "New faces in the corridors at {{player}}",
+          "body": "{{count}} new consultants have received an access card, a laptop and a branded hoodie. The first week goes on onboarding and on finding out where the printer paper lives.\n\nThey start billing next quarter."
+        }
+      },
+      "starLeft": {
+        "1": {
+          "headline": "Star leaves {{firm}}",
+          "body": "{{name}} has said goodbye to {{firm}}. The farewell post on LinkedIn already has hundreds of reactions, including a suspicious number of hearts from rivals.\n\nWhere they are headed next is not yet known."
+        }
+      },
+      "talentSpotted": {
+        "1": {
+          "headline": "A talent on the rise",
+          "body": "Colleagues describe {{name}} as “the one you ask when nobody else knows”. Management at {{player}} has reportedly started talking about a future as a star in {{discipline}}.\n\n{{name}} says it's just a matter of reading the documentation."
+        }
+      },
+      "promiseKept": {
+        "1": {
+          "headline": "A promise kept",
+          "body": "When {{name}} had a career talk at {{player}}, growth was promised. Now it has happened, which is not an everyday event in this industry.\n\nColleagues report a better mood by the coffee machine."
+        }
+      },
+      "promiseBroken": {
+        "1": {
+          "headline": "A broken promise comes at a cost",
+          "body": "{{name}} has left {{player}}. According to sources, growth was promised in a career talk a year ago, but little happened.\n\nThe rest of the department has taken note."
+        }
+      },
+      "promoted": {
+        "1": {
+          "headline": "Homegrown star",
+          "body": "{{player}} has promoted {{name}} to star consultant in {{discipline}}. It's rare for a consultancy to grow its stars rather than buy them.\n\nThe promotion was celebrated with cake and a speech that ran slightly long."
+        }
+      },
+      "courseDone": {
+        "1": {
+          "headline": "Certificates in hand",
+          "body_one": "{{name}} has finished the course and already posted the certificate on LinkedIn. The instructor describes them as “engaged, occasionally too engaged”.\n\nThe knowledge is meant to benefit the clients.",
+          "body_other": "{{count}} people at {{player}} finished courses this quarter. Their LinkedIn feeds now consist mostly of certificates.\n\nThe knowledge is meant to benefit the clients."
+        }
+      }
+    },
+    "tender": {
+      "noBids": {
+        "1": {
+          "headline": "Nobody wanted the job",
+          "body": "The tender from {{customer}} did not receive a single bid. Procurement is now considering whether a 140-page requirements document was a bit much.\n\nWhat happens next is unclear."
+        }
+      },
+      "noneGoodEnough": {
+        "1": {
+          "headline": "{{customer}} turns everyone down",
+          "body": "None of the bids for the {{customer}} tender made the cut. The client reportedly asked for “something more than a logo and a recycled CV”.\n\nThe contract will not be awarded this time."
+        }
+      },
+      "playerRejected": {
+        "1": {
+          "headline": "Rejected on quality",
+          "body": "{{customer}} has rejected the bid from {{player}}. The evaluation points to weak quality, though it praises the colour scheme on the cover.\n\nMore experienced people and more effort on the bid could help next time."
+        }
+      },
+      "playerRejectedCapacity": {
+        "1": {
+          "headline": "The client checked capacity",
+          "body": "{{customer}} rejected the bid from {{player}} because the firm didn't have enough people free. The client apparently rang around and asked.\n\nIt pays to bid where you actually have people on the bench."
+        }
+      },
+      "playerWon": {
+        "1": {
+          "headline": "{{player}} wins at {{customer}}",
+          "body": "{{player}} came out on top in the {{customer}} tender. There were {{bidders}} bids. {{strong}}\n\nThe win was celebrated at the office with pizza and a gong that was slightly too loud."
+        }
+      },
+      "playerWonFramework": {
+        "1": {
+          "headline": "A place on the framework",
+          "body": "{{player}} has been ranked number {{rank}} on the framework agreement with {{customer}}. {{strong}}\n\nA framework is no guarantee of work, but it's a foot in the door."
+        }
+      },
+      "playerLost": {
+        "1": {
+          "headline": "{{firm}} takes the contract",
+          "body": "{{player}} lost the {{customer}} tender to {{firm}}. {{weak}}\n\nThe sales team has already started on the next bid."
+        }
+      },
+      "playerLostBoth": {
+        "1": {
+          "headline": "Close, but not enough",
+          "body": "{{player}} lost the {{customer}} tender to {{firm}}. {{weak}} {{strong}}\n\nIt was close, but close doesn't bill any hours."
+        }
+      },
+      "awarded": {
+        "1": {
+          "headline": "{{firm}} wins at {{customer}}",
+          "body": "{{firm}} has been awarded the {{customer}} contract, beating {{bidders}} others. The client points to “a solid understanding of our needs”.\n\nThe competitors are considering an appeal but haven't made up their minds."
+        },
+        "2": {
+          "headline": "New contract for {{firm}}",
+          "body": "{{customer}} has picked {{firm}}. {{bidders}} other firms bid, but had to accept defeat.\n\nInsiders say it came down to price and experience. {{firm}} says it came down to culture."
+        },
+        "3": {
+          "headline": "{{customer}} picks a supplier",
+          "body": "After a long evaluation, {{customer}} has settled on {{firm}}. {{bidders}} others competed for the work.\n\nThe work starts soon, and the job ads are already out."
+        }
+      },
+      "frameworkAwarded": {
+        "1": {
+          "headline": "{{firm}} tops the framework",
+          "body": "{{firm}} has been ranked first on the new framework agreement with {{customer}}. {{bidders}} firms competed for the places.\n\nWhoever ranks first usually gets the first call-offs."
+        },
+        "2": {
+          "headline": "Framework settled at {{customer}}",
+          "body": "{{customer}} has ranked the suppliers on its new framework agreement, and {{firm}} took first place. {{bidders}} firms took part in total.\n\nThe losers console themselves that a framework guarantees nothing."
+        }
+      }
+    },
+    "contract": {
+      "terminatedUnhappy": {
+        "1": {
+          "headline": "{{customer}} drops {{firm}}",
+          "body": "{{customer}} has ended its contract with {{firm}} early. The press release says the client is “going in a different direction”.\n\nSources describe the relationship as “demanding for both sides, mostly for us”."
+        }
+      },
+      "ended": {
+        "1": {
+          "headline": "The {{customer}} engagement is over",
+          "body": "The work between {{player}} and {{customer}} has ended as planned. The client gave {{satisfaction}} out of 100 in the final satisfaction survey.\n\nThe consultants are back at the office, looking for the next engagement."
+        }
+      },
+      "renewed": {
+        "1": {
+          "headline": "{{customer}} wants more",
+          "body": "{{customer}} is extending its contract with {{player}} by {{count}} quarters without a new tender. The client is happy, and it saves everyone another procurement round.\n\nProcurement is particularly pleased about the last part."
+        }
+      },
+      "renegotiated": {
+        "1": {
+          "headline": "New rate at {{customer}}",
+          "body": "{{player}} has negotiated a new hourly rate with {{customer}}, now ×{{rate}}. The client said yes after two meetings and a long pause.\n\nThe head of procurement reportedly sighed audibly."
+        }
+      },
+      "renegotiateFailed": {
+        "1": {
+          "headline": "No to a new rate",
+          "body": "{{customer}} turned down the request from {{player}} for a higher rate. The client considers the current rate “more than fair”.\n\nThe relationship is a little cooler after the meeting."
+        }
+      },
+      "cancelled": {
+        "1": {
+          "headline": "{{player}} walks away from {{customer}}",
+          "body": "{{player}} has cancelled its contract with {{customer}} and paid the break fee. Both sides describe the split as “orderly”.\n\nThe industry notices when a consultancy walks away of its own accord."
+        }
+      },
+      "upsold": {
+        "1": {
+          "headline": "{{customer}} grows the team",
+          "body": "{{customer}} is bringing in {{count}} more consultants from {{player}} in {{discipline}}. The project is growing, and so is the invoice.\n\nThe newcomers start this quarter."
+        }
+      },
+      "upsellFailed": {
+        "1": {
+          "headline": "No budget at {{customer}}",
+          "body": "{{player}} offered {{customer}} more people, but the client has no budget right now. Satisfaction took a small knock from the request.\n\nThe client asks to be contacted again “after the budget round”."
+        }
+      }
+    },
+    "shady": {
+      "poachSuccess": {
+        "1": {
+          "headline": "{{name}} switches sides",
+          "body": "{{name}} is moving from {{from}} to {{to}}. The move was reportedly agreed at an afterwork with a remarkably good atmosphere.\n\n{{from}} declined to comment."
+        }
+      },
+      "poachFailed": {
+        "1": {
+          "headline": "Pricey afterwork, no payoff",
+          "body": "An afterwork with people from {{from}} ended with a large bill and no new hires. The guests thanked everyone for the food and went back to their jobs.\n\nThe bill has been filed as “networking”."
+        }
+      },
+      "rumorVictim": {
+        "1": {
+          "headline": "Rumours swirl around {{player}}",
+          "body": "Rumours about {{player}} are doing the rounds in the industry. Nobody knows who started them, but everyone has heard them.\n\nClients have started asking questions in meetings."
+        }
+      },
+      "dnLeak": {
+        "1": {
+          "headline": "Revealed: how {{firm}} really works",
+          "body": "Internal documents show how {{firm}} is really run. The story is behind a paywall, but nobody in the industry is talking about anything else.\n\n{{firm}} calls the leak “taken out of context”."
+        }
+      }
+    },
+    "scandal": {
+      "spy_bids": {
+        "1": {
+          "headline": "{{firm}} caught snooping",
+          "body": "{{firm}} obtained its rivals' bids by improper means. The firm has been fined {{fine}}.\n\nThe CEO apologises and promises “a review of our procedures”."
+        }
+      },
+      "spy_salaries": {
+        "1": {
+          "headline": "Payslips gone astray",
+          "body": "{{firm}} has been collecting payslips from employees at {{target}}. Asking isn't illegal, but it isn't pretty either.\n\nStaff at {{target}} say they feel “surveyed”."
+        }
+      },
+      "plant_mole": {
+        "1": {
+          "headline": "Mole uncovered at {{target}}",
+          "body": "A “trainee” at {{target}} turned out to be working for {{firm}}. They had been there four months and had become popular at lunch.\n\n{{firm}} has been fined {{fine}}."
+        }
+      },
+      "afterwork_poach": {
+        "1": {
+          "headline": "An afterwork with an agenda",
+          "body": "{{firm}} has invited staff from {{target}} to afterworks so often that people have noticed. {{target}} calls it “systematic”.\n\n{{firm}} says it simply enjoys social occasions."
+        }
+      },
+      "silent_outsource": {
+        "1": {
+          "headline": "The team was in another time zone",
+          "body": "{{customer}} discovered that the work delivered by {{firm}} was done by a different team abroad. The contract has been terminated and {{firm}} has been fined {{fine}}.\n\nSuspicions arose when stand-up always started at four in the morning."
+        }
+      },
+      "cv_pad": {
+        "1": {
+          "headline": "Padded CVs exposed",
+          "body": "{{customer}} checked the CVs {{firm}} used in its bid and found experience that doesn't exist. One consultant had apparently worked with Kubernetes since before it was invented.\n\nThe contract is lost."
+        }
+      },
+      "ghost_cv": {
+        "1": {
+          "headline": "Consultants who don't exist",
+          "body": "{{firm}} offered {{customer}} consultants who do not exist. It came to light when the client asked to meet the team.\n\n{{firm}} has been fined {{fine}}."
+        }
+      },
+      "bait_and_switch": {
+        "1": {
+          "headline": "Promised seniors, delivered juniors",
+          "body": "{{customer}} got juniors instead of the seniors {{firm}} promised in its bid. The juniors are doing their best, but it's not what the client paid for.\n\nThe relationship is described as frosty."
+        }
+      },
+      "rumor": {
+        "1": {
+          "headline": "The rumours came from {{firm}}",
+          "body": "The rumours about {{target}} in recent months have been traced back to {{firm}}. Nobody is especially surprised, but everyone is a little embarrassed on the industry's behalf.\n\n{{firm}} has no comment."
+        }
+      },
+      "dn_leak": {
+        "1": {
+          "headline": "Leak traced to {{firm}}",
+          "body": "The leak about {{target}} to the press came from {{firm}}. The firm has been fined {{fine}}.\n\nThe paper that got the tip is not commenting."
+        }
+      },
+      "linkedin_post": {
+        "1": {
+          "headline": "LinkedIn post backfires",
+          "body": "A post by {{firm}} about {{target}} has been shared thousands of times, mostly with rolled eyes. The comments are not on {{firm}}'s side.\n\nThe post has been deleted, but the screenshots live on."
+        }
+      }
+    },
+    "award": {
+      "best_fagmiljo": {
+        "1": {
+          "headline": "{{firm}} has the best engineering culture",
+          "body": "The jury named {{firm}} Best Engineering Culture {{year}} for its tech days, courses and an internal Slack channel people actually read.\n\nThe award was accepted by a group in hoodies who gave a speech about test coverage."
+        }
+      },
+      "coffee_machine": {
+        "1": {
+          "headline": "The industry's best coffee",
+          "body": "{{firm}} wins Best Coffee Machine in the Industry {{year}}. The jury highlights a steady temperature, good crema and a machine that is “never broken on a Monday”.\n\nIt is widely considered the industry's most coveted award."
+        }
+      },
+      "tender_champion": {
+        "1": {
+          "headline": "Tender champion: {{firm}}",
+          "body": "Nobody won more tenders than {{firm}} in {{year}}. The bid team has worked a lot of late evenings and drunk a lot of coffee.\n\nThe competitors are wondering what the secret is."
+        }
+      },
+      "rocket_growth": {
+        "1": {
+          "headline": "Rocket growth at {{firm}}",
+          "body": "{{firm}} has been named Rocket Growth {{year}}. The firm has grown so fast that half the staff still don't know where the meeting rooms are.\n\nThe jury praises growth that is both fast and profitable."
+        }
+      },
+      "creative_timesheets": {
+        "1": {
+          "headline": "Creative timesheets honoured",
+          "body": "{{firm}} receives the award for Most Creative Timesheets {{year}}. The jury was impressed by how many hours fit into an ordinary day.\n\nThe auditors have asked for a meeting."
+        }
+      },
+      "glassdoor_disaster": {
+        "1": {
+          "headline": "Glassdoor disaster of the year",
+          "body": "{{firm}} has been named Glassdoor Disaster of the Year {{year}}. The reviews are mostly about overtime and a missing fruit bowl.\n\nManagement says it “takes the feedback seriously”."
+        }
+      }
+    },
+    "trend": {
+      "started": {
+        "1": {
+          "headline": "New trend: {{trend}}",
+          "body": "The industry has a new buzzword: {{trend}}. Demand for consultants is shifting, and some disciplines will feel it more than others.\n\nAnalysts expect the trend to last a while. They expect that of every trend."
+        },
+        "2": {
+          "headline": "Everyone is talking about {{trend}}",
+          "body": "“{{trend}}” is on everyone's lips in the industry. Boards across the country are asking management what it means for them.\n\nFor consultancies, it means new opportunities for some and thinner order books for others."
+        }
+      },
+      "ended": {
+        "1": {
+          "headline": "Goodbye to {{trend}}",
+          "body": "The “{{trend}}” trend is over, and the market is returning to normal. The consultants who posted about it on LinkedIn have moved on to the next topic.\n\nThe next trend is probably already on its way."
+        }
+      }
+    },
+    "firm": {
+      "acquired": {
+        "1": {
+          "headline": "{{firm}} buys an agency",
+          "body": "{{firm}} has bought a small {{discipline}} agency with eight employees. The new colleagues move in next week.\n\nThe business cards have already been reprinted."
+        }
+      },
+      "bankrupt": {
+        "1": {
+          "headline": "{{firm}} goes bankrupt",
+          "body": "{{firm}} has filed for bankruptcy. Clients have been told their contracts will go out to tender again.\n\nThe foosball table and three coffee machines are up for sale online."
+        },
+        "2": {
+          "headline": "The end for {{firm}}",
+          "body": "After several difficult quarters, it's over for {{firm}}. The bank pulled the credit line, and the board saw no other way out.\n\nThe consultants are already talking to competitors."
+        }
+      },
+      "playerBankrupt": {
+        "1": {
+          "headline": "{{firm}} goes bankrupt",
+          "body": "{{firm}} has gone bankrupt. The receiver has taken over the office, the clients and the foosball table.\n\nThe founders thank everyone for the journey on LinkedIn."
+        }
+      },
+      "bankWarning": {
+        "1": {
+          "headline": "The bank calls {{player}}",
+          "body": "{{player}} has been below its credit limit for a quarter, and the bank has been in touch. The tone was polite, but no longer warm.\n\nTwo quarters in a row, and it's over."
+        }
+      },
+      "acquiredBy": {
+        "1": {
+          "headline": "{{buyer}} buys {{firm}}",
+          "body": "{{buyer}} has bought {{firm}}, with its people, clients and contracts. The logo will be “kept for now”.\n\nThe staff have received new email addresses and a welcome pack with socks."
+        }
+      }
+    },
+    "level": {
+      "up": {
+        "1": {
+          "headline": "{{player}} moves up",
+          "body": "{{player}} has reached level {{level}} and is moving into bigger offices. The removal company reports an unusual number of plants.\n\nNew opportunities come with the level."
+        }
+      }
+    },
+    "mission": {
+      "done": {
+        "1": {
+          "headline": "Goal reached: {{mission}}",
+          "body": "{{player}} has reached the goal “{{mission}}”. The board applauded politely and entered it in the minutes.\n\nChair Bjørn says he knew it all along."
+        }
+      }
+    },
+    "ipo": {
+      "listed": {
+        "1": {
+          "headline": "{{firm}} goes public",
+          "body": "{{firm}} was listed on the Oslo Stock Exchange today. The founders rang the bell, and someone filmed it vertically.\n\nFrom now on, every quarter has to beat the last."
+        }
+      },
+      "miss": {
+        "1": {
+          "headline": "Disappointing quarter for {{player}}",
+          "body": "{{player}} delivered a weaker quarter than the last, and the share price fell. Analysts are using words like “concerning”.\n\nThe mood in the corridors is subdued."
+        }
+      },
+      "beat": {
+        "1": {
+          "headline": "{{player}} beats expectations",
+          "body": "{{player}} delivered a better quarter than the last, and the share price rose. Analysts are pleased, at least until the next quarter.\n\nSomeone in finance has bought cake."
+        }
+      }
+    },
+    "promise": {
+      "kept": {
+        "fullTeam": {
+          "1": {
+            "headline": "A full team from day one",
+            "body": "{{player}} promised {{customer}} the whole team from day one, and delivered. The client says it's “not what you usually get in this industry”.\n\nSatisfaction and the relationship have both improved."
+          }
+        },
+        "phased": {
+          "1": {
+            "headline": "A phased start, as promised",
+            "body": "The start at {{customer}} was phased, just as {{player}} promised in its bid. The client appreciates predictability.\n\nThe project manager describes the start as “undramatic, in a good way”."
+          }
+        },
+        "discovery": {
+          "1": {
+            "headline": "The discovery phase is done",
+            "body": "{{player}} has delivered the discovery work at {{customer}}, and the client is glad someone asked before starting. Full rates apply from now on.\n\nThe 60-page report will apparently be read."
+          }
+        }
+      },
+      "broken": {
+        "fullTeam": {
+          "1": {
+            "headline": "The full-team promise didn't hold",
+            "body": "{{player}} promised {{customer}} the whole team from the start, but had to fill the gaps with contractors. The client has taken note.\n\nSatisfaction and the relationship have both taken a knock."
+          }
+        },
+        "phased": {
+          "1": {
+            "headline": "Phased turned into outsourced",
+            "body": "{{player}} promised {{customer}} a phased start with its own people, but more than half the seats were filled by contractors. The client is disappointed.\n\nSatisfaction and the relationship have both taken a knock."
+          }
+        }
+      }
+    },
+    "crisis": {
+      "started": {
+        "1": {
+          "headline": "Crisis at {{player}}: {{crisis}}",
+          "body": "{{player}} is in the middle of a crisis: {{crisis}}. Management has called a meeting, and the coffee is extra strong.\n\nHow it's handled will decide how deep the marks go. See the overview."
+        }
+      },
+      "buried": {
+        "1": {
+          "headline": "Filed away",
+          "body": "The “{{crisis}}” matter at {{player}} has been hushed up. For now, nobody outside the firm knows.\n\nDrawers have a habit of being opened again."
+        }
+      },
+      "ended": {
+        "good": {
+          "1": {
+            "headline": "{{player}} comes out stronger",
+            "body": "The “{{crisis}}” matter is over, and {{player}} handled it well. Staff and clients praise the openness.\n\nThe crisis will probably be used as an example at the next leadership offsite."
+          }
+        },
+        "ok": {
+          "1": {
+            "headline": "It could have been worse",
+            "body": "The “{{crisis}}” matter is over for {{player}}. It didn't go perfectly, but it went.\n\nManagement has promised “lessons learned”."
+          }
+        },
+        "bad": {
+          "1": {
+            "headline": "The crisis left its mark",
+            "body": "The “{{crisis}}” matter is over, but {{player}} did not come out of it well. Staff and clients have both noticed.\n\nIt will take time to rebuild trust."
+          }
+        }
+      },
+      "exposed": {
+        "1": {
+          "headline": "It all came out for {{player}}",
+          "body": "The “{{crisis}}” matter that {{player}} tried to hush up is now in the papers. Keeping it quiet has made it worse.\n\nClients are calling, and the heat is rising."
+        }
+      },
+      "exposedRival": {
+        "1": {
+          "headline": "{{firm}} tried to hide a problem",
+          "body": "{{firm}} tried to hush up the “{{crisis}}” matter, but now it's out. Sources say management knew for a long time.\n\n{{firm}}'s clients are asking for explanations."
+        }
+      }
+    },
+    "crises": {
+      "whistleblower": {
+        "gossip": {
+          "1": {
+            "headline": "Whistleblowing case at {{firm}}?",
+            "body": "Several sources describe an internal whistleblowing case at {{firm}}. Management will confirm nothing, but the meeting rooms are booked all week.\n\nWhat the case concerns is not known."
+          }
+        }
+      },
+      "team_feud": {
+        "gossip": {
+          "1": {
+            "headline": "Trouble at {{firm}}",
+            "body": "Two senior {{discipline}} people at {{firm}} are said to have stopped speaking to each other. One has reportedly moved to a different floor.\n\nColleagues describe the atmosphere as “a Christmas party with no music”."
+          }
+        }
+      },
+      "client_exit": {
+        "gossip": {
+          "1": {
+            "headline": "Big client leaving {{firm}}?",
+            "body": "{{firm}} is said to be on the verge of losing a major client. The head of sales was seen taking a long walk alone at lunch.\n\n{{firm}} does not comment on client relationships."
+          }
+        }
+      },
+      "client_insolvent": {
+        "gossip": {
+          "1": {
+            "headline": "Payment trouble at a {{firm}} client",
+            "body": "One of {{firm}}'s clients is said to be struggling to pay its bills. The finance department has started reading the bankruptcy notices closely.\n\nHow much is at stake is not known."
+          }
+        }
+      },
+      "ai_act": {
+        "news": {
+          "1": {
+            "headline": "EU tightens the AI Act",
+            "body": "New rules from Brussels put data projects across the country on hold. The lawyers are reading, and the consultants are waiting.\n\nThe industry expects it to take a few quarters before the market recovers."
+          }
+        }
+      },
+      "krone_crash": {
+        "news": {
+          "1": {
+            "headline": "The krone in free fall",
+            "body": "The Norwegian krone has fallen sharply against the dollar and the euro. Cloud licences and software priced in dollars have suddenly become far more expensive.\n\nSeveral clients have put new projects on hold."
+          }
+        }
+      },
+      "basement_flood": {
+        "gossip": {
+          "1": {
+            "headline": "Water in the basement at {{firm}}",
+            "body": "{{firm}}'s basement is under water, and the server room with it. The consultants are working from home while the dehumidifiers run.\n\nThe insurer has sent an assessor and a pair of wellies."
+          }
+        }
+      },
+      "power_outage": {
+        "gossip": {
+          "1": {
+            "headline": "Lights out at {{firm}}",
+            "body": "{{firm}} has been without power for a week. The consultants have moved to the nearest café, which reports record takings.\n\nThe grid company promises power “shortly”."
+          }
+        }
+      },
+      "data_leak": {
+        "gossip": {
+          "1": {
+            "headline": "Data leak at {{firm}}?",
+            "body": "Data from one of {{firm}}'s teams has reportedly gone astray. It's unclear how much has leaked, and who is affected.\n\nThe press officer is on holiday and not answering the phone."
+          }
+        }
+      },
+      "ransomware": {
+        "gossip": {
+          "1": {
+            "headline": "Ransomware hits {{firm}}",
+            "body": "{{firm}}'s timesheet system has been encrypted by ransomware. The attackers are demanding payment in cryptocurrency.\n\nThe consultants have rarely been happier."
+          }
+        }
+      },
+      "prod_outage": {
+        "gossip": {
+          "1": {
+            "headline": "Outage at a {{firm}} client",
+            "body": "{{firm}} has reportedly taken down production at a major client. It happened on a Friday afternoon, of course.\n\nThe client is not pleased, and an incident report is being written."
+          }
+        }
+      },
+      "slack_slip": {
+        "gossip": {
+          "1": {
+            "headline": "Unfortunate message, wrong channel",
+            "body": "A consultant at {{firm}} reportedly wrote something unfortunate in a client's Slack, thinking it was the internal channel. The screenshot is doing the rounds.\n\n{{firm}} has apologised."
+          }
+        }
+      }
+    }
   }
 }

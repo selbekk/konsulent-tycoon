@@ -705,3 +705,51 @@
   }
   .person > .seats { justify-content: flex-end; }
 }
+
+/* News: clickable lines and the story modal */
+.newsLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.newsLink:hover,
+.newsLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article {
+  display: grid;
+  gap: 10px;
+}
+
+.article p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.article .articleMasthead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--border);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.articleMasthead > span:first-child {
+  font-family: var(--font-title);
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+
+.article .articleLead {
+  font-weight: 700;
+}

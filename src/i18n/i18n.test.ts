@@ -9,6 +9,7 @@ import { CUSTOMERS } from '../content/customers'
 import { TRENDS } from '../content/trends'
 import { TRAITS } from '../content/traits'
 import { QUIRKS } from '../content/quirks'
+import { articleVariants } from '../content/articles'
 import { BUZZWORDS } from '../content/buzzwords'
 import { MEETING_QUESTIONS, MEETING_STYLES } from '../content/meetingQuestions'
 import { MISSIONS } from '../content/missions'
@@ -109,6 +110,21 @@ describe('i18n', () => {
       }
     }
     for (const q of MEETING_QUESTIONS) for (const s of MEETING_STYLES) check(mg, `meeting.questions.${q}.a.${s}`)
+    expect(missing).toEqual([])
+  })
+
+  it('every news line has a story behind it', () => {
+    const game = resources.nb.game as Tree
+    const news = keys(game.news as Tree, 'news.').map((k) => k.replace(/_(one|other)$/, ''))
+    const crisisNews = CRISES.map((c) => `crises.${c.id}.${c.scope === 'market' ? 'news' : 'gossip'}`)
+    const missing: string[] = []
+    for (const key of new Set([...news, ...crisisNews])) {
+      for (let v = 1; v <= articleVariants(key); v++) {
+        const base = `articles.${key.replace(/^news\./, '')}.${v}`
+        if (!has(game, `${base}.headline`)) missing.push(`${base}.headline`)
+        if (!has(game, `${base}.body`) && !has(game, `${base}.body_one`)) missing.push(`${base}.body`)
+      }
+    }
     expect(missing).toEqual([])
   })
 })

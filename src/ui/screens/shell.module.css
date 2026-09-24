@@ -197,7 +197,24 @@
   animation-play-state: paused;
 }
 
+.tickerItem {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tickerItem:hover,
+.tickerItem:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .tickerStatic {
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

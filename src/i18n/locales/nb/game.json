@@ -1108,5 +1108,592 @@
         }
       }
     }
+  },
+  "articles": {
+    "game": {
+      "welcome": {
+        "1": {
+          "headline": "Nytt konsulenthus ser dagens lys",
+          "body": "{{firm}} er registrert i Brønnøysund og har allerede flere visjoner enn ansatte. Gründerne lover «en ny måte å drive konsulentvirksomhet på», slik gründere gjør.\n\nFørste kunde er Kryptonitt. Resten må vinnes."
+        }
+      }
+    },
+    "staff": {
+      "leftMany": {
+        "1": {
+          "headline": "Flukt fra {{player}}",
+          "body": "{{count}} ansatte har levert oppsigelsen i {{player}} dette kvartalet. Kildene våre peker på alt fra lønn til kaffemaskinen.\n\nHR opplyser at avskjedskaken var «innenfor budsjett»."
+        }
+      },
+      "arrived": {
+        "1": {
+          "headline": "Nye fjes i gangene hos {{player}}",
+          "body": "{{count}} nye konsulenter har fått adgangskort, laptop og en hettegenser med logo. Første uke går med til onboarding og til å finne ut hvor printerpapiret ligger.\n\nDe fakturerer fra neste kvartal."
+        }
+      },
+      "starLeft": {
+        "1": {
+          "headline": "Stjerne forlater {{firm}}",
+          "body": "{{name}} har takket for seg i {{firm}}. Avskjedsinnlegget på LinkedIn har allerede flere hundre reaksjoner, blant dem mistenkelig mange hjerter fra konkurrentene.\n\nHvor ferden går videre, er ikke kjent."
+        }
+      },
+      "talentSpotted": {
+        "1": {
+          "headline": "Et talent på vei opp",
+          "body": "Kolleger beskriver {{name}} som «den man spør når ingen andre vet». Ledelsen i {{player}} skal ha begynt å snakke om en fremtid som stjerne innen {{discipline}}.\n\nSelv sier {{name}} at det bare handler om å lese dokumentasjonen."
+        }
+      },
+      "promiseKept": {
+        "1": {
+          "headline": "Et løfte som ble holdt",
+          "body": "Da {{name}} hadde karrieresamtale i {{player}}, ble det lovet vekst. Nå har det skjedd, og det skjer ikke hver dag i denne bransjen.\n\nKolleger melder om bedre stemning ved kaffemaskinen."
+        }
+      },
+      "promiseBroken": {
+        "1": {
+          "headline": "Brutt løfte koster",
+          "body": "{{name}} har sluttet i {{player}}. Ifølge kilder ble det lovet utvikling i en karrieresamtale for et år siden, men lite skjedde.\n\nResten av avdelingen har merket seg det."
+        }
+      },
+      "promoted": {
+        "1": {
+          "headline": "Fra egne rekker til stjerne",
+          "body": "{{player}} har forfremmet {{name}} til stjernekonsulent innen {{discipline}}. Det er sjelden at et konsulenthus bygger stjernene sine selv i stedet for å kjøpe dem.\n\nForfremmelsen ble feiret med bløtkake og en tale som var litt for lang."
+        }
+      },
+      "courseDone": {
+        "1": {
+          "headline": "Kursbeviset er i boks",
+          "body_one": "{{name}} er ferdig med kurset og har allerede lagt ut beviset på LinkedIn. Kursholderen beskriver hen som «engasjert, tidvis for engasjert».\n\nKunnskapen skal etter planen komme kundene til gode.",
+          "body_other": "{{count}} ansatte i {{player}} er ferdige med kurs dette kvartalet. LinkedIn-feeden deres består nå mest av kursbevis.\n\nKunnskapen skal etter planen komme kundene til gode."
+        }
+      }
+    },
+    "tender": {
+      "noBids": {
+        "1": {
+          "headline": "Ingen ville ha jobben",
+          "body": "Anbudet fra {{customer}} fikk ikke et eneste bud. Innkjøpsavdelingen vurderer nå om en kravspesifikasjon på 140 sider kan ha vært litt mye.\n\nDet er uklart hva som skjer videre."
+        }
+      },
+      "noneGoodEnough": {
+        "1": {
+          "headline": "{{customer}} sa nei til alle",
+          "body": "Ingen av budene på anbudet til {{customer}} holdt mål. Kunden skal ha etterlyst «noe mer enn en logo og en gjenbrukt CV».\n\nOppdraget blir ikke tildelt denne gangen."
+        }
+      },
+      "playerRejected": {
+        "1": {
+          "headline": "Avvist på kvalitet",
+          "body": "{{customer}} har avvist budet fra {{player}}. Evalueringen peker på svak kvalitet, men roser fargevalget på forsiden.\n\nFlere erfarne folk og mer innsats på budet kan hjelpe neste gang."
+        }
+      },
+      "playerRejectedCapacity": {
+        "1": {
+          "headline": "Kunden sjekket kapasiteten",
+          "body": "{{customer}} avviste budet fra {{player}} fordi firmaet ikke hadde nok ledige folk. Kunden skal ha ringt rundt og spurt.\n\nDet lønner seg å by der man faktisk har folk på benken."
+        }
+      },
+      "playerWon": {
+        "1": {
+          "headline": "{{player}} vinner hos {{customer}}",
+          "body": "{{player}} stakk av med anbudet hos {{customer}}. Det kom {{bidders}} bud. {{strong}}\n\nPå kontoret ble seieren feiret med pizza og en gong som var litt for høy."
+        }
+      },
+      "playerWonFramework": {
+        "1": {
+          "headline": "Plass på rammeavtalen",
+          "body": "{{player}} er rangert som nummer {{rank}} på rammeavtalen hos {{customer}}. {{strong}}\n\nEn rammeavtale gir ingen garanti for oppdrag, men den gir en fot innenfor."
+        }
+      },
+      "playerLost": {
+        "1": {
+          "headline": "{{firm}} tok oppdraget",
+          "body": "{{player}} tapte anbudet hos {{customer}} til {{firm}}. {{weak}}\n\nSalgsteamet har allerede begynt på neste bud."
+        }
+      },
+      "playerLostBoth": {
+        "1": {
+          "headline": "Nære, men ikke nok",
+          "body": "{{player}} tapte anbudet hos {{customer}} til {{firm}}. {{weak}} {{strong}}\n\nDet var jevnt, men jevnt fakturerer ingen timer."
+        }
+      },
+      "awarded": {
+        "1": {
+          "headline": "{{firm}} vinner hos {{customer}}",
+          "body": "{{firm}} er tildelt oppdraget hos {{customer}} etter konkurranse med {{bidders}} andre. Kunden trekker fram «god forståelse av behovet».\n\nKonkurrentene vurderer å klage, men har ikke bestemt seg."
+        },
+        "2": {
+          "headline": "Nytt oppdrag til {{firm}}",
+          "body": "{{customer}} har valgt {{firm}}. {{bidders}} andre firma leverte bud, men måtte se seg slått.\n\nIfølge innsidere avgjorde kombinasjonen av pris og erfaring. Ifølge {{firm}} avgjorde kulturen."
+        },
+        "3": {
+          "headline": "{{customer}} har valgt leverandør",
+          "body": "Etter en lang evaluering har {{customer}} landet på {{firm}}. {{bidders}} andre konkurrerte om oppdraget.\n\nArbeidet starter snart, og stillingsannonsene er allerede ute."
+        }
+      },
+      "frameworkAwarded": {
+        "1": {
+          "headline": "{{firm}} topper rammeavtalen",
+          "body": "{{firm}} er rangert øverst på den nye rammeavtalen hos {{customer}}. {{bidders}} firma kjempet om plassene.\n\nDen som står øverst, får som regel de første avropene."
+        },
+        "2": {
+          "headline": "Rammeavtalen hos {{customer}} er fordelt",
+          "body": "{{customer}} har rangert leverandørene på den nye rammeavtalen, og {{firm}} fikk førsteplassen. Til sammen {{bidders}} firma var med.\n\nTaperne trøster seg med at en rammeavtale ikke er en garanti for noe."
+        }
+      }
+    },
+    "contract": {
+      "terminatedUnhappy": {
+        "1": {
+          "headline": "{{customer}} bryter med {{firm}}",
+          "body": "{{customer}} har sagt opp avtalen med {{firm}} før tiden. I pressemeldingen står det at kunden «går i en annen retning».\n\nKilder beskriver samarbeidet som «krevende for begge parter, mest for oss»."
+        }
+      },
+      "ended": {
+        "1": {
+          "headline": "Oppdraget hos {{customer}} er ferdig",
+          "body": "Samarbeidet mellom {{player}} og {{customer}} er avsluttet etter planen. Kunden ga {{satisfaction}} av 100 i den siste tilfredshetsmålingen.\n\nKonsulentene er tilbake på kontoret og ser etter neste oppdrag."
+        }
+      },
+      "renewed": {
+        "1": {
+          "headline": "{{customer}} vil ha mer",
+          "body": "{{customer}} forlenger avtalen med {{player}} med {{count}} kvartaler uten ny konkurranse. Kunden er fornøyd, og det sparer alle for et nytt anbud.\n\nInnkjøpsavdelingen er spesielt glad for det siste."
+        }
+      },
+      "renegotiated": {
+        "1": {
+          "headline": "Ny pris hos {{customer}}",
+          "body": "{{player}} har forhandlet fram en ny timepris hos {{customer}}, nå ×{{rate}}. Kunden takket ja etter to møter og en lang pause.\n\nInnkjøpssjefen skal ha sukket hørbart."
+        }
+      },
+      "renegotiateFailed": {
+        "1": {
+          "headline": "Nei til ny pris",
+          "body": "{{customer}} avviste forespørselen fra {{player}} om høyere timepris. Kunden mener dagens pris er «mer enn rimelig».\n\nForholdet er litt kjøligere etter møtet."
+        }
+      },
+      "cancelled": {
+        "1": {
+          "headline": "{{player}} trekker seg fra {{customer}}",
+          "body": "{{player}} har sagt opp avtalen med {{customer}} og betalt bruddgebyret. Begge parter beskriver bruddet som «ryddig».\n\nI bransjen blir det lagt merke til når et konsulenthus går frivillig."
+        }
+      },
+      "upsold": {
+        "1": {
+          "headline": "{{customer}} utvider teamet",
+          "body": "{{customer}} tar inn {{count}} konsulenter til fra {{player}} innen {{discipline}}. Prosjektet vokser, og det gjør fakturaen også.\n\nDe nye begynner allerede dette kvartalet."
+        }
+      },
+      "upsellFailed": {
+        "1": {
+          "headline": "Ikke budsjett hos {{customer}}",
+          "body": "{{player}} tilbød {{customer}} flere folk, men kunden har ikke budsjett akkurat nå. Tilfredsheten fikk seg en liten knekk av forespørselen.\n\nKunden ber om å bli kontaktet igjen «etter budsjettrunden»."
+        }
+      }
+    },
+    "shady": {
+      "poachSuccess": {
+        "1": {
+          "headline": "{{name}} bytter beite",
+          "body": "{{name}} går fra {{from}} til {{to}}. Overgangen skal ha blitt avtalt på en afterwork med påfallende god stemning.\n\n{{from}} ønsker ikke å kommentere saken."
+        }
+      },
+      "poachFailed": {
+        "1": {
+          "headline": "Dyr afterwork uten gevinst",
+          "body": "En afterwork med folk fra {{from}} endte med en stor regning og ingen nye ansatte. Gjestene takket for maten og dro tilbake til jobbene sine.\n\nRegningen er ført som «nettverksbygging»."
+        }
+      },
+      "rumorVictim": {
+        "1": {
+          "headline": "Rykter svirrer om {{player}}",
+          "body": "Det går rykter i bransjen om {{player}}. Ingen vet hvem som startet dem, men alle har hørt dem.\n\nKundene har begynt å stille spørsmål i møtene."
+        }
+      },
+      "dnLeak": {
+        "1": {
+          "headline": "Avsløring: Slik jobber de i {{firm}}",
+          "body": "Interne dokumenter viser hvordan {{firm}} egentlig drives. Saken ligger bak betalingsmur, men ingen i bransjen snakker om noe annet.\n\n{{firm}} kaller lekkasjen «tatt ut av sammenheng»."
+        }
+      }
+    },
+    "scandal": {
+      "spy_bids": {
+        "1": {
+          "headline": "{{firm}} tatt i å snoke",
+          "body": "{{firm}} har skaffet seg innsyn i konkurrentenes anbud på utilbørlig vis. Firmaet er ilagt en bot på {{fine}}.\n\nDaglig leder beklager og lover «en gjennomgang av rutinene»."
+        }
+      },
+      "spy_salaries": {
+        "1": {
+          "headline": "Lønnsslipper på avveie",
+          "body": "{{firm}} har samlet inn lønnsslipper fra ansatte i {{target}}. Det er ikke ulovlig å spørre, men det er ikke pent heller.\n\nAnsatte i {{target}} sier de føler seg «kartlagt»."
+        }
+      },
+      "plant_mole": {
+        "1": {
+          "headline": "Muldvarp avslørt hos {{target}}",
+          "body": "En «trainee» hos {{target}} viste seg å jobbe for {{firm}}. Hen hadde vært der i fire måneder og rukket å bli populær i lunsjen.\n\n{{firm}} er ilagt en bot på {{fine}}."
+        }
+      },
+      "afterwork_poach": {
+        "1": {
+          "headline": "Afterwork med baktanker",
+          "body": "{{firm}} har invitert ansatte fra {{target}} på afterwork så ofte at det har blitt lagt merke til. {{target}} kaller det «systematisk».\n\n{{firm}} sier at de bare er glade i sosiale sammenkomster."
+        }
+      },
+      "silent_outsource": {
+        "1": {
+          "headline": "Teamet satt i en annen tidssone",
+          "body": "{{customer}} oppdaget at arbeidet fra {{firm}} ble gjort av et helt annet team i utlandet. Avtalen er sagt opp, og {{firm}} er ilagt en bot på {{fine}}.\n\nMistanken oppsto da standupen alltid startet klokka fire om natta."
+        }
+      },
+      "cv_pad": {
+        "1": {
+          "headline": "Oppblåste CV-er avslørt",
+          "body": "{{customer}} har sjekket CV-ene {{firm}} brukte i anbudet, og fant erfaring som ikke finnes. En konsulent skal ha jobbet med Kubernetes siden før det ble laget.\n\nAvtalen er tapt."
+        }
+      },
+      "ghost_cv": {
+        "1": {
+          "headline": "Konsulenter som ikke finnes",
+          "body": "{{firm}} tilbød {{customer}} konsulenter som ikke eksisterer. Det ble oppdaget da kunden ba om å få møte teamet.\n\n{{firm}} er ilagt en bot på {{fine}}."
+        }
+      },
+      "bait_and_switch": {
+        "1": {
+          "headline": "Lovet seniorer, leverte juniorer",
+          "body": "{{customer}} fikk juniorer i stedet for seniorene {{firm}} lovet i anbudet. Juniorene gjør så godt de kan, men det var ikke det kunden betalte for.\n\nRelasjonen beskrives som iskald."
+        }
+      },
+      "rumor": {
+        "1": {
+          "headline": "Ryktene kom fra {{firm}}",
+          "body": "Ryktene om {{target}} de siste månedene er sporet tilbake til {{firm}}. Ingen er spesielt overrasket, men alle er litt flaue på bransjens vegne.\n\n{{firm}} har ingen kommentar."
+        }
+      },
+      "dn_leak": {
+        "1": {
+          "headline": "Lekkasjen sporet til {{firm}}",
+          "body": "Lekkasjen om {{target}} til pressen kom fra {{firm}}. Firmaet er ilagt en bot på {{fine}}.\n\nAvisen som fikk tipset, kommenterer ikke saken."
+        }
+      },
+      "linkedin_post": {
+        "1": {
+          "headline": "LinkedIn-innlegg slår feil vei",
+          "body": "Et innlegg fra {{firm}} om {{target}} er delt tusenvis av ganger, mest med himlende øyne. Kommentarfeltet er ikke på {{firm}} sin side.\n\nInnlegget er slettet, men skjermbildene lever videre."
+        }
+      }
+    },
+    "award": {
+      "best_fagmiljo": {
+        "1": {
+          "headline": "{{firm}} har årets fagmiljø",
+          "body": "Juryen kåret {{firm}} til Årets fagmiljø {{year}} for fagdager, kurs og en intern Slack-kanal som faktisk blir lest.\n\nPrisen ble tatt imot av en gjeng i hettegensere som holdt en tale om testdekning."
+        }
+      },
+      "coffee_machine": {
+        "1": {
+          "headline": "Bransjens beste kaffe",
+          "body": "{{firm}} vinner prisen for bransjens beste kaffemaskin {{year}}. Juryen trekker fram jevn temperatur, god crema og en maskin som «aldri er i stykker på mandager».\n\nPrisen regnes som bransjens mest ettertraktede."
+        }
+      },
+      "tender_champion": {
+        "1": {
+          "headline": "Årets anbudsvinner: {{firm}}",
+          "body": "Ingen vant flere anbud enn {{firm}} i {{year}}. Tilbudsteamet har jobbet mange sene kvelder og drukket mye kaffe.\n\nKonkurrentene lurer på hva hemmeligheten er."
+        }
+      },
+      "rocket_growth": {
+        "1": {
+          "headline": "Vekstraketten {{firm}}",
+          "body": "{{firm}} er kåret til Årets vekstrakett {{year}}. Firmaet har vokst så raskt at halve staben ennå ikke vet hvor møterommene er.\n\nJuryen roser en vekst som er både rask og lønnsom."
+        }
+      },
+      "creative_timesheets": {
+        "1": {
+          "headline": "Kreativ timeføring premiert",
+          "body": "{{firm}} får prisen for Mest kreative timeføring {{year}}. Juryen var imponert over hvor mange timer som fikk plass i et vanlig døgn.\n\nRevisorene har bedt om et møte."
+        }
+      },
+      "glassdoor_disaster": {
+        "1": {
+          "headline": "Årets Glassdoor-katastrofe",
+          "body": "{{firm}} er kåret til Årets Glassdoor-katastrofe {{year}}. Anmeldelsene handler mest om overtid, og om at fruktkurven er borte.\n\nLedelsen sier at de «tar tilbakemeldingene på alvor»."
+        }
+      }
+    },
+    "trend": {
+      "started": {
+        "1": {
+          "headline": "Ny trend: {{trend}}",
+          "body": "Bransjen har fått et nytt stikkord: {{trend}}. Etterspørselen etter konsulenter endrer seg, og noen fagområder merker det mer enn andre.\n\nAnalytikerne tror trenden varer en stund. Det tror de om alle trender."
+        },
+        "2": {
+          "headline": "Alle snakker om {{trend}}",
+          "body": "«{{trend}}» er på alles lepper i bransjen. Styrer over hele landet spør ledelsen hva det betyr for dem.\n\nFor konsulentbransjen betyr det nye muligheter for noen og tynnere ordrebøker for andre."
+        }
+      },
+      "ended": {
+        "1": {
+          "headline": "Farvel til {{trend}}",
+          "body": "Trenden «{{trend}}» er over, og markedet går tilbake til det normale. Konsulentene som skrev om den på LinkedIn, har gått videre til neste tema.\n\nNeste trend er antagelig allerede på vei."
+        }
+      }
+    },
+    "firm": {
+      "acquired": {
+        "1": {
+          "headline": "{{firm}} kjøper byrå",
+          "body": "{{firm}} har kjøpt et lite {{discipline}}-byrå med åtte ansatte. De nye kollegene flytter inn neste uke.\n\nVisittkortene er allerede trykket på nytt."
+        }
+      },
+      "bankrupt": {
+        "1": {
+          "headline": "{{firm}} er konkurs",
+          "body": "{{firm}} har begjært oppbud. Kundene har fått beskjed om at avtalene deres lyses ut på nytt.\n\nFussballbordet og tre kaffemaskiner er lagt ut på Finn."
+        },
+        "2": {
+          "headline": "Slutten for {{firm}}",
+          "body": "Etter flere tunge kvartaler er det over for {{firm}}. Banken trakk kreditten, og styret så ingen annen utvei.\n\nKonsulentene er allerede i samtaler med konkurrentene."
+        }
+      },
+      "playerBankrupt": {
+        "1": {
+          "headline": "{{firm}} er konkurs",
+          "body": "{{firm}} har gått konkurs. Bobestyreren har overtatt kontoret, kundene og fussballbordet.\n\nGründerne takker for reisen på LinkedIn."
+        }
+      },
+      "bankWarning": {
+        "1": {
+          "headline": "Banken ringer {{player}}",
+          "body": "{{player}} har vært under kredittgrensen i et kvartal, og banken har tatt kontakt. Tonen var høflig, men ikke lenger hjertelig.\n\nSkjer det to kvartaler på rad, er det slutt."
+        }
+      },
+      "acquiredBy": {
+        "1": {
+          "headline": "{{buyer}} kjøper {{firm}}",
+          "body": "{{buyer}} har kjøpt {{firm}} med folk, kunder og kontrakter. Logoen skal «beholdes inntil videre».\n\nDe ansatte har fått nye e-postadresser og en velkomstpakke med sokker."
+        }
+      }
+    },
+    "level": {
+      "up": {
+        "1": {
+          "headline": "{{player}} flytter opp",
+          "body": "{{player}} har rykket opp til nivå {{level}} og flytter inn i større lokaler. Flyttebyrået melder om uvanlig mange planter.\n\nMed nivået følger nye muligheter."
+        }
+      }
+    },
+    "mission": {
+      "done": {
+        "1": {
+          "headline": "Mål nådd: {{mission}}",
+          "body": "{{player}} har nådd målet «{{mission}}». Styret klappet høflig og førte det inn i protokollen.\n\nStyreleder Bjørn sier at han visste det hele tiden."
+        }
+      }
+    },
+    "ipo": {
+      "listed": {
+        "1": {
+          "headline": "{{firm}} er på børs",
+          "body": "{{firm}} ble i dag notert på Oslo Børs. Gründerne ringte i bjella, og noen filmet det vertikalt.\n\nFra nå av skal hvert kvartal være bedre enn det forrige."
+        }
+      },
+      "miss": {
+        "1": {
+          "headline": "Skuffende kvartal for {{player}}",
+          "body": "{{player}} leverte et svakere kvartal enn det forrige, og aksjen falt. Analytikerne bruker ord som «bekymringsfullt».\n\nStemningen i gangene er dempet."
+        }
+      },
+      "beat": {
+        "1": {
+          "headline": "{{player}} slår forventningene",
+          "body": "{{player}} leverte et bedre kvartal enn det forrige, og aksjen steg. Analytikerne er fornøyde, i hvert fall fram til neste kvartal.\n\nNoen i økonomiavdelingen har kjøpt kake."
+        }
+      }
+    },
+    "promise": {
+      "kept": {
+        "fullTeam": {
+          "1": {
+            "headline": "Fullt team fra dag én",
+            "body": "{{player}} lovet {{customer}} hele teamet fra første dag, og holdt det. Kunden forteller at det «ikke er vanlig i denne bransjen».\n\nBåde tilfredsheten og relasjonen er styrket."
+          }
+        },
+        "phased": {
+          "1": {
+            "headline": "Gradvis oppstart som lovet",
+            "body": "Oppstarten hos {{customer}} gikk gradvis, slik {{player}} lovet i budet. Kunden setter pris på forutsigbarhet.\n\nProsjektlederen beskriver starten som «udramatisk, i positiv forstand»."
+          }
+        },
+        "discovery": {
+          "1": {
+            "headline": "Kartleggingen er levert",
+            "body": "{{player}} har levert kartleggingen hos {{customer}}, og kunden er glad for at noen spurte før de begynte. Fra nå faktureres full pris.\n\nRapporten på 60 sider skal visstnok bli lest."
+          }
+        }
+      },
+      "broken": {
+        "fullTeam": {
+          "1": {
+            "headline": "Løftet om fullt team holdt ikke",
+            "body": "{{player}} lovet {{customer}} hele teamet fra start, men måtte fylle hullene med innleide. Kunden har merket seg det.\n\nBåde tilfredsheten og relasjonen har fått en knekk."
+          }
+        },
+        "phased": {
+          "1": {
+            "headline": "Gradvis ble til innleid",
+            "body": "{{player}} lovet {{customer}} en gradvis oppstart med egne folk, men over halvparten av setene ble fylt av innleide. Kunden er skuffet.\n\nBåde tilfredsheten og relasjonen har fått en knekk."
+          }
+        }
+      }
+    },
+    "crisis": {
+      "started": {
+        "1": {
+          "headline": "Krise i {{player}}: {{crisis}}",
+          "body": "{{player}} står midt i en krise: {{crisis}}. Ledelsen har kalt inn til møte, og kaffen er ekstra sterk.\n\nHvordan saken håndteres, avgjør hvor dype sporene blir. Se oversikten."
+        }
+      },
+      "buried": {
+        "1": {
+          "headline": "Lagt i skuffen",
+          "body": "Saken «{{crisis}}» i {{player}} er dysset ned. Foreløpig vet ingen utenfor huset noe.\n\nSkuffer har en tendens til å bli åpnet igjen."
+        }
+      },
+      "ended": {
+        "good": {
+          "1": {
+            "headline": "{{player}} kom styrket ut",
+            "body": "Saken «{{crisis}}» er over, og {{player}} håndterte den godt. Ansatte og kunder roser åpenheten.\n\nKrisen blir trolig brukt som eksempel på neste ledersamling."
+          }
+        },
+        "ok": {
+          "1": {
+            "headline": "Det kunne gått verre",
+            "body": "Saken «{{crisis}}» er over for {{player}}. Det gikk ikke perfekt, men det gikk.\n\nLedelsen har lovet «læring»."
+          }
+        },
+        "bad": {
+          "1": {
+            "headline": "Krisen satte spor",
+            "body": "Saken «{{crisis}}» er over, men {{player}} kom ikke godt ut av den. Både ansatte og kunder har merket det.\n\nDet vil ta tid å bygge opp tilliten igjen."
+          }
+        }
+      },
+      "exposed": {
+        "1": {
+          "headline": "Det sprakk for {{player}}",
+          "body": "Saken «{{crisis}}», som {{player}} prøvde å dysse ned, står nå i avisen. At den ble holdt skjult, gjør den verre.\n\nKundene ringer, og heaten stiger."
+        }
+      },
+      "exposedRival": {
+        "1": {
+          "headline": "{{firm}} prøvde å skjule en sak",
+          "body": "{{firm}} forsøkte å dysse ned saken «{{crisis}}», men nå er den ute. Kilder sier at ledelsen har visst om den lenge.\n\nKundene til {{firm}} ber om forklaringer."
+        }
+      }
+    },
+    "crises": {
+      "whistleblower": {
+        "gossip": {
+          "1": {
+            "headline": "Varslingssak i {{firm}}?",
+            "body": "Flere kilder forteller om en intern varslingssak i {{firm}}. Ledelsen vil ikke bekrefte noe, men møterommene er booket hele uka.\n\nDet er ikke kjent hva saken gjelder."
+          }
+        }
+      },
+      "team_feud": {
+        "gossip": {
+          "1": {
+            "headline": "Uro i {{firm}}",
+            "body": "To seniorer innen {{discipline}} i {{firm}} skal ikke lenger snakke sammen. Den ene har visstnok flyttet til en annen etasje.\n\nKolleger beskriver stemningen som «et julebord uten musikk»."
+          }
+        }
+      },
+      "client_exit": {
+        "gossip": {
+          "1": {
+            "headline": "Storkunde på vei ut av {{firm}}?",
+            "body": "{{firm}} skal være i ferd med å miste en stor kundeavtale. Salgssjefen ble sett gå en lang tur alene i lunsjen.\n\n{{firm}} ønsker ikke å kommentere kundeforhold."
+          }
+        }
+      },
+      "client_insolvent": {
+        "gossip": {
+          "1": {
+            "headline": "Betalingstrøbbel hos kunde av {{firm}}",
+            "body": "En av kundene til {{firm}} skal ha problemer med å betale regningene sine. Regnskapsavdelingen har begynt å lese konkursvarslene nøye.\n\nHvor mye som står på spill, er ikke kjent."
+          }
+        }
+      },
+      "ai_act": {
+        "news": {
+          "1": {
+            "headline": "EU strammer inn KI-forordningen",
+            "body": "Nye regler fra Brussel setter dataprosjekter over hele landet på vent. Juristene leser, og konsulentene venter.\n\nBransjen regner med at det tar noen kvartaler før markedet tar seg opp igjen."
+          }
+        }
+      },
+      "krone_crash": {
+        "news": {
+          "1": {
+            "headline": "Kronen i fritt fall",
+            "body": "Kronen har falt kraftig mot dollar og euro. Skylisenser og programvare priset i dollar har plutselig blitt mye dyrere.\n\nFlere kunder har satt nye prosjekter på pause."
+          }
+        }
+      },
+      "basement_flood": {
+        "gossip": {
+          "1": {
+            "headline": "Vann i kjelleren hos {{firm}}",
+            "body": "Kjelleren til {{firm}} står under vann, og serverrommet med den. Konsulentene jobber hjemmefra mens avfukterne går.\n\nForsikringsselskapet har sendt en takstmann og et par gummistøvler."
+          }
+        }
+      },
+      "power_outage": {
+        "gossip": {
+          "1": {
+            "headline": "Mørkt hos {{firm}}",
+            "body": "{{firm}} har vært uten strøm i en uke. Konsulentene har flyttet til nærmeste kafé, som melder om rekordomsetning.\n\nNettselskapet lover strøm «i løpet av kort tid»."
+          }
+        }
+      },
+      "data_leak": {
+        "gossip": {
+          "1": {
+            "headline": "Datalekkasje hos {{firm}}?",
+            "body": "Data fra et av teamene til {{firm}} skal ha kommet på avveie. Det er uklart hvor mye som har lekket, og hvem som er rammet.\n\nPressekontakten er på ferie og svarer ikke på telefon."
+          }
+        }
+      },
+      "ransomware": {
+        "gossip": {
+          "1": {
+            "headline": "Løsepengevirus rammer {{firm}}",
+            "body": "Timeføringssystemet til {{firm}} er kryptert av løsepengevirus. Angriperne krever betaling i kryptovaluta.\n\nKonsulentene har sjelden vært gladere."
+          }
+        }
+      },
+      "prod_outage": {
+        "gossip": {
+          "1": {
+            "headline": "Nedetid hos en kunde av {{firm}}",
+            "body": "{{firm}} skal ha tatt ned produksjonen hos en stor kunde. Det skjedde en fredag ettermiddag, selvfølgelig.\n\nKunden er ikke fornøyd, og en hendelsesrapport er under arbeid."
+          }
+        }
+      },
+      "slack_slip": {
+        "gossip": {
+          "1": {
+            "headline": "Uheldig melding i feil kanal",
+            "body": "En konsulent i {{firm}} skal ha skrevet noe uheldig i en kundes Slack, i den tro at det var den interne kanalen. Skjermbildet går rundt i bransjen.\n\n{{firm}} har bedt om unnskyldning."
+          }
+        }
+      }
+    }
   }
 }

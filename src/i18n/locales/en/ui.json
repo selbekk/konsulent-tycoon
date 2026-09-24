@@ -969,5 +969,9 @@
     "more_one": "{{count}} more crisis is waiting.",
     "more_other": "{{count}} more crises are waiting.",
     "tally": "So far this game: {{good}} handled well, {{ok}} okay and {{bad}} badly."
+  },
+  "article": {
+    "paper": "The Daily Consultant",
+    "byline": "By {{name}}"
   }
 }
