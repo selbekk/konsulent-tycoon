@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react'
+import { track } from '../../analytics'
 
 /** Chromium's install prompt event (not in the standard DOM typings). */
 interface BeforeInstallPromptEvent extends Event {
@@ -19,6 +20,7 @@ export function listenForInstallPrompt() {
     notify()
   })
   window.addEventListener('appinstalled', () => {
+    track('app_installed')
     deferred = null
     notify()
   })

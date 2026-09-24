@@ -28,7 +28,7 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-Det finnes ingen backend. Alt kjører i nettleseren, spillet lagres i `localStorage`, og det kan installeres som en app som virker offline.
+Det finnes ingen backend. Alt kjører i nettleseren, spillet lagres i `localStorage`, og det kan installeres som en app som virker offline. Anonym bruksstatistikk (PostHog) sendes bare hvis spilleren sier ja.
 
 ## Teknologi
 

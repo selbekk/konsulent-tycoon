@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useRegisterSW } from 'virtual:pwa-register/react'
+import { track } from '../../analytics'
 import { Icon } from '../components/Icon'
 import { Button } from '../components/ui'
 import s from './pwa.module.css'
@@ -28,7 +29,14 @@ export function PwaPrompt() {
       <span>{needRefresh ? t('pwa.updateReady') : t('pwa.offlineReady')}</span>
       <div className={s.actions}>
         {needRefresh && (
-          <Button size="small" variant="primary" onClick={() => void updateServiceWorker(true)}>
+          <Button
+            size="small"
+            variant="primary"
+            onClick={() => {
+              track('app_update_accepted')
+              void updateServiceWorker(true)
+            }}
+          >
             {t('pwa.update')}
           </Button>
         )}

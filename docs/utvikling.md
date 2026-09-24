@@ -12,6 +12,7 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 - [Tekster og språk (i18n)](#tekster-og-språk-i18n)
 - [Lagring og migrasjoner](#lagring-og-migrasjoner)
 - [PWA (installerbar app)](#pwa-installerbar-app)
+- [Analyse (PostHog)](#analyse-posthog)
 - [Innhold: slik legger du til ting](#innhold-slik-legger-du-til-ting)
 - [Balansering og simulator](#balansering-og-simulator)
 - [Testing](#testing)
@@ -321,12 +322,24 @@ Praktisk:
 
 Spillet er en Progressive Web App via `vite-plugin-pwa` (konfigurert i `vite.config.ts`).
 
-- **Offline:** Service workeren legger alt i cache (JS, CSS, HTML, ikoner og fonter), så spillet virker uten nett. Det er ingen eksterne kall: fontene er lagt inn i appen, og lagringen skjer lokalt.
+- **Offline:** Service workeren legger alt i cache (JS, CSS, HTML, ikoner og fonter), så spillet virker uten nett. Fontene er lagt inn i appen, og lagringen skjer lokalt. Det eneste eksterne kallet er analyse, og bare hvis spilleren har sagt ja (se under).
 - **Manifest:** Navn, farger og ikoner er definert i `vite.config.ts`. Ikonene genereres fra `public/icon.svg` med `npm run icons` (`pwa-assets.config.ts`, skarp skalering for pikselkunst). Kjør kommandoen igjen etter at du har endret ikonet, og commit PNG-filene.
 - **Oppdateringer:** `registerType: 'prompt'`. Når en ny versjon er klar, viser `ui/pwa/PwaPrompt.tsx` et varsel med «Oppdater nå». Vi oppdaterer ikke automatisk, fordi en ny innlasting midt i et minispill ville brukt opp forsøket.
 - **Installering:** `ui/pwa/install.ts` fanger `beforeinstallprompt` (Chromium) og viser «Installer spillet» i hovedmenyen. På iOS Safari finnes ingen slik hendelse, så der vises et hint om «Del → Legg til på Hjem-skjerm».
 - **Utvikling:** Service workeren er bare aktiv i bygget. Test PWA-oppførselen med `npm run build && npm run preview`. Under `npm run dev` er den av, så cachen ikke skaper forvirring.
 - **Publisering:** Spillet publiseres på Vercel (`vercel.json`). `vercel.json` setter cache-headere slik at `sw.js` ikke caches for hardt. Ellers kommer ikke oppdateringer frem.
+
+## Analyse (PostHog)
+
+Bruksstatistikk går til PostHog (organisasjonen Ho Ho Holding, EU-sky). Det er **opt-in**: ingenting lastes, lagres eller sendes før spilleren sier ja i cookiebaren (`ui/consent/CookieBar.tsx`). Svaret ligger i `localStorage` under `kt.consent`, og kan endres under Innstillinger. Sier spilleren nei etter å ha sagt ja, kaller vi `reset()` og `opt_out_capturing()`, slår av lagring og sletter `ph_*`-nøklene (id og sesjon). PostHogs eget opt-out-flagg blir liggende. Sier spilleren ja igjen i samme besøk, slås SDK-et på igjen med `opt_in_capturing()`.
+
+- **Kode:** `src/analytics/` (`index.ts` laster SDK-et, `consent.ts` holder svaret, `gameEvents.ts` gjør actions om til hendelser). Bare UI-et og storen kaller den. Motoren gjør det aldri, så simulatoren forblir ren.
+- **Hendelser:** Hver action som går gjennom `dispatch` blir en hendelse med navn fra `ACTION_EVENTS` (f.eks. `bid_placed`, `employee_fired`, `shady_action_taken`), og feilede actions blir `action_failed`. Storen sender dessuten `game_started`, `quarter_ended` (med nøkkeltall), `level_up`, `game_ended`, `game_saved`/`game_loaded`/`game_continued`, `screen_viewed`, `tab_viewed`, `settings_changed` og noen til. En ny action-type må ha en linje i `ACTION_EVENTS`, ellers feiler typesjekken.
+- **Personvern:** Send bare id-er fra innholdet og tall, aldri tekst spilleren har skrevet (firmanavnet). Autocapture har `mask_all_text` og `mask_all_element_attributes` av samme grunn. IP-anonymisering er slått på i PostHog-prosjektet. Om-teksten (`about.privacy`) beskriver hva som sendes, så oppdater den hvis du begynner å sende noe nytt.
+- **Skyvere:** `setBudgets`, `orderHires` og volumet dispatches ved hvert steg, så de sendes med `trackSettled` først når spilleren har sluppet.
+- **Proxy:** SDK-et snakker med `/kaffe`, som `vercel.json` (og `vite.config.ts` for `dev`/`preview`) videresender til `eu.i.posthog.com`. Da stopper ikke adblockere hendelsene.
+- **Offline:** SDK-et er en egen chunk som service workeren precacher, men den lastes bare etter samtykke. Uten nett holder SDK-et hendelsene i minnet og prøver igjen, så de kommer frem om spillet fortsatt er åpent når nettet er tilbake.
+- **Oppsett:** Nøkkelen ligger i `VITE_POSTHOG_KEY` (`.env.local` lokalt, miljøvariabel i Vercel). Uten den er analyse av, og i dev logges en feil (asynkront, så spillet virker likevel) når noen samtykker. Super-egenskapen `app_env` skiller `dev` (`development`) fra bygget (`production`), men `preview` lokalt er også `production`, så filtrer på `$host` for å skille ut localhost.
 
 ## Innhold: slik legger du til ting
 

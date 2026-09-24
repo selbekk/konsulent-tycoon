@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { track } from '../../analytics'
 import { articleKey, articleVariants } from '../../content/articles'
 import { createRng, hashString, personName } from '../../engine'
 import type { NewsItem } from '../../engine'
@@ -20,6 +22,7 @@ export function NewsArticle({ item, onClose }: { item: NewsItem; onClose: () => 
   const body = has ? t(`${key}.body`, params).split('\n\n') : []
   // The reporter is made up, and the same every time for the same story.
   const reporter = personName(createRng(hashString(`reporter:${item.id}`)), 0)
+  useEffect(() => track('news_article_opened', { news: item.key, personal: !!item.personal, has_story: has }), [item.key, item.personal, has])
 
   return (
     <Modal title={headline} icon="news" onClose={onClose} actions={<Button onClick={onClose}>{t('common.close')}</Button>}>

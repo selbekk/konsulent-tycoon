@@ -1,5 +1,20 @@
 import { create } from 'zustand'
-import { applyAction, createNewGame, deleteSlot, firmLevel, endTurn as engineEndTurn, purgeIncompatibleSaves, readSlot, saveToSlot } from '../engine'
+import { track, trackSettled } from '../analytics'
+import { describeAction, gameContext, quarterSummary, settleKey } from '../analytics/gameEvents'
+import {
+  applyAction,
+  createNewGame,
+  deleteSlot,
+  endTitle,
+  firmLevel,
+  endTurn as engineEndTurn,
+  playerRank,
+  purgeIncompatibleSaves,
+  quarterTodos,
+  readSlot,
+  saveToSlot,
+  valuation,
+} from '../engine'
 import type { Action, Crisis, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
 
 export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'about' | 'game'
@@ -69,7 +84,8 @@ interface Store {
 
   go: (screen: Screen) => void
   setTab: (tab: Tab) => void
-  newGame: (opts: NewGameOptions) => void
+  /** `meta` only describes the choices for analytics. */
+  newGame: (opts: NewGameOptions, meta?: { customSeed: boolean; defaultName: boolean }) => void
   dispatch: (action: Action) => string | undefined
   endTurn: () => void
   save: (slot: SlotId) => boolean
@@ -113,24 +129,42 @@ export const useGame = create<Store>((set, get) => ({
     return storage ? purgeIncompatibleSaves(storage) : []
   })(),
 
-  go: (screen) => set({ screen, previousScreen: get().screen }),
-  setTab: (tab) => set({ tab }),
+  go: (screen) => {
+    if (screen !== get().screen) track('screen_viewed', { screen, from: get().screen })
+    set({ screen, previousScreen: get().screen })
+  },
+  setTab: (tab) => {
+    const { game } = get()
+    if (tab !== get().tab) track('tab_viewed', { tab, ...(game ? gameContext(game) : {}) })
+    set({ tab })
+  },
 
-  newGame: (opts) => {
+  newGame: (opts, meta) => {
     const game = createNewGame(opts)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', game)
     set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
+    track('game_started', {
+      difficulty: opts.difficulty,
+      founders: [...opts.founderDisciplines],
+      custom_seed: meta?.customSeed,
+      default_name: meta?.defaultName,
+    })
   },
 
   dispatch: (action) => {
     const { game } = get()
     if (!game) return 'errors.invalid'
     const result = applyAction(game, action)
+    const { event, props } = describeAction(action, game)
     if (result.error) {
+      track('action_failed', { ...props, failed_event: event, error: result.error })
       set({ error: result.error })
       return result.error
     }
+    const settle = settleKey(action)
+    if (settle) trackSettled(settle, event, props)
+    else track(event, props)
     // Autosave after every action: closing the tab never loses bids, and minigames can't be replayed by reloading.
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', result.state)
@@ -147,13 +181,29 @@ export const useGame = create<Store>((set, get) => ({
     const from = firmLevel(game.firms[game.playerId])
     const to = firmLevel(next.firms[next.playerId])
     const levelUp = to > from ? { from, to } : null
+    const openTodos = quarterTodos(game, game.playerId).filter((x) => !x.done).length
+    track('quarter_ended', quarterSummary(game, next, openTodos))
+    if (levelUp) track('level_up', { from, to, quarter: game.quarter })
+    if (next.status !== 'playing') {
+      const me = next.firms[next.playerId]
+      track('game_ended', {
+        ...gameContext(next),
+        outcome: next.status,
+        title: endTitle(next),
+        rank: playerRank(next),
+        valuation: Math.round(valuation(me)),
+        quarters_played: game.quarter + 1,
+      })
+    }
     set({ game: next, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp, crisisId: null, crisisTalk: null })
   },
 
   save: (slot) => {
     const { game } = get()
     const storage = safeStorage()
-    return !!game && !!storage && saveToSlot(storage, slot, game)
+    const ok = !!game && !!storage && saveToSlot(storage, slot, game)
+    if (game) track('game_saved', { slot, ok, ...gameContext(game) })
+    return ok
   },
 
   load: (slot) => {
@@ -161,36 +211,53 @@ export const useGame = create<Store>((set, get) => ({
     if (!storage) return false
     const read = readSlot(storage, slot)
     if ('error' in read) {
+      track('game_load_failed', { slot, error: read.error })
       if (read.error === 'incompatible') {
         deleteSlot(storage, slot)
         set({ droppedSaves: [slot] })
       }
       return false
     }
+    const from = get().screen
     get().loadState(read.state)
+    track(slot === 'auto' && from === 'menu' ? 'game_continued' : 'game_loaded', { slot, ...gameContext(read.state) })
     return true
   },
 
   loadState: (game) =>
     set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis }),
 
-  quit: () => set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis }),
+  quit: () => {
+    const { game } = get()
+    if (game && game.status === 'playing') track('game_quit', gameContext(game))
+    set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+  },
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),
   dismissLevelUp: () => set({ levelUp: null }),
-  dismissOnboarding: () => set({ onboarding: false }),
+  dismissOnboarding: () => {
+    track('onboarding_closed')
+    set({ onboarding: false })
+  },
   dismissDroppedSaves: () => set({ droppedSaves: [] }),
-  openBid: (bidTenderId) => set({ bidTenderId, error: null }),
+  openBid: (bidTenderId) => {
+    const { game } = get()
+    const tender = bidTenderId ? game?.tenders.find((t) => t.id === bidTenderId) : undefined
+    if (game && tender) track('bid_form_opened', { customer: tender.customerId, tender_kind: tender.kind, ...gameContext(game) })
+    set({ bidTenderId, error: null })
+  },
   openMinigame: (minigame) => set({ minigame }),
   openCrisis: (crisisId) => {
     const c = crisisId ? get().game?.crises?.find((x) => x.id === crisisId) : undefined
     const seen = c ? crisisSeenKey(c) : undefined
+    if (c) track('crisis_viewed', { crisis: c.defId, stage: c.stage, first_time: !!seen && !get().seenCrises.includes(seen) })
     set({ crisisId, error: null, ...(seen && !get().seenCrises.includes(seen) ? { seenCrises: [...get().seenCrises, seen] } : {}) })
   },
   openCrisisTalk: (crisisTalk) => set({ crisisTalk }),
 
   setSettings: (s) => {
     const settings = { ...get().settings, ...s }
+    trackSettled(`settings:${Object.keys(s).sort().join(',')}`, 'settings_changed', { ...s }, 800)
     try {
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings))
     } catch {
