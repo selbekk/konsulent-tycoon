@@ -1,5 +1,8 @@
 /** All balance numbers live here. Tune with `npm run sim`. */
 
+import type { TalkStyle } from '../content/crisisTalks'
+import type { CrisisMinigame, Difficulty } from './types'
+
 export const SAVE_VERSION = 1
 export const MAX_QUARTERS = 40
 export const START_YEAR = 2027
@@ -189,6 +192,11 @@ export const OFFICE_MOVE_SOSIALT = 5
 export const OFFICE_MOVE_BRAND = 3
 /** The player can't touch culture budgets at level 1, so start from what a sensible player picks. */
 export const PLAYER_START_BUDGETS = { fagmiljoPerHead: 15_000, sosialtPerHead: 12_000, salaryPremium: 0.02 }
+/** The player's starting cash per difficulty. */
+export const START_CASH: Record<Difficulty, number> = { easy: 5_000_000, normal: 3_000_000, hard: 1_500_000 }
+/** AI firms start with this much cash per head, scaled by difficulty (richer rivals on hard). */
+export const AI_START_CASH_PER_HEAD = 650_000
+export const AI_CASH_FACTOR: Record<Difficulty, number> = { easy: 0.8, normal: 1, hard: 1.3 }
 
 // Strategy
 /** Bid quality bonus when a tender matches the firm's specialty. Sector specialties match about half the tenders. */
@@ -249,6 +257,14 @@ export const CRISIS_AI_HUSH = { base: 0.2, perShadiness: 3, perCarelessness: 0.6
 /** Crisis talk (minigame) score thresholds for the good and bad extra effects. AI and sim bots use their skill instead. */
 export const CRISIS_TALK_GOOD = 67
 export const CRISIS_TALK_BAD = 34
+/** How likely each crisis-talk audience is to prefer each style. Spin rarely works, but sometimes it's all they want. */
+export const TALK_PREFERENCE_WEIGHTS: Record<CrisisMinigame, Record<TalkStyle, number>> = {
+  press: { candid: 3, facts: 2, caring: 1, spin: 0.4 },
+  townhall: { caring: 3, candid: 2, facts: 1, spin: 0.3 },
+  client: { facts: 3, candid: 2, caring: 1, spin: 0.6 },
+}
+/** The simulated player's crisis style: decent, rarely shady, and as good at talking as humanProxy is in pitch meetings. */
+export const HUMAN_CRISIS_STYLE = { care: 0.7, shady: 0.05, talk: 70 }
 /** Client wants out: they stay if the contract's satisfaction is at least this when they decide. */
 export const CRISIS_CLIENT_STAY = { low: 45, high: 65 } as const
 /** Hushed-up crises may resurface for this many quarters, with this chance per quarter. */

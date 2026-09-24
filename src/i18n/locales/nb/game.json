@@ -235,22 +235,256 @@
     "offshore_standup": "Morgenmøtet med offshoreteamet er flyttet til 06.30. Av hensyn til rettferdighet."
   },
   "thoughts": {
-    "overworked": "Jeg har ikke sett familien min siden forrige sprint.",
-    "bench_bored": "Jeg har ikke fakturert på tre uker og har begynt å male kontoret.",
-    "good_flow": "Endelig et prosjekt der ting faktisk skjer.",
-    "embarrassed": "Jeg sier ikke hvor jeg jobber på fest lenger.",
-    "suspicious": "Hvorfor har vi plutselig en «ekstern ressurs» i Manila som svarer på mailene mine?",
-    "star_restless": "{{name}} har oppdatert LinkedIn-profilen tre ganger denne uka.",
-    "underpaid": "Jeg tror jeg er underbetalt. Nei, jeg vet det.",
-    "good_pay": "Lønna er faktisk ganske grei her.",
-    "no_learning": "Jeg har ikke lært noe nytt siden jQuery.",
-    "fagdag_good": "Fagdagen var faktisk bra. Jeg forsto nesten alt.",
-    "lonely": "Det er stille på kontoret. Veldig stille.",
-    "great_colleagues": "Jeg liker kollegaene mine. Er det lov å si?",
-    "rival_sushi": "Hørte at {{firm}} har sushi-fredag…",
-    "who_are_freelancers": "Hvem er alle disse folka som ikke har tilgangskort?",
-    "startup_vibes": "Det føles litt som et startup. På en god måte, stort sett.",
-    "all_quiet": "Alt er som det skal. Mistenkelig."
+    "overworked": {
+      "1": "Jeg har ikke sett familien min siden forrige sprint.",
+      "2": "Jeg har begynt å drømme i Jira-tickets.",
+      "3": "Tre møter samtidig er ikke multitasking. Det er et rop om hjelp.",
+      "4": "Når hadde vi sist en fredag som faktisk var fredag?",
+      "5": "Kalenderen min har ikke et eneste hvitt felt før påske.",
+      "6": "Jeg fakturerte 46 timer denne uka. Kroppen fakturerte meg tilbake.",
+      "7": "Katten min tror jeg er en person som kommer innom om kvelden.",
+      "8": "Jeg svarte «god helg» på en mail tirsdag. Den var fra meg selv.",
+      "9": "Kan noen andre ta standupen i morgen? Jeg har tre andre standuper.",
+      "10": "Jeg har glemt hva hobbyen min var. Tror det var noe med brød."
+    },
+    "bench_bored": {
+      "1": "Jeg har ikke fakturert på tre uker og har begynt å male kontoret.",
+      "2": "Jeg har refaktorert min egen dotfiles-mappe fire ganger nå.",
+      "3": "Har noen et prosjekt? Hvilket som helst? Jeg kan Excel.",
+      "4": "Jeg har lest hele personalhåndboka. Den har en skrivefeil på side 14.",
+      "5": "I dag lærte jeg meg Rust. I morgen tar jeg Haskell. Hjelp.",
+      "6": "Jeg har fått kaffemaskinen til å gå raskere. Ingen har bedt om det.",
+      "7": "Benken er komfortabel, men jeg savner kundene. Nesten.",
+      "8": "Jeg har laget en intern app for å booke lunsjbord. Vi har ingen kø.",
+      "9": "Jeg har vannet plantene så mye at de har begynt å se bekymret ut.",
+      "10": "Hvis jeg skriver én blogpost til om «læring på benken», slutter jeg."
+    },
+    "good_flow": {
+      "1": "Endelig et prosjekt der ting faktisk skjer.",
+      "2": "Vi leverte i går, og ingenting gikk i stykker. Jeg stoler ikke helt på det.",
+      "3": "Kunden sa «takk» i Slack. Med utropstegn.",
+      "4": "Jeg kom inn i flytsonen i dag og glemte lunsjen. På en god måte.",
+      "5": "Retroen var kort fordi ingenting var galt. Rart.",
+      "6": "Det er deilig å jobbe med noe folk faktisk bruker.",
+      "7": "Vi har en backlog som gir mening. Jeg vil ramme den inn.",
+      "8": "Demoen gikk så bra at produkteieren klappet. Alene, men likevel.",
+      "9": "Jeg lurer på om dette er det de kaller «bærekraftig tempo».",
+      "10": "Teamet mitt er egentlig veldig flinke. Ikke si det til dem."
+    },
+    "embarrassed": {
+      "1": "Jeg sier ikke hvor jeg jobber på fest lenger.",
+      "2": "Mamma ringte og spurte om jeg var med i avisa.",
+      "3": "Jeg har tatt av firmahettegenseren på T-banen.",
+      "4": "På LinkedIn står det nå bare «konsulent». Uten firmanavn.",
+      "5": "Naboen spurte om vi var «de fra nyhetene». Jeg sa vi var et annet firma.",
+      "6": "Kunden møtte oss i resepsjonen med et veldig nøytralt ansikt.",
+      "7": "Jeg har begynt å si at jeg jobber «i IT» igjen.",
+      "8": "Det er vanskelig å selge inn et smidig mindset når du er på forsiden av DN."
+    },
+    "suspicious": {
+      "1": "Hvorfor har vi plutselig en «ekstern ressurs» i Manila som svarer på mailene mine?",
+      "2": "Hvorfor står det tre CV-er i tilbudet med folk jeg aldri har møtt?",
+      "3": "Ledelsen har begynt å lukke døra til møterommet. Det har vi aldri gjort.",
+      "4": "Jeg fikk beskjed om å «ikke nevne det» på kundemøtet. Nevne hva?",
+      "5": "Noen har bestilt en makuleringsmaskin. En stor en.",
+      "6": "Det er en ny linje i regnskapet som heter «diverse, strategisk».",
+      "7": "Compliance-Tor ser mer sliten ut enn vanlig.",
+      "8": "Hvorfor vet vi hva Accentura byr før de vet det selv?"
+    },
+    "star_restless": {
+      "1": "{{name}} har oppdatert LinkedIn-profilen tre ganger denne uka.",
+      "2": "{{name}} tok en «tannlegetime» i dress i går.",
+      "3": "{{name}} sa «hvis jeg fortsatt er her da» på planleggingsmøtet.",
+      "4": "{{name}} har begynt å ta med seg personlige ting hjem. Én om dagen.",
+      "5": "Headhuntere ringer {{name}} så ofte at det har fått egen ringetone.",
+      "6": "{{name}} har begynt å snakke veldig varmt om «nye utfordringer»."
+    },
+    "underpaid": {
+      "1": "Jeg tror jeg er underbetalt. Nei, jeg vet det.",
+      "2": "Kompisen min i Accentura har bil med seteoppvarming. Og lønn.",
+      "3": "Jeg fakturerer 1 700 i timen og har matpakke. Noe stemmer ikke.",
+      "4": "Lønnssamtalen varte i fire minutter. Tre av dem gikk til været.",
+      "5": "Jeg har sett stillingsannonsene. Jeg vet hva andre tjener.",
+      "6": "Fruktfatet er fint, men det betaler ikke husleia.",
+      "7": "Jeg regnet ut timelønna mi og ble lei meg.",
+      "8": "Er «vi er som en familie» en lønnsform?"
+    },
+    "good_pay": {
+      "1": "Lønna er faktisk ganske grei her.",
+      "2": "Jeg sjekket markedet og kom tilbake. Det er bra her.",
+      "3": "Jeg kjøpte ny sykkel og følte meg ikke skyldig en gang.",
+      "4": "Sjefen ga meg lønnsøkning før jeg spurte. Er alt i orden?",
+      "5": "Headhunteren spurte hva jeg tjente og la på litt fort.",
+      "6": "Jeg har sluttet å åpne stillingsannonser. Det er et godt tegn."
+    },
+    "no_learning": {
+      "1": "Jeg har ikke lært noe nytt siden jQuery.",
+      "2": "Den siste fagdagen vår var i 2019. Den handlet om fagdager.",
+      "3": "Jeg lærer mer av YouTube-kommentarer enn av jobben.",
+      "4": "Kurset jeg ba om er «under vurdering». Det har vært det i et år.",
+      "5": "Faggruppa vår har ett medlem. Det er meg. Vi møtes sjelden.",
+      "6": "Jeg har sett den samme Kubernetes-presentasjonen tre ganger. Alle var min egen.",
+      "7": "Konferansebudsjettet dekker kaffe på Starbucks, hvis vi deler.",
+      "8": "Når de sier «læring på jobben», mener de at jeg googler."
+    },
+    "fagdag_good": {
+      "1": "Fagdagen var faktisk bra. Jeg forsto nesten alt.",
+      "2": "Vi hadde lyntaler i dag. Min varte i fem minutter og fikk to spørsmål.",
+      "3": "Jeg skal på JavaZone, og firmaet betaler. Jeg har pakket siden mars.",
+      "4": "Faggruppa har laget et eget bibliotek. Noen bruker det faktisk.",
+      "5": "Jeg lærte mer i kodegjennomgangen i dag enn på et helt kurs.",
+      "6": "Vi har bokklubb for tekniske bøker. Vi leser dem til og med.",
+      "7": "Juniorene holdt foredrag, og seniorene tok notater.",
+      "8": "Hackathonet ga oss tre prototyper og én som kunden vil ha."
+    },
+    "lonely": {
+      "1": "Det er stille på kontoret. Veldig stille.",
+      "2": "Jeg spiste lunsj med meg selv igjen. Samtalen var dårlig.",
+      "3": "Fredagspilsen er avlyst. Den var avlyst forrige uke også.",
+      "4": "Jeg vet ikke hva halvparten av kollegaene mine heter.",
+      "5": "Jeg sa «god morgen» i Teams, og ingen svarte før klokka to.",
+      "6": "Pingpongbordet har fått støv. Det er ikke noen metafor.",
+      "7": "Jeg har begynt å snakke med plantene. De er gode lyttere.",
+      "8": "Julebordet ble erstattet av et gavekort. På 200 kroner."
+    },
+    "great_colleagues": {
+      "1": "Jeg liker kollegaene mine. Er det lov å si?",
+      "2": "Noen hadde med kake i dag uten grunn. Det er den beste grunnen.",
+      "3": "Vi ble sittende etter fredagspilsen og løste et problem kunden ikke visste de hadde.",
+      "4": "Når jeg står fast, er det alltid noen som har tid.",
+      "5": "Vi har en Slack-kanal bare for bilder av hunder. Den er veldig aktiv.",
+      "6": "Quizen på fredag var så jevn at vi krevde omkamp.",
+      "7": "Jeg gleder meg faktisk til mandag. Ikke si det til noen.",
+      "8": "Teamet mitt feiret bursdagen min. Jeg har ikke fortalt noen når den er."
+    },
+    "rival_sushi": {
+      "1": "Hørte at {{firm}} har sushi-fredag…",
+      "2": "Hos {{firm}} får de visstnok hytte på fjellet. En hel hytte.",
+      "3": "Min gamle klassekamerat i {{firm}} har fire fagdager i måneden.",
+      "4": "{{firm}} har en egen barista. Jeg har en termos.",
+      "5": "Jeg så julebordsbildene fra {{firm}}. De var i Lisboa.",
+      "6": "{{firm}} sender folk på konferanser i USA. Vi har Teams-webinar."
+    },
+    "who_are_freelancers": {
+      "1": "Hvem er alle disse folka som ikke har tilgangskort?",
+      "2": "Det sitter en frilanser i møterom Fjordgløtt. Han har bodd der siden august.",
+      "3": "Jeg ble introdusert for «Erik fra underleverandøren» for tredje gang.",
+      "4": "Frilanserne har egen Slack. Den er visstnok mye morsommere.",
+      "5": "Kunden tror han er en av oss. Vi har ikke rettet på det.",
+      "6": "Frilanseren fakturerer mer enn meg og har ikke vært på én fagdag."
+    },
+    "startup_vibes": {
+      "1": "Det føles litt som et startup. På en god måte, stort sett.",
+      "2": "Vi er så få at det holder med én pizza. Nesten.",
+      "3": "Jeg er CTO, produkteier og ansvarlig for kaffemaskinen.",
+      "4": "Alle vet alt om alle. Det er både fint og litt skummelt.",
+      "5": "Styremøtet ble holdt ved kjøkkenbenken. Det var effektivt.",
+      "6": "Vi har ikke HR ennå, så vi snakker sammen i stedet."
+    },
+    "all_quiet": {
+      "1": "Alt er som det skal. Mistenkelig.",
+      "2": "Ingenting har brent på en stund. Jeg tar på treverk.",
+      "3": "Det er så rolig at jeg har begynt å lese dokumentasjon.",
+      "4": "Jeg har ingenting å klage på, og det gjør meg urolig.",
+      "5": "Kaffen er varm, prosjektet går, og ingen har ringt. Hva skjer?",
+      "6": "En helt vanlig dag. Jeg skal nyte den før noe skjer."
+    },
+    "cash_tight": {
+      "1": "Hvorfor er det plutselig bare brød og smør i lunsjen?",
+      "2": "Ledelsen snakker mye om «kostnadsbevissthet» for tiden.",
+      "3": "Julegaven i år blir visstnok «fellesskapet».",
+      "4": "Jeg ble bedt om å skrive ut på begge sider av arket.",
+      "5": "Regnskapsføreren smiler ikke lenger i gangen.",
+      "6": "Vi fikk beskjed om å fakturere alt. Også tankene våre."
+    },
+    "crisis_open": {
+      "1": "Alle ledere har kalenderen blokkert med «møte». Bare «møte».",
+      "2": "Jeg vet ikke hva som skjer, men det er mye pizza på styrerommet.",
+      "3": "Noen har skrevet «IKKE SNAKK MED PRESSEN» på tavla. Og så visket det ut.",
+      "4": "Kommunikasjonsrådgiveren har vært her tre dager på rad.",
+      "5": "Vi fikk en mail om at «alt er under kontroll». Det har vi aldri fått før.",
+      "6": "Jeg har aldri sett sjefen drikke så mye kaffe."
+    },
+    "big_firm": {
+      "1": "Jeg vet ikke navnet på alle lenger. Jeg smiler og nikker.",
+      "2": "Vi har fått et eget team som lager maler til andre maler.",
+      "3": "Det tar tre godkjenninger å bestille en ny skjerm.",
+      "4": "Allmøtet har blitt så stort at vi trenger mikrofon.",
+      "5": "Noen fra et annet team hilste på meg i heisen. Vi jobber visst på samme prosjekt.",
+      "6": "Jeg savner da vi var så få at alle fikk plass rundt ett bord."
+    },
+    "listed": {
+      "1": "Jeg sjekker aksjekursen oftere enn været nå.",
+      "2": "Kvartalsrapporten er det mest spennende vi leser hele året.",
+      "3": "Ledelsen har begynt å si «aksjonærverdi» i helt vanlige setninger.",
+      "4": "Opsjonene mine er verdt en tur til Syden. Eller en kaffe, avhengig av dagen.",
+      "5": "Vi fikk beskjed om å ikke kommentere noe før rapporten. Heller ikke lunsjen."
+    },
+    "season_q1": {
+      "1": "Det har vært mørkt siden november. Jeg har glemt hvordan sola ser ut.",
+      "2": "Nyttårsforsettet mitt var å skrive tester. Det holdt i ni dager.",
+      "3": "Jeg kom på jobb med ski på beina i dag. Det var ikke med vilje.",
+      "4": "Budsjettene er nye, og kundene er optimistiske. Det varer til mars.",
+      "5": "Vinterferien er om to uker, og jeg har allerede lagt meg i dvale.",
+      "6": "Påsken nærmer seg, og alle kundene vil ha alt levert før den."
+    },
+    "season_q2": {
+      "1": "Lyset er tilbake, og plutselig er alle kjempeproduktive.",
+      "2": "17. mai-toget gikk rett forbi kontoret. Vi vinket fra møterommet.",
+      "3": "Noen har tatt fram utemøblene på takterrassen. Vi har ikke takterrasse.",
+      "4": "Alle vil ha kickoff før sommeren. Vi har fire.",
+      "5": "Pollensesongen har tatt halve teamet. Standupen ble til et nysemøte.",
+      "6": "Det er juni, og kunden vil ha «bare en liten ting» før ferien."
+    },
+    "season_q3": {
+      "1": "Fellesferien er over, og ingen husker passordene sine.",
+      "2": "Halve kunden er fortsatt på hytta. Vi deployer i stillhet.",
+      "3": "Jeg har vært tilbake i to dager og har 412 uleste mailer.",
+      "4": "August er når alle innser hva de lovet før ferien.",
+      "5": "Høsten er her, og nye budsjetter skal kjempes om.",
+      "6": "Noen ble brun i ferien. Resten av oss ble brune av kaffe."
+    },
+    "season_q4": {
+      "1": "Julebordet er om tre uker, og alle har allerede bestemt antrekk.",
+      "2": "Kunden vil bruke opp budsjettet før nyttår. Vi elsker desember.",
+      "3": "Adventskalenderen på kjøkkenet er tom innen den fjerde.",
+      "4": "Alle skal ha ferdig alt «før jul». Ingen vet hvilken jul.",
+      "5": "Det er så mørkt at jeg har begynt å gå på jobb med hodelykt.",
+      "6": "Noen har spilt juleplate i kantina siden 1. november."
+    },
+    "everyday": {
+      "1": "Noen har tatt yoghurten min fra kjøleskapet. Igjen.",
+      "2": "Møtet kunne vært en mail. Mailen kunne vært ingenting.",
+      "3": "Jeg har skrevet «bare en rask en» i Slack og brukt to timer.",
+      "4": "Hvorfor heter alle møterommene våre etter fjorder?",
+      "5": "Printeren virker, men bare hvis du ser på den.",
+      "6": "Jeg har tre ulike tidsregistreringssystemer og ett liv.",
+      "7": "Noen foreslo å gjøre standupen sittende. Vi diskuterte det i en time.",
+      "8": "Kaffemaskinen har fått navnet Kjell. Kjell har dårlige dager.",
+      "9": "Jeg er ganske sikker på at «synergi» ikke er et verb.",
+      "10": "Det er noen som mikrer fisk på kjøkkenet. Vi vet hvem.",
+      "11": "Jeg har lært meg å si «det kommer an på» med fullt selvtillit.",
+      "12": "Vi har en ny tavle. Ingen tør å viske ut det som står der fra forrige uke.",
+      "13": "Wi-fi-passordet er skrevet på en lapp i resepsjonen. Det er ikke sikkerhet.",
+      "14": "Jeg har prøvd den nye ståpulten. Nå står jeg og sitter samtidig.",
+      "15": "Kunden kalte det «en liten endring». Den har tre faser.",
+      "16": "Jeg er for tiden ekspert på to ting: domenet til kunden og kantinemenyen.",
+      "17": "Hvem bestemte at fredagspizzaen skal ha ananas? Vi krever svar.",
+      "18": "Jeg glemte å skru av mikrofonen. Nå vet alle hva jeg synes om Excel.",
+      "19": "Vi har brukt en halvtime på å navngi en variabel. Den heter «data».",
+      "20": "Noen har satt opp en kanal for «viktige kunngjøringer». Den har memes.",
+      "21": "Jeg har tatt kurs i prompt engineering. Nå ber jeg pent om alt.",
+      "22": "Det står «midlertidig løsning» i koden. Datoen er 2021.",
+      "23": "Kaffekoppen min fra forrige firma skaper fortsatt spørsmål.",
+      "24": "Jeg har bestemt meg for å lære meg Vim. Jeg har vært i Vim siden tirsdag.",
+      "25": "Heisen snakker. Ingen vet hvem som installerte stemmen.",
+      "26": "Jeg vet ikke hva en «nordstjernemetrikk» er, men vi har tre.",
+      "27": "Postitlappene fra workshopen henger fortsatt. De har begynt å falle.",
+      "28": "Jeg har sagt «kan du se skjermen min?» fire ganger i dag. Ingen kunne.",
+      "29": "Noen har skrevet «Hvem tok stiftemaskinen?» på tavla. Det er et godt spørsmål.",
+      "30": "Kunden vil ha det «som Spotify, men for ferskvarer». Vi smiler.",
+      "31": "Jeg har bestilt en ny laptop. Den kommer visstnok i neste kvartal."
+    }
   },
   "events": {
     "ebike_scheme": {

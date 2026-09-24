@@ -81,4 +81,16 @@ describe('score & flavour', () => {
     expect(employeeThoughts(s, 'player')).toEqual(a)
     expect(s.rng.s).toBe(before)
   })
+
+  it('employee thoughts fill a thin feed and vary between quarters', () => {
+    const s = newTestGame()
+    const feeds = new Set<string>()
+    for (let q = 0; q < 8; q++) {
+      const thoughts = employeeThoughts({ ...s, quarter: q }, 'player')
+      expect(thoughts.length).toBeGreaterThanOrEqual(3)
+      expect(new Set(thoughts.map((t) => t.key)).size).toBe(thoughts.length)
+      feeds.add(thoughts.map((t) => t.key).join())
+    }
+    expect(feeds.size).toBeGreaterThan(1)
+  })
 })

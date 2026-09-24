@@ -10,13 +10,6 @@ export const TALK_STYLES = ['candid', 'caring', 'facts', 'spin'] as const satisf
 
 export const OPPOSITE_TALK_STYLE: Record<TalkStyle, TalkStyle> = { candid: 'spin', spin: 'candid', caring: 'facts', facts: 'caring' }
 
-/** How likely each audience is to prefer each style. Spin rarely works, but sometimes it's all they want. */
-export const TALK_PREFERENCE_WEIGHTS: Record<CrisisMinigame, Record<TalkStyle, number>> = {
-  press: { candid: 3, facts: 2, caring: 1, spin: 0.4 },
-  townhall: { caring: 3, candid: 2, facts: 1, spin: 0.3 },
-  client: { facts: 3, candid: 2, caring: 1, spin: 0.6 },
-}
-
 export const CRISIS_TALK_QUESTIONS: Record<CrisisMinigame, readonly string[]> = {
   press: ['who_knew', 'responsible', 'again', 'affected', 'resign'],
   townhall: ['why_now', 'safe', 'bonus', 'trust', 'next'],

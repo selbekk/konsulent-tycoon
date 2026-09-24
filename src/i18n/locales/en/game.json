@@ -235,22 +235,256 @@
     "offshore_standup": "The morning meeting with the offshore team has moved to 6:30 am. In the interest of fairness."
   },
   "thoughts": {
-    "overworked": "I haven't seen my family since last sprint.",
-    "bench_bored": "I haven't billed an hour in three weeks and have started painting the office.",
-    "good_flow": "Finally a project where things actually happen.",
-    "embarrassed": "I don't tell people where I work at parties anymore.",
-    "suspicious": "Why is an \"external resource\" in Manila suddenly answering my emails?",
-    "star_restless": "{{name}} has updated their LinkedIn profile three times this week.",
-    "underpaid": "I think I'm underpaid. No, I know I am.",
-    "good_pay": "The pay is actually pretty decent here.",
-    "no_learning": "I haven't learned anything new since jQuery.",
-    "fagdag_good": "The tech day was actually good. I understood almost all of it.",
-    "lonely": "It's quiet in the office. Very quiet.",
-    "great_colleagues": "I like my colleagues. Is that allowed?",
-    "rival_sushi": "Heard {{firm}} has sushi Fridays…",
-    "who_are_freelancers": "Who are all these people without access cards?",
-    "startup_vibes": "It feels a bit like a startup. In a good way, mostly.",
-    "all_quiet": "Everything's fine. Suspiciously fine."
+    "overworked": {
+      "1": "I haven't seen my family since the last sprint.",
+      "2": "I've started dreaming in Jira tickets.",
+      "3": "Three meetings at once isn't multitasking. It's a cry for help.",
+      "4": "When did we last have a Friday that was actually a Friday?",
+      "5": "There isn't a single free slot in my calendar before Easter.",
+      "6": "I billed 46 hours this week. My body has sent an invoice back.",
+      "7": "My cat thinks I'm someone who drops by in the evenings.",
+      "8": "I replied \"have a nice weekend\" to an email on Tuesday. It was from me.",
+      "9": "Can someone else take tomorrow's stand-up? I have three other stand-ups.",
+      "10": "I've forgotten what my hobby was. I think it involved bread."
+    },
+    "bench_bored": {
+      "1": "I haven't billed in three weeks and I've started painting the office.",
+      "2": "I've refactored my own dotfiles four times now.",
+      "3": "Does anyone have a project? Any project? I know Excel.",
+      "4": "I've read the entire staff handbook. There's a typo on page 14.",
+      "5": "Today I learned Rust. Tomorrow it's Haskell. Send help.",
+      "6": "I made the coffee machine faster. Nobody asked me to.",
+      "7": "The bench is comfortable, but I miss the clients. Almost.",
+      "8": "I built an internal app for booking lunch tables. There's no queue.",
+      "9": "I've watered the plants so much they've started looking worried.",
+      "10": "If I write one more blog post about \"learning on the bench\", I quit."
+    },
+    "good_flow": {
+      "1": "Finally a project where things actually happen.",
+      "2": "We shipped yesterday and nothing broke. I don't fully trust it.",
+      "3": "The client said \"thanks\" in Slack. With an exclamation mark.",
+      "4": "I got into the zone today and forgot lunch. In a good way.",
+      "5": "The retro was short because nothing was wrong. Weird.",
+      "6": "It's nice working on something people actually use.",
+      "7": "We have a backlog that makes sense. I want to frame it.",
+      "8": "The demo went so well the product owner clapped. Alone, but still.",
+      "9": "I wonder if this is what they call \"a sustainable pace\".",
+      "10": "My team is actually really good. Don't tell them."
+    },
+    "embarrassed": {
+      "1": "I don't tell people where I work at parties any more.",
+      "2": "Mum called to ask if I was in the paper.",
+      "3": "I took off my company hoodie on the underground.",
+      "4": "My LinkedIn now just says \"consultant\". No company name.",
+      "5": "The neighbour asked if we were \"the ones from the news\". I said we're a different firm.",
+      "6": "The client met us in reception with a very neutral face.",
+      "7": "I've gone back to saying I work \"in IT\".",
+      "8": "It's hard to sell an agile mindset when you're on the front page."
+    },
+    "suspicious": {
+      "1": "Why do we suddenly have an \"external resource\" in Manila answering my emails?",
+      "2": "Why are there three CVs in the bid from people I've never met?",
+      "3": "Management has started closing the meeting room door. We never do that.",
+      "4": "I was told \"not to mention it\" in the client meeting. Mention what?",
+      "5": "Someone ordered a shredder. A big one.",
+      "6": "There's a new line in the accounts called \"miscellaneous, strategic\".",
+      "7": "Tor from compliance looks more tired than usual.",
+      "8": "How do we know what Accentura is bidding before they do?"
+    },
+    "star_restless": {
+      "1": "{{name}} has updated their LinkedIn profile three times this week.",
+      "2": "{{name}} went to a \"dentist appointment\" in a suit yesterday.",
+      "3": "{{name}} said \"if I'm still here by then\" in the planning meeting.",
+      "4": "{{name}} has started taking personal things home. One a day.",
+      "5": "Headhunters call {{name}} so often it has its own ringtone.",
+      "6": "{{name}} has started talking very warmly about \"new challenges\"."
+    },
+    "underpaid": {
+      "1": "I think I'm underpaid. No, I know I am.",
+      "2": "My mate at Accentura has a car with heated seats. And a salary.",
+      "3": "I bill 1,700 an hour and bring a packed lunch. Something doesn't add up.",
+      "4": "My pay review lasted four minutes. Three of them were about the weather.",
+      "5": "I've seen the job ads. I know what other people earn.",
+      "6": "The fruit bowl is lovely, but it doesn't pay the rent.",
+      "7": "I worked out my hourly wage and got a bit sad.",
+      "8": "Is \"we're like a family\" a form of payment?"
+    },
+    "good_pay": {
+      "1": "The pay is actually pretty decent here.",
+      "2": "I checked the market and came back. It's good here.",
+      "3": "I bought a new bike and didn't even feel guilty.",
+      "4": "The boss gave me a raise before I asked. Is everything all right?",
+      "5": "The headhunter asked what I earn and hung up rather quickly.",
+      "6": "I've stopped opening job ads. That's a good sign."
+    },
+    "no_learning": {
+      "1": "I haven't learned anything new since jQuery.",
+      "2": "Our last learning day was in 2019. It was about learning days.",
+      "3": "I learn more from YouTube comments than from work.",
+      "4": "The course I asked for is \"under consideration\". It has been for a year.",
+      "5": "Our practice group has one member. Me. We rarely meet.",
+      "6": "I've seen the same Kubernetes talk three times. All of them were mine.",
+      "7": "The conference budget covers a coffee at Starbucks, if we share.",
+      "8": "When they say \"learning on the job\", they mean I google things."
+    },
+    "fagdag_good": {
+      "1": "The learning day was actually good. I understood almost everything.",
+      "2": "We had lightning talks today. Mine lasted five minutes and got two questions.",
+      "3": "I'm going to JavaZone and the firm is paying. I've been packing since March.",
+      "4": "The practice group built its own library. People actually use it.",
+      "5": "I learned more in today's code review than on a whole course.",
+      "6": "We have a book club for technical books. We even read them.",
+      "7": "The juniors gave talks, and the seniors took notes.",
+      "8": "The hackathon gave us three prototypes and one the client wants."
+    },
+    "lonely": {
+      "1": "It's quiet in the office. Very quiet.",
+      "2": "I had lunch with myself again. The conversation was poor.",
+      "3": "Friday drinks are cancelled. They were cancelled last week too.",
+      "4": "I don't know the names of half my colleagues.",
+      "5": "I said \"good morning\" in Teams and nobody replied until two.",
+      "6": "The ping-pong table has gathered dust. That's not a metaphor.",
+      "7": "I've started talking to the plants. They're good listeners.",
+      "8": "The Christmas party was replaced by a gift card. Worth 200 kroner."
+    },
+    "great_colleagues": {
+      "1": "I like my colleagues. Is that allowed?",
+      "2": "Someone brought cake today for no reason. That's the best reason.",
+      "3": "We stayed after Friday drinks and solved a problem the client didn't know they had.",
+      "4": "When I'm stuck, someone always has time.",
+      "5": "We have a Slack channel just for pictures of dogs. It's very active.",
+      "6": "Friday's quiz was so close we demanded a rematch.",
+      "7": "I'm actually looking forward to Monday. Don't tell anyone.",
+      "8": "My team celebrated my birthday. I never told anyone when it is."
+    },
+    "rival_sushi": {
+      "1": "Heard {{firm}} has sushi Fridays…",
+      "2": "Apparently {{firm}} gets a cabin in the mountains. A whole cabin.",
+      "3": "My old classmate at {{firm}} gets four learning days a month.",
+      "4": "{{firm}} has its own barista. I have a thermos.",
+      "5": "I saw the Christmas party photos from {{firm}}. They were in Lisbon.",
+      "6": "{{firm}} sends people to conferences in the US. We get a Teams webinar."
+    },
+    "who_are_freelancers": {
+      "1": "Who are all these people without access cards?",
+      "2": "There's a freelancer in the Fjordgløtt meeting room. He's lived there since August.",
+      "3": "I was introduced to \"Erik from the subcontractor\" for the third time.",
+      "4": "The freelancers have their own Slack. Apparently it's much more fun.",
+      "5": "The client thinks he's one of us. We haven't corrected them.",
+      "6": "The freelancer bills more than me and hasn't been to a single learning day."
+    },
+    "startup_vibes": {
+      "1": "It feels a bit like a startup. In a good way, mostly.",
+      "2": "There are so few of us that one pizza is enough. Almost.",
+      "3": "I'm the CTO, the product owner and in charge of the coffee machine.",
+      "4": "Everyone knows everything about everyone. That's both nice and slightly scary.",
+      "5": "The board meeting was held at the kitchen counter. It was efficient.",
+      "6": "We don't have HR yet, so we just talk to each other."
+    },
+    "all_quiet": {
+      "1": "Everything is as it should be. Suspicious.",
+      "2": "Nothing has been on fire for a while. Touch wood.",
+      "3": "It's so calm I've started reading documentation.",
+      "4": "I have nothing to complain about, and it makes me nervous.",
+      "5": "The coffee is hot, the project is on track and nobody has called. What's going on?",
+      "6": "A completely ordinary day. I'll enjoy it before something happens."
+    },
+    "cash_tight": {
+      "1": "Why is lunch suddenly just bread and butter?",
+      "2": "Management talks a lot about \"cost awareness\" these days.",
+      "3": "This year's Christmas present is apparently \"togetherness\".",
+      "4": "I was asked to print on both sides of the paper.",
+      "5": "The accountant doesn't smile in the corridor any more.",
+      "6": "We were told to bill for everything. Including our thoughts."
+    },
+    "crisis_open": {
+      "1": "Every manager has their calendar blocked with \"meeting\". Just \"meeting\".",
+      "2": "I don't know what's going on, but there's a lot of pizza in the boardroom.",
+      "3": "Someone wrote \"DO NOT TALK TO THE PRESS\" on the whiteboard. Then rubbed it out.",
+      "4": "The comms adviser has been here three days in a row.",
+      "5": "We got an email saying \"everything is under control\". We've never had one of those before.",
+      "6": "I've never seen the boss drink this much coffee."
+    },
+    "big_firm": {
+      "1": "I don't know everyone's name any more. I smile and nod.",
+      "2": "We now have a team that makes templates for other templates.",
+      "3": "It takes three approvals to order a new monitor.",
+      "4": "The all-hands has got so big we need a microphone.",
+      "5": "Someone from another team said hello in the lift. Turns out we're on the same project.",
+      "6": "I miss when there were so few of us that everyone fitted round one table."
+    },
+    "listed": {
+      "1": "I check the share price more often than the weather now.",
+      "2": "The quarterly report is the most exciting thing we read all year.",
+      "3": "Management has started saying \"shareholder value\" in perfectly normal sentences.",
+      "4": "My options are worth a holiday in the sun. Or a coffee, depending on the day.",
+      "5": "We were told not to comment on anything before the report. Not even lunch."
+    },
+    "season_q1": {
+      "1": "It's been dark since November. I've forgotten what the sun looks like.",
+      "2": "My New Year's resolution was to write tests. It lasted nine days.",
+      "3": "I came to work on skis today. It wasn't on purpose.",
+      "4": "The budgets are new and the clients are optimistic. That lasts until March.",
+      "5": "Winter break is in two weeks and I've already gone into hibernation.",
+      "6": "Easter is coming, and every client wants everything delivered before it."
+    },
+    "season_q2": {
+      "1": "The light is back, and suddenly everyone is incredibly productive.",
+      "2": "The 17 May parade went right past the office. We waved from the meeting room.",
+      "3": "Someone has put the garden furniture out on the roof terrace. We don't have a roof terrace.",
+      "4": "Everyone wants a kick-off before summer. We have four.",
+      "5": "Pollen season has taken out half the team. Stand-up turned into a sneezing session.",
+      "6": "It's June, and the client wants \"just one small thing\" before the holidays."
+    },
+    "season_q3": {
+      "1": "The summer holidays are over and nobody remembers their passwords.",
+      "2": "Half the client is still at the cabin. We deploy in peace.",
+      "3": "I've been back for two days and have 412 unread emails.",
+      "4": "August is when everyone realises what they promised before the holidays.",
+      "5": "Autumn is here, and there are new budgets to fight over.",
+      "6": "Some people got a tan on holiday. The rest of us got it from coffee."
+    },
+    "season_q4": {
+      "1": "The Christmas party is in three weeks and everyone has already picked an outfit.",
+      "2": "The client wants to spend the budget before New Year. We love December.",
+      "3": "The advent calendar in the kitchen is empty by the fourth.",
+      "4": "Everything has to be done \"before Christmas\". Nobody knows which Christmas.",
+      "5": "It's so dark I've started walking to work with a head torch.",
+      "6": "Someone has been playing Christmas music in the canteen since 1 November."
+    },
+    "everyday": {
+      "1": "Someone took my yoghurt from the fridge. Again.",
+      "2": "The meeting could have been an email. The email could have been nothing.",
+      "3": "I wrote \"just a quick one\" in Slack and spent two hours on it.",
+      "4": "Why are all our meeting rooms named after fjords?",
+      "5": "The printer works, but only if you look at it.",
+      "6": "I have three different time-tracking systems and one life.",
+      "7": "Someone suggested doing stand-up sitting down. We discussed it for an hour.",
+      "8": "The coffee machine has been named Kjell. Kjell has bad days.",
+      "9": "I'm fairly sure \"synergy\" isn't a verb.",
+      "10": "Someone is microwaving fish in the kitchen. We know who.",
+      "11": "I've learned to say \"it depends\" with complete confidence.",
+      "12": "We have a new whiteboard. Nobody dares rub out what's been on it since last week.",
+      "13": "The Wi-Fi password is on a note in reception. That isn't security.",
+      "14": "I tried the new standing desk. Now I stand and sit at the same time.",
+      "15": "The client called it \"a small change\". It has three phases.",
+      "16": "I'm currently an expert in two things: the client's domain and the canteen menu.",
+      "17": "Who decided the Friday pizza should have pineapple? We demand answers.",
+      "18": "I forgot to mute. Now everyone knows what I think of Excel.",
+      "19": "We spent half an hour naming a variable. It's called \"data\".",
+      "20": "Someone set up a channel for \"important announcements\". It's all memes.",
+      "21": "I took a course in prompt engineering. Now I ask nicely for everything.",
+      "22": "The code says \"temporary fix\". The date is 2021.",
+      "23": "My mug from my last firm still raises questions.",
+      "24": "I've decided to learn Vim. I've been in Vim since Tuesday.",
+      "25": "The lift talks. Nobody knows who installed the voice.",
+      "26": "I don't know what a \"north star metric\" is, but we have three.",
+      "27": "The sticky notes from the workshop are still up. They've started to fall.",
+      "28": "I've said \"can you see my screen?\" four times today. Nobody could.",
+      "29": "Someone wrote \"Who took the stapler?\" on the whiteboard. It's a fair question.",
+      "30": "The client wants it \"like Spotify, but for groceries\". We smile.",
+      "31": "I've ordered a new laptop. Apparently it arrives next quarter."
+    }
   },
   "events": {
     "ebike_scheme": {

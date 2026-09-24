@@ -1,10 +1,10 @@
 import { BUZZWORDS } from '../content/buzzwords'
-import { CRISIS_TALK_QUESTIONS, OPPOSITE_TALK_STYLE, TALK_PREFERENCE_WEIGHTS, TALK_STYLES } from '../content/crisisTalks'
+import { CRISIS_TALK_QUESTIONS, OPPOSITE_TALK_STYLE, TALK_STYLES } from '../content/crisisTalks'
 import type { TalkStyle } from '../content/crisisTalks'
 import { CUSTOMERS } from '../content/customers'
 import { MEETING_QUESTIONS, MEETING_STYLES, OPPOSITE_STYLE, QUESTION_SECTOR } from '../content/meetingQuestions'
 import type { MeetingQuestion } from '../content/meetingQuestions'
-import { clamp } from './constants'
+import { TALK_PREFERENCE_WEIGHTS, clamp } from './constants'
 import { createRng, hashString, nextFloat, shuffle } from './rng'
 import type { CrisisMinigame, MeetingStyle, Tender } from './types'
 
