@@ -90,11 +90,26 @@ export function newHireLevel(firm: Firm): number {
   return 2 + firm.fagmiljo / 50
 }
 
-/** New hires ordered last quarter arrive; this quarter's orders are converted into pending hires. */
+/** This quarter's hiring orders are rolled for acceptance and join at the quarter change, ready to bill next quarter. */
 export function processHiring(state: GameState, firm: Firm) {
+  const rate = acceptRate(firm)
+  // Older saves may still hold hires accepted under the previous two-step pipeline.
+  const arriving: Partial<Record<Discipline, number>> = { ...firm.pendingHires }
+  let accepted = 0
+  for (const d of DISCIPLINES) {
+    const ordered = firm.hiringOrders[d] ?? 0
+    if (!ordered) continue
+    const n = binomial(state.rng, ordered, rate)
+    arriving[d] = (arriving[d] ?? 0) + n
+    accepted += n
+  }
+  firm.hiringOrders = {}
+  firm.pendingHires = {}
+  firm.cash -= accepted * HIRE_COST
+
   let arrived = 0
   for (const d of DISCIPLINES) {
-    const n = firm.pendingHires[d] ?? 0
+    const n = arriving[d] ?? 0
     if (!n) continue
     const p = firm.pools[d]
     const level = clamp(newHireLevel(firm) + noise(state.rng, 0.5), 1, 4.5)
@@ -104,20 +119,7 @@ export function processHiring(state: GameState, firm: Firm) {
     p.count = total
     arrived += n
   }
-  firm.pendingHires = {}
   firm.quarterHires += arrived
-
-  const rate = acceptRate(firm)
-  let accepted = 0
-  for (const d of DISCIPLINES) {
-    const ordered = firm.hiringOrders[d] ?? 0
-    if (!ordered) continue
-    const n = binomial(state.rng, ordered, rate)
-    if (n) firm.pendingHires[d] = n
-    accepted += n
-  }
-  firm.hiringOrders = {}
-  firm.cash -= accepted * HIRE_COST
   if (firm.isPlayer && arrived > 0) {
     addNews(state, 'news.staff.arrived', { count: arrived }, 'good', { firmId: firm.id, personal: true })
   }

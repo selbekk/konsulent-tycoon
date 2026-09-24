@@ -85,7 +85,7 @@ export function TenderBoard() {
         return (
           <p className={s.small}>
             <strong>{t('capacity.next')}:</strong>{' '}
-            {t('tenders.capacityLine', { free: cap.next.offered + cap.next.idle, offered: cap.next.offered, idle: cap.next.idle, seats: cap.next.seatsInBids })}
+            {t('tenders.capacityLine', { free: cap.next.offered + cap.next.idle, offered: cap.next.offered, idle: cap.next.idle, seats: cap.next.seatsInBids, later: cap.next.laterSeatsInBids })}
           </p>
         )
       })()}

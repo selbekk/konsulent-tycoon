@@ -196,6 +196,9 @@ Grundigere beskrivelse og tall står i `docs/plans/` (§1). `constants.ts` er fa
 - **Anbud:** Score = `prisvekt × prisscore + kvalitetsvekt × kvalitet + 0,1 × relasjon + prioritetsbonus + støy`.
   - Kvaliteten avhenger av CV-nivå, fagmiljø, minispill, innsats, omdømme og stjernenes traits.
   - Kapasitetsstraffen gjelder når du ikke har nok **ledige** folk ved oppstart.
+  - Bud under `MIN_AWARD_QUALITY` i kvalitet avvises, også når ingen andre byr. Ellers kunne gratis bud på alt, bemannet med frilansere, vinne alle anbud uten konkurranse.
+  - En stjerne kan stå på ett åpent bud om gangen, og bare hvis kontrakten stjernen sitter på er ferdig når den nye starter (`starBusyThrough`). Å flytte en stjerne midt i en kontrakt går bare via bakrommet (`bait_and_switch`).
+- **Ansettelser:** De som takker ja til kvartalets bestillinger, begynner ved kvartalsskiftet og fakturerer fra neste kvartal.
 - **Etterspørsel:** Markedet etterspør `startkapasitet × 0,85 × 1,05^år × trend` seter. Etterspørselen følger bevisst **ikke** kapasiteten nedover. Da ville markedet havnet i en dødsspiral (se `docs/balance-log.md`).
 - **Bakrommet (`shady.ts`):**
   - Hver handling har kostnad, heat og en grunnsannsynlighet for å bli oppdaget. Heat øker sannsynligheten.

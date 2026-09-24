@@ -32,12 +32,20 @@ describe('staff', () => {
   it('hires arrive the quarter after ordering', () => {
     let s = newTestGame()
     s = applyAction(s, { type: 'orderHires', firmId: 'player', discipline: 'data', count: 10 }).state
-    s = endTurn(s)
     expect(s.firms.player.pools.data.count).toBe(0)
-    const pending = s.firms.player.pendingHires.data ?? 0
-    expect(pending).toBeGreaterThan(0)
     s = endTurn(s)
-    expect(s.firms.player.pools.data.count).toBeGreaterThanOrEqual(pending - 1)
+    expect(s.firms.player.pools.data.count).toBeGreaterThan(0)
+    expect(s.firms.player.hiringOrders).toEqual({})
+    expect(s.firms.player.pendingHires).toEqual({})
+    expect(s.firms.player.history.at(-1)!.hires).toBe(s.firms.player.pools.data.count)
+  })
+
+  it('hires still pending from an older save arrive at the next quarter change', () => {
+    let s = newTestGame()
+    s.firms.player.pendingHires = { data: 3 }
+    s = endTurn(s)
+    expect(s.firms.player.pools.data.count).toBe(3)
+    expect(s.firms.player.pendingHires).toEqual({})
   })
 })
 

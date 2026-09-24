@@ -65,6 +65,8 @@ export const RELATION_LOSS = -2
 export const BID_NOISE = 5
 /** Max quality penalty when none of the offered seats can be staffed with free people. */
 export const CAPACITY_PENALTY = 30
+/** Customers turn down bids below this quality, even when it is the only bid. Stops free copy-paste bids on everything. */
+export const MIN_AWARD_QUALITY = 35
 export const PRIORITY_BONUS = 8
 export const AI_MAX_OPEN_BIDS = 8
 /** Happy clients often extend instead of re-tendering. */

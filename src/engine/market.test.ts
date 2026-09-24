@@ -55,6 +55,21 @@ describe('market mechanics', () => {
     expect(unhappy.contracts[0]?.endQuarter ?? 3).toBe(3)
   })
 
+  it('a renewed contract lets go of a star who has moved to a newly won contract', () => {
+    const s = newTestGame()
+    const star = s.firms.player.stars[0]
+    s.contracts = [contract({ satisfaction: 100, endQuarter: 3, starIds: [star.id] }), contract({ id: 'cy', starIds: [star.id], startQuarter: 3, endQuarter: 6 })]
+    star.assignedContractId = 'cy'
+    let renewed: Contract | undefined
+    for (let i = 0; i < 10 && !renewed; i++) {
+      const d = structuredClone(s)
+      d.rng.s = i
+      expireContracts(d, 3)
+      if (d.contracts[0].endQuarter > 3) renewed = d.contracts[0]
+    }
+    expect(renewed?.starIds).toEqual([])
+  })
+
   it('a bankrupt firm’s live contracts go back out to tender', () => {
     const s = isolated()
     const before = s.tenders.length

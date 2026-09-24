@@ -12,6 +12,7 @@ import {
   PRIORITY_BONUS,
   EFFORT_COST,
   FRAMEWORK_SHARES,
+  MIN_AWARD_QUALITY,
   RATE_MAX,
   RATE_MIN,
   RELATION_LOSS,
@@ -248,12 +249,12 @@ export function priorityBonus(state: GameState, bid: Bid, tender: Tender): numbe
   return share >= 0.25 ? PRIORITY_BONUS : share >= 0.1 ? PRIORITY_BONUS / 2 : 0
 }
 
-/** Pure, noise-free score. */
-export function bidScoreEstimate(state: GameState, bid: Bid, tender: Tender, lowestRate: number): number {
+/** Pure, noise-free score. Pass `quality` when it is already known, to skip a staffing pass. */
+export function bidScoreEstimate(state: GameState, bid: Bid, tender: Tender, lowestRate: number, quality = bidQuality(state, bid, tender)): number {
   const price = (lowestRate / bid.rateMultiplier) * 100
   return (
     tender.priceWeight * price +
-    tender.qualityWeight * bidQuality(state, bid, tender) +
+    tender.qualityWeight * quality +
     0.1 * relationship(state, tender.customerId, bid.firmId) +
     priorityBonus(state, bid, tender)
   )
@@ -268,14 +269,24 @@ export function resolveDueTenders(state: GameState) {
   for (const tender of state.tenders) {
     if (tender.resolved || tender.dueQuarter !== state.quarter) continue
     tender.resolved = true
-    const bids = tender.bids.filter((b) => state.firms[b.firmId] && !state.firms[b.firmId].bankrupt)
-    if (!bids.length) {
+    const valid = tender.bids.filter((b) => state.firms[b.firmId] && !state.firms[b.firmId].bankrupt)
+    if (!valid.length) {
       if (!tender.hidden) addNews(state, 'news.tender.noBids', { customer: tender.customerId }, 'neutral')
+      continue
+    }
+    const quality = new Map(valid.map((b) => [b, bidQuality(state, b, tender)]))
+    const bids = valid.filter((b) => quality.get(b)! >= MIN_AWARD_QUALITY)
+    const playerRejected = valid.some((b) => b.firmId === state.playerId) && !bids.some((b) => b.firmId === state.playerId)
+    if (playerRejected) {
+      addNews(state, 'news.tender.playerRejected', { customer: tender.customerId }, 'bad', { firmId: state.playerId, personal: true })
+    }
+    if (!bids.length) {
+      if (!tender.hidden && !playerRejected) addNews(state, 'news.tender.noneGoodEnough', { customer: tender.customerId }, 'neutral')
       continue
     }
     const lowest = Math.min(...bids.map((b) => b.rateMultiplier))
     const scored = bids
-      .map((bid) => ({ bid, score: bidScoreEstimate(state, bid, tender, lowest) + noise(state.rng, BID_NOISE) }))
+      .map((bid) => ({ bid, score: bidScoreEstimate(state, bid, tender, lowest, quality.get(bid)) + noise(state.rng, BID_NOISE) }))
       .sort((a, b) => b.score - a.score)
     const winners = tender.kind === 'framework' ? scored.slice(0, FRAMEWORK_SHARES.length) : scored.slice(0, 1)
     const customer = state.customers[tender.customerId]
@@ -308,7 +319,7 @@ export function resolveDueTenders(state: GameState) {
         'good',
         { firmId: state.playerId, personal: true },
       )
-    } else if (playerBid) {
+    } else if (playerBid && !playerRejected) {
       addNews(state, 'news.tender.playerLost', { customer: tender.customerId, firm: top.name }, 'bad', {
         personal: true,
       })

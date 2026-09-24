@@ -135,7 +135,7 @@ export function StaffScreen() {
                         onChange={(v) => dispatch({ type: 'orderHires', firmId: me.id, discipline: d, count: v })}
                       />
                     </td>
-                    <td className={s.num}>{me.pendingHires[d] ?? '–'}</td>
+                    <td className={s.num}>{me.hiringOrders[d] ? `≈${formatNumber((me.hiringOrders[d] ?? 0) * rate, lng, 1)}` : '–'}</td>
                     <td>
                       <Button
                         size="small"

@@ -1,6 +1,7 @@
 import { creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from '../economy'
 import { PARTNERSHIPS } from '../../content/strategy'
 import { acquisitionBlock, acquisitionPrice } from '../acquisitions'
+import { starBusyThrough } from '../contracts'
 import { hasFeature, tenderLock } from '../levels'
 import { lobbyReadyIn } from '../strategy'
 import { planContractMoves } from './contractMoves'
@@ -48,6 +49,9 @@ export function planHumanProxy(
     for (const d of DISCIPLINES) free[d] -= t.seats[d] ?? 0
   }
 
+  // A star can only be on one open bid; a rejected placeBid would silently drop the whole bid.
+  const promised = new Set(open.flatMap((t) => t.bids.filter((b) => b.firmId === firmId).flatMap((b) => b.starIds)))
+
   const candidates = open
     .filter((t) => !t.bids.some((b) => b.firmId === firmId) && !tenderLock(firm, t))
     .map((t) => {
@@ -61,7 +65,10 @@ export function planHumanProxy(
     .slice(0, Math.max(3, Math.round(hc / 4)))
 
   for (const { t } of candidates) {
-    const stars = firm.stars.filter((s) => (t.seats[s.discipline] ?? 0) > 0).slice(0, 2)
+    const stars = firm.stars
+      .filter((s) => !promised.has(s.id) && (t.seats[s.discipline] ?? 0) > 0 && starBusyThrough(state, firm, s.id, t) === undefined)
+      .slice(0, 2)
+    stars.forEach((s) => promised.add(s.id))
     actions.push({
       type: 'recordMinigame',
       firmId,

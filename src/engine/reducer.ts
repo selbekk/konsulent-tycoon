@@ -11,6 +11,7 @@ import {
 import { spendable } from './economy'
 import { handleAcquire } from './acquisitions'
 import { handleCancel, handleNurture, handleRenegotiate, handleUpsell } from './contractActions'
+import { starBusyThrough } from './contracts'
 import { handleResolveEvent } from './events'
 import { hasFeature, tenderLock } from './levels'
 import { handleShady } from './shady'
@@ -111,6 +112,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
         (t) => t.id !== tender.id && !t.resolved && t.bids.some((b) => b.firmId === firm.id && b.starIds.includes(id)),
       )
       if (promised) return 'errors.starPromised'
+      if (starBusyThrough(state, firm, id, tender) !== undefined) return 'errors.starBusy'
     }
     const existing = tender.bids.find((b) => b.firmId === firm.id)
     const cost = Math.max(0, effortCost(effort) - (existing ? effortCost(existing.effort) : 0))

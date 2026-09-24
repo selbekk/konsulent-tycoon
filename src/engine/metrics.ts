@@ -25,8 +25,10 @@ export interface Capacity {
     offered: number
     /** Free next quarter with no bid out. */
     idle: number
-    /** Seats in open bids (can exceed free people). */
+    /** Seats in open bids decided this quarter, i.e. starting next quarter (can exceed free people). */
     seatsInBids: number
+    /** Seats in open bids decided next quarter, starting the quarter after. Not counted against next quarter. */
+    laterSeatsInBids: number
   }
 }
 
@@ -35,9 +37,11 @@ export function capacity(state: GameState, firmId: string): Capacity {
   const hc = headcount(firm)
   const now = staffFirm(state, firm)
   const next = staffFirm(state, firm, state.quarter + 1)
-  const seatsInBids = state.tenders
-    .filter((t) => !t.resolved && t.bids.some((b) => b.firmId === firmId))
-    .reduce((s, t) => s + seatTotal(t.seats), 0)
+  const bidOn = state.tenders.filter((t) => !t.resolved && t.bids.some((b) => b.firmId === firmId))
+  const seatsIn = (ts: typeof bidOn) => ts.reduce((s, t) => s + seatTotal(t.seats), 0)
+  // A tender decided at the end of this quarter starts next quarter; later ones don't take next quarter's people.
+  const seatsInBids = seatsIn(bidOn.filter((t) => t.dueQuarter === state.quarter))
+  const laterSeatsInBids = seatsIn(bidOn.filter((t) => t.dueQuarter > state.quarter))
   const committed = Math.min(hc, next.billed)
   const free = Math.max(0, hc - committed)
   const offered = Math.min(free, seatsInBids)
@@ -45,7 +49,7 @@ export function capacity(state: GameState, firmId: string): Capacity {
     headcount: hc,
     billing: now.billed,
     bench: Math.max(0, hc - now.billed),
-    next: { committed, offered, idle: free - offered, seatsInBids },
+    next: { committed, offered, idle: free - offered, seatsInBids, laterSeatsInBids },
   }
 }
 

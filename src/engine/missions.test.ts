@@ -6,7 +6,7 @@ import { resolveDueTenders } from './tenders'
 import { newTestGame } from './testUtils'
 import type { Bid } from './types'
 
-const bid: Bid = { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false }
+const bid: Bid = { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 3, cvPad: false, ghostCv: false }
 
 describe('missions', () => {
   it('shows only the missions up to the firm level', () => {
@@ -33,6 +33,7 @@ describe('missions', () => {
     const s = newTestGame()
     const t = s.tenders.find((x) => !x.resolved && !x.hidden)!
     Object.assign(t, { kind: 'framework', seats: { backend: 16 }, bids: [bid], dueQuarter: s.quarter, customerId: 'navet' })
+    s.firms.player.fagmiljo = 100
     resolveDueTenders(s)
     expect(s.firms.player.stats).toMatchObject({ frameworkWins: 1, biggestWin: 16, publicWins: 1 })
   })

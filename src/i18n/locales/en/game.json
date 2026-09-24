@@ -10,6 +10,7 @@
     "alreadyDone": "You've already done that.",
     "gameOver": "The game is over.",
     "starPromised": "That consultant is already promised in another bid.",
+    "starBusy": "That consultant is still on another contract when this one starts.",
     "minigameAlreadyPlayed": "You've already had the meeting for this tender.",
     "levelTooLow": "Your firm isn't big enough for that yet.",
     "tenderTooBig": "That tender is too big for a firm your size.",
@@ -33,6 +34,8 @@
     },
     "tender": {
       "noBids": "Nobody bid on the tender from {{customer}}. Procurement is taking a long lunch.",
+      "noneGoodEnough": "{{customer}} turned down every bid on its tender. None were good enough.",
+      "playerRejected": "{{customer}} turned down your bid. The quality wasn't there, however nice the cover page.",
       "playerWon": "You won the tender at {{customer}}! {{bidders}} firms bid.",
       "playerWonFramework": "You were ranked #{{rank}} on the framework agreement at {{customer}}.",
       "playerLost": "You lost the tender at {{customer}}. {{firm}} walked away with it.",

@@ -31,11 +31,26 @@ export function createContract(state: GameState, tender: Tender, bid: Bid, share
   for (const id of bid.starIds) {
     const star = firm.stars.find((s) => s.id === id)
     if (!star) continue
+    // A star only moves once their old contract has run out, but keep references tidy either way.
+    const old = state.contracts.find((c) => c.id === star.assignedContractId)
+    if (old) old.starIds = old.starIds.filter((x) => x !== id)
     star.assignedContractId = contract.id
     contract.starIds.push(id)
   }
   state.contracts.push(contract)
   return contract
+}
+
+/**
+ * Last quarter a star is tied up on a running contract that overlaps a contract won from `tender`
+ * (which would start the quarter after it is decided), or undefined if the star is free by then.
+ * Pure – safe to call from the UI.
+ */
+export function starBusyThrough(state: GameState, firm: Firm, starId: string, tender: Tender): number | undefined {
+  const contractId = firm.stars.find((s) => s.id === starId)?.assignedContractId
+  const c = contractId ? state.contracts.find((x) => x.id === contractId) : undefined
+  if (!c || c.terminated || c.endQuarter <= tender.dueQuarter + 1) return undefined
+  return c.endQuarter - 1
 }
 
 export function callOffSeats(base: Seats, share: number, factor: number): Seats {
@@ -114,6 +129,8 @@ export function expireContracts(state: GameState, quarter: number) {
     ) {
       const extra = nextInt(state.rng, 2, 4)
       c.endQuarter += extra
+      // Stars who just moved on to a newly won contract stay there.
+      c.starIds = c.starIds.filter((id) => firm.stars.some((s) => s.id === id && s.assignedContractId === c.id))
       if (c.firmId === state.playerId) {
         addNews(state, 'news.contract.renewed', { customer: c.customerId, count: extra }, 'good', { personal: true })
       }

@@ -10,6 +10,7 @@
     "alreadyDone": "Det har du allerede gjort.",
     "gameOver": "Spillet er over.",
     "starPromised": "Den konsulenten er allerede lovet bort i et annet bud.",
+    "starBusy": "Den konsulenten sitter fortsatt på en kontrakt når dette oppdraget starter.",
     "minigameAlreadyPlayed": "Du har allerede hatt møtet for dette anbudet.",
     "levelTooLow": "Firmaet er ikke stort nok til det ennå.",
     "tenderTooBig": "Anbudet er for stort for et firma på deres nivå.",
@@ -33,6 +34,8 @@
     },
     "tender": {
       "noBids": "Ingen leverte bud på anbudet fra {{customer}}. Innkjøpsavdelingen tar en lang lunsj.",
+      "noneGoodEnough": "{{customer}} avviste alle budene på anbudet sitt. Ingen var gode nok.",
+      "playerRejected": "{{customer}} avviste budet deres. Kvaliteten holdt ikke, uansett hvor fin forsiden var.",
       "playerWon": "Dere vant anbudet hos {{customer}}! {{bidders}} leverte bud.",
       "playerWonFramework": "Dere ble rangert som nr. {{rank}} på rammeavtalen hos {{customer}}.",
       "playerLost": "Dere tapte anbudet hos {{customer}}. {{firm}} stakk av med det.",

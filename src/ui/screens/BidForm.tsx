@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import {
   BILLABLE_HOURS,
   DISCIPLINES,
+  MIN_AWARD_QUALITY,
   RATE_MAX,
   RATE_MIN,
   bidQuality,
@@ -15,11 +16,12 @@ import {
   marketLowestGuess,
   seatTotal,
   spendable,
+  starBusyThrough,
 } from '../../engine'
 import type { Bid } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Hint, Modal, Slider } from '../components/ui'
-import { formatMoney } from '../format'
+import { formatMoney, formatQuarter } from '../format'
 import { playSound } from '../sound'
 import s from './screens.module.css'
 import { SeatBadges, WeightBar } from './TenderBoard'
@@ -56,7 +58,8 @@ export function BidForm({ tenderId }: { tenderId: string }) {
   const draft: Bid = { firmId: me.id, rateMultiplier: rate, starIds, effort, cvPad: existing?.cvPad ?? false, ghostCv: existing?.ghostCv ?? false }
   const quality = bidQuality(game, draft, tender)
   const score = bidScoreEstimate(game, draft, tender, Math.min(rate, marketLowestGuess(tender)))
-  const chance = score >= 78 ? 'high' : score >= 66 ? 'medium' : 'low'
+  const tooWeak = quality < MIN_AWARD_QUALITY
+  const chance = tooWeak ? 'low' : score >= 78 ? 'high' : score >= 66 ? 'medium' : 'low'
   const revenue = DISCIPLINES.reduce(
     (sum, d) => sum + (tender.seats[d] ?? 0) * BILLABLE_HOURS * listRate(disciplineLevel(me, d)) * rate,
     0,
@@ -137,7 +140,10 @@ export function BidForm({ tenderId }: { tenderId: string }) {
             <span className={s.fieldLabel}>{t('bid.stars')}</span>
             {me.stars.length === 0 && <Hint>{t('bid.noStars')}</Hint>}
             {me.stars.map((star) => {
-              const busy = promisedElsewhere.has(star.id)
+              const promised = promisedElsewhere.has(star.id)
+              const busyThrough = starBusyThrough(game, me, star.id, tender)
+              // An already placed bid keeps its star so the player can still untick them.
+              const busy = !starIds.includes(star.id) && (promised || busyThrough !== undefined)
               const relevant = (tender.seats[star.discipline] ?? 0) > 0
               return (
                 <label key={star.id} className={s.checkRow} style={{ opacity: busy ? 0.5 : 1 }}>
@@ -150,7 +156,10 @@ export function BidForm({ tenderId }: { tenderId: string }) {
                   <span>
                     {star.name} · {t(`disciplines.${star.discipline}`)} {'★'.repeat(star.level)}
                     {!relevant && <span className={s.muted}> ({t('bid.notRelevant')})</span>}
-                    {busy && <span className={s.muted}> ({t('bid.promised')})</span>}
+                    {promised && <span className={s.muted}> ({t('bid.promised')})</span>}
+                    {!promised && busyThrough !== undefined && (
+                      <span className={s.muted}> ({t('bid.busyThrough', { quarter: formatQuarter(busyThrough) })})</span>
+                    )}
                   </span>
                 </label>
               )
@@ -190,6 +199,7 @@ export function BidForm({ tenderId }: { tenderId: string }) {
               <span>{t('bid.chance')}</span>
               <Badge tone={chance === 'high' ? 'good' : chance === 'medium' ? 'warn' : 'bad'}>{t(`bid.chances.${chance}`)}</Badge>
             </div>
+            {tooWeak && <p className={s.bad}>{t('bid.belowMinimum', { min: MIN_AWARD_QUALITY })}</p>}
             {(existing?.cvPad || existing?.ghostCv) && <Badge tone="bad">{t('bid.fraudActive')}</Badge>}
             <Hint>{t('bid.estimateHint')}</Hint>
           </div>

@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { LEVELS, MAX_LEVEL, OFFICE_MOVE_BRAND, OFFICE_MOVE_SOSIALT } from './constants'
+import { LEVELS, MAX_LEVEL, MIN_AWARD_QUALITY, OFFICE_MOVE_BRAND, OFFICE_MOVE_SOSIALT } from './constants'
 import { earnedLevel, firmLevel, hasFeature, levelStats, maxTenderSeats, tenderLevel, tenderLock, unlocksAt, updateLevels } from './levels'
 import { applyAction } from './reducer'
 import { SHADY_LEVELS } from './shady'
 import { deepFreeze, newTestGame } from './testUtils'
 import { quarterTodos } from './todos'
-import { resolveDueTenders } from './tenders'
+import { bidQuality, resolveDueTenders } from './tenders'
 import type { Bid, GameState, Tender } from './types'
 
 const bid = (overrides: Partial<Bid> = {}): Bid => ({
@@ -115,9 +115,23 @@ describe('firm levels', () => {
     const s = newTestGame()
     const t = open(s).find((x) => !tenderLock(s.firms.player, x))!
     t.bids = [bid()]
+    t.seats = { backend: 1 }
     t.dueQuarter = s.quarter
     resolveDueTenders(s)
     expect(s.firms.player.tendersWon).toBe(1)
+  })
+
+  it('customers turn down a lone bid below the minimum quality', () => {
+    const s = newTestGame()
+    const t = open(s).find((x) => !tenderLock(s.firms.player, x))!
+    t.bids = [bid()]
+    t.dueQuarter = s.quarter
+    s.firms.player.fagmiljo = 0
+    s.firms.player.reputation = 0
+    expect(bidQuality(s, t.bids[0], t)).toBeLessThan(MIN_AWARD_QUALITY)
+    resolveDueTenders(s)
+    expect(s.firms.player.tendersWon ?? 0).toBe(0)
+    expect(s.news.some((n) => n.key === 'news.tender.playerRejected')).toBe(true)
   })
 
   it('does not ask for bids on tenders the firm is too small for', () => {

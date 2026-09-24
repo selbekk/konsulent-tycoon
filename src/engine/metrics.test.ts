@@ -37,6 +37,7 @@ describe('metrics', () => {
     let s = isolated()
     s.contracts.push(contract(2, { endQuarter: 1 })) // ends after this quarter
     const t = s.tenders.find((x) => !x.resolved)!
+    t.dueQuarter = s.quarter // decided this quarter, so it starts next quarter
     const seats = Object.values(t.seats).reduce((a, b) => a + (b ?? 0), 0)
     s = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false } }).state
     const c = capacity(s, 'player')
@@ -44,6 +45,17 @@ describe('metrics', () => {
     expect(c.next.committed).toBe(0)
     expect(c.next.offered).toBe(Math.min(5, seats))
     expect(c.next.offered + c.next.idle + c.next.committed).toBe(5)
+    expect(c.next.laterSeatsInBids).toBe(0)
+  })
+
+  it('bids starting in two quarters do not take next quarter’s free people', () => {
+    let s = isolated()
+    const t = s.tenders.find((x) => !x.resolved)!
+    t.dueQuarter = s.quarter + 1
+    const seats = Object.values(t.seats).reduce((a, b) => a + (b ?? 0), 0)
+    s = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false } }).state
+    const c = capacity(s, 'player')
+    expect(c.next).toMatchObject({ offered: 0, idle: 5, seatsInBids: 0, laterSeatsInBids: seats })
   })
 
   it('retention and growth need history', () => {

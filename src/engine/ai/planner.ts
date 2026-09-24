@@ -1,6 +1,7 @@
 import { EVENT_MAP } from '../../content/events'
 import { AI_MAX_OPEN_BIDS } from '../constants'
 import { creditLimit, disciplineSupply, headcount, quarterFinancials, spendable, staffFirm } from '../economy'
+import { starBusyThrough } from '../contracts'
 import { canChoose } from '../events'
 import { chance, noise, nextFloat, pick, weightedPick } from '../rng'
 import { hasFeature, tenderLock } from '../levels'
@@ -116,7 +117,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     const priceBias = p.priceBias + hungry + (t.priceWeight > 0.6 ? -0.05 : 0)
     const rateMultiplier = Math.round((priceBias + noise(state.rng, 0.06)) * 100) / 100
     const stars = firm.stars
-      .filter((s) => !promised.has(s.id) && (t.seats[s.discipline] ?? 0) > 0)
+      .filter((s) => !promised.has(s.id) && (t.seats[s.discipline] ?? 0) > 0 && starBusyThrough(state, firm, s.id, t) === undefined)
       .sort((a, b) => b.level - a.level)
       .slice(0, 2)
     stars.forEach((s) => promised.add(s.id))

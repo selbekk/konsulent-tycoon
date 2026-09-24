@@ -166,6 +166,7 @@ export function CapacityChart({ cap }: { cap: Capacity }) {
           <span className={`${s.swatch} ${s.seg2}`} /> {t('capacity.inBids')} <strong className="num">{cap.next.offered}</strong>
           {cap.next.seatsInBids > cap.next.offered && <span className={s.muted}> {t('capacity.seatsInBids', { count: cap.next.seatsInBids })}</span>}
         </li>
+        {cap.next.laterSeatsInBids > 0 && <li className={s.muted}>{t('capacity.laterSeatsInBids', { count: cap.next.laterSeatsInBids })}</li>}
       </ul>
     </div>
   )

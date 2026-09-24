@@ -180,7 +180,7 @@
     "morale": "Trivsel",
     "demandNext": "Behov neste kv.",
     "recruit": "Rekrutter",
-    "incoming": "På vei inn",
+    "incoming": "Kommer neste kvartal",
     "fire": "Si opp én",
     "fireHint": "Sluttpakke: {{cost}}. Alle andre blir litt mindre glade.",
     "recruitInfo": "Omtrent {{rate}} takker ja. Forventet: {{expected}} nye neste kvartal. Rekrutteringskostnad: {{cost}} per ansatt.",
@@ -267,7 +267,7 @@
     "edit": "Endre",
     "bid": "Lever bud",
     "small": "Småoppdrag",
-    "capacityLine": "{{free}} ledige, {{offered}} av dem tilbudt i bud og {{idle}} uten bud. Seter i åpne bud: {{seats}}."
+    "capacityLine": "{{free}} ledige, {{offered}} av dem tilbudt i bud og {{idle}} uten bud. Seter i bud som starter neste kvartal: {{seats}}. Seter i bud som starter senere: {{later}}."
   },
   "bid": {
     "title": "Tilbud til {{customer}}",
@@ -289,6 +289,7 @@
     "noStars": "Du har ingen stjerner å tilby ennå.",
     "notRelevant": "ikke relevant fagområde",
     "promised": "lovet i et annet bud",
+    "busyThrough": "på kontrakt til og med {{quarter}}",
     "pitch": "Kundemøte",
     "pitchHint": "Ett forsøk per anbud. Velg møte eller bingo.",
     "pitchDone": "Kunden ga {{score}} av 100.",
@@ -302,6 +303,7 @@
     },
     "fraudActive": "Kreative CV-er",
     "estimateHint": "Anslaget er grovt. Konkurrentene og kundens humør kan overraske.",
+    "belowMinimum": "Kunden avviser bud under {{min}} i kvalitet, også når ingen andre byr.",
     "seatsTotal_one": "{{count}} sete totalt.",
     "seatsTotal_other": "{{count}} seter totalt.",
     "submit": "Lever bud",
@@ -498,7 +500,9 @@
     "inBids": "Tilbudt i åpne bud",
     "seatsInBids_one": "({{count}} sete i bud)",
     "seatsInBids_other": "({{count}} seter i bud)",
-    "explain": "{{count}} ansatte totalt. «Neste kvartal» viser hvem som allerede er opptatt, og hvor mange av de ledige du har tilbudt i bud. Tallene står som «nå → neste kvartal»."
+    "laterSeatsInBids_one": "Pluss {{count}} sete i bud som starter om to kvartaler",
+    "laterSeatsInBids_other": "Pluss {{count}} seter i bud som starter om to kvartaler",
+    "explain": "{{count}} ansatte totalt. «Neste kvartal» viser hvem som allerede er opptatt, og hvor mange av de ledige du har tilbudt i bud som avgjøres dette kvartalet. Tallene står som «nå → neste kvartal»."
   },
   "todo": {
     "title": "Å gjøre dette kvartalet",

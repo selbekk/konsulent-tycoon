@@ -180,7 +180,7 @@
     "morale": "Morale",
     "demandNext": "Needed next q.",
     "recruit": "Recruit",
-    "incoming": "Incoming",
+    "incoming": "Arriving next quarter",
     "fire": "Let one go",
     "fireHint": "Severance: {{cost}}. Everyone else gets a bit less happy.",
     "recruitInfo": "About {{rate}} accept. Expected: {{expected}} new next quarter. Recruiting cost: {{cost}} per hire.",
@@ -267,7 +267,7 @@
     "edit": "Edit",
     "bid": "Place bid",
     "small": "Small gig",
-    "capacityLine": "{{free}} free, {{offered}} of them offered in bids and {{idle}} with no bid. Seats in open bids: {{seats}}."
+    "capacityLine": "{{free}} free, {{offered}} of them offered in bids and {{idle}} with no bid. Seats in bids starting next quarter: {{seats}}. Starting later: {{later}}."
   },
   "bid": {
     "title": "Offer to {{customer}}",
@@ -289,6 +289,7 @@
     "noStars": "You have no stars to offer yet.",
     "notRelevant": "not a relevant discipline",
     "promised": "promised in another bid",
+    "busyThrough": "on a contract through {{quarter}}",
     "pitch": "Client meeting",
     "pitchHint": "One attempt per tender. Choose a meeting or bingo.",
     "pitchDone": "The client gave you {{score}} out of 100.",
@@ -302,6 +303,7 @@
     },
     "fraudActive": "Creative CVs",
     "estimateHint": "A rough estimate. Competitors and the client's mood can surprise you.",
+    "belowMinimum": "The client turns down bids below {{min}} in quality, even when nobody else bids.",
     "seatsTotal_one": "{{count}} seat in total.",
     "seatsTotal_other": "{{count}} seats in total.",
     "submit": "Place bid",
@@ -498,7 +500,9 @@
     "inBids": "Offered in open bids",
     "seatsInBids_one": "({{count}} seat in bids)",
     "seatsInBids_other": "({{count}} seats in bids)",
-    "explain": "{{count}} people in total. “Next quarter” shows who is already committed and how many of the free people you have offered in bids. Numbers read “now → next quarter”."
+    "laterSeatsInBids_one": "Plus {{count}} seat in bids starting in two quarters",
+    "laterSeatsInBids_other": "Plus {{count}} seats in bids starting in two quarters",
+    "explain": "{{count}} people in total. “Next quarter” shows who is already committed and how many of the free people you have offered in bids decided this quarter. Numbers read “now → next quarter”."
   },
   "todo": {
     "title": "This quarter's to-dos",

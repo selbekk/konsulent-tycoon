@@ -31,7 +31,9 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const matters = (quarter: number) => quarter < state.maxQuarters
 
   // Idle people next quarter and a tender in a discipline the firm actually has people in.
-  const idle = capacity(state, firmId).next.idle
+  // Bids decided next quarter start later, but they still answer "put the idle people to work".
+  const cap = capacity(state, firmId).next
+  const idle = Math.max(0, cap.idle - cap.laterSeatsInBids)
   const threshold = Math.max(TODO_IDLE_MIN, Math.round(headcount(firm) * TODO_IDLE_SHARE))
   const fits = open.some(
     (t) => !mine.includes(t) && !tenderLock(firm, t) && DISCIPLINES.some((d) => (t.seats[d] ?? 0) > 0 && disciplineSupply(firm, d) > 0),
@@ -46,9 +48,12 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
     todos.push({ id: 'pitch', done: missing === 0, params: { count: missing } })
   }
 
-  // Signed work in two quarters (when hires ordered now arrive) that the team can't cover.
+  // Signed work over the next two quarters that the team can't cover. Hires ordered now arrive next quarter.
   const runway = (firm.cash + creditLimit(firm) * 0.5) / Math.max(1, quarterFinancials(state, firmId).total)
-  const demand = seatTotal(staffFirm(state, firm, state.quarter + 2).demand)
+  const demand = Math.max(
+    seatTotal(staffFirm(state, firm, state.quarter + 1).demand),
+    seatTotal(staffFirm(state, firm, state.quarter + 2).demand),
+  )
   const needed = demand - headcount(firm) - seatTotal(firm.pendingHires)
   if (needed >= 1 && runway > TODO_HIRE_MIN_RUNWAY && matters(state.quarter + 2)) {
     const ordered = seatTotal(firm.hiringOrders)

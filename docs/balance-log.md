@@ -127,3 +127,26 @@ Funn:
 - Fra og med denne oppføringen bruker `human` og `humanPro` kontrakthandlingene. Tallene deres kan derfor ikke sammenlignes direkte med tidligere oppføringer.
 - AI-markedet er friskt, med etterspørsel mot kapasitet som før (0,70–0,98).
 - Åpent spørsmål: en spiller som bruker alt (`humanStrategic`), klatrer enda mer (median plass 8 → 6). Naturlige knotter hvis det blir for mye: `RENEGOTIATE_RATE_GAIN`, `UPSELL_COOLDOWN` og `UPSELL_BASE`.
+
+## Bugjakt: rekruttering, stjerner, kapasitet og anbudsspam (2026-09-24)
+
+En tester fant fire ting: nyansatte kom ett kvartal senere enn teksten lovet, samme stjerne kunne loves bort i overlappende kontrakter, kapasitetsoversikten trakk bud som starter om to kvartaler fra neste kvartal, og gratis bud til makspris på alle anbud, bemannet med frilansere, ga plass 2 med to ansatte. Alle tall er fra 150 partier med `--seed 1000` (spam: 60 partier). Markedet er målt med `sim:market 60`.
+
+**Viktig: `humanProxy` hadde en feil som gjør tidligere `human*`-tall for lave.** Boten satte de samme stjernene på alle budene sine. Reduceren avviser bud nummer to med `errors.starPromised`, og AI-avvisninger er stille, så de fleste budene forsvant. Uten stjerner på CV-ene vant boten 329 anbud de første 12 kvartalene i 30 partier, med stjerner 211. Boten sporer nå lovede stjerner slik AI-planleggeren gjør. Tallene under kan derfor ikke sammenlignes med tidligere oppføringer.
+
+| Kjøring | human konkurs / verdi / plass | humanPro konkurs / verdi / plass | humanStrategic verdi / plass | spam verdi / plass | AI-konkurser/parti |
+|---|---|---|---|---|---|
+| `main` før alt | 16/150 · 156 MNOK · 19 | 3/150 · 242 MNOK · 13 | 468 MNOK · 6 | 398 MNOK · 9 | 0,0 |
+| `main` + botfiks (ny referanse) | 2/150 · 571 MNOK · 5 | 0/150 · 595 MNOK · 4 | 2020 MNOK · 1 | 398 MNOK · 9 | – |
+| + rekruttering, stjerneregel og kapasitet | 0/150 · 659 MNOK · 4 | 0/150 · 796 MNOK · 3 | 2570 MNOK · 1 | 395 MNOK · 8 | 0,1 |
+| + `MIN_AWARD_QUALITY = 35` | 0/150 · 627 MNOK · 4 | 0/150 · 947 MNOK · 2 | 2648 MNOK · 1 | **88 MNOK · 21** (17/60 konkurs) | 0,0 |
+
+Endringer:
+- **Rekruttering:** De som takker ja, begynner ved kvartalsskiftet og fakturerer fra neste kvartal, slik planen (§1.4) sier. Isolert (med den gamle boten) var effekten innenfor støyen: 16 → 20 konkurser, 156 → 135 MNOK.
+- **Stjerner:** En stjerne kan bare tilbys hvis kontrakten stjernen sitter på er ferdig når den nye starter (`starBusyThrough`). Med den gamle boten så dette ut som et hopp fra 156 til 450 MNOK. Hele hoppet kom av at boten sluttet å sette opptatte grunnleggere på bud, slik at færre bud ble avvist. Det var botfeilen over, ikke regelen.
+- **Kapasitet:** Bare bud som avgjøres dette kvartalet, teller mot neste kvartal. Påvirker ikke motoren.
+- **Minstekvalitet ved tildeling:** Kunden avviser bud under 35 i kvalitet, også når budet er alene. Spambudet (copy-paste, ingen egne folk ledige) havner rundt 10–20, mens vanlige bud ligger på 45–65. Frilansergrense og prisreferanse for enslige bud ble ikke prøvd, fordi dette alene lukket hullet.
+
+Funn:
+- Med botfiksen er spillet mye lettere for en fornuftig spiller enn loggen har vist: `human` går nesten aldri konkurs og ender rundt plass 4, og `humanStrategic` vinner i median. Målene for `human` bør vurderes på nytt før videre justering.
+- Et enslig bud får fortsatt full prisscore uansett pris, fordi det sammenlignes med seg selv. Det er ikke lenger lønnsomt å utnytte (se spam), men det er den naturlige knotten hvis det dukker opp igjen.

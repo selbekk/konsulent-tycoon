@@ -9,10 +9,11 @@ import { createNewGame } from '../src/engine/newGame'
 import { applyActionInPlace } from '../src/engine/reducer'
 import { firmLevel } from '../src/engine/levels'
 import { playerRank, rankings } from '../src/engine/score'
-import { committedDemand, marketCapacity } from '../src/engine/tenders'
+import { committedDemand, marketCapacity, openTenders } from '../src/engine/tenders'
 import { endTurn } from '../src/engine/turn'
-import { MAX_LEVEL } from '../src/engine/constants'
-import type { Difficulty, GameState } from '../src/engine/types'
+import { MAX_LEVEL, RATE_MAX } from '../src/engine/constants'
+import { tenderLock } from '../src/engine/levels'
+import type { Action, Difficulty, GameState } from '../src/engine/types'
 
 const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number; strategic?: boolean | StrategyMove[] }> = {
   human: {},
@@ -28,6 +29,23 @@ const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number; strate
   humanAcquire: { strategic: ['acquire'] },
   humanNoAcquire: { strategic: ['specialty', 'partner', 'lobby', 'departments', 'ipo'] },
 }
+/**
+ * Exploit check from the 2026-09 bug hunt: a free copy-paste bid at max price on every tender, no hires,
+ * cheap culture from level 2 and the nearshore centre from level 4. Freelancers staff whatever is won.
+ */
+function planSpam(state: GameState): Action[] {
+  const firm = state.firms[state.playerId]
+  const actions: Action[] = [
+    { type: 'setBudgets', firmId: firm.id, budgets: { fagmiljoPerHead: 40_000, sosialtPerHead: 10_000, salaryPremium: 0 } },
+    { type: 'setDepartment', firmId: firm.id, departmentId: 'nearshore', on: true },
+  ]
+  for (const t of openTenders(state)) {
+    if (t.bids.some((b) => b.firmId === firm.id) || tenderLock(firm, t)) continue
+    actions.push({ type: 'placeBid', tenderId: t.id, bid: { firmId: firm.id, rateMultiplier: RATE_MAX, starIds: [], effort: 0, cvPad: false, ghostCv: false } })
+  }
+  return actions
+}
+
 const args = process.argv.slice(2)
 const arg = (name: string, def: string) => {
   const i = args.indexOf(`--${name}`)
@@ -54,7 +72,12 @@ function playGame(seed: number, strategy: string) {
     const draft = structuredClone(state)
     if (strategy !== 'idle' && bankruptAt === null) {
       for (const a of planEventAnswers(draft, draft.playerId)) applyActionInPlace(draft, a)
-      const plan = strategy.startsWith('human') ? planHumanProxy(draft, HUMAN_VARIANTS[strategy]) : planAiTurn(draft, draft.playerId, PLAYER_BOTS[strategy])
+      const plan =
+        strategy === 'spam'
+          ? planSpam(draft)
+          : strategy.startsWith('human')
+            ? planHumanProxy(draft, HUMAN_VARIANTS[strategy])
+            : planAiTurn(draft, draft.playerId, PLAYER_BOTS[strategy])
       for (const a of plan) applyActionInPlace(draft, a)
     }
     const me = draft.firms[draft.playerId]

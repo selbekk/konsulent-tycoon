@@ -68,8 +68,21 @@ describe('reducer', () => {
     let s = newTestGame()
     const [t1, t2] = s.tenders.filter((t) => !t.resolved && !tenderLock(s.firms.player, t))
     const star = s.firms.player.stars[0].id
+    s.firms.player.stars[0].assignedContractId = undefined
     s = applyAction(s, { type: 'placeBid', tenderId: t1.id, bid: bid({ starIds: [star] }) }).state
     expect(applyAction(s, { type: 'placeBid', tenderId: t2.id, bid: bid({ starIds: [star] }) }).error).toBe('errors.starPromised')
+  })
+
+  it('rejects a star still on a contract that overlaps the new one', () => {
+    const s = newTestGame()
+    const t = openTender(s)
+    const star = s.firms.player.stars[0]
+    const running = s.contracts.find((c) => c.id === star.assignedContractId)!
+    running.endQuarter = t.dueQuarter + 2
+    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ starIds: [star.id] }) }).error).toBe('errors.starBusy')
+    // Free by the time the new contract starts.
+    running.endQuarter = t.dueQuarter + 1
+    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ starIds: [star.id] }) }).error).toBeUndefined()
   })
 
   it('allows one minigame attempt per tender', () => {

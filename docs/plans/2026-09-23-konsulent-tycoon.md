@@ -637,12 +637,12 @@ Implementer `updateCulture(firm)` og `employerBrand(firm)` fra §1.2.
 - `utilization(firm, state)` bruker `staffContract`
 - `moraleTarget(firm, util, scandalPenalty)`, `updateMorale`
 - `applyTurnover(draft, firmId)`: binomisk trekk per pool med RNG. Loggfør `news.staff.left` når ≥ 3 slutter, eller når en stjerne slutter.
-- `processHiring(draft, firmId)`: flytter `pendingHires` inn i pools (vektet snittnivå) og regner ut neste `pendingHires` fra `hiringOrders` etter formelen i §1.4. Trekker `HIRE_COST`.
+- `processHiring(draft, firmId)`: regner ut hvor mange som takker ja på `hiringOrders` etter formelen i §1.4, trekker `HIRE_COST` og legger dem rett inn i pools (vektet snittnivå) ved kvartalsskiftet. `pendingHires` brukes bare for gamle lagringer.
 
 **Tester:**
 - Høy kultur gir lavere turnover enn lav kultur over 20 kvartaler med samme seed (sammenlign snitt).
 - Utnyttelse over 95 % senker trivselsmålet.
-- Nyansatte kommer først kvartalet etter at de ble bestilt.
+- Nyansatte bestilt i et kvartal er på plass og kan faktureres fra neste kvartal.
 - Pool-nivået er et vektet snitt.
 
 **Commit:** `feat(engine): morale, turnover and recruitment`
@@ -670,7 +670,7 @@ Implementer `updateCulture(firm)` og `employerBrand(firm)` fra §1.2.
 **Commit:** `feat(engine): star consultants with traits and ambitions`
 
 ### Oppgave 2.4: UI – Ansatte og Kultur
-- `StaffScreen`: tabell per fagområde (antall, nivå, trivsel-meter, bestilt, på vei inn), knapper for +/− bestilling og oppsigelse, og kort for hver stjerne (navn, traits som badges, ambisjon, lojalitet, lønnstillegg). En «Stjernemarked»-seksjon lar deg ansette.
+- `StaffScreen`: tabell per fagområde (antall, nivå, trivsel-meter, bestilt, forventet neste kvartal), knapper for +/− bestilling og oppsigelse, og kort for hver stjerne (navn, traits som badges, ambisjon, lojalitet, lønnstillegg). En «Stjernemarked»-seksjon lar deg ansette.
 - `CultureScreen`: sliders for fagmiljø og sosialt budsjett per hode (0–40k) og for lønnspremie (−10 % til +30 %), med en live-estimert kvartalskostnad og likevektsnivå. Sassy hjelpetekster, f.eks. «0 kr i sosialt budsjett? Folk kommer til å begynne å ha fredagspils med Accentura.»
 - Navigasjon: tabs eller sidemeny (Dashboard / Ansatte / Kultur / Anbud / Kontrakter / Marked / Bakrommet). På mobil ligger den nederst.
 
