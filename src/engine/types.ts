@@ -16,7 +16,21 @@ export interface Pool {
 
 export type Ambition = 'salary' | 'growth' | 'leadership' | 'remote'
 
-export interface Star {
+export type Gender = 'female' | 'male' | 'nonbinary'
+
+/**
+ * Who someone is outside the CV, for the people statistics. Optional: people from early saves
+ * get a hash-derived fallback (engine/profile.ts). Stored as anchors, so age and experience grow by themselves.
+ */
+export interface Profile {
+  gender?: Gender
+  /** Quarter index they were born (negative: before the game started). */
+  bornQuarter?: number
+  /** Quarter index they started working in the industry. */
+  careerStartQuarter?: number
+}
+
+export interface Star extends Profile {
   id: string
   name: string
   discipline: Discipline
@@ -40,7 +54,7 @@ export interface Star {
  * One of the player's people. Only the player's firm has a roster; for it, `pools[d].count` and
  * `.level` are derived from these (see engine/roster.ts). Morale stays per pool.
  */
-export interface Employee {
+export interface Employee extends Profile {
   id: string
   name: string
   discipline: Discipline

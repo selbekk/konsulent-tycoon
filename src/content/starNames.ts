@@ -1,9 +1,16 @@
-export const FIRST_NAMES = [
-  'Kjetil', 'Ingrid', 'Ola', 'Kari', 'Sindre', 'Marte', 'Jørgen', 'Silje', 'Håkon', 'Ida', 'Eirik', 'Thea',
-  'Magnus', 'Nora', 'Anders', 'Sofie', 'Espen', 'Tuva', 'Lars', 'Hedda', 'Petter', 'Maja', 'Trond', 'Oda',
-  'Øyvind', 'Frida', 'Stian', 'Emilie', 'Bjørnar', 'Linnea', 'Amir', 'Aisha', 'Mikkel', 'Sanna', 'Vegard',
-  'Yasmin', 'Torbjørn', 'Elise', 'Henrik', 'Mathilde', 'Aleksander', 'Ragnhild', 'Jonas', 'Signe', 'Arne',
+export const FEMALE_FIRST_NAMES = [
+  'Ingrid', 'Kari', 'Marte', 'Silje', 'Ida', 'Thea', 'Nora', 'Sofie', 'Tuva', 'Hedda', 'Maja', 'Oda',
+  'Frida', 'Emilie', 'Linnea', 'Aisha', 'Sanna', 'Yasmin', 'Elise', 'Mathilde', 'Ragnhild', 'Signe',
 ]
+
+export const MALE_FIRST_NAMES = [
+  'Kjetil', 'Ola', 'Sindre', 'Jørgen', 'Håkon', 'Eirik', 'Magnus', 'Anders', 'Espen', 'Lars', 'Petter',
+  'Trond', 'Øyvind', 'Stian', 'Bjørnar', 'Amir', 'Mikkel', 'Vegard', 'Torbjørn', 'Henrik', 'Aleksander',
+  'Jonas', 'Arne',
+]
+
+/** Interleaved like the original list, so a pick from it lands on the same names as before. */
+export const FIRST_NAMES = MALE_FIRST_NAMES.flatMap((m, i) => (FEMALE_FIRST_NAMES[i] ? [m, FEMALE_FIRST_NAMES[i]] : [m]))
 
 export const LAST_NAMES = [
   'Kvamme', 'Agil-Aas', 'Bakken', 'Løkken', 'Haugen', 'Nordmann', 'Strand', 'Dahl', 'Berg', 'Moe', 'Lie',

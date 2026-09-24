@@ -605,6 +605,55 @@
     "laterSeatsInBids_other": "Pluss {{count}} seter i bud som starter om to kvartaler",
     "explain": "{{count}} ansatte totalt. «Neste kvartal» viser hvem som allerede er opptatt, og hvor mange av de ledige du har tilbudt i bud som avgjøres dette kvartalet. Tallene står som «nå → neste kvartal»."
   },
+  "bench": {
+    "title": "Lediglista",
+    "intro": "Hvem som ikke er på oppdrag, nå og neste kvartal. Åpne bud er ikke regnet med.",
+    "view": "Visning",
+    "views": {
+      "summary": "Per fag",
+      "table": "Personer"
+    },
+    "now": "Ledig nå",
+    "next": "Ledig neste kvartal",
+    "inBids": "I bud",
+    "overbooked": "Du har budt flere seter enn du har ledige folk neste kvartal. Vinner du alt, må frilansere ta resten.",
+    "none": "Ingen på lediglista. Alle fakturerer, både nå og neste kvartal.",
+    "free": "Ledig",
+    "cols": {
+      "name": "Navn",
+      "discipline": "Fag",
+      "experience": "Erfaring (år)",
+      "level": "Nivå",
+      "now": "Nå",
+      "next": "Neste kv."
+    }
+  },
+  "people": {
+    "title": "Folkene i tall",
+    "genderAbbr": "Kjønn",
+    "gender": "Kjønnsbalanse",
+    "women": "{{pct}} kvinner",
+    "groups": {
+      "tech": "Teknologi: {{pct}} kvinner ({{count}})",
+      "design": "Design: {{pct}} kvinner ({{count}})",
+      "pm": "Prosjektledelse: {{pct}} kvinner ({{count}})"
+    },
+    "nonbinary_one": "{{count}} ikke-binær",
+    "nonbinary_other": "{{count}} ikke-binære",
+    "ageAbbr": "Alder",
+    "age": "Snittalder",
+    "ageRange": "Yngst {{min}}, eldst {{max}}",
+    "experienceAbbr": "Erfaring",
+    "experience": "År i bransjen",
+    "seniority": "{{juniors}} juniorer (under 3 år), {{seniors}} seniorer (10+ år)",
+    "tenure": "Snitt tid i firmaet: {{years}}",
+    "projectAbbr": "Prosjekt",
+    "project": "Tid på oppdraget",
+    "projectLength": "Oppdragene varer i snitt {{years}}",
+    "noProjects": "Ingen på oppdrag akkurat nå",
+    "years": "{{value}} år",
+    "explain": "Tallene gjelder alle ansatte og stjerner. Tid på oppdrag regnes per sete dine egne folk fyller: hvor lenge oppdraget har gått (dette kvartalet medregnet), og hvor lenge det varer totalt. Teknologi er frontend, backend, sky, data og arkitektur."
+  },
   "todo": {
     "title": "Å gjøre dette kvartalet",
     "allDone": "Alt klart. Du kan trygt avslutte kvartalet.",
@@ -682,7 +731,8 @@
       "ipo": "Børsnotering: hent kapital, men lev med kvartalspresset",
       "renegotiate": "Reforhandling: be fornøyde kunder om høyere timepris",
       "upsell": "Mersalg: tilby flere folk på prosjekter som går",
-      "development": "Utvikling: kurs, mentorer og karrieresamtaler for dine egne folk"
+      "development": "Utvikling: kurs, mentorer og karrieresamtaler for dine egne folk",
+      "peopleStats": "Personstatistikk på oversikten: kjønnsbalanse, alder, erfaring og tid på prosjekt"
     },
     "seats": "Anbud på opptil {{count}} konsulenter",
     "seatsAll": "Anbud i alle størrelser",
@@ -826,7 +876,8 @@
       "ipo": "børsnotering",
       "renegotiate": "reforhandling",
       "upsell": "mersalg",
-      "development": "utvikling av ansatte"
+      "development": "utvikling av ansatte",
+      "peopleStats": "personstatistikk"
     },
     "bjorn": "Jeg er styreleder. Jeg dukker opp med råd når det passer meg. Lykke til!"
   },

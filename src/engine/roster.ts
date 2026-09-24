@@ -10,6 +10,7 @@ import {
   ROSTER_LEVEL_SPREAD,
   clamp,
 } from './constants'
+import { fitName, newProfile } from './profile'
 import { chance, createRng, hashString, nextFloat, noise, pick, shuffle } from './rng'
 import type { RngState } from './rng'
 import { DISCIPLINES } from './types'
@@ -44,18 +45,20 @@ export function newEmployee(state: GameState, firm: Firm, discipline: Discipline
     .map((q) => q.id)
   const bias = quirks.reduce((s, q) => s + (QUIRK_MAP[q]?.potential ?? 0), 0)
   const potential = clamp(nextFloat(rng) ** POTENTIAL_EXPONENT + bias, 0, 1)
+  const profile = newProfile(state, id, discipline, level)
   // Two people with the same name on one roster would be confusing, so try a few times.
   const taken = new Set((firm.roster ?? []).map((e) => e.name))
   let name = personName(rng, EMPLOYEE_NICKNAME_CHANCE)
   for (let i = 1; i < EMPLOYEE_NAME_TRIES && taken.has(name); i++) name = personName(rng, EMPLOYEE_NICKNAME_CHANCE)
   return {
     id,
-    name,
+    name: fitName(state, id, name, profile.gender, taken),
     discipline,
     level: clamp(level + noise(rng, ROSTER_LEVEL_SPREAD), EMPLOYEE_MIN_LEVEL, MAX_POOL_LEVEL),
     potential: Math.round(potential * 1000) / 1000,
     quirks,
     joinedQuarter: state.quarter,
+    ...profile,
   }
 }
 
