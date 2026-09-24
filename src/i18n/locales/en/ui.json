@@ -28,7 +28,6 @@
     "press": "PRESS START",
     "newGame": "New game",
     "continue": "Continue",
-    "load": "Load game",
     "settings": "Settings",
     "devNotice": "This game isn't even in beta yet – it's in active development. Saved games may be wiped at any time.",
     "savesDropped_one": "A saved game was deleted because the game logic has changed since it was saved. Sorry, you'll have to start a new game.",
@@ -58,15 +57,6 @@
     "seedPlaceholder": "Random",
     "start": "Found the company"
   },
-  "load": {
-    "title": "Load game",
-    "none": "No saved games yet.",
-    "auto": "Autosave",
-    "load": "Load",
-    "delete": "Delete",
-    "confirmDelete": "Delete this saved game?",
-    "failed": "Couldn't load the game."
-  },
   "settings": {
     "title": "Settings",
     "language": "Language",
@@ -88,17 +78,6 @@
     "analytics": "Share anonymous usage statistics",
     "analyticsHint": "Helps us make the game better. Turning it off deletes what was stored about you on this device."
   },
-  "save": {
-    "title": "Save game",
-    "autosaveInfo": "The game autosaves after every action. Here you can save a separate copy.",
-    "slot": "Slot {{slot}}",
-    "empty": "Empty",
-    "saveHere": "Save here",
-    "overwrite": "Overwrite",
-    "saved": "Saved to slot {{slot}}.",
-    "failed": "Couldn't save. Your browser may not allow storage.",
-    "quit": "Quit to menu"
-  },
   "shell": {
     "quarterOf": "quarter {{n}} of {{total}}",
     "cash": "Cash",
@@ -107,14 +86,20 @@
     "reputation": "Reputation",
     "morale": "Morale",
     "heat": "Heat",
-    "save": "Save",
+    "menu": "Menu",
+    "menuHint": "The game saves itself after every action.",
     "announcement": "PA:",
     "nav": "Main menu",
     "endTurn": "End quarter",
     "pendingEvents_one": "Answer the event first",
     "pendingEvents_other": "Answer {{count}} events first",
     "news": "NEWS",
-    "ticker": "Industry news"
+    "ticker": "Industry news",
+    "stale": {
+      "title": "Open in another tab",
+      "body": "You've carried on playing in another tab or window, so what you see here is out of date. Load the latest save to keep going.",
+      "resume": "Continue here"
+    }
   },
   "bjorn": {
     "name": "Chairman Bjørn",
@@ -984,5 +969,12 @@
     "more": "Read more",
     "accept": "Yes, count away",
     "deny": "No thanks"
+  },
+  "crash": {
+    "title": "Something went wrong",
+    "body": "The game tripped over something it didn't expect. Your save is as it was after your last action. Try going to the menu and continuing from there.",
+    "menu": "Back to menu",
+    "deleteSave": "Delete saved game",
+    "confirmDelete": "Delete the saved game? Only do this if the game crashes every time you continue."
   }
 }

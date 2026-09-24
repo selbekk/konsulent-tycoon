@@ -33,16 +33,16 @@ describe('save', () => {
     expect(() => deserialize(JSON.stringify({ saveVersion: 999 }))).toThrow('save.tooNew')
   })
 
-  it('stores slots with metadata and survives broken storage', () => {
+  it('stores the slot with metadata and survives broken storage', () => {
     const storage = new MemoryStorage()
     const s = newTestGame()
-    expect(saveToSlot(storage, '1', s, new Date('2027-01-01'))).toBe(true)
+    expect(saveToSlot(storage, 'auto', s, new Date('2027-01-01'))).toBe(true)
     expect(listSlots(storage)).toEqual([
-      { slot: '1', firmName: 'Test AS', quarter: 0, savedAt: '2027-01-01T00:00:00.000Z', cash: s.firms.player.cash, status: 'playing' },
+      { slot: 'auto', firmName: 'Test AS', quarter: 0, savedAt: '2027-01-01T00:00:00.000Z', cash: s.firms.player.cash, status: 'playing' },
     ])
-    expect(loadFromSlot(storage, '1')).toEqual(s)
-    deleteSlot(storage, '1')
-    expect(loadFromSlot(storage, '1')).toBeNull()
+    expect(loadFromSlot(storage, 'auto')).toEqual(s)
+    deleteSlot(storage, 'auto')
+    expect(loadFromSlot(storage, 'auto')).toBeNull()
     expect(saveToSlot(new BrokenStorage(), 'auto', s)).toBe(false)
   })
 
@@ -52,24 +52,50 @@ describe('save', () => {
     expect(() => deserialize(JSON.stringify(s))).toThrow('save.incompatible')
   })
 
-  it('purges saves this version cannot read, but keeps ones from newer builds', () => {
+  it('purges a save this version cannot read', () => {
+    const storage = new MemoryStorage()
+    const broken = JSON.parse(serialize(newTestGame()))
+    delete broken.firms.player.stars
+    saveToSlot(storage, 'auto', newTestGame())
+    storage.setItem('kt.save.auto', JSON.stringify(broken))
+
+    expect(readSlot(storage, 'auto')).toEqual({ error: 'incompatible' })
+    expect(purgeIncompatibleSaves(storage)).toEqual(['auto'])
+    expect(listSlots(storage)).toEqual([])
+  })
+
+  it('keeps a save from a newer build', () => {
     const storage = new MemoryStorage()
     const good = newTestGame()
     saveToSlot(storage, 'auto', good)
-    saveToSlot(storage, '1', good)
-    saveToSlot(storage, '2', good)
-    const broken = JSON.parse(serialize(good))
-    delete broken.firms.player.stars
-    storage.setItem('kt.save.1', JSON.stringify(broken))
-    storage.setItem('kt.save.2', JSON.stringify({ ...good, saveVersion: 999 }))
-    // Metadata without a save behind it.
-    storage.setItem('kt.meta.3', JSON.stringify({ slot: '3', firmName: 'Borte AS', quarter: 4, savedAt: '', cash: 0, status: 'playing' }))
+    storage.setItem('kt.save.auto', JSON.stringify({ ...good, saveVersion: 999 }))
+    expect(readSlot(storage, 'auto')).toEqual({ error: 'tooNew' })
+    expect(purgeIncompatibleSaves(storage)).toEqual([])
+    expect(storage.getItem('kt.save.auto')).not.toBeNull()
+  })
 
-    expect(readSlot(storage, '1')).toEqual({ error: 'incompatible' })
-    expect(readSlot(storage, '2')).toEqual({ error: 'tooNew' })
-    expect(purgeIncompatibleSaves(storage)).toEqual(['1'])
-    expect(listSlots(storage).map((m) => m.slot)).toEqual(['auto', '2'])
+  it('deletes manual slots from earlier builds, which made minigames retryable', () => {
+    const storage = new MemoryStorage()
+    const good = newTestGame()
+    saveToSlot(storage, 'auto', good)
+    for (const slot of ['1', '2', '3']) {
+      storage.setItem(`kt.save.${slot}`, serialize(good))
+      storage.setItem(`kt.meta.${slot}`, JSON.stringify({ slot, firmName: 'Borte AS', quarter: 4, savedAt: '', cash: 0, status: 'playing' }))
+    }
+    expect(purgeIncompatibleSaves(storage)).toEqual([])
+    expect(storage.length).toBe(2)
     expect(loadFromSlot(storage, 'auto')).toEqual(good)
-    expect(storage.getItem('kt.save.2')).not.toBeNull()
+  })
+
+  it('rejects a save where a required field is null (NaN written as JSON)', () => {
+    const s = JSON.parse(serialize(newTestGame()))
+    s.firms.player.cash = null
+    expect(() => deserialize(JSON.stringify(s))).toThrow('save.incompatible')
+  })
+
+  it('rejects a save where a firm number is not a number', () => {
+    const s = JSON.parse(serialize(newTestGame()))
+    s.firms.player.cash = '9999999999'
+    expect(() => deserialize(JSON.stringify(s))).toThrow('save.incompatible')
   })
 })

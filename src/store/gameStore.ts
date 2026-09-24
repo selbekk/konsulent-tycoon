@@ -13,11 +13,12 @@ import {
   quarterTodos,
   readSlot,
   saveToSlot,
+  slotStorageKey,
   valuation,
 } from '../engine'
 import type { Action, Crisis, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
 
-export type Screen = 'menu' | 'newGame' | 'load' | 'settings' | 'about' | 'game'
+export type Screen = 'menu' | 'newGame' | 'settings' | 'about' | 'game'
 export type Tab = 'dashboard' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
 export const TABS: Tab[] = ['dashboard', 'staff', 'culture', 'tenders', 'contracts', 'strategy', 'market', 'backroom']
 
@@ -53,6 +54,21 @@ function loadSettings(): Settings {
   }
 }
 
+/**
+ * The firm an action acts for. The engine lets any firm act (the AI uses the same actions), so the
+ * store is where the player is held to their own firm.
+ */
+export function actingFirm(game: GameState, action: Action): string | undefined {
+  switch (action.type) {
+    case 'placeBid':
+      return action.bid.firmId
+    case 'resolveEvent':
+      return game.pendingEvents.find((e) => e.id === action.pendingEventId)?.firmId
+    default:
+      return action.firmId
+  }
+}
+
 function safeStorage(): Storage | null {
   try {
     return typeof localStorage === 'undefined' ? null : localStorage
@@ -84,6 +100,11 @@ interface Store {
   settings: Settings
   /** Saves deleted because this version of the game can't read them; the main menu explains. */
   droppedSaves: SlotId[]
+  /**
+   * Another tab has saved since this one loaded the game, so what's in memory is out of date. Playing on
+   * would overwrite that tab's moves (and give a second try at minigames), so the game waits for a reload.
+   */
+  stale: boolean
 
   go: (screen: Screen) => void
   setTab: (tab: Tab) => void
@@ -91,8 +112,8 @@ interface Store {
   newGame: (opts: NewGameOptions, meta?: { customSeed: boolean; defaultName: boolean }) => void
   dispatch: (action: Action) => string | undefined
   endTurn: () => void
-  save: (slot: SlotId) => boolean
-  load: (slot: SlotId) => boolean
+  /** Loads the autosave. */
+  load: () => boolean
   loadState: (state: GameState) => void
   quit: () => void
   clearError: () => void
@@ -126,6 +147,7 @@ export const useGame = create<Store>((set, get) => ({
   crisisTalk: null,
   seenCrises: [],
   onboarding: false,
+  stale: false,
   settings: typeof window === 'undefined' ? defaultSettings : loadSettings(),
   droppedSaves: (() => {
     const storage = safeStorage()
@@ -147,7 +169,7 @@ export const useGame = create<Store>((set, get) => ({
     setGameId(game.gameId!)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', game)
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
+    set({ game, stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
     track('game_started', {
       difficulty: opts.difficulty,
       founders: [...opts.founderDisciplines],
@@ -157,8 +179,12 @@ export const useGame = create<Store>((set, get) => ({
   },
 
   dispatch: (action) => {
-    const { game } = get()
-    if (!game) return 'errors.invalid'
+    const { game, stale } = get()
+    if (!game || stale) return 'errors.invalid'
+    if (actingFirm(game, action) !== game.playerId) {
+      set({ error: 'errors.invalid' })
+      return 'errors.invalid'
+    }
     const result = applyAction(game, action)
     const { event, props } = describeAction(action, game)
     if (result.error) {
@@ -177,8 +203,8 @@ export const useGame = create<Store>((set, get) => ({
   },
 
   endTurn: () => {
-    const { game } = get()
-    if (!game || game.status !== 'playing') return
+    const { game, stale } = get()
+    if (!game || stale || game.status !== 'playing') return
     const next = engineEndTurn(game)
     const storage = safeStorage()
     if (storage) saveToSlot(storage, 'auto', next)
@@ -202,29 +228,21 @@ export const useGame = create<Store>((set, get) => ({
     set({ game: next, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp, crisisId: null, crisisTalk: null })
   },
 
-  save: (slot) => {
-    const { game } = get()
-    const storage = safeStorage()
-    const ok = !!game && !!storage && saveToSlot(storage, slot, game)
-    if (game) track('game_saved', { slot, ok, ...gameContext(game) })
-    return ok
-  },
-
-  load: (slot) => {
+  load: () => {
     const storage = safeStorage()
     if (!storage) return false
-    const read = readSlot(storage, slot)
+    const read = readSlot(storage, 'auto')
     if ('error' in read) {
-      track('game_load_failed', { slot, error: read.error })
+      track('game_load_failed', { slot: 'auto', error: read.error })
       if (read.error === 'incompatible') {
-        deleteSlot(storage, slot)
-        set({ droppedSaves: [slot] })
+        deleteSlot(storage, 'auto')
+        set({ droppedSaves: ['auto'] })
       }
       return false
     }
-    const from = get().screen
+    const resumed = get().stale
     get().loadState(read.state)
-    track(slot === 'auto' && from === 'menu' ? 'game_continued' : 'game_loaded', { slot, ...gameContext(read.state) })
+    track('game_continued', { ...gameContext(read.state), ...(resumed ? { from_other_tab: true } : {}) })
     return true
   },
 
@@ -232,14 +250,14 @@ export const useGame = create<Store>((set, get) => ({
     // Saves from before game_id get one now; it's stored with the next autosave.
     const game = loaded.gameId ? loaded : { ...loaded, gameId: newGameId() }
     setGameId(game.gameId!)
-    set({ game, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+    set({ game, stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
   },
 
   quit: () => {
     const { game } = get()
     if (game && game.status === 'playing') track('game_quit', gameContext(game))
     setGameId(null)
-    set({ game: null, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+    set({ game: null, stale: false, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
   },
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),
@@ -275,6 +293,13 @@ export const useGame = create<Store>((set, get) => ({
     set({ settings })
   },
 }))
+
+// Another tab saved the game: this tab's copy is out of date until it reloads the autosave.
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if ((e.key === slotStorageKey('auto') || e.key === null) && useGame.getState().game) useGame.setState({ stale: true })
+  })
+}
 
 /** Convenience selector – only use inside the game screen. */
 export const usePlayer = () => useGame((s) => (s.game ? s.game.firms[s.game.playerId] : null))

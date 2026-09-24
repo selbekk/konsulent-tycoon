@@ -38,7 +38,9 @@
     "mentorBusy": "Stjernen er allerede mentor for noen andre.",
     "stretchContract": "Det oppdraget passer ikke.",
     "promiseActive": "Du har allerede lovet noe i en karrieresamtale.",
-    "promotedRecently": "Du har forfremmet noen nylig. Det blir én forfremmelse i året."
+    "promotedRecently": "Du har forfremmet noen nylig. Det blir én forfremmelse i året.",
+    "shadyRepeat": "Det har du allerede gjort dette kvartalet. Selv bakrommet har grenser.",
+    "stretchFull": "Oppdraget har ikke flere plasser å strekke seg på."
   },
   "news": {
     "game": {

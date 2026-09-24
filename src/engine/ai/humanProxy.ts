@@ -7,7 +7,7 @@ import { lobbyReadyIn } from '../strategy'
 import { planContractMoves } from './contractMoves'
 import { choosePromise } from './promises'
 import { CAREER_PROMISE_GROWTH, COURSE_MAX_LEVEL, PROMOTE_MIN_POTENTIAL } from '../constants'
-import { mentorBlock, promotionBlock, stretchContracts } from '../development'
+import { mentorBlock, promotionBlock, stretchBlock, stretchContracts } from '../development'
 import { noise } from '../rng'
 import { isKeyTender, openTenders } from '../tenders'
 import { DISCIPLINES } from '../types'
@@ -161,7 +161,9 @@ function planDevelopment(state: GameState, runway: number): Action[] {
   }
   for (const e of firm.roster) {
     if (e.id === ready?.id || !talent(e) || e.level < COURSE_MAX_LEVEL || e.stretchContractId) continue
-    const c = stretchContracts(state, firm, e).sort((a, b) => b.satisfaction - a.satisfaction)[0]
+    const c = stretchContracts(state, firm, e)
+      .filter((x) => !stretchBlock(state, firm, e, x.id))
+      .sort((a, b) => b.satisfaction - a.satisfaction)[0]
     if (c && c.satisfaction >= 70) actions.push({ type: 'setStretch', firmId, employeeId: e.id, contractId: c.id })
   }
   return actions

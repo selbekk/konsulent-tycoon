@@ -14,6 +14,12 @@ export const annualSalary = (level: number, premium: number) => (600_000 + 150_0
 export const EMPLOYER_COST_FACTOR = 1.3
 export const quarterlySalaryCost = (level: number, premium: number) =>
   (annualSalary(level, premium) * EMPLOYER_COST_FACTOR) / 4
+/**
+ * Premium for one-off costs priced on salary (signing, severance). The higher of now and the quarter
+ * start, so dipping the salary slider just before hiring or firing saves nothing.
+ */
+export const pricingPremium = (firm: { budgets: { salaryPremium: number }; quarterStartPremium?: number }) =>
+  Math.max(firm.budgets.salaryPremium, firm.quarterStartPremium ?? firm.budgets.salaryPremium)
 export const OVERHEAD_PER_HEAD = 30_000
 export const FIXED_OVERHEAD = 90_000
 export const HIRE_COST = 50_000
@@ -338,6 +344,8 @@ export const HOMEGROWN_PREMIUM = 0.05
 export const AI_COURSE_SHARE = 0.02
 export const AI_COURSE_MIN_RUNWAY = 2
 
+/** NaN (from a bad action or a broken save) becomes `min`, so it can never reach the state. ±Infinity clamps as usual. */
 export function clamp(v: number, min: number, max: number) {
+  if (Number.isNaN(v)) return min
   return Math.max(min, Math.min(max, v))
 }

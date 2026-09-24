@@ -12,7 +12,8 @@ interface Props {
   preference: MeetingStyle
   /** What the customer lets on beforehand (see customerNeeds). */
   needs: CustomerNeed[]
-  onStart: () => void
+  /** Records the attempt; false means it may not be played. */
+  onStart: () => boolean
   onFinish: (score: number) => void
   onClose: () => void
 }
@@ -29,7 +30,7 @@ export function PresentationMeeting({ tender, firmId, preference, needs, onStart
   const answered = answers[step]
 
   const start = () => {
-    onStart()
+    if (!onStart()) return
     setStep(0)
     shownAt.current = performance.now()
   }

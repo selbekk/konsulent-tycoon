@@ -10,6 +10,7 @@ import {
   openTenders,
   poachChance,
   riskLevel,
+  shadyRepeatBlock,
   shadyUnlocked,
 } from '../../engine'
 import type { ShadyActionId, ShadyDef } from '../../engine'
@@ -65,6 +66,7 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
     (needs.includes('tender') && !tenderId) ||
     (needs.includes('contract') && !contractId) ||
     (needs.includes('star') && !star)
+  const repeat = shadyRepeatBlock(game, me, actionId, needs.includes('target') ? target : undefined)
 
   const run = () => {
     const err = dispatch({
@@ -98,7 +100,7 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
         ) : (
           <>
             <Button onClick={() => onClose(false)}>{t('common.cancel')}</Button>
-            <Button variant="danger" disabled={!!missing || me.cash < def.cost} onClick={() => setConfirming(true)}>
+            <Button variant="danger" disabled={!!missing || !!repeat || me.cash < def.cost} onClick={() => setConfirming(true)}>
               {t('backroom.next')}
             </Button>
           </>
@@ -183,6 +185,7 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
             </div>
           </>
         )}
+        {repeat && !confirming && !error && <Hint>{t(`game:${repeat}`)}</Hint>}
         {error && <p className={s.bad}>{t(`game:${error}`)}</p>}
       </div>
     </Modal>

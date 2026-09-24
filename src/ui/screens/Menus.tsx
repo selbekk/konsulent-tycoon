@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, MAX_QUARTERS, deleteSlot, listSlots } from '../../engine'
+import { DISCIPLINES, MAX_QUARTERS, listSlots } from '../../engine'
 import { FIRMS } from '../../content/firms'
-import type { Difficulty, Discipline, SlotId } from '../../engine'
+import type { Difficulty, Discipline } from '../../engine'
 import { denyConsent, grantConsent, setAnalyticsContext, track } from '../../analytics'
 import { useConsent } from '../../analytics/consent'
 import { LOCALES, setLocale } from '../../i18n'
@@ -10,7 +10,7 @@ import { useGame } from '../../store/gameStore'
 import { Button, Hint, Panel, Slider } from '../components/ui'
 import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/install'
 import { playSound } from '../sound'
-import { formatMoney, formatQuarter } from '../format'
+import { formatQuarter } from '../format'
 import m from './menu.module.css'
 import s from './screens.module.css'
 
@@ -87,11 +87,10 @@ export function MainMenu() {
             {t('menu.newGame')}
           </Button>
           {hasAuto && (
-            <Button size="big" onClick={() => load('auto')}>
+            <Button size="big" onClick={() => load()}>
               {t('menu.continue')}
             </Button>
           )}
-          <Button onClick={() => go('load')}>{t('menu.load')}</Button>
           <Button onClick={() => go('settings')}>{t('menu.settings')}</Button>
           <Button onClick={() => go('about')}>{t('menu.about')}</Button>
           {canInstall && (
@@ -190,69 +189,6 @@ export function NewGame() {
                 {t('newGame.start')}
               </Button>
             </div>
-          </div>
-        </Panel>
-      </div>
-    </div>
-  )
-}
-
-export function LoadScreen() {
-  const { t, i18n } = useTranslation()
-  const go = useGame((x) => x.go)
-  const load = useGame((x) => x.load)
-  const [version, setVersion] = useState(0)
-  const [failed, setFailed] = useState(false)
-  const slots = (() => {
-    try {
-      void version
-      return listSlots(localStorage)
-    } catch {
-      return []
-    }
-  })()
-  return (
-    <div className={m.wrap}>
-      <div className={m.menu}>
-        <Panel title={t('load.title')} icon="disk">
-          <div className={s.stack}>
-            <DroppedSavesNotice />
-            {slots.length === 0 && <p className={s.empty}>{t('load.none')}</p>}
-            {slots.map((meta) => (
-              <div key={meta.slot} className={`${s.card} ${s.row} ${s.between}`}>
-                <span>
-                  <strong>{meta.slot === 'auto' ? t('load.auto') : t('save.slot', { slot: meta.slot })}</strong>
-                  <br />
-                  <span className={`${s.small} ${s.muted}`}>
-                    {meta.firmName} · {formatQuarter(meta.quarter)} · {formatMoney(meta.cash, i18n.language)} ·{' '}
-                    {new Date(meta.savedAt).toLocaleString(i18n.language === 'en' ? 'en-GB' : 'nb-NO')}
-                  </span>
-                </span>
-                <span className={s.row}>
-                  <Button variant="primary" size="small" onClick={() => {
-                      const ok = load(meta.slot as SlotId)
-                      setFailed(!ok && useGame.getState().droppedSaves.length === 0)
-                      setVersion((v) => v + 1)
-                    }}>
-                    {t('load.load')}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="small"
-                    onClick={() => {
-                      if (window.confirm(t('load.confirmDelete'))) {
-                        deleteSlot(localStorage, meta.slot as SlotId)
-                        setVersion((v) => v + 1)
-                      }
-                    }}
-                  >
-                    {t('load.delete')}
-                  </Button>
-                </span>
-              </div>
-            ))}
-            {failed && <p className={s.bad}>{t('load.failed')}</p>}
-            <Button onClick={() => go('menu')}>{t('common.back')}</Button>
           </div>
         </Panel>
       </div>

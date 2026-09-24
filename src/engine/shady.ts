@@ -22,27 +22,39 @@ export interface ShadyDef {
   /** Detection is rolled when (and if) the tender is won, not when performed. */
   rolledAtAward?: boolean
   requires: ShadyRequirement[]
+  /** At most once a quarter against each target, or once a quarter in total. Tricks without it guard themselves (`alreadyDone`). */
+  perQuarter?: 'target' | 'once'
   consequence: { reputation: number; fine: number }
 }
 
 export const SHADY_CATALOG: Record<ShadyActionId, ShadyDef> = {
   spy_bids: { id: 'spy_bids', minLevel: 4, category: 'espionage', cost: 100_000, baseDetection: 0.1, heat: 8, ongoing: false, requires: ['tender'], consequence: { reputation: 8, fine: 250_000 } },
-  spy_salaries: { id: 'spy_salaries', minLevel: 3, category: 'espionage', cost: 50_000, baseDetection: 0.05, heat: 4, ongoing: false, requires: ['target'], consequence: { reputation: 4, fine: 0 } },
+  spy_salaries: { id: 'spy_salaries', minLevel: 3, category: 'espionage', cost: 50_000, baseDetection: 0.05, heat: 4, ongoing: false, requires: ['target'], perQuarter: 'target', consequence: { reputation: 4, fine: 0 } },
   plant_mole: { id: 'plant_mole', minLevel: 5, category: 'espionage', cost: 300_000, baseDetection: 0.15, heat: 12, ongoing: true, requires: ['target'], consequence: { reputation: 12, fine: 500_000 } },
-  afterwork_poach: { id: 'afterwork_poach', minLevel: 4, category: 'espionage', cost: 80_000, baseDetection: 0.2, heat: 6, ongoing: false, requires: ['target', 'star'], consequence: { reputation: 5, fine: 0 } },
+  afterwork_poach: { id: 'afterwork_poach', minLevel: 4, category: 'espionage', cost: 80_000, baseDetection: 0.2, heat: 6, ongoing: false, requires: ['target', 'star'], perQuarter: 'target', consequence: { reputation: 5, fine: 0 } },
   silent_outsource: { id: 'silent_outsource', minLevel: 4, category: 'outsourcing', cost: 0, baseDetection: 0.08, heat: 10, ongoing: true, requires: ['contract', 'share'], consequence: { reputation: 15, fine: 1_000_000 } },
   cv_pad: { id: 'cv_pad', minLevel: 3, category: 'cv', cost: 20_000, baseDetection: 0.12, heat: 5, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 0 } },
   ghost_cv: { id: 'ghost_cv', minLevel: 5, category: 'cv', cost: 40_000, baseDetection: 0.18, heat: 8, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 400_000 } },
   bait_and_switch: { id: 'bait_and_switch', minLevel: 4, category: 'cv', cost: 0, baseDetection: 0.15, heat: 8, ongoing: true, requires: ['contract'], consequence: { reputation: 12, fine: 0 } },
-  rumor: { id: 'rumor', minLevel: 3, category: 'pr', cost: 60_000, baseDetection: 0.1, heat: 5, ongoing: false, requires: ['target'], consequence: { reputation: 8, fine: 0 } },
-  dn_leak: { id: 'dn_leak', minLevel: 5, category: 'pr', cost: 200_000, baseDetection: 0.2, heat: 12, ongoing: false, requires: ['target'], consequence: { reputation: 15, fine: 300_000 } },
-  linkedin_post: { id: 'linkedin_post', minLevel: 3, category: 'pr', cost: 10_000, baseDetection: 0.05, heat: 2, ongoing: false, requires: ['target'], consequence: { reputation: 3, fine: 0 } },
+  rumor: { id: 'rumor', minLevel: 3, category: 'pr', cost: 60_000, baseDetection: 0.1, heat: 5, ongoing: false, requires: ['target'], perQuarter: 'target', consequence: { reputation: 8, fine: 0 } },
+  dn_leak: { id: 'dn_leak', minLevel: 5, category: 'pr', cost: 200_000, baseDetection: 0.2, heat: 12, ongoing: false, requires: ['target'], perQuarter: 'target', consequence: { reputation: 15, fine: 300_000 } },
+  linkedin_post: { id: 'linkedin_post', minLevel: 3, category: 'pr', cost: 10_000, baseDetection: 0.05, heat: 2, ongoing: false, requires: ['target'], perQuarter: 'once', consequence: { reputation: 3, fine: 0 } },
 }
 
 export const SHADY_IDS = Object.keys(SHADY_CATALOG) as ShadyActionId[]
 export const SHADY_LEVELS = Object.fromEntries(SHADY_IDS.map((id) => [id, SHADY_CATALOG[id].minLevel])) as Record<ShadyActionId, number>
 
 export const shadyUnlocked = (firm: Firm, id: ShadyActionId) => firmLevel(firm) >= SHADY_CATALOG[id].minLevel
+
+/** Why a `perQuarter` trick can't be done again this quarter (an i18n error key), or undefined. Pure – safe for the UI. */
+export function shadyRepeatBlock(state: GameState, firm: Firm, id: ShadyActionId, targetFirmId?: string): string | undefined {
+  const mode = SHADY_CATALOG[id].perQuarter
+  if (!mode) return undefined
+  const done = firm.shadyLog.some(
+    (e) => e.actionId === id && e.quarter === state.quarter && (mode === 'once' || e.targetFirmId === targetFirmId),
+  )
+  return done ? 'errors.shadyRepeat' : undefined
+}
 
 export function detectionChance(firm: Firm, def: ShadyDef): number {
   return clamp(def.baseDetection + firm.heat / 200, 0, 0.95)
@@ -83,7 +95,9 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
   if (!shadyUnlocked(firm, a.actionId)) return 'errors.levelTooLow'
   const target = a.targetFirmId ? state.firms[a.targetFirmId] : undefined
   if (def.requires.includes('target') && (!target || target.id === firm.id || target.bankrupt)) return 'errors.invalidTarget'
-  const tender = a.tenderId ? state.tenders.find((t) => t.id === a.tenderId && !t.resolved) : undefined
+  const tender = a.tenderId
+    ? state.tenders.find((t) => t.id === a.tenderId && !t.resolved && !t.hidden && t.publishedQuarter <= state.quarter)
+    : undefined
   if (def.requires.includes('tender') && !tender) return 'errors.invalidTender'
   const ownBid = tender?.bids.find((b) => b.firmId === firm.id)
   if (def.requires.includes('ownBid') && !ownBid) return 'errors.noBid'
@@ -96,6 +110,8 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
     const star = target?.stars.find((s) => s.id === a.starId)
     if (!star || star.founder) return 'errors.invalidStar'
   }
+  const repeat = shadyRepeatBlock(state, firm, a.actionId, target?.id)
+  if (repeat) return repeat
   if (firm.cash < cost) return 'errors.notEnoughCash'
 
   switch (a.actionId) {

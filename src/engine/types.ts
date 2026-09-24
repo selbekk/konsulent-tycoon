@@ -152,6 +152,8 @@ export interface Firm {
   quarterLeavers: number
   quarterHires: number
   quarterFired?: number
+  /** `budgets.salaryPremium` when the quarter started; see `pricingPremium`. Missing in early saves. */
+  quarterStartPremium?: number
   /** 1–MAX_LEVEL, only goes up; see levels.ts. Missing in early saves (derived from stats). */
   level?: number
   /** Quarter the player last levelled up, so the report can celebrate it. */

@@ -93,7 +93,11 @@ export function stretchContracts(state: GameState, firm: Firm, e: Employee): Con
 export function stretchBlock(state: GameState, firm: Firm, e: Employee, contractId: string): string | undefined {
   if (!hasFeature(firm, 'development')) return 'errors.levelTooLow'
   if (e.level >= MAX_POOL_LEVEL) return 'errors.courseMaxLevel'
-  if (!stretchContracts(state, firm, e).some((c) => c.id === contractId)) return 'errors.stretchContract'
+  const c = stretchContracts(state, firm, e).find((x) => x.id === contractId)
+  if (!c) return 'errors.stretchContract'
+  // One stretcher per seat in their discipline.
+  const others = firm.roster?.filter((x) => x.id !== e.id && x.discipline === e.discipline && x.stretchContractId === c.id).length ?? 0
+  if (others >= (c.activeSeats[e.discipline] ?? 0)) return 'errors.stretchFull'
   return undefined
 }
 

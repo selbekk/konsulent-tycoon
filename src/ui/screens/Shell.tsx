@@ -26,7 +26,6 @@ import { NewsArticle } from './NewsArticle'
 import { Onboarding } from './Onboarding'
 import { MinigameHost } from '../minigames/MinigameHost'
 import { QuarterReport } from './QuarterReport'
-import { SaveDialog } from './SaveDialog'
 import { StaffScreen } from './StaffScreen'
 import { StrategyScreen } from './StrategyScreen'
 import { TenderBoard } from './TenderBoard'
@@ -76,7 +75,9 @@ export function Shell() {
   const onboarding = useGame((x) => x.onboarding)
   const settings = useGame((x) => x.settings)
   const go = useGame((x) => x.go)
-  const [saving, setSaving] = useState(false)
+  const stale = useGame((x) => x.stale)
+  const load = useGame((x) => x.load)
+  const quit = useGame((x) => x.quit)
   const [confirmEnd, setConfirmEnd] = useState(false)
   const [article, setArticle] = useState<NewsItem | null>(null)
   const [hideAnnouncement, setHideAnnouncement] = useState<number | null>(null)
@@ -93,7 +94,7 @@ export function Shell() {
     !!crisisId ||
     !!crisisTalk ||
     pending.length > 0 ||
-    saving ||
+    stale ||
     confirmEnd ||
     game.status !== 'playing'
   const lng = i18n.language
@@ -103,7 +104,7 @@ export function Shell() {
 
   // A crisis stage the player hasn't seen yet pops up by itself once, when nothing else is in the way.
   const unseenCrisis = openCrises(game, me.id).find((c) => !seenCrises.includes(crisisSeenKey(c)))
-  const calm = !onboarding && report === null && !levelUp && pending.length === 0 && !bidTenderId && !minigame && !saving && !confirmEnd
+  const calm = !onboarding && report === null && !levelUp && pending.length === 0 && !bidTenderId && !minigame && !stale && !confirmEnd
   useEffect(() => {
     if (calm && !crisisId && !crisisTalk && unseenCrisis && game.status === 'playing') openCrisis(unseenCrisis.id)
   }, [calm, crisisId, crisisTalk, unseenCrisis, game.status, openCrisis])
@@ -176,15 +177,9 @@ export function Shell() {
           {me.heat > 0 && <Stat icon="flame" label={t('shell.heat')} value={Math.round(me.heat)} tone={me.heat > 40 ? 'bad' : undefined} />}
         </div>
         <div className={s.topActions}>
-          <Button
-            size="small"
-            icon="disk"
-            onClick={() => {
-              track('save_dialog_opened', { quarter: game.quarter })
-              setSaving(true)
-            }}
-          >
-            {t('shell.save')}
+          {/* Saved after every action, so leaving is always safe. */}
+          <Button size="small" icon="disk" onClick={quit} title={t('shell.menuHint')}>
+            {t('shell.menu')}
           </Button>
           <Button size="small" variant="ghost" icon="gear" onClick={() => go('settings')} aria-label={t('menu.settings')} />
           <Button size="small" variant="ghost" icon="info" onClick={() => go('about')} aria-label={t('menu.about')} />
@@ -277,7 +272,22 @@ export function Shell() {
       {minigame && <MinigameHost />}
       {crisisId && !crisisTalk && game.status === 'playing' && <CrisisModal crisisId={crisisId} />}
       {crisisTalk && game.status === 'playing' && <CrisisTalk />}
-      {saving && <SaveDialog onClose={() => setSaving(false)} />}
+      {stale && (
+        <Modal
+          icon="warn"
+          title={t('shell.stale.title')}
+          actions={
+            <>
+              <Button onClick={quit}>{t('shell.menu')}</Button>
+              <Button variant="primary" onClick={() => load() || quit()}>
+                {t('shell.stale.resume')}
+              </Button>
+            </>
+          }
+        >
+          <p>{t('shell.stale.body')}</p>
+        </Modal>
+      )}
       {confirmEnd && (
         <Modal
           icon="warn"

@@ -8,6 +8,7 @@ import {
   disciplineSupply,
   employeeThoughts,
   hasFeature,
+  pricingPremium,
   quarterlySalaryCost,
   staffFirm,
 } from '../../engine'
@@ -79,7 +80,7 @@ export function StaffScreen() {
                         size="small"
                         variant="ghost"
                         disabled={!p.count}
-                        title={t('staff.fireHint', { cost: formatMoney(quarterlySalaryCost(weakest(d), me.budgets.salaryPremium) * SEVERANCE_QUARTERS, lng) })}
+                        title={t('staff.fireHint', { cost: formatMoney(quarterlySalaryCost(weakest(d), pricingPremium(me)) * SEVERANCE_QUARTERS, lng) })}
                         onClick={() => dispatch({ type: 'fire', firmId: me.id, discipline: d, count: 1 })}
                       >
                         {t('staff.fire')}

@@ -28,7 +28,6 @@
     "press": "TRYKK START",
     "newGame": "Nytt spill",
     "continue": "Fortsett",
-    "load": "Last inn",
     "settings": "Innstillinger",
     "devNotice": "Dette spillet er ikke engang i beta – det er i aktiv utvikling. Lagrede spill kan bli slettet når som helst.",
     "savesDropped_one": "Et lagret spill ble slettet fordi spillogikken har endret seg siden det ble lagret. Du må dessverre starte et nytt spill.",
@@ -58,15 +57,6 @@
     "seedPlaceholder": "Tilfeldig",
     "start": "Stift selskapet"
   },
-  "load": {
-    "title": "Last inn spill",
-    "none": "Ingen lagrede spill ennå.",
-    "auto": "Autolagring",
-    "load": "Last inn",
-    "delete": "Slett",
-    "confirmDelete": "Slette dette lagrede spillet?",
-    "failed": "Kunne ikke laste spillet."
-  },
   "settings": {
     "title": "Innstillinger",
     "language": "Språk",
@@ -88,17 +78,6 @@
     "analytics": "Del anonym bruksstatistikk",
     "analyticsHint": "Hjelper oss å gjøre spillet bedre. Skrur du det av, slettes det som er lagret om deg på denne enheten."
   },
-  "save": {
-    "title": "Lagre spill",
-    "autosaveInfo": "Spillet lagres automatisk etter hver handling. Her kan du lagre en egen kopi.",
-    "slot": "Plass {{slot}}",
-    "empty": "Tom",
-    "saveHere": "Lagre her",
-    "overwrite": "Overskriv",
-    "saved": "Lagret på plass {{slot}}.",
-    "failed": "Kunne ikke lagre. Nettleseren tillater kanskje ikke lagring.",
-    "quit": "Avslutt til meny"
-  },
   "shell": {
     "quarterOf": "kvartal {{n}} av {{total}}",
     "cash": "Kontanter",
@@ -107,14 +86,20 @@
     "reputation": "Omdømme",
     "morale": "Trivsel",
     "heat": "Heat",
-    "save": "Lagre",
+    "menu": "Meny",
+    "menuHint": "Spillet lagres automatisk etter hver handling.",
     "announcement": "Høyttaler:",
     "nav": "Hovedmeny",
     "endTurn": "Avslutt kvartal",
     "pendingEvents_one": "Svar på hendelsen først",
     "pendingEvents_other": "Svar på {{count}} hendelser først",
     "news": "NYTT",
-    "ticker": "Nyheter fra bransjen"
+    "ticker": "Nyheter fra bransjen",
+    "stale": {
+      "title": "Åpent i en annen fane",
+      "body": "Du har spilt videre i en annen fane eller et annet vindu, så det du ser her er utdatert. Hent inn det siste lagrede spillet for å fortsette.",
+      "resume": "Fortsett her"
+    }
   },
   "bjorn": {
     "name": "Styreleder Bjørn",
@@ -984,5 +969,12 @@
     "more": "Les mer",
     "accept": "Ja, tell i vei",
     "deny": "Nei takk"
+  },
+  "crash": {
+    "title": "Noe gikk galt",
+    "body": "Spillet snublet i noe det ikke forventet. Lagringen din er som den var etter forrige handling. Prøv å gå til menyen og fortsette derfra.",
+    "menu": "Til menyen",
+    "deleteSave": "Slett lagret spill",
+    "confirmDelete": "Slette det lagrede spillet? Gjør dette bare hvis spillet krasjer hver gang du fortsetter."
   }
 }

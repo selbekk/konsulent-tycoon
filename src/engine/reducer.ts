@@ -6,6 +6,7 @@ import {
   PREMIUM_MIN,
   SEVERANCE_QUARTERS,
   clamp,
+  pricingPremium,
   quarterlySalaryCost,
 } from './constants'
 import { spendable } from './economy'
@@ -70,7 +71,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const gone = removePeople(state, firm, a.discipline, n, a.employeeId ? { employeeId: a.employeeId } : 'weakest')
     const levels = firm.roster ? gone.map((e) => e.level) : Array<number>(n).fill(level)
     firm.quarterFired = (firm.quarterFired ?? 0) + n
-    firm.cash -= levels.reduce((s, l) => s + quarterlySalaryCost(l, firm.budgets.salaryPremium), 0) * SEVERANCE_QUARTERS
+    firm.cash -= levels.reduce((s, l) => s + quarterlySalaryCost(l, pricingPremium(firm)), 0) * SEVERANCE_QUARTERS
     for (const p of Object.values(firm.pools)) p.morale = clamp(p.morale - FIRE_MORALE_HIT, 0, 100)
     for (const s of firm.stars) s.morale = clamp(s.morale - FIRE_MORALE_HIT, 0, 100)
     return undefined

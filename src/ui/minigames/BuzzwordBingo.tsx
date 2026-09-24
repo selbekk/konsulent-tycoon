@@ -10,7 +10,8 @@ import s from './minigames.module.css'
 interface Props {
   tender: Tender
   firmId: string
-  onStart: () => void
+  /** Records the attempt; false means it may not be played. */
+  onStart: () => boolean
   onFinish: (score: number) => void
   onClose: () => void
 }
@@ -57,8 +58,8 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
   }, [phase, endsAt, finish])
 
   const begin = () => {
+    if (!onStart()) return
     const t = performance.now()
-    onStart()
     setNow(t)
     setEndsAt(t + total * 1000)
     setPhase('play')

@@ -29,8 +29,14 @@ export function deserialize(raw: string, migs: Record<number, Migration> = migra
   return s
 }
 
-export type SlotId = 'auto' | '1' | '2' | '3'
-export const SLOTS: SlotId[] = ['auto', '1', '2', '3']
+/**
+ * One slot, written after every action. Manual slots were removed: saving before a pitch or the end
+ * of a quarter and loading again made every minigame and roll retryable.
+ */
+export type SlotId = 'auto'
+export const SLOTS: SlotId[] = ['auto']
+/** Manual slots from earlier builds; deleted at startup. */
+const LEGACY_SLOTS = ['1', '2', '3']
 
 export interface SlotMeta {
   slot: SlotId
@@ -42,6 +48,8 @@ export interface SlotMeta {
 }
 
 const saveKey = (slot: string) => `kt.save.${slot}`
+/** The localStorage key a slot's save lives under, e.g. to notice another tab writing it. */
+export const slotStorageKey = (slot: SlotId) => saveKey(slot)
 const metaKey = (slot: string) => `kt.meta.${slot}`
 
 export function saveToSlot(storage: Storage, slot: SlotId, state: GameState, now = new Date()): boolean {
@@ -95,6 +103,7 @@ export function purgeIncompatibleSaves(storage: Storage): SlotId[] {
     if (r.error === 'incompatible') dropped.push(slot)
     deleteSlot(storage, slot)
   }
+  for (const slot of LEGACY_SLOTS) removeSlotKeys(storage, slot)
   return dropped
 }
 
@@ -112,6 +121,10 @@ export function listSlots(storage: Storage): SlotMeta[] {
 }
 
 export function deleteSlot(storage: Storage, slot: SlotId) {
+  removeSlotKeys(storage, slot)
+}
+
+function removeSlotKeys(storage: Storage, slot: string) {
   try {
     storage.removeItem(saveKey(slot))
     storage.removeItem(metaKey(slot))

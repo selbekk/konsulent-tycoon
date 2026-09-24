@@ -98,7 +98,7 @@ src/
     metrics.ts        Nøkkeltall: FG, OT, vekst, retention, kapasitet, bransjesnitt
     todos.ts          Gjøremålslista for kvartalet
     minigames.ts      Rene scoringsfunksjoner for minispillene
-    save.ts           Serialisering, migrasjoner, lagringsplasser
+    save.ts           Serialisering, migrasjoner, autolagringen
     saveShape.ts      Sjekker at en lagring har riktig form
     ai/
       personalities.ts  AI-personligheter og arketyper
@@ -218,6 +218,8 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Hver handling har kostnad, heat og en grunnsannsynlighet for å bli oppdaget. Heat øker sannsynligheten.
   - CV-juks sjekkes først når du faktisk vinner.
   - Pågående handlinger (outsourcing, muldvarp, bait-and-switch) kan oppdages hvert kvartal så lenge de pågår.
+  - Triks med `perQuarter` kan brukes én gang per kvartal mot hvert mål (`'target'`) eller én gang per kvartal totalt (`'once'`, LinkedIn-posten, som løfter ditt eget brand). Ellers kunne man spamme ryktespredning mot lederen eller prøve å kapre samme stjerne til det lyktes. Sjekken er `shadyRepeatBlock`, og UI-et bruker den samme.
+- **Engangskostnader som bygger på lønn** (signering av stjerner, sluttpakker) bruker `pricingPremium`: det høyeste av dagens lønnspåslag og påslaget ved kvartalsstart (`Firm.quarterStartPremium`). Da hjelper det ikke å dra ned lønnsslideren rett før man ansetter eller sier opp.
 - **Nivåer (`levels.ts`):** Et firma har nivå 1–5. Spilleren starter på nivå 1, og AI-firmaene starter på nivået størrelsen gir.
   - Et firma rykker opp når det når **ett** av målene i `LEVELS`: antall ansatte, omsetning forrige kvartal eller antall vunne anbud totalt. Nivået går aldri ned.
   - Nivået styrer hvor store anbud firmaet kan by på (`maxSeats`), og når kultur, stjernemarkedet, rammeavtaler, bingo og bakrommet åpner (`FEATURE_LEVEL`). Hvert triks i bakrommet har sin egen `minLevel` i `SHADY_CATALOG`.
@@ -254,7 +256,10 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
 
 - **React 19 + Zustand.** `useGame` i `store/gameStore.ts` holder `game: GameState`, hvilken skjerm og fane som vises, åpne modaler og innstillinger.
 - **`dispatch(action)`** kaller `applyAction`, lagrer til `auto`-plassen og oppdaterer staten. **`endTurn()`** kaller motoren, autolagrer og åpner kvartalsrapporten.
-- **Skjermer:** `App.tsx` velger mellom menyene (`Menus.tsx`: hovedmeny, nytt spill, last inn, innstillinger, om spillet) og `Shell`. `Shell` inneholder toppfeltet, fanene, tickeren, «Avslutt kvartal» og alle modalene i spillet.
+- **Spilleren handler bare for sitt eget firma.** Motoren lar alle firmaer handle (AI-ene bruker de samme actionene), så det er `dispatch` som sjekker at firmaet i actionen (`actingFirm`: `firmId`, `bid.firmId` eller den ventende hendelsens firma) er spillerens.
+- **Én fane om gangen:** Lagrer en annen fane spillet (en `storage`-hendelse på `kt.save.auto`), blir `stale` sann. Da stopper `dispatch` og `endTurn`, og `Shell` ber spilleren hente inn den siste lagringen. Uten dette kunne en gammel fane gi et nytt forsøk på et minispill.
+- **`CrashBoundary`** (`ui/screens/CrashScreen.tsx`) fanger render-feil, for eksempel fra en ødelagt lagring, og gir en vei tilbake til menyen, eventuelt ved å slette autolagringen.
+- **Skjermer:** `App.tsx` velger mellom menyene (`Menus.tsx`: hovedmeny, nytt spill, innstillinger, om spillet) og `Shell`. `Shell` inneholder toppfeltet, fanene, tickeren, «Avslutt kvartal» og alle modalene i spillet.
 - **Styling:** CSS Modules og design-tokens i `ui/theme/tokens.css`.
   - Mørkt tema er standard, og det lyse ligger under `:root[data-theme='light']`.
   - Bruk tokens (`var(--accent)` osv.), ikke hardkodede farger.
@@ -307,8 +312,10 @@ Praktisk:
 
 ## Lagring og migrasjoner
 
-- `save.ts` lagrer til `localStorage` under `kt.save.<plass>` og `kt.meta.<plass>`. Plassene er `auto`, `1`, `2` og `3`.
+- `save.ts` lagrer til `localStorage` under `kt.save.auto` og `kt.meta.auto`. Det finnes bare denne ene plassen.
 - Autolagring skjer etter **hver** handling og hvert kvartal. Da mister man aldri bud, og man kan ikke laste siden på nytt for å spille et minispill en gang til.
+- **Ingen manuelle lagringsplasser.** Det fantes tre, men med dem kunne man lagre før en pitch eller et kvartalsslutt og laste inn igjen, så alle minispill og terningkast kunne tas om. Gamle plasser (`kt.save.1`–`3`) slettes ved oppstart. Ikke legg dem tilbake uten å tenke gjennom dette.
+- `saveShape.ts` avviser også `null` i påkrevde felt (JSON skriver NaN som `null`) og kjernetall som ikke er endelige tall, så en håndredigert lagring ikke krasjer spillet. `clamp` gjør NaN om til minimumsverdien, så slike verdier ikke kommer inn i staten via en action.
 - All tilgang til lagring er pakket i `try/catch`. Spillet fungerer også i privat modus, bare uten lagring.
 - Hver lagret state har `saveVersion`. **Når formen på `GameState` endres etter en lansering**, gjør du dette:
   1. Øk `SAVE_VERSION` i `constants.ts`.
@@ -334,7 +341,7 @@ Spillet er en Progressive Web App via `vite-plugin-pwa` (konfigurert i `vite.con
 Bruksstatistikk går til PostHog (organisasjonen Ho Ho Holding, EU-sky). Det er **opt-in**: ingenting lastes, lagres eller sendes før spilleren sier ja i cookiebaren (`ui/consent/CookieBar.tsx`). Svaret ligger i `localStorage` under `kt.consent`, og kan endres under Innstillinger. Sier spilleren nei etter å ha sagt ja, kaller vi `reset()` og `opt_out_capturing()`, slår av lagring og sletter `ph_*`-nøklene (id og sesjon). PostHogs eget opt-out-flagg blir liggende. Sier spilleren ja igjen i samme besøk, slås SDK-et på igjen med `opt_in_capturing()`.
 
 - **Kode:** `src/analytics/` (`index.ts` laster SDK-et, `consent.ts` holder svaret, `gameEvents.ts` gjør actions om til hendelser). Bare UI-et og storen kaller den. Motoren gjør det aldri, så simulatoren forblir ren.
-- **Hendelser:** Hver action som går gjennom `dispatch` blir en hendelse med navn fra `ACTION_EVENTS` (f.eks. `bid_placed`, `employee_fired`, `shady_action_taken`), og feilede actions blir `action_failed`. Storen sender dessuten `game_started`, `quarter_ended` (med nøkkeltall), `level_up`, `game_ended`, `game_saved`/`game_loaded`/`game_continued`, `screen_viewed`, `tab_viewed`, `settings_changed` og noen til. En ny action-type må ha en linje i `ACTION_EVENTS`, ellers feiler typesjekken.
+- **Hendelser:** Hver action som går gjennom `dispatch` blir en hendelse med navn fra `ACTION_EVENTS` (f.eks. `bid_placed`, `employee_fired`, `shady_action_taken`), og feilede actions blir `action_failed`. Storen sender dessuten `game_started`, `quarter_ended` (med nøkkeltall), `level_up`, `game_ended`, `game_continued`, `screen_viewed`, `tab_viewed`, `settings_changed` og noen til. En ny action-type må ha en linje i `ACTION_EVENTS`, ellers feiler typesjekken.
 - **Spill-id:** Hvert parti får en tilfeldig `gameId` i `GameState` når storen starter det (eldre lagringer får en ved innlasting). `setGameId` legger den på alle hendelser som `game_id` til spilleren går tilbake til menyen, så trakter kan telle partier og ikke bare spillere. Motoren leser den aldri.
 - **Personvern:** Send bare id-er fra innholdet og tall, aldri tekst spilleren har skrevet (firmanavnet). Autocapture har `mask_all_text` og `mask_all_element_attributes` av samme grunn. IP-anonymisering er slått på i PostHog-prosjektet. Om-teksten (`about.privacy`) beskriver hva som sendes, så oppdater den hvis du begynner å sende noe nytt.
 - **Skyvere:** `setBudgets`, `orderHires` og volumet dispatches ved hvert steg, så de sendes med `trackSettled` først når spilleren har sluppet.

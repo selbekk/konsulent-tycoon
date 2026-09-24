@@ -72,6 +72,8 @@ export function planCrisisAnswers(state: GameState, firmId: string, style?: Cris
     const options = crisisChoices(c).filter((ch) => !crisisChoiceBlock(state, c, ch.id))
     if (!options.length) return []
     const best = options.map((ch) => ({ ch, v: value(state, firm, c, ch, s) })).sort((a, b) => b.v - a.v)[0].ch
-    return [{ type: 'resolveCrisis', firmId, crisisId: c.id, choiceId: best.id, ...(best.talk ? { score: s.talk } : {}) } as Action]
+    const resolve: Action = { type: 'resolveCrisis', firmId, crisisId: c.id, choiceId: best.id, ...(best.talk ? { score: s.talk } : {}) }
+    // A talk only counts once started, same as for the player.
+    return best.talk ? [{ type: 'startCrisisTalk', firmId, crisisId: c.id, choiceId: best.id } as Action, resolve] : [resolve]
   })
 }
