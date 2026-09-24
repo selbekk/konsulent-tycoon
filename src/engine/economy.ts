@@ -70,6 +70,8 @@ export interface FirmStaffing {
   billed: number
   utilization: number
   demand: Seats
+  /** Own people not billing, per discipline (incl. stars and anyone a crisis took off work). Sums to headcount − billed. */
+  idle: Seats
 }
 
 /**
@@ -156,8 +158,14 @@ export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter)
     }
   }
 
+  const idle: Seats = {}
+  for (const d of DISCIPLINES) {
+    const offWork = Math.min(firm.pools[d].count, benched?.seats[d] ?? 0) + firm.stars.filter((s) => s.discipline === d && benched?.starIds.includes(s.id)).length
+    const n = (leftover[d] ?? 0) + offWork
+    if (n) idle[d] = n
+  }
   const hc = headcount(firm)
-  return { contracts: result, billed, utilization: hc ? billed / hc : 0, demand }
+  return { contracts: result, billed, utilization: hc ? billed / hc : 0, demand, idle }
 }
 
 export interface Financials {

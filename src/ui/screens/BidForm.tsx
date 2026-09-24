@@ -25,6 +25,7 @@ import { useGame } from '../../store/gameStore'
 import { Badge, Button, Hint, Modal, Slider } from '../components/ui'
 import { formatMoney, formatQuarter } from '../format'
 import { playSound } from '../sound'
+import { BenchView } from './Bench'
 import { bidChance, chanceTone } from './bidChance'
 import s from './screens.module.css'
 import { SeatBadges, WeightBar } from './TenderBoard'
@@ -118,6 +119,10 @@ export function BidForm({ tenderId }: { tenderId: string }) {
             {tender.kind === 'framework' && <span className={`${s.small} ${s.muted}`}>{t('bid.frameworkInfo')}</span>}
           </div>
           <SeatBadges tender={tender} game={game} />
+          <details className={s.disclosure}>
+            <summary className={s.small}>{t('bench.title')}</summary>
+            <BenchView game={game} />
+          </details>
           <WeightBar tender={tender} />
 
           <Slider

@@ -31,6 +31,7 @@ import {
 } from './constants'
 import { isActive } from './economy'
 import { hasFeature } from './levels'
+import { profileOf } from './profile'
 import { employeeOf, removePeople, rosterRng, syncPool } from './roster'
 import { chance, nextFloat, pick } from './rng'
 import { AMBITIONS } from './stars'
@@ -271,6 +272,8 @@ export function handlePromote(state: GameState, a: ActionOf<'promoteEmployee'>):
     salaryPremium: HOMEGROWN_PREMIUM,
     homegrown: true,
     joinedQuarter: e.joinedQuarter,
+    // Same person, new id: keep who they are.
+    ...profileOf(state, e),
   }
   removePeople(state, firm, e.discipline, 1, { employeeId: e.id })
   if (e.promise) {

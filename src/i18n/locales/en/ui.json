@@ -605,6 +605,55 @@
     "laterSeatsInBids_other": "Plus {{count}} seats in bids starting in two quarters",
     "explain": "{{count}} people in total. “Next quarter” shows who is already committed and how many of the free people you have offered in bids decided this quarter. Numbers read “now → next quarter”."
   },
+  "bench": {
+    "title": "On the bench",
+    "intro": "Who is not on a contract, now and next quarter. Open bids are not counted.",
+    "view": "View",
+    "views": {
+      "summary": "By discipline",
+      "table": "People"
+    },
+    "now": "Free now",
+    "next": "Free next quarter",
+    "inBids": "In bids",
+    "overbooked": "You have bid more seats than you have free people next quarter. Win them all and freelancers fill the rest.",
+    "none": "Nobody on the bench. Everyone is billing, now and next quarter.",
+    "free": "Free",
+    "cols": {
+      "name": "Name",
+      "discipline": "Discipline",
+      "experience": "Experience (yrs)",
+      "level": "Level",
+      "now": "Now",
+      "next": "Next qtr"
+    }
+  },
+  "people": {
+    "title": "Your people in numbers",
+    "genderAbbr": "Gender",
+    "gender": "Gender balance",
+    "women": "{{pct}} women",
+    "groups": {
+      "tech": "Tech: {{pct}} women ({{count}})",
+      "design": "Design: {{pct}} women ({{count}})",
+      "pm": "Project management: {{pct}} women ({{count}})"
+    },
+    "nonbinary_one": "{{count}} non-binary",
+    "nonbinary_other": "{{count}} non-binary",
+    "ageAbbr": "Age",
+    "age": "Average age",
+    "ageRange": "Youngest {{min}}, oldest {{max}}",
+    "experienceAbbr": "Exp.",
+    "experience": "Years in industry",
+    "seniority": "{{juniors}} juniors (under 3 years), {{seniors}} seniors (10+ years)",
+    "tenure": "Average time at the firm: {{years}}",
+    "projectAbbr": "Project",
+    "project": "Time on contract",
+    "projectLength": "Contracts last {{years}} on average",
+    "noProjects": "Nobody is on a contract right now",
+    "years": "{{value}} yrs",
+    "explain": "Covers all employees and stars. Time on contract is counted per seat your own people fill: how long the contract has run (this quarter included) and how long it lasts in total. Tech means frontend, backend, cloud, data and architecture."
+  },
   "todo": {
     "title": "This quarter's to-dos",
     "allDone": "All set. Go ahead and end the quarter.",
@@ -682,7 +731,8 @@
       "ipo": "IPO: raise capital, but live with quarterly pressure",
       "renegotiate": "Renegotiation: ask happy clients for a higher rate",
       "upsell": "Upselling: offer more people on running projects",
-      "development": "Development: courses, mentors and career talks for your own people"
+      "development": "Development: courses, mentors and career talks for your own people",
+      "peopleStats": "People statistics on the overview: gender balance, age, experience and time on project"
     },
     "seats": "Tenders of up to {{count}} consultants",
     "seatsAll": "Tenders of any size",
@@ -826,7 +876,8 @@
       "ipo": "going public",
       "renegotiate": "renegotiation",
       "upsell": "upselling",
-      "development": "developing your people"
+      "development": "developing your people",
+      "peopleStats": "people statistics"
     },
     "bjorn": "I'm the chair of the board. I'll turn up with advice whenever it suits me. Good luck!"
   },

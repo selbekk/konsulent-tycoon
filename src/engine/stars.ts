@@ -1,5 +1,6 @@
 import { TRAITS, TRAIT_MAP } from '../content/traits'
 import { MAX_POOL_LEVEL, STAR_MARKET_MAX, clamp, pricingPremium, quarterlySalaryCost } from './constants'
+import { fitName, newProfile } from './profile'
 import { personName, raiseLevel } from './roster'
 import { moraleTarget } from './staff'
 import { chance, nextFloat, nextInt, pick, range } from './rng'
@@ -22,7 +23,7 @@ export function generateStar(state: GameState, discipline?: Discipline, minLevel
     const t = pick(rng, TRAITS).id
     if (!traits.includes(t)) traits.push(t)
   }
-  return {
+  const star: Star = {
     id: nextId(state, 's'),
     name: generateStarName(rng),
     discipline: discipline ?? pick(rng, DISCIPLINES),
@@ -33,6 +34,10 @@ export function generateStar(state: GameState, discipline?: Discipline, minLevel
     loyalty: 60,
     salaryPremium: Math.round(range(rng, 0.05, 0.25) * 100) / 100,
   }
+  // After the state.rng draws, from a hash, so the rest of the game draws exactly as before.
+  Object.assign(star, newProfile(state, star.id, star.discipline, star.level))
+  star.name = fitName(state, star.id, star.name, star.gender!)
+  return star
 }
 
 export function ambitionMet(firm: Firm, star: Star, headcount: number): boolean {

@@ -1,7 +1,7 @@
 /** All balance numbers live here. Tune with `npm run sim`. */
 
 import type { TalkStyle } from '../content/crisisTalks'
-import type { CrisisMinigame, Difficulty } from './types'
+import type { CrisisMinigame, Difficulty, Discipline } from './types'
 
 export const SAVE_VERSION = 1
 export const MAX_QUARTERS = 40
@@ -187,6 +187,8 @@ export const FEATURE_LEVEL = {
   /** Courses, mentors, stretch assignments and career talks. Promotion also needs `stars`. */
   development: 2,
   bingo: 3,
+  /** Gender balance, age, experience and time on project on the dashboard. */
+  peopleStats: 3,
   upsell: 3,
   backroom: 3,
   strategy: 3,
@@ -195,6 +197,29 @@ export const FEATURE_LEVEL = {
   acquisitions: 5,
   ipo: 5,
 } as const
+/**
+ * Share of women among new people per discipline. Tech skews heavily male and design female,
+ * roughly like the Norwegian industry. Display only: the people statistics read it, nothing else does.
+ */
+export const FEMALE_SHARE: Record<Discipline, number> = {
+  frontend: 0.3,
+  backend: 0.2,
+  cloud: 0.15,
+  data: 0.3,
+  design: 0.65,
+  architecture: 0.15,
+  pm: 0.5,
+}
+export const NONBINARY_SHARE = 0.02
+/** Years of experience at hire: about this many per level above 1, give or take the spread. */
+export const EXPERIENCE_PER_LEVEL = 3.2
+export const EXPERIENCE_SPREAD = 1.5
+/** People start their careers at this age plus up to the spread in years. */
+export const CAREER_START_AGE = 22
+export const CAREER_START_AGE_SPREAD = 6
+/** People statistics: under this many years in the industry is junior, from the senior limit up senior. */
+export const JUNIOR_YEARS = 3
+export const SENIOR_YEARS = 10
 /** Every level-up is a move to a bigger office: a one-off lift for social culture and employer brand. */
 export const OFFICE_MOVE_SOSIALT = 5
 export const OFFICE_MOVE_BRAND = 3

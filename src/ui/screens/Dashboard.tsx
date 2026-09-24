@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { activeContracts, benchmark, capacity, hasFeature, kpis, playerRank, quarterFinancials, quarterTodos, valuation } from '../../engine'
+import { GENDER_GROUPS, activeContracts, benchmark, capacity, hasFeature, kpis, peopleStats, playerRank, quarterFinancials, quarterTodos, valuation } from '../../engine'
+import type { GenderGroup } from '../../engine'
 import type { NewsItem } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { bjornKey } from '../bjorn'
@@ -91,6 +92,8 @@ export function Dashboard() {
         </Panel>
       )}
 
+      {hasFeature(me, 'peopleStats') && <PeopleStatsPanel />}
+
       <Panel title={t('capacity.title')} icon="people" className={s.span7}>
         <CapacityChart cap={cap} />
         <p className={`${s.small} ${s.muted}`} style={{ marginBottom: 0 }}>{t('capacity.explain', { count: cap.headcount })}</p>
@@ -171,5 +174,53 @@ export function Dashboard() {
         <OfficeView firm={me} />
       </Panel>
     </div>
+  )
+}
+
+function PeopleStatsPanel() {
+  const { t, i18n } = useTranslation()
+  const lng = i18n.language
+  const game = useGame((x) => x.game)!
+  const st = peopleStats(game, game.playerId)
+  const pct = (part: number, total: number) => (total ? formatPercent(part / total, lng) : '–')
+  const years = (v: number | undefined) => (v !== undefined ? t('people.years', { value: formatNumber(v, lng, 1) }) : '–')
+  return (
+    <Panel title={t('people.title')} icon="people" className={s.span12}>
+      <div className={m.tiles}>
+        <KpiTile
+          abbr={t('people.genderAbbr')}
+          name={t('people.gender')}
+          value={t('people.women', { pct: pct(st.gender.female, st.headcount) })}
+          lines={[
+            ...(Object.keys(GENDER_GROUPS) as GenderGroup[])
+              .filter((g) => st.genderByGroup[g].total > 0)
+              .map((g) => <>{t(`people.groups.${g}`, { pct: pct(st.genderByGroup[g].female, st.genderByGroup[g].total), count: st.genderByGroup[g].total })}</>),
+            ...(st.gender.nonbinary ? [<>{t('people.nonbinary', { count: st.gender.nonbinary })}</>] : []),
+          ]}
+        />
+        <KpiTile
+          abbr={t('people.ageAbbr')}
+          name={t('people.age')}
+          value={years(st.age?.avg)}
+          lines={st.age ? [<>{t('people.ageRange', { min: Math.floor(st.age.min), max: Math.floor(st.age.max) })}</>] : []}
+        />
+        <KpiTile
+          abbr={t('people.experienceAbbr')}
+          name={t('people.experience')}
+          value={years(st.experience?.avg)}
+          lines={[
+            ...(st.experience ? [<>{t('people.seniority', { juniors: st.experience.juniors, seniors: st.experience.seniors })}</>] : []),
+            <>{t('people.tenure', { years: years(st.tenure) })}</>,
+          ]}
+        />
+        <KpiTile
+          abbr={t('people.projectAbbr')}
+          name={t('people.project')}
+          value={years(st.project?.soFar)}
+          lines={[<>{st.project ? t('people.projectLength', { years: years(st.project.length) }) : t('people.noProjects')}</>]}
+        />
+      </div>
+      <p className={`${s.small} ${s.muted}`} style={{ marginBottom: 0 }}>{t('people.explain')}</p>
+    </Panel>
   )
 }
