@@ -9,6 +9,7 @@ import { Button, Panel, Sparkline, Stat } from '../components/ui'
 import { formatMoney, formatNumber, formatPercent, formatQuarter, newsText } from '../format'
 import { OfficeView } from '../office/OfficeView'
 import s from './screens.module.css'
+import { CrisisPanel } from './CrisisPanel'
 import { LevelPanel } from './LevelPanel'
 import { TodoList } from './TodoList'
 
@@ -37,6 +38,7 @@ export function Dashboard() {
 
   return (
     <div className={s.grid}>
+      <CrisisPanel />
       {hasFeature(me, 'kpis') && (
         <Panel title={t('kpi.title')} icon="chart" className={s.span12}>
           <div className={m.tiles}>

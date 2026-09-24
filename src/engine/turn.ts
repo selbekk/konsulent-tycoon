@@ -1,6 +1,7 @@
 import { planAiTurn } from './ai/planner'
 import { yearEndAwards } from './awards'
 import { BANKRUPT_AFTER_QUARTERS, CREDIT_INTEREST, HISTORY_LENGTH } from './constants'
+import { advanceCrises, autoResolveCrises, drawCrises, rollCrisisExposure } from './crises'
 import { expireContracts, rollCallOffs, updateContracts } from './contracts'
 import { updateCulture } from './culture'
 import { creditLimit, headcount, quarterFinancials } from './economy'
@@ -92,8 +93,11 @@ export function endTurn(input: GameState): GameState {
   autoResolveEvents(state)
 
   runAiTurns(state)
+  // After the AI has answered its crises, before billing, so a bench choice costs this quarter.
+  autoResolveCrises(state)
   runFirmQuarter(state)
   rollShadyDetection(state)
+  rollCrisisExposure(state)
   decayHeatAndIntel(state)
   // Fines from this quarter's scandals end up in the report.
   for (const f of activeFirms(state)) {
@@ -126,7 +130,9 @@ export function endTurn(input: GameState): GameState {
     return state
   }
   refreshStarMarket(state)
+  advanceCrises(state)
   drawEvents(state)
+  drawCrises(state)
   pickAnnouncement(state)
   return state
 }

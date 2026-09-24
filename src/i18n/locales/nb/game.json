@@ -21,7 +21,13 @@
     "customerHappy": "Kunden er fornøyd nok. Middagen kan vente.",
     "rateAtMax": "Timeprisen er allerede så høy den kan bli.",
     "upsellFramework": "Rammeavtaler styres av kundens avrop, ikke av deg.",
-    "upsellTooBig": "Kontrakten kan ikke bli større på ditt nivå."
+    "upsellTooBig": "Kontrakten kan ikke bli større på ditt nivå.",
+    "promiseNotAllowed": "Løfter om oppstart gis bare på viktige anbud.",
+    "noMeetingNeeded": "Dette er et rutineoppdrag. Kunden trenger ikke noe møte.",
+    "crisisClosed": "Den krisen venter ikke på noe svar nå.",
+    "crisisNeedsStar": "Den personen er ikke lenger hos dere.",
+    "crisisNeedsContract": "Oppdraget er ikke i gang lenger.",
+    "crisisNeedsCustomer": "Det er ingen kunde å spørre."
   },
   "news": {
     "game": {
@@ -36,9 +42,11 @@
       "noBids": "Ingen leverte bud på anbudet fra {{customer}}. Innkjøpsavdelingen tar en lang lunsj.",
       "noneGoodEnough": "{{customer}} avviste alle budene på anbudet sitt. Ingen var gode nok.",
       "playerRejected": "{{customer}} avviste budet deres. Kvaliteten holdt ikke, uansett hvor fin forsiden var.",
-      "playerWon": "Dere vant anbudet hos {{customer}}! {{bidders}} leverte bud.",
-      "playerWonFramework": "Dere ble rangert som nr. {{rank}} på rammeavtalen hos {{customer}}.",
-      "playerLost": "Dere tapte anbudet hos {{customer}}. {{firm}} stakk av med det.",
+      "playerRejectedCapacity": "{{customer}} avviste budet deres. Dere hadde for få ledige folk, og kunden sjekket.",
+      "playerWon": "Dere vant anbudet hos {{customer}}! {{bidders}} leverte bud. {{strong}}",
+      "playerWonFramework": "Dere ble rangert som nr. {{rank}} på rammeavtalen hos {{customer}}. {{strong}}",
+      "playerLost": "Dere tapte anbudet hos {{customer}} til {{firm}}. {{weak}}",
+      "playerLostBoth": "Dere tapte anbudet hos {{customer}} til {{firm}}. {{weak}} {{strong}}",
       "awarded": "{{firm}} vant anbudet hos {{customer}} i konkurranse med {{bidders}} andre.",
       "frameworkAwarded": "{{firm}} topper rammeavtalen hos {{customer}}. {{bidders}} firma kjempet om plassene."
     },
@@ -100,6 +108,28 @@
       "listed": "{{firm}} er notert på Oslo Børs! Gründerne ringte i bjella, og noen filmet det vertikalt.",
       "miss": "Kvartalet ble svakere enn det forrige. Aksjonærene er skuffet, og det merkes i gangene.",
       "beat": "Bedre kvartal enn sist. Aksjonærene er fornøyde, i hvert fall fram til neste kvartal."
+    },
+    "promise": {
+      "kept": {
+        "fullTeam": "{{customer}} fikk hele teamet fra første dag, slik dere lovet. Det ble lagt merke til.",
+        "phased": "Den gradvise oppstarten hos {{customer}} gikk som lovet. Kunden setter pris på forutsigbarhet.",
+        "discovery": "Kartleggingen hos {{customer}} er levert, og kunden er glad noen spurte først. Nå faktureres full pris."
+      },
+      "broken": {
+        "fullTeam": "Dere lovet {{customer}} hele teamet fra start, men måtte fylle hullene med innleide. Kunden har notert seg det.",
+        "phased": "Dere lovet {{customer}} en gradvis oppstart, men over halvparten av setene ble fylt av innleide."
+      }
+    },
+    "crisis": {
+      "started": "Krise: {{crisis}}. Se oversikten.",
+      "buried": "«{{crisis}}» er lagt i skuffen. Foreløpig.",
+      "ended": {
+        "good": "«{{crisis}}» er over, og dere kom godt ut av det.",
+        "ok": "«{{crisis}}» er over. Det kunne gått verre.",
+        "bad": "«{{crisis}}» er over, men det satte spor."
+      },
+      "exposed": "Det sprakk: «{{crisis}}» er i avisen.",
+      "exposedRival": "Avsløring: {{firm}} prøvde å dysse ned en sak. Nå står det i avisen."
     }
   },
   "announcements": {
@@ -470,14 +500,6 @@
         "hybrid": "Folk bestemmer selv"
       }
     },
-    "security_incident": {
-      "title": "Sikkerhetshull",
-      "body": "Noen har lagt en API-nøkkel i et offentlig repo. Den har vært der i fire måneder.",
-      "choices": {
-        "pay": "Rydd opp skikkelig (400 000 kr)",
-        "downplay": "Den var nesten ikke brukt."
-      }
-    },
     "poach_attempt": {
       "title": "Afterwork-alarm",
       "body": "{{firm}} har tatt med {{name}} på afterwork. Det ble visst sent, og det var snakk om lønn.",
@@ -485,6 +507,354 @@
         "match": "Match tilbudet (+10 % lønn og en halv kvartalslønn)",
         "let_go": "La hen gå",
         "podcast": "Gråt i en CEO-podcast"
+      }
+    }
+  },
+  "factors": {
+    "weak": {
+      "price": "Prisen deres var for høy.",
+      "cv": "De hadde sterkere CV-er.",
+      "fagmiljo": "De har et sterkere fagmiljø.",
+      "meeting": "Kundemøtet gikk bedre for dem.",
+      "effort": "De hadde et mer gjennomarbeidet tilbud.",
+      "reputation": "De har bedre omdømme.",
+      "extras": "De hadde stjerner eller en spesialisering dere manglet.",
+      "capacity": "Dere hadde for få ledige folk.",
+      "promise": "Løftet deres om oppstarten overbeviste ikke like godt.",
+      "relationship": "Kunden kjenner dem bedre.",
+      "priority": "Kunden regnet med å bety mer for dem.",
+      "luck": "Det var jevnt, og flaksen avgjorde."
+    },
+    "strong": {
+      "price": "Prisen var konkurransedyktig.",
+      "cv": "CV-ene var sterke.",
+      "fagmiljo": "Fagmiljøet gjorde inntrykk.",
+      "meeting": "Kundemøtet gikk godt.",
+      "effort": "Tilbudet var godt gjennomarbeidet.",
+      "reputation": "Omdømmet hjalp.",
+      "extras": "Stjernene og spesialiseringen hjalp.",
+      "capacity": "Dere hadde folk klare.",
+      "promise": "Løftet om oppstarten passet kunden.",
+      "relationship": "Kunden kjenner dere godt.",
+      "priority": "Kunden merket at oppdraget betyr mye for dere.",
+      "luck": "Det var jevnt, og flaksen var på deres side.",
+      "alone": "Ingen andre leverte et godkjent bud."
+    }
+  },
+  "crises": {
+    "exposed": {
+      "body": "Det dere la i skuffen, er ute. En journalist har ringt, og hun hadde gjort hjemmeleksa si.",
+      "choices": {
+        "apologize": "Legg deg flat og rydd opp",
+        "press_conference": "Kall inn til pressekonferanse",
+        "deny": "«Vi kjenner oss ikke igjen i beskrivelsen»"
+      }
+    },
+    "whistleblower": {
+      "title": "Varsling mot {{name}}",
+      "gossip": "Det går rykter om en varslingssak i {{firm}}. Ingen vil si noe, alle vet litt.",
+      "report": {
+        "body": "HR har fått et varsel om {{name}}, en av de beste konsulentene dere har. Innholdet er alvorlig nok til at det ikke kan ignoreres, og vagt nok til at det ikke er klart hvor ille det er.",
+        "choices": {
+          "investigate": "Ekstern gransking, og {{name}} tar et kvartal av oppdrag",
+          "talk": "Ta en fortrolig prat med {{name}} først",
+          "drawer": "Legg det i skuffen. Det går sikkert over."
+        }
+      },
+      "verdict": {
+        "body": {
+          "low": "Saken viste seg å være en misforståelse som vokste i en Slack-tråd. Varsleren er lettet, {{name}} er flau, og alle har lært noe om tone.",
+          "high": "Det er ikke en misforståelse. Flere på teamet bekrefter mønsteret, og nå venter alle på hva ledelsen gjør."
+        },
+        "choices": {
+          "clear": "Avslutt saken og gå videre",
+          "mediate": "Sett opp et meklingsmøte med god kaffe",
+          "let_go": "Avslutt arbeidsforholdet med {{name}}",
+          "townhall": "Ta det på allmøtet, åpent og ærlig",
+          "stand_by": "Stå last og brast med {{name}}"
+        }
+      }
+    },
+    "team_feud": {
+      "title": "Krangel i {{discipline}}",
+      "gossip": "To seniorer i {{firm}} skal visstnok ikke lenger sitte på samme etasje.",
+      "feud": {
+        "body": "To seniorer i {{discipline}} nekter å sitte i samme møte. Den ene har tatt med seg egen kaffemaskin, den andre har tatt det personlig. Teamet deler seg i to leirer.",
+        "choices": {
+          "townhall": "Samle alle til allmøte og snakk ut",
+          "split": "Del teamet i to en periode",
+          "pick_side": "Velg side. Den ene har rett.",
+          "wait": "Voksne folk finner ut av det selv"
+        }
+      },
+      "truce": {
+        "body": {
+          "low": "De har begynt å spille padel sammen. Ingen vet hvorfor, og ingen tør å spørre.",
+          "high": "Den ene har sagt opp, og to til vurderer å følge etter. Kaffemaskinen står igjen."
+        },
+        "choices": {
+          "celebrate": "Spander fredagspils på hele teamet",
+          "move_on": "Si ingenting og nyt freden",
+          "counteroffer": "Gi de som vil gå, et bedre tilbud",
+          "let_them_go": "La dem gå"
+        }
+      }
+    },
+    "client_exit": {
+      "title": "{{customer}} vil ut",
+      "gossip": "{{firm}} skal visstnok være på vei ut av en stor kundeavtale. Salgssjefen ble sett gå tur alene.",
+      "warning": {
+        "body": "{{customer}} ringer: «Vi vurderer å avslutte samarbeidet.» De bestemmer seg neste kvartal. Hvor fornøyde de er med leveransen da, avgjør saken.",
+        "choices": {
+          "send_partner": "Send {{name}} på kundebesøk et kvartal",
+          "discount": "Gi rabatt på timeprisen",
+          "rescue_meeting": "Be om et krisemøte med kunden",
+          "graceful_exit": "Takk for samarbeidet og avslutt med stil",
+          "do_nothing": "Det er nok bare forhandlingstaktikk"
+        }
+      },
+      "stayed": {
+        "body": "{{customer}} fortsetter. «Vi har sett forbedringen», skriver de, og legger til en smilefjes-emoji for første gang.",
+        "choices": {
+          "thank": "Inviter dem på middag",
+          "move_on": "Tilbake til jobben"
+        }
+      },
+      "left": {
+        "body": "{{customer}} avslutter kontrakten. Oppdraget stopper nå, og teamet står på benken fra mandag.",
+        "choices": {
+          "ask_feedback": "Be om en ærlig tilbakemelding",
+          "badmouth": "Si til alle som vil høre at de var umulige",
+          "accept": "Ta det til etterretning"
+        }
+      }
+    },
+    "client_insolvent": {
+      "title": "{{customer}} betaler ikke",
+      "gossip": "En av kundene til {{firm}} skal ha betalingsproblemer. Regnskapet deres har begynt å lese avisen nøye.",
+      "unpaid": {
+        "body": "Fakturaen til {{customer}} er ikke betalt, og økonomisjefen deres svarer ikke på e-post. De kan være i en midlertidig knipe. Eller så er de ferdige.",
+        "choices": {
+          "keep_working": "Jobb videre og vis at dere er til å stole på",
+          "stop_work": "Stopp arbeidet til pengene er på konto",
+          "factoring": "Selg kravet til et factoringselskap"
+        }
+      },
+      "verdict": {
+        "body": {
+          "low": "Pengene kom, med renter og en kakeboks. Det var en rotete omorganisering, ikke en konkurs.",
+          "high": "{{customer}} har begjært oppbud. Fakturaene blir til et krav i boet, og teamet deres står uten jobb."
+        },
+        "choices": {
+          "thank": "Takk for kaken",
+          "hire_team": "Ansett to fra teamet deres",
+          "claim": "Meld kravet i boet med advokat",
+          "write_off": "Skriv av tapet"
+        }
+      }
+    },
+    "ai_act": {
+      "title": "KI-forordningen strammes inn",
+      "news": "EU strammer inn KI-forordningen. Dataprosjekter over hele landet settes på vent mens juristene leser.",
+      "ruling": {
+        "body": "Nye regler for KI trer i kraft, og kundene fryser dataprosjekter mens de finner ut hva som er lov. Dataetterspørselen stuper i noen kvartaler.",
+        "choices": {
+          "reskill": "Kurs alle i regelverket og selg compliance",
+          "layoff": "Nedbemann på data",
+          "wait": "Vent og se"
+        }
+      },
+      "second_wave": {
+        "body": {
+          "low": "Det blåste over. Kundene fant ut at regnestykket deres egentlig var en pivottabell.",
+          "high": "Andre bølge: kundene vil reforhandle alt som har ordet «modell» i seg. Også de som handler om datamodeller."
+        },
+        "choices": {
+          "relax": "Pust ut",
+          "cut_prices": "Gi kundene rabatt på det som er i gang",
+          "ride_it_out": "Stå i det"
+        }
+      }
+    },
+    "krone_crash": {
+      "title": "Kronekollaps",
+      "news": "Kronen faller som en stein. Skylisenser i dollar koster plutselig mer enn konsulentene som bruker dem.",
+      "crash": {
+        "body": "Kronen har falt kraftig. Alt dere kjøper i dollar og euro, fra skylisenser til utstyr, blir dyrere. Kundene strammer inn og ser mer på pris.",
+        "choices": {
+          "hedge": "Sikre valutaen nå, selv om det koster",
+          "pass_on": "Send prisøkningen videre til kundene",
+          "absorb": "Ta det som det kommer"
+        }
+      },
+      "bill": {
+        "body": {
+          "low": "Regningen kom, og den var til å leve med. Finanssjefen ble sett smile.",
+          "high": "Regningen kom, og den var stor. Lisensene fornyet seg automatisk i dollar, midt på bunnen."
+        },
+        "choices": {
+          "cut_perks": "Kutt frynsegodene en periode",
+          "swallow": "Svelg det"
+        }
+      }
+    },
+    "basement_flood": {
+      "title": "Flom i kjelleren",
+      "gossip": "Kjelleren til {{firm}} står visstnok under vann. Serverrommet også.",
+      "flood": {
+        "body": "Kjelleren står under vann. Serverrommet også. Og ølkjøleskapet. Kontoret er ubrukelig et godt stykke fremover.",
+        "choices": {
+          "rent_space": "Lei et midlertidig lokale",
+          "remote": "Alle på hjemmekontor",
+          "client_office": "Spør om dere kan låne plass hos {{customer}}",
+          "wing_it": "Folk finner ut av det selv"
+        }
+      },
+      "insurance": {
+        "body": {
+          "low": "Skaden var mindre enn fryktet, og forsikringen vil ha dokumentasjon før de betaler.",
+          "high": "Skaden er større enn fryktet: kablene i veggene må byttes. Forsikringen vil ha dokumentasjon på alt."
+        },
+        "choices": {
+          "paperwork": "Sett noen på papirarbeidet",
+          "forget": "Glem det, vi har viktigere ting å gjøre"
+        }
+      }
+    },
+    "power_outage": {
+      "title": "Strømbrudd",
+      "gossip": "{{firm}} har vært uten strøm i en uke. Konsulentene ble sett i kø på nærmeste kafé.",
+      "dark": {
+        "body": "En storm har tatt strømmen i hele bydelen, og nettselskapet snakker om «rundt en uke». Laptopene har tre timer batteri igjen.",
+        "choices": {
+          "generator": "Lei et aggregat",
+          "cabin": "Alle på hytta, der er det strøm",
+          "pause": "Ta en pause og vent på strømmen"
+        }
+      },
+      "deadline": {
+        "body": {
+          "low": "Ingen merket noe. Kundene hadde også strømbrudd.",
+          "high": "En viktig leveranse hos {{customer}} glapp. De har merket det."
+        },
+        "choices": {
+          "shrug": "Godt at det ordnet seg",
+          "weekend_push": "Jobb inn etterslepet i helgen",
+          "cake": "Send kake og en unnskyldning",
+          "miss_it": "Sånt skjer"
+        }
+      }
+    },
+    "data_leak": {
+      "title": "Datalekkasje",
+      "gossip": "Det skal ha vært en datalekkasje i et av teamene til {{firm}}. Pressekontakten deres er på ferie.",
+      "discovery": {
+        "body": "Kundedata fra {{customer}} har ligget åpent i en lagringsbøtte som et av teamene deres satte opp. Ingen vet om noen har sett dem.",
+        "choices": {
+          "disclose": "Si fra til kunden og Datatilsynet med en gang",
+          "forensics": "Hyr inn et sikkerhetsfirma for å finne ut hva som skjedde",
+          "quiet_fix": "Lukk bøtta i stillhet"
+        }
+      },
+      "assessment": {
+        "body": {
+          "low": "Sikkerhetsfirmaet er ferdig: ingen hadde lastet ned noe. Bøtta var åpen, men ingen gikk inn.",
+          "high": "Sikkerhetsfirmaet er ferdig: dataene er lastet ned, flere ganger, fra et land dere ikke har kunder i."
+        },
+        "choices": {
+          "close_quietly": "Lukk saken internt",
+          "disclose_anyway": "Si fra likevel. Åpenhet lønner seg.",
+          "disclose": "Si fra til kunden og Datatilsynet",
+          "bury": "Ingen trenger å vite det"
+        }
+      },
+      "fallout": {
+        "body": {
+          "low": "Kunden tok det rolig, og Datatilsynet noterte seg saken. Nå gjelder det å vise at dere tar det på alvor.",
+          "high": "Saken er i avisen. {{customer}} er rasende, og Datatilsynet har bedt om et møte."
+        },
+        "choices": {
+          "press_conference": "Hold pressekonferanse",
+          "apology_tour": "Reis på beklagelsesturné hos {{customer}}",
+          "lie_low": "Hold en lav profil til det blåser over"
+        }
+      }
+    },
+    "ransomware": {
+      "title": "Løsepengevirus",
+      "gossip": "Timeføringssystemet til {{firm}} skal være kryptert av løsepengevirus. Konsulentene har aldri vært gladere.",
+      "locked": {
+        "body": "Timeføringssystemet fra underleverandøren er kryptert. En hyggelig melding ber om bitcoin. Uten timelister kan dere ikke fakturere.",
+        "choices": {
+          "pay_ransom": "Betal løsepengene i all stillhet",
+          "rebuild": "Bygg opp alt på nytt fra bunnen",
+          "spreadsheets": "Kjør på med regneark til det løser seg"
+        }
+      },
+      "restore": {
+        "body": {
+          "low": "Backupen fra i fjor fungerer. Nesten alt er tilbake, bortsett fra én lang lunsj ingen savner.",
+          "high": "Backupen er også kryptert. Timelistene for kvartalet er borte, og kundene må faktureres på skjønn."
+        },
+        "choices": {
+          "celebrate": "Spander kake på IT",
+          "move_on": "Videre",
+          "estimate_cautious": "Fakturer forsiktig. Heller for lite enn for mye.",
+          "press_conference": "Fortell åpent hva som skjedde",
+          "estimate_generous": "Fakturer romslig. Kundene forstår."
+        }
+      }
+    },
+    "prod_outage": {
+      "title": "Nedetid hos {{customer}}",
+      "gossip": "{{firm}} skal ha tatt ned produksjonen hos en stor kunde. Fredag, selvfølgelig.",
+      "outage": {
+        "body": "Produksjonen hos {{customer}} har vært nede i fire timer. Loggene peker på en deploy fra teamet deres fredag 16:55.",
+        "choices": {
+          "war_room": "Krisestab: hent folk fra andre oppdrag",
+          "blameless": "Rolig feilsøking uten å lete etter syndebukker",
+          "blame_vendor": "Skyld på skyleverandøren",
+          "wait_it_out": "Det løser seg nok"
+        }
+      },
+      "postmortem": {
+        "body": {
+          "low": "Det var en DNS-feil hos kunden selv. Det er alltid DNS.",
+          "high": "Det var dere. En konfigurasjonsendring uten review, rett før helgen."
+        },
+        "choices": {
+          "gracious": "Hjelp dem med å fikse det, uten å si noe om DNS",
+          "told_you": "Send en høflig e-post med tittelen «Rotårsak»",
+          "own_it": "Ta ansvar i et møte med kunden",
+          "credit_note": "Gi en kreditnota",
+          "move_on": "Gå videre og håp at de glemmer det"
+        }
+      }
+    },
+    "slack_slip": {
+      "title": "Feil kanal",
+      "gossip": "En konsulent i {{firm}} skal ha skrevet noe uheldig i en kundes Slack. Skjermbildet går rundt.",
+      "message": {
+        "body": "En av konsulentene deres skrev «denne kunden er helt koko» i Slack. I feil kanal. Kundens kanal, med {{customer}}s ledergruppe.",
+        "choices": {
+          "apologize": "Be om unnskyldning med en gang",
+          "swap_consultant": "Bytt ut konsulenten på oppdraget",
+          "gif": "Svar med en morsom gif",
+          "pretend": "Slett meldingen og håp at ingen så den"
+        }
+      },
+      "reaction": {
+        "body": {
+          "low": "Kunden syntes det var litt morsomt. Innerst inne er de visst enige.",
+          "high": "Kunden har eskalert til ledelsen. Meldingen er skrevet ut og hengt opp på et møterom."
+        },
+        "choices": {
+          "cake": "Send kake med en selvironisk hilsen",
+          "move_on": "Videre",
+          "exec_apology": "Møt ledergruppen og be om unnskyldning",
+          "let_go": "La konsulenten gå",
+          "stonewall": "Ikke kommenter saken"
+        }
       }
     }
   }

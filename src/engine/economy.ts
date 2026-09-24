@@ -83,6 +83,8 @@ export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter)
   const leftover: Partial<Record<Discipline, number>> = {}
   const demand: Seats = {}
   let billed = 0
+  // People a crisis took off billable work, for that quarter only.
+  const benched = firm.benched?.quarter === quarter ? firm.benched : undefined
 
   for (const d of DISCIPLINES) {
     const remaining = contracts.map((c, i) => {
@@ -95,7 +97,7 @@ export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter)
     if (totalDemand) demand[d] = totalDemand
 
     // Assigned stars first
-    const starsInD = firm.stars.filter((s) => s.discipline === d)
+    const starsInD = firm.stars.filter((s) => s.discipline === d && !benched?.starIds.includes(s.id))
     const unassignedStars = starsInD.filter((s) => {
       const idx = contracts.findIndex((c) => c.id === s.assignedContractId)
       if (idx >= 0 && remaining[idx] > 0) {
@@ -107,7 +109,7 @@ export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter)
       return true
     })
 
-    let supply = firm.pools[d].count + unassignedStars.length
+    let supply = Math.max(0, firm.pools[d].count - (benched?.seats[d] ?? 0)) + unassignedStars.length
     const left = remaining.reduce((a, b) => a + b, 0)
     if (left > 0 && supply > 0) {
       const toPlace = Math.min(supply, left)

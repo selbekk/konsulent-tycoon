@@ -11,6 +11,8 @@ export interface TrendDef {
   minDuration: number
   maxDuration: number
   buzzwords?: string[]
+  /** Only started by a crisis (content/crises.ts), never drawn at random. */
+  crisisOnly?: boolean
 }
 
 export const TRENDS: TrendDef[] = [
@@ -22,6 +24,8 @@ export const TRENDS: TrendDef[] = [
   { id: 'pm_winter', demand: { pm: 0.5, backend: 1.1 }, minDuration: 3, maxDuration: 5, buzzwords: ['productTeam', 'crossFunctional'] },
   { id: 'security_panic', demand: { cloud: 1.3, backend: 1.2, architecture: 1.2 }, minDuration: 2, maxDuration: 4, buzzwords: ['zeroTrust', 'devsecops'] },
   { id: 'boom', demand: {}, volume: 1.3, minDuration: 4, maxDuration: 8 },
+  { id: 'ai_act_freeze', demand: { data: 0.55, architecture: 0.9 }, minDuration: 3, maxDuration: 4, crisisOnly: true },
+  { id: 'krone_crash', demand: {}, volume: 0.9, priceWeight: 1.25, minDuration: 3, maxDuration: 5, crisisOnly: true },
 ]
 
 export const TREND_MAP: Record<string, TrendDef> = Object.fromEntries(TRENDS.map((t) => [t.id, t]))

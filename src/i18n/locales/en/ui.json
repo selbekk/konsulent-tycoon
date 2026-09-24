@@ -236,7 +236,7 @@
   },
   "tenders": {
     "title": "Tender board",
-    "intro": "Tenders are decided at the end of their deadline quarter and start the quarter after. Green seats you can staff yourself, yellow partly. The rest is covered first by free people from other disciplines (flex, slightly lower rate), then by freelancers. Small gigs (1–2 consultants) appear every quarter.",
+    "intro": "Tenders are decided at the end of their deadline quarter and start the quarter after. Green seats you can staff yourself, yellow partly. The rest is covered first by free people from other disciplines (flex, slightly lower rate), then by freelancers. Small gigs (1–2 consultants) appear every quarter. Key tenders (frameworks and big projects) come with a customer meeting and a promise about the start. Routine ones go out as a standard offer with one click.",
     "filter": "Filter",
     "filters": {
       "all": "All",
@@ -267,7 +267,12 @@
     "edit": "Edit",
     "bid": "Place bid",
     "small": "Small gig",
-    "capacityLine": "{{free}} free, {{offered}} of them offered in bids and {{idle}} with no bid. Seats in bids starting next quarter: {{seats}}. Starting later: {{later}}."
+    "capacityLine": "{{free}} free, {{offered}} of them offered in bids and {{idle}} with no bid. Seats in bids starting next quarter: {{seats}}. Starting later: {{later}}.",
+    "key": "Key tender",
+    "quickBid": "Send standard offer",
+    "quickBidHint": "Rate ×{{rate}}, standard effort",
+    "quickBidTooWeak": "The customer would turn this offer down. You don't have enough people free, or the CVs are too weak.",
+    "customise": "Customise"
   },
   "bid": {
     "title": "Offer to {{customer}}",
@@ -309,7 +314,46 @@
     "submit": "Place bid",
     "update": "Update bid",
     "withdraw": "Withdraw bid",
-    "pitchAbandoned": "The meeting was cut short. The client noted 0 out of 100."
+    "pitchAbandoned": "The meeting was cut short. The client noted 0 out of 100.",
+    "routineInfo": "Routine job: no customer meeting. The customer assumes a perfectly ordinary impression.",
+    "needs": "What the customer needs",
+    "needItems": {
+      "fullTeam": "Wants to get going right away. The whole team, ideally yesterday.",
+      "phased": "Has been burnt by switching vendors. Wants a calm start and continuity.",
+      "discovery": "Wants to understand the problem before committing.",
+      "tightBudget": "Tight budget. Price matters a lot.",
+      "qualityFirst": "Quality over price.",
+      "concrete": "Likes concrete answers with numbers and references.",
+      "visionary": "Wants to hear the big picture.",
+      "humble": "Tired of overconfident vendors. Values honesty.",
+      "buzzword": "Reads a lot of LinkedIn. Likes words like “scalable”.",
+      "styleUnknown": "You don't know them well enough yet to tell how they like to be talked to."
+    },
+    "promise": "Promise about the start",
+    "promiseHint": "The promise follows the contract. After the first quarter, the customer checks whether you kept it.",
+    "wanted": "What they want",
+    "promises": {
+      "none": {
+        "label": "No promise",
+        "pro": "No strings attached",
+        "con": "No bonus"
+      },
+      "fullTeam": {
+        "label": "“The whole team is ready.”",
+        "pro": "Better odds of winning",
+        "con": "If you're short of people in the first quarter, the customer is let down."
+      },
+      "phased": {
+        "label": "“Two now, the rest next quarter.”",
+        "pro": "The customer accepts that not everyone is free yet.",
+        "con": "A little less impressive. If contractors fill more than half the seats, the promise is broken."
+      },
+      "discovery": {
+        "label": "“We’ll start with a paid discovery phase.”",
+        "pro": "A happier customer and better odds of an extension",
+        "con": "The first quarter is billed at half the rate."
+      }
+    }
   },
   "minigame": {
     "oneShot": "You only get one attempt per tender.",
@@ -374,6 +418,16 @@
         "go": "Cancel…",
         "confirm": "Cancel {{customer}}"
       }
+    },
+    "promise": {
+      "pending": "Promised: {{promise}}",
+      "kept": "Kept: {{promise}}",
+      "broken": "Broken: {{promise}}"
+    },
+    "promises": {
+      "fullTeam": "full team",
+      "phased": "phased start",
+      "discovery": "discovery"
     }
   },
   "market": {
@@ -510,6 +564,12 @@
     "doneSr": "Done:",
     "openSr": "Not done:",
     "items": {
+      "crisis": {
+        "label": "Handle the crisis",
+        "detail_one": "{{count}} crisis is waiting for a decision. Otherwise, whatever happens when nobody acts will happen.",
+        "detail_other": "{{count}} crises are waiting for a decision. Otherwise, whatever happens when nobody acts will happen.",
+        "go": "To the crisis"
+      },
       "bid": {
         "label": "Bid on tenders",
         "detail_one": "{{count}} consultant has nothing to do next quarter.",
@@ -518,8 +578,8 @@
       },
       "pitch": {
         "label": "Meet the client",
-        "detail_one": "{{count}} bid is decided after this quarter, and you haven't met the client.",
-        "detail_other": "{{count}} bids are decided after this quarter, and you haven't met the clients.",
+        "detail_one": "{{count}} key bid is decided after this quarter, and you haven't met the client.",
+        "detail_other": "{{count}} key bids are decided after this quarter, and you haven't met the clients.",
         "go": "To tenders"
       },
       "hire": {
@@ -686,7 +746,7 @@
       "body": "You can bid on a tender in the quarter it's published and the one after. The client decides at the end of that second quarter, and the work starts the quarter after that.",
       "points": [
         "You need enough people in the right disciplines when the work starts, so hire a little ahead.",
-        "Clients weigh price against quality. A good client meeting can tip it your way.",
+        "The customer weighs price against quality. Big tenders and frameworks come with a meeting and a promise about the start. Small jobs go out with one click.",
         "When a contract is about to end, a happy client may renew it."
       ]
     },
@@ -778,5 +838,78 @@
       "copied": "Link copied.",
       "failed": "Couldn't copy. The link is {{url}}"
     }
+  },
+  "crisis": {
+    "panelTitle": "Crises",
+    "categories": {
+      "hr": "HR",
+      "client": "Client",
+      "macro": "Macro",
+      "disaster": "Act of nature",
+      "security": "Security",
+      "engagement": "On the job"
+    },
+    "step": "Stage {{step}} of {{total}}",
+    "severity": {
+      "label": "Severity",
+      "unknown": "unknown",
+      "low": "low",
+      "high": "high"
+    },
+    "status": {
+      "active": "Waiting for you",
+      "waiting": "Continues next quarter",
+      "buried": "In the drawer. It may come back.",
+      "over": "Over"
+    },
+    "outcome": {
+      "good": "Handled well",
+      "ok": "Handled okay",
+      "bad": "Handled badly"
+    },
+    "decide": "Decide",
+    "open": "View",
+    "later": "Decide later",
+    "history": "So far",
+    "autoPicked": "(nobody answered)",
+    "talkScore": "talk {{score}}/100",
+    "fallbackHint": "Happens if you don't choose",
+    "stakes": {
+      "team": "Staff",
+      "customer": "Client",
+      "press": "Reputation",
+      "risk": "Risk"
+    },
+    "stakeValue": {
+      "up": "better",
+      "down": "worse",
+      "unknown": "depends",
+      "riskUp": "more",
+      "riskDown": "less"
+    },
+    "cost": "Costs {{amount}}",
+    "income": "Brings in {{amount}}",
+    "bench_one": "{{count}} person off billable work this quarter",
+    "bench_other": "{{count}} people off billable work this quarter",
+    "benchStar": "{{name}} off billable work this quarter",
+    "uncertain": "The outcome depends on how bad it really is",
+    "talk": {
+      "press": "Press conference",
+      "townhall": "All-hands",
+      "client": "Crisis meeting"
+    },
+    "talkHint": "A minigame decides how well it goes",
+    "ends": "Closes the case",
+    "continues": "Next stage next quarter",
+    "bury": "May come back to bite",
+    "chosen": "You chose: {{choice}}",
+    "nextQuarter": "This continues next quarter.",
+    "buriedNow": "It's in the drawer. For now.",
+    "close": "Back to the office",
+    "resume": "Finish the talk (interrupted)",
+    "empty": "No crises right now. Enjoy it.",
+    "more_one": "{{count}} more crisis is waiting.",
+    "more_other": "{{count}} more crises are waiting.",
+    "tally": "So far this game: {{good}} handled well, {{ok}} okay and {{bad}} badly."
   }
 }

@@ -236,7 +236,7 @@
   },
   "tenders": {
     "title": "Anbudstavla",
-    "intro": "Anbudene avgjøres ved slutten av fristkvartalet, og oppdraget starter kvartalet etter. Grønne seter kan du bemanne selv, gule delvis. Resten fylles først av ledige folk fra andre fagområder (fleks, litt lavere pris), og så av frilansere. Småoppdrag (1–2 konsulenter) kommer hvert kvartal.",
+    "intro": "Anbudene avgjøres ved slutten av fristkvartalet, og oppdraget starter kvartalet etter. Grønne seter kan du bemanne selv, gule delvis. Resten fylles først av ledige folk fra andre fagområder (fleks, litt lavere pris), og så av frilansere. Småoppdrag (1–2 konsulenter) kommer hvert kvartal. Viktige anbud (rammeavtaler og store prosjekter) har kundemøte og løfte om oppstart. Rutineanbud sender du som standardtilbud med ett klikk.",
     "filter": "Filter",
     "filters": {
       "all": "Alle",
@@ -267,7 +267,12 @@
     "edit": "Endre",
     "bid": "Lever bud",
     "small": "Småoppdrag",
-    "capacityLine": "{{free}} ledige, {{offered}} av dem tilbudt i bud og {{idle}} uten bud. Seter i bud som starter neste kvartal: {{seats}}. Seter i bud som starter senere: {{later}}."
+    "capacityLine": "{{free}} ledige, {{offered}} av dem tilbudt i bud og {{idle}} uten bud. Seter i bud som starter neste kvartal: {{seats}}. Seter i bud som starter senere: {{later}}.",
+    "key": "Viktig anbud",
+    "quickBid": "Send standardtilbud",
+    "quickBidHint": "Pris ×{{rate}}, standard innsats",
+    "quickBidTooWeak": "Kunden avviser dette tilbudet. Dere har for få ledige folk eller for svake CV-er.",
+    "customise": "Tilpass"
   },
   "bid": {
     "title": "Tilbud til {{customer}}",
@@ -309,7 +314,46 @@
     "submit": "Lever bud",
     "update": "Oppdater bud",
     "withdraw": "Trekk bud",
-    "pitchAbandoned": "Møtet ble avbrutt. Kunden noterte 0 av 100."
+    "pitchAbandoned": "Møtet ble avbrutt. Kunden noterte 0 av 100.",
+    "routineInfo": "Rutineoppdrag: ingen kundemøte. Kunden regner med et helt vanlig inntrykk.",
+    "needs": "Hva kunden trenger",
+    "needItems": {
+      "fullTeam": "Vil komme i gang med en gang. Hele teamet, helst i går.",
+      "phased": "Har blitt brent av leverandørbytter. Vil ha en rolig oppstart og kontinuitet.",
+      "discovery": "Vil forstå problemet før de binder seg.",
+      "tightBudget": "Stramt budsjett. Prisen teller mye.",
+      "qualityFirst": "Kvalitet foran pris.",
+      "concrete": "Liker konkrete svar med tall og referanser.",
+      "visionary": "Vil høre om de store linjene.",
+      "humble": "Er lei av selvsikre leverandører. Setter pris på ærlighet.",
+      "buzzword": "Leser mye på LinkedIn. Liker ord som «skalerbar».",
+      "styleUnknown": "Dere kjenner dem for dårlig til å vite hvordan de liker å bli snakket til."
+    },
+    "promise": "Løfte om oppstart",
+    "promiseHint": "Løftet følger kontrakten. Etter første kvartal sjekker kunden om dere holdt det.",
+    "wanted": "Kunden ønsker dette",
+    "promises": {
+      "none": {
+        "label": "Ingen løfte",
+        "pro": "Ingen forpliktelser",
+        "con": "Ingen bonus"
+      },
+      "fullTeam": {
+        "label": "«Hele teamet er klart.»",
+        "pro": "Bedre vinnersjanse",
+        "con": "Mangler dere folk første kvartal, blir kunden skuffet."
+      },
+      "phased": {
+        "label": "«To nå, resten neste kvartal.»",
+        "pro": "Kunden godtar at ikke alle er ledige ennå.",
+        "con": "Litt mindre imponerende. Fylles over halvparten av setene med innleide, er løftet brutt."
+      },
+      "discovery": {
+        "label": "«Vi starter med en betalt kartlegging.»",
+        "pro": "Fornøyd kunde og større sjanse for forlengelse",
+        "con": "Første kvartal faktureres til halv pris."
+      }
+    }
   },
   "minigame": {
     "oneShot": "Du får bare ett forsøk per anbud.",
@@ -374,6 +418,16 @@
         "go": "Si opp…",
         "confirm": "Si opp {{customer}}"
       }
+    },
+    "promise": {
+      "pending": "Lovet: {{promise}}",
+      "kept": "Holdt: {{promise}}",
+      "broken": "Brutt: {{promise}}"
+    },
+    "promises": {
+      "fullTeam": "hele teamet",
+      "phased": "gradvis start",
+      "discovery": "kartlegging"
     }
   },
   "market": {
@@ -510,6 +564,12 @@
     "doneSr": "Ferdig:",
     "openSr": "Ikke gjort:",
     "items": {
+      "crisis": {
+        "label": "Håndter krisen",
+        "detail_one": "{{count}} krise venter på et valg. Ellers skjer det som skjer når ingen gjør noe.",
+        "detail_other": "{{count}} kriser venter på et valg. Ellers skjer det som skjer når ingen gjør noe.",
+        "go": "Til krisen"
+      },
       "bid": {
         "label": "By på anbud",
         "detail_one": "{{count}} konsulent står uten oppdrag neste kvartal.",
@@ -518,8 +578,8 @@
       },
       "pitch": {
         "label": "Ta kundemøtet",
-        "detail_one": "{{count}} bud avgjøres etter dette kvartalet, og du har ikke møtt kunden.",
-        "detail_other": "{{count}} bud avgjøres etter dette kvartalet, og du har ikke møtt kundene.",
+        "detail_one": "{{count}} viktig bud avgjøres etter dette kvartalet, og dere har ikke møtt kunden.",
+        "detail_other": "{{count}} viktige bud avgjøres etter dette kvartalet, og dere har ikke møtt kundene.",
         "go": "Til anbud"
       },
       "hire": {
@@ -686,7 +746,7 @@
       "body": "Et anbud kan du by på i kvartalet det publiseres og i kvartalet etter. Kunden bestemmer seg på slutten av det andre kvartalet, og jobben starter kvartalet etter det.",
       "points": [
         "Du må ha nok folk med riktig fagområde når jobben starter, så ansett litt i forkant.",
-        "Kunden veier pris mot kvalitet. Et godt kundemøte kan vippe det i din favør.",
+        "Kunden veier pris mot kvalitet. Store anbud og rammeavtaler har kundemøte og et løfte om oppstart. Småjobbene sender du med ett klikk.",
         "Når en kontrakt nærmer seg slutten, kan kunden fornye den hvis de er fornøyde."
       ]
     },
@@ -778,5 +838,78 @@
       "copied": "Lenken er kopiert.",
       "failed": "Kunne ikke kopiere. Lenken er {{url}}"
     }
+  },
+  "crisis": {
+    "panelTitle": "Kriser",
+    "categories": {
+      "hr": "HR-sak",
+      "client": "Kunde",
+      "macro": "Makro",
+      "disaster": "Naturkrefter",
+      "security": "Sikkerhet",
+      "engagement": "På oppdrag"
+    },
+    "step": "Fase {{step}} av {{total}}",
+    "severity": {
+      "label": "Alvor",
+      "unknown": "ukjent",
+      "low": "lavt",
+      "high": "høyt"
+    },
+    "status": {
+      "active": "Venter på deg",
+      "waiting": "Fortsetter neste kvartal",
+      "buried": "I skuffen. Kan dukke opp igjen.",
+      "over": "Over"
+    },
+    "outcome": {
+      "good": "Godt håndtert",
+      "ok": "Greit håndtert",
+      "bad": "Dårlig håndtert"
+    },
+    "decide": "Bestem",
+    "open": "Se saken",
+    "later": "Bestem senere",
+    "history": "Så langt",
+    "autoPicked": "(ingen svarte)",
+    "talkScore": "samtale {{score}}/100",
+    "fallbackHint": "Skjer hvis du ikke velger",
+    "stakes": {
+      "team": "Ansatte",
+      "customer": "Kunden",
+      "press": "Omdømme",
+      "risk": "Risiko"
+    },
+    "stakeValue": {
+      "up": "bedre",
+      "down": "verre",
+      "unknown": "kommer an på",
+      "riskUp": "mer",
+      "riskDown": "mindre"
+    },
+    "cost": "Koster {{amount}}",
+    "income": "Gir {{amount}}",
+    "bench_one": "{{count}} person av oppdrag i kvartalet",
+    "bench_other": "{{count}} personer av oppdrag i kvartalet",
+    "benchStar": "{{name}} av oppdrag i kvartalet",
+    "uncertain": "Utfallet avhenger av hvor ille det er",
+    "talk": {
+      "press": "Pressekonferanse",
+      "townhall": "Allmøte",
+      "client": "Krisemøte"
+    },
+    "talkHint": "Et minispill avgjør hvor godt det går",
+    "ends": "Avslutter saken",
+    "continues": "Neste fase neste kvartal",
+    "bury": "Kan komme tilbake og bite",
+    "chosen": "Du valgte: {{choice}}",
+    "nextQuarter": "Saken fortsetter neste kvartal.",
+    "buriedNow": "Saken er lagt i skuffen. Foreløpig.",
+    "close": "Tilbake til kontoret",
+    "resume": "Fullfør samtalen (avbrutt)",
+    "empty": "Ingen kriser akkurat nå. Nyt det.",
+    "more_one": "{{count}} krise til venter.",
+    "more_other": "{{count}} kriser til venter.",
+    "tally": "Så langt i spillet: {{good}} godt håndtert, {{ok}} greit og {{bad}} dårlig."
   }
 }

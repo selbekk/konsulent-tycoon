@@ -21,7 +21,13 @@
     "customerHappy": "The client is happy enough. Dinner can wait.",
     "rateAtMax": "The rate is already as high as it goes.",
     "upsellFramework": "Framework agreements follow the client's call-offs, not yours.",
-    "upsellTooBig": "The contract can't grow any bigger at your level."
+    "upsellTooBig": "The contract can't grow any bigger at your level.",
+    "promiseNotAllowed": "Start promises are only for key tenders.",
+    "noMeetingNeeded": "This is a routine job. The customer doesn't need a meeting.",
+    "crisisClosed": "That crisis isn't waiting for an answer right now.",
+    "crisisNeedsStar": "That person is no longer with you.",
+    "crisisNeedsContract": "That engagement isn't running any more.",
+    "crisisNeedsCustomer": "There is no client to ask."
   },
   "news": {
     "game": {
@@ -36,9 +42,11 @@
       "noBids": "Nobody bid on the tender from {{customer}}. Procurement is taking a long lunch.",
       "noneGoodEnough": "{{customer}} turned down every bid on its tender. None were good enough.",
       "playerRejected": "{{customer}} turned down your bid. The quality wasn't there, however nice the cover page.",
-      "playerWon": "You won the tender at {{customer}}! {{bidders}} firms bid.",
-      "playerWonFramework": "You were ranked #{{rank}} on the framework agreement at {{customer}}.",
-      "playerLost": "You lost the tender at {{customer}}. {{firm}} walked away with it.",
+      "playerRejectedCapacity": "{{customer}} turned down your bid. You didn't have enough people free, and they checked.",
+      "playerWon": "You won the tender at {{customer}}! {{bidders}} firms bid. {{strong}}",
+      "playerWonFramework": "You were ranked #{{rank}} on the framework agreement at {{customer}}. {{strong}}",
+      "playerLost": "You lost the tender at {{customer}} to {{firm}}. {{weak}}",
+      "playerLostBoth": "You lost the tender at {{customer}} to {{firm}}. {{weak}} {{strong}}",
       "awarded": "{{firm}} won the tender at {{customer}}, beating {{bidders}} others.",
       "frameworkAwarded": "{{firm}} tops the framework agreement at {{customer}}. {{bidders}} firms fought for a spot."
     },
@@ -100,6 +108,28 @@
       "listed": "{{firm}} is listed on the Oslo Stock Exchange! The founders rang the bell and someone filmed it vertically.",
       "miss": "The quarter came in weaker than the last. Shareholders are disappointed, and it shows in the corridors.",
       "beat": "A better quarter than last time. Shareholders are happy, at least until next quarter."
+    },
+    "promise": {
+      "kept": {
+        "fullTeam": "{{customer}} got the whole team from day one, just as you promised. They noticed.",
+        "phased": "The phased start at {{customer}} went as promised. They like predictable.",
+        "discovery": "The discovery phase at {{customer}} is done, and they're glad someone asked first. Full rates from now on."
+      },
+      "broken": {
+        "fullTeam": "You promised {{customer}} the whole team from the start, then filled the gaps with contractors. They made a note of it.",
+        "phased": "You promised {{customer}} a phased start, but contractors filled more than half the seats."
+      }
+    },
+    "crisis": {
+      "started": "Crisis: {{crisis}}. See the dashboard.",
+      "buried": "“{{crisis}}” is in the drawer. For now.",
+      "ended": {
+        "good": "“{{crisis}}” is over, and you came out of it well.",
+        "ok": "“{{crisis}}” is over. It could have been worse.",
+        "bad": "“{{crisis}}” is over, but it left a mark."
+      },
+      "exposed": "It came out: “{{crisis}}” is in the papers.",
+      "exposedRival": "Exposed: {{firm}} tried to hush something up. Now it's in the papers."
     }
   },
   "announcements": {
@@ -470,14 +500,6 @@
         "hybrid": "Let people decide"
       }
     },
-    "security_incident": {
-      "title": "Security hole",
-      "body": "Someone pushed an API key to a public repo. It's been there for four months.",
-      "choices": {
-        "pay": "Clean it up properly (NOK 400,000)",
-        "downplay": "It was barely used."
-      }
-    },
     "poach_attempt": {
       "title": "Afterwork alert",
       "body": "{{firm}} took {{name}} out for drinks. It got late, and salaries were mentioned.",
@@ -485,6 +507,354 @@
         "match": "Match the offer (+10% salary and half a quarter's pay)",
         "let_go": "Let them go",
         "podcast": "Cry about it on a CEO podcast"
+      }
+    }
+  },
+  "factors": {
+    "weak": {
+      "price": "Your price was too high.",
+      "cv": "Their CVs were stronger.",
+      "fagmiljo": "Their expertise ran deeper.",
+      "meeting": "Their meeting went better.",
+      "effort": "Their bid was more polished.",
+      "reputation": "Their reputation carries more weight.",
+      "extras": "They had stars or a specialty you lacked.",
+      "capacity": "You didn't have enough people free.",
+      "promise": "Their promise about the start was more convincing.",
+      "relationship": "The customer knows them better.",
+      "priority": "The customer expected to matter more to them.",
+      "luck": "It was close, and luck decided it."
+    },
+    "strong": {
+      "price": "Your price was competitive.",
+      "cv": "Your CVs were strong.",
+      "fagmiljo": "Your expertise made an impression.",
+      "meeting": "The meeting went well.",
+      "effort": "The bid was well put together.",
+      "reputation": "Your reputation helped.",
+      "extras": "Your stars and specialty helped.",
+      "capacity": "You had people ready.",
+      "promise": "Your promise about the start suited them.",
+      "relationship": "The customer knows you well.",
+      "priority": "They could tell this deal matters to you.",
+      "luck": "It was close, and luck was on your side.",
+      "alone": "Nobody else handed in an acceptable bid."
+    }
+  },
+  "crises": {
+    "exposed": {
+      "body": "The thing you put in the drawer is out. A journalist called, and she had done her homework.",
+      "choices": {
+        "apologize": "Grovel, then clean it up",
+        "press_conference": "Call a press conference",
+        "deny": "“We do not recognise that description”"
+      }
+    },
+    "whistleblower": {
+      "title": "Complaint against {{name}}",
+      "gossip": "Word is there's a whistleblowing case at {{firm}}. Nobody will say anything, everybody knows a bit.",
+      "report": {
+        "body": "HR has received a complaint about {{name}}, one of your best consultants. It's serious enough that it can't be ignored, and vague enough that nobody knows how bad it is.",
+        "choices": {
+          "investigate": "External investigation, and {{name}} sits out a quarter",
+          "talk": "Have a quiet word with {{name}} first",
+          "drawer": "Put it in a drawer. It'll blow over."
+        }
+      },
+      "verdict": {
+        "body": {
+          "low": "It turned out to be a misunderstanding that grew in a Slack thread. The complainant is relieved, {{name}} is embarrassed, and everyone learned something about tone.",
+          "high": "It's not a misunderstanding. Several people on the team confirm the pattern, and now everyone is waiting to see what management does."
+        },
+        "choices": {
+          "clear": "Close the case and move on",
+          "mediate": "Set up a mediation session with good coffee",
+          "let_go": "Part ways with {{name}}",
+          "townhall": "Take it to the all-hands, openly",
+          "stand_by": "Stand by {{name}} no matter what"
+        }
+      }
+    },
+    "team_feud": {
+      "title": "Feud in {{discipline}}",
+      "gossip": "Two seniors at {{firm}} are apparently no longer allowed on the same floor.",
+      "feud": {
+        "body": "Two seniors in {{discipline}} refuse to be in the same meeting. One has brought in their own coffee machine, the other has taken it personally. The team is splitting into camps.",
+        "choices": {
+          "townhall": "Gather everyone for an all-hands and talk it out",
+          "split": "Split the team for a while",
+          "pick_side": "Pick a side. One of them is right.",
+          "wait": "They're adults, they'll sort it out"
+        }
+      },
+      "truce": {
+        "body": {
+          "low": "They've started playing padel together. Nobody knows why, and nobody dares ask.",
+          "high": "One of them has resigned, and two more are thinking of following. The coffee machine stays."
+        },
+        "choices": {
+          "celebrate": "Buy the whole team Friday drinks",
+          "move_on": "Say nothing and enjoy the peace",
+          "counteroffer": "Make the leavers a better offer",
+          "let_them_go": "Let them go"
+        }
+      }
+    },
+    "client_exit": {
+      "title": "{{customer}} wants out",
+      "gossip": "{{firm}} is said to be losing a big client. Their head of sales was seen taking a long walk alone.",
+      "warning": {
+        "body": "{{customer}} calls: “We're considering ending the engagement.” They'll decide next quarter, and how happy they are with the work by then will settle it.",
+        "choices": {
+          "send_partner": "Send {{name}} to the client for a quarter",
+          "discount": "Offer a lower rate",
+          "rescue_meeting": "Ask for a crisis meeting with the client",
+          "graceful_exit": "Thank them and end it in style",
+          "do_nothing": "It's just a negotiating tactic"
+        }
+      },
+      "stayed": {
+        "body": "{{customer}} is staying. “We've seen the improvement,” they write, adding a smiley for the first time ever.",
+        "choices": {
+          "thank": "Take them out to dinner",
+          "move_on": "Back to work"
+        }
+      },
+      "left": {
+        "body": "{{customer}} is ending the contract. The work stops now, and the team is on the bench from Monday.",
+        "choices": {
+          "ask_feedback": "Ask for honest feedback",
+          "badmouth": "Tell anyone who'll listen that they were impossible",
+          "accept": "Note it and move on"
+        }
+      }
+    },
+    "client_insolvent": {
+      "title": "{{customer}} isn't paying",
+      "gossip": "One of {{firm}}'s clients is said to be in financial trouble. Their accountants have started reading the papers closely.",
+      "unpaid": {
+        "body": "{{customer}}'s invoice is unpaid, and their CFO isn't answering email. They might be in a temporary pinch. Or they might be done.",
+        "choices": {
+          "keep_working": "Keep working and show you can be trusted",
+          "stop_work": "Stop work until the money arrives",
+          "factoring": "Sell the invoice to a factoring company"
+        }
+      },
+      "verdict": {
+        "body": {
+          "low": "The money arrived, with interest and a tin of biscuits. It was a messy reorganisation, not a bankruptcy.",
+          "high": "{{customer}} has filed for bankruptcy. The invoices become a claim against the estate, and their team is out of work."
+        },
+        "choices": {
+          "thank": "Thank them for the biscuits",
+          "hire_team": "Hire two people from their team",
+          "claim": "Get a lawyer to file the claim",
+          "write_off": "Write it off"
+        }
+      }
+    },
+    "ai_act": {
+      "title": "The AI Act tightens",
+      "news": "The EU tightens the AI Act. Data projects across the country are on hold while the lawyers read.",
+      "ruling": {
+        "body": "New AI rules come into force, and clients freeze data projects while they work out what's allowed. Demand for data people drops for a few quarters.",
+        "choices": {
+          "reskill": "Train everyone on the rules and sell compliance",
+          "layoff": "Cut back on data",
+          "wait": "Wait and see"
+        }
+      },
+      "second_wave": {
+        "body": {
+          "low": "It blew over. The clients worked out that their “model” was a pivot table.",
+          "high": "Second wave: clients want to renegotiate everything with the word “model” in it. Data models included."
+        },
+        "choices": {
+          "relax": "Breathe out",
+          "cut_prices": "Give clients a discount on work in progress",
+          "ride_it_out": "Ride it out"
+        }
+      }
+    },
+    "krone_crash": {
+      "title": "The krone crashes",
+      "news": "The krone drops like a stone. Cloud licences in dollars suddenly cost more than the consultants using them.",
+      "crash": {
+        "body": "The krone has fallen hard. Everything you buy in dollars and euros, from cloud licences to kit, costs more. Clients are tightening their belts and looking harder at price.",
+        "choices": {
+          "hedge": "Hedge the currency now, even if it costs",
+          "pass_on": "Pass the price rise on to clients",
+          "absorb": "Take it as it comes"
+        }
+      },
+      "bill": {
+        "body": {
+          "low": "The bill arrived, and it was bearable. The CFO was seen smiling.",
+          "high": "The bill arrived, and it was big. The licences auto-renewed in dollars, right at the bottom."
+        },
+        "choices": {
+          "cut_perks": "Cut perks for a while",
+          "swallow": "Swallow it"
+        }
+      }
+    },
+    "basement_flood": {
+      "title": "Basement flood",
+      "gossip": "{{firm}}'s basement is apparently under water. The server room too.",
+      "flood": {
+        "body": "The basement is under water. So is the server room. And the beer fridge. The office is unusable for a good while.",
+        "choices": {
+          "rent_space": "Rent a temporary office",
+          "remote": "Everyone works from home",
+          "client_office": "Ask {{customer}} if you can borrow some desks",
+          "wing_it": "People will figure it out"
+        }
+      },
+      "insurance": {
+        "body": {
+          "low": "The damage was smaller than feared, and the insurer wants paperwork before they pay.",
+          "high": "The damage is worse than feared: the wiring in the walls has to go. The insurer wants paperwork for everything."
+        },
+        "choices": {
+          "paperwork": "Put someone on the paperwork",
+          "forget": "Forget it, we have better things to do"
+        }
+      }
+    },
+    "power_outage": {
+      "title": "Power cut",
+      "gossip": "{{firm}} has been without power for a week. Their consultants were spotted queueing at the nearest café.",
+      "dark": {
+        "body": "A storm has knocked out power across the district, and the grid company is saying “about a week”. The laptops have three hours of battery left.",
+        "choices": {
+          "generator": "Hire a generator",
+          "cabin": "Everyone to the cabin, it has power",
+          "pause": "Take a break until the power's back"
+        }
+      },
+      "deadline": {
+        "body": {
+          "low": "Nobody noticed. The clients had power cuts too.",
+          "high": "An important delivery for {{customer}} slipped. They noticed."
+        },
+        "choices": {
+          "shrug": "Glad that worked out",
+          "weekend_push": "Catch up over the weekend",
+          "cake": "Send cake and an apology",
+          "miss_it": "These things happen"
+        }
+      }
+    },
+    "data_leak": {
+      "title": "Data leak",
+      "gossip": "There's said to have been a data leak in one of {{firm}}'s teams. Their press contact is on holiday.",
+      "discovery": {
+        "body": "Customer data from {{customer}} has been sitting in a public storage bucket one of your teams set up. Nobody knows if anyone has seen it.",
+        "choices": {
+          "disclose": "Tell the client and the data protection authority right away",
+          "forensics": "Hire a security firm to find out what happened",
+          "quiet_fix": "Close the bucket quietly"
+        }
+      },
+      "assessment": {
+        "body": {
+          "low": "The security firm is done: nobody downloaded anything. The bucket was open, but nobody walked in.",
+          "high": "The security firm is done: the data was downloaded, several times, from a country you have no clients in."
+        },
+        "choices": {
+          "close_quietly": "Close the case internally",
+          "disclose_anyway": "Tell them anyway. Openness pays.",
+          "disclose": "Tell the client and the authority",
+          "bury": "Nobody needs to know"
+        }
+      },
+      "fallout": {
+        "body": {
+          "low": "The client took it calmly, and the authority made a note. Now it's about showing you take it seriously.",
+          "high": "It's in the papers. {{customer}} is furious, and the data protection authority wants a meeting."
+        },
+        "choices": {
+          "press_conference": "Hold a press conference",
+          "apology_tour": "Go on an apology tour at {{customer}}",
+          "lie_low": "Keep a low profile until it blows over"
+        }
+      }
+    },
+    "ransomware": {
+      "title": "Ransomware",
+      "gossip": "{{firm}}'s timesheet system has reportedly been hit by ransomware. Their consultants have never been happier.",
+      "locked": {
+        "body": "The timesheet system from your supplier is encrypted. A polite note asks for bitcoin. Without timesheets you can't invoice.",
+        "choices": {
+          "pay_ransom": "Quietly pay the ransom",
+          "rebuild": "Rebuild everything from scratch",
+          "spreadsheets": "Run on spreadsheets until it's sorted"
+        }
+      },
+      "restore": {
+        "body": {
+          "low": "Last year's backup works. Almost everything is back, apart from one long lunch nobody misses.",
+          "high": "The backup is encrypted too. This quarter's timesheets are gone, and clients have to be invoiced on estimates."
+        },
+        "choices": {
+          "celebrate": "Buy IT a cake",
+          "move_on": "Onwards",
+          "estimate_cautious": "Invoice carefully. Better too little than too much.",
+          "press_conference": "Tell everyone openly what happened",
+          "estimate_generous": "Invoice generously. Clients will understand."
+        }
+      }
+    },
+    "prod_outage": {
+      "title": "Outage at {{customer}}",
+      "gossip": "{{firm}} is said to have taken down production at a big client. On a Friday, naturally.",
+      "outage": {
+        "body": "Production at {{customer}} has been down for four hours. The logs point to a deploy from your team at 16:55 on Friday.",
+        "choices": {
+          "war_room": "War room: pull people off other work",
+          "blameless": "Calm, blameless debugging",
+          "blame_vendor": "Blame the cloud provider",
+          "wait_it_out": "It'll sort itself out"
+        }
+      },
+      "postmortem": {
+        "body": {
+          "low": "It was a DNS problem on the client's side. It's always DNS.",
+          "high": "It was you. A config change without review, right before the weekend."
+        },
+        "choices": {
+          "gracious": "Help them fix it, without mentioning DNS",
+          "told_you": "Send a polite email titled “Root cause”",
+          "own_it": "Own it in a meeting with the client",
+          "credit_note": "Issue a credit note",
+          "move_on": "Move on and hope they forget"
+        }
+      }
+    },
+    "slack_slip": {
+      "title": "Wrong channel",
+      "gossip": "A consultant at {{firm}} reportedly wrote something unfortunate in a client's Slack. The screenshot is doing the rounds.",
+      "message": {
+        "body": "One of your consultants wrote “this client is completely bonkers” in Slack. In the wrong channel. The client's channel, with {{customer}}'s leadership team in it.",
+        "choices": {
+          "apologize": "Apologise straight away",
+          "swap_consultant": "Take the consultant off the engagement",
+          "gif": "Reply with a funny gif",
+          "pretend": "Delete it and hope nobody saw"
+        }
+      },
+      "reaction": {
+        "body": {
+          "low": "The client found it quite funny. Deep down they apparently agree.",
+          "high": "The client has escalated to the top. The message has been printed out and pinned up in a meeting room."
+        },
+        "choices": {
+          "cake": "Send cake with a self-deprecating note",
+          "move_on": "Onwards",
+          "exec_apology": "Meet their leadership and apologise",
+          "let_go": "Let the consultant go",
+          "stonewall": "No comment"
+        }
       }
     }
   }

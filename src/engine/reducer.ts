@@ -12,12 +12,14 @@ import { spendable } from './economy'
 import { handleAcquire } from './acquisitions'
 import { handleCancel, handleNurture, handleRenegotiate, handleUpsell } from './contractActions'
 import { starBusyThrough } from './contracts'
+import { handleResolveCrisis, handleStartCrisisTalk } from './crises'
 import { handleResolveEvent } from './events'
 import { hasFeature, tenderLock } from './levels'
 import { handleShady } from './shady'
 import { handleChooseSpecialty, handleIpo, handleLobby, handleSetDepartment, handleSetPartnership } from './strategy'
 import { starSigningCost } from './stars'
-import { clampRate, effortCost } from './tenders'
+import { clampRate, effortCost, isKeyTender } from './tenders'
+import { PROMISES } from './types'
 import type { Action, ActionOf, ActionResult, ActionType, GameState } from './types'
 
 type Handler<T extends ActionType> = (state: GameState, action: ActionOf<T>) => string | undefined
@@ -105,6 +107,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const locked = tenderLock(firm, tender)
     if (locked) return locked
     const effort = clamp(Math.round(a.bid.effort), 0, 3) as 0 | 1 | 2 | 3
+    if (a.bid.promise && (!isKeyTender(tender) || !PROMISES.includes(a.bid.promise))) return 'errors.promiseNotAllowed'
     const starIds = [...new Set(a.bid.starIds)]
     for (const id of starIds) {
       if (!firm.stars.some((s) => s.id === id)) return 'errors.invalidStar'
@@ -127,6 +130,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
       // Fraud flags can only be set through the backroom.
       cvPad: existing?.cvPad ?? false,
       ghostCv: existing?.ghostCv ?? false,
+      ...(a.bid.promise ? { promise: a.bid.promise } : {}),
     }
     tender.bids = tender.bids.filter((b) => b.firmId !== firm.id)
     tender.bids.push(bid)
@@ -146,6 +150,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     if (!tender) return 'errors.invalidTender'
     const firm = firmOf(state, a.firmId)
     if (!firm) return 'errors.invalid'
+    if (!isKeyTender(tender)) return 'errors.noMeetingNeeded'
     if (a.kind === 'bingo' && !hasFeature(firm, 'bingo')) return 'errors.levelTooLow'
     const existing = tender.minigameResults[a.firmId]
     if (existing && (!existing.provisional || existing.kind !== a.kind || a.provisional)) return 'errors.minigameAlreadyPlayed'
@@ -158,6 +163,8 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   },
 
   resolveEvent: handleResolveEvent,
+  resolveCrisis: handleResolveCrisis,
+  startCrisisTalk: handleStartCrisisTalk,
   shady: handleShady,
   chooseSpecialty: handleChooseSpecialty,
   setPartnership: handleSetPartnership,

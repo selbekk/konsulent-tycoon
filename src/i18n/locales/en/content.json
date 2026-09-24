@@ -187,6 +187,14 @@
     "boom": {
       "name": "Boom times",
       "desc": "Money is flowing. More tenders than in years."
+    },
+    "ai_act_freeze": {
+      "name": "AI freeze",
+      "desc": "Clients have paused data projects while their lawyers read the AI Act."
+    },
+    "krone_crash": {
+      "name": "Krone crash",
+      "desc": "A weak krone and nervous clients. Price matters more than usual."
     }
   },
   "traits": {

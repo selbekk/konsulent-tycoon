@@ -20,6 +20,7 @@ export type SoundName =
   | 'scandal'
   | 'fanfare'
   | 'sad'
+  | 'siren'
 
 type Wave = OscillatorType
 interface Note {
@@ -88,6 +89,12 @@ const SOUNDS: Record<SoundName, Note[]> = {
     { f: E5, at: 0.58, dur: 0.1 },
     { f: G5, at: 0.68, dur: 0.1 },
     { f: C6, at: 0.8, dur: 0.45 },
+  ],
+  // A two-tone siren, short enough not to be annoying.
+  siren: [
+    { f: [660, 880], at: 0, dur: 0.22, wave: 'square', vol: 0.35 },
+    { f: [880, 660], at: 0.22, dur: 0.22, wave: 'square', vol: 0.35 },
+    { f: [660, 880], at: 0.44, dur: 0.22, wave: 'square', vol: 0.35 },
   ],
   sad: [
     { f: G4, at: 0, dur: 0.3, wave: 'triangle' },

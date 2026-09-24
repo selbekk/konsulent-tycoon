@@ -1,10 +1,26 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, SMALL_TENDER_MAX_SEATS, bidQuality, capacity, disciplineSupply, hasIntel, openTenders, seatTotal, staffFirm, tenderLevel, tenderLock } from '../../engine'
+import {
+  DISCIPLINES,
+  SMALL_TENDER_MAX_SEATS,
+  bidQuality,
+  capacity,
+  disciplineSupply,
+  hasIntel,
+  isKeyTender,
+  openTenders,
+  quickBid,
+  seatTotal,
+  staffFirm,
+  tenderLevel,
+  tenderLock,
+} from '../../engine'
 import type { GameState, Tender } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, Panel } from '../components/ui'
 import { formatQuarter } from '../format'
+import { playSound } from '../sound'
+import { bidChance, chanceTone } from './bidChance'
 import s from './screens.module.css'
 
 export function SeatBadges({ tender, game }: { tender: Tender; game: GameState }) {
@@ -39,6 +55,35 @@ export function WeightBar({ tender }: { tender: Tender }) {
       <div className={s.bar} aria-hidden>
         <span style={{ width: `${tender.priceWeight * 100}%`, background: 'var(--warn)' }} />
         <span style={{ flex: 1, background: 'var(--info)' }} />
+      </div>
+    </div>
+  )
+}
+
+/** One-click standard offer on routine tenders, with the same estimate the bid form shows. */
+function QuickBid({ tender, game, onCustomise }: { tender: Tender; game: GameState; onCustomise: () => void }) {
+  const { t } = useTranslation()
+  const dispatch = useGame((x) => x.dispatch)
+  const offer = quickBid(game, game.playerId, tender)
+  const { quality, tooWeak, chance } = bidChance(game, offer, tender)
+  return (
+    <div className={s.stackSm}>
+      <span className={s.small}>
+        {t('tenders.quickBidHint', { rate: offer.rateMultiplier.toFixed(2) })} · {t('tenders.qualityShort', { q: Math.round(quality) })}{' '}
+        <Badge tone={chanceTone(chance)}>{t(`bid.chances.${chance}`)}</Badge>
+      </span>
+      {tooWeak && <span className={`${s.small} ${s.bad}`}>{t('tenders.quickBidTooWeak')}</span>}
+      <div className={`${s.row} ${s.between}`}>
+        <Button
+          variant="primary"
+          disabled={tooWeak}
+          onClick={() => playSound(dispatch({ type: 'placeBid', tenderId: tender.id, bid: offer }) ? 'bad' : 'confirm')}
+        >
+          {t('tenders.quickBid')}
+        </Button>
+        <Button size="small" onClick={onCustomise}>
+          {t('tenders.customise')}
+        </Button>
       </div>
     </div>
   )
@@ -106,6 +151,7 @@ export function TenderBoard() {
                 <div className={`${s.row} ${s.between}`}>
                   <strong>{t(`content:customers.${tn.customerId}.name`)}</strong>
                   <span className={s.row} style={{ gap: 4 }}>
+                    {isKeyTender(tn) && <Badge tone="warn">{t('tenders.key')}</Badge>}
                     {seatTotal(tn.seats) <= SMALL_TENDER_MAX_SEATS && <Badge tone="good">{t('tenders.small')}</Badge>}
                     <Badge tone={tn.kind === 'framework' ? 'accent' : undefined}>{t(`tenders.kind.${tn.kind}`)}</Badge>
                   </span>
@@ -139,10 +185,12 @@ export function TenderBoard() {
                       {t('tenders.edit')}
                     </Button>
                   </div>
-                ) : (
+                ) : isKeyTender(tn) ? (
                   <Button variant="primary" onClick={() => openBid(tn.id)}>
                     {t('tenders.bid')}
                   </Button>
+                ) : (
+                  <QuickBid tender={tn} game={game} onCustomise={() => openBid(tn.id)} />
                 )}
               </article>
             )

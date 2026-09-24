@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { applyAction } from './reducer'
-import { deepFreeze, newTestGame } from './testUtils'
+import { deepFreeze, makeKeyTender, newTestGame } from './testUtils'
 import { quarterTodos } from './todos'
 import type { Bid, GameState } from './types'
 
@@ -19,9 +19,15 @@ describe('quarter todos', () => {
     expect(todo(s, 'bid')?.done).toBe(true)
   })
 
-  it('flags bids decided this quarter that have no customer meeting', () => {
+  it('flags key bids decided this quarter that have no customer meeting', () => {
     let s = newTestGame()
-    const t = s.tenders.find((x) => !x.resolved && !x.hidden)!
+    const routine = s.tenders.filter((x) => !x.resolved && !x.hidden)[1]
+    routine.dueQuarter = s.quarter
+    routine.seats = { backend: 1 }
+    s = applyAction(s, { type: 'placeBid', tenderId: routine.id, bid: bid() }).state
+    // Routine tenders have no meeting, so nothing to flag.
+    expect(todo(s, 'pitch')).toBeUndefined()
+    const t = makeKeyTender(s.tenders.find((x) => !x.resolved && !x.hidden)!)
     t.dueQuarter = s.quarter
     expect(todo(s, 'pitch')).toBeUndefined()
     s = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid() }).state

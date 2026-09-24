@@ -3,7 +3,7 @@ import { creditLimit } from './economy'
 import { tenderLock } from './levels'
 import { applyAction } from './reducer'
 import { bidQuality, bidScoreEstimate } from './tenders'
-import { deepFreeze, newTestGame, veteranTestGame } from './testUtils'
+import { deepFreeze, makeKeyTender, newTestGame, veteranTestGame } from './testUtils'
 import type { Bid, GameState } from './types'
 
 const openTender = (s: GameState) => s.tenders.find((t) => !t.resolved && !t.hidden && !tenderLock(s.firms.player, t))!
@@ -87,7 +87,7 @@ describe('reducer', () => {
 
   it('allows one minigame attempt per tender', () => {
     let s = veteranTestGame()
-    const t = openTender(s)
+    const t = makeKeyTender(openTender(s))
     const r1 = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 250 })
     expect(r1.error).toBeUndefined()
     s = r1.state
@@ -99,7 +99,7 @@ describe('reducer', () => {
 
   it('a started minigame counts as 0 until finished, and can only be finished once', () => {
     let s = veteranTestGame()
-    const t = openTender(s)
+    const t = makeKeyTender(openTender(s))
     s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 0, provisional: true }).state
     expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 90 }).error).toBe('errors.minigameAlreadyPlayed')
     expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 0, provisional: true }).error).toBe('errors.minigameAlreadyPlayed')

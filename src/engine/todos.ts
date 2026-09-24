@@ -1,14 +1,15 @@
 import { NURTURE_SATISFACTION, NURTURE_TODO_BELOW, TODO_HIRE_MIN_RUNWAY, TODO_IDLE_MIN, TODO_IDLE_SHARE } from './constants'
 import { contractMoveBlock } from './contractActions'
+import { crisesOf } from './crises'
 import { activeContracts, creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from './economy'
 import { tenderLock } from './levels'
 import { capacity } from './metrics'
-import { openTenders } from './tenders'
+import { isKeyTender, openTenders } from './tenders'
 import { DISCIPLINES } from './types'
 import type { GameState } from './types'
 import { seatTotal } from './util'
 
-export type TodoId = 'bid' | 'pitch' | 'hire' | 'nurture'
+export type TodoId = 'crisis' | 'bid' | 'pitch' | 'hire' | 'nurture'
 
 export interface Todo {
   id: TodoId
@@ -25,6 +26,12 @@ export interface Todo {
 export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const firm = state.firms[firmId]
   const todos: Todo[] = []
+
+  // A crisis stage waiting for a decision. Every stage has a free fallback, so it can always be answered now.
+  const crises = crisesOf(state, firmId)
+  const undecided = crises.filter((c) => c.status === 'active').length
+  const decided = crises.some((c) => c.log.some((l) => l.quarter === state.quarter && !l.auto))
+  if (undecided || decided) todos.push({ id: 'crisis', done: undecided === 0, params: { count: undecided } })
   const open = openTenders(state)
   const mine = open.filter((t) => t.bids.some((b) => b.firmId === firmId))
   // Only nag about things that pay off before the game ends (valuation ignores backlog).
@@ -42,7 +49,7 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   if (matters(state.quarter + 2)) todos.push({ id: 'bid', done: idle < threshold || !fits, params: { count: idle } })
 
   // Bids decided at the end of this quarter without a customer meeting.
-  const dueNow = mine.filter((t) => t.dueQuarter === state.quarter)
+  const dueNow = mine.filter((t) => t.dueQuarter === state.quarter && isKeyTender(t))
   if (dueNow.length && matters(state.quarter + 1)) {
     const missing = dueNow.filter((t) => !t.minigameResults[firmId]).length
     todos.push({ id: 'pitch', done: missing === 0, params: { count: missing } })
