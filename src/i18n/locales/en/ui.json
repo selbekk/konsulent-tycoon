@@ -84,7 +84,9 @@
     "announcements": "Show PA announcements",
     "sound": "Sound effects",
     "volume": "Volume",
-    "testSound": "Test sound"
+    "testSound": "Test sound",
+    "analytics": "Share anonymous usage statistics",
+    "analyticsHint": "Helps us make the game better. Turning it off deletes what was stored about you on this device."
   },
   "save": {
     "title": "Save game",
@@ -872,7 +874,9 @@
     "privacy": {
       "title": "Your data",
       "body": [
-        "The game is free and runs in your browser. Saved games stay on your own device, and nothing is sent anywhere. Not yet, at least: tracking or a server might come later."
+        "The game is free and runs in your browser. Saved games stay on your own device and aren't sent anywhere.",
+        "If you say yes to usage statistics, the game sends anonymous events to PostHog, on servers in the EU: which screens you open, what you do in the game (like bids, hires and crisis choices), how your quarters go, and error reports if something crashes. PostHog also gets what your browser shares about itself anyway, like browser, operating system, screen size, rough country and which page sent you here. We store a random ID on your device so we can tell it's the same player next time. We don't store your IP address, and we never send your firm's name or anything else you type.",
+        "If you say no, PostHog isn't loaded at all. You can change your mind at any time in Settings. If you play offline, events are sent once you're back online, as long as the game is still open."
       ]
     },
     "thanks": {
@@ -973,5 +977,12 @@
   "article": {
     "paper": "The Daily Consultant",
     "byline": "By {{name}}"
+  },
+  "consent": {
+    "title": "Mind if we count a bit?",
+    "body": "We'd like to see how the game is played, so we know what's fun and what's just confusing. It's anonymous, and nothing is sent until you say yes.",
+    "more": "Read more",
+    "accept": "Yes, count away",
+    "deny": "No thanks"
   }
 }

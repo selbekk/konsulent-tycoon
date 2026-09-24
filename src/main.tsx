@@ -10,12 +10,14 @@ import '@fontsource/ibm-plex-sans/latin-500.css'
 import '@fontsource/ibm-plex-sans/latin-600.css'
 import '@fontsource/ibm-plex-sans/latin-700.css'
 import '@fontsource/press-start-2p/latin-400.css'
+import { initAnalytics } from './analytics'
 import './i18n'
 import { listenForInstallPrompt } from './ui/pwa/install'
 import './ui/theme/global.css'
 import App from './App.tsx'
 
 listenForInstallPrompt()
+initAnalytics()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

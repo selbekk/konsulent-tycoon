@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { DISCIPLINES, MAX_QUARTERS, deleteSlot, listSlots } from '../../engine'
 import { FIRMS } from '../../content/firms'
 import type { Difficulty, Discipline, SlotId } from '../../engine'
+import { denyConsent, grantConsent, setAnalyticsContext, track } from '../../analytics'
+import { useConsent } from '../../analytics/consent'
 import { LOCALES, setLocale } from '../../i18n'
 import { useGame } from '../../store/gameStore'
 import { Button, Hint, Panel, Slider } from '../components/ui'
@@ -93,7 +95,7 @@ export function MainMenu() {
           <Button onClick={() => go('settings')}>{t('menu.settings')}</Button>
           <Button onClick={() => go('about')}>{t('menu.about')}</Button>
           {canInstall && (
-            <Button variant="ghost" icon="disk" onClick={() => void promptInstall()}>
+            <Button variant="ghost" icon="disk" onClick={() => void promptInstall().then((accepted) => track('app_install_prompted', { accepted }))}>
               {t('pwa.install')}
             </Button>
           )}
@@ -122,12 +124,15 @@ export function NewGame() {
 
   const start = () => {
     const parsed = Number.parseInt(seed, 10)
-    newGame({
-      seed: Number.isFinite(parsed) ? parsed : Math.floor(Math.random() * 2 ** 31),
-      firmName: name.trim() || t('newGame.defaultName'),
-      founderDisciplines: [founders[0] ?? 'backend', founders[1] ?? founders[0] ?? 'frontend'],
-      difficulty,
-    })
+    newGame(
+      {
+        seed: Number.isFinite(parsed) ? parsed : Math.floor(Math.random() * 2 ** 31),
+        firmName: name.trim() || t('newGame.defaultName'),
+        founderDisciplines: [founders[0] ?? 'backend', founders[1] ?? founders[0] ?? 'frontend'],
+        difficulty,
+      },
+      { customSeed: Number.isFinite(parsed), defaultName: !name.trim() },
+    )
   }
 
   return (
@@ -262,6 +267,7 @@ export function SettingsScreen() {
   const go = useGame((x) => x.go)
   const previous = useGame((x) => x.previousScreen)
   const game = useGame((x) => x.game)
+  const consent = useConsent()
   const check = (key: 'reducedMotion' | 'doubleTime' | 'announcements' | 'sound', label: string) => (
     <label className={s.checkRow}>
       <input type="checkbox" checked={settings[key]} onChange={(e) => setSettings({ [key]: e.target.checked })} />
@@ -277,7 +283,15 @@ export function SettingsScreen() {
               <span className={s.fieldLabel}>{t('settings.language')}</span>
               <div className={s.segmented} role="group" aria-label={t('settings.language')}>
                 {LOCALES.map((l) => (
-                  <button key={l} aria-pressed={i18n.language === l} onClick={() => setLocale(l)}>
+                  <button
+                    key={l}
+                    aria-pressed={i18n.language === l}
+                    onClick={() => {
+                      setLocale(l)
+                      setAnalyticsContext({ language: l })
+                      track('language_changed', { language: l })
+                    }}
+                  >
                     {t(`settings.languages.${l}`)}
                   </button>
                 ))}
@@ -315,6 +329,13 @@ export function SettingsScreen() {
                 </Button>
               </div>
             )}
+            <div className={s.field}>
+              <label className={s.checkRow}>
+                <input type="checkbox" checked={consent === 'granted'} onChange={(e) => (e.target.checked ? grantConsent() : denyConsent())} />
+                {t('settings.analytics')}
+              </label>
+              <Hint>{t('settings.analyticsHint')}</Hint>
+            </div>
             <Button onClick={() => go(game && previous === 'game' ? 'game' : 'menu')}>{t('common.back')}</Button>
           </div>
         </Panel>
@@ -349,6 +370,7 @@ export function AboutScreen() {
     if (navigator.share) {
       try {
         await navigator.share(data)
+        track('game_shared', { method: 'share_sheet' })
         return
       } catch (e) {
         // The user closed the share sheet; that's an answer, not an error.
@@ -358,6 +380,7 @@ export function AboutScreen() {
     try {
       await navigator.clipboard.writeText(url)
       setShareStatus('copied')
+      track('game_shared', { method: 'clipboard' })
     } catch {
       setShareStatus('failed')
     }

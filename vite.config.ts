@@ -3,7 +3,16 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+/** Same as the rewrites in vercel.json: PostHog behind our own path, for `dev` and `preview`. */
+const posthogProxy = {
+  '/kaffe/static': { target: 'https://eu-assets.i.posthog.com', changeOrigin: true, rewrite: (p: string) => p.replace(/^\/kaffe/, '') },
+  '/kaffe/array': { target: 'https://eu-assets.i.posthog.com', changeOrigin: true, rewrite: (p: string) => p.replace(/^\/kaffe/, '') },
+  '/kaffe': { target: 'https://eu.i.posthog.com', changeOrigin: true, rewrite: (p: string) => p.replace(/^\/kaffe/, '') },
+}
+
 export default defineConfig({
+  server: { proxy: posthogProxy },
+  preview: { proxy: posthogProxy },
   plugins: [
     react(),
     VitePWA({
@@ -33,6 +42,8 @@ export default defineConfig({
         // Everything is local (fonts included), so the whole game works offline.
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
         navigateFallback: '/index.html',
+        // Analytics goes to PostHog through this path; never answer it with the app shell.
+        navigateFallbackDenylist: [/^\/kaffe\//],
         cleanupOutdatedCaches: true,
       },
     }),
@@ -41,7 +52,8 @@ export default defineConfig({
     rolldownOptions: {
       output: {
         // Libraries change rarely: keep them in their own chunk so game updates stay small.
-        codeSplitting: { groups: [{ name: 'vendor', test: /node_modules/ }] },
+        // PostHog stays out of it: it's only loaded once the player accepts analytics.
+        codeSplitting: { groups: [{ name: 'vendor', test: /node_modules\/(?!posthog-js|@posthog)/ }] },
       },
     },
   },

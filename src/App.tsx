@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useGame } from './store/gameStore'
 import { AboutScreen, LoadScreen, MainMenu, NewGame, SettingsScreen } from './ui/screens/Menus'
 import { PwaPrompt } from './ui/pwa/PwaPrompt'
+import { CookieBar } from './ui/consent/CookieBar'
 import { Shell } from './ui/screens/Shell'
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
         <MainMenu />
       )}
       <PwaPrompt />
+      {screen !== 'about' && <CookieBar />}
     </>
   )
 }

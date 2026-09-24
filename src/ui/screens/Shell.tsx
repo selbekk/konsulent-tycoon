@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { track } from '../../analytics'
 import { EVENT_MAP } from '../../content/events'
 import { FEATURE_LEVEL, averageMorale, creditLimit, firmLevel, headcount, openCrises, quarterTodos } from '../../engine'
 import type { Feature, NewsItem } from '../../engine'
@@ -109,7 +110,12 @@ export function Shell() {
 
   // Both the button and the Enter shortcut go through here, so neither skips the warning.
   const hasOpenTodos = openTodos.length > 0
-  const tryEndTurn = useCallback(() => (hasOpenTodos ? setConfirmEnd(true) : endTurn()), [hasOpenTodos, endTurn])
+  const openTodoIds = openTodos.map((x) => x.id).join(',')
+  const tryEndTurn = useCallback(() => {
+    if (!hasOpenTodos) return endTurn()
+    track('end_turn_warning_shown', { todos: openTodoIds.split(','), quarter: game.quarter })
+    setConfirmEnd(true)
+  }, [hasOpenTodos, endTurn, openTodoIds, game.quarter])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -170,7 +176,14 @@ export function Shell() {
           {me.heat > 0 && <Stat icon="flame" label={t('shell.heat')} value={Math.round(me.heat)} tone={me.heat > 40 ? 'bad' : undefined} />}
         </div>
         <div className={s.topActions}>
-          <Button size="small" icon="disk" onClick={() => setSaving(true)}>
+          <Button
+            size="small"
+            icon="disk"
+            onClick={() => {
+              track('save_dialog_opened', { quarter: game.quarter })
+              setSaving(true)
+            }}
+          >
             {t('shell.save')}
           </Button>
           <Button size="small" variant="ghost" icon="gear" onClick={() => go('settings')} aria-label={t('menu.settings')} />
@@ -276,6 +289,7 @@ export function Shell() {
               <Button
                 variant="primary"
                 onClick={() => {
+                  track('end_turn_warning_ignored', { todos: openTodos.map((x) => x.id), quarter: game.quarter })
                   setConfirmEnd(false)
                   endTurn()
                 }}
