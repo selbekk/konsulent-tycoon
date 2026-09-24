@@ -3,6 +3,7 @@ import { CRISES, EXPOSED_STAGE } from '../content/crises'
 import { CRISIS_TALKS, CRISIS_TALK_QUESTIONS, TALK_STYLES } from '../content/crisisTalks'
 import { EVENTS } from '../content/events'
 import { ANNOUNCEMENTS } from '../content/announcements'
+import { THOUGHTS } from '../content/thoughts'
 import { FIRMS } from '../content/firms'
 import { CUSTOMERS } from '../content/customers'
 import { TRENDS } from '../content/trends'
@@ -69,6 +70,7 @@ describe('i18n', () => {
     check(game, `crises.${EXPOSED_STAGE.id}.body`)
     for (const ch of EXPOSED_STAGE.choices) check(game, `crises.${EXPOSED_STAGE.id}.choices.${ch.id}`)
     for (const a of ANNOUNCEMENTS) check(game, `announcements.${a.id}`)
+    for (const th of THOUGHTS) for (let v = 1; v <= th.variants; v++) check(game, `thoughts.${th.id}.${v}`)
     for (const m of MISSIONS) check(content, `missions.${m.id}.name`)
     for (const p of PARTNERSHIPS) check(content, `partnerships.${p.id}.name`)
     for (const d of DEPARTMENTS) check(content, `departments.${d.id}.name`)

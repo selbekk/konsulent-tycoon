@@ -1,5 +1,5 @@
 import type { CrisisChoice, CrisisEffect } from '../../content/crises'
-import { CRISIS_AI_HUSH } from '../constants'
+import { CRISIS_AI_HUSH, HUMAN_CRISIS_STYLE } from '../constants'
 import { benchCount, choiceEffect, crisisChoiceBlock, crisisChoices, openCrises } from '../crises'
 import { activeContracts, headcount, quarterFinancials } from '../economy'
 import type { Action, Crisis, Firm, GameState } from '../types'
@@ -11,9 +11,6 @@ export interface CrisisStyle {
   shady: number
   talk: number
 }
-
-/** The simulated player: decent, rarely shady, and as good at talking as humanProxy is in pitch meetings (70). */
-export const HUMAN_CRISIS_STYLE: CrisisStyle = { care: 0.7, shady: 0.05, talk: 70 }
 
 export function crisisStyleFor(firm: Firm): CrisisStyle {
   if (firm.isPlayer) return HUMAN_CRISIS_STYLE

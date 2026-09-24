@@ -3,7 +3,16 @@ import { FIRMS } from '../content/firms'
 import type { FirmDef } from '../content/firms'
 import { TRENDS } from '../content/trends'
 import { personalityFor, salaryPremiumFor } from './ai/personalities'
-import { MAX_QUARTERS, PLAYER_START_BUDGETS, SAVE_VERSION, TARGET_DEMAND_RATIO, clamp } from './constants'
+import {
+  AI_CASH_FACTOR,
+  AI_START_CASH_PER_HEAD,
+  MAX_QUARTERS,
+  PLAYER_START_BUDGETS,
+  SAVE_VERSION,
+  START_CASH,
+  TARGET_DEMAND_RATIO,
+  clamp,
+} from './constants'
 import { cultureEquilibrium } from './culture'
 import { pickAnnouncement } from './flavor'
 import { earnedLevel } from './levels'
@@ -23,8 +32,6 @@ export interface NewGameOptions {
 
 export const PLAYER_ID = 'player'
 
-const START_CASH: Record<Difficulty, number> = { easy: 5_000_000, normal: 3_000_000, hard: 1_500_000 }
-const AI_CASH_FACTOR: Record<Difficulty, number> = { easy: 0.8, normal: 1, hard: 1.3 }
 
 function baseFirm(id: string, name: string, isPlayer: boolean, personalityId: string, country: string): Firm {
   return {
@@ -90,7 +97,7 @@ function createAiFirm(state: GameState, def: FirmDef): Firm {
   firm.fagmiljo = cultureEquilibrium(firm.budgets.fagmiljoPerHead)
   firm.sosialt = cultureEquilibrium(firm.budgets.sosialtPerHead)
   firm.reputation = clamp(def.startReputation + noise(state.rng, 4), 0, 100)
-  firm.cash = Math.round(hc * 650_000 * AI_CASH_FACTOR[state.difficulty])
+  firm.cash = Math.round(hc * AI_START_CASH_PER_HEAD * AI_CASH_FACTOR[state.difficulty])
   return firm
 }
 
