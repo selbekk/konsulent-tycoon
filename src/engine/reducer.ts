@@ -89,6 +89,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     state.starMarket.splice(idx, 1)
     star.loyalty = 65
     star.morale = 75
+    star.joinedQuarter = state.quarter
     firm.stars.push(star)
     firm.quarterHires += 1
     return undefined

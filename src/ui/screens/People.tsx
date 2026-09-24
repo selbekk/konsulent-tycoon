@@ -13,6 +13,7 @@ import {
   PROMOTE_MIN_LEVEL,
   SEVERANCE_QUARTERS,
   careerTalkBlock,
+  disciplineSupply,
   courseBlock,
   employeeMorale,
   employeeThoughts,
@@ -25,22 +26,14 @@ import {
   stretchContracts,
   tenure,
 } from '../../engine'
-import type { Discipline, Employee, Firm, GameState } from '../../engine'
+import type { Discipline, Employee, Firm, GameState, Star } from '../../engine'
 import { useGame } from '../../store/gameStore'
+import { Levels } from '../components/Levels'
 import { Portrait } from '../components/Portrait'
 import { Badge, Button, Hint, Meter, Modal, Panel } from '../components/ui'
 import { formatMoney, formatNumber, formatQuarter } from '../format'
 import s from './screens.module.css'
-
-export function Levels({ level }: { level: number }) {
-  const full = Math.round(level)
-  return (
-    <span aria-label={`${level.toFixed(1)} / 5`} title={level.toFixed(1)} style={{ letterSpacing: 1, color: 'var(--warn)', whiteSpace: 'nowrap' }}>
-      {'★'.repeat(full)}
-      <span style={{ opacity: 0.25 }}>{'★'.repeat(Math.max(0, 5 - full))}</span>
-    </span>
-  )
-}
+import { StarCard } from './StarCard'
 
 type Sort = 'level' | 'tenure' | 'potential' | 'name'
 const SORTS: Sort[] = ['level', 'tenure', 'potential', 'name']
@@ -70,23 +63,48 @@ function statusBadges(game: GameState, firm: Firm, e: Employee, t: (k: string) =
   ))
 }
 
+/** One row in the list: an ordinary employee or a star. */
+type Row = { kind: 'employee'; e: Employee } | { kind: 'star'; star: Star }
+const rowOf = (r: Row) => (r.kind === 'employee' ? r.e : r.star)
+/** Stars sort as top potential; stars without a join date (early saves) as the longest-serving. */
+const rowPotential = (r: Row) => (r.kind === 'star' ? 2 : shownPotential(r.e))
+const rowJoined = (r: Row) => (r.kind === 'star' ? (r.star.joinedQuarter ?? -1) : r.e.joinedQuarter)
+
+function starBadges(firm: Firm, star: Star, t: (k: string, o?: Record<string, string>) => string) {
+  const mentee = firm.roster?.find((e) => e.mentorStarId === star.id)
+  return (
+    <>
+      <Badge tone="warn">{t('staff.starBadge')}</Badge>
+      {star.founder && <Badge tone="accent">{t('staff.founder')}</Badge>}
+      {star.homegrown && <Badge tone="good">{t('staff.homegrown')}</Badge>}
+      {mentee && <Badge tone="info">{t('staff.mentoring', { name: mentee.name.split(' ')[0] })}</Badge>}
+    </>
+  )
+}
+
 export function PeoplePanel({ game, firm }: { game: GameState; firm: Firm }) {
   const { t } = useTranslation()
   const [filter, setFilter] = useState<Discipline | 'all'>('all')
   const [sort, setSort] = useState<Sort>('level')
   const [openId, setOpenId] = useState<string>()
-  const roster = firm.roster
-  const people = useMemo(() => {
-    const list = (roster ?? []).filter((e) => filter === 'all' || e.discipline === filter)
-    const by: Record<Sort, (a: Employee, b: Employee) => number> = {
-      level: (a, b) => b.level - a.level,
-      tenure: (a, b) => a.joinedQuarter - b.joinedQuarter,
-      potential: (a, b) => shownPotential(b) - shownPotential(a) || b.level - a.level,
-      name: (a, b) => a.name.localeCompare(b.name),
+  const { roster, stars } = firm
+  const rows = useMemo(() => {
+    const all: Row[] = [
+      ...stars.map((star): Row => ({ kind: 'star', star })),
+      ...(roster ?? []).map((e): Row => ({ kind: 'employee', e })),
+    ]
+    const list = all.filter((r) => filter === 'all' || rowOf(r).discipline === filter)
+    const by: Record<Sort, (a: Row, b: Row) => number> = {
+      level: (a, b) => rowOf(b).level - rowOf(a).level,
+      tenure: (a, b) => rowJoined(a) - rowJoined(b),
+      potential: (a, b) => rowPotential(b) - rowPotential(a) || rowOf(b).level - rowOf(a).level,
+      name: (a, b) => rowOf(a).name.localeCompare(rowOf(b).name),
     }
-    return [...list].sort((a, b) => by[sort](a, b) || a.id.localeCompare(b.id))
-  }, [roster, filter, sort])
-  const open = roster?.find((e) => e.id === openId)
+    return [...list].sort((a, b) => by[sort](a, b) || rowOf(a).id.localeCompare(rowOf(b).id))
+  }, [roster, stars, filter, sort])
+  const openEmployee = roster?.find((e) => e.id === openId)
+  const openStar = stars.find((x) => x.id === openId)
+  const close = () => setOpenId(undefined)
 
   return (
     <Panel title={t('staff.people')} icon="people" className={s.span12}>
@@ -96,9 +114,9 @@ export function PeoplePanel({ game, firm }: { game: GameState; firm: Firm }) {
             <span className={s.fieldLabel}>{t('staff.discipline')}</span>
             <select className={s.input} value={filter} onChange={(e) => setFilter(e.target.value as Discipline | 'all')}>
               <option value="all">{t('staff.filterAll')}</option>
-              {DISCIPLINES.filter((d) => firm.pools[d].count > 0).map((d) => (
+              {DISCIPLINES.filter((d) => disciplineSupply(firm, d) > 0).map((d) => (
                 <option key={d} value={d}>
-                  {t(`disciplines.${d}`)} ({firm.pools[d].count})
+                  {t(`disciplines.${d}`)} ({disciplineSupply(firm, d)})
                 </option>
               ))}
             </select>
@@ -114,30 +132,50 @@ export function PeoplePanel({ game, firm }: { game: GameState; firm: Firm }) {
             </select>
           </label>
         </div>
-        <span className={`${s.small} ${s.muted}`}>{t('staff.peopleCount', { count: people.length })}</span>
+        <span className={`${s.small} ${s.muted}`}>{t('staff.peopleCount', { count: rows.length })}</span>
       </div>
-      {people.length ? (
+      {rows.length ? (
         <ul className={s.people}>
-          {people.map((e) => (
-            <li key={e.id}>
-              <button type="button" className={s.person} onClick={() => setOpenId(e.id)} aria-label={t('staff.openProfile', { name: e.name })}>
-                <Portrait seed={e.id} size={32} />
-                <span className={s.personName}>
-                  <strong>{e.name}</strong>
-                  <span className={`${s.small} ${s.muted}`}>
-                    {t(`disciplines.${e.discipline}`)} · {t(`content:quirks.${e.quirks[0]}.name`)}
+          {rows.map((r) => {
+            const p = rowOf(r)
+            return (
+              <li key={p.id}>
+                <button
+                  type="button"
+                  className={s.person}
+                  data-star={r.kind === 'star' || undefined}
+                  onClick={() => setOpenId(p.id)}
+                  aria-label={t('staff.openProfile', { name: p.name })}
+                >
+                  <Portrait seed={p.id} size={32} />
+                  <span className={s.personName}>
+                    <strong>{p.name}</strong>
+                    <span className={`${s.small} ${s.muted}`}>
+                      {t(`disciplines.${p.discipline}`)} ·{' '}
+                      {r.kind === 'star' ? t(`content:traits.${r.star.traits[0]}.name`) : t(`content:quirks.${r.e.quirks[0]}.name`)}
+                    </span>
                   </span>
-                </span>
-                <Levels level={e.level} />
-                <span className={s.seats}>{statusBadges(game, firm, e, t)}</span>
-              </button>
-            </li>
-          ))}
+                  <Levels level={p.level} />
+                  <span className={s.seats}>{r.kind === 'star' ? starBadges(firm, r.star, t) : statusBadges(game, firm, r.e, t)}</span>
+                </button>
+              </li>
+            )
+          })}
         </ul>
       ) : (
         <p className={s.empty}>{t('staff.peopleEmpty')}</p>
       )}
-      {open && <EmployeeProfile game={game} firm={firm} e={open} onClose={() => setOpenId(undefined)} />}
+      {openEmployee && <EmployeeProfile game={game} firm={firm} e={openEmployee} onClose={close} />}
+      {openStar && (
+        <Modal title={openStar.name} icon="star" onClose={close} actions={<Button onClick={close}>{t('common.close')}</Button>}>
+          <div className={s.stack}>
+            {openStar.joinedQuarter !== undefined && (
+              <span className={`${s.small} ${s.muted}`}>{t('staff.profile.joined', { quarter: formatQuarter(openStar.joinedQuarter) })}</span>
+            )}
+            <StarCard star={openStar} firm={firm} game={game} />
+          </div>
+        </Modal>
+      )}
     </Panel>
   )
 }

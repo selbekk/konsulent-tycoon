@@ -54,6 +54,7 @@ export function handleAcquire(state: GameState, a: ActionOf<'acquireFirm'>): str
   }
   for (const star of target.stars) {
     star.loyalty = clamp(star.loyalty - ACQUIRE_STAR_LOYALTY_HIT, 0, 100)
+    star.joinedQuarter = state.quarter
     buyer.stars.push(star)
   }
   target.stars = []

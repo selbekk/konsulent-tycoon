@@ -251,7 +251,8 @@
       "promote": "Forfrem til stjerne ({{cost}})",
       "promoteHint": "Krever nivå {{level}} og høyt potensial. Én forfremmelse i året.",
       "fire": "Si opp ({{cost}})"
-    }
+    },
+    "starBadge": "Stjerne"
   },
   "culture": {
     "budgets": "Budsjetter",

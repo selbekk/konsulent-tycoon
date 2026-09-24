@@ -251,7 +251,8 @@
       "promote": "Promote to star ({{cost}})",
       "promoteHint": "Needs level {{level}} and high potential. One promotion a year.",
       "fire": "Let go ({{cost}})"
-    }
+    },
+    "starBadge": "Star"
   },
   "culture": {
     "budgets": "Budgets",

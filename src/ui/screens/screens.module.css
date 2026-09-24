@@ -672,6 +672,10 @@
   cursor: pointer;
 }
 
+.person[data-star] {
+  border-color: color-mix(in srgb, var(--warn) 60%, var(--border));
+}
+
 .person:hover,
 .person:focus-visible {
   border-color: var(--accent);

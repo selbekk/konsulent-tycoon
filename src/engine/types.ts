@@ -32,6 +32,8 @@ export interface Star {
   assignedContractId?: string
   /** Promoted from the firm's own roster. */
   homegrown?: boolean
+  /** Quarter the star joined this firm. Missing in early saves and for AI stars from the start. */
+  joinedQuarter?: number
 }
 
 /**

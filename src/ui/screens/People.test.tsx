@@ -27,6 +27,18 @@ describe('the people on the staff screen', () => {
     expect(within(dialog).getByText(/open at level 2/i)).toBeInTheDocument()
   })
 
+  it('lists the stars too, and opens their card', () => {
+    render(<StaffScreen />)
+    const founders = useGame.getState().game!.firms.player.stars
+    expect(founders.length).toBe(2)
+    for (const star of founders) expect(screen.getByRole('button', { name: `Show ${star.name}'s profile` })).toBeInTheDocument()
+    expect(screen.getByText(`${founders.length + 4} people`)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: `Show ${founders[0].name}'s profile` }))
+    const dialog = screen.getByRole('dialog', { name: founders[0].name })
+    expect(within(dialog).getByText(/founder/i)).toBeInTheDocument()
+    expect(within(dialog).getByText(/joined q1 2027/i)).toBeInTheDocument()
+  })
+
   it('sends someone on a course from the profile once development is open', () => {
     const game = structuredClone(useGame.getState().game!)
     game.firms.player.level = 2

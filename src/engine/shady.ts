@@ -128,6 +128,7 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
         target!.quarterLeavers += 1
         star.salaryPremium = Math.round((star.salaryPremium + 0.1) * 100) / 100
         star.loyalty = 55
+        star.joinedQuarter = state.quarter
         firm.stars.push(star)
         addNews(state, 'news.shady.poachSuccess', { name: star.name, from: target!.name, to: firm.name }, 'sassy', {
           personal: firm.isPlayer || target!.isPlayer,

@@ -266,6 +266,7 @@ export function handlePromote(state: GameState, a: ActionOf<'promoteEmployee'>):
     loyalty: HOMEGROWN_LOYALTY,
     salaryPremium: HOMEGROWN_PREMIUM,
     homegrown: true,
+    joinedQuarter: e.joinedQuarter,
   }
   removePeople(state, firm, e.discipline, 1, { employeeId: e.id })
   if (e.promise) {

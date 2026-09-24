@@ -205,6 +205,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
   for (const d of opts.founderDisciplines) {
     const founder = generateStar(state, d, 4, 4)
     founder.founder = true
+    founder.joinedQuarter = 0
     founder.loyalty = 95
     founder.morale = 85
     founder.salaryPremium = 0
