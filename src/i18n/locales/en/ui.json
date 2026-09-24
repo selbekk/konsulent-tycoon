@@ -75,6 +75,10 @@
     "sound": "Sound effects",
     "volume": "Volume",
     "testSound": "Test sound",
+    "music": "Background music",
+    "musicVolume": "Music volume",
+    "nextSong": "Next song",
+    "nowPlaying": "Now playing: “{{song}}”",
     "analytics": "Share anonymous usage statistics",
     "analyticsHint": "Helps us make the game better. Turning it off deletes what was stored about you on this device."
   },
@@ -853,6 +857,7 @@
       "title": "How it was made",
       "body": [
         "The game was built with Claude Code, lots of user testing and many rounds of iteration, trial and error, much like every other product Kristofer works on. It took far less time than anything he has built before.",
+        "The background music was generated with Claude Opus 5.5 too: 20 little tunes written as chords and style, with the melodies made by code and played by a synth in the browser.",
         "It's still in development, so things may change along the way."
       ]
     },
@@ -976,5 +981,29 @@
     "menu": "Back to menu",
     "deleteSave": "Delete saved game",
     "confirmDelete": "Delete the saved game? Only do this if the game crashes every time you continue."
+  },
+  "music": {
+    "songs": {
+      "timesheetShuffle": "Timesheet Shuffle",
+      "coffeeMachineRag": "Coffee Machine Rag",
+      "billableBlues": "Billable Blues",
+      "quarterlyBossa": "Quarterly Bossa",
+      "openOfficeSwing": "Open Plan Swing",
+      "deadlineDrive": "Due Tomorrow",
+      "kpiCakewalk": "KPI Cakewalk",
+      "agileSunrise": "Agile Sunrise",
+      "invoiceBoogie": "Invoice Boogie",
+      "overtimeLounge": "Overtime Lounge",
+      "budgetMarch": "Budget March",
+      "synergySwing": "Synergy Swing",
+      "elevatorPitch": "Elevator Pitch",
+      "serverRoomStomp": "Server Room Stomp",
+      "commuterCruise": "Commuter Cruise",
+      "minorMilestones": "Minor Milestones",
+      "strategyDayRag": "Offsite Rag",
+      "fridayDrinks": "Friday Drinks",
+      "nightShift": "Night Shift",
+      "goldenParachute": "Golden Parachute"
+    }
   }
 }
