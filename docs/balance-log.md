@@ -1,7 +1,10 @@
 # Balanseringslogg
 
-Mål (AI-marked alene, 40 kvartaler): ≤ 2 konkurser per parti, ingen firma dør i > 30 % av seedene, realisert etterspørsel/kapasitet 0,75–0,85.
-Mål: `npm run sim:market -- 20` (AI-marked) og `npm run sim` (med spillerbot).
+Loggen er historikk: hver oppføring viser tallene slik de var da. Gjeldende verdier står i `src/engine/constants.ts`.
+
+Mål for AI-markedet alene (40 kvartaler): ≤ 2 konkurser per parti, ingen firma dør i > 30 % av seedene, realisert etterspørsel/kapasitet 0,75–0,85. Mål med `npm run sim:market -- 20`.
+
+Spillersiden måles med `npm run sim` og botene `human` og `humanPro`. Den har ikke et fastsatt mål ennå (se «Bugjakt» under).
 
 | # | Endring | Konkurser/parti | Verst | Etterspørsel/kap. |
 |---|---|---|---|---|
@@ -142,7 +145,7 @@ En tester fant fire ting: nyansatte kom ett kvartal senere enn teksten lovet, sa
 | + `MIN_AWARD_QUALITY = 35` | 0/150 · 627 MNOK · 4 | 0/150 · 947 MNOK · 2 | 2648 MNOK · 1 | **88 MNOK · 21** (17/60 konkurs) | 0,0 |
 
 Endringer:
-- **Rekruttering:** De som takker ja, begynner ved kvartalsskiftet og fakturerer fra neste kvartal, slik planen (§1.4) sier. Isolert (med den gamle boten) var effekten innenfor støyen: 16 → 20 konkurser, 156 → 135 MNOK.
+- **Rekruttering:** De som takker ja, begynner ved kvartalsskiftet og fakturerer fra neste kvartal, slik teksten i spillet lover. Isolert (med den gamle boten) var effekten innenfor støyen: 16 → 20 konkurser, 156 → 135 MNOK.
 - **Stjerner:** En stjerne kan bare tilbys hvis kontrakten stjernen sitter på er ferdig når den nye starter (`starBusyThrough`). Med den gamle boten så dette ut som et hopp fra 156 til 450 MNOK. Hele hoppet kom av at boten sluttet å sette opptatte grunnleggere på bud, slik at færre bud ble avvist. Det var botfeilen over, ikke regelen.
 - **Kapasitet:** Bare bud som avgjøres dette kvartalet, teller mot neste kvartal. Påvirker ikke motoren.
 - **Minstekvalitet ved tildeling:** Kunden avviser bud under 35 i kvalitet, også når budet er alene. Spambudet (copy-paste, ingen egne folk ledige) havner rundt 10–20, mens vanlige bud ligger på 45–65. Frilansergrense og prisreferanse for enslige bud ble ikke prøvd, fordi dette alene lukket hullet.
@@ -197,7 +200,7 @@ Funn:
 - Boten avsluttet aldri et kvartal med et åpent krisepunkt på gjøremålslista (0 av 400 kvartaler). `endTurn` tar i snitt 9 ms, med maks 17 ms.
 - AI-markedet er friskt. 0,2 AI-døde per parti på 20 partier falt til 0,1 på 60, som er innenfor det loggen har vist før (0,0–0,1).
 - Spredningen i utfall økte ikke. For `humanPro` falt p90 fra 1458 til 1338 MNOK. Målet om mer spredning er ikke nådd.
-- AI-firmaene dysser i praksis aldri ned (0 av 20 partier). Nedgraving scorer bare positivt i planleggeren ved `shadiness > 0,4`, og ingen arketype er så lyssky, så `news.crisis.exposedRival` vises aldri ennå.
+- AI-firmaene dysser i praksis aldri ned (0 av 20 partier). Nedgraving scorer bare positivt i planleggeren ved `shadiness > 0,4`, og ingen arketype er så lyssky, så `news.crisis.exposedRival` vises aldri ennå. (Endret i neste oppføring, og `CRISIS_AI_CHANCE` er økt til 0,07.)
 - `whistleblower` dukket ikke opp i utvalget, fordi boten sjelden ansetter stjerner. Den er bare testet strukturelt.
 - Naturlige knotter: `CRISIS_CHANCE`, `CRISIS_AI_IMPACT`, `CRISIS_EXPOSE_CHANCE`, og kostnadene per valg i `content/crises.ts`.
 

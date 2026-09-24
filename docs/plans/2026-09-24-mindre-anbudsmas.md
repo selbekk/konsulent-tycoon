@@ -2,12 +2,14 @@
 
 Utgangspunkt: nesten alt i spillet handler om å sende inn og vinne anbud, og møtet er en avgift du betaler på hvert bud. Målet er færre og viktigere møter, tydelig tilbakemelding og ett bindende løfte per viktig tilbud. Flere spørsmål løser ikke dette alene.
 
-## Hva finnes allerede
+Status: fase 1 er ferdig, fase 2 er ikke bygget.
 
-- **Møtet er en skjult personlighet.** `CustomerDef.meetingPreference` (`content/customers.ts`) avgjør svaret, og spilleren ser den aldri.
-- **Møtet er et krav.** `todos.ts` markerer hvert bud som avgjøres i kvartalet uten møte. Et bud uten møte taper opptil 15 kvalitetspoeng (`0.15 × minigame` i `bidQuality`).
-- **Ingen forklaring.** `resolveDueTenders` sier bare vant/tapte/avvist.
-- **Leveransen har allerede valg** (punkt 5). Det finnes mersalg, reforhandling, pleie, oppsigelse og forlengelse (`contractActions.ts`, `contracts.ts`). Direkteoppdrag uten anbud mangler.
+## Utgangspunktet (før fase 1)
+
+- **Møtet var en skjult personlighet.** `meetingPreference` i `content/customers.ts` avgjorde svaret, og spilleren så den aldri.
+- **Møtet var et krav.** `todos.ts` markerte hvert bud som ble avgjort i kvartalet uten møte. Et bud uten møte tapte opptil 15 kvalitetspoeng.
+- **Ingen forklaring.** Tildelingen sa bare vant, tapte eller avvist.
+- **Leveransen hadde allerede valg** (punkt 5): mersalg, reforhandling, pleie, oppsigelse og forlengelse (`contractActions.ts`, `contracts.ts`). Direkteoppdrag uten anbud manglet, og mangler fortsatt.
 
 ## Fase 1: færre møter, tydelig tilbakemelding, ett løfte (ferdig 2026-09-24)
 
@@ -19,7 +21,7 @@ Utgangspunkt: nesten alt i spillet handler om å sende inn og vinne anbud, og m�
 - AI-ene (`planner.ts`, `humanProxy.ts`) følger samme regel og registrerer bare møter på viktige anbud.
 
 ### 1b. Forklar resultatet (punkt 3)
-- Del `bidQuality` i en ren `bidQualityParts` (CV, fagmiljø, møte, innsats, omdømme, stjerner, strategi, kapasitetsstraff). `bidQuality` summerer delene, så ingenting dupliseres.
+- Del `bidQuality` i en ren `bidQualityParts` (CV, fagmiljø, møte, innsats, omdømme, `extras` for stjernenes traits, strategi og CV-juks, kapasitetsstraff og løfte). `bidQuality` summerer delene, så ingenting dupliseres.
 - Ved tildeling sammenlignes spillerens poeng per faktor med vinneren (eller beste taper). Faktorene er pris, kvalitetsdelene, relasjon og prioritet. Forklaringen legges i nyhetens parametre (`weak`/`strong`), så ingen nye felt trengs på anbudet.
 - Nyheten nevner den største årsaken, for eksempel «Dere tapte hovedsakelig på pris. Kvaliteten var konkurransedyktig.» Når støyen var større enn resten, står det «Det var jevnt, og flaksen avgjorde.»
 - Avvist bud: oppgi grunnen (som regel kapasitetsstraffen, altså for få ledige folk).
@@ -38,7 +40,7 @@ Utgangspunkt: nesten alt i spillet handler om å sende inn og vinne anbud, og m�
 - Løftet kopieres til `Contract`. `contracts.ts` sjekker det i første kvartals tilfredshetsoppdatering og lager en nyhet om løftet ble holdt eller brutt.
 - AI-planleggeren velger et løfte ut fra ledig kapasitet og går gjennom samme reducer.
 
-## Fase 2: leve av leveransen (punkt 5)
+## Fase 2: leve av leveransen (punkt 5, ikke bygget)
 - **Direkteoppdrag:** kunder med høy relasjon og en fornøyd kontrakt tilbyr av og til et oppdrag uten anbud. Du svarer ja eller nei innen kvartalet.
 - **Leveransehendelser** knyttet til en kontrakt: kunden vil utvide omfanget, nøkkelpersonen trengs et annet sted, eller teamet vil bruke tid på kvalitet. Dette kan bygges på event-DSL-en med kontraktkontekst.
 

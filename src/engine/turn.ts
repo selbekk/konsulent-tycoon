@@ -85,7 +85,7 @@ function checkBankruptcies(state: GameState) {
 
 /**
  * Advances the game by one quarter. Pure: returns a new state.
- * Order matters – see docs/plans for the pipeline description.
+ * Order matters – see "Kvartalspipelinen" in docs/utvikling.md.
  */
 export function endTurn(input: GameState): GameState {
   if (input.status !== 'playing') return input
