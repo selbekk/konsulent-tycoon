@@ -59,7 +59,7 @@ export { acquisitionBlock, acquisitionPrice } from './acquisitions'
 export { cancelFee, contractMoveBlock, nurtureCost, renegotiateChance, upsellChance, upsellRoom } from './contractActions'
 export type { ContractMove } from './contractActions'
 export { SPECIALTIES, departmentFee, hasDepartment, ipoProceeds, lobbyReadyIn, specialtyChangeCost, specialtyMatches, strategyBonus, strategyCost } from './strategy'
-export { employeeMorale, employeeOf, mentorPenalty, rosterIn } from './roster'
+export { employeeMorale, employeeOf, mentorPenalty, personName, rosterIn } from './roster'
 export {
   careerTalkBlock,
   courseBlock,

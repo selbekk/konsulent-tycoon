@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { activeContracts, benchmark, capacity, hasFeature, kpis, playerRank, quarterFinancials, quarterTodos, valuation } from '../../engine'
+import type { NewsItem } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { bjornKey } from '../bjorn'
 import { Bjorn } from '../components/Bjorn'
@@ -11,6 +13,7 @@ import { OfficeView } from '../office/OfficeView'
 import s from './screens.module.css'
 import { CrisisPanel } from './CrisisPanel'
 import { LevelPanel } from './LevelPanel'
+import { NewsArticle } from './NewsArticle'
 import { TodoList } from './TodoList'
 
 export function Dashboard() {
@@ -18,6 +21,7 @@ export function Dashboard() {
   const lng = i18n.language
   const game = useGame((x) => x.game)!
   const setTab = useGame((x) => x.setTab)
+  const [article, setArticle] = useState<NewsItem | null>(null)
   const me = game.firms[game.playerId]
   const fin = quarterFinancials(game, me.id)
   const last = me.history[me.history.length - 1]
@@ -152,15 +156,16 @@ export function Dashboard() {
             {personal.map((n) => (
               <li key={n.id}>
                 <span className={s.newsDot} data-tone={n.tone} />
-                <span>
+                <button type="button" className={s.newsLink} onClick={() => setArticle(n)}>
                   <span className={s.muted}>{formatQuarter(n.quarter)}</span> {newsText(n, t, lng)}
-                </span>
+                </button>
               </li>
             ))}
           </ul>
         ) : (
           <p className={s.empty}>{t('dashboard.noNews')}</p>
         )}
+        {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
       </Panel>
       <Panel title={t('dashboard.office')} icon="people" className={s.span12}>
         <OfficeView firm={me} />

@@ -969,5 +969,9 @@
     "more_one": "{{count}} krise til venter.",
     "more_other": "{{count}} kriser til venter.",
     "tally": "Så langt i spillet: {{good}} godt håndtert, {{ok}} greit og {{bad}} dårlig."
+  },
+  "article": {
+    "paper": "Dagens Konsulent",
+    "byline": "Av {{name}}"
   }
 }

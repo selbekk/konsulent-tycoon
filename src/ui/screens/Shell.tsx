@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EVENT_MAP } from '../../content/events'
 import { FEATURE_LEVEL, averageMorale, creditLimit, firmLevel, headcount, openCrises, quarterTodos } from '../../engine'
-import type { Feature } from '../../engine'
+import type { Feature, NewsItem } from '../../engine'
 import { TABS, crisisSeenKey, useGame } from '../../store/gameStore'
 import type { Tab } from '../../store/gameStore'
 import { Icon } from '../components/Icon'
@@ -21,6 +21,7 @@ import { EndGame } from './EndGame'
 import { EventModal } from './EventModal'
 import { LevelUpModal } from './LevelUpModal'
 import { MarketScreen } from './MarketScreen'
+import { NewsArticle } from './NewsArticle'
 import { Onboarding } from './Onboarding'
 import { MinigameHost } from '../minigames/MinigameHost'
 import { QuarterReport } from './QuarterReport'
@@ -76,12 +77,14 @@ export function Shell() {
   const go = useGame((x) => x.go)
   const [saving, setSaving] = useState(false)
   const [confirmEnd, setConfirmEnd] = useState(false)
+  const [article, setArticle] = useState<NewsItem | null>(null)
   const [hideAnnouncement, setHideAnnouncement] = useState<number | null>(null)
   const me = game.firms[game.playerId]
   // Events whose content was removed would otherwise block the End Turn button forever.
   const pending = game.pendingEvents.filter((e) => e.firmId === me.id && EVENT_MAP[e.eventId])
   const modalOpen =
     onboarding ||
+    !!article ||
     report !== null ||
     !!levelUp ||
     !!bidTenderId ||
@@ -220,19 +223,32 @@ export function Shell() {
         <span className={s.tickerLabel}>{t('shell.news')}</span>
         <div className={s.tickerViewport}>
           {settings.reducedMotion ? (
-            <span className={s.tickerStatic}>{ticker[0] ? newsText(ticker[0], t, lng) : ''}</span>
+            ticker[0] && (
+              <button type="button" className={`${s.tickerItem} ${s.tickerStatic}`} onClick={() => setArticle(ticker[0])}>
+                {newsText(ticker[0], t, lng)}
+              </button>
+            )
           ) : (
             <div className={s.tickerTrack} key={game.quarter}>
               {[...ticker, ...ticker].map((n, i) => (
-                <span key={`${n.id}-${i}`} aria-hidden={i >= ticker.length}>
+                // The second copy is only there for the seamless loop.
+                <button
+                  type="button"
+                  key={`${n.id}-${i}`}
+                  className={s.tickerItem}
+                  aria-hidden={i >= ticker.length || undefined}
+                  tabIndex={i >= ticker.length ? -1 : undefined}
+                  onClick={() => setArticle(n)}
+                >
                   {formatQuarter(n.quarter)} · {newsText(n, t, lng)}
-                </span>
+                </button>
               ))}
             </div>
           )}
         </div>
       </div>
 
+      {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
       {onboarding && game.status === 'playing' && <Onboarding />}
       {!onboarding && report !== null && <QuarterReport />}
       {!onboarding && report === null && levelUp && game.status === 'playing' && <LevelUpModal from={levelUp.from} to={levelUp.to} />}
