@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DISCIPLINES, MAX_QUARTERS, listSlots } from '../../engine'
 import { FIRMS } from '../../content/firms'
@@ -10,6 +10,7 @@ import { useGame } from '../../store/gameStore'
 import { Button, Hint, Panel, Slider } from '../components/ui'
 import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/install'
 import { playSound } from '../sound'
+import { getNowPlaying, nextSong, subscribeNowPlaying } from '../music/player'
 import { formatQuarter } from '../format'
 import m from './menu.module.css'
 import s from './screens.module.css'
@@ -204,7 +205,8 @@ export function SettingsScreen() {
   const previous = useGame((x) => x.previousScreen)
   const game = useGame((x) => x.game)
   const consent = useConsent()
-  const check = (key: 'reducedMotion' | 'doubleTime' | 'announcements' | 'sound', label: string) => (
+  const nowPlaying = useSyncExternalStore(subscribeNowPlaying, getNowPlaying)
+  const check = (key: 'reducedMotion' | 'doubleTime' | 'announcements' | 'sound' | 'music', label: string) => (
     <label className={s.checkRow}>
       <input type="checkbox" checked={settings[key]} onChange={(e) => setSettings({ [key]: e.target.checked })} />
       {label}
@@ -263,6 +265,28 @@ export function SettingsScreen() {
                 <Button size="small" onClick={() => playSound('win')}>
                   {t('settings.testSound')}
                 </Button>
+              </div>
+            )}
+            {check('music', t('settings.music'))}
+            {settings.music && (
+              <div className={s.field}>
+                <div className={s.row}>
+                  <div style={{ flex: 1, minWidth: 180 }}>
+                    <Slider
+                      label={t('settings.musicVolume')}
+                      value={Math.round(settings.musicVolume * 100)}
+                      min={0}
+                      max={100}
+                      step={5}
+                      onChange={(v) => setSettings({ musicVolume: v / 100 })}
+                      display={`${Math.round(settings.musicVolume * 100)} %`}
+                    />
+                  </div>
+                  <Button size="small" onClick={nextSong}>
+                    {t('settings.nextSong')}
+                  </Button>
+                </div>
+                {nowPlaying && <Hint>{t('settings.nowPlaying', { song: t(`music.songs.${nowPlaying}`) })}</Hint>}
               </div>
             )}
             <div className={s.field}>

@@ -75,6 +75,10 @@
     "sound": "Lydeffekter",
     "volume": "Volum",
     "testSound": "Test lyd",
+    "music": "Bakgrunnsmusikk",
+    "musicVolume": "Musikkvolum",
+    "nextSong": "Neste låt",
+    "nowPlaying": "Spilles nå: «{{song}}»",
     "analytics": "Del anonym bruksstatistikk",
     "analyticsHint": "Hjelper oss å gjøre spillet bedre. Skrur du det av, slettes det som er lagret om deg på denne enheten."
   },
@@ -853,6 +857,7 @@
       "title": "Slik ble det laget",
       "body": [
         "Spillet er laget med Claude Code, mye brukertesting og mange runder med iterasjon, prøving og feiling, omtrent som alle andre produkter Kristofer jobber med. Det tok betraktelig kortere tid enn noe han har bygget før.",
+        "Bakgrunnsmusikken er også generert med Claude Opus 5.5: 20 små låter skrevet som akkorder og stil, der melodiene lages av kode og spilles av en synth i nettleseren.",
         "Spillet er fortsatt under utvikling, så ting kan endre seg underveis."
       ]
     },
@@ -976,5 +981,29 @@
     "menu": "Til menyen",
     "deleteSave": "Slett lagret spill",
     "confirmDelete": "Slette det lagrede spillet? Gjør dette bare hvis spillet krasjer hver gang du fortsetter."
+  },
+  "music": {
+    "songs": {
+      "timesheetShuffle": "Timelisteshuffle",
+      "coffeeMachineRag": "Kaffemaskinragtime",
+      "billableBlues": "Fakturerbar blues",
+      "quarterlyBossa": "Kvartalsbossa",
+      "openOfficeSwing": "Åpent landskap",
+      "deadlineDrive": "Fristen er i morgen",
+      "kpiCakewalk": "KPI-cakewalk",
+      "agileSunrise": "Smidig soloppgang",
+      "invoiceBoogie": "Fakturaboogie",
+      "overtimeLounge": "Overtidslounge",
+      "budgetMarch": "Budsjettmarsj",
+      "synergySwing": "Synergi i swing",
+      "elevatorPitch": "Heispitch",
+      "serverRoomStomp": "Serverromstomp",
+      "commuterCruise": "Morgenpendel",
+      "minorMilestones": "Milepæler i moll",
+      "strategyDayRag": "Strategisamlingsrag",
+      "fridayDrinks": "Fredagspils",
+      "nightShift": "Nattskift",
+      "goldenParachute": "Gyllen fallskjerm"
+    }
   }
 }

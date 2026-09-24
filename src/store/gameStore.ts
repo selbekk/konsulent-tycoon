@@ -30,6 +30,10 @@ export interface Settings {
   sound: boolean
   /** 0–1 */
   soundVolume: number
+  /** Background music (`ui/music`). */
+  music: boolean
+  /** 0–1 */
+  musicVolume: number
 }
 
 /** Analytics id for a playthrough. Only the store makes one; the engine stays deterministic. */
@@ -43,6 +47,8 @@ const defaultSettings: Settings = {
   announcements: true,
   sound: true,
   soundVolume: 0.6,
+  music: true,
+  musicVolume: 0.4,
 }
 
 function loadSettings(): Settings {

@@ -119,7 +119,9 @@ src/
     pwa/              Oppdateringsvarsel og installering
     theme/            Design-tokens og global CSS
     format.ts         Penger, prosent, kvartaler og nyhetstekster
+    audio.ts          Den ene AudioContext-en som lyd og musikk deler
     sound.ts          8-bit-lyder med Web Audio
+    music/            Bakgrunnsmusikk: sanger, komponist og avspiller
 scripts/
   sim.ts              Balansesimulator med spillerboter
   market-health.ts    Helsesjekk for AI-markedet alene
@@ -272,6 +274,12 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Lyden respekterer innstillingene `sound` og `soundVolume`, og er en no-op der Web Audio mangler (tester, gamle nettlesere).
   - `AudioContext` lages først ved første avspilling, fordi nettleserne krever et brukerklikk.
   - Samme lyd to ganger innen 80 ms blir ignorert (React StrictMode).
+- **Musikk:** `ui/music/` spiller 20 små låter i Transport Tycoon-ånd (swing, ragtime, shuffle-blues og litt bossa), også uten lydfiler.
+  - En låt er data i `songs.ts`: akkorder per takt (to akkorder i en takt deler den), form (`AABA`), sluttakkord, tempo og stil for lead, komp, bass og trommer. Titlene ligger i `ui:music.songs.<id>` på begge språk.
+  - `compose.ts` gjør en låt om til noter. Den er ren og deterministisk: melodien lages fra et frø avledet av låt-id-en, med tomotivs fraser som gjentas og slutter på en kadens, og akkordtoner på slag 1 og 3. A-temaet kommer tilbake likt i hver runde, mens de andre delene improviseres av et annet instrument etter første runde. `compose.test.ts` sjekker dette.
+  - `player.ts` spiller låtene etter hverandre i tilfeldig rekkefølge med en lookahead-planlegger. Alt går gjennom én gain per låt, så å skru av er en fade.
+  - Musikken starter ved første klikk eller tastetrykk (nettleserne krever det), følger innstillingene `music` og `musicVolume`, og pauser når fanen er skjult. `installMusic()` kobles på i `App.tsx`.
+  - Vil du endre lyden på et instrument, er det `TONES` i `player.ts`. Nivåene er satt uten ører i rommet, så juster `BUS_LEVEL` og `gain` etter å ha hørt.
 - **Tilgjengelighet:**
   - Modaler fanger fokus og lukkes med Escape (bare den øverste).
   - Målere har `role="meter"`.

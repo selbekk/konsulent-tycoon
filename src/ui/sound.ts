@@ -1,4 +1,5 @@
 import { useGame } from '../store/gameStore'
+import { audioContext } from './audio'
 
 /**
  * Tiny 8-bit sound effects synthesised with Web Audio – no files, no licences.
@@ -104,20 +105,7 @@ const SOUNDS: Record<SoundName, Note[]> = {
   ],
 }
 
-let ctx: AudioContext | null = null
 const lastPlayed: Partial<Record<SoundName, number>> = {}
-
-function audio(): AudioContext | null {
-  if (ctx) return ctx
-  const Ctor = typeof window !== 'undefined' ? (window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext) : undefined
-  if (!Ctor) return null
-  try {
-    ctx = new Ctor()
-  } catch {
-    ctx = null
-  }
-  return ctx
-}
 
 export function playSound(name: SoundName) {
   const { sound, soundVolume } = useGame.getState().settings
@@ -126,7 +114,7 @@ export function playSound(name: SoundName) {
   const nowMs = typeof performance !== 'undefined' ? performance.now() : Date.now()
   if (nowMs - (lastPlayed[name] ?? -Infinity) < 80) return
   lastPlayed[name] = nowMs
-  const ac = audio()
+  const ac = audioContext()
   if (!ac) return
   if (ac.state === 'suspended') void ac.resume()
   const master = ac.createGain()

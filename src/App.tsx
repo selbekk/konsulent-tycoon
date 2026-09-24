@@ -5,6 +5,7 @@ import { PwaPrompt } from './ui/pwa/PwaPrompt'
 import { CookieBar } from './ui/consent/CookieBar'
 import { CrashBoundary } from './ui/screens/CrashScreen'
 import { Shell } from './ui/screens/Shell'
+import { installMusic } from './ui/music/player'
 
 export default function App() {
   const screen = useGame((s) => s.screen)
@@ -16,6 +17,8 @@ export default function App() {
     document.documentElement.dataset.theme = theme
     document.documentElement.dataset.motion = reducedMotion ? 'reduced' : 'full'
   }, [theme, reducedMotion])
+
+  useEffect(() => installMusic(), [])
 
   return (
     <>

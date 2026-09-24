@@ -59,6 +59,7 @@ Content is data in `src/content/` plus translations in both locales. Events (`co
 - Retro but calm: rounded corners (`--radius`), soft shadows. Pixel art belongs in illustrations (icons, office, portraits), not in text or controls. Fonts: Press Start 2P for the logo only, Bungee for headings and big buttons, IBM Plex Sans for body, IBM Plex Mono for numbers (`.num`).
 - Icons are 8×8 ASCII bitmaps in `ui/components/Icon.tsx` (`#` fill, `o` accent). Add new ones to `ICONS`. No emoji in the UI.
 - Sound is synthesized with Web Audio in `ui/sound.ts` (`playSound('win')`; add new sounds as tone lists in `SOUNDS`).
+- Background music is synthesized too (`ui/music/`): songs are chord/style data in `songs.ts`, `compose.ts` turns them into notes deterministically, and `player.ts` schedules them on the `AudioContext` shared with effects (`ui/audio.ts`). New songs need a title in `ui:music.songs.<id>`.
 - Layout must work down to 360 px. Modals trap focus and close on Escape; honour reduced motion.
 
 ## Testing
