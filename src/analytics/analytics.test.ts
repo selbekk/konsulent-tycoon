@@ -64,6 +64,18 @@ describe('analytics consent', () => {
     expect(ph.capture).toHaveBeenCalledWith('budgets_set', { social: 5 })
   })
 
+  it('tags events with the playthrough while one is set', () => {
+    ph.capture.mockClear()
+    analytics.setGameId('parti-1')
+    analytics.track('tab_viewed', { tab: 'staff' })
+    analytics.setGameId(null)
+    analytics.track('tab_viewed', { tab: 'staff' })
+    expect(ph.capture.mock.calls).toEqual([
+      ['tab_viewed', { tab: 'staff', game_id: 'parti-1' }],
+      ['tab_viewed', { tab: 'staff' }],
+    ])
+  })
+
   it('withdrawing stops tracking and clears what PostHog stored', () => {
     localStorage.setItem('ph_phc_test_posthog', '{}')
     analytics.denyConsent()

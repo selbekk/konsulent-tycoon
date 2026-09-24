@@ -263,6 +263,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
     const f = state.firms[id]
     f.level = earnedLevel(f)
     f.tendersWon = 0
+    f.quarterStartPremium = f.budgets.salaryPremium
   }
 
   state.baseDemand = marketCapacity(state) * TARGET_DEMAND_RATIO

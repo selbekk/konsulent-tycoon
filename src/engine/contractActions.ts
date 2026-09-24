@@ -96,7 +96,7 @@ export function contractMoveBlock(state: GameState, firm: Firm, c: Contract, mov
       if (c.kind !== 'project') return 'errors.upsellFramework'
       if (!active) return 'errors.contractNotStarted'
       if (c.upsell && state.quarter - c.upsell.quarter < UPSELL_COOLDOWN) return 'errors.contractCooldown'
-      if (count < 1 || count > upsellRoom(firm, c)) return 'errors.upsellTooBig'
+      if (!Number.isInteger(count) || count < 1 || count > upsellRoom(firm, c)) return 'errors.upsellTooBig'
       return undefined
   }
 }

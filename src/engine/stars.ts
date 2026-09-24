@@ -1,5 +1,5 @@
 import { TRAITS, TRAIT_MAP } from '../content/traits'
-import { MAX_POOL_LEVEL, STAR_MARKET_MAX, clamp, quarterlySalaryCost } from './constants'
+import { MAX_POOL_LEVEL, STAR_MARKET_MAX, clamp, pricingPremium, quarterlySalaryCost } from './constants'
 import { personName, raiseLevel } from './roster'
 import { moraleTarget } from './staff'
 import { chance, nextFloat, nextInt, pick, range } from './rng'
@@ -49,7 +49,7 @@ export function ambitionMet(firm: Firm, star: Star, headcount: number): boolean 
 }
 
 export function starSigningCost(star: Star, firm: Firm): number {
-  return quarterlySalaryCost(star.level, firm.budgets.salaryPremium + star.salaryPremium)
+  return quarterlySalaryCost(star.level, pricingPremium(firm) + star.salaryPremium)
 }
 
 export function starLeaveChance(star: Star): number {

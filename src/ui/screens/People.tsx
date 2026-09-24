@@ -22,7 +22,9 @@ import {
   mentorBlock,
   potentialBand,
   promotionBlock,
+  pricingPremium,
   quarterlySalaryCost,
+  stretchBlock,
   stretchContracts,
   tenure,
 } from '../../engine'
@@ -191,7 +193,7 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
   const canDevelop = hasFeature(firm, 'development')
   const mentors = firm.stars.filter((x) => x.discipline === e.discipline)
   const contracts = stretchContracts(game, firm, e)
-  const severance = quarterlySalaryCost(e.level, firm.budgets.salaryPremium) * SEVERANCE_QUARTERS
+  const severance = quarterlySalaryCost(e.level, pricingPremium(firm)) * SEVERANCE_QUARTERS
   const act = (blocked: string | undefined) => ({ disabled: !!blocked, title: blocked ? t(`game:${blocked}`) : undefined })
 
   return (
@@ -302,7 +304,7 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
                 >
                   <option value="">{t('staff.profile.stretchNone')}</option>
                   {contracts.map((c) => (
-                    <option key={c.id} value={c.id}>
+                    <option key={c.id} value={c.id} disabled={c.id !== e.stretchContractId && !!stretchBlock(game, firm, e, c.id)}>
                       {t(`content:customers.${c.customerId}.name`)}
                     </option>
                   ))}

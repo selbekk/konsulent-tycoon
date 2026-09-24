@@ -23,7 +23,7 @@ export {
   trendDemand,
 } from './tenders'
 export type { CustomerNeed, QualityParts } from './tenders'
-export { SHADY_CATALOG, SHADY_IDS, SHADY_LEVELS, shadyUnlocked, riskLevel, detectionChance, hasIntel, poachChance, shadyStats } from './shady'
+export { SHADY_CATALOG, SHADY_IDS, SHADY_LEVELS, shadyRepeatBlock, shadyUnlocked, riskLevel, detectionChance, hasIntel, poachChance, shadyStats } from './shady'
 export type { ShadyDef } from './shady'
 export { canChoose } from './events'
 export {

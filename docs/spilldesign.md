@@ -13,7 +13,7 @@ Et turbasert strategispill i nettleseren. Du starter et IT-konsulentselskap og h
 | Tap | Konkurs når kontantene har vært under kassekreditten to kvartaler på rad. |
 | Likhet | Spilleren og AI-ene er samme `Firm` og følger de samme reglene. AI-en har ingen snarveier. |
 | Språk | Bokmål (standard) og engelsk. |
-| Lagring | Tre manuelle plasser og autolagring etter hver handling, lokalt i nettleseren. |
+| Lagring | Bare autolagring etter hver handling, lokalt i nettleseren. Manuelle plasser er fjernet, fordi de gjorde minispill og utfall mulige å ta om. |
 
 ## Tone og stemning
 

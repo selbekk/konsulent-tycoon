@@ -250,3 +250,20 @@ Funn:
 - Rart: med utvikling ender `humanPro` under `human` (991 mot 1067). Ikke undersøkt.
 - `endTurn` tar rundt 12 ms sent i spillet med lista.
 - Naturlige knotter hvis det blir for sterkt: `COURSE_COST`, `COURSE_MAX_LEVEL`, `PROMOTE_COOLDOWN`, `PROMOTE_MIN_LEVEL`, `MENTOR_LEVEL_GAIN`, `STRETCH_LEVEL_GAIN` og `POTENTIAL_EXPONENT`. For AI-siden: `AI_COURSE_SHARE`.
+
+## Tetting av smutthull (2026-09-24)
+
+Etter en sikkerhetsgjennomgang. Ingen tallknotter er endret, bare regler som var mulige å misbruke:
+- Signering av stjerner og sluttpakker regnes med det høyeste av dagens lønnspåslag og påslaget ved kvartalsstart (`pricingPremium`).
+- Ryktespredning, DN-lekkasje, lønnsspionasje og afterwork-kapring kan brukes én gang per kvartal mot hvert mål. LinkedIn-posten kan brukes én gang per kvartal totalt (`perQuarter`).
+- Høyst én person på strekkoppdrag per plass i sitt fag på en kontrakt.
+- En krisesamtale gir bare poeng hvis den er startet. AI-en starter den nå først, så utfallet er det samme som før.
+
+60 partier med `--seed 1000`, før (`7f4faaa`) og etter:
+
+| Kjøring | human verdi / plass | humanPro verdi / plass | AI-døde totalt |
+|---|---|---|---|
+| Før | 1063 MNOK / 2 | 991 / 2 | 6 / 10 |
+| Etter | 1035 / 2 | 1017 / 2 | 9 / 11 |
+
+Funn: Endringene er innenfor støyen (±5 %). Botene brukte ikke smutthullene nevneverdig, så de rammer bare spillere som leter etter dem.

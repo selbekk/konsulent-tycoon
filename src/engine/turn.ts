@@ -136,5 +136,6 @@ export function endTurn(input: GameState): GameState {
   drawEvents(state)
   drawCrises(state)
   pickAnnouncement(state)
+  for (const f of activeFirms(state)) f.quarterStartPremium = f.budgets.salaryPremium
   return state
 }

@@ -32,8 +32,11 @@ function withCrisis(defId: string, severity: 'low' | 'high', params: Record<stri
 }
 
 const crisis = (s: GameState, id: string) => s.crises!.find((c) => c.id === id)!
-const resolve = (s: GameState, id: string, choiceId: string, score?: number) =>
-  applyAction(s, { type: 'resolveCrisis', firmId: 'player', crisisId: id, choiceId, score })
+/** With a score, the talk is started first, as the UI does. */
+function resolve(s: GameState, id: string, choiceId: string, score?: number) {
+  const started = score === undefined ? s : applyAction(s, { type: 'startCrisisTalk', firmId: 'player', crisisId: id, choiceId }).state
+  return applyAction(started, { type: 'resolveCrisis', firmId: 'player', crisisId: id, choiceId, score })
+}
 
 /** Ends the quarter with nobody else doing anything that could get in the way. */
 function nextQuarter(s: GameState): GameState {
@@ -176,6 +179,14 @@ describe('crises', () => {
     const sat = s.contracts.find((x) => x.id === c0.id)!.satisfaction
     const r = resolve(s, id, 'rescue_meeting', 90)
     expect(r.state.contracts.find((x) => x.id === c0.id)!.satisfaction).toBe(Math.min(100, sat + 6 + 11))
+  })
+
+  it('a talk score only counts if the talk was started', () => {
+    const c0 = playerContract(veteranTestGame())
+    const { s, id } = withCrisis('client_exit', 'low', { contract: c0.id, customer: c0.customerId })
+    const r = applyAction(s, { type: 'resolveCrisis', firmId: 'player', crisisId: id, choiceId: 'rescue_meeting', score: 100 })
+    expect(r.error).toBeUndefined()
+    expect(crisis(r.state, id).log[0]).toMatchObject({ choiceId: 'rescue_meeting', score: 0 })
   })
 
   it('choices that need something missing are blocked, fallbacks never are', () => {

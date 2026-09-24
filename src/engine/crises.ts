@@ -396,7 +396,9 @@ export function handleResolveCrisis(state: GameState, a: ActionOf<'resolveCrisis
   const error = crisisChoiceBlock(state, c, a.choiceId)
   if (error) return error
   const choice = crisisChoices(c).find((ch) => ch.id === a.choiceId)!
-  resolveChoice(state, c, choice, choice.talk ? clamp(Math.round(a.score ?? 0), 0, 100) : undefined, false)
+  // A talk only scores if it was started first (startCrisisTalk), like the UI does.
+  const talked = choice.talk && c.minigameStarted === choice.id
+  resolveChoice(state, c, choice, choice.talk ? (talked ? clamp(Math.round(a.score ?? 0), 0, 100) : 0) : undefined, false)
   return undefined
 }
 

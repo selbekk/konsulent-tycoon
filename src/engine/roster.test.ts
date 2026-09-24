@@ -220,6 +220,18 @@ describe('development', () => {
     expect(me(r.state).roster!.find((y) => y.id === e.id)!.level).toBeGreaterThan(before)
   })
 
+  it('lets one person stretch per seat in their discipline', () => {
+    const s = staffed()
+    const [a, b] = rosterIn(me(s), 'backend')
+    const c = s.contracts.find((x) => x.firmId === 'player' && (x.activeSeats.backend ?? 0) > 0)!
+    c.activeSeats.backend = 1
+    const r = applyAction(s, { type: 'setStretch', firmId: 'player', employeeId: a.id, contractId: c.id })
+    expect(r.error).toBeUndefined()
+    expect(applyAction(r.state, { type: 'setStretch', firmId: 'player', employeeId: b.id, contractId: c.id }).error).toBe('errors.stretchFull')
+    // Re-setting the one already there is fine.
+    expect(applyAction(r.state, { type: 'setStretch', firmId: 'player', employeeId: a.id, contractId: c.id }).error).toBeUndefined()
+  })
+
   it('keeps a career promise with growth, and loses the person without it', () => {
     const s = staffed()
     const [grower, idler] = rosterIn(me(s), 'backend')

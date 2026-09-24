@@ -103,6 +103,11 @@ describe('contract actions', () => {
     expect(applyAction(s, { type: 'cancelContract', ...base }).error).toBe('errors.notEnoughCash')
   })
 
+  it('upsell rejects a count that is not a whole number', () => {
+    const s = withContract({ satisfaction: 100 })
+    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'frontend', count: NaN }).error).toBe('errors.upsellTooBig')
+  })
+
   it('upsell: a yes adds seats that bill this quarter', () => {
     const s0 = withContract({ satisfaction: 100 })
     expect(upsellChance(cx(s0), 1)).toBe(1)

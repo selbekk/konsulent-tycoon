@@ -38,7 +38,9 @@
     "mentorBusy": "That star is already mentoring someone.",
     "stretchContract": "That engagement doesn't fit.",
     "promiseActive": "You've already made a promise in a career talk.",
-    "promotedRecently": "You promoted someone recently. It's one promotion a year."
+    "promotedRecently": "You promoted someone recently. It's one promotion a year.",
+    "shadyRepeat": "You've already done that this quarter. Even the back room has limits.",
+    "stretchFull": "That engagement has no more seats to stretch into."
   },
   "news": {
     "game": {

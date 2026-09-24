@@ -55,9 +55,14 @@ const CRISIS = required<Crisis>()(['id', 'defId', 'firmId', 'stage', 'severity',
 type Obj = Record<string, unknown>
 const isObj = (v: unknown): v is Obj => typeof v === 'object' && v !== null && !Array.isArray(v)
 
+/** Present and not null: no required field is nullable, and JSON writes NaN as null. */
 function hasKeys(v: unknown, keys: readonly string[]): v is Obj {
-  return isObj(v) && keys.every((k) => v[k] !== undefined)
+  return isObj(v) && keys.every((k) => v[k] !== undefined && v[k] !== null)
 }
+
+/** The numbers the whole game runs on. A string or ±Infinity here would break every comparison. */
+const FIRM_NUMBERS = ['cash', 'reputation', 'heat', 'fagmiljo', 'sosialt', 'brandMod', 'scandalPenalty', 'negativeCashQuarters'] as const
+const finite = (v: Obj, keys: readonly string[]) => keys.every((k) => Number.isFinite(v[k]))
 
 const all = (v: unknown, ok: (x: unknown) => boolean) => Array.isArray(v) && v.every(ok)
 const values = (v: unknown, ok: (x: unknown) => boolean) => isObj(v) && Object.values(v).every(ok)
@@ -65,7 +70,9 @@ const values = (v: unknown, ok: (x: unknown) => boolean) => isObj(v) && Object.v
 function firmOk(f: unknown): boolean {
   return (
     hasKeys(f, FIRM) &&
+    finite(f, FIRM_NUMBERS) &&
     hasKeys(f.budgets, BUDGETS) &&
+    finite(f.budgets, BUDGETS) &&
     isObj(f.pools) &&
     DISCIPLINES.every((d) => hasKeys((f.pools as Obj)[d], POOL)) &&
     all(f.stars, (s) => hasKeys(s, STAR)) &&
@@ -83,10 +90,11 @@ const contractOk = (c: unknown) => hasKeys(c, CONTRACT) && isObj(c.baseSeats) &&
 
 /**
  * Whether a (migrated) save still has the shape the current engine expects. Checks presence of
- * every required field, not their types – enough to catch saves from before a shape change.
+ * every required field (not their types, apart from the core numbers) – enough to catch saves from
+ * before a shape change, and hand-edited or corrupt saves that would crash the game.
  */
 export function hasValidShape(s: unknown): s is GameState {
-  if (!hasKeys(s, GAME) || !hasKeys(s.rng, RNG)) return false
+  if (!hasKeys(s, GAME) || !hasKeys(s.rng, RNG) || !finite(s, ['quarter', 'maxQuarters', 'idCounter'])) return false
   const firms = s.firms
   return (
     values(firms, firmOk) &&

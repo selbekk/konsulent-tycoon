@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useGame } from './store/gameStore'
-import { AboutScreen, LoadScreen, MainMenu, NewGame, SettingsScreen } from './ui/screens/Menus'
+import { AboutScreen, MainMenu, NewGame, SettingsScreen } from './ui/screens/Menus'
 import { PwaPrompt } from './ui/pwa/PwaPrompt'
 import { CookieBar } from './ui/consent/CookieBar'
+import { CrashBoundary } from './ui/screens/CrashScreen'
 import { Shell } from './ui/screens/Shell'
 
 export default function App() {
@@ -18,19 +19,19 @@ export default function App() {
 
   return (
     <>
-      {screen === 'game' && game ? (
-        <Shell />
-      ) : screen === 'newGame' ? (
-        <NewGame />
-      ) : screen === 'load' ? (
-        <LoadScreen />
-      ) : screen === 'settings' ? (
-        <SettingsScreen />
-      ) : screen === 'about' ? (
-        <AboutScreen />
-      ) : (
-        <MainMenu />
-      )}
+      <CrashBoundary>
+        {screen === 'game' && game ? (
+          <Shell />
+        ) : screen === 'newGame' ? (
+          <NewGame />
+        ) : screen === 'settings' ? (
+          <SettingsScreen />
+        ) : screen === 'about' ? (
+          <AboutScreen />
+        ) : (
+          <MainMenu />
+        )}
+      </CrashBoundary>
       <PwaPrompt />
       {screen !== 'about' && <CookieBar />}
     </>
