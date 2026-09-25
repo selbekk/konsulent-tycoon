@@ -15,6 +15,7 @@
   },
   "tabs": {
     "dashboard": "Overview",
+    "finance": "Finance",
     "staff": "People",
     "culture": "Culture",
     "tenders": "Tenders",
@@ -133,14 +134,10 @@
   },
   "dashboard": {
     "thisQuarter": "This quarter · {{quarter}}",
-    "expectedRevenue": "Expected revenue",
-    "expectedCosts": "Expected costs",
     "expectedResult": "Expected result",
     "utilization": "Utilisation",
     "valuation": "Company value",
     "rank": "Rank",
-    "valuationTrend": "Company value over time",
-    "lastQuarter": "Last quarter: {{revenue}} revenue, {{result}} result, {{hires}} in and {{leavers}} out.",
     "endingSoon_one": "{{count}} contract ends after this quarter.",
     "endingSoon_other": "{{count}} contracts end after this quarter.",
     "starsAvailable_one": "{{count}} star consultant is available.",
@@ -148,7 +145,71 @@
     "goStaff": "View",
     "office": "The office",
     "news": "Latest news",
-    "noNews": "Nothing new yet."
+    "noNews": "Nothing new yet.",
+    "goFinance": "Finance"
+  },
+  "finance": {
+    "budget": {
+      "title": "Budget · {{quarter}}",
+      "line": "Item",
+      "thisQuarter": "This quarter",
+      "lastQuarter": "Last quarter",
+      "adjust": "Change",
+      "revenue": "Revenue",
+      "salary": "Salaries",
+      "overhead": "Office and running costs",
+      "culture": "Professional and social",
+      "freelance": "Freelancers",
+      "offshore": "Offshore",
+      "strategy": "Partnerships and departments",
+      "costs": "Total costs",
+      "result": "Result (EBITDA)",
+      "explain": "This quarter is a forecast: it is what happens if nothing changes before you end the quarter.",
+      "vsLast": "Compared with last quarter:"
+    },
+    "cash": {
+      "title": "Cash and runway",
+      "cash": "Cash",
+      "credit": "Credit line",
+      "headroom": "Available",
+      "burn": "Burn rate",
+      "runway": "Runway",
+      "quarters_one": "{{count}} quarter",
+      "quarters_other": "{{count}} quarters",
+      "allGame": "Rest of the game",
+      "burning": "Runway is how many quarters of today’s loss you can take before you blow through the credit line. The bank won’t let you stay there for long.",
+      "earning": "The quarter is in the black, so the pile of cash is growing. That is the best kind of runway.",
+      "overdrawn_one": "You are past the credit line. If the cash still looks like this when the quarter ends, it’s over.",
+      "overdrawn_other": "You are past the credit line. If the cash still looks like this at the end of {{count}} quarters in a row, it’s over."
+    },
+    "trends": {
+      "title": "Trends",
+      "cash": "Cash",
+      "cashAbbr": "CSH",
+      "value": "Company value",
+      "valueAbbr": "VAL",
+      "revenue": "Revenue",
+      "revenueAbbr": "REV",
+      "result": "Result",
+      "resultAbbr": "RES",
+      "utilization": "Utilisation",
+      "utilizationAbbr": "UT",
+      "headcount": "Headcount",
+      "headcountAbbr": "HC",
+      "explain": "The last point is this quarter as it stands right now. The charts go back three years."
+    },
+    "ledger": {
+      "title": "Accounts",
+      "quarter": "Quarter",
+      "revenue": "Revenue",
+      "costs": "Costs",
+      "result": "Result",
+      "other": "Other items",
+      "cash": "Closing cash",
+      "fines": "Of which fines: {{fine}}",
+      "empty": "No quarters on the books yet. The accounts start once the first quarter is over.",
+      "explain": "Other items is everything that moves money outside day-to-day operations: interest, fines, events, acquisitions and one-off purchases."
+    }
   },
   "office": {
     "label": "Your office",
@@ -750,7 +811,7 @@
     "unlocks": "Unlocks:",
     "max": "You're at the top. There are no more levels, only more meetings.",
     "features": {
-      "kpis": "Key figures on the overview: utilisation, hourly rate, growth and retention",
+      "kpis": "Key figures on the overview (utilisation, hourly rate, growth and retention) and charts in the Finance tab",
       "culture": "The Culture tab: set budgets for craft, social life and pay",
       "stars": "The star market: hire named star consultants",
       "framework": "Framework agreements: big, long deals shared by several vendors",
@@ -1238,6 +1299,15 @@
   "news": {
     "title": "News",
     "posts": {
+      "finance": {
+        "title": "New tab: Finance",
+        "body": [
+          "Running a consultancy involves a lot of strange things, but at the end of the day it’s about money. How much comes in, how much goes out, and how long you can hold on when the first number is smaller than the second. Those numbers finally have a tab of their own: Finance. You’ll find it right after Overview.",
+          "At the top is this quarter’s budget, line by line. Salaries, office and running costs, culture, freelancers and partnerships, and most of them come with a shortcut to the tab where you actually get to change them. Next to it you’ll find your cash, credit line, burn rate and runway. Runway counts down to your credit limit, not to zero, because that’s where the bank starts getting uncomfortable. So zero in the account isn’t the end of the world. A bit below, though…",
+          "Further down you’ll find the accounts for each quarter, and from level 2 there are charts too, for cash, company value, revenue, result, utilisation and headcount going back three years. In the accounts you’ll meet a line called “other items”. It’s everything that moves money outside day-to-day operations: interest, fines, events and acquisitions. If you’ve ever wondered where all the money went, that’s probably your answer.",
+          "The Overview has slimmed down a little as a result. “This quarter” now only shows your result, value and rank, with a button through to Finance. And since the new tab took second place, the keyboard shortcuts for the other tabs have moved up by one. Sorry, muscle memory! Cheers!"
+        ]
+      },
       "welcome": {
         "title": "Welcome to the news feed!",
         "body": [

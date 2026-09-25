@@ -197,13 +197,14 @@ describe('news page', () => {
 
   it('opens from the main menu and goes back to it', () => {
     render(<MainMenu />)
-    fireEvent.click(screen.getByRole('button', { name: /^latest news: welcome/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^latest news: new tab: finance/i }))
     expect(useGame.getState().screen).toBe('news')
     cleanup()
 
     render(<NewsScreen />)
     expect(screen.getByRole('heading', { name: /welcome to the news feed/i })).toBeInTheDocument()
-    expect(screen.getByText('September 25, 2026')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /new tab: finance/i })).toBeInTheDocument()
+    expect(screen.getAllByText('September 25, 2026').length).toBeGreaterThan(0)
     fireEvent.click(screen.getByRole('button', { name: /^back$/i }))
     expect(useGame.getState().screen).toBe('menu')
   })

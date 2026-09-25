@@ -128,6 +128,8 @@ export interface QuarterReport {
   billed?: number
   /** Revenue from own people, for achieved hourly rate. Optional in early saves. */
   ownRevenue?: number
+  /** Cash at the very end of the quarter (after fines and the bank's check). Optional in early saves. */
+  cash?: number
 }
 
 export interface Firm {

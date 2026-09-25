@@ -15,6 +15,7 @@
   },
   "tabs": {
     "dashboard": "Oversikt",
+    "finance": "Økonomi",
     "staff": "Ansatte",
     "culture": "Kultur",
     "tenders": "Anbud",
@@ -133,14 +134,10 @@
   },
   "dashboard": {
     "thisQuarter": "Dette kvartalet · {{quarter}}",
-    "expectedRevenue": "Forventet omsetning",
-    "expectedCosts": "Forventede kostnader",
     "expectedResult": "Forventet resultat",
     "utilization": "Fakturering",
     "valuation": "Selskapsverdi",
     "rank": "Plassering",
-    "valuationTrend": "Selskapsverdi over tid",
-    "lastQuarter": "Forrige kvartal: {{revenue}} i omsetning, {{result}} i resultat, {{hires}} inn og {{leavers}} ut.",
     "endingSoon_one": "{{count}} kontrakt slutter etter dette kvartalet.",
     "endingSoon_other": "{{count}} kontrakter slutter etter dette kvartalet.",
     "starsAvailable_one": "{{count}} stjernekonsulent er ledig i markedet.",
@@ -148,7 +145,71 @@
     "goStaff": "Se",
     "office": "Kontoret",
     "news": "Siste nytt",
-    "noNews": "Ingenting nytt ennå."
+    "noNews": "Ingenting nytt ennå.",
+    "goFinance": "Økonomi"
+  },
+  "finance": {
+    "budget": {
+      "title": "Budsjett · {{quarter}}",
+      "line": "Post",
+      "thisQuarter": "Dette kvartalet",
+      "lastQuarter": "Forrige kvartal",
+      "adjust": "Endre",
+      "revenue": "Omsetning",
+      "salary": "Lønn",
+      "overhead": "Kontor og drift",
+      "culture": "Fagmiljø og sosialt",
+      "freelance": "Frilansere",
+      "offshore": "Offshore",
+      "strategy": "Partnerskap og avdelinger",
+      "costs": "Sum kostnader",
+      "result": "Resultat (EBITDA)",
+      "explain": "Dette kvartalet er et anslag: det blir sånn hvis ingenting endrer seg før du avslutter kvartalet.",
+      "vsLast": "Mot forrige kvartal:"
+    },
+    "cash": {
+      "title": "Kasse og runway",
+      "cash": "Kontanter",
+      "credit": "Kredittramme",
+      "headroom": "Til rådighet",
+      "burn": "Burn rate",
+      "runway": "Runway",
+      "quarters_one": "{{count}} kvartal",
+      "quarters_other": "{{count}} kvartaler",
+      "allGame": "Resten av spillet",
+      "burning": "Runway er hvor mange kvartaler du tåler med dagens underskudd før du er forbi kredittrammen. Der vil ikke banken at du blir stående lenge.",
+      "earning": "Kvartalet går i pluss, så kassa vokser. Det er den beste typen runway.",
+      "overdrawn_one": "Du er forbi kredittrammen. Står kassa sånn når kvartalet er over, er det slutt.",
+      "overdrawn_other": "Du er forbi kredittrammen. Står kassa sånn ved slutten av {{count}} kvartaler på rad, er det slutt."
+    },
+    "trends": {
+      "title": "Utvikling",
+      "cash": "Kontanter",
+      "cashAbbr": "KAS",
+      "value": "Selskapsverdi",
+      "valueAbbr": "VER",
+      "revenue": "Omsetning",
+      "revenueAbbr": "OMS",
+      "result": "Resultat",
+      "resultAbbr": "RES",
+      "utilization": "Faktureringsgrad",
+      "utilizationAbbr": "FG",
+      "headcount": "Ansatte",
+      "headcountAbbr": "ANS",
+      "explain": "Siste punkt er dette kvartalet slik det ligger an nå. Grafene går tre år tilbake."
+    },
+    "ledger": {
+      "title": "Regnskap",
+      "quarter": "Kvartal",
+      "revenue": "Omsetning",
+      "costs": "Kostnader",
+      "result": "Resultat",
+      "other": "Andre poster",
+      "cash": "Kontanter ved slutt",
+      "fines": "Herav bøter: {{fine}}",
+      "empty": "Ingen kvartaler er ført ennå. Regnskapet kommer når første kvartal er over.",
+      "explain": "Andre poster er alt som flytter penger utenom driften: renter, bøter, hendelser, oppkjøp og engangskjøp."
+    }
   },
   "office": {
     "label": "Kontoret ditt",
@@ -750,7 +811,7 @@
     "unlocks": "Det låser opp:",
     "max": "Dere er på toppen. Det finnes ikke flere nivåer, bare flere møter.",
     "features": {
-      "kpis": "Nøkkeltall på oversikten: faktureringsgrad, timepris, vekst og retention",
+      "kpis": "Nøkkeltall på oversikten (faktureringsgrad, timepris, vekst og retention) og grafer i Økonomi-fanen",
       "culture": "Kulturfanen: styr budsjett for fagmiljø, sosialt og lønn",
       "stars": "Stjernemarkedet: hent inn navngitte stjernekonsulenter",
       "framework": "Rammeavtaler: store, lange avtaler med flere leverandører",
@@ -1238,6 +1299,15 @@
   "news": {
     "title": "Nyheter",
     "posts": {
+      "finance": {
+        "title": "Ny fane: Økonomi",
+        "body": [
+          "Å drive konsulentselskap handler om mye rart, men til syvende og sist handler det om penger. Hvor mye som kommer inn, hvor mye som går ut, og hvor lenge du holder ut hvis det første tallet er mindre enn det andre. Nå har de tallene endelig fått sin egen fane: Økonomi. Den ligger rett etter Oversikt.",
+          "Øverst finner du budsjettet for kvartalet, linje for linje. Lønn, kontor og drift, kultur, frilansere og partnerskap, og de fleste har en liten snarvei til fanen der du faktisk kan skru på dem. Ved siden av står kassa, kredittrammen, burn rate og runway. Runway regnes forresten ned til kredittrammen og ikke til null, fordi det er der banken begynner å bli ubehagelig. Så null kroner på konto er ikke slutten på verden. Litt under, derimot…",
+          "Lenger ned er det regnskap per kvartal, og fra nivå 2 også grafer for kontanter, selskapsverdi, omsetning, resultat, faktureringsgrad og antall ansatte tre år tilbake. I regnskapet dukker det opp en linje som heter «andre poster». Det er alt som flytter penger utenom den vanlige driften: renter, bøter, hendelser og oppkjøp. Har du lurt på hvor pengene ble av, er det sannsynligvis der du finner svaret.",
+          "Oversikten har blitt litt slankere som følge av dette. «Dette kvartalet» viser nå bare resultat, verdi og plassering, med en knapp videre til Økonomi. Og siden den nye fanen har tatt plass nummer to, har hurtigtastene til de andre fanene flyttet seg ett hakk. Beklager til muskelminnet ditt! Tjohei!"
+        ]
+      },
       "welcome": {
         "title": "Velkommen til nyhetsfeeden!",
         "body": [

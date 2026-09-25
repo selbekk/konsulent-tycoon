@@ -5,8 +5,8 @@ import type { Capacity, KpiPoint } from '../../engine'
 import { formatQuarter } from '../format'
 import s from './metrics.module.css'
 
-/** One-series trend line with a crosshair + tooltip on hover (or focus + arrow keys). */
-export function TrendLine({ points, format, label }: { points: KpiPoint[]; format: (v: number) => string; label: string }) {
+/** One-series trend line with a crosshair + tooltip on hover (or focus + arrow keys). `baseline` draws a dashed guide (e.g. zero). */
+export function TrendLine({ points, format, label, baseline }: { points: KpiPoint[]; format: (v: number) => string; label: string; baseline?: number }) {
   const [hover, setHover] = useState<number | null>(null)
   const ref = useRef<SVGSVGElement>(null)
   if (points.length < 2) return <div className={s.trendEmpty} aria-hidden />
@@ -14,8 +14,9 @@ export function TrendLine({ points, format, label }: { points: KpiPoint[]; forma
   const h = 44
   const pad = 4
   const values = points.map((p) => p.value)
-  const min = Math.min(...values)
-  const max = Math.max(...values)
+  const guides = baseline === undefined ? [] : [baseline]
+  const min = Math.min(...values, ...guides)
+  const max = Math.max(...values, ...guides)
   const span = max - min || Math.abs(max) || 1
   const x = (i: number) => pad + (i / (points.length - 1)) * (w - pad * 2)
   const y = (v: number) => h - pad - ((v - min) / span) * (h - pad * 2)
@@ -47,6 +48,9 @@ export function TrendLine({ points, format, label }: { points: KpiPoint[]; forma
         }}
         onBlur={() => setHover(null)}
       >
+        {baseline !== undefined && (
+          <line x1={0} x2={w} y1={y(baseline)} y2={y(baseline)} stroke="var(--border)" strokeWidth={1} vectorEffect="non-scaling-stroke" strokeDasharray="3 3" />
+        )}
         <path d={d} fill="none" stroke="var(--chart-line)" strokeWidth={2} vectorEffect="non-scaling-stroke" strokeLinejoin="round" strokeLinecap="round" />
         {hover !== null && <line x1={x(hover)} x2={x(hover)} y1={0} y2={h} stroke="var(--muted)" strokeWidth={1} vectorEffect="non-scaling-stroke" strokeDasharray="2 2" />}
       </svg>
