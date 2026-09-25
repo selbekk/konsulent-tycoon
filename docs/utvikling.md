@@ -13,6 +13,7 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 - [Lagring og migrasjoner](#lagring-og-migrasjoner)
 - [PWA (installerbar app)](#pwa-installerbar-app)
 - [Analyse (PostHog)](#analyse-posthog)
+- [Toppliste (Firebase)](#toppliste-firebase)
 - [Innhold: slik legger du til ting](#innhold-slik-legger-du-til-ting)
 - [Balansering og simulator](#balansering-og-simulator)
 - [Testing](#testing)
@@ -33,6 +34,9 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 | `npm run sim -- [flagg]` | Spiller hele partier headless med spillerboter (se [Balansering](#balansering-og-simulator)) |
 | `npm run sim:market -- 20 [-v]` | Måler hvor sunt AI-markedet er over 40 kvartaler, uten spiller |
 | `npm run icons` | Genererer app-ikonene i `public/` fra `public/icon.svg` |
+| `npm run functions:build` | Typesjekker og bygger Cloud Functions til `functions/lib/` (krever `npm --prefix functions install`) |
+| `npm run functions:check` | Kjører toppliste-backenden ende til ende i Firebase-emulatoren (krever Java) |
+| `firebase deploy --only functions` | Bygger og deployer toppliste-backenden (se [Toppliste](#toppliste-firebase)) |
 
 Før du committer, bør `npm run typecheck`, `npm test` og `npm run build` være grønne.
 
@@ -99,7 +103,9 @@ src/
     metrics.ts        Nøkkeltall: FG, OT, vekst, retention, kapasitet, bransjesnitt
     todos.ts          Gjøremålslista for kvartalet
     minigames.ts      Rene scoringsfunksjoner for minispillene
-    save.ts           Serialisering, migrasjoner, autolagringen
+    save.ts           Serialisering, migrasjoner, autolagringen og handlingsloggen
+    replay.ts         replayRun(): spiller et parti på nytt fra handlingsloggen
+    weekly.ts         Ukens konsulenthus: ISO-uke, seed og frist
     saveShape.ts      Sjekker at en lagring har riktig form
     ai/
       personalities.ts  AI-personligheter og arketyper
@@ -112,6 +118,7 @@ src/
   content/            Spilldata (firma, kunder, hendelser, kriser, trender …)
   i18n/               i18next-oppsett + locales/{nb,en}/*.json
   store/              Zustand-store (tynn bro mellom UI og motor)
+  online/             Topplista: delt verifisering (submission.ts) og Firebase-klienten (leaderboard.ts)
   ui/
     components/       Felles komponenter, Icon (pikselikoner), Bjørn
     screens/          Skall, faner, modaler, menyer
@@ -123,8 +130,10 @@ src/
     audio.ts          Den ene AudioContext-en som lyd og musikk deler
     sound.ts          8-bit-lyder med Web Audio
     music/            Bakgrunnsmusikk: sanger, komponist og avspiller
+functions/            Cloud Functions for topplista (bundler motoren inn)
 scripts/
   sim.ts              Balansesimulator med spillerboter
+  engineVersion.ts    Fingeravtrykk av motor og innhold (ENGINE_VERSION)
   market-health.ts    Helsesjekk for AI-markedet alene
 docs/
   spilldesign.md      Hva spillet er og hvorfor
@@ -361,6 +370,22 @@ Bruksstatistikk går til PostHog (organisasjonen Ho Ho Holding, EU-sky). Det er 
 - **Offline:** SDK-et er en egen chunk som service workeren precacher, men den lastes bare etter samtykke. Uten nett holder SDK-et hendelsene i minnet og prøver igjen, så de kommer frem om spillet fortsatt er åpent når nettet er tilbake.
 - **Oppsett:** Nøkkelen ligger i `VITE_POSTHOG_KEY` (`.env.local` lokalt, miljøvariabel i Vercel). Uten den er analyse av, og i dev logges en feil (asynkront, så spillet virker likevel) når noen samtykker. Super-egenskapen `app_env` skiller `dev` (`development`) fra bygget (`production`), men `preview` lokalt er også `production`, så filtrer på `$host` for å skille ut localhost.
 
+## Toppliste (Firebase)
+
+Planen og beslutningene står i [`plans/2026-09-25-toppliste.md`](plans/2026-09-25-toppliste.md). Kort fortalt: alle spiller samme seed i en uke («Ukens konsulenthus»), og klienten sender inn **handlingsloggen**, aldri en poengsum. En Cloud Function spiller partiet på nytt med den samme motoren og regner ut resultatet selv.
+
+- **Handlingsloggen:** Storen legger hver vellykket action og en `'end'` per kvartal i `log`, og lagrer den ved siden av autolagringen (`kt.log.auto`, knyttet til `gameId`). Feilede actions logges ikke. En lagring uten komplett logg kan spilles videre, men ikke sendes inn.
+- **Replay:** `replayRun(opts, log)` i `engine/replay.ts`. Den stopper ved første steg som feiler, og avviser actions for andre firmaer enn spillerens (samme `actingFirm` som storen bruker).
+- **Reducer-en er en tillitsgrense.** Loggen kan redigeres før den sendes, så hver handler må validere input selv: id-er må finnes og tilhøre spilleren, tall klemmes til det UI-et tillater, og oppslag i innholdskart bruker `Object.hasOwn` (ellers slipper `'constructor'` gjennom). `hostile.test.ts` prøver dette. En ny action trenger en linje der.
+- **Determinisme:** Replay forutsetter at en nettleser og Node spiller likt. Derfor ingen `localeCompare`, `Intl`, `Math.random`, `Date.now` eller lignende i `src/engine` og `src/content`. `replay.test.ts` sjekker det, og bruk `compareIds` fra `util.ts` for å sortere på id.
+- **Motorversjon:** `scripts/engineVersion.ts` hasher `src/engine` og `src/content` (uten tester), og Vite baker den inn som `__ENGINE_VERSION__` både i appen og i funksjonen. Serveren godtar bare partier fra samme versjon. **Deploy funksjonene sammen med appen når motoren eller innholdet endres**, helst mellom to uker. Ellers får spillerne «oppdater spillet» på sluttskjermen.
+- **Sende inn senere:** Er spilleren uten nett på sluttskjermen, eller går tilbake til menyen, tilbyr topplisteskjermen å sende inn det autolagrede ukepartiet så lenge uka er åpen. «Spill igjen» overskriver autolagringen, så da er partiet tapt.
+- **Kode:** `online/submission.ts` er ren og delt: bygger innsendingen og verifiserer den (`verifySubmission`). `online/leaderboard.ts` er Firebase-klienten, lastes dynamisk først når spilleren blir med eller åpner topplista. `functions/src/index.ts` har `submitRun` og `deleteAccount` (region `europe-west1`). UI-et ligger i `ui/screens/Leaderboard.tsx`.
+- **Data:** `runs/{uid}_{gameId}` (hele innsendingen med logg, bare server), `users/{uid}/history/{runId}` (egne resultater), `weeks/{week}/entries/{uid}` (beste parti per spiller og uke, offentlig). Klienter skriver aldri; se `firestore.rules`.
+- **Navn:** Navnet på lista settes sammen av ord i `content/leaderboardNames.ts` og vises på leserens språk. Firmanavnet sendes aldri, og serveren spiller med et fast plassholdernavn (navnet påvirker bare visningstekst, se `replay.test.ts`).
+- **Juks:** Replay stopper oppdiktede resultater, ikke verktøyassistert spill, og minispillpoengene er stolt input (0–100). Det beste innsendte partiet teller. Se planen for begrunnelsen.
+- **Oppsett:** Prosjektet heter `konsulent-tycoon` (`.firebaserc`). Funksjonene krever Blaze-planen. Nye domener (Vercel-produksjon, egne domener) må legges til under Authentication → Settings → Authorized domains, og `connect-src` i `vercel.json` må tillate Firebase-endepunktene.
+
 ## Innhold: slik legger du til ting
 
 Alt innhold er data i `src/content/` pluss tekster på to språk. Etter en endring kjører du `npm test`, og i18n-testen forteller deg hva som mangler.
@@ -470,6 +495,7 @@ Botene er grovere enn en ekte spiller. De bruker for eksempel ikke bakrommet ell
 - **Ingen tall i modulene.** Legg nye balansetall i `constants.ts` med et navn og en kommentar.
 - **Ingen tekst i motoren.** Motoren sender i18n-nøkler og id-er, og UI-et oversetter.
 - **Ikke bruk `state.rng` utenfor motoren**, se [Tilfeldighet](#tilfeldighet-den-viktigste-regelen).
+- **Ingen klokke, locale eller usådd tilfeldighet i motoren.** Topplista spiller partier på nytt på en server, så `localeCompare`, `Intl`, `Date.now` og `Math.random` er forbudt i `src/engine` og `src/content` (testet i `replay.test.ts`).
 - **Ikke importer Vite-spesifikke ting** (`import.meta.glob`, `?raw` o.l.) i `src/engine` eller `src/content`, ellers slutter simulatoren å virke.
 - **TypeScript er strict**, med `noUnusedLocals` og `noUnusedParameters`. `scripts/` typesjekkes også, så hold dem rene.
 - **`erasableSyntaxOnly` er på.** Bruk union-typer og `as const`, ikke `enum` eller parameter properties.

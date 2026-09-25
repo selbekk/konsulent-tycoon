@@ -1,6 +1,6 @@
 import { useState, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, MAX_QUARTERS, listSlots } from '../../engine'
+import { DISCIPLINES, MAX_QUARTERS, WEEKLY_DIFFICULTY, isoWeek, listSlots, weekSeed } from '../../engine'
 import { FIRMS } from '../../content/firms'
 import type { Difficulty, Discipline } from '../../engine'
 import { denyConsent, grantConsent, setAnalyticsContext, track } from '../../analytics'
@@ -12,6 +12,8 @@ import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/
 import { playSound } from '../sound'
 import { getNowPlaying, nextSong, subscribeNowPlaying } from '../music/player'
 import { formatQuarter } from '../format'
+import { weekText } from '../leaderboardText'
+import { AccountSection } from './Leaderboard'
 import m from './menu.module.css'
 import s from './screens.module.css'
 
@@ -92,6 +94,9 @@ export function MainMenu() {
               {t('menu.continue')}
             </Button>
           )}
+          <Button icon="trophy" onClick={() => go('leaderboard')}>
+            {t('menu.leaderboard')}
+          </Button>
           <Button onClick={() => go('settings')}>{t('menu.settings')}</Button>
           <Button onClick={() => go('about')}>{t('menu.about')}</Button>
           {canInstall && (
@@ -118,20 +123,24 @@ export function NewGame() {
   const [founders, setFounders] = useState<Discipline[]>(['backend', 'frontend'])
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const [seed, setSeed] = useState('')
+  const [weekly, setWeekly] = useState(false)
+  const [week] = useState(() => isoWeek(Date.now()))
 
   const toggleFounder = (d: Discipline) =>
     setFounders((f) => (f.includes(d) ? f.filter((x) => x !== d) : f.length >= 2 ? [f[1], d] : [...f, d]))
 
   const start = () => {
     const parsed = Number.parseInt(seed, 10)
+    const customSeed = !weekly && Number.isFinite(parsed)
     newGame(
       {
-        seed: Number.isFinite(parsed) ? parsed : Math.floor(Math.random() * 2 ** 31),
+        seed: weekly ? weekSeed(week) : customSeed ? parsed : Math.floor(Math.random() * 2 ** 31),
         firmName: name.trim() || t('newGame.defaultName'),
         founderDisciplines: [founders[0] ?? 'backend', founders[1] ?? founders[0] ?? 'frontend'],
-        difficulty,
+        difficulty: weekly ? WEEKLY_DIFFICULTY : difficulty,
+        ...(weekly ? { weekly: week } : {}),
       },
-      { customSeed: Number.isFinite(parsed), defaultName: !name.trim() },
+      { customSeed, defaultName: !name.trim() },
     )
   }
 
@@ -140,6 +149,18 @@ export function NewGame() {
       <div className={m.menu}>
         <Panel title={t('newGame.title')} icon="briefcase">
           <div className={s.stack}>
+            <div className={s.field}>
+              <span className={s.fieldLabel}>{t('newGame.mode')}</span>
+              <div className={s.segmented} role="group" aria-label={t('newGame.mode')}>
+                <button aria-pressed={!weekly} onClick={() => setWeekly(false)}>
+                  {t('newGame.modes.free')}
+                </button>
+                <button aria-pressed={weekly} onClick={() => setWeekly(true)}>
+                  {t('newGame.modes.weekly')}
+                </button>
+              </div>
+              <Hint>{weekly ? t('newGame.modeHints.weekly', { week: weekText(t, week) }) : t('newGame.modeHints.free')}</Hint>
+            </div>
             <div className={s.field}>
               <label htmlFor="firm-name">{t('newGame.name')}</label>
               <input
@@ -169,21 +190,25 @@ export function NewGame() {
               </div>
               <Hint>{t('newGame.foundersHint')}</Hint>
             </div>
-            <div className={s.field}>
-              <span className={s.fieldLabel}>{t('newGame.difficulty')}</span>
-              <div className={s.segmented} role="group" aria-label={t('newGame.difficulty')}>
-                {(['easy', 'normal', 'hard'] as Difficulty[]).map((d) => (
-                  <button key={d} aria-pressed={difficulty === d} onClick={() => setDifficulty(d)}>
-                    {t(`newGame.difficulties.${d}`)}
-                  </button>
-                ))}
+            {!weekly && (
+              <div className={s.field}>
+                <span className={s.fieldLabel}>{t('newGame.difficulty')}</span>
+                <div className={s.segmented} role="group" aria-label={t('newGame.difficulty')}>
+                  {(['easy', 'normal', 'hard'] as Difficulty[]).map((d) => (
+                    <button key={d} aria-pressed={difficulty === d} onClick={() => setDifficulty(d)}>
+                      {t(`newGame.difficulties.${d}`)}
+                    </button>
+                  ))}
+                </div>
+                <Hint>{t(`newGame.difficultyHints.${difficulty}`)}</Hint>
               </div>
-              <Hint>{t(`newGame.difficultyHints.${difficulty}`)}</Hint>
-            </div>
-            <div className={s.field}>
-              <label htmlFor="seed">{t('newGame.seed')}</label>
-              <input id="seed" className={s.input} inputMode="numeric" value={seed} onChange={(e) => setSeed(e.target.value.replace(/\D/g, ''))} placeholder={t('newGame.seedPlaceholder')} />
-            </div>
+            )}
+            {!weekly && (
+              <div className={s.field}>
+                <label htmlFor="seed">{t('newGame.seed')}</label>
+                <input id="seed" className={s.input} inputMode="numeric" value={seed} onChange={(e) => setSeed(e.target.value.replace(/\D/g, ''))} placeholder={t('newGame.seedPlaceholder')} />
+              </div>
+            )}
             <div className={s.row} style={{ justifyContent: 'flex-end' }}>
               <Button onClick={() => go('menu')}>{t('common.back')}</Button>
               <Button variant="primary" onClick={start} disabled={founders.length === 0}>
@@ -296,6 +321,7 @@ export function SettingsScreen() {
               </label>
               <Hint>{t('settings.analyticsHint')}</Hint>
             </div>
+            <AccountSection />
             <Button onClick={() => go(game && previous === 'game' ? 'game' : 'menu')}>{t('common.back')}</Button>
           </div>
         </Panel>

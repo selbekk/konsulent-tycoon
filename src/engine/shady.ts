@@ -90,7 +90,8 @@ function log(state: GameState, firm: Firm, a: ActionOf<'shady'>, ongoing: boolea
 /** Reducer handler for `shady` actions. Returns an error key or undefined. */
 export function handleShady(state: GameState, a: ActionOf<'shady'>): string | undefined {
   const firm = state.firms[a.firmId]
-  const def = SHADY_CATALOG[a.actionId]
+  // Own keys only: the action comes from a replayed log too, and 'constructor' is in every object.
+  const def = Object.hasOwn(SHADY_CATALOG, a.actionId) ? SHADY_CATALOG[a.actionId] : undefined
   if (!firm || !def) return 'errors.invalid'
   if (!shadyUnlocked(firm, a.actionId)) return 'errors.levelTooLow'
   const target = a.targetFirmId ? state.firms[a.targetFirmId] : undefined

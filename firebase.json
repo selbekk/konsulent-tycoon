@@ -1,0 +1,51 @@
+{
+  "firestore": {
+    "database": "(default)",
+    "location": "eur3",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "runtime": "nodejs22",
+      "ignore": [
+        "node_modules",
+        "src",
+        "tsconfig.json",
+        "vite.config.ts",
+        "*.log"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR/..\" run functions:build"
+      ]
+    }
+  ],
+  "auth": {
+    "providers": {
+      "anonymous": true
+    }
+  },
+  "emulators": {
+    "auth": {
+      "port": 9199
+    },
+    "firestore": {
+      "port": 8181
+    },
+    "functions": {
+      "port": 5101
+    },
+    "hub": {
+      "port": 4500
+    },
+    "logging": {
+      "port": 4600
+    },
+    "ui": {
+      "enabled": false
+    },
+    "singleProjectMode": true
+  }
+}

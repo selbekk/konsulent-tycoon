@@ -32,3 +32,11 @@ dev-dist/
 # Vercel
 .vercel
 .env*
+
+# Cloud Functions (built bundle and their own dependencies)
+functions/lib
+functions/node_modules
+# Firebase CLI
+.firebase/
+firebase-debug.log
+firestore-debug.log

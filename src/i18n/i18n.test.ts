@@ -15,6 +15,7 @@ import { MEETING_QUESTIONS, MEETING_STYLES } from '../content/meetingQuestions'
 import { MISSIONS } from '../content/missions'
 import { MILESTONES } from '../content/milestones'
 import { GOSSIP } from '../content/gossip'
+import { NAME_NOUNS, NAME_SUFFIXES } from '../content/leaderboardNames'
 import { DEPARTMENTS, PARTNERSHIPS } from '../content/strategy'
 import { SHADY_IDS } from '../engine/shady'
 import { AWARDS } from '../engine/awards'
@@ -55,6 +56,8 @@ describe('i18n', () => {
     const mg = resources.nb.minigames as Tree
     const missing: string[] = []
     const check = (tree: Tree, path: string) => !has(tree, path) && missing.push(path)
+    for (const n of NAME_NOUNS) check(content, `leaderboardNames.nouns.${n}`)
+    for (const n of NAME_SUFFIXES) check(content, `leaderboardNames.suffixes.${n}`)
     for (const e of EVENTS) {
       check(game, `events.${e.id}.title`)
       check(game, `events.${e.id}.body`)

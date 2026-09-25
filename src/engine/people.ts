@@ -3,7 +3,7 @@ import { activeContracts, isActive, staffFirm } from './economy'
 import { ageAt, experienceAt, profileOf } from './profile'
 import { DISCIPLINES } from './types'
 import type { Discipline, Employee, Firm, GameState, Gender, Seats, Star } from './types'
-import { seatTotal } from './util'
+import { compareIds, seatTotal } from './util'
 
 /*
  * The bench list and the people statistics. Pure – safe to call from the UI.
@@ -51,7 +51,7 @@ export function benchPeople(state: GameState, firmId: string, quarter = state.qu
     const n = idle[d] ?? 0
     if (!n) continue
     const chosen = candidates(state, firm, d, quarter)
-      .sort((a, b) => Number(b.offWork) - Number(a.offWork) || Number(a.placed) - Number(b.placed) || b.joined - a.joined || a.p.id.localeCompare(b.p.id))
+      .sort((a, b) => Number(b.offWork) - Number(a.offWork) || Number(a.placed) - Number(b.placed) || b.joined - a.joined || compareIds(a.p.id, b.p.id))
       .slice(0, n)
     for (const c of chosen) {
       out.push({

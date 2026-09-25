@@ -658,5 +658,41 @@
       "name": "Fifty million",
       "desc": "Bill NOK 50M in one quarter."
     }
+  },
+  "leaderboardNames": {
+    "nouns": {
+      "moose": "Moose",
+      "spreadsheet": "Spreadsheet",
+      "coffee": "Coffee",
+      "herring": "Herring",
+      "viking": "Viking",
+      "llama": "Llama",
+      "owl": "Owl",
+      "intern": "Intern",
+      "ferry": "Ferry",
+      "sprint": "Sprint",
+      "slide": "Slide Deck",
+      "unicorn": "Unicorn",
+      "waffle": "Waffle",
+      "fjord": "Fjord",
+      "troll": "Troll",
+      "invoice": "Invoice",
+      "standup": "Standup",
+      "backlog": "Backlog",
+      "sofa": "Sofa",
+      "puffin": "Puffin",
+      "cloud": "Cloud",
+      "bunad": "Bunad",
+      "brunost": "Brown Cheese",
+      "sauna": "Sauna"
+    },
+    "suffixes": {
+      "as": "Ltd",
+      "group": "Group",
+      "partners": "Partners",
+      "labs": "Labs",
+      "consulting": "Consulting",
+      "holding": "Holdings"
+    }
   }
 }

@@ -658,5 +658,41 @@
       "name": "Femti millioner",
       "desc": "Omsett for 50 MNOK på ett kvartal."
     }
+  },
+  "leaderboardNames": {
+    "nouns": {
+      "moose": "Elg",
+      "spreadsheet": "Regneark",
+      "coffee": "Kaffe",
+      "herring": "Sild",
+      "viking": "Viking",
+      "llama": "Lama",
+      "owl": "Ugle",
+      "intern": "Trainee",
+      "ferry": "Ferje",
+      "sprint": "Sprint",
+      "slide": "Lysark",
+      "unicorn": "Enhjørning",
+      "waffle": "Vaffel",
+      "fjord": "Fjord",
+      "troll": "Troll",
+      "invoice": "Faktura",
+      "standup": "Standup",
+      "backlog": "Backlog",
+      "sofa": "Sofa",
+      "puffin": "Lundefugl",
+      "cloud": "Sky",
+      "bunad": "Bunad",
+      "brunost": "Brunost",
+      "sauna": "Badstue"
+    },
+    "suffixes": {
+      "as": "AS",
+      "group": "Group",
+      "partners": "Partners",
+      "labs": "Labs",
+      "consulting": "Consulting",
+      "holding": "Holding"
+    }
   }
 }

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { endTitle, rankings, shadyStats } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Bjorn } from '../components/Bjorn'
+import { SubmitPanel } from './Leaderboard'
 import { Button, FirmGlyph, Modal } from '../components/ui'
 import { firmColors } from '../firms'
 import { formatMoney } from '../format'
@@ -38,6 +39,7 @@ export function EndGame() {
   const game = useGame((x) => x.game)!
   const quit = useGame((x) => x.quit)
   const go = useGame((x) => x.go)
+  const log = useGame((x) => x.log)
   const [showAll, setShowAll] = useState(false)
   const me = game.firms[game.playerId]
   const title = endTitle(game)
@@ -78,6 +80,7 @@ export function EndGame() {
           <p className={s.muted}>{t('end.summary', { rank: myRank, total: ranks.length, value: formatMoney(ranks[myRank - 1].value, lng) })}</p>
           <p className={s.muted}>{total === 0 ? t('end.clean') : t('end.shady', { total, detected })}</p>
         </div>
+        <SubmitPanel game={game} log={log} onSeeBoard={() => go('leaderboard')} />
         <ValueChart ids={chartIds} />
         <table className={s.table}>
           <tbody>

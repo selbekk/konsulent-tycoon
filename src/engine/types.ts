@@ -407,6 +407,11 @@ export interface GameState {
   crises?: Crisis[]
   /** Random id for this playthrough, set by the store for analytics. The engine never reads it. Optional for early saves. */
   gameId?: string
+  /**
+   * Set when this is the weekly challenge (weekly.ts): everyone plays the week's seed and it can go on the
+   * leaderboard. `week` is the ISO week (`'2026-W39'`); `founders` are what the game started with, for the replay.
+   */
+  weekly?: { week: string; founders: [Discipline, Discipline] }
   status: 'playing' | 'lost' | 'finished'
   idCounter: number
 }

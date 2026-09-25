@@ -62,7 +62,7 @@ export function departmentFee(id: DepartmentId, hc: number): number {
 /** Quarterly fees for partnerships and departments. */
 export function strategyCost(firm: Firm, hc: number): number {
   const partners = (firm.partnerships ?? []).reduce((s, id) => s + (PARTNERSHIP_MAP[id]?.fee ?? 0), 0)
-  const departments = (firm.departments ?? []).reduce((s, id) => s + (id in DEPARTMENT_MAP ? departmentFee(id as DepartmentId, hc) : 0), 0)
+  const departments = (firm.departments ?? []).reduce((s, id) => s + (Object.hasOwn(DEPARTMENT_MAP, id) ? departmentFee(id as DepartmentId, hc) : 0), 0)
   return partners + departments
 }
 
@@ -79,7 +79,7 @@ export function runDepartments(firm: Firm) {
 
 export function handleSetDepartment(state: GameState, a: ActionOf<'setDepartment'>): string | undefined {
   const firm = state.firms[a.firmId]
-  if (!firm || firm.bankrupt || !(a.departmentId in DEPARTMENT_MAP)) return 'errors.invalid'
+  if (!firm || firm.bankrupt || !Object.hasOwn(DEPARTMENT_MAP, a.departmentId)) return 'errors.invalid'
   if (!hasFeature(firm, 'departments')) return 'errors.levelTooLow'
   const current = firm.departments ?? []
   if (!a.on) {
@@ -109,7 +109,7 @@ export function handleChooseSpecialty(state: GameState, a: ActionOf<'chooseSpeci
 
 export function handleSetPartnership(state: GameState, a: ActionOf<'setPartnership'>): string | undefined {
   const firm = state.firms[a.firmId]
-  if (!firm || firm.bankrupt || !PARTNERSHIP_MAP[a.partnershipId]) return 'errors.invalid'
+  if (!firm || firm.bankrupt || !Object.hasOwn(PARTNERSHIP_MAP, a.partnershipId)) return 'errors.invalid'
   if (!hasFeature(firm, 'partnerships')) return 'errors.levelTooLow'
   const current = firm.partnerships ?? []
   if (!a.on) {

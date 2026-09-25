@@ -393,6 +393,12 @@ export const RECORD_MARGIN = 0.05
 export const GOSSIP_PER_QUARTER = 4
 export const GOSSIP_REPEAT_QUARTERS = 6
 
+/** Weekly challenge (weekly.ts): ranked difficulty, and days after the week ends that a game started in it may still be submitted. */
+export const WEEKLY_DIFFICULTY = 'normal' as const
+export const WEEKLY_GRACE_DAYS = 3
+/** Longest action log the leaderboard accepts; a full bot game logs 600–920 entries. */
+export const RUN_LOG_MAX = 6000
+
 /** NaN (from a bad action or a broken save) becomes `min`, so it can never reach the state. ±Infinity clamps as usual. */
 export function clamp(v: number, min: number, max: number) {
   if (Number.isNaN(v)) return min

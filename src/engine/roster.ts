@@ -15,6 +15,7 @@ import { chance, createRng, hashString, nextFloat, noise, pick, shuffle } from '
 import type { RngState } from './rng'
 import { DISCIPLINES } from './types'
 import type { Discipline, Employee, Firm, GameState } from './types'
+import { compareIds } from './util'
 
 /*
  * The player's people as individuals. Pools stay what the simulation reads; for a firm with a
@@ -132,7 +133,7 @@ export function removePeople(state: GameState, firm: Firm, d: Discipline, n: num
   let chosen: Employee[]
   const people = rosterIn(firm, d)
   if (typeof how === 'object') chosen = people.filter((e) => e.id === how.employeeId)
-  else if (how === 'weakest') chosen = [...people].sort((a, b) => a.level - b.level || a.id.localeCompare(b.id)).slice(0, n)
+  else if (how === 'weakest') chosen = [...people].sort((a, b) => a.level - b.level || compareIds(a.id, b.id)).slice(0, n)
   else
     chosen = shuffle(rosterRng(state, firm, 'leave'), people)
       .sort((a, b) => Number(!!a.promise) - Number(!!b.promise))

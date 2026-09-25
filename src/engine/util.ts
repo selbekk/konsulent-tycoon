@@ -2,6 +2,14 @@ import { NEWS_LENGTH, START_YEAR } from './constants'
 import { DISCIPLINES } from './types'
 import type { Discipline, Firm, GameState, NewsTone, Params, Pool, Seats } from './types'
 
+/**
+ * Locale-free string order for ids. Never `localeCompare` in the engine: its order depends on the
+ * locale (in `nb`, "aa" sorts as "å", last), so a browser and the replay server could play differently.
+ */
+export function compareIds(a: string, b: string): number {
+  return a < b ? -1 : a > b ? 1 : 0
+}
+
 export function nextId(state: GameState, prefix: string): string {
   state.idCounter += 1
   return `${prefix}${state.idCounter}`

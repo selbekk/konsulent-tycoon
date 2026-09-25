@@ -1,5 +1,6 @@
 import { SAVE_VERSION } from './constants'
 import { buildRoster } from './roster'
+import type { RunLog } from './replay'
 import { hasValidShape } from './saveShape'
 import type { GameState } from './types'
 
@@ -51,6 +52,7 @@ const saveKey = (slot: string) => `kt.save.${slot}`
 /** The localStorage key a slot's save lives under, e.g. to notice another tab writing it. */
 export const slotStorageKey = (slot: SlotId) => saveKey(slot)
 const metaKey = (slot: string) => `kt.meta.${slot}`
+const logKey = (slot: string) => `kt.log.${slot}`
 
 export function saveToSlot(storage: Storage, slot: SlotId, state: GameState, now = new Date()): boolean {
   try {
@@ -61,6 +63,38 @@ export function saveToSlot(storage: Storage, slot: SlotId, state: GameState, now
     return true
   } catch {
     return false
+  }
+}
+
+/**
+ * The action log of the game in a slot, for the leaderboard (see replay.ts). Kept beside the save, not in
+ * `GameState`, so it isn't cloned with every action. Tied to the game by its `gameId`.
+ */
+export function saveLog(storage: Storage, slot: SlotId, gameId: string, log: RunLog): boolean {
+  try {
+    storage.setItem(logKey(slot), JSON.stringify({ gameId, log }))
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * The slot's log, if it belongs to this game and is complete: one `'end'` per quarter played. Anything else
+ * (an older save, a failed write) gives null, and that game simply can't go on the leaderboard.
+ */
+export function readLog(storage: Storage, slot: SlotId, state: GameState): RunLog | null {
+  try {
+    const raw = storage.getItem(logKey(slot))
+    if (!raw || !state.gameId) return null
+    const parsed = JSON.parse(raw) as { gameId?: unknown; log?: unknown }
+    if (parsed.gameId !== state.gameId || !Array.isArray(parsed.log)) return null
+    const log = parsed.log as RunLog
+    const ends = log.filter((x) => x === 'end').length
+    const quartersPlayed = state.status === 'playing' ? state.quarter : ends
+    return ends === quartersPlayed ? log : null
+  } catch {
+    return null
   }
 }
 
@@ -128,6 +162,7 @@ function removeSlotKeys(storage: Storage, slot: string) {
   try {
     storage.removeItem(saveKey(slot))
     storage.removeItem(metaKey(slot))
+    storage.removeItem(logKey(slot))
   } catch {
     /* ignore */
   }
