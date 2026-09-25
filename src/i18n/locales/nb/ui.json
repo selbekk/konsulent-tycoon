@@ -1212,6 +1212,7 @@
       "tooLong": "Partiet var for langt til å sendes inn.",
       "replayFailed": "Serveren fikk ikke partiet til å gå opp. Det er vår feil, ikke din.",
       "unfinished": "Partiet er ikke ferdig ennå.",
+      "duplicate": "Akkurat det samme partiet er allerede sendt inn av noen andre denne uka.",
       "offline": "Du ser ut til å være uten nett. Prøv igjen når du er på nett.",
       "tooFast": "Litt for raskt. Vent noen sekunder og prøv igjen.",
       "unknown": "Noe gikk galt. Prøv igjen om litt."

@@ -82,7 +82,7 @@ topplister/historikk: les Firestore  ◀──   weeks/{week}/entries/{uid}, use
 - **Motoren forblir ren.** Firebase-koden ligger i `src/online/` (tilsvarende `src/analytics/`), og bare UI og store kaller den. Funksjonen importerer `src/engine` direkte, på samme måte som `scripts/sim.ts`.
 - **Hosting forblir på Vercel.** Firebase brukes bare til Auth, Firestore og Functions. Cloud Functions krever Blaze-planen (betal etter bruk). Med 0,4 s per replay er gratiskvoten stor, men sett et budsjettvarsel. Alternativet er en Vercel Function for replay og Firestore som database, men da får vi to backends. Vi velger Firebase alene.
 - **Firestore-regler:** Klienter kan lese topplistene og sine egne partier. Bare funksjonen kan skrive (Admin SDK). Ingen direkte klientskriving.
-- **App Check** (reCAPTCHA Enterprise) på den callable funksjonen, så det ikke er gratis å sende inn søppel i stor skala. *Ikke bygget ennå:* krever en reCAPTCHA-nøkkel fra konsollen. Inntil da begrenses innsending til én per 10 sekunder per konto, og loggen har et tak (`RUN_LOG_MAX`).
+- **App Check** (reCAPTCHA Enterprise) på den callable funksjonen, så det ikke er gratis å sende inn søppel i stor skala. *Ikke bygget ennå:* krever en reCAPTCHA-nøkkel fra konsollen. Inntil da begrenses innsending til én per 10 sekunder per konto (i en transaksjon). Loggen har et tak (`RUN_LOG_MAX`) og en størrelsesgrense, og samme parti fra to kontoer avvises.
 - **Authorized domains** i Firebase Auth: produksjonsdomenet og Vercels preview-domener.
 
 ### Innsending

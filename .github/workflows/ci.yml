@@ -16,12 +16,15 @@ concurrency:
 permissions:
   contents: read
 
+# Actions are pinned to a commit and the deploy CLIs to an exact version: the deploy job holds the Google Cloud
+# login and the Vercel token, so a hijacked release of any of them must not get to run there unnoticed.
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -48,8 +51,8 @@ jobs:
       contents: read
       id-token: write # keyless login to Google Cloud (Workload Identity Federation)
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -59,7 +62,7 @@ jobs:
       - run: npm ci
       - run: npm ci --prefix functions
 
-      - uses: google-github-actions/auth@v3
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
         with:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
@@ -67,11 +70,11 @@ jobs:
       # Functions first: once the new app is live, its games must find a server that accepts them.
       # firebase.json's predeploy builds the functions bundle. --force skips the prompts CI can't answer.
       - name: Deploy Firebase (functions, Firestore rules and indexes)
-        run: npx --yes firebase-tools@15 deploy --only functions,firestore --project konsulent-tycoon --non-interactive --force
+        run: npx --yes firebase-tools@15.31.0 deploy --only functions,firestore --project konsulent-tycoon --non-interactive --force
 
       - name: Deploy the app to Vercel (production)
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN"
+        run: npx --yes vercel@60.0.1 deploy --prod --yes --token "$VERCEL_TOKEN"

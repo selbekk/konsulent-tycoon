@@ -107,7 +107,7 @@ export class SubmitFailed extends Error {
   }
 }
 
-const SUBMIT_ERRORS: readonly string[] = ['outdated', 'weekClosed', 'invalid', 'tooLong', 'replayFailed', 'unfinished']
+const SUBMIT_ERRORS: readonly string[] = ['outdated', 'weekClosed', 'invalid', 'tooLong', 'replayFailed', 'unfinished', 'duplicate']
 
 /** Sends a finished weekly game. Throws SubmitFailed with a reason the UI can explain. */
 export async function submitRun(submission: RunSubmission): Promise<SubmitResult> {
