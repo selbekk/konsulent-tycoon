@@ -61,6 +61,50 @@
   margin-left: auto;
 }
 
+/*
+ * Tooltips for the icon-only header buttons. Right-aligned under the button so the last one
+ * doesn't run off the edge of the screen. Only on hover-capable devices, so a tap on a phone
+ * doesn't leave a tooltip hanging; keyboard focus shows it everywhere.
+ */
+.topActions [data-tip] {
+  position: relative;
+}
+
+.topActions [data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  padding: 4px 8px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  white-space: nowrap;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.topActions [data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: hover) {
+  .topActions [data-tip]:hover::after {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.25s;
+  }
+}
+
 .announce {
   display: flex;
   align-items: center;

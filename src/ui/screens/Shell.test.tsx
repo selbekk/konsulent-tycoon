@@ -4,7 +4,8 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import i18n from '../../i18n'
 import { syncRosterToPools } from '../../engine/testUtils'
 import { useGame } from '../../store/gameStore'
-import { AboutScreen } from './Menus'
+import { AboutScreen, MainMenu } from './Menus'
+import { NewsScreen } from './News'
 import { Shell } from './Shell'
 
 describe('end of quarter warning', () => {
@@ -180,6 +181,42 @@ describe('about page', () => {
     render(<AboutScreen />)
     expect(screen.getByRole('heading', { name: /about konsulent tycoon/i })).toBeInTheDocument()
     expect(screen.getByText(/40 quarters/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /^back$/i }))
+    expect(useGame.getState().screen).toBe('game')
+  })
+})
+
+describe('news page', () => {
+  beforeEach(async () => {
+    localStorage.clear()
+    await i18n.changeLanguage('en')
+    useGame.getState().quit()
+  })
+
+  afterEach(cleanup)
+
+  it('opens from the main menu and goes back to it', () => {
+    render(<MainMenu />)
+    fireEvent.click(screen.getByRole('button', { name: /^latest news: welcome/i }))
+    expect(useGame.getState().screen).toBe('news')
+    cleanup()
+
+    render(<NewsScreen />)
+    expect(screen.getByRole('heading', { name: /welcome to the news feed/i })).toBeInTheDocument()
+    expect(screen.getByText('September 25, 2026')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /^back$/i }))
+    expect(useGame.getState().screen).toBe('menu')
+  })
+
+  it('opens from the game header and goes back to the game', () => {
+    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame.getState().dismissOnboarding()
+    render(<Shell />)
+    fireEvent.click(screen.getByRole('button', { name: /^news$/i }))
+    expect(useGame.getState().screen).toBe('news')
+    cleanup()
+
+    render(<NewsScreen />)
     fireEvent.click(screen.getByRole('button', { name: /^back$/i }))
     expect(useGame.getState().screen).toBe('game')
   })

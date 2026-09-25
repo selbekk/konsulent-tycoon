@@ -54,6 +54,10 @@ Three layers: React UI (`src/ui`, `App.tsx`) → Zustand store (`src/store/gameS
 
 Content is data in `src/content/` plus translations in both locales. Events (`content/events.ts`) use an effect DSL (`cash`, `cashPerHead`, `reputation`, `heat`, `fagmiljo`, `sosialt`, `morale`, `brand`, `salaryPremium`, `relationship`, `starLoyalty`, `starPremium`, `special`), with special handlers in `engine/events.ts`; `cooldown: Infinity` makes a one-off. Crises (`content/crises.ts`, `engine/crises.ts`) are multi-quarter: stages with choices, a hidden severity revealed by `reveals` stages, one cost-free `fallback` per stage and severity, and `bury` choices that may resurface as the shared `exposed` stage; `crises.test.ts` checks every def is well-formed. A new shady action needs `ShadyActionId` (`types.ts`), `SHADY_CATALOG` with a `minLevel` + `handleShady` (`shady.ts`), and keys `content:shady.actions.<id>` and `game:news.scandal.<id>`. "Innhold: slik legger du til ting" in `docs/utvikling.md` lists what each content type needs.
 
+## News posts
+
+After every reasonably sized feature (or a noticeable balance or gameplay change), write a new post for the in-game news section as part of the same change. Small fixes and refactors don't need one. Always use the `/skriv-som-kristofer` skill to write it, in Norwegian first and then an idiomatic English version. No emoji (it's UI text), and no made-up anecdotes or numbers: ask Kristofer, or leave the anecdote out. Add `{ id, date }` at the top of `NEWS_POSTS` in `src/ui/news.ts` (newest first, `date` as `YYYY-MM-DD`) and `news.posts.<id>.title` plus `body` (an array of paragraphs) in `ui.json` for both locales.
+
 ## UI conventions
 
 - CSS Modules plus design tokens in `ui/theme/tokens.css`. Always use tokens (`var(--accent)`), never hardcoded colours. Dark theme is the default; light is `:root[data-theme='light']`.

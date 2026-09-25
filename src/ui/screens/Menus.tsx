@@ -13,6 +13,7 @@ import { playSound } from '../sound'
 import { getNowPlaying, nextSong, subscribeNowPlaying } from '../music/player'
 import { formatQuarter } from '../format'
 import { weekText } from '../leaderboardText'
+import { NEWS_POSTS } from '../news'
 import { AccountSection } from './Leaderboard'
 import m from './menu.module.css'
 import s from './screens.module.css'
@@ -105,6 +106,9 @@ export function MainMenu() {
             </Button>
           )}
         </div>
+        <button type="button" className={m.newsLink} onClick={() => go('news')}>
+          {t('menu.latestNews', { title: t(`news.posts.${NEWS_POSTS[0].id}.title`) })}
+        </button>
         <p className={m.notice} role="note">{t('menu.devNotice')}</p>
         {showIosHint && <p className={m.footer}>{t('pwa.iosHint')}</p>}
         <p className={m.footer}>{t('menu.disclaimer')}</p>
@@ -385,6 +389,17 @@ export function AboutScreen() {
                 ))}
               </section>
             ))}
+            <section>
+              <h3>{t('about.bugs.title')}</h3>
+              {(t('about.bugs.body', { returnObjects: true }) as string[]).map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+              <p>
+                <a href="https://github.com/selbekk/konsulent-tycoon" target="_blank" rel="noopener noreferrer">
+                  github.com/selbekk/konsulent-tycoon
+                </a>
+              </p>
+            </section>
             <section>
               <h3>{t('about.contact.title')}</h3>
               <p>{t('about.contact.body')}</p>

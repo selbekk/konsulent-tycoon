@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useGame } from './store/gameStore'
 import { AboutScreen, MainMenu, NewGame, SettingsScreen } from './ui/screens/Menus'
 import { LeaderboardScreen } from './ui/screens/Leaderboard'
+import { NewsScreen } from './ui/screens/News'
 import { PwaPrompt } from './ui/pwa/PwaPrompt'
 import { CookieBar } from './ui/consent/CookieBar'
 import { CrashBoundary } from './ui/screens/CrashScreen'
@@ -32,6 +33,8 @@ export default function App() {
           <SettingsScreen />
         ) : screen === 'about' ? (
           <AboutScreen />
+        ) : screen === 'news' ? (
+          <NewsScreen />
         ) : screen === 'leaderboard' ? (
           <LeaderboardScreen />
         ) : (

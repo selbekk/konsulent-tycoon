@@ -181,8 +181,9 @@ export function Shell() {
           <Button size="small" icon="disk" onClick={quit} title={t('shell.menuHint')}>
             {t('shell.menu')}
           </Button>
-          <Button size="small" variant="ghost" icon="gear" onClick={() => go('settings')} aria-label={t('menu.settings')} />
-          <Button size="small" variant="ghost" icon="info" onClick={() => go('about')} aria-label={t('menu.about')} />
+          <Button size="small" variant="ghost" icon="news" onClick={() => go('news')} aria-label={t('menu.news')} data-tip={t('menu.news')} />
+          <Button size="small" variant="ghost" icon="gear" onClick={() => go('settings')} aria-label={t('menu.settings')} data-tip={t('menu.settings')} />
+          <Button size="small" variant="ghost" icon="info" onClick={() => go('about')} aria-label={t('menu.about')} data-tip={t('menu.about')} />
         </div>
       </header>
 
