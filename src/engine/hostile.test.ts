@@ -110,8 +110,36 @@ describe('hostile actions from a tampered log', () => {
         { type: 'orderHires', firmId: 'player', discipline: key, count: 3 },
         { type: 'fire', firmId: 'player', discipline: key, count: 1 },
         { type: 'trainEmployee', firmId: 'player', discipline: key },
+        { type: 'acquireFirm', firmId: 'player', targetFirmId: key },
       ]
       for (const a of rejected) expect(apply(a).error, JSON.stringify(a)).toBeTruthy()
+      // Backroom tricks aimed at a firm: an inherited key is no firm, and nothing lands on the prototype.
+      for (const actionId of ['rumor', 'dn_leak', 'linkedin_post', 'spy_salaries', 'plant_mole', 'afterwork_poach']) {
+        const a = { type: 'shady', firmId: 'player', actionId, targetFirmId: key, starId: 'x' }
+        expect(apply(JSON.parse(JSON.stringify(a))).error, JSON.stringify(a)).toBeTruthy()
+      }
+    }
+    for (const k of ['reputation', 'scandalPenalty', 'brandMod']) expect(Object.hasOwn(Object.prototype, k), k).toBe(false)
+  })
+
+  it('keeps only ids it found in the backroom log, never what the action carried', () => {
+    const payload = Object.fromEntries(Array.from({ length: 50 }, (_, i) => [`k${i}`, i]))
+    // Aimed at the rival on purpose, so it does change them; only the log entry matters here.
+    const r = apply({ type: 'shady', firmId: 'player', actionId: 'linkedin_post', targetFirmId: rival, tenderId: payload, contractId: payload })
+    expect(r.error).toBeUndefined()
+    const entry = r.state.firms.player.shadyLog.at(-1)!
+    expect(entry.tenderId).toBeUndefined()
+    expect(entry.contractId).toBeUndefined()
+    expect(entry.targetFirmId).toBe(rival)
+  })
+
+  it('treats a missing or non-number amount as the minimum', () => {
+    for (const v of [undefined, 'x', null, {}]) {
+      expectHarmless({ type: 'setBudgets', firmId: 'player', budgets: { fagmiljoPerHead: v, sosialtPerHead: v, salaryPremium: v } })
+      const star = base.firms.player.stars[0]
+      expectHarmless({ type: 'giveRaise', firmId: 'player', starId: star.id, amount: v })
+      const own = base.contracts.find((c) => c.firmId === 'player' && !c.terminated)
+      if (own) expectHarmless({ type: 'shady', firmId: 'player', actionId: 'silent_outsource', contractId: own.id, share: v })
     }
   })
 
