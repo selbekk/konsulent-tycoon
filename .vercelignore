@@ -1,0 +1,3 @@
+# The Cloud Functions are deployed to Firebase, not Vercel (see .github/workflows/ci.yml).
+functions/
+.firebase/

@@ -356,6 +356,7 @@ Spillet er en Progressive Web App via `vite-plugin-pwa` (konfigurert i `vite.con
 - **Installering:** `ui/pwa/install.ts` fanger `beforeinstallprompt` (Chromium) og viser «Installer spillet» i hovedmenyen. På iOS Safari finnes ingen slik hendelse, så der vises et hint om «Del → Legg til på Hjem-skjerm».
 - **Utvikling:** Service workeren er bare aktiv i bygget. Test PWA-oppførselen med `npm run build && npm run preview`. Under `npm run dev` er den av, så cachen ikke skaper forvirring.
 - **Publisering:** Spillet publiseres på Vercel (`vercel.json`). `vercel.json` setter cache-headere slik at `sw.js` ikke caches for hardt. Ellers kommer ikke oppdateringer frem.
+- **CI og deploy:** `.github/workflows/ci.yml` typesjekker, linter, tester og bygger hver pull request. Ved merge til main deployer samme workflow Firebase (funksjoner, Firestore-regler og indekser) og deretter appen til Vercel, i én jobb. Vercels egen automatiske produksjonsdeploy fra main er slått av i `vercel.json` (forhåndsvisninger av branches er fortsatt automatiske), fordi appen og toppliste-serveren må ha samme motorversjon. GitHub Actions logger inn i Google Cloud uten nøkkel (Workload Identity Federation, tjenestekontoen `github-deploy`, bare fra main i dette repoet). Repoet trenger variablene `GCP_WORKLOAD_IDENTITY_PROVIDER` og `GCP_SERVICE_ACCOUNT` og hemmelighetene `VERCEL_TOKEN`, `VERCEL_ORG_ID` og `VERCEL_PROJECT_ID`.
 
 ## Analyse (PostHog)
 
@@ -384,7 +385,7 @@ Planen og beslutningene står i [`plans/2026-09-25-toppliste.md`](plans/2026-09-
 - **Data:** `runs/{uid}_{gameId}` (hele innsendingen med logg, bare server), `users/{uid}/history/{runId}` (egne resultater), `weeks/{week}/entries/{uid}` (beste parti per spiller og uke, offentlig). Klienter skriver aldri; se `firestore.rules`.
 - **Navn:** Navnet på lista settes sammen av ord i `content/leaderboardNames.ts` og vises på leserens språk. Firmanavnet sendes aldri, og serveren spiller med et fast plassholdernavn (navnet påvirker bare visningstekst, se `replay.test.ts`).
 - **Juks:** Replay stopper oppdiktede resultater, ikke verktøyassistert spill, og minispillpoengene er stolt input (0–100). Det beste innsendte partiet teller. Se planen for begrunnelsen.
-- **Oppsett:** Prosjektet heter `konsulent-tycoon` (`.firebaserc`). Funksjonene krever Blaze-planen. Nye domener (Vercel-produksjon, egne domener) må legges til under Authentication → Settings → Authorized domains, og `connect-src` i `vercel.json` må tillate Firebase-endepunktene.
+- **Oppsett:** Prosjektet heter `konsulent-tycoon` (`.firebaserc`). Funksjonene krever Blaze-planen. De deployes automatisk ved merge til main (se [PWA](#pwa-installerbar-app) under «CI og deploy»), så `firebase deploy` for hånd trengs bare i nødstilfeller, og da fra nøyaktig samme commit som appen. Nye domener (Vercel-produksjon, egne domener) må legges til under Authentication → Settings → Authorized domains, og `connect-src` i `vercel.json` må tillate Firebase-endepunktene.
 
 ## Innhold: slik legger du til ting
 
