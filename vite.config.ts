@@ -64,5 +64,8 @@ export default defineConfig({
     environment: 'node',
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     setupFiles: ['./src/test/setup.ts'],
+    // Some tests play whole 40-quarter games; CI runners are a lot slower than a laptop.
+    testTimeout: 30_000,
+    hookTimeout: 60_000,
   },
 })

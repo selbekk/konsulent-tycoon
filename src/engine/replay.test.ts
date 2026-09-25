@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { createNewGame } from './newGame'
 import type { NewGameOptions } from './newGame'
 import { replayRun } from './replay'
@@ -12,8 +12,13 @@ const opts: NewGameOptions = { seed: 7, firmName: 'Replay AS', founderDiscipline
 const json = (s: object) => JSON.stringify(s, (k, v) => (k === 'gameId' ? undefined : v))
 
 describe('replay', () => {
+  let full: ReturnType<typeof botRun>
+  beforeAll(() => {
+    full = botRun(opts)
+  })
+
   it('a full logged game replays to the identical state', () => {
-    const { state, log } = botRun(opts)
+    const { state, log } = full
     expect(state.status).not.toBe('playing')
     const replay = replayRun(opts, log)
     expect(replay.error).toBeUndefined()
@@ -43,7 +48,7 @@ describe('replay', () => {
   })
 
   it('refuses to end a quarter after the game is over', () => {
-    const { log } = botRun(opts)
+    const { log } = full
     expect(replayRun(opts, [...log, 'end']).error?.key).toBe('errors.gameOver')
   })
 
