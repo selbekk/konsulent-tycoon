@@ -6,7 +6,7 @@
  */
 import { initializeApp } from 'firebase/app'
 import { connectAuthEmulator, getAuth, signInAnonymously } from 'firebase/auth'
-import { collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, limit, query } from 'firebase/firestore/lite'
+import { collection, collectionGroup, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, limit, orderBy, query } from 'firebase/firestore/lite'
 import { connectFunctionsEmulator, getFunctions, httpsCallable } from 'firebase/functions'
 import { isoWeek, weekSeed } from '../src/engine'
 import { botRun } from '../src/engine/testUtils'
@@ -45,6 +45,8 @@ check(r.valuation === sub.claimedValuation && r.place === 1 && r.best === true, 
 const entries = await page('weeks', week, 'entries')
 check(entries.size === 1 && entries.docs[0].id === user.uid, 'week entry readable by anyone')
 try { await getDocs(collection(db, 'weeks', week, 'entries')); check(false, 'list without a limit refused') } catch { check(true, 'list without a limit refused') }
+const fame = await getDocs(query(collectionGroup(db, 'entries'), orderBy('valuation', 'desc'), limit(25)))
+check(fame.size === 1, 'hall of fame readable by anyone')
 const history = await page('users', user.uid, 'history')
 check(history.size === 1 && !('log' in history.docs[0].data()), 'own history readable, without log')
 try { await getDoc(doc(db, 'runs', `${user.uid}_emulator-game-1`)); check(false, 'runs not readable') } catch { check(true, 'runs not readable') }

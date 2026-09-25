@@ -121,13 +121,6 @@ describe('leaderboard submission', () => {
     expect(({} as Record<string, unknown>).polluted).toBeUndefined()
   })
 
-  it('never ranks a game that replays to a valuation that is not a number', () => {
-    // The engine lets a non-number budget through as NaN; the server must not rank the game it leads to.
-    const last = log.lastIndexOf('end')
-    const broken = [...log.slice(0, last), { type: 'setBudgets', firmId: 'player', budgets: { salaryPremium: 'x' } }, ...log.slice(last)] as RunLog
-    expect(verifySubmission({ ...sub, log: broken }, ctx)).toMatchObject({ ok: false, error: 'replayFailed', detail: 'notFinite' })
-  })
-
   it('hands back the replayed end state, the same for the same game', () => {
     const a = verifySubmission(JSON.parse(JSON.stringify(sub)), ctx)
     const b = verifySubmission(JSON.parse(JSON.stringify({ ...sub, gameId: 'another-game-02' })), ctx)

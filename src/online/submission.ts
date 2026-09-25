@@ -91,7 +91,7 @@ const GAME_ID_RE = /^[A-Za-z0-9-]{8,64}$/
 const SUBMISSION_MAX_CHARS = 900_000
 const STEP_MAX_CHARS = 2_000
 const STEP_MAX_DEPTH = 4
-const STRING_MAX_CHARS = 100
+export const STRING_MAX_CHARS = 100
 
 /**
  * Whether a step is plain, small data: no oversized strings, no deep nesting, and no string or key that names
@@ -108,7 +108,7 @@ function plainStep(x: unknown, depth = 0): boolean {
   return Object.keys(x).every((k) => !(k in Object.prototype) && plainStep((x as Record<string, unknown>)[k], depth + 1))
 }
 
-function stepOk(e: unknown): boolean {
+export function stepOk(e: unknown): boolean {
   if (e === 'end') return true
   if (!e || typeof e !== 'object' || Array.isArray(e) || typeof (e as { type?: unknown }).type !== 'string') return false
   return plainStep(e) && JSON.stringify(e).length <= STEP_MAX_CHARS
