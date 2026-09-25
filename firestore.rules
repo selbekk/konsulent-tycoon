@@ -4,20 +4,29 @@ rules_version = '2';
 // (Admin SDK, which bypasses these rules) after the game has been replayed. Clients only read.
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Weekly lists: public.
-    match /weeks/{week} {
-      allow read: if true;
-      match /entries/{uid} {
-        allow read: if true;
-      }
+    // Lists are public, but only a page at a time: the app asks for 50 at most.
+    function page() {
+      return request.query.limit != null && request.query.limit <= 100;
     }
-    // Hall of Fame reads every week's entries at once.
+
+    match /weeks/{week} {
+      allow get: if true;
+      match /entries/{uid} {
+        allow get: if true;
+        allow list: if page();
+      }
+      // games/ (which player first sent in each game) is server only.
+    }
+    // The Hall of Fame reads every week's entries at once. This matches an `entries` collection anywhere,
+    // so never give that name to a collection that isn't meant to be public.
     match /{path=**}/entries/{uid} {
-      allow read: if true;
+      allow get: if true;
+      allow list: if page();
     }
     // A player's own results.
     match /users/{uid}/history/{runId} {
-      allow read: if request.auth != null && request.auth.uid == uid;
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list: if request.auth != null && request.auth.uid == uid && page();
     }
     // runs/ holds full action logs and users/{uid} the rate limit: server only.
   }

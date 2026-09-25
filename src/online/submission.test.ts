@@ -83,9 +83,47 @@ describe('leaderboard submission', () => {
     expect(verifySubmission({ ...sub, log: Array.from({ length: 10_000 }, () => 'end') }, ctx)).toEqual({ ok: false, error: 'tooLong' })
   })
 
-  it('averages the minigame scores the client reported, ignoring provisional attempts', () => {
+  it('averages every minigame score that can count, clamped, and crisis scores only after a talk', () => {
     const r = verifySubmission(sub, ctx)
-    const scores = log.flatMap((e) => (e !== 'end' && e.type === 'recordMinigame' && !e.provisional ? [e.score] : e !== 'end' && e.type === 'resolveCrisis' && typeof e.score === 'number' ? [e.score] : []))
+    const talks = new Set<string>()
+    const scores: number[] = []
+    for (const e of log) {
+      if (e === 'end') continue
+      if (e.type === 'recordMinigame') scores.push(Math.max(0, Math.min(100, e.score)))
+      if (e.type === 'startCrisisTalk') talks.add(`${e.crisisId}:${e.choiceId}`)
+      if (e.type === 'resolveCrisis' && typeof e.score === 'number' && talks.has(`${e.crisisId}:${e.choiceId}`)) scores.push(e.score)
+    }
     expect(r.ok && r.run.minigameAvg).toBe(scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null)
+  })
+
+  it('rejects an oversized submission before replaying it', () => {
+    const padded = log.map((e, i) => (e !== 'end' && i < 400 ? { ...e, pad: 'x'.repeat(99) } : e)) as RunLog
+    // Each step alone is fine; together they are far beyond any real game.
+    expect(verifySubmission({ ...sub, log: [...padded, ...padded, ...padded] }, ctx)).toMatchObject({ ok: false })
+    const huge = { ...sub, log: log.map((e) => (e === 'end' ? e : { ...e, pad: Array.from({ length: 30 }, () => 'y'.repeat(99)) })) }
+    expect(verifySubmission(huge, ctx)).toEqual({ ok: false, error: 'tooLong' })
+  })
+
+  it('rejects steps with oversized, deeply nested or prototype-named values', () => {
+    const at = log.findIndex((e) => e !== 'end')
+    const withStep = (extra: Record<string, unknown>) => ({ ...sub, log: log.map((e, i) => (i === at && e !== 'end' ? { ...e, ...extra } : e)) })
+    for (const extra of [
+      { targetFirmId: '__proto__' },
+      { targetFirmId: 'constructor' },
+      { contractId: 'toString' },
+      { contractId: 'x'.repeat(101) },
+      { contractId: { a: { b: { c: { d: 1 } } } } },
+      { contractId: Object.fromEntries(Array.from({ length: 300 }, (_, i) => [`k${i}`, i])) },
+      JSON.parse('{"__proto__": {"polluted": 1}}') as Record<string, unknown>,
+    ]) {
+      expect(verifySubmission(JSON.parse(JSON.stringify(withStep(extra))), ctx)).toMatchObject({ ok: false, error: 'invalid' })
+    }
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
+  })
+
+  it('hands back the replayed end state, the same for the same game', () => {
+    const a = verifySubmission(JSON.parse(JSON.stringify(sub)), ctx)
+    const b = verifySubmission(JSON.parse(JSON.stringify({ ...sub, gameId: 'another-game-02' })), ctx)
+    expect(a.ok && b.ok && JSON.stringify(a.state) === JSON.stringify(b.state)).toBe(true)
   })
 })

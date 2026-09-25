@@ -1212,6 +1212,7 @@
       "tooLong": "The game was too long to send in.",
       "replayFailed": "The server couldn't make the game add up. That's our fault, not yours.",
       "unfinished": "The game isn't over yet.",
+      "duplicate": "Someone else has already sent in this exact game this week.",
       "offline": "You seem to be offline. Try again when you are back online.",
       "tooFast": "A bit too quick. Wait a few seconds and try again.",
       "unknown": "Something went wrong. Try again in a moment."

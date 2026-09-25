@@ -45,9 +45,17 @@ export interface SubmitResult extends VerifiedRun {
   percentile: number
 }
 
-export type SubmitError = 'outdated' | 'weekClosed' | 'invalid' | 'tooLong' | 'replayFailed' | 'unfinished'
+export type SubmitError = 'outdated' | 'weekClosed' | 'invalid' | 'tooLong' | 'replayFailed' | 'unfinished' | 'duplicate'
 
-export type VerifyResult = { ok: true; submission: RunSubmission; run: VerifiedRun } | { ok: false; error: SubmitError; detail?: string }
+export type VerifyResult =
+  | {
+      ok: true
+      submission: RunSubmission
+      run: VerifiedRun
+      /** The replayed game's end state, so the server can tell two copies of the same game apart from two games. */
+      state: GameState
+    }
+  | { ok: false; error: SubmitError; detail?: string }
 
 /** The firm name never affects play (replay.test.ts), so the server uses a placeholder instead of what the player typed. */
 const PLACEHOLDER_NAME = 'Spiller AS'
@@ -74,6 +82,38 @@ const isFiniteNumber = (x: unknown): x is number => typeof x === 'number' && Num
 const WEEK_RE = /^\d{4}-W\d{2}$/
 const GAME_ID_RE = /^[A-Za-z0-9-]{8,64}$/
 
+/**
+ * Size limits for what a client sends, checked before anything is replayed. A real game's log is around
+ * 100 kB with steps under 200 characters, ids under 20 and objects three levels deep, so these leave plenty of
+ * room. Without them, a few steps carrying huge payloads that the engine copies into the state make every
+ * replayed quarter slower and can run the function out of memory.
+ */
+const SUBMISSION_MAX_CHARS = 900_000
+const STEP_MAX_CHARS = 2_000
+const STEP_MAX_DEPTH = 4
+export const STRING_MAX_CHARS = 100
+
+/**
+ * Whether a step is plain, small data: no oversized strings, no deep nesting, and no string or key that names
+ * something on Object.prototype. The engine looks ids up in plain objects, so `"__proto__"` or `"constructor"`
+ * as an id reaches the prototype, and no real id is ever one of those names.
+ */
+function plainStep(x: unknown, depth = 0): boolean {
+  // `undefined` never arrives over JSON, but optional fields built in code (the tests, the store) have it.
+  if (x === null || x === undefined || typeof x === 'boolean') return true
+  if (typeof x === 'number') return Number.isFinite(x)
+  if (typeof x === 'string') return x.length <= STRING_MAX_CHARS && !(x in Object.prototype)
+  if (typeof x !== 'object' || depth >= STEP_MAX_DEPTH) return false
+  if (Array.isArray(x)) return x.every((v) => plainStep(v, depth + 1))
+  return Object.keys(x).every((k) => !(k in Object.prototype) && plainStep((x as Record<string, unknown>)[k], depth + 1))
+}
+
+export function stepOk(e: unknown): boolean {
+  if (e === 'end') return true
+  if (!e || typeof e !== 'object' || Array.isArray(e) || typeof (e as { type?: unknown }).type !== 'string') return false
+  return plainStep(e) && JSON.stringify(e).length <= STEP_MAX_CHARS
+}
+
 /** Checks a submission's shape before anything is replayed. Everything here comes from the client. */
 function parse(x: unknown): RunSubmission | null {
   if (!x || typeof x !== 'object') return null
@@ -83,18 +123,26 @@ function parse(x: unknown): RunSubmission | null {
   if (typeof s.gameId !== 'string' || !GAME_ID_RE.test(s.gameId)) return null
   if (!Array.isArray(s.founders) || s.founders.length !== 2 || !s.founders.every((d) => (DISCIPLINES as readonly unknown[]).includes(d))) return null
   if (!Array.isArray(s.log)) return null
-  if (!s.log.every((e) => e === 'end' || (e && typeof e === 'object' && typeof (e as { type?: unknown }).type === 'string'))) return null
+  if (!s.log.every(stepOk)) return null
   if (!isLeaderboardName(s.name)) return null
   if (!isFiniteNumber(s.claimedValuation)) return null
   return s as unknown as RunSubmission
 }
 
+/**
+ * The average minigame score the client reported, meant to spot outliers. Counts every score that can affect
+ * the game, provisional ones included (they count towards a bid until replaced), and a crisis score only after
+ * its talk was started, since the engine ignores it otherwise. Clamped the way the engine clamps them.
+ */
 function minigameAverage(log: RunLog): number | null {
   const scores: number[] = []
+  const talks = new Set<string>()
+  const score = (n: unknown) => (typeof n === 'number' && Number.isFinite(n) ? scores.push(Math.max(0, Math.min(100, n))) : 0)
   for (const e of log) {
     if (e === 'end') continue
-    if (e.type === 'recordMinigame' && !e.provisional) scores.push(e.score)
-    if (e.type === 'resolveCrisis' && typeof e.score === 'number') scores.push(e.score)
+    if (e.type === 'recordMinigame') score(e.score)
+    if (e.type === 'startCrisisTalk') talks.add(`${e.crisisId}:${e.choiceId}`)
+    if (e.type === 'resolveCrisis' && talks.has(`${e.crisisId}:${e.choiceId}`)) score(e.score)
   }
   return scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null
 }
@@ -105,6 +153,13 @@ function minigameAverage(log: RunLog): number | null {
  * one means a bug or tampering.
  */
 export function verifySubmission(input: unknown, ctx: { engineVersion: string; now: number }): VerifyResult {
+  let size: number
+  try {
+    size = JSON.stringify(input)?.length ?? 0
+  } catch {
+    return { ok: false, error: 'invalid' }
+  }
+  if (size > SUBMISSION_MAX_CHARS) return { ok: false, error: 'tooLong' }
   const submission = parse(input)
   if (!submission) return { ok: false, error: 'invalid' }
   if (submission.engineVersion !== ctx.engineVersion) return { ok: false, error: 'outdated' }
@@ -122,11 +177,16 @@ export function verifySubmission(input: unknown, ctx: { engineVersion: string; n
   if (state.status === 'playing') return { ok: false, error: 'unfinished' }
 
   const me = state.firms[state.playerId]
+  const value = Math.round(valuation(me))
+  // A step with a missing number can leave NaN in the state. It can't be ranked, and Firestore and the
+  // callable's answer would both choke on it.
+  if (!Number.isFinite(value)) return { ok: false, error: 'replayFailed', detail: 'notFinite' }
   return {
     ok: true,
     submission,
+    state,
     run: {
-      valuation: Math.round(valuation(me)),
+      valuation: value,
       title: endTitle(state),
       rank: playerRank(state),
       status: state.status,
