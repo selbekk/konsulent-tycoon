@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GENDER_GROUPS, activeContracts, benchmark, capacity, hasFeature, kpis, peopleStats, playerRank, quarterFinancials, quarterTodos, valuation } from '../../engine'
+import { GENDER_GROUPS, activeContracts, benchmark, capacity, hasFeature, kpis, peopleStats, playerRank, quarterFinancials, quarterTodos, trophies, valuation } from '../../engine'
 import type { GenderGroup } from '../../engine'
 import type { NewsItem } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { bjornKey } from '../bjorn'
 import { Bjorn } from '../components/Bjorn'
+import { Icon } from '../components/Icon'
 import { CapacityChart, Delta, KpiTile, TrendLine } from '../components/metrics'
 import m from '../components/metrics.module.css'
 import { Button, Panel, Sparkline, Stat } from '../components/ui'
@@ -171,9 +172,45 @@ export function Dashboard() {
         {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
       </Panel>
       <Panel title={t('dashboard.office')} icon="people" className={s.span12}>
-        <OfficeView firm={me} />
+        <OfficeView game={game} firm={me} />
       </Panel>
+      <TrophyWall />
     </div>
+  )
+}
+
+function TrophyWall() {
+  const { t } = useTranslation()
+  const me = useGame((x) => x.game!.firms[x.game!.playerId])
+  const wall = trophies(me)
+  // Counted over the milestones only: missions join the wall as they are done, which would move the total.
+  const milestones = wall.filter((x) => x.kind === 'milestone')
+  const done = milestones.filter((x) => x.done).length
+  return (
+    <Panel title={`${t('trophies.title')} · ${t('trophies.count', { done, total: milestones.length })}`} icon="trophy" className={s.span12}>
+      <ul className={s.trophyWall}>
+        {wall.map((x) => {
+          const name = t(x.kind === 'milestone' ? `content:milestones.${x.def.id}.name` : `content:missions.${x.def.id}.name`)
+          const desc = x.kind === 'milestone' ? t(`content:milestones.${x.def.id}.desc`) : t('trophies.mission')
+          return (
+            <li key={`${x.kind}:${x.def.id}`} data-done={x.done} title={x.done ? desc : t('trophies.locked')}>
+              <span>
+                <Icon name={x.kind === 'mission' ? 'flag' : 'trophy'} size={16} />
+              </span>
+              <span>
+                {name}
+                {!x.done && (
+                  <>
+                    <br />
+                    <span className={s.small}>{desc}</span>
+                  </>
+                )}
+              </span>
+            </li>
+          )
+        })}
+      </ul>
+    </Panel>
   )
 }
 

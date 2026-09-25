@@ -115,3 +115,79 @@
   font-size: 0.75rem;
   color: var(--muted);
 }
+
+.status {
+  color: var(--text);
+}
+
+.bunting {
+  display: block;
+  width: 100%;
+  height: 10px;
+  margin: -4px 0 4px;
+}
+
+.bubble {
+  position: relative;
+  margin: 0 0 8px 24px;
+  padding: 6px 10px;
+  max-width: 460px;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.deskButton {
+  display: block;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.deskButton:hover,
+.deskButton[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.deskButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.deskButton svg {
+  display: block;
+}
+
+.sweat {
+  display: none;
+}
+
+.office[data-crisis='true'] .sweat {
+  display: inline;
+  animation: steam 1.2s steps(2) infinite;
+}
+
+.office[data-party='true'] .person {
+  animation: jump 0.9s steps(3) infinite;
+}
+
+.room :global(.twinkle) {
+  animation: twinkle 1.4s steps(2) infinite;
+}
+
+.room :global(.blink) {
+  animation: twinkle 0.8s steps(2) infinite;
+}
+
+@keyframes jump {
+  40% { transform: translateY(-2px); }
+}
+
+@keyframes twinkle {
+  50% { opacity: 0.35; }
+}

@@ -813,3 +813,140 @@
 .pips > span[data-on] {
   background: var(--accent);
 }
+
+/* Quarter report: a won tender as its own moment. */
+.winCard {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 14px 14px 12px;
+  background: var(--panel-2);
+  border: 2px solid var(--good);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.winCustomer {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  padding-right: 96px;
+}
+
+.winValue {
+  font-size: 1.05rem;
+}
+
+.winValue .num {
+  font-weight: 700;
+  color: var(--good);
+}
+
+.winStamp {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  padding: 2px 8px;
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--good);
+  border: 3px solid var(--good);
+  border-radius: var(--radius-sm);
+  transform: rotate(-8deg);
+  animation: stamp 380ms cubic-bezier(0.3, 1.6, 0.5, 1) 250ms both;
+}
+
+@keyframes stamp {
+  from {
+    transform: rotate(-8deg) scale(2.4);
+    opacity: 0;
+  }
+}
+
+.recordStamp {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 6px;
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  transform: rotate(-4deg);
+  animation: stamp 380ms cubic-bezier(0.3, 1.6, 0.5, 1) 600ms both;
+}
+
+.trophyCard {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+}
+
+.trophyCard p {
+  margin: 2px 0 0;
+}
+
+.trophyPlaque {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--accent);
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  animation: levelPop 500ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.trophyTitle {
+  font-family: var(--font-title);
+  font-weight: 400;
+}
+
+/* Dashboard: the trophy wall. */
+.trophyWall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trophyWall li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  line-height: 1.25;
+}
+
+.trophyWall li[data-done='true'] {
+  border-color: var(--accent);
+}
+
+.trophyWall li[data-done='true'] > span:first-child {
+  color: var(--accent);
+}
+
+.trophyWall li[data-done='false'] {
+  color: var(--muted);
+  border-style: dashed;
+}
+
+.trophyWall li[data-done='false'] > span:first-child {
+  opacity: 0.35;
+}

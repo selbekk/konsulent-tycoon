@@ -7,10 +7,11 @@ import { updateCulture } from './culture'
 import { developRoster } from './development'
 import { creditLimit, headcount, quarterFinancials } from './economy'
 import { autoResolveEvents, drawEvents } from './events'
-import { pickAnnouncement } from './flavor'
+import { industryGossip, pickAnnouncement } from './flavor'
 import { updateLevels } from './levels'
 import { updateTrends } from './market'
 import { ipoPressure, runDepartments } from './strategy'
+import { checkMilestones } from './milestones'
 import { checkMissions } from './missions'
 import { applyActionInPlace } from './reducer'
 import { valuation } from './score'
@@ -117,6 +118,7 @@ export function endTurn(input: GameState): GameState {
   if (state.quarter % 4 === 3) yearEndAwards(state)
   else state.lastAwards = []
   checkMissions(state)
+  checkMilestones(state)
 
   checkBankruptcies(state)
   for (const f of Object.values(state.firms)) f.valuationHistory.push(valuation(f))
@@ -136,6 +138,7 @@ export function endTurn(input: GameState): GameState {
   drawEvents(state)
   drawCrises(state)
   pickAnnouncement(state)
+  industryGossip(state)
   for (const f of activeFirms(state)) f.quarterStartPremium = f.budgets.salaryPremium
   return state
 }

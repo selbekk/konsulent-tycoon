@@ -86,6 +86,7 @@ src/
     contractActions.ts Pleie, oppsigelse, reforhandling, mersalg
     levels.ts         Firmanivåer og låser
     missions.ts       Mål per nivå
+    milestones.ts     Milepæler (trofeveggen) og rekordkvartal
     strategy.ts       Spesialisering, partnerskap, lobbying, avdelinger, børs
     acquisitions.ts   Oppkjøp
     crises.ts         Krisemotoren
@@ -174,9 +175,9 @@ Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
 6. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller.
 7. Kontrakter utløper eller forlenges. Rammeavtalene får avrop for neste kvartal.
 8. Trender oppdateres, og nye anbud publiseres.
-9. Etter Q4 deles årets priser ut. Deretter sjekkes spillerens mål per nivå (`checkMissions`).
+9. Etter Q4 deles årets priser ut. Deretter sjekkes spillerens mål per nivå (`checkMissions`), milepæler og rekordkvartal (`checkMilestones`).
 10. Konkurssjekk. Kontraktene til konkursfirma legges ut på nytt som anbud.
-11. `quarter++`. Deretter fornyes stjernemarkedet, besvarte kriser går til neste fase (`advanceCrises`), nye hendelser og kriser trekkes (`drawCrises`), og en høyttalermelding velges.
+11. `quarter++`. Deretter fornyes stjernemarkedet, besvarte kriser går til neste fase (`advanceCrises`), nye hendelser og kriser trekkes (`drawCrises`), og en høyttalermelding velges. Til slutt trekkes bransjesladderen til tickeren (`industryGossip`, med egen hash-RNG, så den aldri flytter `state.rng`).
 
 ### Tidslinjen for et anbud
 
@@ -245,6 +246,8 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Et nei fra kunden er et **utfall**, ikke en feil. Handleren returnerer `undefined`, så straffen og det brukte forsøket blir stående. En feilnøkkel ville fått `applyAction` til å kaste draften. Utfallet trekkes fra `state.rng` i reduceren (som `afterwork_poach`), og autolagringen hindrer nytt forsøk ved å laste inn på nytt.
   - `contractMoveBlock` er felles for reducer, planleggere og UI. AI-er og `planHumanProxy` bruker `ai/contractMoves.ts`: pleie ved fare, reforhandling når sjansen er høy og mersalg bare med folk på benken. Ingen av dem sier opp.
 - **Kriser (`content/crises.ts`, `engine/crises.ts`):** Omtrent én krise hvert 3.–4. kvartal (`CRISIS_CHANCE`, `CRISIS_GAP`), aldri mens firmaet har negativ kasse utover kreditten. En krise går over flere kvartaler, og alvorlighetsgraden er skjult til en fase avslører den. Valg kan koste penger, ta folk av oppdrag dette kvartalet (`Firm.benched`, som `staffFirm` trekker fra), sette en krisesamtale i gang, eller dysse saken ned. Da kan den sprekke senere (`CRISIS_EXPOSE_CHANCE`). En ubesvart fase tar et gratis reservevalg, som ofte gjør saken verre. UI: `CrisisModal` dukker opp én gang per ny fase, `CrisisPanel` på oversikten følger alle kriser, og gjøremålslista har punktet `crisis`. Bakgrunn og beslutninger: [`plans/2026-09-24-kriser.md`](plans/2026-09-24-kriser.md).
+- **Milepæler (`content/milestones.ts`, `engine/milestones.ts`):** Førstegangsøyeblikk (første overskudd, ti ansatte, første forlengelse …) uten belønning. De er der for å feires: eget kort i kvartalsrapporten og en plass på trofeveggen på oversikten (`trophies()`, som også viser fullførte mål). Et rekordkvartal (`RECORD_FROM_QUARTER`, `RECORD_MARGIN`) gir et stempel i rapporten. Bare spilleren. Nye milepæler trenger `content:milestones.<id>.name`/`.desc`, `game:news.milestone.<id>` og en artikkel.
+- **Bransjesladder (`content/gossip.ts`):** Harmløse nyheter i tickeren, `GOSSIP_PER_QUARTER` per kvartal. `subject` bestemmer parameterne, `season` låser en sak til ett kvartal i året, og samme sak kommer ikke igjen før etter `GOSSIP_REPEAT_QUARTERS`. Hver sak trenger `game:news.gossip.<id>` og `game:articles.gossip.<id>.1`.
 - **Mål per nivå (`content/missions.ts`, `engine/missions.ts`):** Frivillige mål som vises fra et gitt nivå, med en liten belønning i samme effekt-DSL som hendelsene. Bare spilleren har mål (som gjøremålslista), og de legges aldri i `quarterTodos`.
 
 ### Tilfeldighet: den viktigste regelen
@@ -308,7 +311,7 @@ Praktisk:
   - `customer` blir kundenavnet
   - `trend` blir trendnavnet
   - `discipline` blir fagområdet
-  - `fine` blir et formatert beløp
+  - `fine` og `amount` blir formaterte beløp
   - `mission` blir navnet på målet
   - `crisis` blir krisens tittel
   - `weak` og `strong` blir setningene om hvorfor et bud vant eller tapte (`game:factors`)

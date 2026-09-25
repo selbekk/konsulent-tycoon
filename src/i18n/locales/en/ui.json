@@ -153,7 +153,13 @@
       "reception": "Reception",
       "window": "A view of the fjord",
       "terrace": "Roof terrace",
-      "bust": "Bust of the founders"
+      "bust": "Bust of the founders",
+      "trophies": "Trophy shelf",
+      "tree": "Christmas tree",
+      "flag": "Constitution Day flag",
+      "cake": "Cake",
+      "champagne": "Champagne",
+      "siren": "Warning light"
     },
     "tiers": {
       "1": "A corner of a coworking space",
@@ -161,7 +167,12 @@
       "3": "A whole floor in Bjørvika",
       "4": "Three floors and a roof terrace",
       "5": "Your own building with your name on it"
-    }
+    },
+    "cake": "Cake in the kitchen: it's {{name}}'s birthday.",
+    "party": "Spirits are high after last quarter.",
+    "crisis": "There's a crisis, and the office can tell.",
+    "hint": "Click someone to hear what they are thinking.",
+    "someone": "A colleague"
   },
   "staff": {
     "pools": "The consultants",
@@ -545,7 +556,17 @@
     "result": "Result",
     "people": "{{hires}} joined, {{leavers}} left. Utilisation {{util}}.",
     "awards": "Awards {{year}}",
-    "continue": "On to {{quarter}}"
+    "continue": "On to {{quarter}}",
+    "win": {
+      "stamp": "AWARDED",
+      "framework": "Framework, ranked no. {{rank}}",
+      "project": "Project",
+      "value": "Estimated value",
+      "bidders_one": "You were the only bidder",
+      "bidders_other": "{{count}} firms bid"
+    },
+    "record": "RECORD",
+    "trophy": "New trophy!"
   },
   "events": {
     "more_one": "{{count}} more event is waiting.",
@@ -1119,5 +1140,11 @@
       }
     },
     "name": "Customer"
+  },
+  "trophies": {
+    "title": "Trophy wall",
+    "count": "{{done}} of {{total}}",
+    "locked": "Not yet reached",
+    "mission": "Goal"
   }
 }

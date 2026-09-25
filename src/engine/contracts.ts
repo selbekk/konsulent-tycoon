@@ -176,6 +176,8 @@ export function expireContracts(state: GameState, quarter: number) {
     ) {
       const extra = nextInt(state.rng, 2, 4)
       c.endQuarter += extra
+      const stats = (firm.stats ??= {})
+      stats.renewals = (stats.renewals ?? 0) + 1
       // Stars who just moved on to a newly won contract stay there.
       c.starIds = c.starIds.filter((id) => firm.stars.some((s) => s.id === id && s.assignedContractId === c.id))
       if (c.firmId === state.playerId) {

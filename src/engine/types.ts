@@ -175,11 +175,23 @@ export interface Firm {
   /** Tenders won in total (framework ranks count). */
   tendersWon?: number
   /** Running totals for missions. */
-  stats?: { publicWins?: number; frameworkWins?: number; biggestWin?: number; awards?: number; acquisitions?: number }
+  stats?: {
+    publicWins?: number
+    frameworkWins?: number
+    biggestWin?: number
+    awards?: number
+    acquisitions?: number
+    /** Projects extended by a happy customer. */
+    renewals?: number
+    /** Best quarterly revenue so far, for the record stamp in the report. */
+    bestRevenue?: number
+  }
   /** Crises ended so far, by outcome (hushed-up ones count once they are over). */
   crisisOutcomes?: Partial<Record<CrisisOutcome, number>>
   /** Mission ids completed (see content/missions.ts). */
   missionsDone?: string[]
+  /** Milestone ids reached, for the trophy wall (see content/milestones.ts). Player only. */
+  milestones?: string[]
   specialty?: Specialty
   /** Partnership ids (content/strategy.ts) running this quarter. */
   partnerships?: string[]

@@ -14,7 +14,7 @@ import {
   clamp,
 } from './constants'
 import { cultureEquilibrium } from './culture'
-import { pickAnnouncement } from './flavor'
+import { industryGossip, pickAnnouncement } from './flavor'
 import { earnedLevel } from './levels'
 import { createRng, nextInt, noise, pick, range, weightedPick } from './rng'
 import { buildRoster } from './roster'
@@ -271,5 +271,6 @@ export function createNewGame(opts: NewGameOptions): GameState {
   for (let i = 0; i < 2; i++) state.starMarket.push(generateStar(state))
   addNews(state, 'news.game.welcome', { firm: me.name }, 'good', { personal: true })
   pickAnnouncement(state)
+  industryGossip(state)
   return state
 }
