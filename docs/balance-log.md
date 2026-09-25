@@ -299,3 +299,16 @@ Tre egenskaper virker nå direkte, som avvik fra midten (3): erfaringskrav skale
 Markedet med alle tre (`sim:market 60`): 0,1 AI-døde per parti, etterspørsel/kapasitet 0,72–0,91.
 
 Funn: Ingen av effektene flytter botene mer enn støyen (±10 % på én seed-serie, se kjøringene over). Modenhet trekker mest ned for `human`, trolig fordi mange store offentlige kunder har lav modenhet og derfor lavere tilfredshet. Følg med på oppsigelser hos Helse Sør-Øst-Vest og Kommune-Norge (modenhet 1–2) hvis spillere klager.
+
+## Færre anbud på tavla (2026-09-25)
+
+Tilbakemelding: for mange anbud av gangen. Med `planHumanProxy` som spiller ser spilleren 27–43 anbud (to kvartalers kull, filtrert på nivå), hvorav 9 småoppdrag og opptil 24 nøkkelanbud sent i spillet. Tre forsøk, 60 partier med `--seed 1000`, markedet med `sim:market 30`:
+
+| Kjøring | Synlige anbud (tidlig–sent) | human verdi / plass | humanPro verdi / plass | AI-døde per parti (marked) |
+|---|---|---|---|---|
+| Før (`2ab969f`) | 27–43 | 924 MNOK / 3 | 1017 / 3 | 0,1 |
+| Anbud 30 % større | 18–32 | 800 / 5 | 522 / 5 | 0,2 |
+| Tak på 12 vanlige anbud per kvartal, resten inn i rammeavtalene | 15–27 | 618 / 5 | 538 / 5 | 1,3 |
+| Småoppdrag 2–3 i stedet for 3–5 (valgt) | 23–41 | 923 / 3 | 1006 / 3 | – |
+
+Funn: Antall anbud er strukturelt viktig. Hvert anbud har én vinner, så færre eller større anbud gir færre vinnere, og både spilleren og AI-firmaene taper (større anbud låser i tillegg små firmaer ute). Bare kuttet i småoppdrag er innenfor støyen, men det fjerner bare 3–4 kort. Vil vi ha en roligere tavle, er neste steg trolig i UI-et (sortering, standardfilter) eller færre nøkkelanbud (`KEY_TENDER_MIN_SEATS`), ikke færre anbud.

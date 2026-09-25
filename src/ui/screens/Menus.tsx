@@ -374,7 +374,7 @@ export function AboutScreen() {
 
   return (
     <div className={m.wrap}>
-      <div className={m.menu}>
+      <div className={`${m.menu} ${m.wide}`}>
         <Panel title={t('about.title')} icon="info">
           <div className={`${s.stack} ${m.about}`}>
             {ABOUT_SECTIONS.map((id) => (
