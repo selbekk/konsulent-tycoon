@@ -13,7 +13,7 @@ export default defineConfig({
     ssr: 'src/index.ts',
     outDir: 'lib',
     emptyOutDir: true,
-    target: 'node22',
+    target: 'node24',
     minify: false,
     rolldownOptions: {
       external: [/^firebase-admin/, /^firebase-functions/],
