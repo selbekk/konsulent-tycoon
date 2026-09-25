@@ -35,7 +35,9 @@
     "savesDroppedOk": "Skjønner",
     "disclaimer": "Alle likheter med virkelige selskaper er helt tilfeldige (og kjærlig ment).",
     "about": "Om spillet",
-    "leaderboard": "Toppliste"
+    "leaderboard": "Toppliste",
+    "news": "Nyheter",
+    "latestNews": "Siste nytt: {{title}}"
   },
   "newGame": {
     "title": "Start et selskap",
@@ -916,37 +918,37 @@
     "game": {
       "title": "Hva er dette?",
       "body": [
-        "Konsulent Tycoon er et turbasert strategispill der du driver ditt eget IT-konsulentselskap. Du har {{quarters}} kvartaler, fra {{start}} til {{end}}, på å bygge det mest verdifulle selskapet i landet. {{rivals}} konkurrenter har tenkt det samme.",
-        "Du ansetter folk, byr på anbud, holder kundene fornøyde og passer på at kassa ikke går tom. Den som har det mest verdifulle selskapet når tiden er ute, vinner. Er du for lenge over kassekreditten, går du konkurs."
+        "Konsulent Tycoon er et turbasert strategispill der du driver ditt eget IT-konsulentselskap. Du har {{quarters}} kvartaler, fra {{start}} til {{end}}, på å bygge det mest verdifulle selskapet i landet. Problemet er bare at {{rivals}} konkurrenter har tenkt akkurat det samme.",
+        "Du ansetter folk, byr på anbud, holder kundene fornøyde og passer på at kassa ikke går tom. Den som sitter igjen med det mest verdifulle selskapet når tiden er ute, vinner. Er du for lenge over kassekreditten, går du konkurs. Sånn er livet."
       ]
     },
     "creator": {
       "title": "Hvem står bak?",
       "body": [
-        "Spillet er laget av Kristofer Giltvedt Selbekk, som har jobbet i Bekk siden 2013 og er stolt av det.",
-        "Han har alltid vært glad i tycoon-spill, særlig Transport Tycoon, Theme Hospital og Theme Park, og ville lage noe i samme ånd, bare i en bransje han kjenner fra innsiden. Konsulentbransjen er nemlig interessant, sammensatt, morsom og vanskelig på én gang."
+        "Det er meg! Jeg heter Kristofer Giltvedt Selbekk, og jeg har jobbet i Bekk siden 2013. Det er jeg ganske stolt av, egentlig.",
+        "Jeg har alltid vært glad i tycoon-spill, særlig Transport Tycoon, Theme Hospital og Theme Park. Så jeg ville lage noe i samme ånd, bare i en bransje jeg kjenner fra innsiden. Konsulentbransjen er nemlig interessant, sammensatt, morsom og vanskelig. På én gang."
       ]
     },
     "satire": {
       "title": "Hvor mye er sant?",
       "body": [
-        "Ikke så mye. Spillet leker med vanlige misforståelser og fordommer om hva konsulentselskaper egentlig driver med. Selv har Kristofer aldri møtt annet enn dønn profesjonelle aktører i bransjen, men det finnes nok av fordommer å ha det gøy med.",
-        "Alle firmanavnene er oppdiktet. At noen av dem minner om Kristofers egen arbeidsgiver og konkurrentene, er mest for moro skyld."
+        "Ikke så mye, heldigvis. Spillet leker med vanlige misforståelser og fordommer om hva konsulentselskaper egentlig driver med. Selv har jeg aldri møtt annet enn dønn profesjonelle folk i bransjen, men det finnes nok av fordommer å ha det gøy med.",
+        "Alle firmanavnene er oppdiktet. Om noen av dem minner deg om min egen arbeidsgiver og konkurrentene… så er det mest for moro skyld."
       ]
     },
     "making": {
       "title": "Slik ble det laget",
       "body": [
-        "Spillet er laget med Claude Code, mye brukertesting og mange runder med iterasjon, prøving og feiling, omtrent som alle andre produkter Kristofer jobber med. Det tok betraktelig kortere tid enn noe han har bygget før.",
-        "Bakgrunnsmusikken er også generert med Claude Opus 5.5: 20 små låter skrevet som akkorder og stil, der melodiene lages av kode og spilles av en synth i nettleseren.",
-        "Spillet er fortsatt under utvikling, så ting kan endre seg underveis."
+        "Jeg har laget spillet med Claude Code, mye brukertesting og en bråte runder med prøving og feiling. Omtrent som alle andre produkter jeg jobber med, altså. Forskjellen er at det tok betraktelig kortere tid enn noe annet jeg har bygget før.",
+        "Bakgrunnsmusikken er også laget med Claude Opus 5.5: 20 små låter skrevet som akkorder og stil, der melodiene lages av kode og spilles av en synth rett i nettleseren. Ganske stilig, spør du meg.",
+        "Spillet er fortsatt under utvikling, så ting kommer til å endre seg underveis. Følg med under Nyheter, så får du vite hva som er nytt."
       ]
     },
     "privacy": {
       "title": "Dine data",
       "body": [
-        "Spillet er gratis og kjører i nettleseren. Lagrede spill ligger på din egen enhet og sendes ingen steder.",
-        "Sier du ja til bruksstatistikk, sender spillet anonyme hendelser til PostHog, med servere i EU: hvilke skjermer du åpner, hva du gjør i spillet (som bud, ansettelser og valg i kriser), hvordan kvartalene går og feilmeldinger hvis noe krasjer. Med følger også det nettleseren forteller om seg selv, som nettlesertype, operativsystem, skjermstørrelse, omtrentlig land og hvilken side du kom fra. Vi lagrer en tilfeldig ID på enheten din, slik at vi ser at det er samme spiller neste gang, og hvert parti får også sin egen tilfeldige ID. Vi lagrer ikke IP-adressen din, og vi sender ikke navnet på firmaet ditt eller noe annet du skriver selv.",
+        "Spillet er gratis og kjører i nettleseren din. Lagrede spill ligger på din egen enhet og sendes ingen steder. Kort fortalt vil jeg gjerne vite hvordan spillet brukes, men ikke hvem du er.",
+        "Sier du ja til bruksstatistikk, sender spillet anonyme hendelser til PostHog, med servere i EU: hvilke skjermer du åpner, hva du gjør i spillet (som bud, ansettelser og valg i kriser), hvordan kvartalene går og feilmeldinger hvis noe krasjer. Med følger også det nettleseren forteller om seg selv, som nettlesertype, operativsystem, skjermstørrelse, omtrentlig land og hvilken side du kom fra. Jeg lagrer en tilfeldig ID på enheten din, slik at jeg ser at det er samme spiller neste gang, og hvert parti får også sin egen tilfeldige ID. Jeg lagrer ikke IP-adressen din, og jeg sender ikke navnet på firmaet ditt eller noe annet du skriver selv.",
         "Sier du nei, lastes ikke PostHog i det hele tatt. Du kan ombestemme deg når som helst under Innstillinger. Spiller du uten nett, sendes hendelsene når du er på nett igjen, så lenge spillet fortsatt er åpent.",
         "Vil du være med på topplista, sender spillet ukens parti til Firebase (Google) med servere i EU. Da lagres en anonym konto (en tilfeldig ID), trekkene du gjorde i partiet, resultatet og navnet du valgte fra ordlista. Firmanavnet ditt sendes ikke. Det skjer bare når du selv trykker «Send inn», og du kan slette kontoen og alt som er lagret under Innstillinger."
       ]
@@ -954,12 +956,19 @@
     "thanks": {
       "title": "Takk",
       "body": [
-        "Tusen takk til alle som har brukertestet, gitt tilbakemeldinger underveis og sagt at dette minnet dem om noe de spilte i barndommen."
+        "Tusen takk til alle som har brukertestet, gitt meg tilbakemeldinger underveis og sagt at dette minnet dem om noe de spilte i barndommen. Dere er gull!"
+      ]
+    },
+    "bugs": {
+      "title": "Fant du en bug?",
+      "body": [
+        "Det gjør du nok, for å være ærlig. Spillet er som sagt ikke engang i beta.",
+        "Koden ligger åpent på GitHub. Lag gjerne en issue med hva som skjedde og hva du forventa skulle skje, så tar jeg en titt. Og har du lyst til å fikse det selv, er pull requests hjertelig velkomne!"
       ]
     },
     "contact": {
       "title": "Ta kontakt",
-      "body": "Har du funnet en feil, fått en idé eller vil bare si hei? Kristofer er å finne her:",
+      "body": "Har du fått en idé, eller vil du bare si hei? Du finner meg her:",
       "email": "E-post",
       "linkedin": "LinkedIn",
       "github": "GitHub"
@@ -1224,6 +1233,23 @@
       "confirm": "Ja, slett alt",
       "failed": "Fikk ikke slettet kontoen. Er du på nett?",
       "deleted": "Kontoen og partiene dine er slettet."
+    }
+  },
+  "news": {
+    "title": "Nyheter",
+    "posts": {
+      "welcome": {
+        "title": "Velkommen til nyhetsfeeden!",
+        "body": [
+          "Hei, og velkommen hit! Dette er nyhetsseksjonen til Konsulent Tycoon, stedet der jeg kommer til å fortelle hva som skjer med spillet. Ikke i kvartalsrapport-form, altså. Det får selskapet ditt ta seg av.",
+          "Spillet er fortsatt i aktiv utvikling (les: ikke engang i beta), og det skjer ganske mye under panseret hele tiden. Nye kriser, nye minispill, og en evig jakt på balansen mellom deg og 24 konkurrenter som helst vil stikke av med kundene dine. Til nå har det meste skjedd i stillhet. Det synes jeg egentlig er litt synd.",
+          "Så hva kommer til å dukke opp her? Først og fremst ny funksjonalitet. Når noe nytt lander i spillet, skriver jeg litt om hva det er, og hvorfor det ble sånn. Topplisten med ukens utfordring er et godt eksempel på noe som fortjente et innlegg, men den rakk å komme ut før denne siden fantes.",
+          "Så blir det endringer. Når jeg skrur på tallene eller endrer hvordan noe funker, får du vite det her. Da slipper du å lure på hvorfor strategien som funka så fint forrige uke plutselig går rett i konkurs.",
+          "Og til slutt bruksstatistikk! Jeg synes det er skikkelig gøy å se hvordan folk faktisk spiller. Hvor mange som kommer seg gjennom alle 40 kvartalene, hvilke grep som lønner seg, og hvor mange som går på en smell allerede i 2028. Tallene kommer bare fra dere som har sagt ja til anonym analyse, så det blir tendenser og totaler, aldri enkeltpersoner.",
+          "Planen er å poste jevnlig, og i hvert fall hver gang det er noe å melde. Har du ønsker, eller har du funnet en bug? Send meg en mail. Adressen står under «Om spillet».",
+          "Det… var egentlig det jeg hadde denne gangen. Lykke til med kvartalene, og ikke brenn deg på bakrommet. Tjohei!"
+        ]
+      }
     }
   }
 }

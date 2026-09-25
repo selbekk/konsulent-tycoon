@@ -35,7 +35,9 @@
     "savesDroppedOk": "Got it",
     "disclaimer": "Any resemblance to real companies is purely coincidental (and meant with love).",
     "about": "About",
-    "leaderboard": "Leaderboard"
+    "leaderboard": "Leaderboard",
+    "news": "News",
+    "latestNews": "Latest news: {{title}}"
   },
   "newGame": {
     "title": "Start a company",
@@ -916,37 +918,37 @@
     "game": {
       "title": "What is this?",
       "body": [
-        "Konsulent Tycoon is a turn-based strategy game where you run your own IT consultancy. You have {{quarters}} quarters, from {{start}} to {{end}}, to build the most valuable firm in the country. {{rivals}} rivals have the same idea.",
-        "You hire people, bid on tenders, keep clients happy and try not to run out of cash. Whoever has the most valuable firm when time runs out wins. Stay over your credit line for too long and you go bankrupt."
+        "Konsulent Tycoon is a turn-based strategy game where you run your own IT consultancy. You have {{quarters}} quarters, from {{start}} to {{end}}, to build the most valuable firm in the country. The only problem: {{rivals}} rivals had the exact same idea.",
+        "You hire people, bid on tenders, keep clients happy and try not to run out of cash. Whoever ends up with the most valuable firm when time runs out wins. Stay over your credit line for too long and you go bankrupt. That's life."
       ]
     },
     "creator": {
       "title": "Who made it?",
       "body": [
-        "The game is made by Kristofer Giltvedt Selbekk, who has worked at Bekk since 2013 and is proud of it.",
-        "He has always loved tycoon games, especially Transport Tycoon, Theme Hospital and Theme Park, and wanted to make something in the same spirit, set in an industry he knows from the inside. Consulting, after all, is interesting, complex, fun and hard all at once."
+        "That would be me! I'm Kristofer Giltvedt Selbekk, and I've worked at Bekk since 2013. I'm pretty proud of that, to be honest.",
+        "I've always loved tycoon games, especially Transport Tycoon, Theme Hospital and Theme Park. So I wanted to make something in the same spirit, set in an industry I know from the inside. Consulting, after all, is interesting, complex, fun and hard. All at once."
       ]
     },
     "satire": {
       "title": "How much of it is true?",
       "body": [
-        "Not much. The game plays with common misconceptions and prejudices about what consultancies actually do. Kristofer has never met anything but thoroughly professional people in the industry, but there are plenty of prejudices to have fun with.",
-        "Every firm name is made up. If some of them remind you of Kristofer's own employer and its competitors, that's mostly for fun."
+        "Not much, thankfully. The game plays with common misconceptions and prejudices about what consultancies actually do. I've personally never met anything but thoroughly professional people in the industry, but there are plenty of prejudices to have fun with.",
+        "Every firm name is made up. If some of them remind you of my own employer and its competitors… that's mostly for fun."
       ]
     },
     "making": {
       "title": "How it was made",
       "body": [
-        "The game was built with Claude Code, lots of user testing and many rounds of iteration, trial and error, much like every other product Kristofer works on. It took far less time than anything he has built before.",
-        "The background music was generated with Claude Opus 5.5 too: 20 little tunes written as chords and style, with the melodies made by code and played by a synth in the browser.",
-        "It's still in development, so things may change along the way."
+        "I built the game with Claude Code, lots of user testing and a whole lot of trial and error. Much like every other product I work on, really. The difference is that it took far less time than anything I have built before.",
+        "The background music was made with Claude Opus 5.5 too: 20 little tunes written as chords and style, with the melodies made by code and played by a synth right in your browser. Pretty neat, if you ask me.",
+        "The game is still in development, so things will change along the way. Keep an eye on News to see what's new."
       ]
     },
     "privacy": {
       "title": "Your data",
       "body": [
-        "The game is free and runs in your browser. Saved games stay on your own device and aren't sent anywhere.",
-        "If you say yes to usage statistics, the game sends anonymous events to PostHog, on servers in the EU: which screens you open, what you do in the game (like bids, hires and crisis choices), how your quarters go, and error reports if something crashes. PostHog also gets what your browser shares about itself anyway, like browser, operating system, screen size, rough country and which page sent you here. We store a random ID on your device so we can tell it's the same player next time, and each game gets a random ID of its own too. We don't store your IP address, and we never send your firm's name or anything else you type.",
+        "The game is free and runs in your browser. Saved games stay on your own device and aren't sent anywhere. In short: I'd like to know how the game is played, but not who you are.",
+        "If you say yes to usage statistics, the game sends anonymous events to PostHog, on servers in the EU: which screens you open, what you do in the game (like bids, hires and crisis choices), how your quarters go, and error reports if something crashes. PostHog also gets what your browser shares about itself anyway, like browser, operating system, screen size, rough country and which page sent you here. I store a random ID on your device so I can tell it's the same player next time, and each game gets a random ID of its own too. I don't store your IP address, and I never send your firm's name or anything else you type.",
         "If you say no, PostHog isn't loaded at all. You can change your mind at any time in Settings. If you play offline, events are sent once you're back online, as long as the game is still open.",
         "If you join the leaderboard, the game sends that week's game to Firebase (Google), with servers in the EU. It stores an anonymous account (a random ID), the moves you made in the game, the result and the name you picked from the word list. Your firm name is not sent. This only happens when you press \"Send it in\" yourself, and you can delete the account and everything stored in Settings."
       ]
@@ -954,12 +956,19 @@
     "thanks": {
       "title": "Thanks",
       "body": [
-        "A big thank you to everyone who has playtested, given feedback along the way and said this reminded them of something they played as a kid."
+        "A big thank you to everyone who has playtested, given me feedback along the way and said this reminded them of something they played as a kid. You're the best!"
+      ]
+    },
+    "bugs": {
+      "title": "Found a bug?",
+      "body": [
+        "You probably will, to be honest. Like I said, the game isn't even in beta yet.",
+        "The code is open on GitHub. Feel free to open an issue with what happened and what you expected to happen, and I'll take a look. And if you feel like fixing it yourself, pull requests are more than welcome!"
       ]
     },
     "contact": {
       "title": "Get in touch",
-      "body": "Found a bug, got an idea or just want to say hi? You can find Kristofer here:",
+      "body": "Got an idea, or just want to say hi? Here's where to find me:",
       "email": "Email",
       "linkedin": "LinkedIn",
       "github": "GitHub"
@@ -1224,6 +1233,23 @@
       "confirm": "Yes, delete everything",
       "failed": "Couldn't delete the account. Are you online?",
       "deleted": "Your account and games have been deleted."
+    }
+  },
+  "news": {
+    "title": "News",
+    "posts": {
+      "welcome": {
+        "title": "Welcome to the news feed!",
+        "body": [
+          "Hi, and welcome! This is the news section of Konsulent Tycoon, the place where I'll tell you what's going on with the game. Not in quarterly report form, mind you. That's your firm's job.",
+          "The game is still in active development (read: not even in beta), and there's a lot going on under the hood all the time. New crises, new minigames, and a never-ending hunt for balance between you and 24 rivals who would love to run off with your clients. Until now, most of it has happened in silence. Which is kind of a shame, if you ask me.",
+          "So what's going to show up here? New features, first and foremost. When something new lands in the game, I'll write a bit about what it is and why it ended up that way. The leaderboard with its weekly challenge is a good example of something that deserved a post, but it shipped before this page existed.",
+          "Then there are changes. When I tweak the numbers or change how something works, you'll hear about it here. That way you won't have to wonder why the strategy that worked so well last week suddenly goes straight to bankruptcy.",
+          "And finally, usage stats! I think it's genuinely fun to see how people actually play. How many make it through all 40 quarters, which moves pay off, and how many crash and burn as early as 2028. The numbers only come from those of you who said yes to anonymous analytics, so it'll be trends and totals, never individuals.",
+          "The plan is to post regularly, and at least whenever there's something to report. Got a wish, or found a bug? Send me an email. The address is under “About”.",
+          "And… that's all I've got this time. Good luck with your quarters, and don't get burned in the backroom. Cheers!"
+        ]
+      }
     }
   }
 }

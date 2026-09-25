@@ -102,7 +102,8 @@
   cursor: pointer;
 }
 
-.about section {
+.about section,
+.about article {
   display: grid;
   gap: 8px;
 }
@@ -133,4 +134,29 @@
   list-style: none;
   display: grid;
   gap: 4px;
+}
+
+/* One news post; posts after the first get a divider. */
+.post + .post {
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* Deliberately quiet: a text link under the menu buttons, not another button. */
+.newsLink {
+  justify-self: center;
+  padding: 2px 4px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.newsLink:hover,
+.newsLink:focus-visible {
+  color: var(--accent);
 }
