@@ -60,6 +60,10 @@
   border-bottom: 1px solid var(--border);
 }
 
+.table th.num {
+  text-align: right;
+}
+
 .table td {
   padding: 6px 8px;
   border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);

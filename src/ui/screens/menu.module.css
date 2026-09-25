@@ -11,6 +11,11 @@
   gap: 20px;
 }
 
+/* Reading pages (About) get more room; paragraphs keep a readable line length. */
+.menu.wide {
+  width: min(880px, 100%);
+}
+
 .logo {
   text-align: center;
   font-family: var(--font-logo);
@@ -112,6 +117,7 @@
 
 .about p {
   margin: 0;
+  max-width: 75ch;
   line-height: 1.55;
 }
 
