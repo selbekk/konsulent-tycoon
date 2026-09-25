@@ -34,7 +34,12 @@ const firmOf = (state: GameState, firmId: string) => {
 
 const openTender = (state: GameState, tenderId: string) =>
   state.tenders.find(
-    (t) => t.id === tenderId && !t.resolved && !t.hidden && t.publishedQuarter <= state.quarter && t.dueQuarter >= state.quarter,
+    (t) =>
+      t.id === tenderId &&
+      !t.resolved &&
+      !t.hidden &&
+      t.publishedQuarter <= state.quarter &&
+      t.dueQuarter >= state.quarter,
   )
 
 /**
@@ -49,8 +54,10 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     if (!firm) return 'errors.invalid'
     if (!hasFeature(firm, 'culture')) return 'errors.levelTooLow'
     const b = a.budgets
-    if (b.fagmiljoPerHead !== undefined) firm.budgets.fagmiljoPerHead = clamp(Math.round(b.fagmiljoPerHead), 0, BUDGET_MAX_PER_HEAD)
-    if (b.sosialtPerHead !== undefined) firm.budgets.sosialtPerHead = clamp(Math.round(b.sosialtPerHead), 0, BUDGET_MAX_PER_HEAD)
+    if (b.fagmiljoPerHead !== undefined)
+      firm.budgets.fagmiljoPerHead = clamp(Math.round(b.fagmiljoPerHead), 0, BUDGET_MAX_PER_HEAD)
+    if (b.sosialtPerHead !== undefined)
+      firm.budgets.sosialtPerHead = clamp(Math.round(b.sosialtPerHead), 0, BUDGET_MAX_PER_HEAD)
     if (b.salaryPremium !== undefined)
       firm.budgets.salaryPremium = Math.round(clamp(b.salaryPremium, PREMIUM_MIN, PREMIUM_MAX) * 100) / 100
     return undefined
@@ -168,7 +175,8 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     if (a.kind !== 'meeting' && a.kind !== 'bingo') return 'errors.invalid'
     if (a.kind === 'bingo' && !hasFeature(firm, 'bingo')) return 'errors.levelTooLow'
     const existing = tender.minigameResults[a.firmId]
-    if (existing && (!existing.provisional || existing.kind !== a.kind || a.provisional)) return 'errors.minigameAlreadyPlayed'
+    if (existing && (!existing.provisional || existing.kind !== a.kind || a.provisional))
+      return 'errors.minigameAlreadyPlayed'
     tender.minigameResults[a.firmId] = {
       kind: a.kind,
       score: clamp(Math.round(a.score), 0, 100),

@@ -69,7 +69,15 @@ export const MAX_HIRE_ORDER = 30
  * How much each customer metric (1–5) counts towards the customer's appeal to consultants.
  * Negative weights count the metric inverted (a slow pace is nice). Weights sum to 1.
  */
-export const CUSTOMER_APPEAL_WEIGHTS = { hype: 0.3, tech: 0.25, impact: 0.15, office: 0.1, remote: 0.1, pace: -0.05, bureaucracy: -0.05 } as const
+export const CUSTOMER_APPEAL_WEIGHTS = {
+  hype: 0.3,
+  tech: 0.25,
+  impact: 0.15,
+  office: 0.1,
+  remote: 0.1,
+  pace: -0.05,
+  bureaucracy: -0.05,
+} as const
 /** Seats at which the customer portfolio counts half: a firm with one cool contract is not a cool firm yet. */
 export const PORTFOLIO_APPEAL_HALF_SEATS = 12
 /** Employer brand points per point of portfolio appeal above/below 50 (about ±6 for a typical portfolio, ±25 at the theoretical extremes). */

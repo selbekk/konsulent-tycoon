@@ -27,7 +27,8 @@ function expectInSync(firm: Firm) {
   for (const d of DISCIPLINES) {
     const people = rosterIn(firm, d)
     expect(firm.pools[d].count).toBe(people.length)
-    if (people.length) expect(firm.pools[d].level).toBeCloseTo(people.reduce((s, e) => s + e.level, 0) / people.length, 9)
+    if (people.length)
+      expect(firm.pools[d].level).toBeCloseTo(people.reduce((s, e) => s + e.level, 0) / people.length, 9)
   }
 }
 
@@ -118,7 +119,9 @@ describe('development', () => {
   it('is locked at level 1', () => {
     const s = newTestGame()
     const e = me(s).roster![0]
-    expect(applyAction(s, { type: 'trainEmployee', firmId: 'player', discipline: e.discipline, employeeId: e.id }).error).toBe('errors.levelTooLow')
+    expect(
+      applyAction(s, { type: 'trainEmployee', firmId: 'player', discipline: e.discipline, employeeId: e.id }).error,
+    ).toBe('errors.levelTooLow')
   })
 
   it('sends someone on a course that lifts them over two quarters and shows their potential', () => {
@@ -128,7 +131,9 @@ describe('development', () => {
     const r = applyAction(s, { type: 'trainEmployee', firmId: 'player', discipline: 'backend', employeeId: e.id })
     expect(r.error).toBeUndefined()
     expect(me(r.state).cash).toBe(me(s).cash - COURSE_COST)
-    expect(applyAction(r.state, { type: 'trainEmployee', firmId: 'player', discipline: 'backend', employeeId: e.id }).error).toBe('errors.alreadyOnCourse')
+    expect(
+      applyAction(r.state, { type: 'trainEmployee', firmId: 'player', discipline: 'backend', employeeId: e.id }).error,
+    ).toBe('errors.alreadyOnCourse')
     let x = r.state
     for (let i = 0; i < COURSE_QUARTERS; i++) {
       developRoster(x, me(x))
@@ -146,12 +151,16 @@ describe('development', () => {
     const e = first(s)
     e.level = COURSE_MAX_LEVEL
     resync(s)
-    expect(applyAction(s, { type: 'trainEmployee', firmId: 'player', discipline: 'backend', employeeId: e.id }).error).toBe('errors.courseMaxLevel')
+    expect(
+      applyAction(s, { type: 'trainEmployee', firmId: 'player', discipline: 'backend', employeeId: e.id }).error,
+    ).toBe('errors.courseMaxLevel')
   })
 
   it('trains the AI pool average instead of a person', () => {
     const s = veteranTestGame()
-    const ai = Object.values(s.firms).find((f) => !f.isPlayer && f.pools.backend.count > 0 && f.pools.backend.level < COURSE_MAX_LEVEL)!
+    const ai = Object.values(s.firms).find(
+      (f) => !f.isPlayer && f.pools.backend.count > 0 && f.pools.backend.level < COURSE_MAX_LEVEL,
+    )!
     ai.level = 5
     const before = ai.pools.backend.level
     const r = applyAction(s, { type: 'trainEmployee', firmId: ai.id, discipline: 'backend' })
@@ -167,7 +176,9 @@ describe('development', () => {
     Object.assign(c, { level: 4.1, potential: 0.2, potentialRevealed: true })
     resync(s)
     const [a2, b2, c2] = [a, b, c]
-    expect(applyAction(s, { type: 'promoteEmployee', firmId: 'player', employeeId: c2.id }).error).toBe('errors.noPotential')
+    expect(applyAction(s, { type: 'promoteEmployee', firmId: 'player', employeeId: c2.id }).error).toBe(
+      'errors.noPotential',
+    )
     const hc = headcount(me(s))
     const r = applyAction(deepFreeze(s), { type: 'promoteEmployee', firmId: 'player', employeeId: a2.id })
     expect(r.error).toBeUndefined()
@@ -176,7 +187,9 @@ describe('development', () => {
     expect(me(r.state).cash).toBe(me(s).cash - PROMOTE_COST)
     expect(headcount(me(r.state))).toBe(hc)
     expectInSync(me(r.state))
-    expect(applyAction(r.state, { type: 'promoteEmployee', firmId: 'player', employeeId: b2.id }).error).toBe('errors.promotedRecently')
+    expect(applyAction(r.state, { type: 'promoteEmployee', firmId: 'player', employeeId: b2.id }).error).toBe(
+      'errors.promotedRecently',
+    )
   })
 
   it('pairs someone with a star mentor, who bids a little weaker meanwhile', () => {
@@ -188,7 +201,9 @@ describe('development', () => {
     expect(r.error).toBeUndefined()
     expect(mentorPenalty(me(r.state), star.id)).toBe(MENTOR_BID_PENALTY)
     const other = rosterIn(me(r.state), 'backend')[1]
-    expect(applyAction(r.state, { type: 'setMentor', firmId: 'player', employeeId: other.id, starId: star.id }).error).toBe('errors.mentorBusy')
+    expect(
+      applyAction(r.state, { type: 'setMentor', firmId: 'player', employeeId: other.id, starId: star.id }).error,
+    ).toBe('errors.mentorBusy')
     developRoster(r.state, me(r.state))
     expect(me(r.state).roster!.find((y) => y.id === e.id)!.level).toBeGreaterThan(2.5)
   })
@@ -212,7 +227,9 @@ describe('development', () => {
     const s = staffed()
     const e = first(s)
     const c = s.contracts.find((x) => x.firmId === 'player' && (x.activeSeats.backend ?? 0) > 0)!
-    expect(applyAction(s, { type: 'setStretch', firmId: 'player', employeeId: e.id, contractId: 'nope' }).error).toBe('errors.stretchContract')
+    expect(applyAction(s, { type: 'setStretch', firmId: 'player', employeeId: e.id, contractId: 'nope' }).error).toBe(
+      'errors.stretchContract',
+    )
     const r = applyAction(s, { type: 'setStretch', firmId: 'player', employeeId: e.id, contractId: c.id })
     expect(r.error).toBeUndefined()
     const before = e.level
@@ -227,9 +244,13 @@ describe('development', () => {
     c.activeSeats.backend = 1
     const r = applyAction(s, { type: 'setStretch', firmId: 'player', employeeId: a.id, contractId: c.id })
     expect(r.error).toBeUndefined()
-    expect(applyAction(r.state, { type: 'setStretch', firmId: 'player', employeeId: b.id, contractId: c.id }).error).toBe('errors.stretchFull')
+    expect(
+      applyAction(r.state, { type: 'setStretch', firmId: 'player', employeeId: b.id, contractId: c.id }).error,
+    ).toBe('errors.stretchFull')
     // Re-setting the one already there is fine.
-    expect(applyAction(r.state, { type: 'setStretch', firmId: 'player', employeeId: a.id, contractId: c.id }).error).toBeUndefined()
+    expect(
+      applyAction(r.state, { type: 'setStretch', firmId: 'player', employeeId: a.id, contractId: c.id }).error,
+    ).toBeUndefined()
   })
 
   it('keeps a career promise with growth, and loses the person without it', () => {
@@ -238,10 +259,18 @@ describe('development', () => {
     for (const e of [grower, idler]) e.level = 2
     resync(s)
     let x = s
-    for (const id of [grower.id, idler.id]) x = applyAction(x, { type: 'careerTalk', firmId: 'player', employeeId: id }).state
+    for (const id of [grower.id, idler.id])
+      x = applyAction(x, { type: 'careerTalk', firmId: 'player', employeeId: id }).state
     x = applyAction(x, { type: 'trainEmployee', firmId: 'player', discipline: 'backend', employeeId: grower.id }).state
-    x = applyAction(x, { type: 'setMentor', firmId: 'player', employeeId: grower.id, starId: me(x).stars.find((y) => y.discipline === 'backend')!.id }).state
-    expect(applyAction(x, { type: 'careerTalk', firmId: 'player', employeeId: grower.id }).error).toBe('errors.promiseActive')
+    x = applyAction(x, {
+      type: 'setMentor',
+      firmId: 'player',
+      employeeId: grower.id,
+      starId: me(x).stars.find((y) => y.discipline === 'backend')!.id,
+    }).state
+    expect(applyAction(x, { type: 'careerTalk', firmId: 'player', employeeId: grower.id }).error).toBe(
+      'errors.promiseActive',
+    )
     for (let i = 0; i < CAREER_PROMISE_QUARTERS; i++) {
       developRoster(x, me(x))
       x.quarter += 1

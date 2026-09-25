@@ -52,7 +52,11 @@ export function PresentationMeeting({ tender, firmId, preference, needs, onStart
   }
 
   return (
-    <Modal title={t('minigames:meeting.title')} icon="handshake" onClose={score !== null || step < 0 ? onClose : undefined}>
+    <Modal
+      title={t('minigames:meeting.title')}
+      icon="handshake"
+      onClose={score !== null || step < 0 ? onClose : undefined}
+    >
       {step < 0 ? (
         <div className={s.stack}>
           <div className={s.room} aria-hidden>

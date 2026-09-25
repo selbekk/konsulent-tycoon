@@ -1,8 +1,50 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "jsx-a11y", "import", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": { "browser": true, "node": true, "es2024": true },
+  "ignorePatterns": ["dist", "dev-dist", "functions/lib"],
   "rules": {
     "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    // React 19's JSX transform needs no React in scope.
+    "react/react-in-jsx-scope": "off",
+    // Static lists (bitmaps, paragraphs, skyline blocks) have nothing better than the index.
+    "react/no-array-index-key": "off",
+    // The engine sorts and reverses its own draft copies in place; toSorted() everywhere would only be churn.
+    "unicorn/no-array-sort": "off",
+    "unicorn/no-array-reverse": "off",
+    // Small helpers live next to the code that uses them.
+    "unicorn/consistent-function-scoping": "off",
+    // Spreading in map() over a few dozen items reads better than the alternatives.
+    "oxc/no-map-spread": "off",
+    // CSS, fonts and setup files are imported for their side effects.
+    "import/no-unassigned-import": "off",
+    // i18next documents i18n.use() and i18n.changeLanguage().
+    "import/no-named-as-default-member": "off",
+    // __ENGINE_VERSION__ and friends are Vite defines.
+    "eslint/no-underscore-dangle": "off",
+    // role="status", role="img" on an svg and role="group" are deliberate; swapping tags changes layout.
+    "jsx-a11y/prefer-tag-over-role": "off",
+    // Empty table cells for action columns trip this.
+    "jsx-a11y/control-has-associated-label": "off",
+    "jsx-a11y/label-has-associated-control": ["error", { "depth": 5 }],
+    // Vitest takes an optional message: expect(value, 'why').
+    "vitest/valid-expect": ["error", { "maxArgs": 2 }],
+    "vitest/expect-expect": ["error", { "assertFunctionNames": ["expect", "expect*", "assert*"] }],
+    // Tests narrow union types with an if before asserting.
+    "vitest/no-conditional-expect": "off",
+    "vitest/require-mock-type-parameters": "off"
+  },
+  "overrides": [
+    {
+      // One spread per quarter in a headless sim is not a hot path.
+      "files": ["scripts/**"],
+      "rules": { "oxc/no-accumulating-spread": "off" }
+    }
+  ]
 }

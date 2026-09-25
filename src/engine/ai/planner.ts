@@ -66,15 +66,16 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
 
   // 1. Budgets
   const lean = runway < 1.2
-  if (hasFeature(firm, 'culture')) actions.push({
-    type: 'setBudgets',
-    firmId,
-    budgets: {
-      fagmiljoPerHead: Math.round(((4_000 + 22_000 * p.qualityFocus) * (lean ? 0.4 : 1)) / 1000) * 1000,
-      sosialtPerHead: Math.round(((5_000 + 12_000 * p.qualityFocus) * (lean ? 0.4 : 1)) / 1000) * 1000,
-      salaryPremium: salaryPremiumFor(p),
-    },
-  })
+  if (hasFeature(firm, 'culture'))
+    actions.push({
+      type: 'setBudgets',
+      firmId,
+      budgets: {
+        fagmiljoPerHead: Math.round(((4_000 + 22_000 * p.qualityFocus) * (lean ? 0.4 : 1)) / 1000) * 1000,
+        sosialtPerHead: Math.round(((5_000 + 12_000 * p.qualityFocus) * (lean ? 0.4 : 1)) / 1000) * 1000,
+        salaryPremium: salaryPremiumFor(p),
+      },
+    })
 
   // 2. Hiring / firing, based on next quarter's demand
   const next = staffFirm(state, firm, state.quarter + 1)
@@ -106,7 +107,8 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
       (a, b) => firm.pools[b].count - firm.pools[a].count,
     )
     const n = Math.floor(hc * p.qualityFocus * AI_COURSE_SHARE)
-    for (let i = 0; i < n && pools.length; i++) actions.push({ type: 'trainEmployee', firmId, discipline: pools[i % pools.length] })
+    for (let i = 0; i < n && pools.length; i++)
+      actions.push({ type: 'trainEmployee', firmId, discipline: pools[i % pools.length] })
   }
 
   // 3. Bids
@@ -117,7 +119,9 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     for (const d of DISCIPLINES) free[d] -= (t.seats[d] ?? 0) * (t.kind === 'framework' ? 0.5 : 1)
   }
   const myOpen = open.filter((t) => t.bids.some((b) => b.firmId === firmId)).length
-  const maxBids = firm.isPlayer ? 5 : Math.min(AI_MAX_OPEN_BIDS, Math.max(2, Math.round(hc / 12)) + (util < 0.6 ? 3 : 0))
+  const maxBids = firm.isPlayer
+    ? 5
+    : Math.min(AI_MAX_OPEN_BIDS, Math.max(2, Math.round(hc / 12)) + (util < 0.6 ? 3 : 0))
   const slots = Math.max(0, maxBids - myOpen)
   const promised = new Set(open.flatMap((t) => t.bids.filter((b) => b.firmId === firmId).flatMap((b) => b.starIds)))
   const candidates = open
@@ -131,7 +135,12 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     const priceBias = p.priceBias + hungry + (t.priceWeight > 0.6 ? -0.05 : 0)
     const rateMultiplier = Math.round((priceBias + noise(state.rng, 0.06)) * 100) / 100
     const stars = firm.stars
-      .filter((s) => !promised.has(s.id) && (t.seats[s.discipline] ?? 0) > 0 && starBusyThrough(state, firm, s.id, t) === undefined)
+      .filter(
+        (s) =>
+          !promised.has(s.id) &&
+          (t.seats[s.discipline] ?? 0) > 0 &&
+          starBusyThrough(state, firm, s.id, t) === undefined,
+      )
       .sort((a, b) => b.level - a.level)
       .slice(0, 2)
     stars.forEach((s) => promised.add(s.id))
@@ -159,12 +168,18 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   actions.push(...planContractMoves(state, firmId, fin.staffing.demand, { runway, eagerness: 0.4, nurtureRunway: 1 }))
 
   // 5. Stars
-  if (state.starMarket.length && hasFeature(firm, 'stars') && runway > 2.5 && chance(state.rng, p.growthAppetite * 0.25)) {
+  if (
+    state.starMarket.length &&
+    hasFeature(firm, 'stars') &&
+    runway > 2.5 &&
+    chance(state.rng, p.growthAppetite * 0.25)
+  ) {
     const star = pick(state.rng, state.starMarket)
     if (firm.cash > starSigningCost(star, firm) * 3) actions.push({ type: 'hireStar', firmId, starId: star.id })
   }
   for (const s of firm.stars) {
-    if (!s.founder && s.loyalty < 35 && runway > 1.5) actions.push({ type: 'giveRaise', firmId, starId: s.id, amount: 0.05 })
+    if (!s.founder && s.loyalty < 35 && runway > 1.5)
+      actions.push({ type: 'giveRaise', firmId, starId: s.id, amount: 0.05 })
   }
 
   const rivals = activeFirms(state).filter((f) => f.id !== firmId)
@@ -175,7 +190,8 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   if (shadyUnlocked(firm, 'afterwork_poach') && runway > 1.5 && chance(state.rng, p.aggression * 0.3 * df)) {
     const target = pickTarget((f) => (f.stars.some((s) => !s.founder) ? playerWeight(f) : 0))
     const star = target?.stars.filter((s) => !s.founder).sort((a, b) => a.loyalty - b.loyalty)[0]
-    if (target && star) actions.push({ type: 'shady', firmId, actionId: 'afterwork_poach', targetFirmId: target.id, starId: star.id })
+    if (target && star)
+      actions.push({ type: 'shady', firmId, actionId: 'afterwork_poach', targetFirmId: target.id, starId: star.id })
   }
 
   // 7. Shady business
@@ -184,11 +200,17 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
     if (p.priceBias < 0.9) options.push('silent_outsource', 'silent_outsource')
     const bidTenders = candidates.map((c) => c.t)
     if (bidTenders.length) options.push('cv_pad')
-    const actionId = pick(state.rng, options.filter((id) => shadyUnlocked(firm, id)))
+    const actionId = pick(
+      state.rng,
+      options.filter((id) => shadyUnlocked(firm, id)),
+    )
     const target = pickTarget((f) => playerWeight(f) * (1 + f.reputation / 50))
     if (actionId === 'silent_outsource') {
-      const contracts = state.contracts.filter((c) => c.firmId === firmId && !c.terminated && c.outsourcedShare === 0 && c.endQuarter > state.quarter + 1)
-      if (contracts.length) actions.push({ type: 'shady', firmId, actionId, contractId: pick(state.rng, contracts).id, share: 0.4 })
+      const contracts = state.contracts.filter(
+        (c) => c.firmId === firmId && !c.terminated && c.outsourcedShare === 0 && c.endQuarter > state.quarter + 1,
+      )
+      if (contracts.length)
+        actions.push({ type: 'shady', firmId, actionId, contractId: pick(state.rng, contracts).id, share: 0.4 })
     } else if (actionId === 'cv_pad') {
       actions.push({ type: 'shady', firmId, actionId, tenderId: pick(state.rng, bidTenders).id })
     } else if (actionId === 'spy_bids') {
@@ -223,7 +245,10 @@ export function planEventAnswers(state: GameState, firmId: string): Action[] {
       const options = def?.choices.filter((c) => canChoose(state, pe, c.id)) ?? []
       if (!options.length) return undefined
       const first = options[0]
-      const choice = costOf(first.effect) <= Math.max(0, firm.cash) * 0.03 ? first : [...options].sort((a, b) => costOf(a.effect) - costOf(b.effect))[0]
+      const choice =
+        costOf(first.effect) <= Math.max(0, firm.cash) * 0.03
+          ? first
+          : [...options].sort((a, b) => costOf(a.effect) - costOf(b.effect))[0]
       return { type: 'resolveEvent', pendingEventId: pe.id, choiceId: choice.id } as Action
     })
     .filter((a): a is Action => !!a)

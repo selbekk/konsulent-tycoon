@@ -14,7 +14,9 @@ class FakeNode {
   gain = new FakeParam()
   frequency = new FakeParam()
   type = 'square'
-  connect(n: unknown) { return n }
+  connect(n: unknown) {
+    return n
+  }
   start() {}
   stop() {}
 }
@@ -22,10 +24,18 @@ class FakeAudioContext {
   state = 'running'
   currentTime = 0
   destination = {}
-  constructor() { created() }
-  createGain() { return new FakeNode() }
-  createOscillator() { return new FakeNode() }
-  resume() { return Promise.resolve() }
+  constructor() {
+    created()
+  }
+  createGain() {
+    return new FakeNode()
+  }
+  createOscillator() {
+    return new FakeNode()
+  }
+  resume() {
+    return Promise.resolve()
+  }
 }
 
 describe('playSound', () => {

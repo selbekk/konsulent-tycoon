@@ -22,23 +22,24 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 
 ## Kommandoer
 
-| Kommando | Hva den gjør |
-|---|---|
-| `npm run dev` | Starter Vite-utviklingsserver med hot reload |
-| `npm run build` | Typesjekker og bygger en statisk versjon til `dist/` |
-| `npm run preview` | Serverer `dist/` lokalt |
-| `npm test` | Kjører alle tester én gang (Vitest) |
-| `npm run test:watch` | Kjører testene i watch-modus |
-| `npm run typecheck` | Kjører TypeScript uten å bygge |
-| `npm run lint` | Kjører oxlint |
-| `npm run sim -- [flagg]` | Spiller hele partier headless med spillerboter (se [Balansering](#balansering-og-simulator)) |
-| `npm run sim:market -- 20 [-v]` | Måler hvor sunt AI-markedet er over 40 kvartaler, uten spiller |
-| `npm run icons` | Genererer app-ikonene i `public/` fra `public/icon.svg` |
-| `npm run functions:build` | Typesjekker og bygger Cloud Functions til `functions/lib/` (krever `npm --prefix functions install`) |
-| `npm run functions:check` | Kjører toppliste-backenden ende til ende i Firebase-emulatoren (krever Java) |
-| `firebase deploy --only functions` | Bygger og deployer toppliste-backenden (se [Toppliste](#toppliste-firebase)) |
+| Kommando                           | Hva den gjør                                                                                         |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `npm run dev`                      | Starter Vite-utviklingsserver med hot reload                                                         |
+| `npm run build`                    | Typesjekker og bygger en statisk versjon til `dist/`                                                 |
+| `npm run preview`                  | Serverer `dist/` lokalt                                                                              |
+| `npm test`                         | Kjører alle tester én gang (Vitest)                                                                  |
+| `npm run test:watch`               | Kjører testene i watch-modus                                                                         |
+| `npm run typecheck`                | Kjører TypeScript uten å bygge                                                                       |
+| `npm run lint`                     | Kjører oxlint, og feiler også på advarsler (regler i `.oxlintrc.json`)                               |
+| `npm run format`                   | Formaterer koden med oxfmt (`npm run format:check` sjekker bare)                                     |
+| `npm run sim -- [flagg]`           | Spiller hele partier headless med spillerboter (se [Balansering](#balansering-og-simulator))         |
+| `npm run sim:market -- 20 [-v]`    | Måler hvor sunt AI-markedet er over 40 kvartaler, uten spiller                                       |
+| `npm run icons`                    | Genererer app-ikonene i `public/` fra `public/icon.svg`                                              |
+| `npm run functions:build`          | Typesjekker og bygger Cloud Functions til `functions/lib/` (krever `npm --prefix functions install`) |
+| `npm run functions:check`          | Kjører toppliste-backenden ende til ende i Firebase-emulatoren (krever Java)                         |
+| `firebase deploy --only functions` | Bygger og deployer toppliste-backenden (se [Toppliste](#toppliste-firebase))                         |
 
-Før du committer, bør `npm run typecheck`, `npm test` og `npm run build` være grønne.
+Før du committer, bør `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test` og `npm run build` være grønne. Kjør `npm run format` for å rette formateringen.
 
 ## Arkitektur
 
@@ -310,12 +311,12 @@ Motoren sender **aldri** ferdig tekst, bare nøkler og parametere, for eksempel 
 
 Tekstene ligger i `src/i18n/locales/{nb,en}/`, fordelt på fire namespaces:
 
-| Namespace | Innhold |
-|---|---|
-| `ui` | Alt UI-et selv viser: knapper, overskrifter, forklaringer, styreleder Bjørn |
-| `game` | Alt motoren sender: `errors.*`, `news.*`, `events.*`, `crises.*`, `factors.*`, `announcements.*`, `thoughts.*` |
-| `content` | Navn og beskrivelser av entiteter: firma, kunder, trender, traits, bakrommet, priser, mål, sluttitler |
-| `minigames` | Buzzwords, møtespørsmål og svar, krisesamtaler, tekster i minispillene |
+| Namespace   | Innhold                                                                                                        |
+| ----------- | -------------------------------------------------------------------------------------------------------------- |
+| `ui`        | Alt UI-et selv viser: knapper, overskrifter, forklaringer, styreleder Bjørn                                    |
+| `game`      | Alt motoren sender: `errors.*`, `news.*`, `events.*`, `crises.*`, `factors.*`, `announcements.*`, `thoughts.*` |
+| `content`   | Navn og beskrivelser av entiteter: firma, kunder, trender, traits, bakrommet, priser, mål, sluttitler          |
+| `minigames` | Buzzwords, møtespørsmål og svar, krisesamtaler, tekster i minispillene                                         |
 
 Praktisk:
 
@@ -330,6 +331,7 @@ Praktisk:
   - `weak` og `strong` blir setningene om hvorfor et bud vant eller tapte (`game:factors`)
 
   Bruk disse parameternavnene når motoren skal referere til slike ting.
+
 - Flertall: i18next bruker suffiksene `_one` og `_other` sammen med `count`.
 - **`src/i18n/i18n.test.ts`** krever at `nb` og `en` har nøyaktig de samme nøklene. Testen sjekker også at alle id-er i `src/content` har tekst. Legger du til innhold uten tekst, feiler testen.
 
@@ -348,7 +350,8 @@ Praktisk:
   3. Skriv en test for migrasjonen i `save.test.ts`.
 
   Før første lansering holder vi `SAVE_VERSION = 1`. Nye felt gjøres valgfrie med en fornuftig standardverdi (se `baseDemand`).
-- Etter eventuelle migrasjoner sjekker `saveShape.ts` at alle påkrevde felt finnes. Lister over påkrevde nøkler håndheves av typesjekken, så et nytt påkrevd felt må også legges inn der. Ved oppstart sletter `purgeIncompatibleSaves` lagringer som ikke kan leses (feil form, ødelagt JSON eller manglende migrasjon), og hovedmenyen sier fra om at spillet må startes på nytt. Lagringer fra en *nyere* versjon (`save.tooNew`, for eksempel fra en gammel service worker) blir aldri slettet.
+
+- Etter eventuelle migrasjoner sjekker `saveShape.ts` at alle påkrevde felt finnes. Lister over påkrevde nøkler håndheves av typesjekken, så et nytt påkrevd felt må også legges inn der. Ved oppstart sletter `purgeIncompatibleSaves` lagringer som ikke kan leses (feil form, ødelagt JSON eller manglende migrasjon), og hovedmenyen sier fra om at spillet må startes på nytt. Lagringer fra en _nyere_ versjon (`save.tooNew`, for eksempel fra en gammel service worker) blir aldri slettet.
 
 ## PWA (installerbar app)
 
@@ -360,7 +363,7 @@ Spillet er en Progressive Web App via `vite-plugin-pwa` (konfigurert i `vite.con
 - **Installering:** `ui/pwa/install.ts` fanger `beforeinstallprompt` (Chromium) og viser «Installer spillet» i hovedmenyen. På iOS Safari finnes ingen slik hendelse, så der vises et hint om «Del → Legg til på Hjem-skjerm».
 - **Utvikling:** Service workeren er bare aktiv i bygget. Test PWA-oppførselen med `npm run build && npm run preview`. Under `npm run dev` er den av, så cachen ikke skaper forvirring.
 - **Publisering:** Spillet publiseres på Vercel (`vercel.json`). `vercel.json` setter cache-headere slik at `sw.js` ikke caches for hardt. Ellers kommer ikke oppdateringer frem.
-- **CI og deploy:** `.github/workflows/ci.yml` typesjekker, linter, tester og bygger hver pull request. Ved merge til main deployer samme workflow Firebase (funksjoner, Firestore-regler og indekser) og deretter appen til Vercel, i én jobb. Vercels egen automatiske produksjonsdeploy fra main er slått av i `vercel.json` (forhåndsvisninger av branches er fortsatt automatiske), fordi appen og toppliste-serveren må ha samme motorversjon. GitHub Actions logger inn i Google Cloud uten nøkkel (Workload Identity Federation, tjenestekontoen `github-deploy`, bare fra main i dette repoet). Repoet trenger variablene `GCP_WORKLOAD_IDENTITY_PROVIDER` og `GCP_SERVICE_ACCOUNT` og hemmelighetene `VERCEL_TOKEN`, `VERCEL_ORG_ID` og `VERCEL_PROJECT_ID`.
+- **CI og deploy:** `.github/workflows/ci.yml` typesjekker, linter, sjekker formatering, tester og bygger hver pull request. Ved merge til main deployer samme workflow Firebase (funksjoner, Firestore-regler og indekser) og deretter appen til Vercel, i én jobb. Vercels egen automatiske produksjonsdeploy fra main er slått av i `vercel.json` (forhåndsvisninger av branches er fortsatt automatiske), fordi appen og toppliste-serveren må ha samme motorversjon. GitHub Actions logger inn i Google Cloud uten nøkkel (Workload Identity Federation, tjenestekontoen `github-deploy`, bare fra main i dette repoet). Repoet trenger variablene `GCP_WORKLOAD_IDENTITY_PROVIDER` og `GCP_SERVICE_ACCOUNT` og hemmelighetene `VERCEL_TOKEN`, `VERCEL_ORG_ID` og `VERCEL_PROJECT_ID`.
 
 ## Analyse (PostHog)
 

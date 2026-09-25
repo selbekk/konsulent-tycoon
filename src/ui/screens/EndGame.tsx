@@ -18,7 +18,11 @@ function ValueChart({ ids }: { ids: string[] }) {
   const w = 400
   const h = 160
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto', background: 'var(--bg)', border: '2px solid var(--border-dark)' }} role="img">
+    <svg
+      viewBox={`0 0 ${w} ${h}`}
+      style={{ width: '100%', height: 'auto', background: 'var(--bg)', border: '2px solid var(--border-dark)' }}
+      role="img"
+    >
       {series.map(({ id, values }) => (
         <polyline
           key={id}
@@ -77,7 +81,9 @@ export function EndGame() {
         <div style={{ textAlign: 'center' }}>
           <h1 style={{ color: 'var(--accent)', margin: '8px 0' }}>{t(`content:endTitles.${title}.title`)}</h1>
           <p>{t(`content:endTitles.${title}.desc`)}</p>
-          <p className={s.muted}>{t('end.summary', { rank: myRank, total: ranks.length, value: formatMoney(ranks[myRank - 1].value, lng) })}</p>
+          <p className={s.muted}>
+            {t('end.summary', { rank: myRank, total: ranks.length, value: formatMoney(ranks[myRank - 1].value, lng) })}
+          </p>
           <p className={s.muted}>{total === 0 ? t('end.clean') : t('end.shady', { total, detected })}</p>
         </div>
         <SubmitPanel game={game} log={log} onSeeBoard={() => go('leaderboard')} />

@@ -17,12 +17,12 @@ Klienten sender derfor inn **oppsett + handlingslogg**. En Cloud Function spille
 
 Målt 2026-09-25 med `human`-boten over tre seeds:
 
-| | Verdi |
-|---|---|
-| Handlinger per parti | 600–920 (inkludert kvartalsskifter) |
-| Logg, rå JSON | 60–96 kB |
-| Logg, gzip | 5–7 kB |
-| Replay i Node | cirka 0,4 s |
+|                       | Verdi                                          |
+| --------------------- | ---------------------------------------------- |
+| Handlinger per parti  | 600–920 (inkludert kvartalsskifter)            |
+| Logg, rå JSON         | 60–96 kB                                       |
+| Logg, gzip            | 5–7 kB                                         |
+| Replay i Node         | cirka 0,4 s                                    |
 | Replay lik originalen | ja, `JSON.stringify` av hele tilstanden er lik |
 
 Det er godt innenfor grensene for Firestore og callable functions.
@@ -51,7 +51,7 @@ Vi aksepterer dette og sier det åpent: **ditt beste innsendte parti teller**. �
 - Koble kontoen til Google eller e-post, så historikken følger med til andre enheter.
 - Delbart resultatkort (bilde eller lenke med ukens seed): «Slå meg på uke 39».
 - Spøkelsesfirma: forrige ukes vinner spilles som ett av de 24 firmaene, styrt av handlingsloggen.
-- Globale utmerkelser: «Bare 2 % har fått sluttittelen *Etisk mester*».
+- Globale utmerkelser: «Bare 2 % har fått sluttittelen _Etisk mester_».
 - Ikke synkroniser lagringen via skyen. Autosave-regelen finnes for å hindre at man laster inn på nytt og prøver igjen, og skylagring åpner det hullet på nytt.
 
 ## Konto: opt-in med Firebase Anonymous Auth
@@ -82,7 +82,7 @@ topplister/historikk: les Firestore  ◀──   weeks/{week}/entries/{uid}, use
 - **Motoren forblir ren.** Firebase-koden ligger i `src/online/` (tilsvarende `src/analytics/`), og bare UI og store kaller den. Funksjonen importerer `src/engine` direkte, på samme måte som `scripts/sim.ts`.
 - **Hosting forblir på Vercel.** Firebase brukes bare til Auth, Firestore og Functions. Cloud Functions krever Blaze-planen (betal etter bruk). Med 0,4 s per replay er gratiskvoten stor, men sett et budsjettvarsel. Alternativet er en Vercel Function for replay og Firestore som database, men da får vi to backends. Vi velger Firebase alene.
 - **Firestore-regler:** Klienter kan lese topplistene og sine egne partier. Bare funksjonen kan skrive (Admin SDK). Ingen direkte klientskriving.
-- **App Check** (reCAPTCHA Enterprise) på den callable funksjonen, så det ikke er gratis å sende inn søppel i stor skala. *Ikke bygget ennå:* krever en reCAPTCHA-nøkkel fra konsollen. Inntil da begrenses innsending til én per 10 sekunder per konto (i en transaksjon). Loggen har et tak (`RUN_LOG_MAX`) og en størrelsesgrense, og samme parti fra to kontoer avvises.
+- **App Check** (reCAPTCHA Enterprise) på den callable funksjonen, så det ikke er gratis å sende inn søppel i stor skala. _Ikke bygget ennå:_ krever en reCAPTCHA-nøkkel fra konsollen. Inntil da begrenses innsending til én per 10 sekunder per konto (i en transaksjon). Loggen har et tak (`RUN_LOG_MAX`) og en størrelsesgrense, og samme parti fra to kontoer avvises.
 - **Authorized domains** i Firebase Auth: produksjonsdomenet og Vercels preview-domener.
 
 ### Innsending
@@ -90,13 +90,13 @@ topplister/historikk: les Firestore  ◀──   weeks/{week}/entries/{uid}, use
 ```ts
 // Slik det ble bygget: src/online/submission.ts
 interface RunSubmission {
-  engineVersion: string        // hash av engine + content, satt ved build
-  week: string                 // '2026-W39'; seeden utledes av uka, vanskelighetsgraden er alltid normal
-  gameId: string               // så samme parti sendt to ganger teller én gang
+  engineVersion: string // hash av engine + content, satt ved build
+  week: string // '2026-W39'; seeden utledes av uka, vanskelighetsgraden er alltid normal
+  gameId: string // så samme parti sendt to ganger teller én gang
   founders: [Discipline, Discipline]
-  log: (Action | 'end')[]      // ukomprimert JSON: 60–100 kB er godt innenfor grensene
-  name: LeaderboardName        // ord-id-er, ikke fritekst
-  claimedValuation: number     // kryssjekk; serveren stoler ikke på den
+  log: (Action | 'end')[] // ukomprimert JSON: 60–100 kB er godt innenfor grensene
+  name: LeaderboardName // ord-id-er, ikke fritekst
+  claimedValuation: number // kryssjekk; serveren stoler ikke på den
 }
 ```
 

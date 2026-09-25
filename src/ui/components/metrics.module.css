@@ -5,11 +5,15 @@
 }
 
 @media (max-width: 960px) {
-  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 420px) {
-  .tiles { grid-template-columns: 1fr; }
+  .tiles {
+    grid-template-columns: 1fr;
+  }
 }
 
 .tile {
@@ -60,9 +64,15 @@
   color: var(--muted);
 }
 
-.good { color: var(--good); }
-.bad { color: var(--bad); }
-.muted { color: var(--muted); }
+.good {
+  color: var(--good);
+}
+.bad {
+  color: var(--bad);
+}
+.muted {
+  color: var(--muted);
+}
 
 .trend {
   position: relative;
@@ -149,8 +159,12 @@
   color: #fff;
 }
 
-.seg1 { background: var(--series-1); }
-.seg2 { background: var(--series-2); }
+.seg1 {
+  background: var(--series-1);
+}
+.seg2 {
+  background: var(--series-2);
+}
 
 .segRest {
   background: transparent;

@@ -42,7 +42,9 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
   const me = game.firms[game.playerId]
   const def = SHADY_CATALOG[actionId]
   const rivals = game.firmOrder.filter((id) => id !== me.id && !game.firms[id].bankrupt).map((id) => game.firms[id])
-  const tenders = openTenders(game).filter((tn) => (def.requires.includes('ownBid') ? tn.bids.some((b) => b.firmId === me.id) : true))
+  const tenders = openTenders(game).filter((tn) =>
+    def.requires.includes('ownBid') ? tn.bids.some((b) => b.firmId === me.id) : true,
+  )
   const contracts = game.contracts.filter(
     (c) =>
       c.firmId === me.id &&
@@ -100,7 +102,11 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
         ) : (
           <>
             <Button onClick={() => onClose(false)}>{t('common.cancel')}</Button>
-            <Button variant="danger" disabled={!!missing || !!repeat || me.cash < def.cost} onClick={() => setConfirming(true)}>
+            <Button
+              variant="danger"
+              disabled={!!missing || !!repeat || me.cash < def.cost}
+              onClick={() => setConfirming(true)}
+            >
               {t('backroom.next')}
             </Button>
           </>
@@ -116,7 +122,12 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
             {needs.includes('target') && (
               <div className={s.field}>
                 <label htmlFor="shady-target">{t('backroom.target')}</label>
-                <select id="shady-target" className={s.input} value={target} onChange={(e) => setTarget(e.target.value)}>
+                <select
+                  id="shady-target"
+                  className={s.input}
+                  value={target}
+                  onChange={(e) => setTarget(e.target.value)}
+                >
                   {rivals.map((f) => (
                     <option key={f.id} value={f.id}>
                       {f.name}
@@ -129,7 +140,12 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
               <div className={s.field}>
                 <label htmlFor="shady-star">{t('backroom.star')}</label>
                 {targetStars.length ? (
-                  <select id="shady-star" className={s.input} value={star?.id} onChange={(e) => setStarId(e.target.value)}>
+                  <select
+                    id="shady-star"
+                    className={s.input}
+                    value={star?.id}
+                    onChange={(e) => setStarId(e.target.value)}
+                  >
                     {targetStars.map((x) => (
                       <option key={x.id} value={x.id}>
                         {x.name} · {t(`disciplines.${x.discipline}`)} {'★'.repeat(x.level)}
@@ -139,17 +155,29 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
                 ) : (
                   <Hint>{t('backroom.noStars')}</Hint>
                 )}
-                {star && <Hint>{t('backroom.poachChance', { pct: formatPercent(poachChance(game, me, game.firms[target], star.id), lng) })}</Hint>}
+                {star && (
+                  <Hint>
+                    {t('backroom.poachChance', {
+                      pct: formatPercent(poachChance(game, me, game.firms[target], star.id), lng),
+                    })}
+                  </Hint>
+                )}
               </div>
             )}
             {needs.includes('tender') && (
               <div className={s.field}>
                 <label htmlFor="shady-tender">{t('backroom.tender')}</label>
                 {tenders.length ? (
-                  <select id="shady-tender" className={s.input} value={tenderId} onChange={(e) => setTenderId(e.target.value)}>
+                  <select
+                    id="shady-tender"
+                    className={s.input}
+                    value={tenderId}
+                    onChange={(e) => setTenderId(e.target.value)}
+                  >
                     {tenders.map((tn) => (
                       <option key={tn.id} value={tn.id}>
-                        {t(`content:customers.${tn.customerId}.name`)} · {t(`tenders.kind.${tn.kind}`)} · {formatQuarter(tn.dueQuarter)}
+                        {t(`content:customers.${tn.customerId}.name`)} · {t(`tenders.kind.${tn.kind}`)} ·{' '}
+                        {formatQuarter(tn.dueQuarter)}
                       </option>
                     ))}
                   </select>
@@ -162,10 +190,16 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
               <div className={s.field}>
                 <label htmlFor="shady-contract">{t('backroom.contract')}</label>
                 {contracts.length ? (
-                  <select id="shady-contract" className={s.input} value={contractId} onChange={(e) => setContractId(e.target.value)}>
+                  <select
+                    id="shady-contract"
+                    className={s.input}
+                    value={contractId}
+                    onChange={(e) => setContractId(e.target.value)}
+                  >
                     {contracts.map((c) => (
                       <option key={c.id} value={c.id}>
-                        {t(`content:customers.${c.customerId}.name`)} {c.outsourcedShare > 0 ? `(${Math.round(c.outsourcedShare * 100)} % offshore)` : ''}
+                        {t(`content:customers.${c.customerId}.name`)}{' '}
+                        {c.outsourcedShare > 0 ? `(${Math.round(c.outsourcedShare * 100)} % offshore)` : ''}
                       </option>
                     ))}
                   </select>
@@ -175,11 +209,24 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
               </div>
             )}
             {needs.includes('share') && (
-              <Slider label={t('backroom.share')} value={share} min={0} max={80} step={10} onChange={setShare} display={`${share} %`} hint={t('backroom.shareHint')} />
+              <Slider
+                label={t('backroom.share')}
+                value={share}
+                min={0}
+                max={80}
+                step={10}
+                onChange={setShare}
+                display={`${share} %`}
+                hint={t('backroom.shareHint')}
+              />
             )}
             <div className={`${s.row} ${s.between}`}>
               <span>{t('backroom.cost', { cost: formatMoney(def.cost, lng) })}</span>
-              <Badge tone={riskLevel(me, actionId) === 'high' ? 'bad' : riskLevel(me, actionId) === 'medium' ? 'warn' : 'good'}>
+              <Badge
+                tone={
+                  riskLevel(me, actionId) === 'high' ? 'bad' : riskLevel(me, actionId) === 'medium' ? 'warn' : 'good'
+                }
+              >
                 {t(`content:shady.risk.${riskLevel(me, actionId)}`)}
               </Badge>
             </div>
@@ -202,7 +249,9 @@ export function BackroomScreen() {
   const [flash, setFlash] = useState<string | null>(null)
   const intel = me.intel.filter((i) => i.untilQuarter >= game.quarter)
   const log = [...me.shadyLog].reverse().slice(0, 12)
-  const outsourcing = game.contracts.filter((c) => c.firmId === me.id && c.outsourcedShare > 0 && isActive(c, game.quarter))
+  const outsourcing = game.contracts.filter(
+    (c) => c.firmId === me.id && c.outsourcedShare > 0 && isActive(c, game.quarter),
+  )
 
   return (
     <div className={s.noir}>
@@ -212,7 +261,11 @@ export function BackroomScreen() {
           <div className={`${s.row} ${s.between}`} style={{ margin: '8px 0 16px' }}>
             <span>
               <strong>{t('backroom.heat')}</strong> {Math.round(me.heat)} / 100 ·{' '}
-              <span className={s.muted}>{t('backroom.heatHint', { pct: formatPercent(detectionChance(me, SHADY_CATALOG.rumor) - SHADY_CATALOG.rumor.baseDetection, lng) })}</span>
+              <span className={s.muted}>
+                {t('backroom.heatHint', {
+                  pct: formatPercent(detectionChance(me, SHADY_CATALOG.rumor) - SHADY_CATALOG.rumor.baseDetection, lng),
+                })}
+              </span>
             </span>
             <HeatMeter heat={me.heat} />
           </div>
@@ -230,8 +283,12 @@ export function BackroomScreen() {
                         <strong>{t(`content:shady.actions.${id}.name`)}</strong>
                         <span className={s.small}>{t(`content:shady.actions.${id}.desc`)}</span>
                         <div className={`${s.row} ${s.between}`}>
-                          <span className={s.small}>{SHADY_CATALOG[id].cost ? formatMoney(SHADY_CATALOG[id].cost, lng) : t('backroom.free')}</span>
-                          <Badge tone={risk === 'high' ? 'bad' : risk === 'medium' ? 'warn' : 'good'}>{t(`content:shady.risk.${risk}`)}</Badge>
+                          <span className={s.small}>
+                            {SHADY_CATALOG[id].cost ? formatMoney(SHADY_CATALOG[id].cost, lng) : t('backroom.free')}
+                          </span>
+                          <Badge tone={risk === 'high' ? 'bad' : risk === 'medium' ? 'warn' : 'good'}>
+                            {t(`content:shady.risk.${risk}`)}
+                          </Badge>
                         </div>
                         {locked ? (
                           <Button size="small" disabled>
@@ -271,7 +328,11 @@ export function BackroomScreen() {
                     return (
                       <li key={idx}>
                         <span className={s.newsDot} data-tone="sassy" />
-                        <span>{t('backroom.intelBids', { customer: tn ? t(`content:customers.${tn.customerId}.name`) : '?' })}</span>
+                        <span>
+                          {t('backroom.intelBids', {
+                            customer: tn ? t(`content:customers.${tn.customerId}.name`) : '?',
+                          })}
+                        </span>
                       </li>
                     )
                   }
@@ -288,7 +349,8 @@ export function BackroomScreen() {
                           fag: Math.round(f.fagmiljo),
                           hc: headcount(f),
                         })}
-                        {i.kind === 'mole' && ` ${t('backroom.intelMole', { cash: formatMoney(f.cash, lng), heat: Math.round(f.heat) })}`}
+                        {i.kind === 'mole' &&
+                          ` ${t('backroom.intelMole', { cash: formatMoney(f.cash, lng), heat: Math.round(f.heat) })}`}
                       </span>
                     </li>
                   )
@@ -302,7 +364,12 @@ export function BackroomScreen() {
                 {outsourcing.map((c) => (
                   <li key={c.id}>
                     <span className={s.newsDot} data-tone="bad" />
-                    <span>{t('backroom.outsourcingAt', { customer: t(`content:customers.${c.customerId}.name`), pct: Math.round(c.outsourcedShare * 100) })}</span>
+                    <span>
+                      {t('backroom.outsourcingAt', {
+                        customer: t(`content:customers.${c.customerId}.name`),
+                        pct: Math.round(c.outsourcedShare * 100),
+                      })}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -318,7 +385,9 @@ export function BackroomScreen() {
                     <span className={s.newsDot} data-tone={e.detected ? 'bad' : 'good'} />
                     <span>
                       {formatQuarter(e.quarter)} · {t(`content:shady.actions.${e.actionId}.name`)} ·{' '}
-                      <span className={e.detected ? s.bad : s.muted}>{e.detected ? t('backroom.caught') : e.active ? t('backroom.active') : t('backroom.unnoticed')}</span>
+                      <span className={e.detected ? s.bad : s.muted}>
+                        {e.detected ? t('backroom.caught') : e.active ? t('backroom.active') : t('backroom.unnoticed')}
+                      </span>
                     </span>
                   </li>
                 ))}

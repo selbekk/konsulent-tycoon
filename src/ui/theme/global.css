@@ -37,9 +37,15 @@ h3,
   letter-spacing: 0.01em;
 }
 
-h1 { font-size: 1.75rem; }
-h2 { font-size: 1.1rem; }
-h3 { font-size: 0.95rem; }
+h1 {
+  font-size: 1.75rem;
+}
+h2 {
+  font-size: 1.1rem;
+}
+h3 {
+  font-size: 0.95rem;
+}
 
 button,
 input,

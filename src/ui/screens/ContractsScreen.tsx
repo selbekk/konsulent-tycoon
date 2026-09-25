@@ -20,7 +20,9 @@ export function ContractsScreen() {
   const mine = game.contracts
     .filter((c) => c.firmId === me.id && !c.terminated && c.endQuarter > game.quarter)
     .sort((a, b) => a.endQuarter - b.endQuarter)
-  const ended = game.contracts.filter((c) => c.firmId === me.id && (c.terminated || c.endQuarter <= game.quarter)).slice(-6)
+  const ended = game.contracts
+    .filter((c) => c.firmId === me.id && (c.terminated || c.endQuarter <= game.quarter))
+    .slice(-6)
 
   return (
     <div className={s.stack}>
@@ -53,20 +55,37 @@ export function ContractsScreen() {
                         <CustomerName id={c.customerId} strong />
                         <div className={s.row}>
                           <Badge tone={c.kind === 'framework' ? 'accent' : undefined}>
-                            {c.kind === 'framework' ? t('contracts.frameworkRank', { rank: c.rank }) : t('tenders.kind.project')}
+                            {c.kind === 'framework'
+                              ? t('contracts.frameworkRank', { rank: c.rank })
+                              : t('tenders.kind.project')}
                           </Badge>
                           {!active && <Badge tone="info">{t('contracts.upcoming')}</Badge>}
                           {c.promise && (
                             <Badge tone={c.promiseKept === undefined ? 'info' : c.promiseKept ? 'good' : 'bad'}>
-                              {t(`contracts.promise.${c.promiseKept === undefined ? 'pending' : c.promiseKept ? 'kept' : 'broken'}`, {
-                                promise: t(`contracts.promises.${c.promise}`),
-                              })}
+                              {t(
+                                `contracts.promise.${c.promiseKept === undefined ? 'pending' : c.promiseKept ? 'kept' : 'broken'}`,
+                                {
+                                  promise: t(`contracts.promises.${c.promise}`),
+                                },
+                              )}
                             </Badge>
                           )}
-                          {c.outsourcedShare > 0 && <Badge tone="bad">{t('contracts.offshore', { pct: Math.round(c.outsourcedShare * 100) })}</Badge>}
-                          {(c.fraud.cvPad || c.fraud.ghostCv || c.fraud.baitAndSwitch) && <Badge tone="bad">{t('contracts.fraud')}</Badge>}
+                          {c.outsourcedShare > 0 && (
+                            <Badge tone="bad">
+                              {t('contracts.offshore', { pct: Math.round(c.outsourcedShare * 100) })}
+                            </Badge>
+                          )}
+                          {(c.fraud.cvPad || c.fraud.ghostCv || c.fraud.baitAndSwitch) && (
+                            <Badge tone="bad">{t('contracts.fraud')}</Badge>
+                          )}
                         </div>
-                        <Button size="small" onClick={() => setOpen(c)} aria-label={t('contracts.actions.openFor', { customer: t(`content:customers.${c.customerId}.name`) })}>
+                        <Button
+                          size="small"
+                          onClick={() => setOpen(c)}
+                          aria-label={t('contracts.actions.openFor', {
+                            customer: t(`content:customers.${c.customerId}.name`),
+                          })}
+                        >
                           {t('contracts.actions.open')}
                         </Button>
                       </td>
@@ -80,7 +99,8 @@ export function ContractsScreen() {
                         </div>
                         {active && (freelance > 0 || offshore > 0 || flex > 0) && (
                           <span className={`${s.small} ${s.warn}`}>
-                            {flex > 0 && t('contracts.flexSeats', { count: flex })} {freelance > 0 && t('contracts.freelancers', { count: freelance })}{' '}
+                            {flex > 0 && t('contracts.flexSeats', { count: flex })}{' '}
+                            {freelance > 0 && t('contracts.freelancers', { count: freelance })}{' '}
                             {offshore > 0 && t('contracts.offshoreSeats', { count: offshore })}
                           </span>
                         )}
@@ -109,8 +129,13 @@ export function ContractsScreen() {
               <li key={c.id}>
                 <span className={s.newsDot} data-tone={c.cancelled ? 'neutral' : c.terminated ? 'bad' : 'good'} />
                 <span>
-                  {t(`content:customers.${c.customerId}.name`)} · {c.cancelled ? t('contracts.cancelled') : c.terminated ? t('contracts.terminated') : t('contracts.completed')} ·{' '}
-                  {t('contracts.finalSatisfaction', { value: Math.round(c.satisfaction) })}
+                  {t(`content:customers.${c.customerId}.name`)} ·{' '}
+                  {c.cancelled
+                    ? t('contracts.cancelled')
+                    : c.terminated
+                      ? t('contracts.terminated')
+                      : t('contracts.completed')}{' '}
+                  · {t('contracts.finalSatisfaction', { value: Math.round(c.satisfaction) })}
                 </span>
               </li>
             ))}

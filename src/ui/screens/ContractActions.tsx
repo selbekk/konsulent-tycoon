@@ -40,8 +40,9 @@ export function ContractActions({ contract, onClose }: { contract: Contract; onC
 
   const demand = staffFirm(game, me).demand
   const bench = (d: Discipline) => Math.max(0, disciplineSupply(me, d) - (demand[d] ?? 0))
-  const benchDisciplines = DISCIPLINES.filter((d) => bench(d) > 0)
-  const [discipline, setDiscipline] = useState<Discipline>(benchDisciplines[0] ?? DISCIPLINES.find((d) => c.activeSeats[d]) ?? 'backend')
+  const [discipline, setDiscipline] = useState<Discipline>(
+    DISCIPLINES.find((d) => bench(d) > 0) ?? DISCIPLINES.find((d) => c.activeSeats[d]) ?? 'backend',
+  )
   const room = upsellRoom(me, c)
   const [count, setCount] = useState(1)
   const seats = Math.max(1, Math.min(count, room))
@@ -71,7 +72,9 @@ export function ContractActions({ contract, onClose }: { contract: Contract; onC
     return err && err !== 'errors.levelTooLow' ? <p className={`${s.small} ${s.muted}`}>{t(`game:${err}`)}</p> : null
   }
   const locked = (feature: Feature) =>
-    hasFeature(me, feature) ? null : <p className={`${s.small} ${s.muted}`}>{t('strategy.locked', { level: FEATURE_LEVEL[feature] })}</p>
+    hasFeature(me, feature) ? null : (
+      <p className={`${s.small} ${s.muted}`}>{t('strategy.locked', { level: FEATURE_LEVEL[feature] })}</p>
+    )
 
   return (
     <Modal icon="handshake" title={customer} onClose={onClose}>
@@ -86,7 +89,11 @@ export function ContractActions({ contract, onClose }: { contract: Contract; onC
               {t('contracts.actions.nurture.go', { cost: formatMoney(nurtureCost(me, c), lng) })}
             </Button>
           </div>
-          {c.nurtureQuarter === game.quarter ? <p className={`${s.small} ${s.good}`}>{t('contracts.actions.nurture.done')}</p> : reason('nurture')}
+          {c.nurtureQuarter === game.quarter ? (
+            <p className={`${s.small} ${s.good}`}>{t('contracts.actions.nurture.done')}</p>
+          ) : (
+            reason('nurture')
+          )}
         </section>
 
         <section className={s.card}>
@@ -100,12 +107,16 @@ export function ContractActions({ contract, onClose }: { contract: Contract; onC
                 })}
               </p>
               {c.renegotiated ? (
-                <p className={`${s.small} ${c.renegotiated === 'won' ? s.good : s.bad}`}>{t(`contracts.actions.renegotiate.${c.renegotiated}`)}</p>
+                <p className={`${s.small} ${c.renegotiated === 'won' ? s.good : s.bad}`}>
+                  {t(`contracts.actions.renegotiate.${c.renegotiated}`)}
+                </p>
               ) : (
                 <>
                   <div className={s.row}>
                     <Button onClick={() => act('renegotiate')} disabled={!!blocked('renegotiate')}>
-                      {t('contracts.actions.renegotiate.go', { chance: formatPercent(renegotiateChance(game, c), lng) })}
+                      {t('contracts.actions.renegotiate.go', {
+                        chance: formatPercent(renegotiateChance(game, c), lng),
+                      })}
                     </Button>
                   </div>
                   {reason('renegotiate')}
@@ -122,7 +133,9 @@ export function ContractActions({ contract, onClose }: { contract: Contract; onC
               <p className={s.small}>{t('contracts.actions.upsell.body', { quarters: UPSELL_COOLDOWN })}</p>
               {c.upsell && c.upsell.quarter === game.quarter ? (
                 <p className={`${s.small} ${c.upsell.won ? s.good : s.bad}`}>
-                  {t(c.upsell.won ? 'contracts.actions.upsell.won' : 'contracts.actions.upsell.lost', { count: c.upsell.seats })}
+                  {t(c.upsell.won ? 'contracts.actions.upsell.won' : 'contracts.actions.upsell.lost', {
+                    count: c.upsell.seats,
+                  })}
                 </p>
               ) : (
                 <>
@@ -145,7 +158,13 @@ export function ContractActions({ contract, onClose }: { contract: Contract; onC
                       </div>
                       <div className={s.field}>
                         <span className={s.fieldLabel}>{t('contracts.actions.upsell.seats')}</span>
-                        <Stepper value={seats} min={1} max={room} onChange={setCount} label={t('contracts.actions.upsell.seats')} />
+                        <Stepper
+                          value={seats}
+                          min={1}
+                          max={room}
+                          onChange={setCount}
+                          label={t('contracts.actions.upsell.seats')}
+                        />
                       </div>
                     </div>
                   )}

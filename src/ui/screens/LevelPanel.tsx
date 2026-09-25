@@ -1,6 +1,15 @@
 import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { LEVELS, LEVEL_GOALS, MAX_LEVEL, SHADY_LEVELS, firmLevel, levelStats, unlocksAt, visibleMissions } from '../../engine'
+import {
+  LEVELS,
+  LEVEL_GOALS,
+  MAX_LEVEL,
+  SHADY_LEVELS,
+  firmLevel,
+  levelStats,
+  unlocksAt,
+  visibleMissions,
+} from '../../engine'
 import type { Firm, LevelGoal } from '../../engine'
 import type { Effect } from '../../content/events'
 import { Icon } from '../components/Icon'
@@ -30,7 +39,9 @@ export function UnlockList({ level }: { level: number }) {
       {u.shady.length > 0 && (
         <li>
           <span className={s.newsDot} data-tone="sassy" />
-          <span>{t('level.shady', { list: u.shady.map((id) => t(`content:shady.actions.${id}.name`)).join(', ') })}</span>
+          <span>
+            {t('level.shady', { list: u.shady.map((id) => t(`content:shady.actions.${id}.name`)).join(', ') })}
+          </span>
         </li>
       )}
     </ul>
@@ -65,7 +76,11 @@ export function MissionList({ firm }: { firm: Firm }) {
                 {done && <span className="visually-hidden">{t('level.missions.done')}: </span>}
                 {t(`content:missions.${def.id}.name`)}
               </span>
-              {!done && <span className={`${s.small} ${s.muted}`}>{t('level.missions.reward', { text: rewardText(def.reward, t, i18n.language) })}</span>}
+              {!done && (
+                <span className={`${s.small} ${s.muted}`}>
+                  {t('level.missions.reward', { text: rewardText(def.reward, t, i18n.language) })}
+                </span>
+              )}
             </span>
           </li>
         ))}
@@ -83,7 +98,9 @@ export function LevelPanel({ firm, className }: { firm: Firm; className?: string
     return (
       <Panel title={t('level.title')} icon="trophy" className={className}>
         <p className={s.small}>
-          <strong>{t('level.label', { level })} · {name(level)}</strong>
+          <strong>
+            {t('level.label', { level })} · {name(level)}
+          </strong>
         </p>
         <p className={`${s.small} ${s.muted}`}>{t('level.max')}</p>
         <MissionList firm={firm} />
@@ -98,7 +115,9 @@ export function LevelPanel({ firm, className }: { firm: Firm; className?: string
     <Panel title={t('level.title')} icon="trophy" className={className}>
       <div className={s.stack}>
         <span className={s.small}>
-          <strong>{t('level.label', { level })} · {name(level)}</strong>
+          <strong>
+            {t('level.label', { level })} · {name(level)}
+          </strong>
         </span>
         <span className={s.small}>{t('level.next', { level: next, name: name(next) })}</span>
         <span className={`${s.small} ${s.muted}`}>{t('level.anyOne')}</span>

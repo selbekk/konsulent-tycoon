@@ -35,8 +35,18 @@ interface Note {
 }
 
 // Note frequencies (equal temperament) used below.
-const C5 = 523.25, D5 = 587.33, E5 = 659.25, G5 = 783.99, A5 = 880, C6 = 1046.5
-const C4 = 261.63, E4 = 329.63, G4 = 392, A4 = 440, B3 = 246.94, F4 = 349.23
+const C5 = 523.25,
+  D5 = 587.33,
+  E5 = 659.25,
+  G5 = 783.99,
+  A5 = 880,
+  C6 = 1046.5
+const C4 = 261.63,
+  E4 = 329.63,
+  G4 = 392,
+  A4 = 440,
+  B3 = 246.94,
+  F4 = 349.23
 
 const SOUNDS: Record<SoundName, Note[]> = {
   win: [

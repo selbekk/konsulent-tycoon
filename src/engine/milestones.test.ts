@@ -38,7 +38,12 @@ describe('milestones', () => {
   it('stamps a record quarter only once the game is under way and the old best is clearly beaten', () => {
     const s = newTestGame()
     const records = () => s.news.filter((n) => n.key === 'news.record.revenue')
-    for (const [quarter, revenue] of [[0, 2_000_000], [1, 3_000_000], [2, 3_100_000], [3, 4_000_000]]) {
+    for (const [quarter, revenue] of [
+      [0, 2_000_000],
+      [1, 3_000_000],
+      [2, 3_100_000],
+      [3, 4_000_000],
+    ]) {
       s.quarter = quarter
       s.firms.player.history.push(record(s, { revenue }))
       checkMilestones(s)
@@ -62,7 +67,14 @@ describe('milestones', () => {
     const s = newTestGame()
     const t = s.tenders.find((x) => !x.resolved && !x.hidden)!
     const bid: Bid = { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 3, cvPad: false, ghostCv: false }
-    Object.assign(t, { kind: 'project', seats: { backend: 2 }, duration: 4, bids: [bid], dueQuarter: s.quarter, customerId: 'navet' })
+    Object.assign(t, {
+      kind: 'project',
+      seats: { backend: 2 },
+      duration: 4,
+      bids: [bid],
+      dueQuarter: s.quarter,
+      customerId: 'navet',
+    })
     s.firms.player.fagmiljo = 100
     resolveDueTenders(s)
     const won = s.news.find((n) => n.key === 'news.tender.playerWon')
@@ -87,7 +99,9 @@ describe('industry gossip', () => {
     for (let i = 0; i < 8; i++) s = endTurn(s)
     const seen = s.news.filter((n) => n.key.startsWith('news.gossip.'))
     for (const n of seen) {
-      const again = seen.filter((m) => m.key === n.key && m.quarter > n.quarter && m.quarter - n.quarter < GOSSIP_REPEAT_QUARTERS)
+      const again = seen.filter(
+        (m) => m.key === n.key && m.quarter > n.quarter && m.quarter - n.quarter < GOSSIP_REPEAT_QUARTERS,
+      )
       expect(again).toEqual([])
     }
     for (const n of seen) {

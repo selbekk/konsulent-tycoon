@@ -11,5 +11,10 @@ export type NewsPost = (typeof NEWS_POSTS)[number]
 
 export function formatPostDate(date: string, lng: string): string {
   // Parsed and shown in UTC, so the day doesn't shift with the reader's time zone.
-  return new Date(`${date}T00:00:00Z`).toLocaleDateString(lng, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString(lng, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
 }

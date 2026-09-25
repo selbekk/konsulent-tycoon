@@ -6,7 +6,17 @@ import { formatQuarter } from '../format'
 import s from './metrics.module.css'
 
 /** One-series trend line with a crosshair + tooltip on hover (or focus + arrow keys). `baseline` draws a dashed guide (e.g. zero). */
-export function TrendLine({ points, format, label, baseline }: { points: KpiPoint[]; format: (v: number) => string; label: string; baseline?: number }) {
+export function TrendLine({
+  points,
+  format,
+  label,
+  baseline,
+}: {
+  points: KpiPoint[]
+  format: (v: number) => string
+  label: string
+  baseline?: number
+}) {
   const [hover, setHover] = useState<number | null>(null)
   const ref = useRef<SVGSVGElement>(null)
   if (points.length < 2) return <div className={s.trendEmpty} aria-hidden />
@@ -32,6 +42,8 @@ export function TrendLine({ points, format, label, baseline }: { points: KpiPoin
 
   return (
     <div className={s.trend}>
+      {/* The chart can be scrubbed with the arrow keys, so it takes focus and listens for keys. */}
+      {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <svg
         ref={ref}
         viewBox={`0 0 ${w} ${h}`}
@@ -39,6 +51,7 @@ export function TrendLine({ points, format, label, baseline }: { points: KpiPoin
         className={s.trendSvg}
         onPointerMove={onMove}
         onPointerLeave={() => setHover(null)}
+        // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         role="img"
         aria-label={`${label}: ${points.map((p) => `${formatQuarter(p.quarter)} ${format(p.value)}`).join(', ')}`}
@@ -49,16 +62,48 @@ export function TrendLine({ points, format, label, baseline }: { points: KpiPoin
         onBlur={() => setHover(null)}
       >
         {baseline !== undefined && (
-          <line x1={0} x2={w} y1={y(baseline)} y2={y(baseline)} stroke="var(--border)" strokeWidth={1} vectorEffect="non-scaling-stroke" strokeDasharray="3 3" />
+          <line
+            x1={0}
+            x2={w}
+            y1={y(baseline)}
+            y2={y(baseline)}
+            stroke="var(--border)"
+            strokeWidth={1}
+            vectorEffect="non-scaling-stroke"
+            strokeDasharray="3 3"
+          />
         )}
-        <path d={d} fill="none" stroke="var(--chart-line)" strokeWidth={2} vectorEffect="non-scaling-stroke" strokeLinejoin="round" strokeLinecap="round" />
-        {hover !== null && <line x1={x(hover)} x2={x(hover)} y1={0} y2={h} stroke="var(--muted)" strokeWidth={1} vectorEffect="non-scaling-stroke" strokeDasharray="2 2" />}
+        <path
+          d={d}
+          fill="none"
+          stroke="var(--chart-line)"
+          strokeWidth={2}
+          vectorEffect="non-scaling-stroke"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+        {hover !== null && (
+          <line
+            x1={x(hover)}
+            x2={x(hover)}
+            y1={0}
+            y2={h}
+            stroke="var(--muted)"
+            strokeWidth={1}
+            vectorEffect="non-scaling-stroke"
+            strokeDasharray="2 2"
+          />
+        )}
       </svg>
       {/* Markers as HTML so they stay round under preserveAspectRatio="none". */}
-      <span className={s.dot} style={{ left: `${(x(active) / w) * 100}%`, top: `${(y(points[active].value) / h) * 100}%` }} />
+      <span
+        className={s.dot}
+        style={{ left: `${(x(active) / w) * 100}%`, top: `${(y(points[active].value) / h) * 100}%` }}
+      />
       {hover !== null && (
         <span className={s.tip} style={{ left: `${(x(hover) / w) * 100}%` }}>
-          <strong className="num">{format(points[hover].value)}</strong> <span>{formatQuarter(points[hover].quarter)}</span>
+          <strong className="num">{format(points[hover].value)}</strong>{' '}
+          <span>{formatQuarter(points[hover].quarter)}</span>
         </span>
       )}
     </div>
@@ -96,7 +141,15 @@ export function KpiTile({
 }
 
 /** "▲ +3 pp" style comparison in neutral ink with a direction glyph – never color alone. */
-export function Delta({ diff, format, better = 'up' }: { diff?: number; format: (v: number) => string; better?: 'up' | 'down' }) {
+export function Delta({
+  diff,
+  format,
+  better = 'up',
+}: {
+  diff?: number
+  format: (v: number) => string
+  better?: 'up' | 'down'
+}) {
   if (diff === undefined || !Number.isFinite(diff)) return <span className={s.muted}>–</span>
   const up = diff > 0.0005
   const down = diff < -0.0005
@@ -110,15 +163,32 @@ export function Delta({ diff, format, better = 'up' }: { diff?: number; format: 
   )
 }
 
-function Stacked({ label, segments, total }: { label: string; total: number; segments: { key: string; value: number; className: string; name: string }[] }) {
+function Stacked({
+  label,
+  segments,
+  total,
+}: {
+  label: string
+  total: number
+  segments: { key: string; value: number; className: string; name: string }[]
+}) {
   return (
     <div className={s.stackRow}>
       <span className={s.stackLabel}>{label}</span>
-      <div className={s.stack} role="img" aria-label={`${label}: ${segments.map((g) => `${g.name} ${g.value}`).join(', ')}`}>
+      <div
+        className={s.stack}
+        role="img"
+        aria-label={`${label}: ${segments.map((g) => `${g.name} ${g.value}`).join(', ')}`}
+      >
         {segments
           .filter((g) => g.value > 0)
           .map((g) => (
-            <span key={g.key} className={`${s.segment} ${g.className}`} style={{ flexGrow: g.value }} title={`${g.name}: ${g.value}`}>
+            <span
+              key={g.key}
+              className={`${s.segment} ${g.className}`}
+              style={{ flexGrow: g.value }}
+              title={`${g.name}: ${g.value}`}
+            >
               {g.value / Math.max(1, total) >= 0.12 && <span className={s.segLabel}>{g.value}</span>}
             </span>
           ))}
@@ -167,10 +237,15 @@ export function CapacityChart({ cap }: { cap: Capacity }) {
           </strong>
         </li>
         <li>
-          <span className={`${s.swatch} ${s.seg2}`} /> {t('capacity.inBids')} <strong className="num">{cap.next.offered}</strong>
-          {cap.next.seatsInBids > cap.next.offered && <span className={s.muted}> {t('capacity.seatsInBids', { count: cap.next.seatsInBids })}</span>}
+          <span className={`${s.swatch} ${s.seg2}`} /> {t('capacity.inBids')}{' '}
+          <strong className="num">{cap.next.offered}</strong>
+          {cap.next.seatsInBids > cap.next.offered && (
+            <span className={s.muted}> {t('capacity.seatsInBids', { count: cap.next.seatsInBids })}</span>
+          )}
         </li>
-        {cap.next.laterSeatsInBids > 0 && <li className={s.muted}>{t('capacity.laterSeatsInBids', { count: cap.next.laterSeatsInBids })}</li>}
+        {cap.next.laterSeatsInBids > 0 && (
+          <li className={s.muted}>{t('capacity.laterSeatsInBids', { count: cap.next.laterSeatsInBids })}</li>
+        )}
       </ul>
     </div>
   )

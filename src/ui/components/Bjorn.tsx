@@ -4,7 +4,14 @@ import s from '../screens/screens.module.css'
 /** Styreleder Bjørn – the board chair and advisor. One or two sentences, never more. */
 export function BjornPortrait({ size = 48 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 12 12" shapeRendering="crispEdges" aria-hidden style={{ flexShrink: 0, border: '2px solid var(--border-dark)', background: '#4cc9f0' }}>
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 12 12"
+      shapeRendering="crispEdges"
+      aria-hidden
+      style={{ flexShrink: 0, border: '2px solid var(--border-dark)', background: '#4cc9f0' }}
+    >
       <rect x="3" y="2" width="6" height="6" fill="#f2c9a0" />
       <rect x="3" y="1" width="6" height="2" fill="#d9d9d9" />
       <rect x="2" y="2" width="1" height="3" fill="#d9d9d9" />

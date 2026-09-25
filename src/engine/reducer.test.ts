@@ -8,7 +8,13 @@ import type { Bid, GameState } from './types'
 
 const openTender = (s: GameState) => s.tenders.find((t) => !t.resolved && !t.hidden && !tenderLock(s.firms.player, t))!
 const bid = (overrides: Partial<Bid> = {}): Bid => ({
-  firmId: 'player', rateMultiplier: 1, starIds: [], effort: 1, cvPad: false, ghostCv: false, ...overrides,
+  firmId: 'player',
+  rateMultiplier: 1,
+  starIds: [],
+  effort: 1,
+  cvPad: false,
+  ghostCv: false,
+  ...overrides,
 })
 
 describe('reducer', () => {
@@ -22,7 +28,9 @@ describe('reducer', () => {
 
   it('clamps budgets and premium', () => {
     const r = applyAction(veteranTestGame(), {
-      type: 'setBudgets', firmId: 'player', budgets: { fagmiljoPerHead: 1e9, salaryPremium: 5 },
+      type: 'setBudgets',
+      firmId: 'player',
+      budgets: { fagmiljoPerHead: 1e9, salaryPremium: 5 },
     })
     expect(r.state.firms.player.budgets.fagmiljoPerHead).toBe(40_000)
     expect(r.state.firms.player.budgets.salaryPremium).toBe(0.3)
@@ -33,13 +41,19 @@ describe('reducer', () => {
     const r = applyAction(s, { type: 'fire', firmId: 'player', discipline: 'backend', count: 1 })
     expect(r.state.firms.player.pools.backend.count).toBe(s.firms.player.pools.backend.count - 1)
     expect(r.state.firms.player.cash).toBeLessThan(s.firms.player.cash)
-    expect(applyAction(s, { type: 'fire', firmId: 'player', discipline: 'design', count: 1 }).error).toBe('errors.invalid')
+    expect(applyAction(s, { type: 'fire', firmId: 'player', discipline: 'design', count: 1 }).error).toBe(
+      'errors.invalid',
+    )
   })
 
   it('places a bid, charges effort and ignores fraud flags from input', () => {
     const s = newTestGame()
     const t = openTender(s)
-    const r = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ effort: 2, cvPad: true, rateMultiplier: 9 }) })
+    const r = applyAction(s, {
+      type: 'placeBid',
+      tenderId: t.id,
+      bid: bid({ effort: 2, cvPad: true, rateMultiplier: 9 }),
+    })
     expect(r.error).toBeUndefined()
     const placed = r.state.tenders.find((x) => x.id === t.id)!.bids.find((b) => b.firmId === 'player')!
     expect(placed.cvPad).toBe(false)
@@ -60,7 +74,9 @@ describe('reducer', () => {
     const s = newTestGame()
     s.firms.player.cash = -creditLimit(s.firms.player) - 10_000
     const t = openTender(s)
-    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ effort: 1 }) }).error).toBe('errors.notEnoughCash')
+    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ effort: 1 }) }).error).toBe(
+      'errors.notEnoughCash',
+    )
     expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ effort: 0 }) }).error).toBeUndefined()
   })
 
@@ -70,7 +86,9 @@ describe('reducer', () => {
     const star = s.firms.player.stars[0].id
     s.firms.player.stars[0].assignedContractId = undefined
     s = applyAction(s, { type: 'placeBid', tenderId: t1.id, bid: bid({ starIds: [star] }) }).state
-    expect(applyAction(s, { type: 'placeBid', tenderId: t2.id, bid: bid({ starIds: [star] }) }).error).toBe('errors.starPromised')
+    expect(applyAction(s, { type: 'placeBid', tenderId: t2.id, bid: bid({ starIds: [star] }) }).error).toBe(
+      'errors.starPromised',
+    )
   })
 
   it('rejects a star still on a contract that overlaps the new one', () => {
@@ -79,7 +97,9 @@ describe('reducer', () => {
     const star = s.firms.player.stars[0]
     const running = s.contracts.find((c) => c.id === star.assignedContractId)!
     running.endQuarter = t.dueQuarter + 2
-    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ starIds: [star.id] }) }).error).toBe('errors.starBusy')
+    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ starIds: [star.id] }) }).error).toBe(
+      'errors.starBusy',
+    )
     // Free by the time the new contract starts.
     running.endQuarter = t.dueQuarter + 1
     expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ starIds: [star.id] }) }).error).toBeUndefined()
@@ -92,20 +112,40 @@ describe('reducer', () => {
     expect(r1.error).toBeUndefined()
     s = r1.state
     expect(s.tenders.find((x) => x.id === t.id)!.minigameResults.player.score).toBe(100)
-    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 10 }).error).toBe(
-      'errors.minigameAlreadyPlayed',
-    )
+    expect(
+      applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 10 }).error,
+    ).toBe('errors.minigameAlreadyPlayed')
   })
 
   it('a started minigame counts as 0 until finished, and can only be finished once', () => {
     let s = veteranTestGame()
     const t = makeKeyTender(openTender(s))
-    s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 0, provisional: true }).state
-    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 90 }).error).toBe('errors.minigameAlreadyPlayed')
-    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 0, provisional: true }).error).toBe('errors.minigameAlreadyPlayed')
+    s = applyAction(s, {
+      type: 'recordMinigame',
+      firmId: 'player',
+      tenderId: t.id,
+      kind: 'meeting',
+      score: 0,
+      provisional: true,
+    }).state
+    expect(
+      applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'bingo', score: 90 }).error,
+    ).toBe('errors.minigameAlreadyPlayed')
+    expect(
+      applyAction(s, {
+        type: 'recordMinigame',
+        firmId: 'player',
+        tenderId: t.id,
+        kind: 'meeting',
+        score: 0,
+        provisional: true,
+      }).error,
+    ).toBe('errors.minigameAlreadyPlayed')
     s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 80 }).state
     expect(s.tenders.find((x) => x.id === t.id)!.minigameResults.player).toEqual({ kind: 'meeting', score: 80 })
-    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 99 }).error).toBe('errors.minigameAlreadyPlayed')
+    expect(
+      applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 99 }).error,
+    ).toBe('errors.minigameAlreadyPlayed')
   })
 
   it('UI estimates never touch the rng', () => {
@@ -126,6 +166,8 @@ describe('reducer', () => {
     expect(r.state.starMarket.some((x) => x.id === star.id)).toBe(false)
     const broke = structuredClone(s)
     broke.firms.player.cash = 0
-    expect(applyAction(broke, { type: 'hireStar', firmId: 'player', starId: star.id }).error).toBe('errors.notEnoughCash')
+    expect(applyAction(broke, { type: 'hireStar', firmId: 'player', starId: star.id }).error).toBe(
+      'errors.notEnoughCash',
+    )
   })
 })

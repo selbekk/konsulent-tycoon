@@ -6,7 +6,13 @@ import type { Bid, GameState } from './types'
 
 const todo = (s: GameState, id: string) => quarterTodos(s, 'player').find((t) => t.id === id)
 const bid = (overrides: Partial<Bid> = {}): Bid => ({
-  firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false, ...overrides,
+  firmId: 'player',
+  rateMultiplier: 1,
+  starIds: [],
+  effort: 0,
+  cvPad: false,
+  ghostCv: false,
+  ...overrides,
 })
 
 describe('quarter todos', () => {
@@ -40,10 +46,23 @@ describe('quarter todos', () => {
     let s = newTestGame()
     s.firms.player.cash = 50_000_000
     s.contracts.push({
-      id: 'big', tenderId: 't', firmId: 'player', customerId: 'navet', kind: 'project',
-      baseSeats: { backend: 20 }, activeSeats: { backend: 20 }, rateMultiplier: 1, share: 1, rank: 1,
-      startQuarter: 0, endQuarter: 8, starIds: [], satisfaction: 70, outsourcedShare: 0,
-      fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false }, terminated: false,
+      id: 'big',
+      tenderId: 't',
+      firmId: 'player',
+      customerId: 'navet',
+      kind: 'project',
+      baseSeats: { backend: 20 },
+      activeSeats: { backend: 20 },
+      rateMultiplier: 1,
+      share: 1,
+      rank: 1,
+      startQuarter: 0,
+      endQuarter: 8,
+      starIds: [],
+      satisfaction: 70,
+      outsourcedShare: 0,
+      fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false },
+      terminated: false,
     })
     const hire = todo(s, 'hire')!
     expect(hire.done).toBe(false)

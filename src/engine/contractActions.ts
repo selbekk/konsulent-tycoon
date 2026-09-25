@@ -56,7 +56,11 @@ export function renegotiateChance(state: GameState, c: Contract): number {
 
 /** Chance the customer takes `count` more people. Pure – safe for the UI. */
 export function upsellChance(c: Contract, count: number): number {
-  return clamp(UPSELL_BASE + (c.satisfaction - 60) * UPSELL_PER_SATISFACTION - (count - 1) * UPSELL_PER_EXTRA_SEAT, 0, 1)
+  return clamp(
+    UPSELL_BASE + (c.satisfaction - 60) * UPSELL_PER_SATISFACTION - (count - 1) * UPSELL_PER_EXTRA_SEAT,
+    0,
+    1,
+  )
 }
 
 /** One quarter of the contract's revenue at the firm's own level. */
@@ -73,7 +77,13 @@ export const upsellRoom = (firm: Firm, c: Contract) =>
  * Why a move is not possible right now (an i18n error key), or undefined if it is.
  * Shared by the reducer, the planners and the UI, so all three agree. Pure.
  */
-export function contractMoveBlock(state: GameState, firm: Firm, c: Contract, move: ContractMove, count = 1): string | undefined {
+export function contractMoveBlock(
+  state: GameState,
+  firm: Firm,
+  c: Contract,
+  move: ContractMove,
+  count = 1,
+): string | undefined {
   if (c.firmId !== firm.id || c.terminated || c.endQuarter <= state.quarter) return 'errors.invalidContract'
   const active = isActive(c, state.quarter)
   switch (move) {
@@ -81,7 +91,8 @@ export function contractMoveBlock(state: GameState, firm: Firm, c: Contract, mov
       return cancelFee(firm, c) > spendable(firm) ? 'errors.notEnoughCash' : undefined
     case 'nurture':
       if (!active) return 'errors.contractNotStarted'
-      if (c.nurtureQuarter !== undefined && state.quarter - c.nurtureQuarter < NURTURE_COOLDOWN) return 'errors.contractCooldown'
+      if (c.nurtureQuarter !== undefined && state.quarter - c.nurtureQuarter < NURTURE_COOLDOWN)
+        return 'errors.contractCooldown'
       if (c.satisfaction >= NURTURE_MAX_SATISFACTION) return 'errors.customerHappy'
       return nurtureCost(firm, c) > spendable(firm) ? 'errors.notEnoughCash' : undefined
     case 'renegotiate':
@@ -107,8 +118,16 @@ function target(state: GameState, a: { firmId: string; contractId: string }) {
   return firm && !firm.bankrupt && c ? { firm, c } : undefined
 }
 
-const news = (state: GameState, firm: Firm, key: string, c: Contract, tone: 'good' | 'bad' | 'neutral', params = {}) => {
-  if (firm.isPlayer) addNews(state, key, { customer: c.customerId, ...params }, tone, { firmId: firm.id, personal: true })
+const news = (
+  state: GameState,
+  firm: Firm,
+  key: string,
+  c: Contract,
+  tone: 'good' | 'bad' | 'neutral',
+  params = {},
+) => {
+  if (firm.isPlayer)
+    addNews(state, key, { customer: c.customerId, ...params }, tone, { firmId: firm.id, personal: true })
 }
 
 // A "no" from the customer is an outcome, not an error: the handlers return undefined so the

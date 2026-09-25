@@ -1,5 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { BANKRUPT_AFTER_QUARTERS, MAX_QUARTERS, financeOverview, firmLevel, hasFeature, headcount, valuation } from '../../engine'
+import {
+  BANKRUPT_AFTER_QUARTERS,
+  MAX_QUARTERS,
+  financeOverview,
+  firmLevel,
+  hasFeature,
+  headcount,
+  valuation,
+} from '../../engine'
 import type { KpiPoint, LedgerRow } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import type { Tab } from '../../store/gameStore'
@@ -54,7 +62,11 @@ export function FinanceScreen() {
 
   return (
     <div className={s.grid}>
-      <Panel title={t('finance.budget.title', { quarter: formatQuarter(game.quarter) })} icon="coin" className={s.span7}>
+      <Panel
+        title={t('finance.budget.title', { quarter: formatQuarter(game.quarter) })}
+        icon="coin"
+        className={s.span7}
+      >
         <div className={s.tableWrap}>
           <table className={s.table}>
             <thead>
@@ -124,12 +136,22 @@ export function FinanceScreen() {
         <div className={s.kpis}>
           <Stat label={t('finance.cash.cash')} value={money(fo.cash)} tone={fo.cash < 0 ? 'bad' : undefined} />
           <Stat label={t('finance.cash.credit')} value={money(fo.creditLimit)} />
-          <Stat label={t('finance.cash.headroom')} value={money(fo.headroom)} tone={fo.headroom <= 0 ? 'bad' : undefined} />
-          <Stat label={t('finance.cash.burn')} value={fo.burn > 0 ? money(fo.burn) : '–'} tone={fo.burn > 0 ? 'bad' : undefined} />
+          <Stat
+            label={t('finance.cash.headroom')}
+            value={money(fo.headroom)}
+            tone={fo.headroom <= 0 ? 'bad' : undefined}
+          />
+          <Stat
+            label={t('finance.cash.burn')}
+            value={fo.burn > 0 ? money(fo.burn) : '–'}
+            tone={fo.burn > 0 ? 'bad' : undefined}
+          />
           <Stat
             label={t('finance.cash.runway')}
             value={
-              fo.runway === undefined || fo.runway >= quartersLeft ? t('finance.cash.allGame') : t('finance.cash.quarters', { count: Math.floor(fo.runway) })
+              fo.runway === undefined || fo.runway >= quartersLeft
+                ? t('finance.cash.allGame')
+                : t('finance.cash.quarters', { count: Math.floor(fo.runway) })
             }
             tone={fo.runway !== undefined && fo.runway < 2 ? 'bad' : undefined}
           />
@@ -150,35 +172,67 @@ export function FinanceScreen() {
               abbr={t('finance.trends.cashAbbr')}
               name={t('finance.trends.cash')}
               value={money(fo.cash)}
-              trend={<TrendLine points={series((r) => r.cash, fo.cash)} format={money} label={t('finance.trends.cash')} baseline={0} />}
+              trend={
+                <TrendLine
+                  points={series((r) => r.cash, fo.cash)}
+                  format={money}
+                  label={t('finance.trends.cash')}
+                  baseline={0}
+                />
+              }
               lines={[]}
             />
             <KpiTile
               abbr={t('finance.trends.valueAbbr')}
               name={t('finance.trends.value')}
               value={money(valuation(me))}
-              trend={<TrendLine points={series((r) => r.valuation, valuation(me))} format={money} label={t('finance.trends.value')} />}
+              trend={
+                <TrendLine
+                  points={series((r) => r.valuation, valuation(me))}
+                  format={money}
+                  label={t('finance.trends.value')}
+                />
+              }
               lines={[]}
             />
             <KpiTile
               abbr={t('finance.trends.revenueAbbr')}
               name={t('finance.trends.revenue')}
               value={money(budget.revenue)}
-              trend={<TrendLine points={series((r) => r.revenue, budget.revenue)} format={money} label={t('finance.trends.revenue')} />}
+              trend={
+                <TrendLine
+                  points={series((r) => r.revenue, budget.revenue)}
+                  format={money}
+                  label={t('finance.trends.revenue')}
+                />
+              }
               lines={[]}
             />
             <KpiTile
               abbr={t('finance.trends.resultAbbr')}
               name={t('finance.trends.result')}
               value={money(budget.ebitda)}
-              trend={<TrendLine points={series((r) => r.ebitda, budget.ebitda)} format={money} label={t('finance.trends.result')} baseline={0} />}
+              trend={
+                <TrendLine
+                  points={series((r) => r.ebitda, budget.ebitda)}
+                  format={money}
+                  label={t('finance.trends.result')}
+                  baseline={0}
+                />
+              }
               lines={[]}
             />
             <KpiTile
               abbr={t('finance.trends.utilizationAbbr')}
               name={t('finance.trends.utilization')}
               value={pct(budget.utilization)}
-              trend={<TrendLine points={series((r) => r.utilization, budget.utilization)} format={pct} label={t('finance.trends.utilization')} />}
+              trend={
+                <TrendLine
+                  points={series((r) => r.utilization, budget.utilization)}
+                  format={pct}
+                  label={t('finance.trends.utilization')}
+                />
+              }
               lines={[]}
             />
             <KpiTile
@@ -222,7 +276,10 @@ export function FinanceScreen() {
                     <td className={s.num}>{money(r.revenue)}</td>
                     <td className={s.num}>{money(-r.costs)}</td>
                     <td className={`${s.num} ${r.ebitda >= 0 ? '' : s.bad}`}>{money(r.ebitda)}</td>
-                    <td className={s.num} title={r.fines ? t('finance.ledger.fines', { fine: money(r.fines) }) : undefined}>
+                    <td
+                      className={s.num}
+                      title={r.fines ? t('finance.ledger.fines', { fine: money(r.fines) }) : undefined}
+                    >
                       {r.other === undefined ? '–' : money(r.other)}
                     </td>
                     <td className={s.num}>{r.cash === undefined ? '–' : money(r.cash)}</td>

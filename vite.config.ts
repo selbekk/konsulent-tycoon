@@ -6,9 +6,21 @@ import { engineVersion } from './scripts/engineVersion.ts'
 
 /** Same as the rewrites in vercel.json: PostHog behind our own path, for `dev` and `preview`. */
 const posthogProxy = {
-  '/kaffe/static': { target: 'https://eu-assets.i.posthog.com', changeOrigin: true, rewrite: (p: string) => p.replace(/^\/kaffe/, '') },
-  '/kaffe/array': { target: 'https://eu-assets.i.posthog.com', changeOrigin: true, rewrite: (p: string) => p.replace(/^\/kaffe/, '') },
-  '/kaffe': { target: 'https://eu.i.posthog.com', changeOrigin: true, rewrite: (p: string) => p.replace(/^\/kaffe/, '') },
+  '/kaffe/static': {
+    target: 'https://eu-assets.i.posthog.com',
+    changeOrigin: true,
+    rewrite: (p: string) => p.replace(/^\/kaffe/, ''),
+  },
+  '/kaffe/array': {
+    target: 'https://eu-assets.i.posthog.com',
+    changeOrigin: true,
+    rewrite: (p: string) => p.replace(/^\/kaffe/, ''),
+  },
+  '/kaffe': {
+    target: 'https://eu.i.posthog.com',
+    changeOrigin: true,
+    rewrite: (p: string) => p.replace(/^\/kaffe/, ''),
+  },
 }
 
 export default defineConfig({
@@ -56,7 +68,9 @@ export default defineConfig({
       output: {
         // Libraries change rarely: keep them in their own chunk so game updates stay small.
         // PostHog and Firebase stay out of it: they're only loaded once the player opts in.
-        codeSplitting: { groups: [{ name: 'vendor', test: /node_modules\/(?!posthog-js|@posthog|firebase|@firebase)/ }] },
+        codeSplitting: {
+          groups: [{ name: 'vendor', test: /node_modules\/(?!posthog-js|@posthog|firebase|@firebase)/ }],
+        },
       },
     },
   },

@@ -34,7 +34,10 @@ export function CrisisPanel() {
             const last = c.log[c.log.length - 1]
             return (
               <li key={c.id} data-status={c.status}>
-                <span className={s.newsDot} data-tone={c.status === 'over' ? (c.outcome === 'bad' ? 'bad' : 'good') : TONE[c.status]} />
+                <span
+                  className={s.newsDot}
+                  data-tone={c.status === 'over' ? (c.outcome === 'bad' ? 'bad' : 'good') : TONE[c.status]}
+                />
                 <div className={s.crisisListMain}>
                   <div className={s.crisisListHead}>
                     <strong>{crisisTitle(c, t, params)}</strong>
@@ -42,16 +45,23 @@ export function CrisisPanel() {
                     <CrisisSteps c={c} />
                   </div>
                   <span className={`${s.small} ${s.muted}`}>
-                    {c.status === 'over' && c.outcome ? t(`crisis.outcome.${c.outcome}`) : t(`crisis.status.${c.status}`)}
+                    {c.status === 'over' && c.outcome
+                      ? t(`crisis.outcome.${c.outcome}`)
+                      : t(`crisis.status.${c.status}`)}
                     {last && (
                       <>
                         {' · '}
-                        <span className="num">{formatQuarter(last.quarter)}</span> {t(`${stageKey(c, last.stage)}.choices.${last.choiceId}`, params)}
+                        <span className="num">{formatQuarter(last.quarter)}</span>{' '}
+                        {t(`${stageKey(c, last.stage)}.choices.${last.choiceId}`, params)}
                       </>
                     )}
                   </span>
                 </div>
-                <Button size="small" variant={c.status === 'active' ? 'primary' : 'default'} onClick={() => openCrisis(c.id)}>
+                <Button
+                  size="small"
+                  variant={c.status === 'active' ? 'primary' : 'default'}
+                  onClick={() => openCrisis(c.id)}
+                >
                   {c.status === 'active' ? t('crisis.decide') : t('crisis.open')}
                 </Button>
               </li>

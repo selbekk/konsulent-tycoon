@@ -17,7 +17,9 @@ import { addNews } from './util'
 /** What the owners want: the business (not its cash, which stays with them) plus a premium, or a floor per head. Pure. */
 export function acquisitionPrice(target: Firm): number {
   const business = Math.max(0, valuation(target) - Math.max(0, target.cash))
-  return Math.round(Math.max(headcount(target) * ACQUIRE_PRICE_PER_HEAD, business * ACQUIRE_PREMIUM) / 100_000) * 100_000
+  return (
+    Math.round(Math.max(headcount(target) * ACQUIRE_PRICE_PER_HEAD, business * ACQUIRE_PREMIUM) / 100_000) * 100_000
+  )
 }
 
 /** Error key if `buyer` can't buy `target` right now, else undefined. Pure. */
@@ -69,6 +71,9 @@ export function handleAcquire(state: GameState, a: ActionOf<'acquireFirm'>): str
   // Out of the market, but not a bankruptcy: nothing goes back out to tender.
   target.bankrupt = true
   target.acquiredBy = buyer.id
-  addNews(state, 'news.firm.acquiredBy', { firm: target.name, buyer: buyer.name }, 'sassy', { firmId: buyer.id, personal: buyer.isPlayer })
+  addNews(state, 'news.firm.acquiredBy', { firm: target.name, buyer: buyer.name }, 'sassy', {
+    firmId: buyer.id,
+    personal: buyer.isPlayer,
+  })
   return undefined
 }

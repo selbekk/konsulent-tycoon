@@ -77,7 +77,9 @@ export function StrategyScreen() {
   return (
     <div className={s.grid}>
       <Panel title={t('strategy.title')} icon="flag" className={s.span12}>
-        <p className={`${s.small} ${s.muted}`} style={{ margin: 0 }}>{t('strategy.intro')}</p>
+        <p className={`${s.small} ${s.muted}`} style={{ margin: 0 }}>
+          {t('strategy.intro')}
+        </p>
         {error && <p className={s.bad}>{t(`game:${error}`)}</p>}
       </Panel>
 
@@ -91,7 +93,9 @@ export function StrategyScreen() {
             })}
           </Hint>
           <strong className={s.small}>
-            {me.specialty ? t('strategy.specialty.current', { name: specialtyName(t, me.specialty) }) : t('strategy.specialty.none')}
+            {me.specialty
+              ? t('strategy.specialty.current', { name: specialtyName(t, me.specialty) })
+              : t('strategy.specialty.none')}
           </strong>
           <div className={s.row} style={{ flexWrap: 'wrap' }}>
             {SPECIALTIES.map((sp) => (
@@ -124,7 +128,9 @@ export function StrategyScreen() {
                     <span className={s.small}>{t(`content:partnerships.${p.id}.desc`)}</span>
                     <div className={`${s.row} ${s.between}`}>
                       <Badge>{t(`disciplines.${p.discipline}`)}</Badge>
-                      <span className={`${s.small} num`}>{t('strategy.partners.fee', { fee: formatMoney(p.fee, lng) })}</span>
+                      <span className={`${s.small} num`}>
+                        {t('strategy.partners.fee', { fee: formatMoney(p.fee, lng) })}
+                      </span>
                     </div>
                     <Button
                       size="small"
@@ -151,7 +157,9 @@ export function StrategyScreen() {
               disabled={lobbyWait > 0 || me.cash < LOBBY_COST}
               onClick={() => run({ type: 'lobby', firmId: me.id })}
             >
-              {lobbyWait > 0 ? t('strategy.lobby.wait', { count: lobbyWait }) : t('strategy.lobby.do', { cost: formatMoney(LOBBY_COST, lng) })}
+              {lobbyWait > 0
+                ? t('strategy.lobby.wait', { count: lobbyWait })
+                : t('strategy.lobby.do', { cost: formatMoney(LOBBY_COST, lng) })}
             </Button>
           </div>
         </Locked>
@@ -168,7 +176,9 @@ export function StrategyScreen() {
                   <article key={d.id} className={s.card} data-highlight={on || undefined}>
                     <strong>{t(`content:departments.${d.id}.name`)}</strong>
                     <span className={s.small}>{t(`content:departments.${d.id}.desc`, departmentParams)}</span>
-                    <span className={`${s.small} num`}>{t('strategy.departments.fee', { fee: formatMoney(departmentFee(d.id, hc), lng) })}</span>
+                    <span className={`${s.small} num`}>
+                      {t('strategy.departments.fee', { fee: formatMoney(departmentFee(d.id, hc), lng) })}
+                    </span>
                     <Button
                       size="small"
                       variant={on ? 'ghost' : 'primary'}
@@ -231,7 +241,10 @@ export function StrategyScreen() {
         <Locked firm={me} feature="ipo">
           {me.listed ? (
             <p className={s.small}>
-              {t('strategy.ipo.listed', { quarter: formatQuarter(me.listed.quarter), owners: formatPercent(1 - me.listed.share, lng) })}
+              {t('strategy.ipo.listed', {
+                quarter: formatQuarter(me.listed.quarter),
+                owners: formatPercent(1 - me.listed.share, lng),
+              })}
             </p>
           ) : (
             <div className={s.stack}>
@@ -290,7 +303,12 @@ export function StrategyScreen() {
             </>
           }
         >
-          <p>{t('strategy.acquisitions.confirm', { firm: buyingFirm.name, price: formatMoney(acquisitionPrice(buyingFirm), lng) })}</p>
+          <p>
+            {t('strategy.acquisitions.confirm', {
+              firm: buyingFirm.name,
+              price: formatMoney(acquisitionPrice(buyingFirm), lng),
+            })}
+          </p>
         </Modal>
       )}
     </div>

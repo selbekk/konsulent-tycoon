@@ -1,4 +1,12 @@
-import type { CrisisCategory, CrisisMinigame, CrisisOutcome, CrisisSeverity, Firm, GameState, Params } from '../engine/types'
+import type {
+  CrisisCategory,
+  CrisisMinigame,
+  CrisisOutcome,
+  CrisisSeverity,
+  Firm,
+  GameState,
+  Params,
+} from '../engine/types'
 
 /**
  * Crises: multi-quarter situations with hidden severity. Texts live in `game:crises.<id>.<stage>`.
@@ -175,7 +183,12 @@ export const CRISES: CrisisDef[] = [
       {
         id: 'report',
         choices: [
-          { id: 'investigate', effect: { cashPerHead: -8_000, benchStar: true, fagmiljo: 2 }, needs: 'star', next: 'verdict' },
+          {
+            id: 'investigate',
+            effect: { cashPerHead: -8_000, benchStar: true, fagmiljo: 2 },
+            needs: 'star',
+            next: 'verdict',
+          },
           { id: 'talk', effect: {}, needs: 'star', next: 'verdict' },
           { id: 'drawer', effect: {}, bury: true, outcome: 'ok', fallback: true },
         ],
@@ -186,7 +199,13 @@ export const CRISES: CrisisDef[] = [
         choices: [
           { id: 'clear', only: 'low', effect: { starLoyalty: 10, morale: 3 }, outcome: 'good', fallback: true },
           { id: 'mediate', only: 'low', effect: { cash: -60_000, sosialt: 5, morale: 2 }, outcome: 'good' },
-          { id: 'let_go', only: 'high', effect: { loseStar: true, morale: 5, reputation: 2 }, needs: 'star', outcome: 'ok' },
+          {
+            id: 'let_go',
+            only: 'high',
+            effect: { loseStar: true, morale: 5, reputation: 2 },
+            needs: 'star',
+            outcome: 'ok',
+          },
           {
             id: 'townhall',
             only: 'high',
@@ -196,7 +215,14 @@ export const CRISES: CrisisDef[] = [
             talkBad: { morale: -6, heat: 8 },
             outcome: 'ok',
           },
-          { id: 'stand_by', only: 'high', effect: { morale: -8, heat: 12 }, bury: true, outcome: 'bad', fallback: true },
+          {
+            id: 'stand_by',
+            only: 'high',
+            effect: { morale: -8, heat: 12 },
+            bury: true,
+            outcome: 'bad',
+            fallback: true,
+          },
         ],
       },
     ],
@@ -252,7 +278,12 @@ export const CRISES: CrisisDef[] = [
       {
         id: 'warning',
         choices: [
-          { id: 'send_partner', effect: { benchStar: true, satisfaction: 12, relationship: 3 }, needs: 'star', next: 'decision' },
+          {
+            id: 'send_partner',
+            effect: { benchStar: true, satisfaction: 12, relationship: 3 },
+            needs: 'star',
+            next: 'decision',
+          },
           { id: 'discount', effect: { rateCut: 0.08, satisfaction: 15 }, needs: 'contract', next: 'decision' },
           {
             id: 'rescue_meeting',
@@ -263,7 +294,12 @@ export const CRISES: CrisisDef[] = [
             effect: { satisfaction: 6 },
             next: 'decision',
           },
-          { id: 'graceful_exit', effect: { terminate: true, relationship: 12, reputation: 1 }, needs: 'contract', outcome: 'ok' },
+          {
+            id: 'graceful_exit',
+            effect: { terminate: true, relationship: 12, reputation: 1 },
+            needs: 'contract',
+            outcome: 'ok',
+          },
           { id: 'do_nothing', effect: { satisfaction: -5 }, next: 'decision', fallback: true },
         ],
       },
@@ -299,7 +335,12 @@ export const CRISES: CrisisDef[] = [
         id: 'unpaid',
         choices: [
           { id: 'keep_working', effect: { relationship: 4 }, next: 'verdict', fallback: true },
-          { id: 'stop_work', effect: { terminate: true, contractRevenue: -0.5, relationship: -10 }, needs: 'contract', outcome: 'ok' },
+          {
+            id: 'stop_work',
+            effect: { terminate: true, contractRevenue: -0.5, relationship: -10 },
+            needs: 'contract',
+            outcome: 'ok',
+          },
           { id: 'factoring', effect: { contractRevenue: -0.3, relationship: -3 }, needs: 'contract', outcome: 'ok' },
         ],
       },
@@ -371,7 +412,11 @@ export const CRISES: CrisisDef[] = [
         reveals: true,
         onEnter: { low: { cashPerHead: -6_000 }, high: { cashPerHead: -25_000 } },
         choices: [
-          { id: 'cut_perks', effect: { cashPerHead: 8_000, sosialt: -6, morale: -2 }, outcome: { low: 'ok', high: 'bad' } },
+          {
+            id: 'cut_perks',
+            effect: { cashPerHead: 8_000, sosialt: -6, morale: -2 },
+            outcome: { low: 'ok', high: 'bad' },
+          },
           { id: 'swallow', effect: {}, outcome: { low: 'good', high: 'ok' }, fallback: true },
         ],
       },
@@ -393,7 +438,12 @@ export const CRISES: CrisisDef[] = [
         choices: [
           { id: 'rent_space', effect: { cashPerHead: -12_000 }, next: 'insurance' },
           { id: 'remote', effect: { sosialt: -6 }, next: 'insurance' },
-          { id: 'client_office', effect: { relationship: 5, sosialt: -4, fagmiljo: -2 }, needs: 'customer', next: 'insurance' },
+          {
+            id: 'client_office',
+            effect: { relationship: 5, sosialt: -4, fagmiljo: -2 },
+            needs: 'customer',
+            next: 'insurance',
+          },
           { id: 'wing_it', effect: { bench: 0.1, morale: -4 }, next: 'insurance', fallback: true },
         ],
       },
@@ -402,7 +452,13 @@ export const CRISES: CrisisDef[] = [
         reveals: true,
         onEnter: { high: { cashPerHead: -15_000 } },
         choices: [
-          { id: 'paperwork', effect: { bench: 0.03 }, low: { cashPerHead: 8_000 }, high: { cashPerHead: 20_000 }, outcome: 'good' },
+          {
+            id: 'paperwork',
+            effect: { bench: 0.03 },
+            low: { cashPerHead: 8_000 },
+            high: { cashPerHead: 20_000 },
+            outcome: 'good',
+          },
           { id: 'forget', effect: {}, outcome: { low: 'good', high: 'bad' }, fallback: true },
         ],
       },
@@ -430,9 +486,27 @@ export const CRISES: CrisisDef[] = [
         reveals: true,
         choices: [
           { id: 'shrug', only: 'low', effect: {}, outcome: 'good', fallback: true },
-          { id: 'weekend_push', only: 'high', effect: { morale: -5, satisfaction: 4 }, needs: 'contract', outcome: 'ok' },
-          { id: 'cake', only: 'high', effect: { cash: -40_000, relationship: 3, satisfaction: -4 }, needs: 'contract', outcome: 'ok' },
-          { id: 'miss_it', only: 'high', effect: { satisfaction: -12, relationship: -3 }, outcome: 'bad', fallback: true },
+          {
+            id: 'weekend_push',
+            only: 'high',
+            effect: { morale: -5, satisfaction: 4 },
+            needs: 'contract',
+            outcome: 'ok',
+          },
+          {
+            id: 'cake',
+            only: 'high',
+            effect: { cash: -40_000, relationship: 3, satisfaction: -4 },
+            needs: 'contract',
+            outcome: 'ok',
+          },
+          {
+            id: 'miss_it',
+            only: 'high',
+            effect: { satisfaction: -12, relationship: -3 },
+            outcome: 'bad',
+            fallback: true,
+          },
         ],
       },
     ],
@@ -478,7 +552,12 @@ export const CRISES: CrisisDef[] = [
             talkBad: { reputation: -4, heat: 5 },
             outcome: 'ok',
           },
-          { id: 'apology_tour', effect: { cashPerHead: -6_000, relationship: 8, satisfaction: 5 }, needs: 'customer', outcome: { low: 'good', high: 'ok' } },
+          {
+            id: 'apology_tour',
+            effect: { cashPerHead: -6_000, relationship: 8, satisfaction: 5 },
+            needs: 'customer',
+            outcome: { low: 'good', high: 'ok' },
+          },
           { id: 'lie_low', effect: {}, outcome: { low: 'ok', high: 'bad' }, fallback: true },
         ],
       },
@@ -495,7 +574,13 @@ export const CRISES: CrisisDef[] = [
       {
         id: 'locked',
         choices: [
-          { id: 'pay_ransom', effect: { cashPerHead: -15_000, heat: 10 }, high: { bench: 0.04 }, bury: true, outcome: 'ok' },
+          {
+            id: 'pay_ransom',
+            effect: { cashPerHead: -15_000, heat: 10 },
+            high: { bench: 0.04 },
+            bury: true,
+            outcome: 'ok',
+          },
           { id: 'rebuild', effect: { bench: 0.08, fagmiljo: 5 }, next: 'restore' },
           { id: 'spreadsheets', effect: { bench: 0.04, morale: -4 }, next: 'restore', fallback: true },
         ],
@@ -535,7 +620,12 @@ export const CRISES: CrisisDef[] = [
       {
         id: 'outage',
         choices: [
-          { id: 'war_room', effect: { bench: 0.05, satisfaction: 6, morale: -3 }, needs: 'contract', next: 'postmortem' },
+          {
+            id: 'war_room',
+            effect: { bench: 0.05, satisfaction: 6, morale: -3 },
+            needs: 'contract',
+            next: 'postmortem',
+          },
           { id: 'blameless', effect: { fagmiljo: 3 }, next: 'postmortem' },
           { id: 'blame_vendor', effect: { heat: 8, satisfaction: 3 }, bury: true, outcome: 'ok' },
           { id: 'wait_it_out', effect: { satisfaction: -12 }, next: 'postmortem', fallback: true },
@@ -556,7 +646,13 @@ export const CRISES: CrisisDef[] = [
             talkBad: { satisfaction: -10 },
             outcome: 'ok',
           },
-          { id: 'credit_note', only: 'high', effect: { contractRevenue: -0.25, satisfaction: 12 }, needs: 'contract', outcome: 'ok' },
+          {
+            id: 'credit_note',
+            only: 'high',
+            effect: { contractRevenue: -0.25, satisfaction: 12 },
+            needs: 'contract',
+            outcome: 'ok',
+          },
           { id: 'move_on', only: 'high', effect: { satisfaction: -10 }, outcome: 'bad', fallback: true },
         ],
       },
@@ -576,7 +672,13 @@ export const CRISES: CrisisDef[] = [
         choices: [
           { id: 'apologize', effect: { relationship: -2 }, next: 'reaction' },
           { id: 'swap_consultant', effect: { satisfaction: 4, morale: -4 }, needs: 'contract', next: 'reaction' },
-          { id: 'gif', effect: {}, low: { relationship: 5, sosialt: 3 }, high: { relationship: -12, satisfaction: -8 }, outcome: { low: 'good', high: 'bad' } },
+          {
+            id: 'gif',
+            effect: {},
+            low: { relationship: 5, sosialt: 3 },
+            high: { relationship: -12, satisfaction: -8 },
+            outcome: { low: 'good', high: 'bad' },
+          },
           { id: 'pretend', effect: { relationship: -5 }, next: 'reaction', fallback: true },
         ],
       },

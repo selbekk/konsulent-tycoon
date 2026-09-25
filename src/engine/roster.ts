@@ -122,7 +122,13 @@ export type RemovePick = { employeeId: string } | 'weakest' | 'random'
  * Takes up to `n` people out of discipline `d` and returns who went (empty without a roster).
  * `random` (turnover, crises) spares people with a career promise while others are left.
  */
-export function removePeople(state: GameState, firm: Firm, d: Discipline, n: number, how: RemovePick = 'random'): Employee[] {
+export function removePeople(
+  state: GameState,
+  firm: Firm,
+  d: Discipline,
+  n: number,
+  how: RemovePick = 'random',
+): Employee[] {
   const p = firm.pools[d]
   n = Math.min(n, p.count)
   if (n <= 0) return []
@@ -133,7 +139,8 @@ export function removePeople(state: GameState, firm: Firm, d: Discipline, n: num
   let chosen: Employee[]
   const people = rosterIn(firm, d)
   if (typeof how === 'object') chosen = people.filter((e) => e.id === how.employeeId)
-  else if (how === 'weakest') chosen = [...people].sort((a, b) => a.level - b.level || compareIds(a.id, b.id)).slice(0, n)
+  else if (how === 'weakest')
+    chosen = [...people].sort((a, b) => a.level - b.level || compareIds(a.id, b.id)).slice(0, n)
   else
     chosen = shuffle(rosterRng(state, firm, 'leave'), people)
       .sort((a, b) => Number(!!a.promise) - Number(!!b.promise))

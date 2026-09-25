@@ -9,10 +9,24 @@ import type { Contract, GameState } from './types'
 import { emptyPools, seatTotal } from './util'
 
 const contract = (over: Partial<Contract> = {}): Contract => ({
-  id: 'cx', tenderId: 't', firmId: 'player', customerId: 'navet', kind: 'project',
-  baseSeats: { frontend: 2 }, activeSeats: { frontend: 2 }, rateMultiplier: 1, share: 1, rank: 1,
-  startQuarter: 0, endQuarter: 4, starIds: [], satisfaction: 70, outsourcedShare: 0,
-  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false }, terminated: false, ...over,
+  id: 'cx',
+  tenderId: 't',
+  firmId: 'player',
+  customerId: 'navet',
+  kind: 'project',
+  baseSeats: { frontend: 2 },
+  activeSeats: { frontend: 2 },
+  rateMultiplier: 1,
+  share: 1,
+  rank: 1,
+  startQuarter: 0,
+  endQuarter: 4,
+  starIds: [],
+  satisfaction: 70,
+  outsourcedShare: 0,
+  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false },
+  terminated: false,
+  ...over,
 })
 
 function isolated(): GameState {
@@ -32,7 +46,9 @@ describe('market mechanics', () => {
     expect(st.contracts[0].flex.frontend).toBe(2)
     expect(st.contracts[0].freelance.frontend).toBeUndefined()
     expect(st.billed).toBe(2)
-    expect(contractRevenue(s.firms.player, s.contracts[0], st.contracts[0])).toBeCloseTo(2 * BILLABLE_HOURS * listRate(FLEX_LEVEL))
+    expect(contractRevenue(s.firms.player, s.contracts[0], st.contracts[0])).toBeCloseTo(
+      2 * BILLABLE_HOURS * listRate(FLEX_LEVEL),
+    )
   })
 
   it('happy clients renew projects instead of re-tendering', () => {
@@ -58,7 +74,10 @@ describe('market mechanics', () => {
   it('a renewed contract lets go of a star who has moved to a newly won contract', () => {
     const s = newTestGame()
     const star = s.firms.player.stars[0]
-    s.contracts = [contract({ satisfaction: 100, endQuarter: 3, starIds: [star.id] }), contract({ id: 'cy', starIds: [star.id], startQuarter: 3, endQuarter: 6 })]
+    s.contracts = [
+      contract({ satisfaction: 100, endQuarter: 3, starIds: [star.id] }),
+      contract({ id: 'cy', starIds: [star.id], startQuarter: 3, endQuarter: 6 }),
+    ]
     star.assignedContractId = 'cy'
     let renewed: Contract | undefined
     for (let i = 0; i < 10 && !renewed; i++) {

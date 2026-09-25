@@ -21,7 +21,8 @@ const profileRng = (state: GameState, key: string): RngState => createRng(hashSt
 
 function drawProfile(rng: RngState, discipline: Discipline, level: number, quarter: number): Required<Profile> {
   const roll = nextFloat(rng)
-  const gender: Gender = roll < NONBINARY_SHARE ? 'nonbinary' : roll < NONBINARY_SHARE + FEMALE_SHARE[discipline] ? 'female' : 'male'
+  const gender: Gender =
+    roll < NONBINARY_SHARE ? 'nonbinary' : roll < NONBINARY_SHARE + FEMALE_SHARE[discipline] ? 'female' : 'male'
   const years = Math.max(0, (level - 1) * EXPERIENCE_PER_LEVEL + noise(rng, EXPERIENCE_SPREAD))
   const startAge = CAREER_START_AGE + nextFloat(rng) * CAREER_START_AGE_SPREAD
   const careerStartQuarter = quarter - Math.round(years * 4)
@@ -37,7 +38,13 @@ export function newProfile(state: GameState, key: string, discipline: Discipline
  * Swaps the first name for one that fits the gender, if it doesn't already. Names are drawn as
  * before (from state.rng for stars, the roster RNG for employees), so every other draw stays put.
  */
-export function fitName(state: GameState, key: string, name: string, gender: Gender, taken?: ReadonlySet<string>): string {
+export function fitName(
+  state: GameState,
+  key: string,
+  name: string,
+  gender: Gender,
+  taken?: ReadonlySet<string>,
+): string {
   if (gender === 'nonbinary') return name
   const names = gender === 'female' ? FEMALE_FIRST_NAMES : MALE_FIRST_NAMES
   const [first, ...rest] = name.split(' ')
@@ -64,9 +71,15 @@ export function profileOf(state: GameState, p: Person): Required<Profile> {
   const drawn = drawProfile(profileRng(state, p.id), p.discipline, p.level, p.joinedQuarter ?? 0)
   // Their name was drawn without a gender, so let a gendered first name decide.
   const first = p.name.split(' ')[0]
-  if (drawn.gender !== 'nonbinary') drawn.gender = FEMALE_FIRST_NAMES.includes(first) ? 'female' : MALE_FIRST_NAMES.includes(first) ? 'male' : drawn.gender
+  if (drawn.gender !== 'nonbinary')
+    drawn.gender = FEMALE_FIRST_NAMES.includes(first)
+      ? 'female'
+      : MALE_FIRST_NAMES.includes(first)
+        ? 'male'
+        : drawn.gender
   return drawn
 }
 
 export const ageAt = (profile: Required<Profile>, quarter: number) => (quarter - profile.bornQuarter) / 4
-export const experienceAt = (profile: Required<Profile>, quarter: number) => Math.max(0, (quarter - profile.careerStartQuarter) / 4)
+export const experienceAt = (profile: Required<Profile>, quarter: number) =>
+  Math.max(0, (quarter - profile.careerStartQuarter) / 4)

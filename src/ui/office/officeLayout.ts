@@ -32,13 +32,21 @@ export interface OfficeMood {
 
 export const CALM: OfficeMood = { party: false, crisis: false, season: null, birthday: null }
 
-const PARTY_NEWS = ['news.tender.playerWon', 'news.milestone.', 'news.record.', 'news.mission.done', 'news.contract.renewed']
+const PARTY_NEWS = [
+  'news.tender.playerWon',
+  'news.milestone.',
+  'news.record.',
+  'news.mission.done',
+  'news.contract.renewed',
+]
 
 /** Trophies on the shelf before it shows up in the office. */
 const TROPHY_SHELF_FROM = 3
 
 export function officeMood(game: GameState, firm: Firm): OfficeMood {
-  const party = game.news.some((n) => n.personal && n.quarter === game.quarter - 1 && PARTY_NEWS.some((k) => n.key.startsWith(k)))
+  const party = game.news.some(
+    (n) => n.personal && n.quarter === game.quarter - 1 && PARTY_NEWS.some((k) => n.key.startsWith(k)),
+  )
   const q = game.quarter % 4
   const roster = firm.roster ?? []
   const h = hashString(`${firm.id}:cake:${game.quarter}`)
@@ -68,7 +76,10 @@ export const DESKS_PER_FLOOR = 20
 export const MAX_FLOORS = 4
 
 /** Pure: which rooms and desks the office has, from headcount and culture levels. */
-export function officeLayout(firm: Firm, mood: OfficeMood = CALM): { floors: OfficeFloor[]; hiddenPeople: number; rooms: RoomTile[] } {
+export function officeLayout(
+  firm: Firm,
+  mood: OfficeMood = CALM,
+): { floors: OfficeFloor[]; hiddenPeople: number; rooms: RoomTile[] } {
   const hc = headcount(firm)
   const level = firmLevel(firm)
   const rooms: RoomTile[] = ['coffee', ...LEVEL_ROOMS.filter(([l]) => level >= l).map(([, room]) => room)]
@@ -85,7 +96,10 @@ export function officeLayout(firm: Firm, mood: OfficeMood = CALM): { floors: Off
   if (mood.party) rooms.push('champagne')
   if (mood.crisis) rooms.push('siren')
 
-  const floorCount = Math.min(MAX_FLOORS, Math.max(1, Math.ceil(hc / DESKS_PER_FLOOR), hc >= 100 ? 4 : hc >= 50 ? 3 : hc >= 20 ? 2 : 1))
+  const floorCount = Math.min(
+    MAX_FLOORS,
+    Math.max(1, Math.ceil(hc / DESKS_PER_FLOOR), hc >= 100 ? 4 : hc >= 50 ? 3 : hc >= 20 ? 2 : 1),
+  )
   const floors: OfficeFloor[] = []
   let people = hc
   for (let f = 0; f < floorCount; f++) {

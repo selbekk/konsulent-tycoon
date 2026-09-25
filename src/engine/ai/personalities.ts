@@ -135,7 +135,14 @@ export const RIVALS: Record<string, Personality> = {
 export const PLAYER_BOTS: Record<string, Personality> = {
   idle: { ...ARCHETYPES.mid_generalist, id: 'idle' },
   balanced: { ...ARCHETYPES.mid_generalist, id: 'balanced', qualityFocus: 0.65, priceBias: 0.95, shadiness: 0 },
-  greedy: { ...ARCHETYPES.budget_bulk, id: 'greedy', qualityFocus: 0.2, priceBias: 0.85, shadiness: 0, growthAppetite: 0.8 },
+  greedy: {
+    ...ARCHETYPES.budget_bulk,
+    id: 'greedy',
+    qualityFocus: 0.2,
+    priceBias: 0.85,
+    shadiness: 0,
+    growthAppetite: 0.8,
+  },
   shady: { ...ARCHETYPES.mid_generalist, id: 'shady', qualityFocus: 0.5, shadiness: 0.6, aggression: 0.4 },
 }
 

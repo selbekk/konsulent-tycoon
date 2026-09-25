@@ -14,7 +14,11 @@ export function serialize(state: GameState): string {
   return JSON.stringify(state)
 }
 
-export function deserialize(raw: string, migs: Record<number, Migration> = migrations, target = SAVE_VERSION): GameState {
+export function deserialize(
+  raw: string,
+  migs: Record<number, Migration> = migrations,
+  target = SAVE_VERSION,
+): GameState {
   let s = JSON.parse(raw) as AnyState
   if (typeof s?.saveVersion !== 'number') throw new Error('save.invalid')
   if (s.saveVersion > target) throw new Error('save.tooNew')
@@ -57,7 +61,14 @@ const logKey = (slot: string) => `kt.log.${slot}`
 export function saveToSlot(storage: Storage, slot: SlotId, state: GameState, now = new Date()): boolean {
   try {
     const p = state.firms[state.playerId]
-    const meta: SlotMeta = { slot, firmName: p.name, quarter: state.quarter, savedAt: now.toISOString(), cash: p.cash, status: state.status }
+    const meta: SlotMeta = {
+      slot,
+      firmName: p.name,
+      quarter: state.quarter,
+      savedAt: now.toISOString(),
+      cash: p.cash,
+      status: state.status,
+    }
     storage.setItem(saveKey(slot), serialize(state))
     storage.setItem(metaKey(slot), JSON.stringify(meta))
     return true

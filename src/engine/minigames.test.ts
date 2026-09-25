@@ -2,7 +2,15 @@ import { describe, expect, it } from 'vitest'
 import { CUSTOMERS } from '../content/customers'
 import { QUESTION_SECTOR } from '../content/meetingQuestions'
 import { CRISIS_TALKS, OPPOSITE_TALK_STYLE, TALK_STYLES } from '../content/crisisTalks'
-import { scoreBingo, scoreCrisisTalk, scoreMeeting, setupBingo, setupCrisisTalk, setupMeeting, talkPreference } from './minigames'
+import {
+  scoreBingo,
+  scoreCrisisTalk,
+  scoreMeeting,
+  setupBingo,
+  setupCrisisTalk,
+  setupMeeting,
+  talkPreference,
+} from './minigames'
 import { newTestGame } from './testUtils'
 
 describe('minigames', () => {
@@ -63,7 +71,8 @@ describe('minigames', () => {
       expect(talkPreference('cr1', 'player', kind)).toBe(talkPreference('cr1', 'player', kind))
       const seen = new Set(Array.from({ length: 200 }, (_, i) => talkPreference(`cr${i}`, 'player', kind)))
       expect(seen.size).toBeGreaterThanOrEqual(3)
-      for (const r of setupCrisisTalk('cr1', 'player', kind)) expect([...r.answers].sort()).toEqual([...TALK_STYLES].sort())
+      for (const r of setupCrisisTalk('cr1', 'player', kind))
+        expect([...r.answers].sort()).toEqual([...TALK_STYLES].sort())
     }
     expect(s.rng.s).toBe(before)
   })

@@ -1,6 +1,14 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { STAKE_AXES, crisisChoicePreview, crisisChoices, crisisDef, crisisProgress, crisisStage, openCrises } from '../../engine'
+import {
+  STAKE_AXES,
+  crisisChoicePreview,
+  crisisChoices,
+  crisisDef,
+  crisisProgress,
+  crisisStage,
+  openCrises,
+} from '../../engine'
 import type { ChoicePreview, Crisis, Stake, StakeAxis } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Icon } from '../components/Icon'
@@ -17,7 +25,11 @@ export function CrisisSteps({ c }: { c: Crisis }) {
   return (
     <span className={s.crisisSteps} role="img" aria-label={t('crisis.step', { step: Math.max(1, step), total })}>
       {Array.from({ length: total }, (_, i) => (
-        <span key={i} className={s.crisisStep} data-state={i < done ? 'done' : i === done && c.status === 'active' ? 'now' : 'todo'} />
+        <span
+          key={i}
+          className={s.crisisStep}
+          data-state={i < done ? 'done' : i === done && c.status === 'active' ? 'now' : 'todo'}
+        />
       ))}
     </span>
   )
@@ -34,7 +46,11 @@ function StakeRow({ stakes }: { stakes: Record<StakeAxis, Stake> }) {
         // More risk is bad news, so it points the other way.
         const tone = v === '?' ? 'unknown' : (a === 'risk' ? -v : v) > 0 ? 'good' : 'bad'
         const word =
-          v === '?' ? t('crisis.stakeValue.unknown') : a === 'risk' ? t(v > 0 ? 'crisis.stakeValue.riskUp' : 'crisis.stakeValue.riskDown') : t(v > 0 ? 'crisis.stakeValue.up' : 'crisis.stakeValue.down')
+          v === '?'
+            ? t('crisis.stakeValue.unknown')
+            : a === 'risk'
+              ? t(v > 0 ? 'crisis.stakeValue.riskUp' : 'crisis.stakeValue.riskDown')
+              : t(v > 0 ? 'crisis.stakeValue.up' : 'crisis.stakeValue.down')
         return (
           <span key={a} className={s.crisisStake} data-tone={tone} title={`${t(`crisis.stakes.${a}`)}: ${word}`}>
             <span aria-hidden>{v === '?' ? '?' : v > 0 ? '▲' : '▼'}</span> {t(`crisis.stakes.${a}`)}
@@ -77,6 +93,8 @@ export function CrisisModal({ crisisId }: { crisisId: string }) {
   const active = c?.status === 'active'
   useEffect(() => {
     if (active) playSound('siren')
+    // Sound the siren again for every new crisis and stage.
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [crisisId, c?.stage, active])
   if (!c || !crisisDef(c)) return null
 
@@ -133,7 +151,9 @@ export function CrisisModal({ crisisId }: { crisisId: string }) {
                 <li key={i}>
                   <span className={`num ${s.muted}`}>{formatQuarter(l.quarter)}</span> {choiceText(l.stage, l.choiceId)}
                   {l.auto && <span className={s.muted}> {t('crisis.autoPicked')}</span>}
-                  {l.score !== undefined && <span className={s.muted}> · {t('crisis.talkScore', { score: l.score })}</span>}
+                  {l.score !== undefined && (
+                    <span className={s.muted}> · {t('crisis.talkScore', { score: l.score })}</span>
+                  )}
                 </li>
               ))}
             </ol>
@@ -147,7 +167,9 @@ export function CrisisModal({ crisisId }: { crisisId: string }) {
             {c.status === 'buried' && <p className={s.muted}>{t('crisis.buriedNow')}</p>}
             {c.status === 'over' && c.outcome && (
               <p>
-                <Badge tone={c.outcome === 'good' ? 'good' : c.outcome === 'bad' ? 'bad' : 'warn'}>{t(`crisis.outcome.${c.outcome}`)}</Badge>
+                <Badge tone={c.outcome === 'good' ? 'good' : c.outcome === 'bad' ? 'bad' : 'warn'}>
+                  {t(`crisis.outcome.${c.outcome}`)}
+                </Badge>
               </p>
             )}
           </div>
@@ -159,17 +181,28 @@ export function CrisisModal({ crisisId }: { crisisId: string }) {
                 const p = crisisChoicePreview(game, c, ch)
                 const resume = !!ch.talk && c.minigameStarted === ch.id
                 return (
-                  <button key={ch.id} type="button" className={s.crisisChoice} disabled={!!p.block && !resume} onClick={() => pick(ch.id, !!ch.talk)}>
+                  <button
+                    key={ch.id}
+                    type="button"
+                    className={s.crisisChoice}
+                    disabled={!!p.block && !resume}
+                    onClick={() => pick(ch.id, !!ch.talk)}
+                  >
                     <span className={s.crisisChoiceLabel}>
-                      {ch.talk && <Icon name="handshake" size={12} />} {resume ? t('crisis.resume') : choiceText(c.stage, ch.id)}
+                      {ch.talk && <Icon name="handshake" size={12} />}{' '}
+                      {resume ? t('crisis.resume') : choiceText(c.stage, ch.id)}
                     </span>
                     <ChoiceFacts p={p} />
                     <StakeRow stakes={p.stakes} />
                     {(p.uncertain || p.talk) && (
-                      <span className={`${s.small} ${s.muted}`}>{p.talk ? t('crisis.talkHint') : t('crisis.uncertain')}</span>
+                      <span className={`${s.small} ${s.muted}`}>
+                        {p.talk ? t('crisis.talkHint') : t('crisis.uncertain')}
+                      </span>
                     )}
                     {ch.fallback && <span className={`${s.small} ${s.muted}`}>{t('crisis.fallbackHint')}</span>}
-                    {p.block && !resume && <span className={`${s.small} ${s.crisisBlock}`}>{t(`game:${p.block}`)}</span>}
+                    {p.block && !resume && (
+                      <span className={`${s.small} ${s.crisisBlock}`}>{t(`game:${p.block}`)}</span>
+                    )}
                   </button>
                 )
               })}

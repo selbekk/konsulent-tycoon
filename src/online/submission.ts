@@ -1,6 +1,17 @@
 import { isLeaderboardName } from '../content/leaderboardNames'
 import type { LeaderboardName } from '../content/leaderboardNames'
-import { DISCIPLINES, RUN_LOG_MAX, WEEKLY_DIFFICULTY, endTitle, playerRank, replayRun, shadyStats, valuation, weekOpen, weekSeed } from '../engine'
+import {
+  DISCIPLINES,
+  RUN_LOG_MAX,
+  WEEKLY_DIFFICULTY,
+  endTitle,
+  playerRank,
+  replayRun,
+  shadyStats,
+  valuation,
+  weekOpen,
+  weekSeed,
+} from '../engine'
 import type { Discipline, EndTitle, GameState, NewGameOptions, RunLog } from '../engine'
 
 /**
@@ -45,7 +56,14 @@ export interface SubmitResult extends VerifiedRun {
   percentile: number
 }
 
-export type SubmitError = 'outdated' | 'weekClosed' | 'invalid' | 'tooLong' | 'replayFailed' | 'unfinished' | 'duplicate'
+export type SubmitError =
+  | 'outdated'
+  | 'weekClosed'
+  | 'invalid'
+  | 'tooLong'
+  | 'replayFailed'
+  | 'unfinished'
+  | 'duplicate'
 
 export type VerifyResult =
   | {
@@ -61,12 +79,24 @@ export type VerifyResult =
 const PLACEHOLDER_NAME = 'Spiller AS'
 
 export function submissionOptions(s: Pick<RunSubmission, 'week' | 'founders'>): NewGameOptions {
-  return { seed: weekSeed(s.week), firmName: PLACEHOLDER_NAME, founderDisciplines: s.founders, difficulty: WEEKLY_DIFFICULTY, weekly: s.week }
+  return {
+    seed: weekSeed(s.week),
+    firmName: PLACEHOLDER_NAME,
+    founderDisciplines: s.founders,
+    difficulty: WEEKLY_DIFFICULTY,
+    weekly: s.week,
+  }
 }
 
 /** Builds the submission for a finished weekly game, or null if it can't go on the leaderboard. */
-export function buildSubmission(game: GameState, log: RunLog | null, name: LeaderboardName, engineVersion: string): RunSubmission | null {
-  if (!game.weekly || !log || !game.gameId || game.status === 'playing' || game.difficulty !== WEEKLY_DIFFICULTY) return null
+export function buildSubmission(
+  game: GameState,
+  log: RunLog | null,
+  name: LeaderboardName,
+  engineVersion: string,
+): RunSubmission | null {
+  if (!game.weekly || !log || !game.gameId || game.status === 'playing' || game.difficulty !== WEEKLY_DIFFICULTY)
+    return null
   return {
     engineVersion,
     week: game.weekly.week,
@@ -105,12 +135,15 @@ function plainStep(x: unknown, depth = 0): boolean {
   if (typeof x === 'string') return x.length <= STRING_MAX_CHARS && !(x in Object.prototype)
   if (typeof x !== 'object' || depth >= STEP_MAX_DEPTH) return false
   if (Array.isArray(x)) return x.every((v) => plainStep(v, depth + 1))
-  return Object.keys(x).every((k) => !(k in Object.prototype) && plainStep((x as Record<string, unknown>)[k], depth + 1))
+  return Object.keys(x).every(
+    (k) => !(k in Object.prototype) && plainStep((x as Record<string, unknown>)[k], depth + 1),
+  )
 }
 
 export function stepOk(e: unknown): boolean {
   if (e === 'end') return true
-  if (!e || typeof e !== 'object' || Array.isArray(e) || typeof (e as { type?: unknown }).type !== 'string') return false
+  if (!e || typeof e !== 'object' || Array.isArray(e) || typeof (e as { type?: unknown }).type !== 'string')
+    return false
   return plainStep(e) && JSON.stringify(e).length <= STEP_MAX_CHARS
 }
 
@@ -121,7 +154,12 @@ function parse(x: unknown): RunSubmission | null {
   if (typeof s.engineVersion !== 'string' || s.engineVersion.length > 64) return null
   if (typeof s.week !== 'string' || !WEEK_RE.test(s.week)) return null
   if (typeof s.gameId !== 'string' || !GAME_ID_RE.test(s.gameId)) return null
-  if (!Array.isArray(s.founders) || s.founders.length !== 2 || !s.founders.every((d) => (DISCIPLINES as readonly unknown[]).includes(d))) return null
+  if (
+    !Array.isArray(s.founders) ||
+    s.founders.length !== 2 ||
+    !s.founders.every((d) => (DISCIPLINES as readonly unknown[]).includes(d))
+  )
+    return null
   if (!Array.isArray(s.log)) return null
   if (!s.log.every(stepOk)) return null
   if (!isLeaderboardName(s.name)) return null
@@ -137,7 +175,8 @@ function parse(x: unknown): RunSubmission | null {
 function minigameAverage(log: RunLog): number | null {
   const scores: number[] = []
   const talks = new Set<string>()
-  const score = (n: unknown) => (typeof n === 'number' && Number.isFinite(n) ? scores.push(Math.max(0, Math.min(100, n))) : 0)
+  const score = (n: unknown) =>
+    typeof n === 'number' && Number.isFinite(n) ? scores.push(Math.max(0, Math.min(100, n))) : 0
   for (const e of log) {
     if (e === 'end') continue
     if (e.type === 'recordMinigame') score(e.score)

@@ -24,7 +24,15 @@ export function Pips({ value, label }: { value: number; label: string }) {
 const priceFocus = (w: number) => Math.max(1, Math.min(5, Math.round((w - 0.3) / 0.12) + 1))
 const budgetLevel = (f: number) => Math.max(1, Math.min(5, Math.round((f - 0.6) / 0.2) + 1))
 
-export function CustomerProfileModal({ game, customerId, onClose }: { game: GameState; customerId: string; onClose: () => void }) {
+export function CustomerProfileModal({
+  game,
+  customerId,
+  onClose,
+}: {
+  game: GameState
+  customerId: string
+  onClose: () => void
+}) {
   const { t } = useTranslation()
   const def = CUSTOMER_MAP[customerId]
   const customer = game.customers[customerId]
@@ -67,11 +75,11 @@ export function CustomerProfileModal({ game, customerId, onClose }: { game: Game
           {t('customer.appealHint')}
         </p>
         <div className={s.stackSm}>
+          <span className={s.small}>{t(`bid.needItems.${def.wants}`)}</span>
           <span className={s.small}>
-            {t(`bid.needItems.${def.wants}`)}
-          </span>
-          <span className={s.small}>
-            {rel >= NEEDS_STYLE_RELATION ? t(`bid.needItems.${def.meetingPreference}`) : t('bid.needItems.styleUnknown')}
+            {rel >= NEEDS_STYLE_RELATION
+              ? t(`bid.needItems.${def.meetingPreference}`)
+              : t('bid.needItems.styleUnknown')}
           </span>
           <span className={s.small}>
             {t('customer.relation', { value: Math.round(rel) })} · {t('customer.contracts', { count: mine })}
@@ -90,11 +98,21 @@ export function CustomerName({ id, strong }: { id: string; strong?: boolean }) {
   const name = t(`content:customers.${id}.name`)
   return (
     <>
-      <button type="button" className={s.newsLink} onClick={() => setOpen(true)} aria-label={t('customer.open', { customer: name })}>
+      <button
+        type="button"
+        className={s.newsLink}
+        onClick={() => setOpen(true)}
+        aria-label={t('customer.open', { customer: name })}
+      >
         {strong ? <strong>{name}</strong> : name}
       </button>
       {/* Portalled: tender cards and table rows may be dimmed or animated, which would trap the modal inside them. */}
-      {open && game && createPortal(<CustomerProfileModal game={game} customerId={id} onClose={() => setOpen(false)} />, document.body)}
+      {open &&
+        game &&
+        createPortal(
+          <CustomerProfileModal game={game} customerId={id} onClose={() => setOpen(false)} />,
+          document.body,
+        )}
     </>
   )
 }

@@ -46,7 +46,6 @@ const TAB_ICONS: Record<Tab, IconName> = {
   backroom: 'door',
 }
 
-
 const SCREENS: Record<Tab, () => React.ReactNode> = {
   dashboard: Dashboard,
   finance: FinanceScreen,
@@ -105,7 +104,15 @@ export function Shell() {
 
   // A crisis stage the player hasn't seen yet pops up by itself once, when nothing else is in the way.
   const unseenCrisis = openCrises(game, me.id).find((c) => !seenCrises.includes(crisisSeenKey(c)))
-  const calm = !onboarding && report === null && !levelUp && pending.length === 0 && !bidTenderId && !minigame && !stale && !confirmEnd
+  const calm =
+    !onboarding &&
+    report === null &&
+    !levelUp &&
+    pending.length === 0 &&
+    !bidTenderId &&
+    !minigame &&
+    !stale &&
+    !confirmEnd
   useEffect(() => {
     if (calm && !crisisId && !crisisTalk && unseenCrisis && game.status === 'playing') openCrisis(unseenCrisis.id)
   }, [calm, crisisId, crisisTalk, unseenCrisis, game.status, openCrisis])
@@ -175,16 +182,44 @@ export function Shell() {
           <Stat icon="people" label={t('shell.headcount')} value={hc} />
           <Stat icon="star" label={t('shell.reputation')} value={Math.round(me.reputation)} />
           <Stat icon="coffee" label={t('shell.morale')} value={Math.round(averageMorale(me))} />
-          {me.heat > 0 && <Stat icon="flame" label={t('shell.heat')} value={Math.round(me.heat)} tone={me.heat > 40 ? 'bad' : undefined} />}
+          {me.heat > 0 && (
+            <Stat
+              icon="flame"
+              label={t('shell.heat')}
+              value={Math.round(me.heat)}
+              tone={me.heat > 40 ? 'bad' : undefined}
+            />
+          )}
         </div>
         <div className={s.topActions}>
           {/* Saved after every action, so leaving is always safe. */}
           <Button size="small" icon="disk" onClick={quit} title={t('shell.menuHint')}>
             {t('shell.menu')}
           </Button>
-          <Button size="small" variant="ghost" icon="news" onClick={() => go('news')} aria-label={t('menu.news')} data-tip={t('menu.news')} />
-          <Button size="small" variant="ghost" icon="gear" onClick={() => go('settings')} aria-label={t('menu.settings')} data-tip={t('menu.settings')} />
-          <Button size="small" variant="ghost" icon="info" onClick={() => go('about')} aria-label={t('menu.about')} data-tip={t('menu.about')} />
+          <Button
+            size="small"
+            variant="ghost"
+            icon="news"
+            onClick={() => go('news')}
+            aria-label={t('menu.news')}
+            data-tip={t('menu.news')}
+          />
+          <Button
+            size="small"
+            variant="ghost"
+            icon="gear"
+            onClick={() => go('settings')}
+            aria-label={t('menu.settings')}
+            data-tip={t('menu.settings')}
+          />
+          <Button
+            size="small"
+            variant="ghost"
+            icon="info"
+            onClick={() => go('about')}
+            aria-label={t('menu.about')}
+            data-tip={t('menu.about')}
+          />
         </div>
       </header>
 
@@ -223,8 +258,15 @@ export function Shell() {
       </main>
 
       <div className={s.endTurn}>
-        {pending.length > 0 && <span className={s.endTurnHint}>{t('shell.pendingEvents', { count: pending.length })}</span>}
-        <Button variant="primary" size="big" onClick={tryEndTurn} disabled={pending.length > 0 || game.status !== 'playing'}>
+        {pending.length > 0 && (
+          <span className={s.endTurnHint}>{t('shell.pendingEvents', { count: pending.length })}</span>
+        )}
+        <Button
+          variant="primary"
+          size="big"
+          onClick={tryEndTurn}
+          disabled={pending.length > 0 || game.status !== 'playing'}
+        >
           {t('shell.endTurn')} ▶
         </Button>
       </div>
@@ -234,7 +276,11 @@ export function Shell() {
         <div className={s.tickerViewport}>
           {settings.reducedMotion ? (
             ticker[0] && (
-              <button type="button" className={`${s.tickerItem} ${s.tickerStatic}`} onClick={() => setArticle(ticker[0])}>
+              <button
+                type="button"
+                className={`${s.tickerItem} ${s.tickerStatic}`}
+                onClick={() => setArticle(ticker[0])}
+              >
                 {newsText(ticker[0], t, lng)}
               </button>
             )
@@ -261,7 +307,9 @@ export function Shell() {
       {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
       {onboarding && game.status === 'playing' && <Onboarding />}
       {!onboarding && report !== null && <QuarterReport />}
-      {!onboarding && report === null && levelUp && game.status === 'playing' && <LevelUpModal from={levelUp.from} to={levelUp.to} />}
+      {!onboarding && report === null && levelUp && game.status === 'playing' && (
+        <LevelUpModal from={levelUp.from} to={levelUp.to} />
+      )}
       {!onboarding && report === null && !levelUp && pending.length > 0 && game.status === 'playing' && (
         <EventModal event={pending[0]} />
       )}

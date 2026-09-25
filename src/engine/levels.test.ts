@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { LEVELS, MAX_LEVEL, MIN_AWARD_QUALITY, OFFICE_MOVE_BRAND, OFFICE_MOVE_SOSIALT } from './constants'
-import { earnedLevel, firmLevel, hasFeature, levelStats, maxTenderSeats, tenderLevel, tenderLock, unlocksAt, updateLevels } from './levels'
+import {
+  earnedLevel,
+  firmLevel,
+  hasFeature,
+  levelStats,
+  maxTenderSeats,
+  tenderLevel,
+  tenderLock,
+  unlocksAt,
+  updateLevels,
+} from './levels'
 import { applyAction } from './reducer'
 import { SHADY_LEVELS } from './shady'
 import { deepFreeze, makeKeyTender, newTestGame } from './testUtils'
@@ -9,7 +19,13 @@ import { bidQuality, resolveDueTenders } from './tenders'
 import type { Bid, GameState, Tender } from './types'
 
 const bid = (overrides: Partial<Bid> = {}): Bid => ({
-  firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false, ...overrides,
+  firmId: 'player',
+  rateMultiplier: 1,
+  starIds: [],
+  effort: 0,
+  cvPad: false,
+  ghostCv: false,
+  ...overrides,
 })
 const open = (s: GameState) => s.tenders.filter((t) => !t.resolved && !t.hidden)
 const withTender = (s: GameState, patch: Partial<Tender>) => {
@@ -64,11 +80,22 @@ describe('firm levels', () => {
     const tender = makeKeyTender(open(game).find((t) => !tenderLock(game.firms.player, t))!)
     const s = deepFreeze(game)
     const rival = s.firmOrder[1]
-    expect(applyAction(s, { type: 'setBudgets', firmId: 'player', budgets: { fagmiljoPerHead: 20_000 } }).error).toBe('errors.levelTooLow')
-    expect(applyAction(s, { type: 'hireStar', firmId: 'player', starId: s.starMarket[0].id }).error).toBe('errors.levelTooLow')
-    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'bingo', score: 50 }).error).toBe('errors.levelTooLow')
-    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'meeting', score: 50 }).error).toBeUndefined()
-    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: rival }).error).toBe('errors.levelTooLow')
+    expect(applyAction(s, { type: 'setBudgets', firmId: 'player', budgets: { fagmiljoPerHead: 20_000 } }).error).toBe(
+      'errors.levelTooLow',
+    )
+    expect(applyAction(s, { type: 'hireStar', firmId: 'player', starId: s.starMarket[0].id }).error).toBe(
+      'errors.levelTooLow',
+    )
+    expect(
+      applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'bingo', score: 50 }).error,
+    ).toBe('errors.levelTooLow')
+    expect(
+      applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'meeting', score: 50 })
+        .error,
+    ).toBeUndefined()
+    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: rival }).error).toBe(
+      'errors.levelTooLow',
+    )
   })
 
   it('opens backroom tricks level by level', () => {
@@ -76,8 +103,12 @@ describe('firm levels', () => {
     s.firms.player.level = 3
     const rival = s.firmOrder[1]
     expect(hasFeature(s.firms.player, 'backroom')).toBe(true)
-    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: rival }).error).toBeUndefined()
-    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'dn_leak', targetFirmId: rival }).error).toBe('errors.levelTooLow')
+    expect(
+      applyAction(s, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: rival }).error,
+    ).toBeUndefined()
+    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'dn_leak', targetFirmId: rival }).error).toBe(
+      'errors.levelTooLow',
+    )
   })
 
   it('lists what each level unlocks, and every trick opens at some level', () => {

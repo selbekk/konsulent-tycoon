@@ -45,7 +45,8 @@ import { addNews, nextId } from './util'
  */
 
 export type PotentialBand = 'low' | 'medium' | 'high'
-export const potentialBand = (p: number): PotentialBand => (p >= PROMOTE_MIN_POTENTIAL ? 'high' : p >= 0.4 ? 'medium' : 'low')
+export const potentialBand = (p: number): PotentialBand =>
+  p >= PROMOTE_MIN_POTENTIAL ? 'high' : p >= 0.4 ? 'medium' : 'low'
 
 /** Multiplies every level gain for this person. */
 export function growthFactor(e: Employee): number {
@@ -67,7 +68,8 @@ export function promotionBlock(state: GameState, firm: Firm, e: Employee): strin
   if (!hasFeature(firm, 'stars')) return 'errors.levelTooLow'
   if (!e.potentialRevealed || e.potential < PROMOTE_MIN_POTENTIAL) return 'errors.noPotential'
   if (e.level < PROMOTE_MIN_LEVEL) return 'errors.notReadyForPromotion'
-  if (firm.lastPromotionQuarter !== undefined && state.quarter - firm.lastPromotionQuarter < PROMOTE_COOLDOWN) return 'errors.promotedRecently'
+  if (firm.lastPromotionQuarter !== undefined && state.quarter - firm.lastPromotionQuarter < PROMOTE_COOLDOWN)
+    return 'errors.promotedRecently'
   if (firm.cash < PROMOTE_COST) return 'errors.notEnoughCash'
   return undefined
 }
@@ -97,7 +99,9 @@ export function stretchBlock(state: GameState, firm: Firm, e: Employee, contract
   const c = stretchContracts(state, firm, e).find((x) => x.id === contractId)
   if (!c) return 'errors.stretchContract'
   // One stretcher per seat in their discipline.
-  const others = firm.roster?.filter((x) => x.id !== e.id && x.discipline === e.discipline && x.stretchContractId === c.id).length ?? 0
+  const others =
+    firm.roster?.filter((x) => x.id !== e.id && x.discipline === e.discipline && x.stretchContractId === c.id).length ??
+    0
   if (others >= (c.activeSeats[e.discipline] ?? 0)) return 'errors.stretchFull'
   return undefined
 }
@@ -113,7 +117,10 @@ function reveal(state: GameState, firm: Firm, e: Employee) {
   if (e.potentialRevealed) return
   e.potentialRevealed = true
   if (e.potential >= PROMOTE_MIN_POTENTIAL)
-    addNews(state, 'news.staff.talentSpotted', { name: e.name, discipline: e.discipline }, 'good', { firmId: firm.id, personal: true })
+    addNews(state, 'news.staff.talentSpotted', { name: e.name, discipline: e.discipline }, 'good', {
+      firmId: firm.id,
+      personal: true,
+    })
 }
 
 function poolMorale(firm: Firm, delta: number) {
@@ -128,7 +135,8 @@ export function developRoster(state: GameState, firm: Firm) {
   for (const e of firm.roster) {
     const f = growthFactor(e)
     if (e.course) {
-      if (e.level < COURSE_MAX_LEVEL) e.level = Math.min(COURSE_MAX_LEVEL, e.level + (COURSE_LEVEL_GAIN / COURSE_QUARTERS) * f)
+      if (e.level < COURSE_MAX_LEVEL)
+        e.level = Math.min(COURSE_MAX_LEVEL, e.level + (COURSE_LEVEL_GAIN / COURSE_QUARTERS) * f)
       if (state.quarter >= e.course.untilQuarter - 1) {
         delete e.course
         graduates.push(e)
@@ -153,7 +161,8 @@ export function developRoster(state: GameState, firm: Firm) {
       else {
         const risk = (STRETCH_SATISFACTION_CHANCE * (MAX_POOL_LEVEL - e.level)) / 4
         e.level = Math.min(MAX_POOL_LEVEL, e.level + STRETCH_LEVEL_GAIN * f)
-        if (chance(rosterRng(state, firm, 'stretch'), risk)) c.satisfaction = clamp(c.satisfaction - STRETCH_SATISFACTION_HIT, 0, 100)
+        if (chance(rosterRng(state, firm, 'stretch'), risk))
+          c.satisfaction = clamp(c.satisfaction - STRETCH_SATISFACTION_HIT, 0, 100)
       }
     }
     if (tenure(state, e) + 1 >= POTENTIAL_REVEAL_TENURE) reveal(state, firm, e)
@@ -167,7 +176,10 @@ export function developRoster(state: GameState, firm: Firm) {
     }
   }
   if (graduates.length)
-    addNews(state, 'news.staff.courseDone', { name: graduates[0].name, count: graduates.length }, 'neutral', { firmId: firm.id, personal: true })
+    addNews(state, 'news.staff.courseDone', { name: graduates[0].name, count: graduates.length }, 'neutral', {
+      firmId: firm.id,
+      personal: true,
+    })
   for (const e of quitters) {
     removePeople(state, firm, e.discipline, 1, { employeeId: e.id })
     firm.quarterLeavers += 1
@@ -194,7 +206,10 @@ export function handleTrain(state: GameState, a: ActionOf<'trainEmployee'>): str
     if (firm.cash < COURSE_COST) return 'errors.notEnoughCash'
     firm.cash -= COURSE_COST
     const avgPotential = 1 / (POTENTIAL_EXPONENT + 1)
-    p.level = Math.min(COURSE_MAX_LEVEL, p.level + (COURSE_LEVEL_GAIN * (1 + POTENTIAL_GROWTH_BONUS * avgPotential)) / p.count)
+    p.level = Math.min(
+      COURSE_MAX_LEVEL,
+      p.level + (COURSE_LEVEL_GAIN * (1 + POTENTIAL_GROWTH_BONUS * avgPotential)) / p.count,
+    )
     return undefined
   }
   const e = a.employeeId
@@ -202,7 +217,11 @@ export function handleTrain(state: GameState, a: ActionOf<'trainEmployee'>): str
     : // No one named: the most promising person who can go.
       firm.roster
         .filter((x) => x.discipline === a.discipline && !courseBlock(firm, x))
-        .sort((x, y) => Number(!!y.potentialRevealed) * y.potential - Number(!!x.potentialRevealed) * x.potential || x.level - y.level)[0]
+        .sort(
+          (x, y) =>
+            Number(!!y.potentialRevealed) * y.potential - Number(!!x.potentialRevealed) * x.potential ||
+            x.level - y.level,
+        )[0]
   if (!e) return 'errors.invalidEmployee'
   const blocked = courseBlock(firm, e)
   if (blocked) return blocked
@@ -219,7 +238,11 @@ export function handleSetMentor(state: GameState, a: ActionOf<'setMentor'>): str
     delete e.mentorStarId
     return undefined
   }
-  const blocked = mentorBlock(firm, e, firm.stars.find((s) => s.id === a.starId))
+  const blocked = mentorBlock(
+    firm,
+    e,
+    firm.stars.find((s) => s.id === a.starId),
+  )
   if (blocked) return blocked
   e.mentorStarId = a.starId
   return undefined
@@ -258,7 +281,10 @@ export function handlePromote(state: GameState, a: ActionOf<'promoteEmployee'>):
   firm.cash -= PROMOTE_COST
   firm.lastPromotionQuarter = state.quarter
   const rng = rosterRng(state, firm, 'promote')
-  const traits = [...new Set(e.quirks.map((q) => QUIRK_MAP[q]?.becomesTrait).filter((t): t is string => !!t))].slice(0, 2)
+  const traits = [...new Set(e.quirks.map((q) => QUIRK_MAP[q]?.becomesTrait).filter((t): t is string => !!t))].slice(
+    0,
+    2,
+  )
   if (!traits.length) traits.push(pick(rng, TRAITS).id)
   const star: Star = {
     id: nextId(state, 's'),
@@ -281,6 +307,9 @@ export function handlePromote(state: GameState, a: ActionOf<'promoteEmployee'>):
     addNews(state, 'news.staff.promiseKept', { name: e.name }, 'good', { firmId: firm.id, personal: true })
   }
   firm.stars.push(star)
-  addNews(state, 'news.staff.promoted', { name: e.name, discipline: e.discipline }, 'good', { firmId: firm.id, personal: true })
+  addNews(state, 'news.staff.promoted', { name: e.name, discipline: e.discipline }, 'good', {
+    firmId: firm.id,
+    personal: true,
+  })
   return undefined
 }

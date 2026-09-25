@@ -137,6 +137,8 @@ export function handleResolveEvent(state: GameState, a: ActionOf<'resolveEvent'>
 
 /** Unresolved events at end of turn pick their last affordable choice (usually the "do nothing" one). */
 export function autoResolveEvents(state: GameState) {
+  // Iterate a copy: effects may touch state.pendingEvents.
+  // oxlint-disable-next-line unicorn/no-useless-spread
   for (const pe of [...state.pendingEvents]) {
     const def = EVENT_MAP[pe.eventId]
     const choice = def ? [...def.choices].reverse().find((c) => canChoose(state, pe, c.id)) : undefined

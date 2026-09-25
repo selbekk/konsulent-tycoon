@@ -6,14 +6,14 @@ Dette dokumentet beskriver hva spillet er og hvorfor det er laget slik. Hvordan 
 
 Et turbasert strategispill i nettleseren. Du starter et IT-konsulentselskap og har 40 kvartaler (Q1 2027 til Q4 2036) på å bygge det opp mot 24 AI-selskaper. Du konkurrerer om anbud og rammeavtaler, bygger fagmiljø og sosialt miljø, rekrutterer og beholder folk, og kan jukse i bakrommet hvis du tør.
 
-| Tema | Valg |
-|---|---|
-| Tur | 1 tur = 1 kvartal, 40 turer (`MAX_QUARTERS`). |
-| Seier | Høyest **selskapsverdi** ved slutt: EBITDA for de siste fire kvartalene × en multippel styrt av omdømme, pluss kontanter (`score.ts`). Spilleren rangeres mot AI-ene og får en sluttittel. |
-| Tap | Konkurs når kontantene har vært under kassekreditten to kvartaler på rad. |
-| Likhet | Spilleren og AI-ene er samme `Firm` og følger de samme reglene. AI-en har ingen snarveier. |
-| Språk | Bokmål (standard) og engelsk. |
-| Lagring | Bare autolagring etter hver handling, lokalt i nettleseren. Manuelle plasser er fjernet, fordi de gjorde minispill og utfall mulige å ta om. |
+| Tema    | Valg                                                                                                                                                                                       |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Tur     | 1 tur = 1 kvartal, 40 turer (`MAX_QUARTERS`).                                                                                                                                              |
+| Seier   | Høyest **selskapsverdi** ved slutt: EBITDA for de siste fire kvartalene × en multippel styrt av omdømme, pluss kontanter (`score.ts`). Spilleren rangeres mot AI-ene og får en sluttittel. |
+| Tap     | Konkurs når kontantene har vært under kassekreditten to kvartaler på rad.                                                                                                                  |
+| Likhet  | Spilleren og AI-ene er samme `Firm` og følger de samme reglene. AI-en har ingen snarveier.                                                                                                 |
+| Språk   | Bokmål (standard) og engelsk.                                                                                                                                                              |
+| Lagring | Bare autolagring etter hver handling, lokalt i nettleseren. Manuelle plasser er fjernet, fordi de gjorde minispill og utfall mulige å ta om.                                               |
 
 ## Tone og stemning
 
@@ -42,7 +42,7 @@ Inspirert av Theme Hospital og RollerCoaster Tycoon, men dempet. Tørr, varm og 
 
 De 20 andre bygger på arketyper (`engine/ai/personalities.ts`): `boutique_nerd`, `boutique_design`, `mid_generalist`, `nordic_giant`, `budget_bulk`, `specialist_cloud` og `specialist_data`. En personlighet har prisnivå, kvalitetsfokus, aggresjon, lyssky tilbøyelighet og vekstlyst.
 
-Kundene (`content/customers.ts`) er parodier på offentlige og private kunder: *NAVet*, *Skatteetat'n*, *DNBank*, *Fintech-startupen Kryptonitt* og flere. Hver kunde har sektor, budsjett, prisfølsomhet, foretrukne fagområder, en skjult møtestil og et løfte den helst vil ha. De har også en personlighet: ti egenskaper fra 1 til 5 (søkertrykk, teknologi, modenhet, erfaringskrav, kontor, samfunnsnytte, tempo, byråkrati, hjemmekontor og lojalitet) og en beskrivelse av hva de driver med. Kundene du har folk hos, påvirker hvor attraktiv du er som arbeidsgiver: kule kunder gir flere ja-svar og flinkere nyansatte. Erfaringskrav gjør CV-nivået viktigere i anbudet, modne kunder er lettere å gjøre fornøyde, og lojale kunder forlenger oftere.
+Kundene (`content/customers.ts`) er parodier på offentlige og private kunder: _NAVet_, _Skatteetat'n_, _DNBank_, _Fintech-startupen Kryptonitt_ og flere. Hver kunde har sektor, budsjett, prisfølsomhet, foretrukne fagområder, en skjult møtestil og et løfte den helst vil ha. De har også en personlighet: ti egenskaper fra 1 til 5 (søkertrykk, teknologi, modenhet, erfaringskrav, kontor, samfunnsnytte, tempo, byråkrati, hjemmekontor og lojalitet) og en beskrivelse av hva de driver med. Kundene du har folk hos, påvirker hvor attraktiv du er som arbeidsgiver: kule kunder gir flere ja-svar og flinkere nyansatte. Erfaringskrav gjør CV-nivået viktigere i anbudet, modne kunder er lettere å gjøre fornøyde, og lojale kunder forlenger oftere.
 
 ## Spillmodellen
 
@@ -60,7 +60,7 @@ Kundene (`content/customers.ts`) er parodier på offentlige og private kunder: *
 - Hver konsulent fakturerer et fast antall timer per kvartal til en listepris som øker med nivået, ganget med budets prisfaktor. Lønn, overhead og kulturbudsjetter trekkes hvert kvartal.
 - **Bemanning:** Egne folk i riktig fag fyller setene først. Deretter **fleks** (ledige folk fra andre fag, til lavere pris), og til slutt **frilansere**, som gir et lite tap og litt lavere kundetilfredshet.
 - **Kassekreditt:** Du kan gå i minus ned til en grense som vokser med omsetningen, mot rente.
-- **Etterspørsel utenfra:** Markedet etterspør omtrent en fast andel av startkapasiteten, med vekst per år og trender. Etterspørselen følger bevisst *ikke* kapasiteten nedover. Da havner markedet i en dødsspiral (se balanseloggen).
+- **Etterspørsel utenfra:** Markedet etterspør omtrent en fast andel av startkapasiteten, med vekst per år og trender. Etterspørselen følger bevisst _ikke_ kapasiteten nedover. Da havner markedet i en dødsspiral (se balanseloggen).
 
 ### Anbud og kontrakter
 

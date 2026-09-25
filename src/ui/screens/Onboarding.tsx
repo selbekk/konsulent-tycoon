@@ -88,7 +88,9 @@ export function Onboarding() {
       }
     >
       <div className={s.stack}>
-        <span className={`${s.small} ${s.muted}`}>{t('onboarding.progress', { n: index + 1, total: STEPS.length })}</span>
+        <span className={`${s.small} ${s.muted}`}>
+          {t('onboarding.progress', { n: index + 1, total: STEPS.length })}
+        </span>
         <p style={{ margin: 0, fontSize: '1.1rem' }}>{t(`onboarding.${step}.body`, params)}</p>
         {points.length > 0 && (
           <ul className={s.newsList}>

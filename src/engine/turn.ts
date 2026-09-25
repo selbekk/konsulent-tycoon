@@ -74,7 +74,9 @@ function checkBankruptcies(state: GameState) {
     }
     if (firm.negativeCashQuarters >= BANKRUPT_AFTER_QUARTERS) {
       firm.bankrupt = true
-      const live = state.contracts.filter((c) => c.firmId === firm.id && !c.terminated && c.endQuarter > state.quarter + 1)
+      const live = state.contracts.filter(
+        (c) => c.firmId === firm.id && !c.terminated && c.endQuarter > state.quarter + 1,
+      )
       for (const c of state.contracts) if (c.firmId === firm.id) c.terminated = true
       retenderContracts(state, live, state.quarter + 1)
       for (const t of state.tenders) t.bids = t.bids.filter((b) => b.firmId !== firm.id)

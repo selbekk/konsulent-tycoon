@@ -89,7 +89,9 @@
   pointer-events: none;
   opacity: 0;
   transform: translateY(-2px);
-  transition: opacity 0.12s ease, transform 0.12s ease;
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
 }
 
 .topActions [data-tip]:focus-visible::after {
@@ -145,7 +147,9 @@
   border: 1px solid var(--border);
   border-bottom: 0;
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  transition: background 120ms ease, color 120ms ease;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -266,17 +270,33 @@
 
 /* Content is rendered twice, so -50% loops seamlessly. */
 @keyframes ticker {
-  to { transform: translateX(-50%); }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes slideDown {
-  from { transform: translateY(-100%); }
+  from {
+    transform: translateY(-100%);
+  }
 }
 
 @media (max-width: 720px) {
-  .stats { gap: 8px 14px; order: 3; flex-basis: 100%; }
-  .firmName { max-width: 140px; }
-  .logo { display: none; }
-  .endTurn { bottom: 48px; }
-  .main { padding-bottom: 140px; }
+  .stats {
+    gap: 8px 14px;
+    order: 3;
+    flex-basis: 100%;
+  }
+  .firmName {
+    max-width: 140px;
+  }
+  .logo {
+    display: none;
+  }
+  .endTurn {
+    bottom: 48px;
+  }
+  .main {
+    padding-bottom: 140px;
+  }
 }

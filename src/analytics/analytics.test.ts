@@ -17,8 +17,11 @@ const ph = vi.hoisted(() => ({
 }))
 vi.mock('posthog-js', () => ({ default: ph }))
 
-const game = (): GameState => createNewGame({ seed: 7, firmName: 'Hemmelig AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+const game = (): GameState =>
+  createNewGame({ seed: 7, firmName: 'Hemmelig AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
 const flush = async () => {
+  // One microtask at a time, on purpose.
+  // oxlint-disable-next-line no-await-in-loop
   for (let i = 0; i < 10; i++) await Promise.resolve()
 }
 
@@ -100,7 +103,11 @@ describe('game events', () => {
     const s = deepFreeze(game())
     const tender = s.tenders.find((t) => !t.resolved && !t.hidden)!
     const { event, props } = describeAction(
-      { type: 'placeBid', tenderId: tender.id, bid: { firmId: s.playerId, rateMultiplier: 1, starIds: [], effort: 1, cvPad: false, ghostCv: false } },
+      {
+        type: 'placeBid',
+        tenderId: tender.id,
+        bid: { firmId: s.playerId, rateMultiplier: 1, starIds: [], effort: 1, cvPad: false, ghostCv: false },
+      },
       s,
     )
     expect(event).toBe('bid_placed')
@@ -109,7 +116,10 @@ describe('game events', () => {
 
   it('never sends the firm name the player typed', () => {
     const s = game()
-    const text = JSON.stringify([describeAction({ type: 'lobby', firmId: s.playerId }, s).props, quarterSummary(s, s, 0)])
+    const text = JSON.stringify([
+      describeAction({ type: 'lobby', firmId: s.playerId }, s).props,
+      quarterSummary(s, s, 0),
+    ])
     expect(text).not.toContain('Hemmelig')
   })
 

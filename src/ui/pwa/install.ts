@@ -28,7 +28,10 @@ export function listenForInstallPrompt() {
 
 export function isStandalone(): boolean {
   if (typeof window === 'undefined') return false
-  return window.matchMedia?.('(display-mode: standalone)').matches || (navigator as { standalone?: boolean }).standalone === true
+  return (
+    window.matchMedia?.('(display-mode: standalone)').matches ||
+    (navigator as { standalone?: boolean }).standalone === true
+  )
 }
 
 /** iOS Safari has no install prompt – players add the game via the share sheet instead. */

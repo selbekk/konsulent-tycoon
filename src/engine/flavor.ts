@@ -36,9 +36,13 @@ export function pickAnnouncement(state: GameState) {
 export function industryGossip(state: GameState) {
   const r = createRng(hashString(`${state.seed}:gossip:${state.quarter}`))
   const recent = new Set(
-    state.news.filter((n) => n.key.startsWith('news.gossip.') && n.quarter > state.quarter - GOSSIP_REPEAT_QUARTERS).map((n) => n.key),
+    state.news
+      .filter((n) => n.key.startsWith('news.gossip.') && n.quarter > state.quarter - GOSSIP_REPEAT_QUARTERS)
+      .map((n) => n.key),
   )
-  let pool = GOSSIP.filter((g) => !recent.has(`news.gossip.${g.id}`) && (g.season === undefined || g.season === state.quarter % 4))
+  let pool = GOSSIP.filter(
+    (g) => !recent.has(`news.gossip.${g.id}`) && (g.season === undefined || g.season === state.quarter % 4),
+  )
   let added = 0
   while (added < GOSSIP_PER_QUARTER && pool.length) {
     const def = weightedPick(r, pool, (g) => g.weight ?? 1)!
@@ -62,7 +66,10 @@ function gossipParams(state: GameState, r: RngState, subject: GossipSubject): Pa
     case 'twoFirms': {
       if (firms.length < 2) return null
       const a = pick(r, firms)
-      const b = pick(r, firms.filter((f) => f !== a))
+      const b = pick(
+        r,
+        firms.filter((f) => f !== a),
+      )
       return { firm: a.name, other: b.name }
     }
     case 'customer':

@@ -1,5 +1,19 @@
 import { describe, expect, it } from 'vitest'
-import { IPO_MISS_REPUTATION, IPO_SHARE, MAX_LEVEL, ACADEMY_LEVEL_GAIN, NEARSHORE_FREELANCER_MARKUP, SALES_BID_BONUS, LOBBY_COST, LOBBY_RELATION, MAX_PARTNERSHIPS, PARTNER_BONUS, SPECIALTY_CHANGE_COST, SPECIALTY_DISCIPLINE_BONUS, SPECIALTY_SECTOR_BONUS } from './constants'
+import {
+  IPO_MISS_REPUTATION,
+  IPO_SHARE,
+  MAX_LEVEL,
+  ACADEMY_LEVEL_GAIN,
+  NEARSHORE_FREELANCER_MARKUP,
+  SALES_BID_BONUS,
+  LOBBY_COST,
+  LOBBY_RELATION,
+  MAX_PARTNERSHIPS,
+  PARTNER_BONUS,
+  SPECIALTY_CHANGE_COST,
+  SPECIALTY_DISCIPLINE_BONUS,
+  SPECIALTY_SECTOR_BONUS,
+} from './constants'
 import { headcount, quarterFinancials } from './economy'
 import { applyAction } from './reducer'
 import { freelancerMarkup, ipoPressure, runDepartments, strategyBonus } from './strategy'
@@ -10,14 +24,22 @@ import { deepFreeze, newTestGame, veteranTestGame } from './testUtils'
 import type { Bid, GameState, Tender } from './types'
 
 const bid: Bid = { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false }
-const tender = (s: GameState, patch: Partial<Tender>) => Object.assign(s.tenders.find((t) => !t.resolved && !t.hidden)!, patch)
+const tender = (s: GameState, patch: Partial<Tender>) =>
+  Object.assign(
+    s.tenders.find((t) => !t.resolved && !t.hidden)!,
+    patch,
+  )
 
 describe('strategy', () => {
   it('is locked below its level', () => {
     const s = newTestGame()
-    expect(applyAction(s, { type: 'chooseSpecialty', firmId: 'player', specialty: 'public' }).error).toBe('errors.levelTooLow')
+    expect(applyAction(s, { type: 'chooseSpecialty', firmId: 'player', specialty: 'public' }).error).toBe(
+      'errors.levelTooLow',
+    )
     s.firms.player.level = 3
-    expect(applyAction(s, { type: 'setPartnership', firmId: 'player', partnershipId: 'hyperscaler', on: true }).error).toBe('errors.levelTooLow')
+    expect(
+      applyAction(s, { type: 'setPartnership', firmId: 'player', partnershipId: 'hyperscaler', on: true }).error,
+    ).toBe('errors.levelTooLow')
   })
 
   it('a specialty is free the first time, costs to change, and helps matching tenders', () => {
@@ -42,7 +64,9 @@ describe('strategy', () => {
     for (const id of ['ai_lab', 'design_guild'].slice(0, MAX_PARTNERSHIPS - 1)) {
       s = applyAction(s, { type: 'setPartnership', firmId: 'player', partnershipId: id, on: true }).state
     }
-    expect(applyAction(s, { type: 'setPartnership', firmId: 'player', partnershipId: 'agile_institute', on: true }).error).toBe('errors.tooManyPartners')
+    expect(
+      applyAction(s, { type: 'setPartnership', firmId: 'player', partnershipId: 'agile_institute', on: true }).error,
+    ).toBe('errors.tooManyPartners')
   })
 
   it('lobbying lifts every public relationship and has a cooldown', () => {
@@ -58,11 +82,22 @@ describe('strategy', () => {
   it('departments cost every quarter and do their thing', () => {
     let s = veteranTestGame()
     const t = tender(s, { seats: { backend: 2 } })
-    const before = { q: bidQuality(s, bid, t), cost: quarterFinancials(s, 'player').total, level: s.firms.player.pools.backend.level }
-    for (const id of ['academy', 'sales', 'nearshore']) s = applyAction(s, { type: 'setDepartment', firmId: 'player', departmentId: id, on: true }).state
+    const before = {
+      q: bidQuality(s, bid, t),
+      cost: quarterFinancials(s, 'player').total,
+      level: s.firms.player.pools.backend.level,
+    }
+    for (const id of ['academy', 'sales', 'nearshore'])
+      s = applyAction(s, { type: 'setDepartment', firmId: 'player', departmentId: id, on: true }).state
     const hc = headcount(s.firms.player)
     expect(quarterFinancials(s, 'player').total).toBe(before.cost + 150_000 + 3_000 * hc + 250_000 + 300_000)
-    expect(bidQuality(s, bid, s.tenders.find((x) => x.id === t.id)!)).toBeCloseTo(Math.min(100, before.q + SALES_BID_BONUS))
+    expect(
+      bidQuality(
+        s,
+        bid,
+        s.tenders.find((x) => x.id === t.id)!,
+      ),
+    ).toBeCloseTo(Math.min(100, before.q + SALES_BID_BONUS))
     runDepartments(s.firms.player)
     expect(s.firms.player.pools.backend.level).toBeCloseTo(before.level + ACADEMY_LEVEL_GAIN)
     expect(freelancerMarkup(s.firms.player)).toBe(NEARSHORE_FREELANCER_MARKUP)

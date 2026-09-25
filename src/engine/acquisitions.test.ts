@@ -13,7 +13,9 @@ const setup = () => {
   me.pools.backend.count += 60
   syncRosterToPools(s)
   me.cash = 500_000_000
-  const target = activeFirms(s).filter((f) => !f.isPlayer).sort((a, b) => headcount(a) - headcount(b))[0]
+  const target = activeFirms(s)
+    .filter((f) => !f.isPlayer)
+    .sort((a, b) => headcount(a) - headcount(b))[0]
   return { s, target }
 }
 

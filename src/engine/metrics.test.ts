@@ -18,10 +18,24 @@ function isolated(): GameState {
 }
 
 const contract = (seats: number, over: Partial<Contract> = {}): Contract => ({
-  id: 'c1', tenderId: 't', firmId: 'player', customerId: 'navet', kind: 'project',
-  baseSeats: { backend: seats }, activeSeats: { backend: seats }, rateMultiplier: 1.2, share: 1, rank: 1,
-  startQuarter: 0, endQuarter: 4, starIds: [], satisfaction: 70, outsourcedShare: 0,
-  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false }, terminated: false, ...over,
+  id: 'c1',
+  tenderId: 't',
+  firmId: 'player',
+  customerId: 'navet',
+  kind: 'project',
+  baseSeats: { backend: seats },
+  activeSeats: { backend: seats },
+  rateMultiplier: 1.2,
+  share: 1,
+  rank: 1,
+  startQuarter: 0,
+  endQuarter: 4,
+  starIds: [],
+  satisfaction: 70,
+  outsourcedShare: 0,
+  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false },
+  terminated: false,
+  ...over,
 })
 
 describe('metrics', () => {
@@ -39,7 +53,11 @@ describe('metrics', () => {
     const t = s.tenders.find((x) => !x.resolved)!
     t.dueQuarter = s.quarter // decided this quarter, so it starts next quarter
     const seats = Object.values(t.seats).reduce((a, b) => a + (b ?? 0), 0)
-    s = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false } }).state
+    s = applyAction(s, {
+      type: 'placeBid',
+      tenderId: t.id,
+      bid: { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false },
+    }).state
     const c = capacity(s, 'player')
     expect(c).toMatchObject({ headcount: 5, billing: 2, bench: 3 })
     expect(c.next.committed).toBe(0)
@@ -53,7 +71,11 @@ describe('metrics', () => {
     const t = s.tenders.find((x) => !x.resolved)!
     t.dueQuarter = s.quarter + 1
     const seats = Object.values(t.seats).reduce((a, b) => a + (b ?? 0), 0)
-    s = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false } }).state
+    s = applyAction(s, {
+      type: 'placeBid',
+      tenderId: t.id,
+      bid: { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false },
+    }).state
     const c = capacity(s, 'player')
     expect(c.next).toMatchObject({ offered: 0, idle: 5, seatsInBids: 0, laterSeatsInBids: seats })
   })

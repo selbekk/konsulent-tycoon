@@ -14,6 +14,7 @@ Status: fase 1 er ferdig, fase 2 er ikke bygget.
 ## Fase 1: færre møter, tydelig tilbakemelding, ett løfte (ferdig 2026-09-24)
 
 ### 1a. Møter bare på viktige anbud (punkt 4)
+
 - `isKeyTender(tender)`: rammeavtale eller minst `KEY_TENDER_MIN_SEATS` = 6 seter. «Ny kunde» ble droppet. Spilleren starter med relasjon 25 hos alle, og et tap trekker relasjonen ned, så regelen ville gitt møter på de anbudene du nettopp tapte. Uten den er regelen også lik for alle firma, noe som gjør AI-likheten enkel.
 - På rutineanbud får du ikke møte. Kvaliteten bruker da en nøytral verdi (`ROUTINE_MEETING_SCORE` = 50), slik at små bud ikke blir svekket i stillhet.
 - Rutineanbud får knappen «Send standardtilbud» på anbudstavla (`quickBid`: pris 0,97, eller 0,90 når prisvekten er over 0,6, og standard innsats). «Tilpass» åpner budskjemaet som før.
@@ -21,6 +22,7 @@ Status: fase 1 er ferdig, fase 2 er ikke bygget.
 - AI-ene (`planner.ts`, `humanProxy.ts`) følger samme regel og registrerer bare møter på viktige anbud.
 
 ### 1b. Forklar resultatet (punkt 3)
+
 - Del `bidQuality` i en ren `bidQualityParts` (CV, fagmiljø, møte, innsats, omdømme, `extras` for stjernenes traits, strategi og CV-juks, kapasitetsstraff og løfte). `bidQuality` summerer delene, så ingenting dupliseres.
 - Ved tildeling sammenlignes spillerens poeng per faktor med vinneren (eller beste taper). Faktorene er pris, kvalitetsdelene, relasjon og prioritet. Forklaringen legges i nyhetens parametre (`weak`/`strong`), så ingen nye felt trengs på anbudet.
 - Nyheten nevner den største årsaken, for eksempel «Dere tapte hovedsakelig på pris. Kvaliteten var konkurransedyktig.» Når støyen var større enn resten, står det «Det var jevnt, og flaksen avgjorde.»
@@ -28,10 +30,12 @@ Status: fase 1 er ferdig, fase 2 er ikke bygget.
 - Etter møtet sier resultatet hvilken svarstil panelet likte best.
 
 ### 1c. Synlige behov (punkt 2)
+
 - `customerNeeds` gir 2–3 lesbare behov i budskjemaet og før møtet: løftet kunden ønsker (`wants`), stramt budsjett eller kvalitet foran pris, og møtestilen.
 - Møtestilen vises først ved relasjon på minst `NEEDS_STYLE_RELATION` = 40. Ellers står det at dere kjenner kunden for dårlig. Er stilen alltid synlig, blir møtet trivielt.
 
 ### 1d. Ett bindende løfte (punkt 1)
+
 - Kun på viktige anbud: valgfritt `promise` på `Bid`, med tre valg:
   - `fullTeam`: «Hele teamet er klart.» +4 i kvalitet. Løftet er brutt hvis over 10 % av setene første kvartal fylles av frilansere, fleks eller offshore.
   - `phased`: «To nå, resten neste kvartal.» −2 i kvalitet, men bare 40 % av kapasitetsstraffen. Løftet er brutt over 50 %.
@@ -41,10 +45,12 @@ Status: fase 1 er ferdig, fase 2 er ikke bygget.
 - AI-planleggeren velger et løfte ut fra ledig kapasitet og går gjennom samme reducer.
 
 ## Fase 2: leve av leveransen (punkt 5, ikke bygget)
+
 - **Direkteoppdrag:** kunder med høy relasjon og en fornøyd kontrakt tilbyr av og til et oppdrag uten anbud. Du svarer ja eller nei innen kvartalet.
 - **Leveransehendelser** knyttet til en kontrakt: kunden vil utvide omfanget, nøkkelpersonen trengs et annet sted, eller teamet vil bruke tid på kvalitet. Dette kan bygges på event-DSL-en med kontraktkontekst.
 
 ## Rammer
+
 - Før lansering: `SAVE_VERSION` forblir 1, nye felt er valgfrie og legges i `saveShape.ts` der det trengs.
 - Alle nye årsaker, behov og løfter får nøkler i både `nb` og `en`.
 - UI-hjelpere (`bidQualityParts`, behov, forklaring) rører ikke `state.rng`.

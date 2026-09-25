@@ -25,10 +25,30 @@ vi.mock('../../online/leaderboard', () => ({
   },
   submitRun: async (s: RunSubmission): Promise<SubmitResult> => {
     online.submitted.push(s)
-    return { valuation: s.claimedValuation, title: 'midfield', rank: 9, status: 'finished', quarter: 40, minigameAvg: null, shady: 0, week: s.week, best: true, place: 2, players: 11, percentile: 90 }
+    return {
+      valuation: s.claimedValuation,
+      title: 'midfield',
+      rank: 9,
+      status: 'finished',
+      quarter: 40,
+      minigameAvg: null,
+      shady: 0,
+      week: s.week,
+      best: true,
+      place: 2,
+      players: 11,
+      percentile: 90,
+    }
   },
   weekBoard: async () => [
-    { uid: 'someone', week: '2026-W39', name: ['moose', 'spreadsheet', 'as'], valuation: 90_000_000, title: 'industry_leader', rank: 1 },
+    {
+      uid: 'someone',
+      week: '2026-W39',
+      name: ['moose', 'spreadsheet', 'as'],
+      valuation: 90_000_000,
+      title: 'industry_leader',
+      rank: 1,
+    },
     { uid: 'me', week: '2026-W39', name: ['owl', 'waffle', 'labs'], valuation: 40_000_000, title: 'midfield', rank: 9 },
   ],
   hallOfFame: async () => [],
@@ -61,7 +81,13 @@ describe('leaderboard UI', () => {
 
   it('lets you join and send in a finished weekly game from the end screen', async () => {
     const week = isoWeek(Date.now())
-    useGame.getState().newGame({ seed: weekSeed(week), firmName: 'Hemmelig AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal', weekly: week })
+    useGame.getState().newGame({
+      seed: weekSeed(week),
+      firmName: 'Hemmelig AS',
+      founderDisciplines: ['backend', 'frontend'],
+      difficulty: 'normal',
+      weekly: week,
+    })
     // Declare the game over without playing 40 quarters; the log is what matters here.
     useGame.getState().endTurn()
     useGame.setState({ game: { ...useGame.getState().game!, status: 'finished' } })
@@ -75,7 +101,9 @@ describe('leaderboard UI', () => {
   })
 
   it('has no leaderboard panel for a free game', () => {
-    useGame.getState().newGame({ seed: 3, firmName: 'Fri AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'easy' })
+    useGame
+      .getState()
+      .newGame({ seed: 3, firmName: 'Fri AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'easy' })
     useGame.setState({ game: { ...useGame.getState().game!, status: 'finished' } })
     render(<EndGame />)
     expect(screen.queryByRole('button', { name: 'Join and send' })).not.toBeInTheDocument()
@@ -91,7 +119,13 @@ describe('leaderboard UI', () => {
 
   it('offers to send an autosaved weekly game that never got sent', async () => {
     const week = isoWeek(Date.now())
-    useGame.getState().newGame({ seed: weekSeed(week), firmName: 'Senere AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal', weekly: week })
+    useGame.getState().newGame({
+      seed: weekSeed(week),
+      firmName: 'Senere AS',
+      founderDisciplines: ['backend', 'frontend'],
+      difficulty: 'normal',
+      weekly: week,
+    })
     useGame.getState().endTurn()
     saveToSlot(localStorage, 'auto', { ...useGame.getState().game!, status: 'finished' })
     useGame.getState().quit()

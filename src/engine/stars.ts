@@ -87,7 +87,8 @@ export function updateStars(state: GameState, firm: Firm, util: number, headcoun
       if (t.relationPerQuarter && star.assignedContractId) {
         const c = state.contracts.find((x) => x.id === star.assignedContractId)
         const cust = c && state.customers[c.customerId]
-        if (cust) cust.relationships[firm.id] = clamp((cust.relationships[firm.id] ?? 30) + t.relationPerQuarter, 0, 100)
+        if (cust)
+          cust.relationships[firm.id] = clamp((cust.relationships[firm.id] ?? 30) + t.relationPerQuarter, 0, 100)
       }
     }
     star.loyalty = clamp(star.loyalty + loyaltyDelta, 0, 100)

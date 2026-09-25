@@ -23,10 +23,24 @@ function isolated(): GameState {
 }
 
 const contract = (seats: number, over: Partial<Contract> = {}): Contract => ({
-  id: 'c1', tenderId: 't', firmId: 'player', customerId: 'navet', kind: 'project',
-  baseSeats: { backend: seats }, activeSeats: { backend: seats }, rateMultiplier: 1.2, share: 1, rank: 1,
-  startQuarter: 0, endQuarter: 4, starIds: [], satisfaction: 70, outsourcedShare: 0,
-  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false }, terminated: false, ...over,
+  id: 'c1',
+  tenderId: 't',
+  firmId: 'player',
+  customerId: 'navet',
+  kind: 'project',
+  baseSeats: { backend: seats },
+  activeSeats: { backend: seats },
+  rateMultiplier: 1.2,
+  share: 1,
+  rank: 1,
+  startQuarter: 0,
+  endQuarter: 4,
+  starIds: [],
+  satisfaction: 70,
+  outsourcedShare: 0,
+  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false },
+  terminated: false,
+  ...over,
 })
 
 /** A few quarters of a sensible player, so there are contracts, bids and hires. */

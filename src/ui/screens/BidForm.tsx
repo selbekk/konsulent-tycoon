@@ -140,7 +140,12 @@ export function BidForm({ tenderId }: { tenderId: string }) {
             <span className={s.fieldLabel}>{t('bid.effort')}</span>
             <div className={s.segmented} role="group" aria-label={t('bid.effort')}>
               {([0, 1, 2, 3] as const).map((e) => (
-                <button key={e} aria-pressed={effort === e} onClick={() => setEffort(e)} disabled={(existing && e < existing.effort) || !affordable(e)}>
+                <button
+                  key={e}
+                  aria-pressed={effort === e}
+                  onClick={() => setEffort(e)}
+                  disabled={(existing && e < existing.effort) || !affordable(e)}
+                >
                   {t(`bid.efforts.${e}`)}
                 </button>
               ))}
@@ -167,14 +172,19 @@ export function BidForm({ tenderId }: { tenderId: string }) {
                     type="checkbox"
                     disabled={busy}
                     checked={starIds.includes(star.id)}
-                    onChange={(e) => setStarIds((ids) => (e.target.checked ? [...ids, star.id] : ids.filter((x) => x !== star.id)))}
+                    onChange={(e) =>
+                      setStarIds((ids) => (e.target.checked ? [...ids, star.id] : ids.filter((x) => x !== star.id)))
+                    }
                   />
                   <span>
                     {star.name} · {t(`disciplines.${star.discipline}`)} {'★'.repeat(star.level)}
                     {!relevant && <span className={s.muted}> ({t('bid.notRelevant')})</span>}
                     {promised && <span className={s.muted}> ({t('bid.promised')})</span>}
                     {!promised && busyThrough !== undefined && (
-                      <span className={s.muted}> ({t('bid.busyThrough', { quarter: formatQuarter(busyThrough) })})</span>
+                      <span className={s.muted}>
+                        {' '}
+                        ({t('bid.busyThrough', { quarter: formatQuarter(busyThrough) })})
+                      </span>
                     )}
                   </span>
                 </label>
@@ -228,7 +238,9 @@ export function BidForm({ tenderId }: { tenderId: string }) {
             {!key ? (
               <Hint>{t('bid.routineInfo')}</Hint>
             ) : minigame ? (
-              <span>{minigame.provisional ? t('bid.pitchAbandoned') : t('bid.pitchDone', { score: minigame.score })}</span>
+              <span>
+                {minigame.provisional ? t('bid.pitchAbandoned') : t('bid.pitchDone', { score: minigame.score })}
+              </span>
             ) : (
               <>
                 <Hint>{t('bid.pitchHint')}</Hint>
@@ -270,7 +282,8 @@ export function BidForm({ tenderId }: { tenderId: string }) {
                     <li key={b.firmId}>
                       <span className={s.newsDot} data-tone="sassy" />
                       <span>
-                        {game.firms[b.firmId].name}: ×{b.rateMultiplier.toFixed(2)} · {t('tenders.qualityShort', { q: Math.round(bidQuality(game, b, tender)) })}
+                        {game.firms[b.firmId].name}: ×{b.rateMultiplier.toFixed(2)} ·{' '}
+                        {t('tenders.qualityShort', { q: Math.round(bidQuality(game, b, tender)) })}
                       </span>
                     </li>
                   ))}

@@ -39,7 +39,18 @@ import { mentorPenalty } from './roster'
 import { starBidQuality } from './stars'
 import { strategyBonus } from './strategy'
 import { DISCIPLINES } from './types'
-import type { Bid, BidFactor, Contract, ContractKind, Discipline, GameState, MeetingStyle, PromiseId, Seats, Tender } from './types'
+import type {
+  Bid,
+  BidFactor,
+  Contract,
+  ContractKind,
+  Discipline,
+  GameState,
+  MeetingStyle,
+  PromiseId,
+  Seats,
+  Tender,
+} from './types'
 import { activeFirms, addNews, nextId, seatTotal } from './util'
 
 export function trendDemand(state: GameState, d: Discipline): number {
@@ -70,7 +81,10 @@ function scaleSeats(seats: Seats, f: number): Seats {
 /** Share of the market's consultants per discipline – tenders roughly follow what exists. */
 export function marketSupplyShare(state: GameState): Record<Discipline, number> {
   const firms = activeFirms(state)
-  const total = Math.max(1, firms.reduce((s, f) => s + headcount(f), 0))
+  const total = Math.max(
+    1,
+    firms.reduce((s, f) => s + headcount(f), 0),
+  )
   return Object.fromEntries(
     DISCIPLINES.map((d) => [d, Math.max(0.02, firms.reduce((s, f) => s + disciplineSupply(f, d), 0) / total)]),
   ) as Record<Discipline, number>
@@ -78,17 +92,23 @@ export function marketSupplyShare(state: GameState): Record<Discipline, number> 
 
 /** Seats in open (unresolved) tenders – demand that is already on its way to the market. */
 export function pipelineDemand(state: GameState): number {
-  return state.tenders
-    .filter((t) => !t.resolved && !t.hidden)
-    .reduce((s, t) => s + seatTotal(t.seats), 0)
+  return state.tenders.filter((t) => !t.resolved && !t.hidden).reduce((s, t) => s + seatTotal(t.seats), 0)
 }
 
 function tenderSize(state: GameState, kind: 'project' | 'framework', budgetFactor: number): number {
   const roll = nextFloat(state.rng)
   const base =
     kind === 'framework'
-      ? roll < 0.5 ? range(state.rng, 6, 12) : roll < 0.85 ? range(state.rng, 12, 20) : range(state.rng, 20, 30)
-      : roll < 0.5 ? range(state.rng, 2, 6) : roll < 0.85 ? range(state.rng, 6, 12) : range(state.rng, 12, 20)
+      ? roll < 0.5
+        ? range(state.rng, 6, 12)
+        : roll < 0.85
+          ? range(state.rng, 12, 20)
+          : range(state.rng, 20, 30)
+      : roll < 0.5
+        ? range(state.rng, 2, 6)
+        : roll < 0.85
+          ? range(state.rng, 6, 12)
+          : range(state.rng, 12, 20)
   return Math.max(2, Math.round(base * (0.8 + budgetFactor * 0.2)))
 }
 
@@ -107,7 +127,11 @@ function buildTender(
   publishedQuarter: number,
 ): Tender {
   const customer = state.customers[customerId]
-  const priceWeight = clamp(customer.priceWeight * trendFactor(state, 'priceWeight') + noise(state.rng, 0.08), 0.1, 0.95)
+  const priceWeight = clamp(
+    customer.priceWeight * trendFactor(state, 'priceWeight') + noise(state.rng, 0.08),
+    0.1,
+    0.95,
+  )
   const trendWords = state.trends.flatMap((t) => TREND_MAP[t.id]?.buzzwords ?? [])
   const buzzwords = [...new Set([...trendWords, ...shuffle(state.rng, BUZZWORDS)])].slice(0, nextInt(state.rng, 4, 6))
   return {
@@ -139,7 +163,11 @@ export function publishTenders(state: GameState, publishedQuarter: number) {
   const smallCount = nextInt(state.rng, SMALL_TENDERS_MIN, SMALL_TENDERS_MAX)
   for (let i = 0; i < smallCount; i++) {
     const def = weightedPick(state.rng, CUSTOMERS, (c) => c.weight)!
-    const d = weightedPick(state.rng, DISCIPLINES, (x) => supplyShare[x] * (def.favours.includes(x) ? 3 : 0.5) * trendDemand(state, x))!
+    const d = weightedPick(
+      state.rng,
+      DISCIPLINES,
+      (x) => supplyShare[x] * (def.favours.includes(x) ? 3 : 0.5) * trendDemand(state, x),
+    )!
     const size = nextInt(state.rng, 1, SMALL_TENDER_MAX_SEATS)
     state.tenders.push(buildTender(state, def.id, 'project', { [d]: size }, nextInt(state.rng, 1, 3), publishedQuarter))
   }
@@ -159,7 +187,11 @@ export function publishTenders(state: GameState, publishedQuarter: number) {
     const weightOf = (d: Discipline) => supplyShare[d] * (def.favours.includes(d) ? 3 : 0.5) * trendDemand(state, d)
     const chosen: Discipline[] = []
     while (chosen.length < nDisc) {
-      const d = weightedPick(state.rng, DISCIPLINES.filter((x) => !chosen.includes(x)), weightOf)
+      const d = weightedPick(
+        state.rng,
+        DISCIPLINES.filter((x) => !chosen.includes(x)),
+        weightOf,
+      )
       if (!d) break
       chosen.push(d)
     }
@@ -209,7 +241,10 @@ export function customerWants(customerId: string): PromiseId | undefined {
   return CUSTOMERS.find((c) => c.id === customerId)?.wants
 }
 
-export type QualityParts = Record<'cv' | 'fagmiljo' | 'meeting' | 'effort' | 'reputation' | 'extras' | 'capacity' | 'promise', number>
+export type QualityParts = Record<
+  'cv' | 'fagmiljo' | 'meeting' | 'effort' | 'reputation' | 'extras' | 'capacity' | 'promise',
+  number
+>
 
 /** Everything that goes into bid quality, before clamping. Pure – never touches state.rng. */
 export function bidQualityParts(state: GameState, bid: Bid, tender: Tender): QualityParts | undefined {
@@ -288,7 +323,13 @@ export function priorityBonus(state: GameState, bid: Bid, tender: Tender): numbe
 }
 
 /** Pure, noise-free score. Pass `quality` when it is already known, to skip a staffing pass. */
-export function bidScoreEstimate(state: GameState, bid: Bid, tender: Tender, lowestRate: number, quality = bidQuality(state, bid, tender)): number {
+export function bidScoreEstimate(
+  state: GameState,
+  bid: Bid,
+  tender: Tender,
+  lowestRate: number,
+  quality = bidQuality(state, bid, tender),
+): number {
   const price = (lowestRate / bid.rateMultiplier) * 100
   return (
     tender.priceWeight * price +
@@ -385,14 +426,19 @@ export function resolveDueTenders(state: GameState) {
     }
     const quality = new Map(valid.map((b) => [b, bidQuality(state, b, tender)]))
     const bids = valid.filter((b) => quality.get(b)! >= MIN_AWARD_QUALITY)
-    const playerRejected = valid.some((b) => b.firmId === state.playerId) && !bids.some((b) => b.firmId === state.playerId)
+    const playerRejected =
+      valid.some((b) => b.firmId === state.playerId) && !bids.some((b) => b.firmId === state.playerId)
     if (playerRejected) {
       const bid = valid.find((b) => b.firmId === state.playerId)!
-      const key = rejectionReason(state, bid, tender) === 'capacity' ? 'news.tender.playerRejectedCapacity' : 'news.tender.playerRejected'
+      const key =
+        rejectionReason(state, bid, tender) === 'capacity'
+          ? 'news.tender.playerRejectedCapacity'
+          : 'news.tender.playerRejected'
       addNews(state, key, { customer: tender.customerId }, 'bad', { firmId: state.playerId, personal: true })
     }
     if (!bids.length) {
-      if (!tender.hidden && !playerRejected) addNews(state, 'news.tender.noneGoodEnough', { customer: tender.customerId }, 'neutral')
+      if (!tender.hidden && !playerRejected)
+        addNews(state, 'news.tender.noneGoodEnough', { customer: tender.customerId }, 'neutral')
       continue
     }
     const lowest = Math.min(...bids.map((b) => b.rateMultiplier))
@@ -439,7 +485,12 @@ export function resolveDueTenders(state: GameState) {
           bidders: bids.length,
           strong: why,
           // Estimated value over the whole term, for the win card in the report.
-          amount: playerContract ? Math.round(contractRevenue(state.firms[state.playerId], playerContract) * (playerContract.endQuarter - playerContract.startQuarter)) : 0,
+          amount: playerContract
+            ? Math.round(
+                contractRevenue(state.firms[state.playerId], playerContract) *
+                  (playerContract.endQuarter - playerContract.startQuarter),
+              )
+            : 0,
         },
         'good',
         { firmId: state.playerId, personal: true },

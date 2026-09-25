@@ -34,10 +34,22 @@ function candidates(state: GameState, firm: Firm, d: Discipline, quarter: number
   return [
     ...firm.stars
       .filter((s) => s.discipline === d)
-      .map((s) => ({ p: s, star: true, offWork: !!benched?.starIds.includes(s.id), placed: running(s.assignedContractId), joined: s.joinedQuarter ?? -1 })),
+      .map((s) => ({
+        p: s,
+        star: true,
+        offWork: !!benched?.starIds.includes(s.id),
+        placed: running(s.assignedContractId),
+        joined: s.joinedQuarter ?? -1,
+      })),
     ...(firm.roster ?? [])
       .filter((e) => e.discipline === d)
-      .map((e) => ({ p: e, star: false, offWork: false, placed: running(e.stretchContractId), joined: e.joinedQuarter })),
+      .map((e) => ({
+        p: e,
+        star: false,
+        offWork: false,
+        placed: running(e.stretchContractId),
+        joined: e.joinedQuarter,
+      })),
   ]
 }
 
@@ -51,7 +63,13 @@ export function benchPeople(state: GameState, firmId: string, quarter = state.qu
     const n = idle[d] ?? 0
     if (!n) continue
     const chosen = candidates(state, firm, d, quarter)
-      .sort((a, b) => Number(b.offWork) - Number(a.offWork) || Number(a.placed) - Number(b.placed) || b.joined - a.joined || compareIds(a.p.id, b.p.id))
+      .sort(
+        (a, b) =>
+          Number(b.offWork) - Number(a.offWork) ||
+          Number(a.placed) - Number(b.placed) ||
+          b.joined - a.joined ||
+          compareIds(a.p.id, b.p.id),
+      )
       .slice(0, n)
     for (const c of chosen) {
       out.push({
@@ -86,15 +104,21 @@ export function benchSummary(state: GameState, firmId: string): BenchRow[] {
     for (const d of DISCIPLINES) if (t.seats[d]) bids[d] = (bids[d] ?? 0) + t.seats[d]!
   }
   return DISCIPLINES.map((d) => ({ discipline: d, now: now[d] ?? 0, next: next[d] ?? 0, inBids: bids[d] ?? 0 })).filter(
-    (r) => r.now || r.next || r.inBids || firm.pools[r.discipline].count || firm.stars.some((s) => s.discipline === r.discipline),
+    (r) =>
+      r.now ||
+      r.next ||
+      r.inBids ||
+      firm.pools[r.discipline].count ||
+      firm.stars.some((s) => s.discipline === r.discipline),
   )
 }
 
 /** Disciplines grouped for the gender balance: tech skews male, design female. */
-export const GENDER_GROUPS = { tech: ['frontend', 'backend', 'cloud', 'data', 'architecture'], design: ['design'], pm: ['pm'] } as const satisfies Record<
-  string,
-  readonly Discipline[]
->
+export const GENDER_GROUPS = {
+  tech: ['frontend', 'backend', 'cloud', 'data', 'architecture'],
+  design: ['design'],
+  pm: ['pm'],
+} as const satisfies Record<string, readonly Discipline[]>
 export type GenderGroup = keyof typeof GENDER_GROUPS
 
 export interface PeopleStats {
@@ -122,7 +146,9 @@ export function peopleStats(state: GameState, firmId: string): PeopleStats {
   for (const p of people) {
     const prof = profileOf(state, p)
     gender[prof.gender]++
-    const group = (Object.keys(GENDER_GROUPS) as GenderGroup[]).find((g) => (GENDER_GROUPS[g] as readonly Discipline[]).includes(p.discipline))!
+    const group = (Object.keys(GENDER_GROUPS) as GenderGroup[]).find((g) =>
+      (GENDER_GROUPS[g] as readonly Discipline[]).includes(p.discipline),
+    )!
     genderByGroup[group].total++
     if (prof.gender === 'female') genderByGroup[group].female++
     ages.push(ageAt(prof, q))
@@ -150,7 +176,13 @@ export function peopleStats(state: GameState, firmId: string): PeopleStats {
     gender,
     genderByGroup,
     age: n ? { avg: avg(ages), min: Math.min(...ages), max: Math.max(...ages) } : undefined,
-    experience: n ? { avg: avg(years), juniors: years.filter((y) => y < JUNIOR_YEARS).length, seniors: years.filter((y) => y >= SENIOR_YEARS).length } : undefined,
+    experience: n
+      ? {
+          avg: avg(years),
+          juniors: years.filter((y) => y < JUNIOR_YEARS).length,
+          seniors: years.filter((y) => y >= SENIOR_YEARS).length,
+        }
+      : undefined,
     tenure: n ? tenure / n : undefined,
     project: seats ? { soFar: soFar / seats, length: length / seats } : undefined,
   }

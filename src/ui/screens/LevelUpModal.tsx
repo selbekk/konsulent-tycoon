@@ -19,6 +19,8 @@ export function LevelUpModal({ from, to }: { from: number; to: number }) {
 
   useEffect(() => {
     playSound('fanfare')
+    // Play again when a new level-up replaces this one.
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [to])
 
   return (

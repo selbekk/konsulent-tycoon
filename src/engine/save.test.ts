@@ -1,19 +1,42 @@
 import { describe, expect, it } from 'vitest'
-import { deleteSlot, deserialize, listSlots, loadFromSlot, purgeIncompatibleSaves, readSlot, saveToSlot, serialize } from './save'
+import {
+  deleteSlot,
+  deserialize,
+  listSlots,
+  loadFromSlot,
+  purgeIncompatibleSaves,
+  readSlot,
+  saveToSlot,
+  serialize,
+} from './save'
 import { newTestGame } from './testUtils'
 
 class MemoryStorage implements Storage {
   private m = new Map<string, string>()
-  get length() { return this.m.size }
-  clear() { this.m.clear() }
-  getItem(k: string) { return this.m.get(k) ?? null }
-  key(i: number) { return [...this.m.keys()][i] ?? null }
-  removeItem(k: string) { this.m.delete(k) }
-  setItem(k: string, v: string) { this.m.set(k, v) }
+  get length() {
+    return this.m.size
+  }
+  clear() {
+    this.m.clear()
+  }
+  getItem(k: string) {
+    return this.m.get(k) ?? null
+  }
+  key(i: number) {
+    return [...this.m.keys()][i] ?? null
+  }
+  removeItem(k: string) {
+    this.m.delete(k)
+  }
+  setItem(k: string, v: string) {
+    this.m.set(k, v)
+  }
 }
 
 class BrokenStorage extends MemoryStorage {
-  setItem(): void { throw new Error('QuotaExceeded') }
+  setItem(): void {
+    throw new Error('QuotaExceeded')
+  }
 }
 
 describe('save', () => {
@@ -24,7 +47,10 @@ describe('save', () => {
 
   it('runs migrations in order', () => {
     const s = { ...newTestGame(), saveVersion: 0 }
-    const migrated = deserialize(JSON.stringify(s), { 0: (x) => ({ ...x, migrated: true }) }, 1) as unknown as Record<string, unknown>
+    const migrated = deserialize(JSON.stringify(s), { 0: (x) => ({ ...x, migrated: true }) }, 1) as unknown as Record<
+      string,
+      unknown
+    >
     expect(migrated.saveVersion).toBe(1)
     expect(migrated.migrated).toBe(true)
   })
@@ -38,7 +64,14 @@ describe('save', () => {
     const s = newTestGame()
     expect(saveToSlot(storage, 'auto', s, new Date('2027-01-01'))).toBe(true)
     expect(listSlots(storage)).toEqual([
-      { slot: 'auto', firmName: 'Test AS', quarter: 0, savedAt: '2027-01-01T00:00:00.000Z', cash: s.firms.player.cash, status: 'playing' },
+      {
+        slot: 'auto',
+        firmName: 'Test AS',
+        quarter: 0,
+        savedAt: '2027-01-01T00:00:00.000Z',
+        cash: s.firms.player.cash,
+        status: 'playing',
+      },
     ])
     expect(loadFromSlot(storage, 'auto')).toEqual(s)
     deleteSlot(storage, 'auto')
@@ -80,7 +113,10 @@ describe('save', () => {
     saveToSlot(storage, 'auto', good)
     for (const slot of ['1', '2', '3']) {
       storage.setItem(`kt.save.${slot}`, serialize(good))
-      storage.setItem(`kt.meta.${slot}`, JSON.stringify({ slot, firmName: 'Borte AS', quarter: 4, savedAt: '', cash: 0, status: 'playing' }))
+      storage.setItem(
+        `kt.meta.${slot}`,
+        JSON.stringify({ slot, firmName: 'Borte AS', quarter: 4, savedAt: '', cash: 0, status: 'playing' }),
+      )
     }
     expect(purgeIncompatibleSaves(storage)).toEqual([])
     expect(storage.length).toBe(2)

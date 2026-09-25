@@ -71,7 +71,8 @@ function QuickBid({ tender, game, onCustomise }: { tender: Tender; game: GameSta
   return (
     <div className={s.stackSm}>
       <span className={s.small}>
-        {t('tenders.quickBidHint', { rate: offer.rateMultiplier.toFixed(2) })} · {t('tenders.qualityShort', { q: Math.round(quality) })}{' '}
+        {t('tenders.quickBidHint', { rate: offer.rateMultiplier.toFixed(2) })} ·{' '}
+        {t('tenders.qualityShort', { q: Math.round(quality) })}{' '}
         <Badge tone={chanceTone(chance)}>{t(`bid.chances.${chance}`)}</Badge>
       </span>
       {tooWeak && <span className={`${s.small} ${s.bad}`}>{t('tenders.quickBidTooWeak')}</span>}
@@ -103,7 +104,10 @@ export function TenderBoard() {
   const fits = (tn: Tender) => {
     if (tenderLock(me, tn)) return false
     const committed = staffFirm(game, me, tn.dueQuarter + 1).demand
-    const free = DISCIPLINES.reduce((sum, d) => sum + Math.min(tn.seats[d] ?? 0, Math.max(0, disciplineSupply(me, d) - (committed[d] ?? 0))), 0)
+    const free = DISCIPLINES.reduce(
+      (sum, d) => sum + Math.min(tn.seats[d] ?? 0, Math.max(0, disciplineSupply(me, d) - (committed[d] ?? 0))),
+      0,
+    )
     return free / seatTotal(tn.seats) >= 0.5
   }
   // Tenders the firm is too small for stay off the board, so a new player sees only what they can act on.
@@ -136,12 +140,20 @@ export function TenderBoard() {
           return (
             <p className={s.small}>
               <strong>{t('capacity.next')}:</strong>{' '}
-              {t('tenders.capacityLine', { free: cap.next.offered + cap.next.idle, offered: cap.next.offered, idle: cap.next.idle, seats: cap.next.seatsInBids, later: cap.next.laterSeatsInBids })}
+              {t('tenders.capacityLine', {
+                free: cap.next.offered + cap.next.idle,
+                offered: cap.next.offered,
+                idle: cap.next.idle,
+                seats: cap.next.seatsInBids,
+                later: cap.next.laterSeatsInBids,
+              })}
             </p>
           )
         })()}
         {tooBig.length > 0 && (
-          <p className={`${s.small} ${s.muted}`}>{t('level.hiddenTenders', { count: tooBig.length, level: Math.min(...tooBig.map(tenderLevel)) })}</p>
+          <p className={`${s.small} ${s.muted}`}>
+            {t('level.hiddenTenders', { count: tooBig.length, level: Math.min(...tooBig.map(tenderLevel)) })}
+          </p>
         )}
         {shown.length === 0 ? (
           <p className={s.empty}>{t('tenders.none')}</p>
@@ -159,7 +171,9 @@ export function TenderBoard() {
                     <span className={s.row} style={{ gap: 4 }}>
                       {isKeyTender(tn) && <Badge tone="warn">{t('tenders.key')}</Badge>}
                       {seatTotal(tn.seats) <= SMALL_TENDER_MAX_SEATS && <Badge tone="good">{t('tenders.small')}</Badge>}
-                      <Badge tone={tn.kind === 'framework' ? 'accent' : undefined}>{t(`tenders.kind.${tn.kind}`)}</Badge>
+                      <Badge tone={tn.kind === 'framework' ? 'accent' : undefined}>
+                        {t(`tenders.kind.${tn.kind}`)}
+                      </Badge>
                     </span>
                   </div>
                   <span className={`${s.small} ${s.muted}`}>
@@ -185,7 +199,8 @@ export function TenderBoard() {
                   {myBid ? (
                     <div className={`${s.row} ${s.between}`}>
                       <span className={s.small}>
-                        <Badge tone="good">{t('tenders.bidPlaced')}</Badge> ×{myBid.rateMultiplier.toFixed(2)} · {t('tenders.qualityShort', { q: Math.round(bidQuality(game, myBid, tn)) })}
+                        <Badge tone="good">{t('tenders.bidPlaced')}</Badge> ×{myBid.rateMultiplier.toFixed(2)} ·{' '}
+                        {t('tenders.qualityShort', { q: Math.round(bidQuality(game, myBid, tn)) })}
                       </span>
                       <Button size="small" onClick={() => openBid(tn.id)}>
                         {t('tenders.edit')}

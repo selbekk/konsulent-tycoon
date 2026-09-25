@@ -34,9 +34,11 @@ import { addNews, nextId } from './util'
 // ---- lookups (pure, safe for the UI) ----
 
 export const allCrises = (state: GameState): Crisis[] => state.crises ?? []
-export const crisesOf = (state: GameState, firmId: string): Crisis[] => allCrises(state).filter((c) => c.firmId === firmId)
+export const crisesOf = (state: GameState, firmId: string): Crisis[] =>
+  allCrises(state).filter((c) => c.firmId === firmId)
 /** Crises waiting for a decision from the firm this quarter. */
-export const openCrises = (state: GameState, firmId: string): Crisis[] => crisesOf(state, firmId).filter((c) => c.status === 'active')
+export const openCrises = (state: GameState, firmId: string): Crisis[] =>
+  crisesOf(state, firmId).filter((c) => c.status === 'active')
 
 export function crisisDef(c: Crisis): CrisisDef | undefined {
   return CRISIS_MAP[c.defId]
@@ -61,7 +63,10 @@ function longestPath(def: CrisisDef | undefined): number {
   const depth = (id: string, seen: Set<string>): number => {
     const s = byId.get(id)
     if (!s || seen.has(id)) return 0
-    const next = new Set<string>([...s.choices.flatMap((c) => (c.next ? [c.next] : [])), ...(s.route ? [s.route.pass, s.route.fail] : [])])
+    const next = new Set<string>([
+      ...s.choices.flatMap((c) => (c.next ? [c.next] : [])),
+      ...(s.route ? [s.route.pass, s.route.fail] : []),
+    ])
     // Route stages are decided by the engine and never shown as a step of their own.
     const own = s.route ? 0 : 1
     return own + Math.max(0, ...[...next].map((n) => depth(n, new Set([...seen, id]))))
@@ -112,7 +117,8 @@ function mergeEffects(...es: (CrisisEffect | undefined)[]): CrisisEffect {
 }
 
 export type TalkTier = 'good' | 'ok' | 'bad'
-export const talkTier = (score: number): TalkTier => (score >= CRISIS_TALK_GOOD ? 'good' : score < CRISIS_TALK_BAD ? 'bad' : 'ok')
+export const talkTier = (score: number): TalkTier =>
+  score >= CRISIS_TALK_GOOD ? 'good' : score < CRISIS_TALK_BAD ? 'bad' : 'ok'
 
 /** Everything a choice does, for this firm and this crisis's severity. `score` only matters for talks. */
 export function choiceEffect(firm: Firm, c: Crisis, choice: CrisisChoice, score?: number): CrisisEffect {
@@ -126,7 +132,10 @@ const contractOf = (state: GameState, c: Crisis) =>
 
 /** People a bench share takes off billable work. */
 export function benchCount(firm: Firm, share: number): number {
-  return Math.min(Math.max(1, Math.round(headcount(firm) * share)), DISCIPLINES.reduce((s, d) => s + firm.pools[d].count, 0))
+  return Math.min(
+    Math.max(1, Math.round(headcount(firm) * share)),
+    DISCIPLINES.reduce((s, d) => s + firm.pools[d].count, 0),
+  )
 }
 
 /** The part of a choice's effect the firm can know before picking it: no hidden severity, no talk result. */
@@ -185,8 +194,18 @@ export interface ChoicePreview {
 
 function axes(e: CrisisEffect): Record<StakeAxis, number> {
   return {
-    team: (e.morale ?? 0) + 0.5 * ((e.fagmiljo ?? 0) + (e.sosialt ?? 0)) + 0.3 * (e.starLoyalty ?? 0) - 4 * (e.leavers ?? 0) - (e.scandal ?? 0),
-    customer: (e.relationship ?? 0) + (e.satisfaction ?? 0) + (e.satisfactionAll ?? 0) + 100 * (e.rateCut ?? 0) - (e.terminate ? 20 : 0),
+    team:
+      (e.morale ?? 0) +
+      0.5 * ((e.fagmiljo ?? 0) + (e.sosialt ?? 0)) +
+      0.3 * (e.starLoyalty ?? 0) -
+      4 * (e.leavers ?? 0) -
+      (e.scandal ?? 0),
+    customer:
+      (e.relationship ?? 0) +
+      (e.satisfaction ?? 0) +
+      (e.satisfactionAll ?? 0) +
+      100 * (e.rateCut ?? 0) -
+      (e.terminate ? 20 : 0),
     press: (e.reputation ?? 0) + (e.brand ?? 0),
     risk: e.heat ?? 0,
   }
@@ -226,7 +245,8 @@ export function crisisChoicePreview(state: GameState, c: Crisis, choice: CrisisC
 // ---- effects (draft only) ----
 
 function benchedThisQuarter(state: GameState, firm: Firm) {
-  if (!firm.benched || firm.benched.quarter !== state.quarter) firm.benched = { quarter: state.quarter, seats: {}, starIds: [] }
+  if (!firm.benched || firm.benched.quarter !== state.quarter)
+    firm.benched = { quarter: state.quarter, seats: {}, starIds: [] }
   return firm.benched
 }
 
@@ -259,7 +279,8 @@ function leave(state: GameState, firm: Firm, c: Crisis, n: number) {
 }
 
 function hire(state: GameState, firm: Firm, c: Crisis, n: number) {
-  const d = DISCIPLINES.find((x) => x === c.params.discipline) ?? disciplineOrder(undefined, (x) => firm.pools[x].count)[0]
+  const d =
+    DISCIPLINES.find((x) => x === c.params.discipline) ?? disciplineOrder(undefined, (x) => firm.pools[x].count)[0]
   addPeople(state, firm, d, n, 2.8, 60)
   firm.quarterHires += n
 }
@@ -273,15 +294,18 @@ export function applyCrisisEffect(state: GameState, firm: Firm, c: Crisis, e: Cr
   if (e.morale) applyMorale(firm, e.morale)
   if (e.brand) firm.brandMod += e.brand
   if (e.scandal) firm.scandalPenalty += e.scandal
-  if (e.salaryPremium) firm.budgets.salaryPremium = clamp(firm.budgets.salaryPremium + e.salaryPremium, PREMIUM_MIN, PREMIUM_MAX)
+  if (e.salaryPremium)
+    firm.budgets.salaryPremium = clamp(firm.budgets.salaryPremium + e.salaryPremium, PREMIUM_MIN, PREMIUM_MAX)
   const customer = typeof c.params.customer === 'string' ? state.customers[c.params.customer] : undefined
-  if (e.relationship && customer) customer.relationships[firm.id] = clamp((customer.relationships[firm.id] ?? 20) + e.relationship, 0, 100)
+  if (e.relationship && customer)
+    customer.relationships[firm.id] = clamp((customer.relationships[firm.id] ?? 20) + e.relationship, 0, 100)
   const contract = contractOf(state, c)
   const running = contract && isActive(contract, state.quarter) ? contract : undefined
   if (e.satisfaction && running) running.satisfaction = clamp(running.satisfaction + e.satisfaction, 0, 100)
   if (e.satisfactionAll)
     for (const x of activeContracts(state, firm.id)) x.satisfaction = clamp(x.satisfaction + e.satisfactionAll, 0, 100)
-  if (e.rateCut && running) running.rateMultiplier = Math.max(RATE_MIN, Math.round((running.rateMultiplier - e.rateCut) * 100) / 100)
+  if (e.rateCut && running)
+    running.rateMultiplier = Math.max(RATE_MIN, Math.round((running.rateMultiplier - e.rateCut) * 100) / 100)
   const star = firm.stars.find((s) => s.id === c.params.starId)
   if (star && e.starLoyalty) star.loyalty = clamp(star.loyalty + e.starLoyalty, 0, 100)
   if (star && e.benchStar) benchedThisQuarter(state, firm).starIds.push(star.id)
@@ -315,7 +339,14 @@ function finish(state: GameState, c: Crisis, outcome: CrisisOutcome, bury = fals
     c.endQuarter = state.quarter
     countOutcome(firm, outcome)
   }
-  if (firm.isPlayer) addNews(state, bury ? 'news.crisis.buried' : `news.crisis.ended.${outcome}`, { ...c.params, crisis: c.defId }, outcome === 'bad' ? 'bad' : 'good', newsOpts(firm))
+  if (firm.isPlayer)
+    addNews(
+      state,
+      bury ? 'news.crisis.buried' : `news.crisis.ended.${outcome}`,
+      { ...c.params, crisis: c.defId },
+      outcome === 'bad' ? 'bad' : 'good',
+      newsOpts(firm),
+    )
 }
 
 function enterStage(state: GameState, c: Crisis, stageId: string) {
@@ -328,9 +359,16 @@ function enterStage(state: GameState, c: Crisis, stageId: string) {
   if (!stage) return finish(state, c, 'ok')
   if (stage.reveals) c.revealed = true
   if (stageId === EXPOSED_STAGE.id) {
-    addNews(state, firm.isPlayer ? 'news.crisis.exposed' : 'news.crisis.exposedRival', { ...c.params, crisis: c.defId, firm: firm.name }, firm.isPlayer ? 'bad' : 'sassy', newsOpts(firm))
+    addNews(
+      state,
+      firm.isPlayer ? 'news.crisis.exposed' : 'news.crisis.exposedRival',
+      { ...c.params, crisis: c.defId, firm: firm.name },
+      firm.isPlayer ? 'bad' : 'sassy',
+      newsOpts(firm),
+    )
   }
-  if (stage.onEnter) applyCrisisEffect(state, firm, c, scaleEffect(severityPart(stage.onEnter, c.severity), impact(firm)))
+  if (stage.onEnter)
+    applyCrisisEffect(state, firm, c, scaleEffect(severityPart(stage.onEnter, c.severity), impact(firm)))
   if (stage.route) {
     const contract = contractOf(state, c)
     // The contract ended some other way in the meantime: nothing left to decide.
@@ -342,7 +380,13 @@ function enterStage(state: GameState, c: Crisis, stageId: string) {
 }
 
 /** Starts a crisis for a firm. `severity` is rolled unless given (tests). */
-export function startCrisis(state: GameState, firm: Firm, def: CrisisDef, params: Params, severity?: CrisisSeverity): Crisis {
+export function startCrisis(
+  state: GameState,
+  firm: Firm,
+  def: CrisisDef,
+  params: Params,
+  severity?: CrisisSeverity,
+): Crisis {
   const c: Crisis = {
     id: nextId(state, 'cr'),
     defId: def.id,
@@ -357,7 +401,8 @@ export function startCrisis(state: GameState, firm: Firm, def: CrisisDef, params
   }
   state.crises = [...allCrises(state), c]
   if (firm.isPlayer) addNews(state, 'news.crisis.started', { ...params, crisis: def.id }, 'bad', newsOpts(firm))
-  else if (def.scope !== 'market') addNews(state, `crises.${def.id}.gossip`, { ...params, firm: firm.name }, 'sassy', { firmId: firm.id })
+  else if (def.scope !== 'market')
+    addNews(state, `crises.${def.id}.gossip`, { ...params, firm: firm.name }, 'sassy', { firmId: firm.id })
   enterStage(state, c, def.stages[0].id)
   return c
 }
@@ -378,7 +423,13 @@ export function startMarketCrisis(state: GameState, def: CrisisDef) {
 function resolveChoice(state: GameState, c: Crisis, choice: CrisisChoice, score: number | undefined, auto: boolean) {
   const firm = state.firms[c.firmId]
   applyCrisisEffect(state, firm, c, choiceEffect(firm, c, choice, score))
-  c.log.push({ stage: c.stage, choiceId: choice.id, quarter: state.quarter, ...(auto ? { auto } : {}), ...(choice.talk ? { score: score ?? 0 } : {}) })
+  c.log.push({
+    stage: c.stage,
+    choiceId: choice.id,
+    quarter: state.quarter,
+    ...(auto ? { auto } : {}),
+    ...(choice.talk ? { score: score ?? 0 } : {}),
+  })
   c.minigameStarted = undefined
   if (choice.next) {
     c.status = 'waiting'
@@ -398,7 +449,13 @@ export function handleResolveCrisis(state: GameState, a: ActionOf<'resolveCrisis
   const choice = crisisChoices(c).find((ch) => ch.id === a.choiceId)!
   // A talk only scores if it was started first (startCrisisTalk), like the UI does.
   const talked = choice.talk && c.minigameStarted === choice.id
-  resolveChoice(state, c, choice, choice.talk ? (talked ? clamp(Math.round(a.score ?? 0), 0, 100) : 0) : undefined, false)
+  resolveChoice(
+    state,
+    c,
+    choice,
+    choice.talk ? (talked ? clamp(Math.round(a.score ?? 0), 0, 100) : 0) : undefined,
+    false,
+  )
   return undefined
 }
 
@@ -432,7 +489,10 @@ export function autoResolveCrises(state: GameState) {
 }
 
 /** Hushed-up crises may resurface; the scandal opens next quarter. Runs next to shady detection. */
-export function rollCrisisExposure(state: GameState, exposeChance: Record<CrisisSeverity, number> = CRISIS_EXPOSE_CHANCE) {
+export function rollCrisisExposure(
+  state: GameState,
+  exposeChance: Record<CrisisSeverity, number> = CRISIS_EXPOSE_CHANCE,
+) {
   for (const c of allCrises(state)) {
     if (c.status !== 'buried' || state.firms[c.firmId].bankrupt) continue
     const firm = state.firms[c.firmId]
@@ -456,7 +516,9 @@ export function advanceCrises(state: GameState) {
     }
   }
   state.crises = state.crises.filter(
-    (c) => !state.firms[c.firmId].bankrupt && !(c.status === 'over' && (c.endQuarter ?? 0) < state.quarter - CRISIS_KEEP_QUARTERS),
+    (c) =>
+      !state.firms[c.firmId].bankrupt &&
+      !(c.status === 'over' && (c.endQuarter ?? 0) < state.quarter - CRISIS_KEEP_QUARTERS),
   )
 }
 
@@ -483,7 +545,11 @@ export function drawCrises(state: GameState) {
     const level = firmLevel(player)
     const candidates = CRISES.filter((d) => {
       const last = state.eventHistory[d.id]
-      return d.minLevel <= level && (last === undefined || state.quarter - last >= d.cooldown) && !mine.some((c) => c.defId === d.id && unresolved(c))
+      return (
+        d.minLevel <= level &&
+        (last === undefined || state.quarter - last >= d.cooldown) &&
+        !mine.some((c) => c.defId === d.id && unresolved(c))
+      )
     })
     const def = weightedPick(state.rng, candidates, (d) => d.weight)
     const params = def && (def.params ? def.params({ state, firm: player }, rngPick) : {})

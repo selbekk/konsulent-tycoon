@@ -47,13 +47,18 @@ function PotentialBadge({ e }: { e: Employee }) {
   const { t } = useTranslation()
   if (!e.potentialRevealed) return <Badge>{t('staff.potentials.unknown')}</Badge>
   const band = potentialBand(e.potential)
-  return <Badge tone={band === 'high' ? 'good' : band === 'medium' ? 'info' : undefined}>{t(`staff.potentials.${band}`)}</Badge>
+  return (
+    <Badge tone={band === 'high' ? 'good' : band === 'medium' ? 'info' : undefined}>
+      {t(`staff.potentials.${band}`)}
+    </Badge>
+  )
 }
 
 function statusBadges(game: GameState, firm: Firm, e: Employee, t: (k: string) => string) {
   const out: { key: string; tone?: 'good' | 'warn' | 'info' | 'accent' }[] = []
   const block = promotionBlock(game, firm, e)
-  if (!block || block === 'errors.notEnoughCash' || block === 'errors.promotedRecently') out.push({ key: 'promotable', tone: 'accent' })
+  if (!block || block === 'errors.notEnoughCash' || block === 'errors.promotedRecently')
+    out.push({ key: 'promotable', tone: 'accent' })
   if (e.course) out.push({ key: 'course', tone: 'info' })
   if (e.mentorStarId) out.push({ key: 'mentor', tone: 'info' })
   if (e.stretchContractId) out.push({ key: 'stretch', tone: 'warn' })
@@ -114,7 +119,11 @@ export function PeoplePanel({ game, firm }: { game: GameState; firm: Firm }) {
         <div className={s.row}>
           <label className={s.row}>
             <span className={s.fieldLabel}>{t('staff.discipline')}</span>
-            <select className={s.input} value={filter} onChange={(e) => setFilter(e.target.value as Discipline | 'all')}>
+            <select
+              className={s.input}
+              value={filter}
+              onChange={(e) => setFilter(e.target.value as Discipline | 'all')}
+            >
               <option value="all">{t('staff.filterAll')}</option>
               {DISCIPLINES.filter((d) => disciplineSupply(firm, d) > 0).map((d) => (
                 <option key={d} value={d}>
@@ -154,11 +163,15 @@ export function PeoplePanel({ game, firm }: { game: GameState; firm: Firm }) {
                     <strong>{p.name}</strong>
                     <span className={`${s.small} ${s.muted}`}>
                       {t(`disciplines.${p.discipline}`)} ·{' '}
-                      {r.kind === 'star' ? t(`content:traits.${r.star.traits[0]}.name`) : t(`content:quirks.${r.e.quirks[0]}.name`)}
+                      {r.kind === 'star'
+                        ? t(`content:traits.${r.star.traits[0]}.name`)
+                        : t(`content:quirks.${r.e.quirks[0]}.name`)}
                     </span>
                   </span>
                   <Levels level={p.level} />
-                  <span className={s.seats}>{r.kind === 'star' ? starBadges(firm, r.star, t) : statusBadges(game, firm, r.e, t)}</span>
+                  <span className={s.seats}>
+                    {r.kind === 'star' ? starBadges(firm, r.star, t) : statusBadges(game, firm, r.e, t)}
+                  </span>
                 </button>
               </li>
             )
@@ -169,10 +182,17 @@ export function PeoplePanel({ game, firm }: { game: GameState; firm: Firm }) {
       )}
       {openEmployee && <EmployeeProfile game={game} firm={firm} e={openEmployee} onClose={close} />}
       {openStar && (
-        <Modal title={openStar.name} icon="star" onClose={close} actions={<Button onClick={close}>{t('common.close')}</Button>}>
+        <Modal
+          title={openStar.name}
+          icon="star"
+          onClose={close}
+          actions={<Button onClick={close}>{t('common.close')}</Button>}
+        >
           <div className={s.stack}>
             {openStar.joinedQuarter !== undefined && (
-              <span className={`${s.small} ${s.muted}`}>{t('staff.profile.joined', { quarter: formatQuarter(openStar.joinedQuarter) })}</span>
+              <span className={`${s.small} ${s.muted}`}>
+                {t('staff.profile.joined', { quarter: formatQuarter(openStar.joinedQuarter) })}
+              </span>
             )}
             <StarCard star={openStar} firm={firm} game={game} />
           </div>
@@ -182,7 +202,17 @@ export function PeoplePanel({ game, firm }: { game: GameState; firm: Firm }) {
   )
 }
 
-function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Firm; e: Employee; onClose: () => void }) {
+function EmployeeProfile({
+  game,
+  firm,
+  e,
+  onClose,
+}: {
+  game: GameState
+  firm: Firm
+  e: Employee
+  onClose: () => void
+}) {
   const { t, i18n } = useTranslation()
   const lng = i18n.language
   const dispatch = useGame((x) => x.dispatch)
@@ -194,7 +224,10 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
   const mentors = firm.stars.filter((x) => x.discipline === e.discipline)
   const contracts = stretchContracts(game, firm, e)
   const severance = quarterlySalaryCost(e.level, pricingPremium(firm)) * SEVERANCE_QUARTERS
-  const act = (blocked: string | undefined) => ({ disabled: !!blocked, title: blocked ? t(`game:${blocked}`) : undefined })
+  const act = (blocked: string | undefined) => ({
+    disabled: !!blocked,
+    title: blocked ? t(`game:${blocked}`) : undefined,
+  })
 
   return (
     <Modal
@@ -206,7 +239,8 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
           <Button
             variant="danger"
             onClick={() => {
-              if (!dispatch({ type: 'fire', firmId: firm.id, discipline: e.discipline, count: 1, employeeId: e.id })) onClose()
+              if (!dispatch({ type: 'fire', firmId: firm.id, discipline: e.discipline, count: 1, employeeId: e.id }))
+                onClose()
             }}
           >
             {t('staff.profile.fire', { cost: formatMoney(severance, lng) })}
@@ -228,12 +262,18 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
               <span className={s.small}>{t('staff.potential')}:</span>
               <PotentialBadge e={e} />
             </div>
-            <span className={`${s.small} ${s.muted}`}>{t('staff.profile.joined', { quarter: formatQuarter(e.joinedQuarter) })}</span>
+            <span className={`${s.small} ${s.muted}`}>
+              {t('staff.profile.joined', { quarter: formatQuarter(e.joinedQuarter) })}
+            </span>
           </div>
         </div>
         <p style={{ margin: 0 }}>
           {q > 0
-            ? t('staff.profile.bio', { first, discipline: t(`disciplines.${e.discipline}`).toLowerCase(), tenure: t('staff.profile.tenure', { count: q }) })
+            ? t('staff.profile.bio', {
+                first,
+                discipline: t(`disciplines.${e.discipline}`).toLowerCase(),
+                tenure: t('staff.profile.tenure', { count: q }),
+              })
             : t('staff.profile.bioNew', { first })}
         </p>
         <div className={s.stackSm}>
@@ -258,17 +298,23 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
         <div className={s.stackSm}>
           <strong>{t('staff.profile.develop')}</strong>
           {!canDevelop ? (
-            <p className={`${s.small} ${s.muted}`}>{t('staff.profile.developLocked', { level: FEATURE_LEVEL.development })}</p>
+            <p className={`${s.small} ${s.muted}`}>
+              {t('staff.profile.developLocked', { level: FEATURE_LEVEL.development })}
+            </p>
           ) : (
             <>
               {e.course ? (
-                <span className={s.small}>{t('staff.profile.courseActive', { quarter: formatQuarter(e.course.untilQuarter - 1) })}</span>
+                <span className={s.small}>
+                  {t('staff.profile.courseActive', { quarter: formatQuarter(e.course.untilQuarter - 1) })}
+                </span>
               ) : (
                 <>
                   <Button
                     size="small"
                     {...act(courseBlock(firm, e))}
-                    onClick={() => dispatch({ type: 'trainEmployee', firmId: firm.id, discipline: e.discipline, employeeId: e.id })}
+                    onClick={() =>
+                      dispatch({ type: 'trainEmployee', firmId: firm.id, discipline: e.discipline, employeeId: e.id })
+                    }
                   >
                     {t('staff.profile.course', { cost: formatMoney(COURSE_COST, lng) })}
                   </Button>
@@ -282,7 +328,14 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
                   id={`mentor-${e.id}`}
                   className={s.input}
                   value={e.mentorStarId ?? ''}
-                  onChange={(ev) => dispatch({ type: 'setMentor', firmId: firm.id, employeeId: e.id, starId: ev.target.value || undefined })}
+                  onChange={(ev) =>
+                    dispatch({
+                      type: 'setMentor',
+                      firmId: firm.id,
+                      employeeId: e.id,
+                      starId: ev.target.value || undefined,
+                    })
+                  }
                 >
                   <option value="">{t('staff.profile.mentorNone')}</option>
                   {mentors.map((m) => (
@@ -300,11 +353,22 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
                   id={`stretch-${e.id}`}
                   className={s.input}
                   value={e.stretchContractId ?? ''}
-                  onChange={(ev) => dispatch({ type: 'setStretch', firmId: firm.id, employeeId: e.id, contractId: ev.target.value || undefined })}
+                  onChange={(ev) =>
+                    dispatch({
+                      type: 'setStretch',
+                      firmId: firm.id,
+                      employeeId: e.id,
+                      contractId: ev.target.value || undefined,
+                    })
+                  }
                 >
                   <option value="">{t('staff.profile.stretchNone')}</option>
                   {contracts.map((c) => (
-                    <option key={c.id} value={c.id} disabled={c.id !== e.stretchContractId && !!stretchBlock(game, firm, e, c.id)}>
+                    <option
+                      key={c.id}
+                      value={c.id}
+                      disabled={c.id !== e.stretchContractId && !!stretchBlock(game, firm, e, c.id)}
+                    >
                       {t(`content:customers.${c.customerId}.name`)}
                     </option>
                   ))}
@@ -322,11 +386,18 @@ function EmployeeProfile({ game, firm, e, onClose }: { game: GameState; firm: Fi
                 </span>
               ) : (
                 <>
-                  <Button size="small" {...act(careerTalkBlock(firm, e))} onClick={() => dispatch({ type: 'careerTalk', firmId: firm.id, employeeId: e.id })}>
+                  <Button
+                    size="small"
+                    {...act(careerTalkBlock(firm, e))}
+                    onClick={() => dispatch({ type: 'careerTalk', firmId: firm.id, employeeId: e.id })}
+                  >
                     {t('staff.profile.careerTalk')}
                   </Button>
                   <Hint>
-                    {t('staff.profile.careerHint', { growth: formatNumber(CAREER_PROMISE_GROWTH, lng, 1), quarters: CAREER_PROMISE_QUARTERS })}
+                    {t('staff.profile.careerHint', {
+                      growth: formatNumber(CAREER_PROMISE_GROWTH, lng, 1),
+                      quarters: CAREER_PROMISE_QUARTERS,
+                    })}
                   </Hint>
                 </>
               )}

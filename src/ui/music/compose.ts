@@ -109,7 +109,7 @@ const isChordTone = (midi: number, c: Chord) => c.tones.some((t) => (c.root + t)
 const inScale = (midi: number, c: Chord) => c.scale.some((t) => (c.root + t) % 12 === pc(midi))
 
 /** The lowest MIDI note >= lo with the given pitch class. */
-const placeAbove = (pitchClass: number, lo: number) => lo + ((pitchClass - lo) % 12 + 12) % 12
+const placeAbove = (pitchClass: number, lo: number) => lo + ((((pitchClass - lo) % 12) + 12) % 12)
 
 function nearest(midi: number, ok: (n: number) => boolean): number {
   for (let d = 0; d < 12; d++) {
@@ -189,22 +189,82 @@ function layout(spec: SongSpec): Bar[] {
 type Cell = readonly (readonly [number, number])[]
 
 const CALM_CELLS: Cell[] = [
-  [[0, 2], [2, 2], [4, 4]],
-  [[0, 3], [3, 1], [4, 4]],
-  [[0, 4], [4, 2], [6, 2]],
-  [[0, 2], [3, 1], [4, 3]],
-  [[1, 1], [2, 2], [4, 4]],
+  [
+    [0, 2],
+    [2, 2],
+    [4, 4],
+  ],
+  [
+    [0, 3],
+    [3, 1],
+    [4, 4],
+  ],
+  [
+    [0, 4],
+    [4, 2],
+    [6, 2],
+  ],
+  [
+    [0, 2],
+    [3, 1],
+    [4, 3],
+  ],
+  [
+    [1, 1],
+    [2, 2],
+    [4, 4],
+  ],
   [[0, 6]],
-  [[0, 2], [2, 6]],
-  [[0, 1], [1, 3], [4, 4]],
+  [
+    [0, 2],
+    [2, 6],
+  ],
+  [
+    [0, 1],
+    [1, 3],
+    [4, 4],
+  ],
 ]
 const BUSY_CELLS: Cell[] = [
-  [[0, 1], [1, 1], [2, 2], [4, 2], [6, 2]],
-  [[0, 1], [1, 1], [2, 1], [3, 1], [4, 4]],
-  [[0, 2], [2, 1], [3, 3], [6, 2]],
-  [[1, 1], [2, 2], [4, 1], [5, 3]],
-  [[0, 2], [2, 2], [4, 1], [5, 1], [6, 2]],
-  [[0, 1], [1, 3], [4, 1], [5, 3]],
+  [
+    [0, 1],
+    [1, 1],
+    [2, 2],
+    [4, 2],
+    [6, 2],
+  ],
+  [
+    [0, 1],
+    [1, 1],
+    [2, 1],
+    [3, 1],
+    [4, 4],
+  ],
+  [
+    [0, 2],
+    [2, 1],
+    [3, 3],
+    [6, 2],
+  ],
+  [
+    [1, 1],
+    [2, 2],
+    [4, 1],
+    [5, 3],
+  ],
+  [
+    [0, 2],
+    [2, 2],
+    [4, 1],
+    [5, 1],
+    [6, 2],
+  ],
+  [
+    [0, 1],
+    [1, 3],
+    [4, 1],
+    [5, 3],
+  ],
 ]
 /** Ends a phrase: one long note and a breath. */
 const CADENCE: Cell = [[0, 6]]
@@ -241,7 +301,8 @@ const chordAt = (bar: Bar, beat: number) => bar.slots.find((s) => beat >= s.at &
 // Accompaniment
 
 function comp(spec: SongSpec, bar: Bar, t0: number, out: NoteEvent[]) {
-  const voice: Voice = spec.comp === 'pad' ? 'organ' : spec.lead === 'piano' && spec.comp !== 'stride' ? 'epiano' : 'piano'
+  const voice: Voice =
+    spec.comp === 'pad' ? 'organ' : spec.lead === 'piano' && spec.comp !== 'stride' ? 'epiano' : 'piano'
   const hit = (at: number, dur: number, c: Chord, vel: number) => {
     for (const midi of voicing(c, 55)) out.push({ part: 'comp', time: t0 + at, dur, midi, voice, vel })
   }
@@ -265,7 +326,14 @@ function comp(spec: SongSpec, bar: Bar, t0: number, out: NoteEvent[]) {
         for (const x of beats([0, 1, 2, 3])) {
           if (x % 2 === 0) {
             const tone = x === 0 ? 0 : 7
-            out.push({ part: 'comp', time: t0 + s.at + x, dur: 0.8, midi: placeAbove((s.chord.root + tone) % 12, 40), voice: 'piano', vel: 0.45 })
+            out.push({
+              part: 'comp',
+              time: t0 + s.at + x,
+              dur: 0.8,
+              midi: placeAbove((s.chord.root + tone) % 12, 40),
+              voice: 'piano',
+              vel: 0.45,
+            })
           } else hit(s.at + x, 0.5, s.chord, 0.3)
         }
         break
@@ -274,7 +342,8 @@ function comp(spec: SongSpec, bar: Bar, t0: number, out: NoteEvent[]) {
 }
 
 function bass(spec: SongSpec, bar: Bar, next: Chord | undefined, t0: number, rng: RngState, out: NoteEvent[]) {
-  const note = (at: number, dur: number, midi: number, vel = 0.6) => out.push({ part: 'bass', time: t0 + at, dur, midi, voice: 'bass', vel })
+  const note = (at: number, dur: number, midi: number, vel = 0.6) =>
+    out.push({ part: 'bass', time: t0 + at, dur, midi, voice: 'bass', vel })
   bar.slots.forEach((s, i) => {
     const root = placeAbove(s.chord.root, 36)
     const third = root + s.chord.tones[1]
@@ -319,29 +388,71 @@ const eighths = (on: number, off: number): Hits => EIGHTHS.map((x) => [x, x % 1 
 
 const GROOVES: Record<DrumStyle, Partial<Record<Voice, Hits>>> = {
   swing: {
-    ride: [[0, 0.5], [1, 0.6], [1.5, 0.35], [2, 0.5], [3, 0.6], [3.5, 0.35]],
-    hat: [[1, 0.3], [3, 0.3]],
-    kick: [[0, 0.25], [2, 0.2]],
+    ride: [
+      [0, 0.5],
+      [1, 0.6],
+      [1.5, 0.35],
+      [2, 0.5],
+      [3, 0.6],
+      [3.5, 0.35],
+    ],
+    hat: [
+      [1, 0.3],
+      [3, 0.3],
+    ],
+    kick: [
+      [0, 0.25],
+      [2, 0.2],
+    ],
   },
   brush: {
-    ride: [[0, 0.3], [1, 0.3], [2, 0.3], [3, 0.3]],
-    snare: [[1, 0.18], [3, 0.18]],
+    ride: [
+      [0, 0.3],
+      [1, 0.3],
+      [2, 0.3],
+      [3, 0.3],
+    ],
+    snare: [
+      [1, 0.18],
+      [3, 0.18],
+    ],
     kick: [[0, 0.2]],
   },
   shuffle: {
     hat: eighths(0.35, 0.2),
-    kick: [[0, 0.6], [2, 0.55]],
-    snare: [[1, 0.45], [3, 0.45]],
+    kick: [
+      [0, 0.6],
+      [2, 0.55],
+    ],
+    snare: [
+      [1, 0.45],
+      [3, 0.45],
+    ],
   },
   bossa: {
     hat: eighths(0.22, 0.14),
-    kick: [[0, 0.45], [1.5, 0.3], [2, 0.45], [3.5, 0.3]],
-    snare: [[0, 0.22], [1.5, 0.22], [3, 0.22]],
+    kick: [
+      [0, 0.45],
+      [1.5, 0.3],
+      [2, 0.45],
+      [3.5, 0.3],
+    ],
+    snare: [
+      [0, 0.22],
+      [1.5, 0.22],
+      [3, 0.22],
+    ],
   },
   march: {
     hat: eighths(0.22, 0.14),
-    kick: [[0, 0.55], [2, 0.5]],
-    snare: [[1, 0.42], [3, 0.42]],
+    kick: [
+      [0, 0.55],
+      [2, 0.5],
+    ],
+    snare: [
+      [1, 0.42],
+      [3, 0.42],
+    ],
   },
 }
 
@@ -352,7 +463,10 @@ function drums(spec: SongSpec, bar: Bar, t0: number, out: NoteEvent[]) {
   }
   // A small fill into the next section.
   if (bar.length && bar.index === bar.length - 1) {
-    out.push({ part: 'drums', time: t0 + 3, dur: 0.1, midi: 0, voice: 'snare', vel: 0.35 }, { part: 'drums', time: t0 + 3.5, dur: 0.1, midi: 0, voice: 'snare', vel: 0.45 })
+    out.push(
+      { part: 'drums', time: t0 + 3, dur: 0.1, midi: 0, voice: 'snare', vel: 0.35 },
+      { part: 'drums', time: t0 + 3.5, dur: 0.1, midi: 0, voice: 'snare', vel: 0.45 },
+    )
   }
 }
 
@@ -419,11 +533,19 @@ export function compose(spec: SongSpec): Score {
   while (last > ehi) last -= 12
   while (last < elo) last += 12
   events.push({ part: 'lead', time: endAt, dur: 3, midi: last, voice: spec.lead, vel: 0.8 })
-  for (const midi of voicing(endChord, 55)) events.push({ part: 'comp', time: endAt, dur: 3, midi, voice: spec.comp === 'pad' ? 'organ' : 'piano', vel: 0.3 })
+  for (const midi of voicing(endChord, 55))
+    events.push({ part: 'comp', time: endAt, dur: 3, midi, voice: spec.comp === 'pad' ? 'organ' : 'piano', vel: 0.3 })
   events.push(
     { part: 'bass', time: endAt, dur: 3, midi: placeAbove(endChord.root, 36), voice: 'bass', vel: 0.65 },
     { part: 'drums', time: endAt, dur: 0.1, midi: 0, voice: 'kick', vel: 0.5 },
-    { part: 'drums', time: endAt, dur: 0.1, midi: 0, voice: spec.drums === 'swing' || spec.drums === 'brush' ? 'ride' : 'snare', vel: 0.5 },
+    {
+      part: 'drums',
+      time: endAt,
+      dur: 0.1,
+      midi: 0,
+      voice: spec.drums === 'swing' || spec.drums === 'brush' ? 'ride' : 'snare',
+      vel: 0.5,
+    },
   )
 
   if (spec.swing) {

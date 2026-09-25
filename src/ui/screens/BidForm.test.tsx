@@ -17,7 +17,9 @@ describe('bids on key and routine tenders', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
   })
 
   afterEach(cleanup)
@@ -28,7 +30,11 @@ describe('bids on key and routine tenders', () => {
     expect(screen.getByRole('heading', { name: /what the customer needs/i })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('radio', { name: /the whole team is ready/i }))
     fireEvent.click(screen.getByRole('button', { name: /^place bid$/i }))
-    expect(game().tenders.find((t) => t.id === tender.id)!.bids.find((b) => b.firmId === 'player')?.promise).toBe('fullTeam')
+    expect(
+      game()
+        .tenders.find((t) => t.id === tender.id)!
+        .bids.find((b) => b.firmId === 'player')?.promise,
+    ).toBe('fullTeam')
   })
 
   it('routine tenders have no meeting or promise', () => {
@@ -41,11 +47,22 @@ describe('bids on key and routine tenders', () => {
 
   it('sends a standard offer on a routine tender with one click, unless it would be turned down', () => {
     const routine = biddable().filter((t) => !isKeyTender(t))
-    const weak = (id: string) => bidChance(game(), quickBid(game(), 'player', game().tenders.find((t) => t.id === id)!), game().tenders.find((t) => t.id === id)!).tooWeak
+    const weak = (id: string) =>
+      bidChance(
+        game(),
+        quickBid(
+          game(),
+          'player',
+          game().tenders.find((t) => t.id === id)!,
+        ),
+        game().tenders.find((t) => t.id === id)!,
+      ).tooWeak
     expect(routine.some((t) => weak(t.id))).toBe(true)
     expect(routine.some((t) => !weak(t.id))).toBe(true)
     render(<TenderBoard />)
-    const cards = screen.getAllByRole('article').filter((a) => within(a).queryByRole('button', { name: /send standard offer/i }))
+    const cards = screen
+      .getAllByRole('article')
+      .filter((a) => within(a).queryByRole('button', { name: /send standard offer/i }))
     const buttons = cards.map((a) => within(a).getByRole('button', { name: /send standard offer/i }))
     expect(buttons.some((b) => b.hasAttribute('disabled'))).toBe(true)
     fireEvent.click(buttons.find((b) => !b.hasAttribute('disabled'))!)

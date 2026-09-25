@@ -10,7 +10,13 @@ describe('shady business', () => {
   it('silent outsourcing adds heat and logs an ongoing entry', () => {
     const s = veteranTestGame()
     const c = s.contracts.find((x) => x.firmId === 'player')!
-    const r = applyAction(s, { type: 'shady', firmId: 'player', actionId: 'silent_outsource', contractId: c.id, share: 0.5 })
+    const r = applyAction(s, {
+      type: 'shady',
+      firmId: 'player',
+      actionId: 'silent_outsource',
+      contractId: c.id,
+      share: 0.5,
+    })
     expect(r.error).toBeUndefined()
     const p = r.state.firms.player
     expect(p.heat).toBe(SHADY_CATALOG.silent_outsource.heat)
@@ -23,7 +29,13 @@ describe('shady business', () => {
     SHADY_CATALOG.silent_outsource.baseDetection = 1
     const s0 = veteranTestGame()
     const c = s0.contracts.find((x) => x.firmId === 'player')!
-    const s = applyAction(s0, { type: 'shady', firmId: 'player', actionId: 'silent_outsource', contractId: c.id, share: 0.5 }).state
+    const s = applyAction(s0, {
+      type: 'shady',
+      firmId: 'player',
+      actionId: 'silent_outsource',
+      contractId: c.id,
+      share: 0.5,
+    }).state
     const draft = structuredClone(s)
     rollShadyDetection(draft)
     const p = draft.firms.player
@@ -48,9 +60,12 @@ describe('shady business', () => {
   it('cv padding requires an own bid and sets the flag', () => {
     const s = veteranTestGame()
     const t = s.tenders.find((x) => !x.resolved)!
-    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'cv_pad', tenderId: t.id }).error).toBe('errors.noBid')
+    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'cv_pad', tenderId: t.id }).error).toBe(
+      'errors.noBid',
+    )
     const withBid = applyAction(s, {
-      type: 'placeBid', tenderId: t.id,
+      type: 'placeBid',
+      tenderId: t.id,
       bid: { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false },
     }).state
     const r = applyAction(withBid, { type: 'shady', firmId: 'player', actionId: 'cv_pad', tenderId: t.id })
@@ -62,7 +77,13 @@ describe('shady business', () => {
     const draft = structuredClone(s)
     const star = draft.starMarket[0]
     draft.firms.player.stars.push(star)
-    const r = applyAction(draft, { type: 'shady', firmId: 'accentura', actionId: 'afterwork_poach', targetFirmId: 'player', starId: star.id })
+    const r = applyAction(draft, {
+      type: 'shady',
+      firmId: 'accentura',
+      actionId: 'afterwork_poach',
+      targetFirmId: 'player',
+      starId: star.id,
+    })
     expect(r.error).toBeUndefined()
     expect(r.state.pendingEvents.some((e) => e.eventId === 'poach_attempt')).toBe(true)
     expect(r.state.firms.player.stars.some((x) => x.id === star.id)).toBe(true)
@@ -76,8 +97,14 @@ describe('shady business', () => {
   it('founders cannot be poached', () => {
     const s = veteranTestGame()
     const founder = s.firms.player.stars[0]
-    expect(applyAction(s, { type: 'shady', firmId: 'accentura', actionId: 'afterwork_poach', targetFirmId: 'player', starId: founder.id }).error).toBe(
-      'errors.invalidStar',
-    )
+    expect(
+      applyAction(s, {
+        type: 'shady',
+        firmId: 'accentura',
+        actionId: 'afterwork_poach',
+        targetFirmId: 'player',
+        starId: founder.id,
+      }).error,
+    ).toBe('errors.invalidStar')
   })
 })

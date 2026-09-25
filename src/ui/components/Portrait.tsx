@@ -11,11 +11,31 @@ type Px = [x: number, y: number, w: number, h: number]
 
 const HAIR_SHAPES: Record<(typeof STYLES)[number], Px[]> = {
   short: [[3, 1, 6, 2]],
-  long: [[3, 1, 6, 2], [2, 2, 1, 6], [9, 2, 1, 6]],
-  bald: [[2, 3, 1, 2], [9, 3, 1, 2]],
-  bun: [[5, 0, 2, 1], [3, 1, 6, 2]],
-  curly: [[2, 0, 8, 2], [2, 2, 2, 1], [8, 2, 2, 1], [2, 3, 1, 1], [9, 3, 1, 1]],
-  side: [[3, 1, 6, 1], [3, 2, 2, 1], [2, 2, 1, 3]],
+  long: [
+    [3, 1, 6, 2],
+    [2, 2, 1, 6],
+    [9, 2, 1, 6],
+  ],
+  bald: [
+    [2, 3, 1, 2],
+    [9, 3, 1, 2],
+  ],
+  bun: [
+    [5, 0, 2, 1],
+    [3, 1, 6, 2],
+  ],
+  curly: [
+    [2, 0, 8, 2],
+    [2, 2, 2, 1],
+    [8, 2, 2, 1],
+    [2, 3, 1, 1],
+    [9, 3, 1, 1],
+  ],
+  side: [
+    [3, 1, 6, 1],
+    [3, 2, 2, 1],
+    [2, 2, 1, 3],
+  ],
 }
 
 /** A small pixel face, the same every time for the same seed (an employee or star id). */
@@ -39,7 +59,12 @@ export function Portrait({ seed, size = 32 }: { seed: string; size?: number }) {
       viewBox="0 0 12 12"
       shapeRendering="crispEdges"
       aria-hidden
-      style={{ flexShrink: 0, border: '2px solid var(--border-dark)', borderRadius: 'var(--radius-sm)', background: bg }}
+      style={{
+        flexShrink: 0,
+        border: '2px solid var(--border-dark)',
+        borderRadius: 'var(--radius-sm)',
+        background: bg,
+      }}
     >
       {rect([3, 2, 6, 6], skin, 'face')}
       {rect([2, 8, 8, 4], shirt, 'shirt')}

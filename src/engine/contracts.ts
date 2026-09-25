@@ -107,7 +107,12 @@ export function updateContracts(state: GameState, firm: Firm, staffing: FirmStaf
     for (const d of DISCIPLINES) level += (c.activeSeats[d] ?? 0) * disciplineLevel(firm, d)
     level /= total
     const target = clamp(
-      75 + maturitySatisfaction(c.customerId) + (level - 3) * 10 - freelanceShare * 30 - offshoreShare * OFFSHORE_SATISFACTION_HIT * 5 - (c.fraud.baitAndSwitch ? 15 : 0),
+      75 +
+        maturitySatisfaction(c.customerId) +
+        (level - 3) * 10 -
+        freelanceShare * 30 -
+        offshoreShare * OFFSHORE_SATISFACTION_HIT * 5 -
+        (c.fraud.baitAndSwitch ? 15 : 0),
       0,
       100,
     )
@@ -121,7 +126,11 @@ export function updateContracts(state: GameState, firm: Firm, staffing: FirmStaf
 function checkPromise(state: GameState, c: Contract, cs: ContractStaffing, total: number) {
   const gap = (seatTotal(cs.freelance) + seatTotal(cs.flex) + seatTotal(cs.offshore)) / total
   const kept =
-    c.promise === 'fullTeam' ? gap <= PROMISE_FULL_TEAM_MAX_GAP : c.promise === 'phased' ? gap <= PROMISE_PHASED_MAX_GAP : true
+    c.promise === 'fullTeam'
+      ? gap <= PROMISE_FULL_TEAM_MAX_GAP
+      : c.promise === 'phased'
+        ? gap <= PROMISE_PHASED_MAX_GAP
+        : true
   c.promiseKept = kept
   if (c.fullRate !== undefined) {
     c.rateMultiplier = c.fullRate
@@ -135,9 +144,15 @@ function checkPromise(state: GameState, c: Contract, cs: ContractStaffing, total
     100,
   )
   if (c.firmId === state.playerId) {
-    addNews(state, `news.promise.${kept ? 'kept' : 'broken'}.${c.promise}`, { customer: c.customerId }, kept ? 'good' : 'bad', {
-      personal: true,
-    })
+    addNews(
+      state,
+      `news.promise.${kept ? 'kept' : 'broken'}.${c.promise}`,
+      { customer: c.customerId },
+      kept ? 'good' : 'bad',
+      {
+        personal: true,
+      },
+    )
   }
 }
 
@@ -172,7 +187,13 @@ export function expireContracts(state: GameState, quarter: number) {
       c.kind === 'project' &&
       !firm.bankrupt &&
       c.satisfaction >= RENEWAL_MIN_SATISFACTION &&
-      chance(state.rng, RENEWAL_CHANCE * (c.satisfaction / 80) * (c.promise === 'discovery' ? DISCOVERY_RENEWAL_FACTOR : 1) * loyaltyRenewalFactor(c.customerId))
+      chance(
+        state.rng,
+        RENEWAL_CHANCE *
+          (c.satisfaction / 80) *
+          (c.promise === 'discovery' ? DISCOVERY_RENEWAL_FACTOR : 1) *
+          loyaltyRenewalFactor(c.customerId),
+      )
     ) {
       const extra = nextInt(state.rng, 2, 4)
       c.endQuarter += extra
@@ -189,9 +210,15 @@ export function expireContracts(state: GameState, quarter: number) {
     const cust = state.customers[c.customerId]
     cust.relationships[c.firmId] = clamp((cust.relationships[c.firmId] ?? 20) + (c.satisfaction - 50) / 5, 0, 100)
     if (c.firmId === state.playerId) {
-      addNews(state, 'news.contract.ended', { customer: c.customerId, satisfaction: Math.round(c.satisfaction) }, 'neutral', {
-        personal: true,
-      })
+      addNews(
+        state,
+        'news.contract.ended',
+        { customer: c.customerId, satisfaction: Math.round(c.satisfaction) },
+        'neutral',
+        {
+          personal: true,
+        },
+      )
     }
   }
   // Drop contracts that ended over a year ago.

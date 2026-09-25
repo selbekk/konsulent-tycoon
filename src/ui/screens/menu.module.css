@@ -21,7 +21,9 @@
   font-family: var(--font-logo);
   line-height: 1.25;
   color: var(--accent);
-  text-shadow: 4px 4px 0 var(--border-dark), 8px 8px 0 var(--accent-2);
+  text-shadow:
+    4px 4px 0 var(--border-dark),
+    8px 8px 0 var(--accent-2);
   font-size: clamp(1.4rem, 7vw, 2.6rem);
   margin: 0;
 }
@@ -41,7 +43,9 @@
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 .buttons {

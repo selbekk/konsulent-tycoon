@@ -4,8 +4,30 @@
  * language (`content:leaderboardNames.*`). Two nouns and a suffix, so no adjective has to agree with a gender.
  */
 export const NAME_NOUNS = [
-  'moose', 'spreadsheet', 'coffee', 'herring', 'viking', 'llama', 'owl', 'intern', 'ferry', 'sprint', 'slide', 'unicorn',
-  'waffle', 'fjord', 'troll', 'invoice', 'standup', 'backlog', 'sofa', 'puffin', 'cloud', 'bunad', 'brunost', 'sauna',
+  'moose',
+  'spreadsheet',
+  'coffee',
+  'herring',
+  'viking',
+  'llama',
+  'owl',
+  'intern',
+  'ferry',
+  'sprint',
+  'slide',
+  'unicorn',
+  'waffle',
+  'fjord',
+  'troll',
+  'invoice',
+  'standup',
+  'backlog',
+  'sofa',
+  'puffin',
+  'cloud',
+  'bunad',
+  'brunost',
+  'sauna',
 ] as const
 
 export const NAME_SUFFIXES = ['as', 'group', 'partners', 'labs', 'consulting', 'holding'] as const

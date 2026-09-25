@@ -10,7 +10,9 @@ describe('the people on the staff screen', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -31,7 +33,8 @@ describe('the people on the staff screen', () => {
     render(<StaffScreen />)
     const founders = useGame.getState().game!.firms.player.stars
     expect(founders.length).toBe(2)
-    for (const star of founders) expect(screen.getByRole('button', { name: `Show ${star.name}'s profile` })).toBeInTheDocument()
+    for (const star of founders)
+      expect(screen.getByRole('button', { name: `Show ${star.name}'s profile` })).toBeInTheDocument()
     expect(screen.getByText(`${founders.length + 4} people`)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: `Show ${founders[0].name}'s profile` }))
     const dialog = screen.getByRole('dialog', { name: founders[0].name })

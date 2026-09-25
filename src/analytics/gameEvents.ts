@@ -14,7 +14,10 @@ const crisisOf = (s: GameState, crisisId: string) => s.crises?.find((c) => c.id 
 export const ACTION_EVENTS: { [T in ActionType]: Describe<T> } = {
   setBudgets: { event: 'budgets_set', props: (a) => ({ ...a.budgets }) },
   orderHires: { event: 'hires_ordered', props: (a) => ({ discipline: a.discipline, count: a.count }) },
-  fire: { event: 'employee_fired', props: (a) => ({ discipline: a.discipline, count: a.count, picked_person: !!a.employeeId }) },
+  fire: {
+    event: 'employee_fired',
+    props: (a) => ({ discipline: a.discipline, count: a.count, picked_person: !!a.employeeId }),
+  },
   trainEmployee: { event: 'employee_trained', props: (a) => ({ discipline: a.discipline }) },
   promoteEmployee: { event: 'employee_promoted' },
   setMentor: { event: 'mentor_set', props: (a) => ({ ended: !a.starId }) },
@@ -39,22 +42,37 @@ export const ACTION_EVENTS: { [T in ActionType]: Describe<T> } = {
       }
     },
   },
-  withdrawBid: { event: 'bid_withdrawn', props: (a, s) => ({ customer: s.tenders.find((t) => t.id === a.tenderId)?.customerId }) },
+  withdrawBid: {
+    event: 'bid_withdrawn',
+    props: (a, s) => ({ customer: s.tenders.find((t) => t.id === a.tenderId)?.customerId }),
+  },
   recordMinigame: {
     event: 'minigame_finished',
     props: (a) => ({ kind: a.kind, score: a.score }),
   },
   resolveEvent: {
     event: 'event_resolved',
-    props: (a, s) => ({ event_id: s.pendingEvents.find((e) => e.id === a.pendingEventId)?.eventId, choice: a.choiceId }),
+    props: (a, s) => ({
+      event_id: s.pendingEvents.find((e) => e.id === a.pendingEventId)?.eventId,
+      choice: a.choiceId,
+    }),
   },
   resolveCrisis: {
     event: 'crisis_choice_made',
-    props: (a, s) => ({ crisis: crisisOf(s, a.crisisId)?.defId, stage: crisisOf(s, a.crisisId)?.stage, choice: a.choiceId, score: a.score }),
+    props: (a, s) => ({
+      crisis: crisisOf(s, a.crisisId)?.defId,
+      stage: crisisOf(s, a.crisisId)?.stage,
+      choice: a.choiceId,
+      score: a.score,
+    }),
   },
   startCrisisTalk: {
     event: 'crisis_talk_started',
-    props: (a, s) => ({ crisis: crisisOf(s, a.crisisId)?.defId, stage: crisisOf(s, a.crisisId)?.stage, choice: a.choiceId }),
+    props: (a, s) => ({
+      crisis: crisisOf(s, a.crisisId)?.defId,
+      stage: crisisOf(s, a.crisisId)?.stage,
+      choice: a.choiceId,
+    }),
   },
   chooseSpecialty: { event: 'specialty_chosen', props: (a) => ({ specialty: a.specialty }) },
   setPartnership: { event: 'partnership_set', props: (a) => ({ partnership: a.partnershipId, on: a.on }) },
@@ -69,7 +87,10 @@ export const ACTION_EVENTS: { [T in ActionType]: Describe<T> } = {
     props: (a, s) => ({ customer: customerOf(s, a.contractId), discipline: a.discipline, count: a.count }),
   },
   nurtureContract: { event: 'contract_nurtured', props: (a, s) => ({ customer: customerOf(s, a.contractId) }) },
-  shady: { event: 'shady_action_taken', props: (a) => ({ shady_action: a.actionId, target_firm: a.targetFirmId, share: a.share }) },
+  shady: {
+    event: 'shady_action_taken',
+    props: (a) => ({ shady_action: a.actionId, target_firm: a.targetFirmId, share: a.share }),
+  },
 }
 
 /** Where the player stands right now; sent with every in-game event. */

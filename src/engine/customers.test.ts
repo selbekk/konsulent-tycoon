@@ -2,7 +2,13 @@ import { describe, expect, it } from 'vitest'
 import { CUSTOMERS, CUSTOMER_MAP, CUSTOMER_METRICS } from '../content/customers'
 import { CUSTOMER_APPEAL_WEIGHTS, PORTFOLIO_APPEAL_HALF_SEATS } from './constants'
 import { employerBrand, portfolioBrand } from './culture'
-import { customerAppeal, loyaltyRenewalFactor, maturitySatisfaction, portfolioAppeal, seniorityCvFactor } from './customers'
+import {
+  customerAppeal,
+  loyaltyRenewalFactor,
+  maturitySatisfaction,
+  portfolioAppeal,
+  seniorityCvFactor,
+} from './customers'
 import { acceptRate, newHireLevel } from './staff'
 import { bidQualityParts } from './tenders'
 import { deepFreeze, newTestGame } from './testUtils'

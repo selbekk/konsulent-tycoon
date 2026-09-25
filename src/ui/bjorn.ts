@@ -11,7 +11,10 @@ export function bjornKey(game: GameState): string {
   if (fin.utilization > 0.95) return 'bjorn.overworked'
   if (fin.utilization < 0.5) return 'bjorn.bench'
   if (fin.ebitda < 0) return 'bjorn.losing'
-  if (me.history.length >= 2 && me.history[me.history.length - 1].headcount > me.history[me.history.length - 2].headcount)
+  if (
+    me.history.length >= 2 &&
+    me.history[me.history.length - 1].headcount > me.history[me.history.length - 2].headcount
+  )
     return 'bjorn.growing'
   return 'bjorn.fine'
 }

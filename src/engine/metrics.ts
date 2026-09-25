@@ -66,7 +66,8 @@ export interface Kpis {
 }
 
 const fgOf = (h: QuarterReport) => h.utilization
-const otOf = (h: QuarterReport) => (h.billed && h.ownRevenue !== undefined ? h.ownRevenue / (h.billed * BILLABLE_HOURS) : undefined)
+const otOf = (h: QuarterReport) =>
+  h.billed && h.ownRevenue !== undefined ? h.ownRevenue / (h.billed * BILLABLE_HOURS) : undefined
 
 /** Rolling 4-quarter retention ending at index i. */
 function retentionAt(history: QuarterReport[], i: number): number | undefined {
@@ -85,7 +86,10 @@ export function kpis(state: GameState, firmId: string): Kpis {
   const fin = quarterFinancials(state, firmId)
   const last = h[h.length - 1]
 
-  const fgTrend = [...h.map((x) => ({ quarter: x.quarter, value: fgOf(x) })), { quarter: state.quarter, value: fin.utilization }]
+  const fgTrend = [
+    ...h.map((x) => ({ quarter: x.quarter, value: fgOf(x) })),
+    { quarter: state.quarter, value: fin.utilization },
+  ]
   const otTrend = h
     .map((x) => ({ quarter: x.quarter, value: otOf(x) }))
     .filter((p): p is KpiPoint => p.value !== undefined)
@@ -93,7 +97,10 @@ export function kpis(state: GameState, firmId: string): Kpis {
   if (otNow !== undefined) otTrend.push({ quarter: state.quarter, value: otNow })
 
   const hcNow = headcount(firm)
-  const hcTrend = [...h.map((x) => ({ quarter: x.quarter, value: x.headcount })), { quarter: state.quarter, value: hcNow }]
+  const hcTrend = [
+    ...h.map((x) => ({ quarter: x.quarter, value: x.headcount })),
+    { quarter: state.quarter, value: hcNow },
+  ]
   const yearAgo = h.length >= 4 ? h[h.length - 4].headcount : undefined
   const qAgo = last?.headcount
 
@@ -110,7 +117,9 @@ export function kpis(state: GameState, firmId: string): Kpis {
       value: retentionAt(h, h.length - 1),
       leavers: recent.reduce((s, x) => s + x.leavers, 0),
       fired: recent.reduce((s, x) => s + (x.fired ?? 0), 0),
-      trend: h.map((_, i) => ({ quarter: h[i].quarter, value: retentionAt(h, i) })).filter((p): p is KpiPoint => p.value !== undefined),
+      trend: h
+        .map((_, i) => ({ quarter: h[i].quarter, value: retentionAt(h, i) }))
+        .filter((p): p is KpiPoint => p.value !== undefined),
     },
   }
 }
@@ -134,7 +143,11 @@ export function benchmark(state: GameState, exceptFirmId: string): Benchmark {
   return {
     fg: mean(firms.map((f) => fgOf(lastOf(f)))),
     ot: mean(firms.map((f) => otOf(lastOf(f)))),
-    growth: mean(firms.map((f) => (f.history.length >= 4 ? headcount(f) / f.history[f.history.length - 4].headcount - 1 : undefined))),
+    growth: mean(
+      firms.map((f) =>
+        f.history.length >= 4 ? headcount(f) / f.history[f.history.length - 4].headcount - 1 : undefined,
+      ),
+    ),
     retention: mean(firms.map((f) => retentionAt(f.history, f.history.length - 1))),
   }
 }

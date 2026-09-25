@@ -38,7 +38,12 @@ interface Services {
 let services: Promise<Services> | null = null
 
 function load(): Promise<Services> {
-  services ??= Promise.all([import('firebase/app'), import('firebase/auth'), import('firebase/firestore/lite'), import('firebase/functions')])
+  services ??= Promise.all([
+    import('firebase/app'),
+    import('firebase/auth'),
+    import('firebase/firestore/lite'),
+    import('firebase/functions'),
+  ])
     .then(([{ initializeApp }, { getAuth }, { getFirestore }, { getFunctions }]) => {
       const app = initializeApp(FIREBASE_CONFIG)
       return { auth: getAuth(app), db: getFirestore(app), functions: getFunctions(app, REGION) }
@@ -107,7 +112,15 @@ export class SubmitFailed extends Error {
   }
 }
 
-const SUBMIT_ERRORS: readonly string[] = ['outdated', 'weekClosed', 'invalid', 'tooLong', 'replayFailed', 'unfinished', 'duplicate']
+const SUBMIT_ERRORS: ReadonlySet<string> = new Set([
+  'outdated',
+  'weekClosed',
+  'invalid',
+  'tooLong',
+  'replayFailed',
+  'unfinished',
+  'duplicate',
+])
 
 /** Sends a finished weekly game. Throws SubmitFailed with a reason the UI can explain. */
 export async function submitRun(submission: RunSubmission): Promise<SubmitResult> {
@@ -126,9 +139,14 @@ export async function submitRun(submission: RunSubmission): Promise<SubmitResult
     if (e instanceof SubmitFailed) throw e
     const err = e as { code?: string; message?: string; details?: { reason?: string } }
     const reason = err.details?.reason ?? err.message ?? ''
-    if (SUBMIT_ERRORS.includes(reason)) throw new SubmitFailed(reason as SubmitError)
+    if (SUBMIT_ERRORS.has(reason)) throw new SubmitFailed(reason as SubmitError)
     if (err.code === 'functions/resource-exhausted') throw new SubmitFailed('tooFast')
-    if (err.code === 'functions/unavailable' || err.code === 'functions/deadline-exceeded' || err.code === 'auth/network-request-failed') throw new SubmitFailed('offline')
+    if (
+      err.code === 'functions/unavailable' ||
+      err.code === 'functions/deadline-exceeded' ||
+      err.code === 'auth/network-request-failed'
+    )
+      throw new SubmitFailed('offline')
     throw new SubmitFailed('unknown')
   }
 }
@@ -164,7 +182,9 @@ export async function myUid(): Promise<string | null> {
 export async function weekBoard(week: string, count = 50): Promise<BoardEntry[]> {
   const { db } = await load()
   const { collection, getDocs, limit, orderBy, query } = await import('firebase/firestore/lite')
-  const snap = await getDocs(query(collection(db, 'weeks', week, 'entries'), orderBy('valuation', 'desc'), limit(count)))
+  const snap = await getDocs(
+    query(collection(db, 'weeks', week, 'entries'), orderBy('valuation', 'desc'), limit(count)),
+  )
   return snap.docs.map((d) => ({ ...(d.data() as Omit<BoardEntry, 'uid'>), uid: d.id }))
 }
 
@@ -182,7 +202,9 @@ export async function myHistory(count = 20): Promise<HistoryEntry[]> {
   if (!uid) return []
   const { db } = await load()
   const { collection, getDocs, limit, orderBy, query } = await import('firebase/firestore/lite')
-  const snap = await getDocs(query(collection(db, 'users', uid, 'history'), orderBy('submittedAt', 'desc'), limit(count)))
+  const snap = await getDocs(
+    query(collection(db, 'users', uid, 'history'), orderBy('submittedAt', 'desc'), limit(count)),
+  )
   return snap.docs.map((d) => ({ ...(d.data() as Omit<HistoryEntry, 'id'>), id: d.id }))
 }
 
