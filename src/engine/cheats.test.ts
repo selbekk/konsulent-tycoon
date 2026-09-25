@@ -37,9 +37,11 @@ describe('cheats', () => {
     s.firms.player.budgets.salaryPremium = 0.2
     const [star] = s.starMarket
     const s1 = endTurn(s)
-    const cost = starSigningCost(s1.starMarket.find((x) => x.id === star.id) ?? s1.starMarket[0], s1.firms.player)
+    // Keep the star on the market whatever the quarter's draws did with it.
+    if (!s1.starMarket.some((x) => x.id === star.id)) s1.starMarket.push(star)
+    const cost = starSigningCost(s1.starMarket.find((x) => x.id === star.id)!, s1.firms.player)
     const dipped = applyAction(s1, { type: 'setBudgets', firmId: 'player', budgets: { salaryPremium: PREMIUM_MIN } }).state
-    const target = dipped.starMarket.find((x) => x.id === star.id) ?? dipped.starMarket[0]
+    const target = dipped.starMarket.find((x) => x.id === star.id)!
     expect(starSigningCost(target, dipped.firms.player)).toBe(cost)
   })
 

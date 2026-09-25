@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import * as C from './constants'
-import { BILLABLE_HOURS, FLEX_LEVEL, listRate } from './constants'
+import { BILLABLE_HOURS, FLEX_LEVEL, SMALL_TENDERS_MIN, listRate } from './constants'
 import { expireContracts } from './contracts'
 import { contractRevenue, staffFirm } from './economy'
 import { marketDemand, publishTenders, retenderContracts } from './tenders'
@@ -88,7 +88,7 @@ describe('market mechanics', () => {
     s.tenders = []
     publishTenders(s, 1)
     const small = s.tenders.filter((t) => seatTotal(t.seats) <= 2)
-    expect(small.length).toBeGreaterThanOrEqual(3)
+    expect(small.length).toBeGreaterThanOrEqual(SMALL_TENDERS_MIN)
     expect(small.every((t) => t.kind === 'project' && t.duration >= 1 && t.duration <= 3)).toBe(true)
   })
 
