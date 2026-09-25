@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
-import { loadFromSlot } from '../engine'
-import type { NewGameOptions } from '../engine'
+import { isKeyTender, loadFromSlot, replayRun } from '../engine'
+import type { GameState, NewGameOptions } from '../engine'
+import { planHumanProxy } from '../engine/ai/humanProxy'
+import { planEventAnswers } from '../engine/ai/planner'
 import { makeKeyTender } from '../engine/testUtils'
 import { useGame } from './gameStore'
 
@@ -87,5 +89,80 @@ describe('gameStore', () => {
     expect(useGame.getState().load()).toBe(true)
     expect(useGame.getState().stale).toBe(false)
     expect(useGame.getState().game!.firms.player.hiringOrders).toEqual({ design: 2 })
+  })
+
+  describe('action log', () => {
+    const opts: NewGameOptions = { seed: 11, firmName: 'Logg AS', founderDisciplines: ['backend', 'cloud'], difficulty: 'normal' }
+    /** The whole state as JSON, without the store's `gameId` (the engine never sees it). */
+    const json = (s: object) => JSON.stringify(s, (k, v) => (k === 'gameId' ? undefined : v))
+
+    it('logs what the player did, so replaying it ends in the same state', () => {
+      useGame.getState().newGame(opts)
+      for (let q = 0; q < 5; q++) {
+        for (const plan of [(g: GameState) => planEventAnswers(g, g.playerId), (g: GameState) => planHumanProxy(g)]) {
+          const game = useGame.getState().game!
+          for (const a of plan(structuredClone(game))) useGame.getState().dispatch(a)
+        }
+        const game = useGame.getState().game!
+        const tender = game.tenders.find((t) => !t.resolved && !t.hidden)
+        if (tender) useGame.getState().dispatch({ type: 'withdrawBid', firmId: 'player', tenderId: tender.id })
+        expect(useGame.getState().dispatch({ type: 'promoteEmployee', firmId: 'player', employeeId: 'nobody' })).toBeTruthy()
+        useGame.getState().endTurn()
+      }
+      const { game, log } = useGame.getState()
+      expect(log!.filter((x) => x === 'end')).toHaveLength(5)
+      expect(log!.some((x) => x !== 'end' && x.type === 'promoteEmployee')).toBe(false)
+      const replay = replayRun(opts, log!)
+      expect(replay.error).toBeUndefined()
+      expect(json(replay.state)).toBe(json(game!))
+    })
+
+    it('logs minigames, including the provisional attempt', () => {
+      useGame.getState().newGame(opts)
+      const open = () => useGame.getState().game!.tenders.find((t) => !t.resolved && !t.hidden && isKeyTender(t) && !t.minigameResults.player)
+      while (!open() && useGame.getState().game!.quarter < 12) {
+        const game = useGame.getState().game!
+        for (const a of planHumanProxy(structuredClone(game))) useGame.getState().dispatch(a)
+        useGame.getState().endTurn()
+      }
+      const tender = open()!
+      expect(tender).toBeDefined()
+      expect(useGame.getState().dispatch({ type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'meeting', score: 0, provisional: true })).toBeUndefined()
+      expect(useGame.getState().dispatch({ type: 'recordMinigame', firmId: 'player', tenderId: tender.id, kind: 'meeting', score: 67 })).toBeUndefined()
+      const { game, log } = useGame.getState()
+      expect(log!.filter((x) => x !== 'end' && x.type === 'recordMinigame')).toHaveLength(2)
+      const replay = replayRun(opts, log!)
+      expect(replay.state.tenders.find((t) => t.id === tender.id)!.minigameResults.player.score).toBe(67)
+      expect(json(replay.state)).toBe(json(game!))
+    })
+
+    it('comes back with the autosave, and only for the same game', () => {
+      useGame.getState().newGame(opts)
+      useGame.getState().dispatch({ type: 'orderHires', firmId: 'player', discipline: 'backend', count: 1 })
+      useGame.getState().endTurn()
+      const log = useGame.getState().log
+      expect(log).toHaveLength(2)
+      useGame.getState().quit()
+      expect(useGame.getState().log).toBeNull()
+      expect(useGame.getState().load()).toBe(true)
+      expect(useGame.getState().log).toEqual(log)
+      // A log from another game is ignored.
+      const stored = JSON.parse(localStorage.getItem('kt.log.auto')!)
+      localStorage.setItem('kt.log.auto', JSON.stringify({ ...stored, gameId: 'someone-else' }))
+      useGame.getState().quit()
+      useGame.getState().load()
+      expect(useGame.getState().log).toBeNull()
+    })
+
+    it('an incomplete log is dropped rather than submitted', () => {
+      useGame.getState().newGame(opts)
+      useGame.getState().endTurn()
+      useGame.getState().endTurn()
+      const stored = JSON.parse(localStorage.getItem('kt.log.auto')!)
+      localStorage.setItem('kt.log.auto', JSON.stringify({ ...stored, log: stored.log.slice(1) }))
+      useGame.getState().quit()
+      useGame.getState().load()
+      expect(useGame.getState().log).toBeNull()
+    })
   })
 })

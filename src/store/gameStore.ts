@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { setGameId, track, trackSettled } from '../analytics'
 import { describeAction, gameContext, quarterSummary, settleKey } from '../analytics/gameEvents'
 import {
+  actingFirm,
   applyAction,
   createNewGame,
   deleteSlot,
@@ -11,14 +12,16 @@ import {
   playerRank,
   purgeIncompatibleSaves,
   quarterTodos,
+  readLog,
   readSlot,
+  saveLog,
   saveToSlot,
   slotStorageKey,
   valuation,
 } from '../engine'
-import type { Action, Crisis, GameState, MinigameKind, NewGameOptions, SlotId } from '../engine'
+import type { Action, Crisis, GameState, MinigameKind, NewGameOptions, RunLog, SlotId } from '../engine'
 
-export type Screen = 'menu' | 'newGame' | 'settings' | 'about' | 'game'
+export type Screen = 'menu' | 'newGame' | 'settings' | 'about' | 'leaderboard' | 'game'
 export type Tab = 'dashboard' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
 export const TABS: Tab[] = ['dashboard', 'staff', 'culture', 'tenders', 'contracts', 'strategy', 'market', 'backroom']
 
@@ -60,19 +63,12 @@ function loadSettings(): Settings {
   }
 }
 
-/**
- * The firm an action acts for. The engine lets any firm act (the AI uses the same actions), so the
- * store is where the player is held to their own firm.
- */
-export function actingFirm(game: GameState, action: Action): string | undefined {
-  switch (action.type) {
-    case 'placeBid':
-      return action.bid.firmId
-    case 'resolveEvent':
-      return game.pendingEvents.find((e) => e.id === action.pendingEventId)?.firmId
-    default:
-      return action.firmId
-  }
+/** Autosave: the game, and its action log for the leaderboard. */
+function autosave(game: GameState, log: RunLog | null) {
+  const storage = safeStorage()
+  if (!storage) return
+  saveToSlot(storage, 'auto', game)
+  if (log && game.gameId) saveLog(storage, 'auto', game.gameId, log)
 }
 
 function safeStorage(): Storage | null {
@@ -85,6 +81,11 @@ function safeStorage(): Storage | null {
 
 interface Store {
   game: GameState | null
+  /**
+   * Every successful action and quarter end of this game, so it can be replayed on the leaderboard server.
+   * Null for games saved before the log existed, which can't be submitted.
+   */
+  log: RunLog | null
   screen: Screen
   previousScreen: Screen
   tab: Tab
@@ -141,6 +142,7 @@ export const crisisSeenKey = (c: Pick<Crisis, 'id' | 'stage' | 'stageQuarter'>) 
 
 export const useGame = create<Store>((set, get) => ({
   game: null,
+  log: null,
   screen: 'menu',
   previousScreen: 'menu',
   tab: 'dashboard',
@@ -173,13 +175,13 @@ export const useGame = create<Store>((set, get) => ({
   newGame: (opts, meta) => {
     const game: GameState = { ...createNewGame(opts), gameId: newGameId() }
     setGameId(game.gameId!)
-    const storage = safeStorage()
-    if (storage) saveToSlot(storage, 'auto', game)
-    set({ game, stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
+    autosave(game, [])
+    set({ game, log: [], stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
     track('game_started', {
       difficulty: opts.difficulty,
       founders: [...opts.founderDisciplines],
       custom_seed: meta?.customSeed,
+      weekly: !!opts.weekly,
       default_name: meta?.defaultName,
     })
   },
@@ -202,9 +204,9 @@ export const useGame = create<Store>((set, get) => ({
     if (settle) trackSettled(settle, event, props)
     else track(event, props)
     // Autosave after every action: closing the tab never loses bids, and minigames can't be replayed by reloading.
-    const storage = safeStorage()
-    if (storage) saveToSlot(storage, 'auto', result.state)
-    set({ game: result.state, error: null })
+    const log = get().log ? [...get().log!, action] : null
+    autosave(result.state, log)
+    set({ game: result.state, log, error: null })
     return undefined
   },
 
@@ -212,8 +214,8 @@ export const useGame = create<Store>((set, get) => ({
     const { game, stale } = get()
     if (!game || stale || game.status !== 'playing') return
     const next = engineEndTurn(game)
-    const storage = safeStorage()
-    if (storage) saveToSlot(storage, 'auto', next)
+    const log: RunLog | null = get().log ? [...get().log!, 'end'] : null
+    autosave(next, log)
     const from = firmLevel(game.firms[game.playerId])
     const to = firmLevel(next.firms[next.playerId])
     const levelUp = to > from ? { from, to } : null
@@ -231,7 +233,7 @@ export const useGame = create<Store>((set, get) => ({
         quarters_played: game.quarter + 1,
       })
     }
-    set({ game: next, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp, crisisId: null, crisisTalk: null })
+    set({ game: next, log, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp, crisisId: null, crisisTalk: null })
   },
 
   load: () => {
@@ -248,22 +250,24 @@ export const useGame = create<Store>((set, get) => ({
     }
     const resumed = get().stale
     get().loadState(read.state)
+    set({ log: readLog(storage, 'auto', read.state) })
     track('game_continued', { ...gameContext(read.state), ...(resumed ? { from_other_tab: true } : {}) })
     return true
   },
 
   loadState: (loaded) => {
     // Saves from before game_id get one now; it's stored with the next autosave.
+    // A state from outside the autosave has no log, so it can't be submitted; load() restores the autosave's.
     const game = loaded.gameId ? loaded : { ...loaded, gameId: newGameId() }
     setGameId(game.gameId!)
-    set({ game, stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+    set({ game, log: null, stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
   },
 
   quit: () => {
     const { game } = get()
     if (game && game.status === 'playing') track('game_quit', gameContext(game))
     setGameId(null)
-    set({ game: null, stale: false, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+    set({ game: null, log: null, stale: false, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
   },
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),

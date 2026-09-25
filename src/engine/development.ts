@@ -184,7 +184,7 @@ const firmOf = (state: GameState, id: string) => {
 
 export function handleTrain(state: GameState, a: ActionOf<'trainEmployee'>): string | undefined {
   const firm = firmOf(state, a.firmId)
-  if (!firm) return 'errors.invalid'
+  if (!firm || !DISCIPLINES.includes(a.discipline)) return 'errors.invalid'
   if (!firm.roster) {
     // AI firms: the same course spread over the pool, with an average potential.
     if (!hasFeature(firm, 'development')) return 'errors.levelTooLow'

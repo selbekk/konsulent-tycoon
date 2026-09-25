@@ -1,6 +1,7 @@
 import { IPO_MULTIPLE_BONUS, clamp } from './constants'
 import { shadyStats } from './shady'
 import type { Firm, GameState } from './types'
+import { compareIds } from './util'
 
 export function valuationMultiple(firm: Firm): number {
   return clamp(4 + firm.reputation / 25, 4, 8) + (firm.listed ? IPO_MULTIPLE_BONUS : 0)
@@ -19,7 +20,7 @@ export function valuation(firm: Firm): number {
 export function rankings(state: GameState): { firmId: string; value: number }[] {
   return state.firmOrder
     .map((id) => ({ firmId: id, value: valuation(state.firms[id]) }))
-    .sort((a, b) => b.value - a.value || a.firmId.localeCompare(b.firmId))
+    .sort((a, b) => b.value - a.value || compareIds(a.firmId, b.firmId))
 }
 
 export function playerRank(state: GameState): number {

@@ -11,7 +11,7 @@ import { headcount } from './economy'
 import { chance, createRng, hashString, pick, weightedPick } from './rng'
 import type { RngState } from './rng'
 import type { GameState, Params } from './types'
-import { activeFirms, addNews, aiFirms, seatTotal } from './util'
+import { activeFirms, addNews, aiFirms, compareIds, seatTotal } from './util'
 
 /** Theme Hospital-style PA announcement for the new quarter (at most one). */
 export function pickAnnouncement(state: GameState) {
@@ -53,7 +53,7 @@ export function industryGossip(state: GameState) {
 function gossipParams(state: GameState, r: RngState, subject: GossipSubject): Params | null {
   const firms = aiFirms(state)
   const most = (score: (f: (typeof firms)[number]) => number) =>
-    firms.length ? [...firms].sort((a, b) => score(b) - score(a) || a.id.localeCompare(b.id))[0] : undefined
+    firms.length ? [...firms].sort((a, b) => score(b) - score(a) || compareIds(a.id, b.id))[0] : undefined
   switch (subject) {
     case 'none':
       return {}
@@ -127,7 +127,7 @@ export function employeeThoughts(state: GameState, firmId: string): Thought[] {
   const own = firm.fagmiljo + firm.sosialt
   const rival = activeFirms(state)
     .filter((f) => f.id !== firm.id)
-    .sort((a, b) => b.fagmiljo + b.sosialt - (a.fagmiljo + a.sosialt) || a.id.localeCompare(b.id))[0]
+    .sort((a, b) => b.fagmiljo + b.sosialt - (a.fagmiljo + a.sosialt) || compareIds(a.id, b.id))[0]
   if (rival && rival.fagmiljo + rival.sosialt > own + 30) add('rival_sushi', { firm: rival.name })
 
   const freelancers = state.contracts

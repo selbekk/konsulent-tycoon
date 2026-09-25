@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// The leaderboard (docs/plans/2026-09-25-toppliste.md). Every write goes through Cloud Functions
+// (Admin SDK, which bypasses these rules) after the game has been replayed. Clients only read.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Weekly lists: public.
+    match /weeks/{week} {
+      allow read: if true;
+      match /entries/{uid} {
+        allow read: if true;
+      }
+    }
+    // Hall of Fame reads every week's entries at once.
+    match /{path=**}/entries/{uid} {
+      allow read: if true;
+    }
+    // A player's own results.
+    match /users/{uid}/history/{runId} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+    }
+    // runs/ holds full action logs and users/{uid} the rate limit: server only.
+  }
+}

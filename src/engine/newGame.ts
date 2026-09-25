@@ -29,6 +29,8 @@ export interface NewGameOptions {
   firmName: string
   founderDisciplines: [Discipline, Discipline]
   difficulty: Difficulty
+  /** The weekly challenge's ISO week. The caller passes its seed too (`weekSeed`). */
+  weekly?: string
 }
 
 export const PLAYER_ID = 'player'
@@ -191,6 +193,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
     crises: [],
     status: 'playing',
     idCounter: 0,
+    ...(opts.weekly ? { weekly: { week: opts.weekly, founders: [...opts.founderDisciplines] } } : {}),
   }
 
   // Player

@@ -34,7 +34,8 @@
     "savesDropped_other": "{{count}} lagrede spill ble slettet fordi spillogikken har endret seg siden de ble lagret. Du må dessverre starte et nytt spill.",
     "savesDroppedOk": "Skjønner",
     "disclaimer": "Alle likheter med virkelige selskaper er helt tilfeldige (og kjærlig ment).",
-    "about": "Om spillet"
+    "about": "Om spillet",
+    "leaderboard": "Toppliste"
   },
   "newGame": {
     "title": "Start et selskap",
@@ -55,7 +56,16 @@
     },
     "seed": "Seed (valgfritt)",
     "seedPlaceholder": "Tilfeldig",
-    "start": "Stift selskapet"
+    "start": "Stift selskapet",
+    "mode": "Hva slags parti?",
+    "modes": {
+      "free": "Fritt parti",
+      "weekly": "Ukens konsulenthus"
+    },
+    "modeHints": {
+      "free": "Tilfeldig marked, eller din egen seed. Kommer ikke på topplista.",
+      "weekly": "Alle spiller samme marked hele {{week}}, på normal vanskelighetsgrad. Når partiet er ferdig, kan du sende det inn til topplista."
+    }
   },
   "settings": {
     "title": "Innstillinger",
@@ -937,7 +947,8 @@
       "body": [
         "Spillet er gratis og kjører i nettleseren. Lagrede spill ligger på din egen enhet og sendes ingen steder.",
         "Sier du ja til bruksstatistikk, sender spillet anonyme hendelser til PostHog, med servere i EU: hvilke skjermer du åpner, hva du gjør i spillet (som bud, ansettelser og valg i kriser), hvordan kvartalene går og feilmeldinger hvis noe krasjer. Med følger også det nettleseren forteller om seg selv, som nettlesertype, operativsystem, skjermstørrelse, omtrentlig land og hvilken side du kom fra. Vi lagrer en tilfeldig ID på enheten din, slik at vi ser at det er samme spiller neste gang, og hvert parti får også sin egen tilfeldige ID. Vi lagrer ikke IP-adressen din, og vi sender ikke navnet på firmaet ditt eller noe annet du skriver selv.",
-        "Sier du nei, lastes ikke PostHog i det hele tatt. Du kan ombestemme deg når som helst under Innstillinger. Spiller du uten nett, sendes hendelsene når du er på nett igjen, så lenge spillet fortsatt er åpent."
+        "Sier du nei, lastes ikke PostHog i det hele tatt. Du kan ombestemme deg når som helst under Innstillinger. Spiller du uten nett, sendes hendelsene når du er på nett igjen, så lenge spillet fortsatt er åpent.",
+        "Vil du være med på topplista, sender spillet ukens parti til Firebase (Google) med servere i EU. Da lagres en anonym konto (en tilfeldig ID), trekkene du gjorde i partiet, resultatet og navnet du valgte fra ordlista. Firmanavnet ditt sendes ikke. Det skjer bare når du selv trykker «Send inn», og du kan slette kontoen og alt som er lagret under Innstillinger."
       ]
     },
     "thanks": {
@@ -1146,5 +1157,72 @@
     "count": "{{done}} av {{total}}",
     "locked": "Ikke nådd ennå",
     "mission": "Mål"
+  },
+  "leaderboard": {
+    "title": "Toppliste",
+    "intro": "Ukens konsulenthus: alle spiller samme marked, med de samme anbudene, krisene og konkurrentene. Nå er det {{week}}.",
+    "tabs": {
+      "week": "Denne uka",
+      "fame": "Hall of Fame",
+      "mine": "Mine partier"
+    },
+    "cols": {
+      "firm": "Firma",
+      "week": "Uke",
+      "value": "Verdi",
+      "title": "Sluttittel"
+    },
+    "weekLabel": "uke {{week}}, {{year}}",
+    "nameFormat": "{{a}} & {{b}} {{suffix}}",
+    "name": "Navn på topplista",
+    "nameFirst": "Første ord",
+    "nameSecond": "Andre ord",
+    "nameSuffix": "Selskapsform",
+    "randomName": "Tilfeldig",
+    "nameHint": "Navnet settes sammen av ferdige ord, så ingen trenger å moderere det. Firmanavnet ditt blir på din maskin.",
+    "empty": "Ingen har sendt inn noe ennå. Plassen er din.",
+    "noHistory": "Du har ikke sendt inn noen partier ennå.",
+    "loading": "Henter lista …",
+    "loadFailed": "Fikk ikke hentet topplista. Er du på nett?",
+    "fairPlay": "Serveren spiller hvert parti på nytt fra trekkene dine og regner ut verdien selv. Prøv ukens marked så mange ganger du vil: det beste partiet ditt teller.",
+    "playWeekly": "Spill ukens konsulenthus",
+    "join": {
+      "privacy": "Når du er med, får du en anonym konto (en tilfeldig ID), og partiet sendes til Firebase i EU: trekkene dine, resultatet og navnet over. Du kan slette alt under Innstillinger."
+    },
+    "submit": {
+      "title": "Toppliste for {{week}}",
+      "body": "Vil du sammenligne deg med de andre som har spilt samme marked denne uka?",
+      "bodyJoined": "Send inn partiet, så ser du hvor du havner.",
+      "joinAndSend": "Bli med og send inn",
+      "send": "Send inn",
+      "sending": "Regner på det …",
+      "see": "Se topplista",
+      "noLog": "Dette partiet kan ikke sendes inn, fordi det ble startet i en eldre versjon av spillet."
+    },
+    "result": {
+      "place": "Du er på {{place}}. plass av {{players}} i {{week}}.",
+      "percentile": "Partiet slo {{percentile}} % av de andre spillerne.",
+      "first": "Du er den første denne uka. Nå har de andre noe å strekke seg etter.",
+      "notBest": "Du hadde et bedre parti fra før denne uka, så det er det som står på lista."
+    },
+    "errors": {
+      "outdated": "Det finnes en nyere versjon av spillet. Oppdater, så kan neste parti sendes inn. Dette partiet ble spilt etter de gamle reglene.",
+      "weekClosed": "Uka er over, så topplista for den er stengt.",
+      "invalid": "Noe var galt med innsendingen. Prøv igjen.",
+      "tooLong": "Partiet var for langt til å sendes inn.",
+      "replayFailed": "Serveren fikk ikke partiet til å gå opp. Det er vår feil, ikke din.",
+      "unfinished": "Partiet er ikke ferdig ennå.",
+      "offline": "Du ser ut til å være uten nett. Prøv igjen når du er på nett.",
+      "tooFast": "Litt for raskt. Vent noen sekunder og prøv igjen.",
+      "unknown": "Noe gikk galt. Prøv igjen om litt."
+    },
+    "account": {
+      "title": "Konto for topplista",
+      "body": "Du er med på topplista som {{name}}. Kontoen er anonym, og vi lagrer partiene du har sendt inn og resultatene deres.",
+      "delete": "Slett kontoen min",
+      "confirm": "Ja, slett alt",
+      "failed": "Fikk ikke slettet kontoen. Er du på nett?",
+      "deleted": "Kontoen og partiene dine er slettet."
+    }
   }
 }

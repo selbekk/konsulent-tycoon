@@ -22,7 +22,7 @@ import { handleShady } from './shady'
 import { handleChooseSpecialty, handleIpo, handleLobby, handleSetDepartment, handleSetPartnership } from './strategy'
 import { starSigningCost } from './stars'
 import { clampRate, effortCost, isKeyTender } from './tenders'
-import { PROMISES } from './types'
+import { DISCIPLINES, PROMISES } from './types'
 import type { Action, ActionOf, ActionResult, ActionType, GameState } from './types'
 
 type Handler<T extends ActionType> = (state: GameState, action: ActionOf<T>) => string | undefined
@@ -36,6 +36,12 @@ const openTender = (state: GameState, tenderId: string) =>
   state.tenders.find(
     (t) => t.id === tenderId && !t.resolved && !t.hidden && t.publishedQuarter <= state.quarter && t.dueQuarter >= state.quarter,
   )
+
+/**
+ * Actions come from the UI, the AI, and logs replayed by the leaderboard server, so every handler checks
+ * its input: ids must exist, numbers are clamped to what the UI allows. See the "hostile input" tests.
+ */
+const isDiscipline = (d: unknown): boolean => (DISCIPLINES as readonly unknown[]).includes(d)
 
 const handlers: { [K in ActionType]: Handler<K> } = {
   setBudgets(state, a) {
@@ -52,7 +58,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
 
   orderHires(state, a) {
     const firm = firmOf(state, a.firmId)
-    if (!firm) return 'errors.invalid'
+    if (!firm || !isDiscipline(a.discipline)) return 'errors.invalid'
     const n = clamp(Math.round(a.count), 0, MAX_HIRE_ORDER)
     if (n) firm.hiringOrders[a.discipline] = n
     else delete firm.hiringOrders[a.discipline]
@@ -61,7 +67,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
 
   fire(state, a) {
     const firm = firmOf(state, a.firmId)
-    if (!firm) return 'errors.invalid'
+    if (!firm || !isDiscipline(a.discipline)) return 'errors.invalid'
     const pool = firm.pools[a.discipline]
     const n = a.employeeId ? 1 : clamp(Math.round(a.count), 0, pool.count)
     if (!n) return 'errors.invalid'
@@ -159,6 +165,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const firm = firmOf(state, a.firmId)
     if (!firm) return 'errors.invalid'
     if (!isKeyTender(tender)) return 'errors.noMeetingNeeded'
+    if (a.kind !== 'meeting' && a.kind !== 'bingo') return 'errors.invalid'
     if (a.kind === 'bingo' && !hasFeature(firm, 'bingo')) return 'errors.levelTooLow'
     const existing = tender.minigameResults[a.firmId]
     if (existing && (!existing.provisional || existing.kind !== a.kind || a.provisional)) return 'errors.minigameAlreadyPlayed'

@@ -34,7 +34,8 @@
     "savesDropped_other": "{{count}} saved games were deleted because the game logic has changed since they were saved. Sorry, you'll have to start a new game.",
     "savesDroppedOk": "Got it",
     "disclaimer": "Any resemblance to real companies is purely coincidental (and meant with love).",
-    "about": "About"
+    "about": "About",
+    "leaderboard": "Leaderboard"
   },
   "newGame": {
     "title": "Start a company",
@@ -55,7 +56,16 @@
     },
     "seed": "Seed (optional)",
     "seedPlaceholder": "Random",
-    "start": "Found the company"
+    "start": "Found the company",
+    "mode": "What kind of game?",
+    "modes": {
+      "free": "Free play",
+      "weekly": "Firm of the Week"
+    },
+    "modeHints": {
+      "free": "A random market, or your own seed. Not ranked.",
+      "weekly": "Everyone plays the same market all of {{week}}, on normal difficulty. When you finish, you can send it to the leaderboard."
+    }
   },
   "settings": {
     "title": "Settings",
@@ -937,7 +947,8 @@
       "body": [
         "The game is free and runs in your browser. Saved games stay on your own device and aren't sent anywhere.",
         "If you say yes to usage statistics, the game sends anonymous events to PostHog, on servers in the EU: which screens you open, what you do in the game (like bids, hires and crisis choices), how your quarters go, and error reports if something crashes. PostHog also gets what your browser shares about itself anyway, like browser, operating system, screen size, rough country and which page sent you here. We store a random ID on your device so we can tell it's the same player next time, and each game gets a random ID of its own too. We don't store your IP address, and we never send your firm's name or anything else you type.",
-        "If you say no, PostHog isn't loaded at all. You can change your mind at any time in Settings. If you play offline, events are sent once you're back online, as long as the game is still open."
+        "If you say no, PostHog isn't loaded at all. You can change your mind at any time in Settings. If you play offline, events are sent once you're back online, as long as the game is still open.",
+        "If you join the leaderboard, the game sends that week's game to Firebase (Google), with servers in the EU. It stores an anonymous account (a random ID), the moves you made in the game, the result and the name you picked from the word list. Your firm name is not sent. This only happens when you press \"Send it in\" yourself, and you can delete the account and everything stored in Settings."
       ]
     },
     "thanks": {
@@ -1146,5 +1157,72 @@
     "count": "{{done}} of {{total}}",
     "locked": "Not yet reached",
     "mission": "Goal"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "intro": "Firm of the Week: everyone plays the same market, with the same tenders, crises and rivals. It is now {{week}}.",
+    "tabs": {
+      "week": "This week",
+      "fame": "Hall of Fame",
+      "mine": "My games"
+    },
+    "cols": {
+      "firm": "Firm",
+      "week": "Week",
+      "value": "Value",
+      "title": "Final title"
+    },
+    "weekLabel": "week {{week}}, {{year}}",
+    "nameFormat": "{{a}} & {{b}} {{suffix}}",
+    "name": "Name on the leaderboard",
+    "nameFirst": "First word",
+    "nameSecond": "Second word",
+    "nameSuffix": "Company type",
+    "randomName": "Shuffle",
+    "nameHint": "Names are built from ready-made words, so nobody has to moderate them. Your firm name stays on your device.",
+    "empty": "Nobody has sent anything in yet. The top spot is yours.",
+    "noHistory": "You haven't sent in any games yet.",
+    "loading": "Fetching the list …",
+    "loadFailed": "Couldn't fetch the leaderboard. Are you online?",
+    "fairPlay": "The server replays every game from your moves and works out the value itself. Play the week as many times as you like: your best game counts.",
+    "playWeekly": "Play Firm of the Week",
+    "join": {
+      "privacy": "Joining gives you an anonymous account (a random ID), and the game is sent to Firebase in the EU: your moves, the result and the name above. You can delete it all in Settings."
+    },
+    "submit": {
+      "title": "Leaderboard for {{week}}",
+      "body": "Want to see how you did against everyone else who played this market this week?",
+      "bodyJoined": "Send in the game to see where you land.",
+      "joinAndSend": "Join and send",
+      "send": "Send it in",
+      "sending": "Crunching the numbers …",
+      "see": "See the leaderboard",
+      "noLog": "This game can't be sent in, because it was started in an older version of the game."
+    },
+    "result": {
+      "place": "You are number {{place}} of {{players}} in {{week}}.",
+      "percentile": "This game beat {{percentile}}% of the other players.",
+      "first": "You're the first one this week. Now the others have something to aim for.",
+      "notBest": "You already had a better game this week, so that one stays on the list."
+    },
+    "errors": {
+      "outdated": "There is a newer version of the game. Update, and your next game can be sent in. This one was played by the old rules.",
+      "weekClosed": "The week is over, so its leaderboard is closed.",
+      "invalid": "Something was wrong with the submission. Try again.",
+      "tooLong": "The game was too long to send in.",
+      "replayFailed": "The server couldn't make the game add up. That's our fault, not yours.",
+      "unfinished": "The game isn't over yet.",
+      "offline": "You seem to be offline. Try again when you are back online.",
+      "tooFast": "A bit too quick. Wait a few seconds and try again.",
+      "unknown": "Something went wrong. Try again in a moment."
+    },
+    "account": {
+      "title": "Leaderboard account",
+      "body": "You're on the leaderboard as {{name}}. The account is anonymous; we store the games you've sent in and their results.",
+      "delete": "Delete my account",
+      "confirm": "Yes, delete everything",
+      "failed": "Couldn't delete the account. Are you online?",
+      "deleted": "Your account and games have been deleted."
+    }
   }
 }

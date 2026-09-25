@@ -2,6 +2,7 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { engineVersion } from './scripts/engineVersion.ts'
 
 /** Same as the rewrites in vercel.json: PostHog behind our own path, for `dev` and `preview`. */
 const posthogProxy = {
@@ -11,6 +12,8 @@ const posthogProxy = {
 }
 
 export default defineConfig({
+  // Which rules this build plays by; the leaderboard only replays games from the same version.
+  define: { __ENGINE_VERSION__: JSON.stringify(engineVersion()) },
   server: { proxy: posthogProxy },
   preview: { proxy: posthogProxy },
   plugins: [
@@ -52,8 +55,8 @@ export default defineConfig({
     rolldownOptions: {
       output: {
         // Libraries change rarely: keep them in their own chunk so game updates stay small.
-        // PostHog stays out of it: it's only loaded once the player accepts analytics.
-        codeSplitting: { groups: [{ name: 'vendor', test: /node_modules\/(?!posthog-js|@posthog)/ }] },
+        // PostHog and Firebase stay out of it: they're only loaded once the player opts in.
+        codeSplitting: { groups: [{ name: 'vendor', test: /node_modules\/(?!posthog-js|@posthog|firebase|@firebase)/ }] },
       },
     },
   },
@@ -61,5 +64,8 @@ export default defineConfig({
     environment: 'node',
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     setupFiles: ['./src/test/setup.ts'],
+    // Some tests play whole 40-quarter games; CI runners are a lot slower than a laptop.
+    testTimeout: 30_000,
+    hookTimeout: 60_000,
   },
 })
