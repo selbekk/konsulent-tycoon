@@ -5,9 +5,18 @@ import { useGame } from '../../store/gameStore'
  * A number that ticks up from zero, like a slot machine paying out. Screen readers (and tests)
  * get the final value straight away; with reduced motion, so does everyone else.
  */
-export function CountUp({ value, format, duration = 900 }: { value: number; format: (n: number) => string; duration?: number }) {
+export function CountUp({
+  value,
+  format,
+  duration = 900,
+}: {
+  value: number
+  format: (n: number) => string
+  duration?: number
+}) {
   const setting = useGame((x) => x.settings.reducedMotion)
-  const reduced = setting || (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const reduced =
+    setting || (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches)
   const animate = !reduced && typeof requestAnimationFrame !== 'undefined'
   const [shown, setShown] = useState(0)
 

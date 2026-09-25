@@ -448,7 +448,14 @@ export type Action =
   | { type: 'giveRaise'; firmId: FirmId; starId: string; amount: number }
   | { type: 'placeBid'; tenderId: string; bid: Bid }
   | { type: 'withdrawBid'; firmId: FirmId; tenderId: string }
-  | { type: 'recordMinigame'; firmId: FirmId; tenderId: string; kind: MinigameKind; score: number; provisional?: boolean }
+  | {
+      type: 'recordMinigame'
+      firmId: FirmId
+      tenderId: string
+      kind: MinigameKind
+      score: number
+      provisional?: boolean
+    }
   | { type: 'resolveEvent'; pendingEventId: string; choiceId: string }
   /** `score` (0–100) only for choices with a crisis talk; see startCrisisTalk. */
   | { type: 'resolveCrisis'; firmId: FirmId; crisisId: string; choiceId: string; score?: number }

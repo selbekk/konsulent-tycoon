@@ -12,7 +12,9 @@ describe('contract actions', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
   })
 

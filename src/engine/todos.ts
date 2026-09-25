@@ -1,4 +1,10 @@
-import { NURTURE_SATISFACTION, NURTURE_TODO_BELOW, TODO_HIRE_MIN_RUNWAY, TODO_IDLE_MIN, TODO_IDLE_SHARE } from './constants'
+import {
+  NURTURE_SATISFACTION,
+  NURTURE_TODO_BELOW,
+  TODO_HIRE_MIN_RUNWAY,
+  TODO_IDLE_MIN,
+  TODO_IDLE_SHARE,
+} from './constants'
 import { contractMoveBlock } from './contractActions'
 import { crisesOf } from './crises'
 import { activeContracts, creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from './economy'
@@ -43,7 +49,10 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const idle = Math.max(0, cap.idle - cap.laterSeatsInBids)
   const threshold = Math.max(TODO_IDLE_MIN, Math.round(headcount(firm) * TODO_IDLE_SHARE))
   const fits = open.some(
-    (t) => !mine.includes(t) && !tenderLock(firm, t) && DISCIPLINES.some((d) => (t.seats[d] ?? 0) > 0 && disciplineSupply(firm, d) > 0),
+    (t) =>
+      !mine.includes(t) &&
+      !tenderLock(firm, t) &&
+      DISCIPLINES.some((d) => (t.seats[d] ?? 0) > 0 && disciplineSupply(firm, d) > 0),
   )
   // A bid placed now becomes a contract starting in two quarters.
   if (matters(state.quarter + 2)) todos.push({ id: 'bid', done: idle < threshold || !fits, params: { count: idle } })
@@ -70,10 +79,14 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   // A contract close to being cancelled by the customer, and customer care is available for it.
   if (matters(state.quarter + 1)) {
     const running = activeContracts(state, firmId)
-    const open = running.filter((c) => c.satisfaction < NURTURE_TODO_BELOW && !contractMoveBlock(state, firm, c, 'nurture')).length
+    const atRisk = running.filter(
+      (c) => c.satisfaction < NURTURE_TODO_BELOW && !contractMoveBlock(state, firm, c, 'nurture'),
+    ).length
     // Keep the ticked item visible after caring for a contract that was at risk this quarter.
-    const cared = running.some((c) => c.nurtureQuarter === state.quarter && c.satisfaction < NURTURE_TODO_BELOW + NURTURE_SATISFACTION)
-    if (open || cared) todos.push({ id: 'nurture', done: open === 0, params: { count: open } })
+    const cared = running.some(
+      (c) => c.nurtureQuarter === state.quarter && c.satisfaction < NURTURE_TODO_BELOW + NURTURE_SATISFACTION,
+    )
+    if (atRisk || cared) todos.push({ id: 'nurture', done: atRisk === 0, params: { count: atRisk } })
   }
 
   return todos

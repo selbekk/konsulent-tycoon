@@ -10,7 +10,8 @@ import { seatTotal } from '../util'
 export function choosePromise(tender: Tender, free: Record<string, number>): PromiseId | undefined {
   if (!isKeyTender(tender)) return undefined
   const total = seatTotal(tender.seats)
-  const cover = DISCIPLINES.reduce((s, d) => s + Math.min(tender.seats[d] ?? 0, Math.max(0, free[d] ?? 0)), 0) / Math.max(1, total)
+  const cover =
+    DISCIPLINES.reduce((s, d) => s + Math.min(tender.seats[d] ?? 0, Math.max(0, free[d] ?? 0)), 0) / Math.max(1, total)
   const canKeep = (p: PromiseId) => (p === 'fullTeam' ? cover >= 0.95 : p === 'phased' ? cover >= 0.55 : true)
   const wants = customerWants(tender.customerId)
   if (wants && canKeep(wants)) return wants

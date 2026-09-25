@@ -8,7 +8,12 @@ import type { CrisisMinigame } from '../engine/types'
 export type TalkStyle = 'candid' | 'caring' | 'facts' | 'spin'
 export const TALK_STYLES = ['candid', 'caring', 'facts', 'spin'] as const satisfies readonly TalkStyle[]
 
-export const OPPOSITE_TALK_STYLE: Record<TalkStyle, TalkStyle> = { candid: 'spin', spin: 'candid', caring: 'facts', facts: 'caring' }
+export const OPPOSITE_TALK_STYLE: Record<TalkStyle, TalkStyle> = {
+  candid: 'spin',
+  spin: 'candid',
+  caring: 'facts',
+  facts: 'caring',
+}
 
 export const CRISIS_TALK_QUESTIONS: Record<CrisisMinigame, readonly string[]> = {
   press: ['who_knew', 'responsible', 'again', 'affected', 'resign'],

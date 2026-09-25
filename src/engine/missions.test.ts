@@ -32,7 +32,13 @@ describe('missions', () => {
   it('tracks public, framework and big wins for later missions', () => {
     const s = newTestGame()
     const t = s.tenders.find((x) => !x.resolved && !x.hidden)!
-    Object.assign(t, { kind: 'framework', seats: { backend: 16 }, bids: [bid], dueQuarter: s.quarter, customerId: 'navet' })
+    Object.assign(t, {
+      kind: 'framework',
+      seats: { backend: 16 },
+      bids: [bid],
+      dueQuarter: s.quarter,
+      customerId: 'navet',
+    })
     s.firms.player.fagmiljo = 100
     resolveDueTenders(s)
     expect(s.firms.player.stats).toMatchObject({ frameworkWins: 1, biggestWin: 16, publicWins: 1 })

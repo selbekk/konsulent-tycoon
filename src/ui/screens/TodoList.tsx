@@ -7,7 +7,13 @@ import { Icon } from '../components/Icon'
 import { Button } from '../components/ui'
 import s from './screens.module.css'
 
-const TODO_TAB: Record<TodoId, Tab> = { crisis: 'dashboard', bid: 'tenders', pitch: 'tenders', hire: 'staff', nurture: 'contracts' }
+const TODO_TAB: Record<TodoId, Tab> = {
+  crisis: 'dashboard',
+  bid: 'tenders',
+  pitch: 'tenders',
+  hire: 'staff',
+  nurture: 'contracts',
+}
 
 /** Checklist of this quarter's to-dos. `onGo` runs before switching tab (e.g. to close a dialog). */
 export function TodoList({ todos, onGo }: { todos: Todo[]; onGo?: () => void }) {
@@ -27,7 +33,9 @@ export function TodoList({ todos, onGo }: { todos: Todo[]; onGo?: () => void }) 
               <span className="visually-hidden">{todo.done ? t('todo.doneSr') : t('todo.openSr')} </span>
               {t(`todo.items.${todo.id}.label`)}
             </span>
-            {!todo.done && <span className={`${s.small} ${s.muted}`}>{t(`todo.items.${todo.id}.detail`, todo.params)}</span>}
+            {!todo.done && (
+              <span className={`${s.small} ${s.muted}`}>{t(`todo.items.${todo.id}.detail`, todo.params)}</span>
+            )}
           </span>
           {!todo.done && (
             <Button

@@ -13,8 +13,7 @@ export function nextFloat(r: RngState): number {
   return ((t ^ (t >>> 14)) >>> 0) / 4294967296
 }
 
-export const nextInt = (r: RngState, min: number, max: number) =>
-  min + Math.floor(nextFloat(r) * (max - min + 1))
+export const nextInt = (r: RngState, min: number, max: number) => min + Math.floor(nextFloat(r) * (max - min + 1))
 
 export const pick = <T>(r: RngState, xs: readonly T[]): T => xs[Math.floor(nextFloat(r) * xs.length)]
 

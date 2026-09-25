@@ -40,7 +40,15 @@ describe('officeLayout', () => {
     const rng = game.rng.s
     expect(officeMood(game, game.firms.player).party).toBe(false)
     game.quarter = 3
-    game.news.push({ id: 'n1', quarter: 2, key: 'news.tender.playerWon', params: {}, tone: 'good', personal: true, firmId: 'player' })
+    game.news.push({
+      id: 'n1',
+      quarter: 2,
+      key: 'news.tender.playerWon',
+      params: {},
+      tone: 'good',
+      personal: true,
+      firmId: 'player',
+    })
     const mood = officeMood(game, game.firms.player)
     expect(mood).toMatchObject({ party: true, season: 'christmas' })
     expect(game.rng.s).toBe(rng)

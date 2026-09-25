@@ -25,7 +25,11 @@ describe('cheats', () => {
     const s = newTestGame()
     const bid = { firmId: 'player', rateMultiplier: NaN, starIds: [], effort: NaN as 0, cvPad: false, ghostCv: false }
     let r = applyAction(s, { type: 'placeBid', tenderId: openTender(s).id, bid })
-    r = applyAction(r.state, { type: 'setBudgets', firmId: 'player', budgets: { salaryPremium: NaN, fagmiljoPerHead: NaN } })
+    r = applyAction(r.state, {
+      type: 'setBudgets',
+      firmId: 'player',
+      budgets: { salaryPremium: NaN, fagmiljoPerHead: NaN },
+    })
     const after = endTurn(r.state)
     expect(Number.isFinite(after.firms.player.cash)).toBe(true)
     expect(Number.isFinite(after.firms.player.budgets.salaryPremium)).toBe(true)
@@ -39,8 +43,15 @@ describe('cheats', () => {
     const s1 = endTurn(s)
     // Keep the star on the market whatever the quarter's draws did with it.
     if (!s1.starMarket.some((x) => x.id === star.id)) s1.starMarket.push(star)
-    const cost = starSigningCost(s1.starMarket.find((x) => x.id === star.id)!, s1.firms.player)
-    const dipped = applyAction(s1, { type: 'setBudgets', firmId: 'player', budgets: { salaryPremium: PREMIUM_MIN } }).state
+    const cost = starSigningCost(
+      s1.starMarket.find((x) => x.id === star.id)!,
+      s1.firms.player,
+    )
+    const dipped = applyAction(s1, {
+      type: 'setBudgets',
+      firmId: 'player',
+      budgets: { salaryPremium: PREMIUM_MIN },
+    }).state
     const target = dipped.starMarket.find((x) => x.id === star.id)!
     expect(starSigningCost(target, dipped.firms.player)).toBe(cost)
   })
@@ -50,12 +61,18 @@ describe('cheats', () => {
     const s = veteranTestGame()
     const once = applyAction(s, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: 'accentura' })
     expect(once.error).toBeUndefined()
-    expect(applyAction(once.state, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: 'accentura' }).error).toBe('errors.shadyRepeat')
+    expect(
+      applyAction(once.state, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: 'accentura' }).error,
+    ).toBe('errors.shadyRepeat')
     // Another rival is fair game, and so is the same one next quarter.
     const other = s.firmOrder.find((id) => id !== 'player' && id !== 'accentura')!
-    expect(applyAction(once.state, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: other }).error).toBeUndefined()
+    expect(
+      applyAction(once.state, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: other }).error,
+    ).toBeUndefined()
     const next = endTurn(once.state)
-    expect(applyAction(next, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: 'accentura' }).error).not.toBe('errors.shadyRepeat')
+    expect(
+      applyAction(next, { type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: 'accentura' }).error,
+    ).not.toBe('errors.shadyRepeat')
   })
 
   it('a LinkedIn post boosts the brand once a quarter, whoever it targets', () => {
@@ -63,13 +80,17 @@ describe('cheats', () => {
     const [a, b] = s.firmOrder.filter((id) => id !== 'player')
     const once = applyAction(s, { type: 'shady', firmId: 'player', actionId: 'linkedin_post', targetFirmId: a })
     expect(once.error).toBeUndefined()
-    expect(applyAction(once.state, { type: 'shady', firmId: 'player', actionId: 'linkedin_post', targetFirmId: b }).error).toBe('errors.shadyRepeat')
+    expect(
+      applyAction(once.state, { type: 'shady', firmId: 'player', actionId: 'linkedin_post', targetFirmId: b }).error,
+    ).toBe('errors.shadyRepeat')
   })
 
   it('spying needs a tender that is actually out', () => {
     const s = veteranTestGame()
     const t = openTender(s)
     t.hidden = true
-    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'spy_bids', tenderId: t.id }).error).toBe('errors.invalidTender')
+    expect(applyAction(s, { type: 'shady', firmId: 'player', actionId: 'spy_bids', tenderId: t.id }).error).toBe(
+      'errors.invalidTender',
+    )
   })
 })

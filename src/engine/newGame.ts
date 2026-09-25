@@ -35,7 +35,6 @@ export interface NewGameOptions {
 
 export const PLAYER_ID = 'player'
 
-
 function baseFirm(id: string, name: string, isPlayer: boolean, personalityId: string, country: string): Firm {
   return {
     id,
@@ -75,7 +74,11 @@ function createAiFirm(state: GameState, def: FirmDef): Firm {
   let placed = 0
   for (const d of DISCIPLINES) {
     const n = Math.floor((hc * (p.mix[d] ?? 0)) / mixTotal)
-    firm.pools[d] = { count: n, level: clamp(p.startLevel + noise(state.rng, 0.25), 1.5, 4.5), morale: nextInt(state.rng, 58, 70) }
+    firm.pools[d] = {
+      count: n,
+      level: clamp(p.startLevel + noise(state.rng, 0.25), 1.5, 4.5),
+      morale: nextInt(state.rng, 58, 70),
+    }
     placed += n
   }
   while (placed < hc) {
@@ -258,8 +261,14 @@ export function createNewGame(opts: NewGameOptions): GameState {
   }
   for (const id of state.firmOrder) if (id !== PLAYER_ID) createBacklog(state, state.firms[id])
 
-  const firstTrend = pick(state.rng, TRENDS.filter((t) => !t.volume || t.volume > 1))
-  state.trends.push({ id: firstTrend.id, untilQuarter: nextInt(state.rng, firstTrend.minDuration, firstTrend.maxDuration) })
+  const firstTrend = pick(
+    state.rng,
+    TRENDS.filter((t) => !t.volume || t.volume > 1),
+  )
+  state.trends.push({
+    id: firstTrend.id,
+    untilQuarter: nextInt(state.rng, firstTrend.minDuration, firstTrend.maxDuration),
+  })
 
   // Everyone starts at the level their size earns; the player's garage firm is level 1.
   for (const id of state.firmOrder) {

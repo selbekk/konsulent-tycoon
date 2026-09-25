@@ -9,7 +9,13 @@ import { ENGINE_VERSION } from './version'
 const WEEK = '2026-W39'
 const now = weekBounds(WEEK)!.start + 3 * 86_400_000
 const ctx = { engineVersion: ENGINE_VERSION, now }
-const opts: NewGameOptions = { seed: weekSeed(WEEK), firmName: 'Mitt Eget Navn AS', founderDisciplines: ['frontend', 'pm'], difficulty: 'normal', weekly: WEEK }
+const opts: NewGameOptions = {
+  seed: weekSeed(WEEK),
+  firmName: 'Mitt Eget Navn AS',
+  founderDisciplines: ['frontend', 'pm'],
+  difficulty: 'normal',
+  weekly: WEEK,
+}
 
 let game: GameState
 let log: RunLog
@@ -60,7 +66,16 @@ describe('leaderboard submission', () => {
   })
 
   it('rejects anything that is not shaped like a submission', () => {
-    for (const bad of [null, 'x', {}, { ...sub, name: ['moose', 'moose', 'as'] }, { ...sub, name: ['Kari', 'owl', 'as'] }, { ...sub, founders: ['frontend'] }, { ...sub, log: [1] }, { ...sub, gameId: 'x' }]) {
+    for (const bad of [
+      null,
+      'x',
+      {},
+      { ...sub, name: ['moose', 'moose', 'as'] },
+      { ...sub, name: ['Kari', 'owl', 'as'] },
+      { ...sub, founders: ['frontend'] },
+      { ...sub, log: [1] },
+      { ...sub, gameId: 'x' },
+    ]) {
       expect(verifySubmission(bad, ctx)).toEqual({ ok: false, error: 'invalid' })
     }
   })
@@ -68,7 +83,11 @@ describe('leaderboard submission', () => {
   it('rejects a tampered log', () => {
     // Legal moves just make a different game; these can't have come from the store.
     const rival = game.firmOrder.find((id) => id !== game.playerId)!
-    for (const step of [{ type: 'hireStar', firmId: 'player', starId: 'nobody' }, { type: 'fire', firmId: rival, discipline: 'backend', count: 5 }, { type: 'noSuchAction', firmId: 'player' }]) {
+    for (const step of [
+      { type: 'hireStar', firmId: 'player', starId: 'nobody' },
+      { type: 'fire', firmId: rival, discipline: 'backend', count: 5 },
+      { type: 'noSuchAction', firmId: 'player' },
+    ]) {
       const tampered = [...log.slice(0, 5), step, ...log.slice(5)] as RunLog
       expect(verifySubmission({ ...sub, log: tampered }, ctx)).toMatchObject({ ok: false, error: 'replayFailed' })
     }
@@ -80,7 +99,10 @@ describe('leaderboard submission', () => {
   })
 
   it('rejects an absurdly long log before replaying it', () => {
-    expect(verifySubmission({ ...sub, log: Array.from({ length: 10_000 }, () => 'end') }, ctx)).toEqual({ ok: false, error: 'tooLong' })
+    expect(verifySubmission({ ...sub, log: Array.from({ length: 10_000 }, () => 'end') }, ctx)).toEqual({
+      ok: false,
+      error: 'tooLong',
+    })
   })
 
   it('averages every minigame score that can count, clamped, and crisis scores only after a talk', () => {
@@ -91,22 +113,31 @@ describe('leaderboard submission', () => {
       if (e === 'end') continue
       if (e.type === 'recordMinigame') scores.push(Math.max(0, Math.min(100, e.score)))
       if (e.type === 'startCrisisTalk') talks.add(`${e.crisisId}:${e.choiceId}`)
-      if (e.type === 'resolveCrisis' && typeof e.score === 'number' && talks.has(`${e.crisisId}:${e.choiceId}`)) scores.push(e.score)
+      if (e.type === 'resolveCrisis' && typeof e.score === 'number' && talks.has(`${e.crisisId}:${e.choiceId}`))
+        scores.push(e.score)
     }
-    expect(r.ok && r.run.minigameAvg).toBe(scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null)
+    expect(r.ok && r.run.minigameAvg).toBe(
+      scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null,
+    )
   })
 
   it('rejects an oversized submission before replaying it', () => {
     const padded = log.map((e, i) => (e !== 'end' && i < 400 ? { ...e, pad: 'x'.repeat(99) } : e)) as RunLog
     // Each step alone is fine; together they are far beyond any real game.
     expect(verifySubmission({ ...sub, log: [...padded, ...padded, ...padded] }, ctx)).toMatchObject({ ok: false })
-    const huge = { ...sub, log: log.map((e) => (e === 'end' ? e : { ...e, pad: Array.from({ length: 30 }, () => 'y'.repeat(99)) })) }
+    const huge = {
+      ...sub,
+      log: log.map((e) => (e === 'end' ? e : { ...e, pad: Array.from({ length: 30 }, () => 'y'.repeat(99)) })),
+    }
     expect(verifySubmission(huge, ctx)).toEqual({ ok: false, error: 'tooLong' })
   })
 
   it('rejects steps with oversized, deeply nested or prototype-named values', () => {
     const at = log.findIndex((e) => e !== 'end')
-    const withStep = (extra: Record<string, unknown>) => ({ ...sub, log: log.map((e, i) => (i === at && e !== 'end' ? { ...e, ...extra } : e)) })
+    const withStep = (extra: Record<string, unknown>) => ({
+      ...sub,
+      log: log.map((e, i) => (i === at && e !== 'end' ? { ...e, ...extra } : e)),
+    })
     for (const extra of [
       { targetFirmId: '__proto__' },
       { targetFirmId: 'constructor' },
@@ -116,7 +147,10 @@ describe('leaderboard submission', () => {
       { contractId: Object.fromEntries(Array.from({ length: 300 }, (_, i) => [`k${i}`, i])) },
       JSON.parse('{"__proto__": {"polluted": 1}}') as Record<string, unknown>,
     ]) {
-      expect(verifySubmission(JSON.parse(JSON.stringify(withStep(extra))), ctx)).toMatchObject({ ok: false, error: 'invalid' })
+      expect(verifySubmission(JSON.parse(JSON.stringify(withStep(extra))), ctx)).toMatchObject({
+        ok: false,
+        error: 'invalid',
+      })
     }
     expect(({} as Record<string, unknown>).polluted).toBeUndefined()
   })

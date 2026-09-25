@@ -24,8 +24,14 @@ export function CrisisTalk() {
   const kind = c && crisisChoices(c).find((ch) => ch.id === talk.choiceId)?.talk
   const crisisId = c?.id
   const firmId = c?.firmId
-  const rounds = useMemo(() => (crisisId && firmId && kind ? setupCrisisTalk(crisisId, firmId, kind) : []), [crisisId, firmId, kind])
-  const preference = useMemo(() => (crisisId && firmId && kind ? talkPreference(crisisId, firmId, kind) : 'candid'), [crisisId, firmId, kind])
+  const rounds = useMemo(
+    () => (crisisId && firmId && kind ? setupCrisisTalk(crisisId, firmId, kind) : []),
+    [crisisId, firmId, kind],
+  )
+  const preference = useMemo(
+    () => (crisisId && firmId && kind ? talkPreference(crisisId, firmId, kind) : 'candid'),
+    [crisisId, firmId, kind],
+  )
   const [step, setStep] = useState(-1)
   const [answers, setAnswers] = useState<(TalkStyle | null)[]>([])
   const [left, setLeft] = useState(TALK_SECONDS)
@@ -60,7 +66,8 @@ export function CrisisTalk() {
   if (!c || !kind) return null
 
   const start = () => {
-    if (dispatch({ type: 'startCrisisTalk', firmId: c.firmId, crisisId: c.id, choiceId: talk.choiceId })) return close(null)
+    if (dispatch({ type: 'startCrisisTalk', firmId: c.firmId, crisisId: c.id, choiceId: talk.choiceId }))
+      return close(null)
     setStep(0)
     setLeft(TALK_SECONDS)
   }
@@ -87,7 +94,9 @@ export function CrisisTalk() {
           <p>{t(`${base}.intro`, { seconds: TALK_SECONDS })}</p>
           <div>
             <strong>{t('minigames:crisisTalk.brief')}</strong>
-            <p className={s.muted} style={{ margin: '4px 0 0' }}>{t(`${base}.clues.${preference}`)}</p>
+            <p className={s.muted} style={{ margin: '4px 0 0' }}>
+              {t(`${base}.clues.${preference}`)}
+            </p>
           </div>
           <p className={s.muted}>{t('minigame.oneShot')}</p>
           <Button variant="primary" onClick={start}>
@@ -117,7 +126,13 @@ export function CrisisTalk() {
           <p className={s.question}>«{t(`${base}.questions.${current.question}.q`)}»</p>
           <div className={s.answers}>
             {current.answers.map((a) => (
-              <button key={a} className={s.answer} data-picked={picked === a} disabled={answered && picked !== a} onClick={() => answer(a)}>
+              <button
+                key={a}
+                className={s.answer}
+                data-picked={picked === a}
+                disabled={answered && picked !== a}
+                onClick={() => answer(a)}
+              >
                 {t(`${base}.questions.${current.question}.a.${a}`)}
               </button>
             ))}
@@ -141,7 +156,8 @@ export function CrisisTalk() {
 /** Pixel audience: journalists with microphones, the whole firm, or the client's leadership in coats. */
 function TalkScene({ kind, mood }: { kind: CrisisMinigame; mood?: 'love' | 'ok' | 'hate' }) {
   const skins = ['#f2c9a0', '#c68642', '#e0ac69', '#8d5524', '#f1c27d']
-  const shirts = kind === 'client' ? ['#2b2b3a', '#2b2b3a', '#3a3a4f'] : ['#1c1a5e', '#e53170', '#2e8b57', '#d06a10', '#8f7bff']
+  const shirts =
+    kind === 'client' ? ['#2b2b3a', '#2b2b3a', '#3a3a4f'] : ['#1c1a5e', '#e53170', '#2e8b57', '#d06a10', '#8f7bff']
   const n = kind === 'townhall' ? 5 : 3
   const gap = kind === 'townhall' ? 9 : 14
   const mouth = mood === 'love' ? 'M' : mood === 'hate' ? 'W' : '-'

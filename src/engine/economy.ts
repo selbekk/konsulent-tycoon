@@ -81,7 +81,13 @@ export interface FirmStaffing {
  */
 export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter): FirmStaffing {
   const contracts = activeContracts(state, firm.id, quarter)
-  const result: ContractStaffing[] = contracts.map((c) => ({ contractId: c.id, staffed: {}, flex: {}, freelance: {}, offshore: {} }))
+  const result: ContractStaffing[] = contracts.map((c) => ({
+    contractId: c.id,
+    staffed: {},
+    flex: {},
+    freelance: {},
+    offshore: {},
+  }))
   const leftover: Partial<Record<Discipline, number>> = {}
   const demand: Seats = {}
   let billed = 0
@@ -145,7 +151,9 @@ export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter)
     for (const d of DISCIPLINES) {
       let missing = cs.freelance[d] ?? 0
       while (missing > 0) {
-        const donor = DISCIPLINES.filter((x) => x !== d && (leftover[x] ?? 0) > 0).sort((a, b) => (leftover[b] ?? 0) - (leftover[a] ?? 0))[0]
+        const donor = DISCIPLINES.filter((x) => x !== d && (leftover[x] ?? 0) > 0).sort(
+          (a, b) => (leftover[b] ?? 0) - (leftover[a] ?? 0),
+        )[0]
         if (!donor) break
         const n = Math.min(missing, leftover[donor]!)
         leftover[donor]! -= n
@@ -160,7 +168,9 @@ export function staffFirm(state: GameState, firm: Firm, quarter = state.quarter)
 
   const idle: Seats = {}
   for (const d of DISCIPLINES) {
-    const offWork = Math.min(firm.pools[d].count, benched?.seats[d] ?? 0) + firm.stars.filter((s) => s.discipline === d && benched?.starIds.includes(s.id)).length
+    const offWork =
+      Math.min(firm.pools[d].count, benched?.seats[d] ?? 0) +
+      firm.stars.filter((s) => s.discipline === d && benched?.starIds.includes(s.id)).length
     const n = (leftover[d] ?? 0) + offWork
     if (n) idle[d] = n
   }

@@ -10,16 +10,8 @@
       "source": "functions",
       "codebase": "default",
       "runtime": "nodejs24",
-      "ignore": [
-        "node_modules",
-        "src",
-        "tsconfig.json",
-        "vite.config.ts",
-        "*.log"
-      ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR/..\" run functions:build"
-      ]
+      "ignore": ["node_modules", "src", "tsconfig.json", "vite.config.ts", "*.log"],
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR/..\" run functions:build"]
     }
   ],
   "auth": {

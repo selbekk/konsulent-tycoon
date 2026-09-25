@@ -16,9 +16,13 @@ class FakeNode {
   frequency = new FakeParam()
   type = ''
   buffer: unknown = null
-  connect(n: unknown) { return n }
+  connect(n: unknown) {
+    return n
+  }
   disconnect() {}
-  start() { started() }
+  start() {
+    started()
+  }
   stop() {}
 }
 class FakeAudioContext {
@@ -26,15 +30,33 @@ class FakeAudioContext {
   currentTime = 0
   sampleRate = 100
   destination = {}
-  constructor() { created() }
-  createGain() { return new FakeNode() }
-  createOscillator() { return new FakeNode() }
-  createBiquadFilter() { return new FakeNode() }
-  createDynamicsCompressor() { return new FakeNode() }
-  createBufferSource() { return new FakeNode() }
-  createBuffer() { return { getChannelData: () => new Float32Array(100) } }
-  resume() { return Promise.resolve() }
-  suspend() { return Promise.resolve() }
+  constructor() {
+    created()
+  }
+  createGain() {
+    return new FakeNode()
+  }
+  createOscillator() {
+    return new FakeNode()
+  }
+  createBiquadFilter() {
+    return new FakeNode()
+  }
+  createDynamicsCompressor() {
+    return new FakeNode()
+  }
+  createBufferSource() {
+    return new FakeNode()
+  }
+  createBuffer() {
+    return { getChannelData: () => new Float32Array(100) }
+  }
+  resume() {
+    return Promise.resolve()
+  }
+  suspend() {
+    return Promise.resolve()
+  }
 }
 
 describe('music player', () => {

@@ -29,5 +29,14 @@ export function employerBrand(state: GameState, firm: Firm): number {
     (sum, s) => sum + s.traits.reduce((t, id) => t + (TRAIT_MAP[id]?.brand ?? 0), 0),
     0,
   )
-  return clamp(0.4 * firm.fagmiljo + 0.3 * firm.sosialt + 0.3 * firm.reputation + firm.brandMod + traitBrand + portfolioBrand(state, firm), 0, 100)
+  return clamp(
+    0.4 * firm.fagmiljo +
+      0.3 * firm.sosialt +
+      0.3 * firm.reputation +
+      firm.brandMod +
+      traitBrand +
+      portfolioBrand(state, firm),
+    0,
+    100,
+  )
 }

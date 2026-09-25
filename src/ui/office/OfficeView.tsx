@@ -209,7 +209,13 @@ const ROOM_ART: Record<RoomTile, React.ReactNode> = {
 
 function Room({ room, label }: { room: RoomTile; label: string }) {
   return (
-    <svg viewBox="0 0 16 16" className={`${s.tile} ${s.room}`} shapeRendering="crispEdges" role="img" aria-label={label}>
+    <svg
+      viewBox="0 0 16 16"
+      className={`${s.tile} ${s.room}`}
+      shapeRendering="crispEdges"
+      role="img"
+      aria-label={label}
+    >
       <title>{label}</title>
       {ROOM_ART[room]}
     </svg>
@@ -236,7 +242,13 @@ export function OfficeView({ game, firm }: { game: GameState; firm: Firm }) {
   const thoughts = employeeThoughts(game, firm.id)
   // Stars sit at desks too, after the rest.
   const roster = [...(firm.roster ?? []), ...firm.stars]
-  const status = mood.crisis ? t('office.crisis') : mood.party ? t('office.party') : mood.birthday ? t('office.cake', { name: mood.birthday }) : null
+  const status = mood.crisis
+    ? t('office.crisis')
+    : mood.party
+      ? t('office.party')
+      : mood.birthday
+        ? t('office.cake', { name: mood.birthday })
+        : null
 
   const person = (i: number) => roster[i]?.name ?? t('office.someone')
   const thought = (i: number) => {

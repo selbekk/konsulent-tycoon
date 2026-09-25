@@ -37,4 +37,7 @@ export const DEPARTMENTS: DepartmentDef[] = [
   { id: 'nearshore', fee: 300_000, feePerHead: 0 },
 ]
 
-export const DEPARTMENT_MAP = Object.fromEntries(DEPARTMENTS.map((d) => [d.id, d])) as Record<DepartmentId, DepartmentDef>
+export const DEPARTMENT_MAP = Object.fromEntries(DEPARTMENTS.map((d) => [d.id, d])) as Record<
+  DepartmentId,
+  DepartmentDef
+>

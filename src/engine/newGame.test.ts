@@ -19,7 +19,11 @@ describe('createNewGame', () => {
     expect(s.firmOrder).toHaveLength(FIRMS.length + 1)
     expect(FIRMS).toHaveLength(24)
     expect(s.firms.player.isPlayer).toBe(true)
-    expect(Object.values(s.firms).filter((f) => !f.isPlayer).every((f) => f.personalityId)).toBe(true)
+    expect(
+      Object.values(s.firms)
+        .filter((f) => !f.isPlayer)
+        .every((f) => f.personalityId),
+    ).toBe(true)
   })
 
   it('gives the player founders, a small pool and cash', () => {

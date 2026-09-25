@@ -55,14 +55,22 @@ export interface BingoBoard {
 export function setupBingo(tender: Tender, firmId: string): BingoBoard {
   const rng = uiRng(tender, firmId, 'bingo')
   const correct = tender.buzzwords.slice(0, 6)
-  const decoys = shuffle(rng, BUZZWORDS.filter((w) => !correct.includes(w))).slice(0, 16 - correct.length)
+  const decoys = shuffle(
+    rng,
+    BUZZWORDS.filter((w) => !correct.includes(w)),
+  ).slice(0, 16 - correct.length)
   return { words: shuffle(rng, [...correct, ...decoys]), correct }
 }
 
 export const BINGO_SECONDS = 20
 
 /** Picked words vs. the correct ones, plus a time bonus of up to 10. */
-export function scoreBingo(picked: string[], correct: string[], secondsLeft: number, totalSeconds = BINGO_SECONDS): number {
+export function scoreBingo(
+  picked: string[],
+  correct: string[],
+  secondsLeft: number,
+  totalSeconds = BINGO_SECONDS,
+): number {
   if (!correct.length) return 0
   const hits = picked.filter((w) => correct.includes(w)).length
   const misses = picked.length - hits
@@ -80,7 +88,8 @@ export interface TalkRound {
 /** Seconds per question in a crisis talk. Running out counts as the hated answer. */
 export const TALK_SECONDS = 12
 
-const talkRng = (crisisId: string, firmId: string, salt: string) => createRng(hashString(`${crisisId}:${firmId}:${salt}`))
+const talkRng = (crisisId: string, firmId: string, salt: string) =>
+  createRng(hashString(`${crisisId}:${firmId}:${salt}`))
 
 /** Three questions for a crisis talk, the same every time for this crisis and firm. */
 export function setupCrisisTalk(crisisId: string, firmId: string, kind: CrisisMinigame): TalkRound[] {

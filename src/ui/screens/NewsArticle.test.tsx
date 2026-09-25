@@ -7,14 +7,22 @@ import { useGame } from '../../store/gameStore'
 import { NewsArticle } from './NewsArticle'
 import { Shell } from './Shell'
 
-const item = (key: string, params: NewsItem['params']): NewsItem => ({ id: 'n1', quarter: 3, key, params, tone: 'neutral' })
+const item = (key: string, params: NewsItem['params']): NewsItem => ({
+  id: 'n1',
+  quarter: 3,
+  key,
+  params,
+  tone: 'neutral',
+})
 
 describe('news stories', () => {
   beforeEach(async () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
   })
 

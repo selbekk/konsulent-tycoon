@@ -16,7 +16,10 @@ import { HUMAN_CRISIS_STYLE, MAX_LEVEL, RATE_MAX } from '../src/engine/constants
 import { tenderLock } from '../src/engine/levels'
 import type { Action, Difficulty, GameState } from '../src/engine/types'
 
-const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number; strategic?: boolean | StrategyMove[]; develop?: boolean }> = {
+const HUMAN_VARIANTS: Record<
+  string,
+  { price?: number; minigame?: number; strategic?: boolean | StrategyMove[]; develop?: boolean }
+> = {
   human: {},
   // Without courses, mentors, stretch assignments, career talks or promotions.
   humanNoDev: { develop: false },
@@ -40,12 +43,20 @@ const HUMAN_VARIANTS: Record<string, { price?: number; minigame?: number; strate
 function planSpam(state: GameState): Action[] {
   const firm = state.firms[state.playerId]
   const actions: Action[] = [
-    { type: 'setBudgets', firmId: firm.id, budgets: { fagmiljoPerHead: 40_000, sosialtPerHead: 10_000, salaryPremium: 0 } },
+    {
+      type: 'setBudgets',
+      firmId: firm.id,
+      budgets: { fagmiljoPerHead: 40_000, sosialtPerHead: 10_000, salaryPremium: 0 },
+    },
     { type: 'setDepartment', firmId: firm.id, departmentId: 'nearshore', on: true },
   ]
   for (const t of openTenders(state)) {
     if (t.bids.some((b) => b.firmId === firm.id) || tenderLock(firm, t)) continue
-    actions.push({ type: 'placeBid', tenderId: t.id, bid: { firmId: firm.id, rateMultiplier: RATE_MAX, starIds: [], effort: 0, cvPad: false, ghostCv: false } })
+    actions.push({
+      type: 'placeBid',
+      tenderId: t.id,
+      bid: { firmId: firm.id, rateMultiplier: RATE_MAX, starIds: [], effort: 0, cvPad: false, ghostCv: false },
+    })
   }
   return actions
 }
@@ -56,15 +67,30 @@ const arg = (name: string, def: string) => {
   return i >= 0 ? args[i + 1] : def
 }
 const games = Number(arg('games', '30'))
-const strategies = arg('strategy', 'all') === 'all' ? ['human', ...Object.keys(PLAYER_BOTS)] : arg('strategy', 'balanced').split(',')
+const strategies =
+  arg('strategy', 'all') === 'all' ? ['human', ...Object.keys(PLAYER_BOTS)] : arg('strategy', 'balanced').split(',')
 const baseSeed = Number(arg('seed', '1'))
 const difficulty = arg('difficulty', 'normal') as Difficulty
 const asJson = args.includes('--json')
 
-interface Sample { cash: number; hc: number; revenue: number; morale: number; rep: number; demandRatio: number; heat: number; level: number }
+interface Sample {
+  cash: number
+  hc: number
+  revenue: number
+  morale: number
+  rep: number
+  demandRatio: number
+  heat: number
+  level: number
+}
 
 function playGame(seed: number, strategy: string) {
-  let state: GameState = createNewGame({ seed, firmName: 'Sim AS', founderDisciplines: ['backend', 'frontend'], difficulty })
+  let state: GameState = createNewGame({
+    seed,
+    firmName: 'Sim AS',
+    founderDisciplines: ['backend', 'frontend'],
+    difficulty,
+  })
   const samples: Sample[] = []
   let bankruptAt: number | null = null
   // Keep the market running after the player goes bust, so AI health is measured over 40 quarters.
@@ -78,7 +104,8 @@ function playGame(seed: number, strategy: string) {
       for (const a of planEventAnswers(draft, draft.playerId)) applyActionInPlace(draft, a)
       // Crisis talks use the same skill as the pitch meeting for each bot.
       const talk = HUMAN_VARIANTS[strategy]?.minigame ?? HUMAN_CRISIS_STYLE.talk
-      for (const a of planCrisisAnswers(draft, draft.playerId, { ...HUMAN_CRISIS_STYLE, talk })) applyActionInPlace(draft, a)
+      for (const a of planCrisisAnswers(draft, draft.playerId, { ...HUMAN_CRISIS_STYLE, talk }))
+        applyActionInPlace(draft, a)
       const plan =
         strategy === 'spam'
           ? planSpam(draft)
@@ -89,20 +116,23 @@ function playGame(seed: number, strategy: string) {
     }
     const me = draft.firms[draft.playerId]
     const fin = quarterFinancials(draft, me.id)
-    if (bankruptAt === null) samples.push({
-      cash: me.cash,
-      hc: headcount(me),
-      revenue: fin.revenue,
-      morale: averageMorale(me),
-      rep: me.reputation,
-      heat: me.heat,
-      level: firmLevel(me),
-      demandRatio: committedDemand(draft, draft.quarter) / Math.max(1, marketCapacity(draft)),
-    })
+    if (bankruptAt === null)
+      samples.push({
+        cash: me.cash,
+        hc: headcount(me),
+        revenue: fin.revenue,
+        morale: averageMorale(me),
+        rep: me.reputation,
+        heat: me.heat,
+        level: firmLevel(me),
+        demandRatio: committedDemand(draft, draft.quarter) / Math.max(1, marketCapacity(draft)),
+      })
     state = endTurn(draft)
   }
   const ranks = rankings(state)
-  const aiBankrupt = Object.values(state.firms).filter((f) => !f.isPlayer && f.bankrupt && !f.acquiredBy).map((f) => f.id)
+  const aiBankrupt = Object.values(state.firms)
+    .filter((f) => !f.isPlayer && f.bankrupt && !f.acquiredBy)
+    .map((f) => f.id)
   return {
     samples,
     status: bankruptAt !== null ? 'lost' : state.status,
@@ -158,21 +188,89 @@ for (const strategy of strategies) {
   console.log(`levels: ${reached.join(' · ')}`)
   const done: Record<string, number> = {}
   for (const r of results) for (const id of r.missions) done[id] = (done[id] ?? 0) + 1
-  console.log(`missions median ${pct(results.map((r) => r.missions.length), 0.5)}: ${Object.entries(done).map(([k, v]) => `${k}:${v}`).join(' ')}`)
+  console.log(
+    `missions median ${pct(
+      results.map((r) => r.missions.length),
+      0.5,
+    )}: ${Object.entries(done)
+      .map(([k, v]) => `${k}:${v}`)
+      .join(' ')}`,
+  )
   if (HUMAN_VARIANTS[strategy]?.strategic)
-    console.log(`listed: ${results.filter((r) => r.listed).length}/${games}, acquisitions median ${pct(results.map((r) => r.acquisitions), 0.5)} max ${Math.max(...results.map((r) => r.acquisitions))}`)
+    console.log(
+      `listed: ${results.filter((r) => r.listed).length}/${games}, acquisitions median ${pct(
+        results.map((r) => r.acquisitions),
+        0.5,
+      )} max ${Math.max(...results.map((r) => r.acquisitions))}`,
+    )
   if (strategy.startsWith('human'))
-    console.log(`people: homegrown stars median ${pct(results.map((r) => r.homegrown), 0.5)} max ${Math.max(...results.map((r) => r.homegrown))}, end pool level median ${pct(results.map((r) => r.poolLevel), 0.5).toFixed(2)}`)
-  console.log(`bankrupt: ${bankrupt.length}/${games} (median quarter ${pct(bankrupt.map((r) => r.bankruptAt!), 0.5)})`)
-  console.log(`rank p10/med/p90: ${pct(results.map((r) => r.rank), 0.1)} / ${pct(results.map((r) => r.rank), 0.5)} / ${pct(results.map((r) => r.rank), 0.9)}`)
-  console.log(`value median: ${m(pct(results.map((r) => r.value), 0.5))}, p90: ${m(pct(results.map((r) => r.value), 0.9))}`)
-  if (strategy === 'shady') console.log(`shady actions median: ${pct(results.map((r) => r.shady), 0.5)}, caught: ${pct(results.map((r) => r.caught), 0.5)}`)
+    console.log(
+      `people: homegrown stars median ${pct(
+        results.map((r) => r.homegrown),
+        0.5,
+      )} max ${Math.max(...results.map((r) => r.homegrown))}, end pool level median ${pct(
+        results.map((r) => r.poolLevel),
+        0.5,
+      ).toFixed(2)}`,
+    )
+  console.log(
+    `bankrupt: ${bankrupt.length}/${games} (median quarter ${pct(
+      bankrupt.map((r) => r.bankruptAt!),
+      0.5,
+    )})`,
+  )
+  console.log(
+    `rank p10/med/p90: ${pct(
+      results.map((r) => r.rank),
+      0.1,
+    )} / ${pct(
+      results.map((r) => r.rank),
+      0.5,
+    )} / ${pct(
+      results.map((r) => r.rank),
+      0.9,
+    )}`,
+  )
+  console.log(
+    `value median: ${m(
+      pct(
+        results.map((r) => r.value),
+        0.5,
+      ),
+    )}, p90: ${m(
+      pct(
+        results.map((r) => r.value),
+        0.9,
+      ),
+    )}`,
+  )
+  if (strategy === 'shady')
+    console.log(
+      `shady actions median: ${pct(
+        results.map((r) => r.shady),
+        0.5,
+      )}, caught: ${pct(
+        results.map((r) => r.caught),
+        0.5,
+      )}`,
+    )
   const aiB: Record<string, number> = {}
   for (const r of results) for (const id of r.aiBankrupt) aiB[id] = (aiB[id] ?? 0) + 1
-  console.log(`AI bankruptcies: ${Object.entries(aiB).map(([k, v]) => `${k}:${v}`).join(' ') || 'none'}`)
+  console.log(
+    `AI bankruptcies: ${
+      Object.entries(aiB)
+        .map(([k, v]) => `${k}:${v}`)
+        .join(' ') || 'none'
+    }`,
+  )
   const winners: Record<string, number> = {}
   for (const r of results) winners[r.top[0]] = (winners[r.top[0]] ?? 0) + 1
-  console.log(`winners: ${Object.entries(winners).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}:${v}`).join(' ')}`)
+  console.log(
+    `winners: ${Object.entries(winners)
+      .sort((a, b) => b[1] - a[1])
+      .map(([k, v]) => `${k}:${v}`)
+      .join(' ')}`,
+  )
 }
 console.log(`\n${((Date.now() - t0) / 1000).toFixed(1)}s`)
 if (asJson) {

@@ -20,7 +20,9 @@ describe('crisis dialog', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -60,7 +62,11 @@ describe('crisis dialog', () => {
     fireEvent.click(within(talk).getByRole('button', { name: /go in/i }))
     for (let i = 0; i < 3; i++) {
       const d = screen.getByRole('dialog')
-      fireEvent.click(within(d).getAllByRole('button').find((b) => b.className.includes('answer'))!)
+      fireEvent.click(
+        within(d)
+          .getAllByRole('button')
+          .find((b) => b.className.includes('answer'))!,
+      )
       fireEvent.click(within(d).getByRole('button', { name: /^(next|done)$/i }))
     }
     expect(screen.getByText(/the talk scored \d+ out of 100/i)).toBeInTheDocument()

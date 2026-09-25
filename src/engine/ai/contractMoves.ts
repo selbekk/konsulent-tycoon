@@ -26,7 +26,8 @@ export function planContractMoves(
   for (const c of activeContracts(state, firmId)) {
     const move = { firmId, contractId: c.id }
     if (c.satisfaction < NURTURE_TODO_BELOW) {
-      if (opts.runway > opts.nurtureRunway && !contractMoveBlock(state, firm, c, 'nurture')) actions.push({ type: 'nurtureContract', ...move })
+      if (opts.runway > opts.nurtureRunway && !contractMoveBlock(state, firm, c, 'nurture'))
+        actions.push({ type: 'nurtureContract', ...move })
       continue
     }
     if (

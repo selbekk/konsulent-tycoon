@@ -40,7 +40,8 @@ export function specialtyMatches(state: GameState, specialty: Specialty | undefi
 export function strategyBonus(state: GameState, firm: Firm, tender: Tender): number {
   let bonus = 0
   if (specialtyMatches(state, firm.specialty, tender))
-    bonus += firm.specialty === 'public' || firm.specialty === 'private' ? SPECIALTY_SECTOR_BONUS : SPECIALTY_DISCIPLINE_BONUS
+    bonus +=
+      firm.specialty === 'public' || firm.specialty === 'private' ? SPECIALTY_SECTOR_BONUS : SPECIALTY_DISCIPLINE_BONUS
   if (hasDepartment(firm, 'sales')) bonus += SALES_BID_BONUS
   for (const id of firm.partnerships ?? []) {
     const p = PARTNERSHIP_MAP[id]
@@ -62,12 +63,16 @@ export function departmentFee(id: DepartmentId, hc: number): number {
 /** Quarterly fees for partnerships and departments. */
 export function strategyCost(firm: Firm, hc: number): number {
   const partners = (firm.partnerships ?? []).reduce((s, id) => s + (PARTNERSHIP_MAP[id]?.fee ?? 0), 0)
-  const departments = (firm.departments ?? []).reduce((s, id) => s + (Object.hasOwn(DEPARTMENT_MAP, id) ? departmentFee(id as DepartmentId, hc) : 0), 0)
+  const departments = (firm.departments ?? []).reduce(
+    (s, id) => s + (Object.hasOwn(DEPARTMENT_MAP, id) ? departmentFee(id as DepartmentId, hc) : 0),
+    0,
+  )
   return partners + departments
 }
 
 /** Freelancers cost less with a nearshore centre of your own. */
-export const freelancerMarkup = (firm: Firm) => (hasDepartment(firm, 'nearshore') ? NEARSHORE_FREELANCER_MARKUP : FREELANCER_MARKUP)
+export const freelancerMarkup = (firm: Firm) =>
+  hasDepartment(firm, 'nearshore') ? NEARSHORE_FREELANCER_MARKUP : FREELANCER_MARKUP
 
 /** Runs once per quarter for each firm: the academy lifts everyone a little. */
 export function runDepartments(firm: Firm) {
@@ -131,7 +136,8 @@ export function handleLobby(state: GameState, a: ActionOf<'lobby'>): string | un
   firm.cash -= LOBBY_COST
   firm.lastLobbyQuarter = state.quarter
   for (const c of Object.values(state.customers)) {
-    if (c.sector === 'public') c.relationships[firm.id] = clamp((c.relationships[firm.id] ?? 20) + LOBBY_RELATION, 0, 100)
+    if (c.sector === 'public')
+      c.relationships[firm.id] = clamp((c.relationships[firm.id] ?? 20) + LOBBY_RELATION, 0, 100)
   }
   return undefined
 }

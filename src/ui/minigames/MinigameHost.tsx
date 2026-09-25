@@ -16,7 +16,14 @@ export function MinigameHost() {
   // Starting counts as an attempt (score 0) – reloading the page won't give a second try.
   // If the attempt can't be recorded, the game doesn't start: a score afterwards wouldn't count anyway.
   const start = () => {
-    const err = dispatch({ type: 'recordMinigame', firmId: game.playerId, tenderId: tender.id, kind: minigame.kind, score: 0, provisional: true })
+    const err = dispatch({
+      type: 'recordMinigame',
+      firmId: game.playerId,
+      tenderId: tender.id,
+      kind: minigame.kind,
+      score: 0,
+      provisional: true,
+    })
     if (err) close(null)
     return !err
   }

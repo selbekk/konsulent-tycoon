@@ -9,7 +9,14 @@ import {
   UPSELL_COOLDOWN,
 } from './constants'
 import { planHumanProxy } from './ai/humanProxy'
-import { cancelFee, contractMoveBlock, nurtureCost, renegotiateChance, upsellChance, upsellRoom } from './contractActions'
+import {
+  cancelFee,
+  contractMoveBlock,
+  nurtureCost,
+  renegotiateChance,
+  upsellChance,
+  upsellRoom,
+} from './contractActions'
 import { applyAction } from './reducer'
 import { endTurn } from './turn'
 import { quarterTodos } from './todos'
@@ -17,10 +24,24 @@ import { deepFreeze, newTestGame, veteranTestGame } from './testUtils'
 import type { Contract, GameState } from './types'
 
 const contract = (over: Partial<Contract> = {}): Contract => ({
-  id: 'cx', tenderId: 't', firmId: 'player', customerId: 'navet', kind: 'project',
-  baseSeats: { backend: 2 }, activeSeats: { backend: 2 }, rateMultiplier: 1, share: 1, rank: 1,
-  startQuarter: 0, endQuarter: 8, starIds: [], satisfaction: 70, outsourcedShare: 0,
-  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false }, terminated: false, ...over,
+  id: 'cx',
+  tenderId: 't',
+  firmId: 'player',
+  customerId: 'navet',
+  kind: 'project',
+  baseSeats: { backend: 2 },
+  activeSeats: { backend: 2 },
+  rateMultiplier: 1,
+  share: 1,
+  rank: 1,
+  startQuarter: 0,
+  endQuarter: 8,
+  starIds: [],
+  satisfaction: 70,
+  outsourcedShare: 0,
+  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false },
+  terminated: false,
+  ...over,
 })
 
 function withContract(over: Partial<Contract> = {}, veteran = true): GameState {
@@ -40,7 +61,9 @@ describe('contract actions', () => {
     const s = withContract({}, false)
     s.firms.player.level = 1
     expect(applyAction(s, { type: 'renegotiateContract', ...base }).error).toBe('errors.levelTooLow')
-    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'backend', count: 1 }).error).toBe('errors.levelTooLow')
+    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'backend', count: 1 }).error).toBe(
+      'errors.levelTooLow',
+    )
     expect(contractMoveBlock(s, s.firms.player, cx(s), 'cancel')).toBeUndefined()
     cx(s).satisfaction = 40
     expect(contractMoveBlock(s, s.firms.player, cx(s), 'nurture')).toBeUndefined()
@@ -105,7 +128,9 @@ describe('contract actions', () => {
 
   it('upsell rejects a count that is not a whole number', () => {
     const s = withContract({ satisfaction: 100 })
-    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'frontend', count: NaN }).error).toBe('errors.upsellTooBig')
+    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'frontend', count: NaN }).error).toBe(
+      'errors.upsellTooBig',
+    )
   })
 
   it('upsell: a yes adds seats that bill this quarter', () => {
@@ -116,7 +141,9 @@ describe('contract actions', () => {
     expect(cx(s).baseSeats).toEqual({ backend: 2, frontend: 2 })
     expect(cx(s).upsell).toEqual({ quarter: 2, won: true, seats: 2 })
     // One try per cooldown, win or lose.
-    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'frontend', count: 1 }).error).toBe('errors.contractCooldown')
+    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'frontend', count: 1 }).error).toBe(
+      'errors.contractCooldown',
+    )
     s.quarter += UPSELL_COOLDOWN
     expect(contractMoveBlock(s, s.firms.player, cx(s), 'upsell')).toBeUndefined()
   })
@@ -127,16 +154,22 @@ describe('contract actions', () => {
     expect(r.error).toBeUndefined()
     expect(cx(r.state).activeSeats).toEqual({ backend: 2 })
     expect(cx(r.state).upsell?.won).toBe(false)
-    expect(applyAction(r.state, { type: 'upsellContract', ...base, discipline: 'backend', count: 1 }).error).toBe('errors.contractCooldown')
+    expect(applyAction(r.state, { type: 'upsellContract', ...base, discipline: 'backend', count: 1 }).error).toBe(
+      'errors.contractCooldown',
+    )
   })
 
   it('upsell is refused on frameworks and above the level cap', () => {
     const fw = withContract({ kind: 'framework' })
-    expect(applyAction(fw, { type: 'upsellContract', ...base, discipline: 'backend', count: 1 }).error).toBe('errors.upsellFramework')
+    expect(applyAction(fw, { type: 'upsellContract', ...base, discipline: 'backend', count: 1 }).error).toBe(
+      'errors.upsellFramework',
+    )
     const s = withContract({}, false)
     s.firms.player.level = 3 // max 20 seats
     cx(s).activeSeats = { backend: 19 }
-    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'backend', count: 2 }).error).toBe('errors.upsellTooBig')
+    expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'backend', count: 2 }).error).toBe(
+      'errors.upsellTooBig',
+    )
     expect(applyAction(s, { type: 'upsellContract', ...base, discipline: 'backend', count: 1 }).error).toBeUndefined()
   })
 
@@ -149,12 +182,17 @@ describe('contract actions', () => {
     expect(applyAction(s, { type: 'nurtureContract', ...base }).error).toBe('errors.contractCooldown')
     const low = applyAction(withContract({ satisfaction: 30 }), { type: 'nurtureContract', ...base }).state
     expect(cx(low).satisfaction).toBe(30 + NURTURE_SATISFACTION)
-    expect(applyAction(withContract({ satisfaction: 80 }), { type: 'nurtureContract', ...base }).error).toBe('errors.customerHappy')
+    expect(applyAction(withContract({ satisfaction: 80 }), { type: 'nurtureContract', ...base }).error).toBe(
+      'errors.customerHappy',
+    )
   })
 
   it('the to-do list flags a contract at risk until it has been cared for', () => {
     const s0 = withContract({ satisfaction: 30 })
-    expect(quarterTodos(s0, 'player').find((t) => t.id === 'nurture')).toMatchObject({ done: false, params: { count: 1 } })
+    expect(quarterTodos(s0, 'player').find((t) => t.id === 'nurture')).toMatchObject({
+      done: false,
+      params: { count: 1 },
+    })
     const s = applyAction(s0, { type: 'nurtureContract', ...base }).state
     expect(quarterTodos(s, 'player').find((t) => t.id === 'nurture')?.done).toBe(true)
     // Next quarter it is on cooldown: nothing to do, so no nagging.
@@ -172,7 +210,8 @@ describe('contract actions', () => {
     cancelFee(s.firms.player, c)
     nurtureCost(s.firms.player, c)
     upsellRoom(s.firms.player, c)
-    for (const move of ['renegotiate', 'cancel', 'upsell', 'nurture'] as const) contractMoveBlock(s, s.firms.player, c, move)
+    for (const move of ['renegotiate', 'cancel', 'upsell', 'nurture'] as const)
+      contractMoveBlock(s, s.firms.player, c, move)
     quarterTodos(s, 'player')
     expect(s.rng.s).toBe(before)
   })

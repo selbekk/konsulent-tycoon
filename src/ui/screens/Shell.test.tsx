@@ -13,7 +13,9 @@ describe('end of quarter warning', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -49,7 +51,9 @@ describe('levels in the shell', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -109,7 +113,9 @@ describe('onboarding', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
   })
 
   afterEach(cleanup)
@@ -147,7 +153,9 @@ describe('onboarding', () => {
     fireEvent.click(screen.getByRole('button', { name: /^skip$/i }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
-    useGame.getState().newGame({ seed: 6, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 6, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     rerender(<Shell />)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     fireEvent.keyDown(window, { key: 'Escape' })
@@ -166,7 +174,9 @@ describe('about page', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -210,7 +220,9 @@ describe('news page', () => {
   })
 
   it('opens from the game header and goes back to the game', () => {
-    useGame.getState().newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
     useGame.getState().dismissOnboarding()
     render(<Shell />)
     fireEvent.click(screen.getByRole('button', { name: /^news$/i }))

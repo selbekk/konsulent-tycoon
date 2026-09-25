@@ -29,28 +29,149 @@ type RequiredKeys<T> = { [K in keyof T]-?: object extends Pick<T, K> ? never : K
  */
 const required =
   <T>() =>
-  <const A extends readonly (RequiredKeys<T> & string)[]>(keys: A & ([RequiredKeys<T>] extends [A[number]] ? unknown : never)): readonly string[] =>
+  <const A extends readonly (RequiredKeys<T> & string)[]>(
+    keys: A & ([RequiredKeys<T>] extends [A[number]] ? unknown : never),
+  ): readonly string[] =>
     keys
 
-const GAME = required<GameState>()(['saveVersion', 'seed', 'rng', 'difficulty', 'quarter', 'maxQuarters', 'playerId', 'firms', 'firmOrder', 'customers', 'tenders', 'contracts', 'trends', 'pendingEvents', 'news', 'starMarket', 'lastAwards', 'eventHistory', 'status', 'idCounter'])
+const GAME = required<GameState>()([
+  'saveVersion',
+  'seed',
+  'rng',
+  'difficulty',
+  'quarter',
+  'maxQuarters',
+  'playerId',
+  'firms',
+  'firmOrder',
+  'customers',
+  'tenders',
+  'contracts',
+  'trends',
+  'pendingEvents',
+  'news',
+  'starMarket',
+  'lastAwards',
+  'eventHistory',
+  'status',
+  'idCounter',
+])
 const RNG = required<RngState>()(['s'])
-const FIRM = required<Firm>()(['id', 'name', 'isPlayer', 'personalityId', 'country', 'cash', 'reputation', 'heat', 'fagmiljo', 'sosialt', 'brandMod', 'budgets', 'pools', 'stars', 'hiringOrders', 'pendingHires', 'negativeCashQuarters', 'bankrupt', 'history', 'valuationHistory', 'intel', 'shadyLog', 'scandalPenalty', 'quarterFines', 'quarterLeavers', 'quarterHires'])
+const FIRM = required<Firm>()([
+  'id',
+  'name',
+  'isPlayer',
+  'personalityId',
+  'country',
+  'cash',
+  'reputation',
+  'heat',
+  'fagmiljo',
+  'sosialt',
+  'brandMod',
+  'budgets',
+  'pools',
+  'stars',
+  'hiringOrders',
+  'pendingHires',
+  'negativeCashQuarters',
+  'bankrupt',
+  'history',
+  'valuationHistory',
+  'intel',
+  'shadyLog',
+  'scandalPenalty',
+  'quarterFines',
+  'quarterLeavers',
+  'quarterHires',
+])
 const BUDGETS = required<Budgets>()(['fagmiljoPerHead', 'sosialtPerHead', 'salaryPremium'])
 const POOL = required<Pool>()(['count', 'level', 'morale'])
-const STAR = required<Star>()(['id', 'name', 'discipline', 'level', 'traits', 'ambition', 'morale', 'loyalty', 'salaryPremium'])
-const REPORT = required<QuarterReport>()(['quarter', 'revenue', 'costs', 'ebitda', 'headcount', 'utilization', 'hires', 'leavers', 'fines'])
+const STAR = required<Star>()([
+  'id',
+  'name',
+  'discipline',
+  'level',
+  'traits',
+  'ambition',
+  'morale',
+  'loyalty',
+  'salaryPremium',
+])
+const REPORT = required<QuarterReport>()([
+  'quarter',
+  'revenue',
+  'costs',
+  'ebitda',
+  'headcount',
+  'utilization',
+  'hires',
+  'leavers',
+  'fines',
+])
 const INTEL = required<IntelEntry>()(['targetFirmId', 'kind', 'untilQuarter'])
 const SHADY = required<ShadyLogEntry>()(['id', 'actionId', 'quarter', 'detected', 'ongoing', 'active'])
-const CUSTOMER = required<Customer>()(['id', 'sector', 'budgetFactor', 'meetingPreference', 'priceWeight', 'relationships'])
-const TENDER = required<Tender>()(['id', 'customerId', 'kind', 'seats', 'duration', 'priceWeight', 'qualityWeight', 'publishedQuarter', 'dueQuarter', 'buzzwords', 'bids', 'minigameResults', 'resolved', 'winnerIds'])
+const CUSTOMER = required<Customer>()([
+  'id',
+  'sector',
+  'budgetFactor',
+  'meetingPreference',
+  'priceWeight',
+  'relationships',
+])
+const TENDER = required<Tender>()([
+  'id',
+  'customerId',
+  'kind',
+  'seats',
+  'duration',
+  'priceWeight',
+  'qualityWeight',
+  'publishedQuarter',
+  'dueQuarter',
+  'buzzwords',
+  'bids',
+  'minigameResults',
+  'resolved',
+  'winnerIds',
+])
 const BID = required<Bid>()(['firmId', 'rateMultiplier', 'starIds', 'effort', 'cvPad', 'ghostCv'])
-const CONTRACT = required<Contract>()(['id', 'tenderId', 'firmId', 'customerId', 'kind', 'baseSeats', 'activeSeats', 'rateMultiplier', 'share', 'rank', 'startQuarter', 'endQuarter', 'starIds', 'satisfaction', 'outsourcedShare', 'fraud', 'terminated'])
+const CONTRACT = required<Contract>()([
+  'id',
+  'tenderId',
+  'firmId',
+  'customerId',
+  'kind',
+  'baseSeats',
+  'activeSeats',
+  'rateMultiplier',
+  'share',
+  'rank',
+  'startQuarter',
+  'endQuarter',
+  'starIds',
+  'satisfaction',
+  'outsourcedShare',
+  'fraud',
+  'terminated',
+])
 const FRAUD = required<Contract['fraud']>()(['cvPad', 'ghostCv', 'baitAndSwitch'])
 const TREND = required<ActiveTrend>()(['id', 'untilQuarter'])
 const PENDING = required<PendingEvent>()(['id', 'eventId', 'firmId', 'params'])
 const NEWS = required<NewsItem>()(['id', 'quarter', 'key', 'params', 'tone'])
 const AWARD = required<Award>()(['awardId', 'firmId', 'year'])
-const CRISIS = required<Crisis>()(['id', 'defId', 'firmId', 'stage', 'severity', 'startQuarter', 'stageQuarter', 'params', 'status', 'log'])
+const CRISIS = required<Crisis>()([
+  'id',
+  'defId',
+  'firmId',
+  'stage',
+  'severity',
+  'startQuarter',
+  'stageQuarter',
+  'params',
+  'status',
+  'log',
+])
 
 type Obj = Record<string, unknown>
 const isObj = (v: unknown): v is Obj => typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -61,7 +182,16 @@ function hasKeys(v: unknown, keys: readonly string[]): v is Obj {
 }
 
 /** The numbers the whole game runs on. A string or ±Infinity here would break every comparison. */
-const FIRM_NUMBERS = ['cash', 'reputation', 'heat', 'fagmiljo', 'sosialt', 'brandMod', 'scandalPenalty', 'negativeCashQuarters'] as const
+const FIRM_NUMBERS = [
+  'cash',
+  'reputation',
+  'heat',
+  'fagmiljo',
+  'sosialt',
+  'brandMod',
+  'scandalPenalty',
+  'negativeCashQuarters',
+] as const
 const finite = (v: Obj, keys: readonly string[]) => keys.every((k) => Number.isFinite(v[k]))
 
 const all = (v: unknown, ok: (x: unknown) => boolean) => Array.isArray(v) && v.every(ok)
@@ -85,8 +215,10 @@ function firmOk(f: unknown): boolean {
   )
 }
 
-const tenderOk = (t: unknown) => hasKeys(t, TENDER) && isObj(t.seats) && all(t.bids, (b) => hasKeys(b, BID)) && isObj(t.minigameResults)
-const contractOk = (c: unknown) => hasKeys(c, CONTRACT) && isObj(c.baseSeats) && isObj(c.activeSeats) && hasKeys(c.fraud, FRAUD)
+const tenderOk = (t: unknown) =>
+  hasKeys(t, TENDER) && isObj(t.seats) && all(t.bids, (b) => hasKeys(b, BID)) && isObj(t.minigameResults)
+const contractOk = (c: unknown) =>
+  hasKeys(c, CONTRACT) && isObj(c.baseSeats) && isObj(c.activeSeats) && hasKeys(c.fraud, FRAUD)
 
 /**
  * Whether a (migrated) save still has the shape the current engine expects. Checks presence of

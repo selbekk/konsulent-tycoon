@@ -7,7 +7,12 @@ import { replayRun } from './replay'
 import { botRun } from './testUtils'
 import { weekSeed } from './weekly'
 
-const opts: NewGameOptions = { seed: 7, firmName: 'Replay AS', founderDisciplines: ['backend', 'data'], difficulty: 'normal' }
+const opts: NewGameOptions = {
+  seed: 7,
+  firmName: 'Replay AS',
+  founderDisciplines: ['backend', 'data'],
+  difficulty: 'normal',
+}
 /** The whole state as JSON, without the store's `gameId` (the engine never sees it). */
 const json = (s: object) => JSON.stringify(s, (k, v) => (k === 'gameId' ? undefined : v))
 
@@ -63,13 +68,24 @@ describe('replay', () => {
 describe('determinism guard', () => {
   // The leaderboard replays games on a server. Anything that depends on the clock, locale or a
   // non-seeded random source would make a browser and the server play differently.
-  const FORBIDDEN = [/\.localeCompare\(/, /\bIntl\./, /\.toLocale\w*\(/, /Math\.random\(/, /Date\.now\(/, /performance\.now\(/]
+  const FORBIDDEN = [
+    /\.localeCompare\(/,
+    /\bIntl\./,
+    /\.toLocale\w*\(/,
+    /Math\.random\(/,
+    /Date\.now\(/,
+    /performance\.now\(/,
+  ]
   // Pure date maths on a timestamp the caller passes, and the save timestamp; neither feeds the game.
   const ALLOWED_DATE = new Set(['weekly.ts', 'save.ts'])
 
   function sources(dir: string): string[] {
     return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
-      e.isDirectory() ? sources(join(dir, e.name)) : e.name.endsWith('.ts') && !e.name.endsWith('.test.ts') && e.name !== 'testUtils.ts' ? [join(dir, e.name)] : [],
+      e.isDirectory()
+        ? sources(join(dir, e.name))
+        : e.name.endsWith('.ts') && !e.name.endsWith('.test.ts') && e.name !== 'testUtils.ts'
+          ? [join(dir, e.name)]
+          : [],
     )
   }
 

@@ -108,5 +108,10 @@ export const ANNOUNCEMENTS: AnnouncementDef[] = [
   { id: 'business_cards', weight: 1.5, condition: ({ firm }) => (firm.level ?? 1) <= 1 },
   { id: 'strategy_2037', weight: 2, condition: ({ state }) => state.quarter >= 36 },
   { id: 'new_premises', weight: 1.5, condition: ({ state }) => state.quarter <= 3 },
-  { id: 'offshore_standup', weight: 1.5, condition: ({ state, firm }) => state.contracts.some((c) => c.firmId === firm.id && !c.terminated && c.outsourcedShare > 0) },
+  {
+    id: 'offshore_standup',
+    weight: 1.5,
+    condition: ({ state, firm }) =>
+      state.contracts.some((c) => c.firmId === firm.id && !c.terminated && c.outsourcedShare > 0),
+  },
 ]

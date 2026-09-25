@@ -56,7 +56,11 @@ export function BenchView({ game }: { game: GameState }) {
   }, [game, sort, lng])
 
   const toggle = (key: SortKey) =>
-    setSort((cur) => (cur.key === key ? { key, dir: cur.dir === 1 ? -1 : 1 } : { key, dir: key === 'name' || key === 'discipline' ? 1 : -1 }))
+    setSort((cur) =>
+      cur.key === key
+        ? { key, dir: cur.dir === 1 ? -1 : 1 }
+        : { key, dir: key === 'name' || key === 'discipline' ? 1 : -1 },
+    )
 
   return (
     <div className={s.stackSm}>

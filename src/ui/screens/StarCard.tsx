@@ -36,7 +36,9 @@ export function StarCard({ star, firm, game, market }: { star: Star; firm: Firm;
       </div>
       <span className={s.small}>
         {t(`content:ambitions.${star.ambition}`)}
-        {!market && !star.founder && <span className={met ? s.good : s.bad}> · {met ? t('staff.ambitionMet') : t('staff.ambitionUnmet')}</span>}
+        {!market && !star.founder && (
+          <span className={met ? s.good : s.bad}> · {met ? t('staff.ambitionMet') : t('staff.ambitionUnmet')}</span>
+        )}
       </span>
       {!market && (
         <>
@@ -44,7 +46,9 @@ export function StarCard({ star, firm, game, market }: { star: Star; firm: Firm;
           {!star.founder && <Meter label={t('staff.loyalty')} value={star.loyalty} />}
           {mentee && <span className={s.small}>{t('staff.mentoring', { name: mentee.name })}</span>}
           <span className={`${s.small} ${s.muted}`}>
-            {contract ? t('staff.assignedTo', { customer: t(`content:customers.${contract.customerId}.name`) }) : t('staff.unassigned')}
+            {contract
+              ? t('staff.assignedTo', { customer: t(`content:customers.${contract.customerId}.name`) })
+              : t('staff.unassigned')}
           </span>
         </>
       )}
@@ -52,12 +56,20 @@ export function StarCard({ star, firm, game, market }: { star: Star; firm: Firm;
         {t('staff.premium', { premium: formatPercent(star.salaryPremium, i18n.language) })}
       </span>
       {market ? (
-        <Button variant="primary" size="small" disabled={firm.cash < cost} onClick={() => dispatch({ type: 'hireStar', firmId: firm.id, starId: star.id })}>
+        <Button
+          variant="primary"
+          size="small"
+          disabled={firm.cash < cost}
+          onClick={() => dispatch({ type: 'hireStar', firmId: firm.id, starId: star.id })}
+        >
           {t('staff.hireStar', { cost: formatMoney(cost, i18n.language) })}
         </Button>
       ) : (
         !star.founder && (
-          <Button size="small" onClick={() => dispatch({ type: 'giveRaise', firmId: firm.id, starId: star.id, amount: 0.05 })}>
+          <Button
+            size="small"
+            onClick={() => dispatch({ type: 'giveRaise', firmId: firm.id, starId: star.id, amount: 0.05 })}
+          >
             {t('staff.raise')}
           </Button>
         )

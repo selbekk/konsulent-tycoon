@@ -6,7 +6,18 @@
  */
 import { initializeApp } from 'firebase/app'
 import { connectAuthEmulator, getAuth, signInAnonymously } from 'firebase/auth'
-import { collection, collectionGroup, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, limit, orderBy, query } from 'firebase/firestore/lite'
+import {
+  collection,
+  collectionGroup,
+  connectFirestoreEmulator,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  limit,
+  orderBy,
+  query,
+} from 'firebase/firestore/lite'
 import { connectFunctionsEmulator, getFunctions, httpsCallable } from 'firebase/functions'
 import { isoWeek, weekSeed } from '../src/engine'
 import { botRun } from '../src/engine/testUtils'
@@ -29,13 +40,26 @@ const page = (...path: [string, ...string[]]) => getDocs(query(collection(db, ..
 const reason = (e: unknown) => (e as { details?: { reason?: string } }).details?.reason
 
 const week = isoWeek(Date.now())
-const { state, log } = botRun({ seed: weekSeed(week), firmName: 'Emu AS', founderDisciplines: ['backend', 'data'], difficulty: 'normal', weekly: week })
+const { state, log } = botRun({
+  seed: weekSeed(week),
+  firmName: 'Emu AS',
+  founderDisciplines: ['backend', 'data'],
+  difficulty: 'normal',
+  weekly: week,
+})
 const sub = buildSubmission({ ...state, gameId: 'emulator-game-1' }, log, ['moose', 'owl', 'as'], engineVersion())!
-const check = (ok: boolean, what: string) => { console.log(ok ? 'OK  ' : 'FAIL', what); if (!ok) process.exitCode = 1 }
-
+const check = (ok: boolean, what: string) => {
+  console.log(ok ? 'OK  ' : 'FAIL', what)
+  if (!ok) process.exitCode = 1
+}
 
 // Not signed in: refused.
-try { await submit(sub); check(false, 'unauthenticated refused') } catch (e) { check((e as { code: string }).code === 'functions/unauthenticated', 'unauthenticated refused') }
+try {
+  await submit(sub)
+  check(false, 'unauthenticated refused')
+} catch (e) {
+  check((e as { code: string }).code === 'functions/unauthenticated', 'unauthenticated refused')
+}
 
 const { user } = await signInAnonymously(auth)
 const r = (await submit(sub)).data as Record<string, unknown>
@@ -44,16 +68,36 @@ check(r.valuation === sub.claimedValuation && r.place === 1 && r.best === true, 
 
 const entries = await page('weeks', week, 'entries')
 check(entries.size === 1 && entries.docs[0].id === user.uid, 'week entry readable by anyone')
-try { await getDocs(collection(db, 'weeks', week, 'entries')); check(false, 'list without a limit refused') } catch { check(true, 'list without a limit refused') }
+try {
+  await getDocs(collection(db, 'weeks', week, 'entries'))
+  check(false, 'list without a limit refused')
+} catch {
+  check(true, 'list without a limit refused')
+}
 const fame = await getDocs(query(collectionGroup(db, 'entries'), orderBy('valuation', 'desc'), limit(25)))
 check(fame.size === 1, 'hall of fame readable by anyone')
 const history = await page('users', user.uid, 'history')
 check(history.size === 1 && !('log' in history.docs[0].data()), 'own history readable, without log')
-try { await getDoc(doc(db, 'runs', `${user.uid}_emulator-game-1`)); check(false, 'runs not readable') } catch { check(true, 'runs not readable') }
-try { await getDocs(query(collection(db, 'weeks', week, 'games'), limit(5))); check(false, 'game fingerprints not readable') } catch { check(true, 'game fingerprints not readable') }
+try {
+  await getDoc(doc(db, 'runs', `${user.uid}_emulator-game-1`))
+  check(false, 'runs not readable')
+} catch {
+  check(true, 'runs not readable')
+}
+try {
+  await getDocs(query(collection(db, 'weeks', week, 'games'), limit(5)))
+  check(false, 'game fingerprints not readable')
+} catch {
+  check(true, 'game fingerprints not readable')
+}
 
 // Too fast, also when sent all at once; then the same game again after the cooldown: counted once.
-try { await submit(sub); check(false, 'rate limited') } catch (e) { check((e as { code: string }).code === 'functions/resource-exhausted', 'rate limited') }
+try {
+  await submit(sub)
+  check(false, 'rate limited')
+} catch (e) {
+  check((e as { code: string }).code === 'functions/resource-exhausted', 'rate limited')
+}
 await new Promise((res) => setTimeout(res, 10_500))
 const burst = await Promise.allSettled(Array.from({ length: 5 }, () => submit(sub)))
 check(burst.filter((b) => b.status === 'fulfilled').length === 1, 'parallel submissions: only one gets through')
@@ -73,7 +117,11 @@ await other.del()
 // Tampered: rejected with a reason.
 await new Promise((res) => setTimeout(res, 10_500))
 try {
-  await submit({ ...sub, gameId: 'emulator-game-2', log: [{ type: 'hireStar', firmId: 'player', starId: 'nope' }, ...sub.log] })
+  await submit({
+    ...sub,
+    gameId: 'emulator-game-2',
+    log: [{ type: 'hireStar', firmId: 'player', starId: 'nope' }, ...sub.log],
+  })
   check(false, 'tampered log rejected')
 } catch (e) {
   const err = e as { code: string; details?: { reason?: string } }
@@ -83,7 +131,11 @@ try {
 // A step with a prototype name as an id is refused before it is replayed.
 await new Promise((res) => setTimeout(res, 10_500))
 try {
-  await submit({ ...sub, gameId: 'emulator-game-3', log: [{ type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: '__proto__' }, ...sub.log] })
+  await submit({
+    ...sub,
+    gameId: 'emulator-game-3',
+    log: [{ type: 'shady', firmId: 'player', actionId: 'rumor', targetFirmId: '__proto__' }, ...sub.log],
+  })
   check(false, 'prototype id refused')
 } catch (e) {
   check(reason(e) === 'invalid', 'prototype id refused')

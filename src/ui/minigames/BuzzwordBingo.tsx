@@ -44,14 +44,14 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
   useEffect(() => {
     if (phase !== 'play') return
     const id = setInterval(() => {
-      const t = performance.now()
-      if (t >= endsAt) {
+      const at = performance.now()
+      if (at >= endsAt) {
         clearInterval(id)
         finish(0)
       } else {
-        const secs = Math.ceil((endsAt - t) / 1000)
-        if (secs <= 5 && secs !== Math.ceil((endsAt - t - 250) / 1000)) playSound('tick')
-        setNow(t)
+        const secs = Math.ceil((endsAt - at) / 1000)
+        if (secs <= 5 && secs !== Math.ceil((endsAt - at - 250) / 1000)) playSound('tick')
+        setNow(at)
       }
     }, 250)
     return () => clearInterval(id)
@@ -59,9 +59,9 @@ export function BuzzwordBingo({ tender, firmId, onStart, onFinish, onClose }: Pr
 
   const begin = () => {
     if (!onStart()) return
-    const t = performance.now()
-    setNow(t)
-    setEndsAt(t + total * 1000)
+    const at = performance.now()
+    setNow(at)
+    setEndsAt(at + total * 1000)
     setPhase('play')
   }
 

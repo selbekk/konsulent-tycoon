@@ -16,6 +16,8 @@ export function EventModal({ event }: { event: PendingEvent }) {
   const def = EVENT_MAP[event.eventId]
   useEffect(() => {
     playSound(event.eventId === 'poach_attempt' ? 'scandal' : 'alert')
+    // Play again for each new event, also when two in a row share an eventId.
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [event.id, event.eventId])
   if (!def) return null
   const params = resolveParams(event.params, t, i18n.language)

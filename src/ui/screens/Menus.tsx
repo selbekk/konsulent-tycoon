@@ -21,17 +21,43 @@ import s from './screens.module.css'
 function Skyline() {
   // Pixel-art Oslo-ish skyline: office blocks, a crane and the Opera roof.
   const blocks = [
-    [0, 30, 10], [11, 20, 8], [20, 38, 12], [33, 26, 9], [43, 44, 10], [54, 18, 14], [69, 34, 9], [79, 50, 11],
-    [91, 24, 10], [102, 40, 8], [111, 28, 12], [124, 46, 10], [135, 22, 13], [149, 36, 9], [159, 30, 11],
+    [0, 30, 10],
+    [11, 20, 8],
+    [20, 38, 12],
+    [33, 26, 9],
+    [43, 44, 10],
+    [54, 18, 14],
+    [69, 34, 9],
+    [79, 50, 11],
+    [91, 24, 10],
+    [102, 40, 8],
+    [111, 28, 12],
+    [124, 46, 10],
+    [135, 22, 13],
+    [149, 36, 9],
+    [159, 30, 11],
   ]
   return (
-    <svg className={m.skyline} viewBox="0 0 170 60" preserveAspectRatio="xMidYMax slice" shapeRendering="crispEdges" aria-hidden>
+    <svg
+      className={m.skyline}
+      viewBox="0 0 170 60"
+      preserveAspectRatio="xMidYMax slice"
+      shapeRendering="crispEdges"
+      aria-hidden
+    >
       {blocks.map(([x, h, w], i) => (
         <g key={i}>
           <rect x={x} y={60 - h} width={w} height={h} fill={i % 2 ? 'var(--panel-2)' : 'var(--panel)'} />
           {Array.from({ length: Math.floor(h / 6) }, (_, r) =>
-            Array.from({ length: Math.floor(w / 3) }, (_, c) => (
-              <rect key={`${r}-${c}`} x={x + 1 + c * 3} y={60 - h + 2 + r * 6} width={1} height={2} fill={(r * 7 + c * 3 + i) % 4 === 0 ? 'var(--warn)' : 'var(--bg)'} />
+            Array.from({ length: Math.floor(w / 3) }, (__, c) => (
+              <rect
+                key={`${r}-${c}`}
+                x={x + 1 + c * 3}
+                y={60 - h + 2 + r * 6}
+                width={1}
+                height={2}
+                fill={(r * 7 + c * 3 + i) % 4 === 0 ? 'var(--warn)' : 'var(--bg)'}
+              />
             )),
           )}
         </g>
@@ -101,7 +127,11 @@ export function MainMenu() {
           <Button onClick={() => go('settings')}>{t('menu.settings')}</Button>
           <Button onClick={() => go('about')}>{t('menu.about')}</Button>
           {canInstall && (
-            <Button variant="ghost" icon="disk" onClick={() => void promptInstall().then((accepted) => track('app_install_prompted', { accepted }))}>
+            <Button
+              variant="ghost"
+              icon="disk"
+              onClick={() => void promptInstall().then((accepted) => track('app_install_prompted', { accepted }))}
+            >
               {t('pwa.install')}
             </Button>
           )}
@@ -109,7 +139,9 @@ export function MainMenu() {
         <button type="button" className={m.newsLink} onClick={() => go('news')}>
           {t('menu.latestNews', { title: t(`news.posts.${NEWS_POSTS[0].id}.title`) })}
         </button>
-        <p className={m.notice} role="note">{t('menu.devNotice')}</p>
+        <p className={m.notice} role="note">
+          {t('menu.devNotice')}
+        </p>
         {showIosHint && <p className={m.footer}>{t('pwa.iosHint')}</p>}
         <p className={m.footer}>{t('menu.disclaimer')}</p>
       </div>
@@ -117,7 +149,14 @@ export function MainMenu() {
   )
 }
 
-const NAME_SUGGESTIONS = ['Konsulent & Konsulent AS', 'Synergi Solutions', 'Fakturerbar AS', 'Nordlys Digital', 'Kaffe & Kode', 'Timeliste Group']
+const NAME_SUGGESTIONS = [
+  'Konsulent & Konsulent AS',
+  'Synergi Solutions',
+  'Fakturerbar AS',
+  'Nordlys Digital',
+  'Kaffe & Kode',
+  'Timeliste Group',
+]
 
 export function NewGame() {
   const { t } = useTranslation()
@@ -163,7 +202,9 @@ export function NewGame() {
                   {t('newGame.modes.weekly')}
                 </button>
               </div>
-              <Hint>{weekly ? t('newGame.modeHints.weekly', { week: weekText(t, week) }) : t('newGame.modeHints.free')}</Hint>
+              <Hint>
+                {weekly ? t('newGame.modeHints.weekly', { week: weekText(t, week) }) : t('newGame.modeHints.free')}
+              </Hint>
             </div>
             <div className={s.field}>
               <label htmlFor="firm-name">{t('newGame.name')}</label>
@@ -210,7 +251,14 @@ export function NewGame() {
             {!weekly && (
               <div className={s.field}>
                 <label htmlFor="seed">{t('newGame.seed')}</label>
-                <input id="seed" className={s.input} inputMode="numeric" value={seed} onChange={(e) => setSeed(e.target.value.replace(/\D/g, ''))} placeholder={t('newGame.seedPlaceholder')} />
+                <input
+                  id="seed"
+                  className={s.input}
+                  inputMode="numeric"
+                  value={seed}
+                  onChange={(e) => setSeed(e.target.value.replace(/\D/g, ''))}
+                  placeholder={t('newGame.seedPlaceholder')}
+                />
               </div>
             )}
             <div className={s.row} style={{ justifyContent: 'flex-end' }}>
@@ -320,7 +368,11 @@ export function SettingsScreen() {
             )}
             <div className={s.field}>
               <label className={s.checkRow}>
-                <input type="checkbox" checked={consent === 'granted'} onChange={(e) => (e.target.checked ? grantConsent() : denyConsent())} />
+                <input
+                  type="checkbox"
+                  checked={consent === 'granted'}
+                  onChange={(e) => (e.target.checked ? grantConsent() : denyConsent())}
+                />
                 {t('settings.analytics')}
               </label>
               <Hint>{t('settings.analyticsHint')}</Hint>
@@ -422,7 +474,11 @@ export function AboutScreen() {
                   {t('about.share.button')}
                 </Button>
                 <span className={`${s.small} ${s.muted}`} role="status">
-                  {shareStatus === 'copied' ? t('about.share.copied') : shareStatus === 'failed' ? t('about.share.failed', { url }) : ''}
+                  {shareStatus === 'copied'
+                    ? t('about.share.copied')
+                    : shareStatus === 'failed'
+                      ? t('about.share.failed', { url })
+                      : ''}
                 </span>
               </div>
             </section>

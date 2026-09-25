@@ -33,14 +33,59 @@ interface Tone {
 }
 
 const TONES: Record<Exclude<Voice, 'kick' | 'snare' | 'hat' | 'ride'>, Tone> = {
-  piano: { osc: [['triangle', 1, 1], ['sine', 2, 0.25]], attack: 0.004, decayTo: 0.2, release: 0.12, gain: 0.55 },
-  epiano: { osc: [['sine', 1, 1], ['sine', 4, 0.08]], attack: 0.004, decayTo: 0.3, release: 0.2, gain: 0.6 },
-  vibes: { osc: [['sine', 1, 1], ['sine', 4, 0.12]], attack: 0.003, decayTo: 0.35, release: 0.4, gain: 0.7 },
-  organ: { osc: [['sine', 1, 1], ['sine', 2, 0.4]], attack: 0.03, decayTo: 1, release: 0.1, gain: 0.3 },
+  piano: {
+    osc: [
+      ['triangle', 1, 1],
+      ['sine', 2, 0.25],
+    ],
+    attack: 0.004,
+    decayTo: 0.2,
+    release: 0.12,
+    gain: 0.55,
+  },
+  epiano: {
+    osc: [
+      ['sine', 1, 1],
+      ['sine', 4, 0.08],
+    ],
+    attack: 0.004,
+    decayTo: 0.3,
+    release: 0.2,
+    gain: 0.6,
+  },
+  vibes: {
+    osc: [
+      ['sine', 1, 1],
+      ['sine', 4, 0.12],
+    ],
+    attack: 0.003,
+    decayTo: 0.35,
+    release: 0.4,
+    gain: 0.7,
+  },
+  organ: {
+    osc: [
+      ['sine', 1, 1],
+      ['sine', 2, 0.4],
+    ],
+    attack: 0.03,
+    decayTo: 1,
+    release: 0.1,
+    gain: 0.3,
+  },
   bass: { osc: [['triangle', 1, 1]], attack: 0.005, decayTo: 0.45, release: 0.06, gain: 0.9 },
   square: { osc: [['square', 1, 1]], attack: 0.01, decayTo: 0.8, release: 0.06, gain: 0.22, cutoff: 2400 },
   clarinet: { osc: [['square', 1, 1]], attack: 0.025, decayTo: 0.9, release: 0.08, gain: 0.35, cutoff: 1300 },
-  flute: { osc: [['sine', 1, 1], ['triangle', 2, 0.1]], attack: 0.05, decayTo: 0.85, release: 0.1, gain: 0.6 },
+  flute: {
+    osc: [
+      ['sine', 1, 1],
+      ['triangle', 2, 0.1],
+    ],
+    attack: 0.05,
+    decayTo: 0.85,
+    release: 0.1,
+    gain: 0.6,
+  },
   brass: { osc: [['sawtooth', 1, 1]], attack: 0.035, decayTo: 0.8, release: 0.08, gain: 0.22, cutoff: 1700 },
 }
 
@@ -140,7 +185,8 @@ function tick() {
 }
 
 function play(ac: AudioContext, dest: AudioNode, ev: NoteEvent, when: number, dur: number) {
-  if (ev.voice === 'kick' || ev.voice === 'snare' || ev.voice === 'hat' || ev.voice === 'ride') return drum(ac, dest, ev.voice, ev.vel * PART_GAIN.drums, when)
+  if (ev.voice === 'kick' || ev.voice === 'snare' || ev.voice === 'hat' || ev.voice === 'ride')
+    return drum(ac, dest, ev.voice, ev.vel * PART_GAIN.drums, when)
   const tone = TONES[ev.voice]
   const freq = 440 * 2 ** ((ev.midi - 69) / 12)
   const env = ac.createGain()
@@ -188,17 +234,19 @@ function drum(ac: AudioContext, dest: AudioNode, voice: 'kick' | 'snare' | 'hat'
     osc.stop(when + 0.22)
     return
   }
-  const [type, freq, level, decay] = ({
-    snare: ['bandpass', 1800, 0.5, 0.14],
-    hat: ['highpass', 7000, 0.3, 0.04],
-    ride: ['highpass', 5000, 0.16, 0.3],
-  } as const)[voice]
+  const [type, freq, peak, decay] = (
+    {
+      snare: ['bandpass', 1800, 0.5, 0.14],
+      hat: ['highpass', 7000, 0.3, 0.04],
+      ride: ['highpass', 5000, 0.16, 0.3],
+    } as const
+  )[voice]
   const src = ac.createBufferSource()
   src.buffer = output(ac).noise
   const f = ac.createBiquadFilter()
   f.type = type
   f.frequency.value = freq
-  env.gain.setValueAtTime(vel * level, when)
+  env.gain.setValueAtTime(vel * peak, when)
   env.gain.exponentialRampToValueAtTime(0.0001, when + decay)
   src.connect(f).connect(env)
   src.start(when)
@@ -254,7 +302,11 @@ export function installMusic(): () => void {
     unlocked = true
     const ac = audioContext()
     if (!ac) return removeGestures()
-    if (ac.state === 'suspended') void ac.resume().then(() => ac.state === 'running' && removeGestures(), () => {})
+    if (ac.state === 'suspended')
+      void ac.resume().then(
+        () => ac.state === 'running' && removeGestures(),
+        () => {},
+      )
     else removeGestures()
     sync()
   }

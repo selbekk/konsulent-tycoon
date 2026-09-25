@@ -10,12 +10,26 @@ import {
 import { createContract, updateContracts } from './contracts'
 import { staffFirm } from './economy'
 import { applyAction } from './reducer'
-import { bidQuality, bidQualityParts, customerNeeds, customerWants, isKeyTender, quickBid, resolveDueTenders } from './tenders'
+import {
+  bidQuality,
+  bidQualityParts,
+  customerNeeds,
+  customerWants,
+  isKeyTender,
+  quickBid,
+  resolveDueTenders,
+} from './tenders'
 import { makeKeyTender, newTestGame, syncRosterToPools } from './testUtils'
 import type { Bid, GameState, PromiseId, Tender } from './types'
 
 const bid = (overrides: Partial<Bid> = {}): Bid => ({
-  firmId: 'player', rateMultiplier: 1, starIds: [], effort: 1, cvPad: false, ghostCv: false, ...overrides,
+  firmId: 'player',
+  rateMultiplier: 1,
+  starIds: [],
+  effort: 1,
+  cvPad: false,
+  ghostCv: false,
+  ...overrides,
 })
 const firstOpen = (s: GameState) => s.tenders.find((t) => !t.resolved && !t.hidden)!
 const routine = (t: Tender) => Object.assign(t, { kind: 'project', seats: { backend: 1 } })
@@ -25,7 +39,9 @@ describe('key and routine tenders', () => {
     const s = newTestGame()
     const t = routine(firstOpen(s))
     expect(isKeyTender(t)).toBe(false)
-    expect(applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 90 }).error).toBe('errors.noMeetingNeeded')
+    expect(
+      applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 90 }).error,
+    ).toBe('errors.noMeetingNeeded')
     expect(bidQualityParts(s, bid(), t)!.meeting).toBeCloseTo(0.15 * ROUTINE_MEETING_SCORE)
   })
 
@@ -34,7 +50,13 @@ describe('key and routine tenders', () => {
     const t = makeKeyTender(firstOpen(s))
     expect(bidQualityParts(s, bid(), t)!.meeting).toBe(0)
     s = applyAction(s, { type: 'recordMinigame', firmId: 'player', tenderId: t.id, kind: 'meeting', score: 80 }).state
-    expect(bidQualityParts(s, bid(), s.tenders.find((x) => x.id === t.id)!)!.meeting).toBeCloseTo(12)
+    expect(
+      bidQualityParts(
+        s,
+        bid(),
+        s.tenders.find((x) => x.id === t.id)!,
+      )!.meeting,
+    ).toBeCloseTo(12)
   })
 
   it('a quick bid is valid and draws no randomness', () => {
@@ -64,7 +86,9 @@ describe('promises', () => {
   it('can only be made on key tenders', () => {
     const s = newTestGame()
     const t = routine(firstOpen(s))
-    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ promise: 'fullTeam' }) }).error).toBe('errors.promiseNotAllowed')
+    expect(applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ promise: 'fullTeam' }) }).error).toBe(
+      'errors.promiseNotAllowed',
+    )
     makeKeyTender(t)
     const r = applyAction(s, { type: 'placeBid', tenderId: t.id, bid: bid({ promise: 'fullTeam' }) })
     expect(r.error).toBeUndefined()

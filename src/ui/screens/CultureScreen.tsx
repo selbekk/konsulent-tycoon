@@ -1,5 +1,17 @@
 import { useTranslation } from 'react-i18next'
-import { BUDGET_MAX_PER_HEAD, PREMIUM_MAX, PREMIUM_MIN, acceptRate, cultureEquilibrium, employerBrand, headcount, moraleTarget, portfolioBrand, quarterFinancials, salaryCost } from '../../engine'
+import {
+  BUDGET_MAX_PER_HEAD,
+  PREMIUM_MAX,
+  PREMIUM_MIN,
+  acceptRate,
+  cultureEquilibrium,
+  employerBrand,
+  headcount,
+  moraleTarget,
+  portfolioBrand,
+  quarterFinancials,
+  salaryCost,
+} from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Meter, Panel, Slider, Stat } from '../components/ui'
 import { formatMoney, formatPercent } from '../format'
@@ -57,7 +69,13 @@ export function CultureScreen() {
             step={1}
             onChange={(v) => set({ salaryPremium: v / 100 })}
             display={`${b.salaryPremium > 0 ? '+' : ''}${Math.round(b.salaryPremium * 100)} %`}
-            hint={t(b.salaryPremium < 0 ? 'culture.salaryHints.low' : b.salaryPremium >= 0.1 ? 'culture.salaryHints.high' : 'culture.salaryHints.mid')}
+            hint={t(
+              b.salaryPremium < 0
+                ? 'culture.salaryHints.low'
+                : b.salaryPremium >= 0.1
+                  ? 'culture.salaryHints.high'
+                  : 'culture.salaryHints.mid',
+            )}
           />
         </div>
       </Panel>
@@ -67,7 +85,11 @@ export function CultureScreen() {
           <Meter label={t('culture.fagmiljoLevel')} value={me.fagmiljo} />
           <Meter label={t('culture.sosialtLevel')} value={me.sosialt} />
           <Meter label={t('culture.brand')} value={employerBrand(game, me)} />
-          <span className={`${s.small} ${s.muted}`}>{t('customer.portfolio', { value: `${brandFromCustomers >= 0 ? '+' : '−'}${Math.abs(Math.round(brandFromCustomers))}` })}</span>
+          <span className={`${s.small} ${s.muted}`}>
+            {t('customer.portfolio', {
+              value: `${brandFromCustomers >= 0 ? '+' : '−'}${Math.abs(Math.round(brandFromCustomers))}`,
+            })}
+          </span>
           <div className={s.kpis}>
             <Stat label={t('culture.cultureCost')} value={formatMoney(fin.cultureCost, lng)} />
             <Stat label={t('culture.salaryCost')} value={formatMoney(salaryCost(me), lng)} />

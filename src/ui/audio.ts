@@ -6,7 +6,10 @@ let ctx: AudioContext | null = null
 
 export function audioContext(): AudioContext | null {
   if (ctx) return ctx
-  const Ctor = typeof window !== 'undefined' ? (window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext) : undefined
+  const Ctor =
+    typeof window !== 'undefined'
+      ? (window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext)
+      : undefined
   if (!Ctor) return null
   try {
     ctx = new Ctor()

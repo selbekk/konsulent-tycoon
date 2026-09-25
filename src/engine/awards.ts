@@ -12,11 +12,12 @@ interface AwardDef {
 }
 
 const contractsStartedThisYear = (f: Firm, state: GameState) =>
-  state.contracts.filter((c) => c.firmId === f.id && c.startQuarter > state.quarter - 4 && c.startQuarter <= state.quarter + 1)
-    .length
+  state.contracts.filter(
+    (c) => c.firmId === f.id && c.startQuarter > state.quarter - 4 && c.startQuarter <= state.quarter + 1,
+  ).length
 
 const growth = (f: Firm) => {
-  const past = f.history.length >= 4 ? f.history[f.history.length - 4].headcount : f.history[0]?.headcount ?? 0
+  const past = f.history.length >= 4 ? f.history[f.history.length - 4].headcount : (f.history[0]?.headcount ?? 0)
   return past ? headcount(f) / past - 1 : 0
 }
 

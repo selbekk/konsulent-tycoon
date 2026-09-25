@@ -22,8 +22,27 @@ import {
 import type { Action, Crisis, GameState, MinigameKind, NewGameOptions, RunLog, SlotId } from '../engine'
 
 export type Screen = 'menu' | 'newGame' | 'settings' | 'about' | 'news' | 'leaderboard' | 'game'
-export type Tab = 'dashboard' | 'finance' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
-export const TABS: Tab[] = ['dashboard', 'finance', 'staff', 'culture', 'tenders', 'contracts', 'strategy', 'market', 'backroom']
+export type Tab =
+  | 'dashboard'
+  | 'finance'
+  | 'staff'
+  | 'culture'
+  | 'tenders'
+  | 'contracts'
+  | 'strategy'
+  | 'market'
+  | 'backroom'
+export const TABS: Tab[] = [
+  'dashboard',
+  'finance',
+  'staff',
+  'culture',
+  'tenders',
+  'contracts',
+  'strategy',
+  'market',
+  'backroom',
+]
 
 export interface Settings {
   theme: 'dark' | 'light'
@@ -40,7 +59,8 @@ export interface Settings {
 }
 
 /** Analytics id for a playthrough. Only the store makes one; the engine stays deterministic. */
-const newGameId = () => globalThis.crypto?.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+const newGameId = () =>
+  globalThis.crypto?.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
 
 const SETTINGS_KEY = 'kt.settings'
 const defaultSettings: Settings = {
@@ -138,7 +158,8 @@ interface Store {
 const noCrisis = { crisisId: null, crisisTalk: null, seenCrises: [] }
 
 /** Identifies one stage of one crisis, for "has the player seen this yet". */
-export const crisisSeenKey = (c: Pick<Crisis, 'id' | 'stage' | 'stageQuarter'>) => `${c.id}:${c.stage}:${c.stageQuarter}`
+export const crisisSeenKey = (c: Pick<Crisis, 'id' | 'stage' | 'stageQuarter'>) =>
+  `${c.id}:${c.stage}:${c.stageQuarter}`
 
 export const useGame = create<Store>((set, get) => ({
   game: null,
@@ -176,7 +197,20 @@ export const useGame = create<Store>((set, get) => ({
     const game: GameState = { ...createNewGame(opts), gameId: newGameId() }
     setGameId(game.gameId!)
     autosave(game, [])
-    set({ game, log: [], stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: true, ...noCrisis })
+    set({
+      game,
+      log: [],
+      stale: false,
+      screen: 'game',
+      tab: 'dashboard',
+      report: null,
+      error: null,
+      bidTenderId: null,
+      minigame: null,
+      levelUp: null,
+      onboarding: true,
+      ...noCrisis,
+    })
     track('game_started', {
       difficulty: opts.difficulty,
       founders: [...opts.founderDisciplines],
@@ -233,7 +267,17 @@ export const useGame = create<Store>((set, get) => ({
         quarters_played: game.quarter + 1,
       })
     }
-    set({ game: next, log, report: game.quarter, bidTenderId: null, minigame: null, error: null, levelUp, crisisId: null, crisisTalk: null })
+    set({
+      game: next,
+      log,
+      report: game.quarter,
+      bidTenderId: null,
+      minigame: null,
+      error: null,
+      levelUp,
+      crisisId: null,
+      crisisTalk: null,
+    })
   },
 
   load: () => {
@@ -260,14 +304,38 @@ export const useGame = create<Store>((set, get) => ({
     // A state from outside the autosave has no log, so it can't be submitted; load() restores the autosave's.
     const game = loaded.gameId ? loaded : { ...loaded, gameId: newGameId() }
     setGameId(game.gameId!)
-    set({ game, log: null, stale: false, screen: 'game', tab: 'dashboard', report: null, error: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+    set({
+      game,
+      log: null,
+      stale: false,
+      screen: 'game',
+      tab: 'dashboard',
+      report: null,
+      error: null,
+      bidTenderId: null,
+      minigame: null,
+      levelUp: null,
+      onboarding: false,
+      ...noCrisis,
+    })
   },
 
   quit: () => {
     const { game } = get()
     if (game && game.status === 'playing') track('game_quit', gameContext(game))
     setGameId(null)
-    set({ game: null, log: null, stale: false, screen: 'menu', report: null, bidTenderId: null, minigame: null, levelUp: null, onboarding: false, ...noCrisis })
+    set({
+      game: null,
+      log: null,
+      stale: false,
+      screen: 'menu',
+      report: null,
+      bidTenderId: null,
+      minigame: null,
+      levelUp: null,
+      onboarding: false,
+      ...noCrisis,
+    })
   },
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),
@@ -280,15 +348,25 @@ export const useGame = create<Store>((set, get) => ({
   openBid: (bidTenderId) => {
     const { game } = get()
     const tender = bidTenderId ? game?.tenders.find((t) => t.id === bidTenderId) : undefined
-    if (game && tender) track('bid_form_opened', { customer: tender.customerId, tender_kind: tender.kind, ...gameContext(game) })
+    if (game && tender)
+      track('bid_form_opened', { customer: tender.customerId, tender_kind: tender.kind, ...gameContext(game) })
     set({ bidTenderId, error: null })
   },
   openMinigame: (minigame) => set({ minigame }),
   openCrisis: (crisisId) => {
     const c = crisisId ? get().game?.crises?.find((x) => x.id === crisisId) : undefined
     const seen = c ? crisisSeenKey(c) : undefined
-    if (c) track('crisis_viewed', { crisis: c.defId, stage: c.stage, first_time: !!seen && !get().seenCrises.includes(seen) })
-    set({ crisisId, error: null, ...(seen && !get().seenCrises.includes(seen) ? { seenCrises: [...get().seenCrises, seen] } : {}) })
+    if (c)
+      track('crisis_viewed', {
+        crisis: c.defId,
+        stage: c.stage,
+        first_time: !!seen && !get().seenCrises.includes(seen),
+      })
+    set({
+      crisisId,
+      error: null,
+      ...(seen && !get().seenCrises.includes(seen) ? { seenCrises: [...get().seenCrises, seen] } : {}),
+    })
   },
   openCrisisTalk: (crisisTalk) => set({ crisisTalk }),
 
@@ -307,7 +385,8 @@ export const useGame = create<Store>((set, get) => ({
 // Another tab saved the game: this tab's copy is out of date until it reloads the autosave.
 if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => {
-    if ((e.key === slotStorageKey('auto') || e.key === null) && useGame.getState().game) useGame.setState({ stale: true })
+    if ((e.key === slotStorageKey('auto') || e.key === null) && useGame.getState().game)
+      useGame.setState({ stale: true })
   })
 }
 

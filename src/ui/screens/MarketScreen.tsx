@@ -2,7 +2,15 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TREND_MAP } from '../../content/trends'
 import { CUSTOMER_MAP } from '../../content/customers'
-import { averageMorale, customerAppeal, employerBrand, hasIntel, headcount, portfolioBrand, rankings } from '../../engine'
+import {
+  averageMorale,
+  customerAppeal,
+  employerBrand,
+  hasIntel,
+  headcount,
+  portfolioBrand,
+  rankings,
+} from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, FirmGlyph, Panel } from '../components/ui'
 import { firmColors, firmDef } from '../firms'
@@ -78,7 +86,9 @@ export function MarketScreen() {
                     </td>
                     <td className={s.num}>{formatMoney(r.value, lng)}</td>
                     <td className={s.num}>{f.bankrupt ? '–' : headcount(f)}</td>
-                    <td className={s.num}>{f.bankrupt ? '–' : formatPercent(headcount(f) / Math.max(1, totalHc), lng, 1)}</td>
+                    <td className={s.num}>
+                      {f.bankrupt ? '–' : formatPercent(headcount(f) / Math.max(1, totalHc), lng, 1)}
+                    </td>
                     <td className={s.num}>{Math.round(f.reputation)}</td>
                     <td className={s.num}>{known ? Math.round(averageMorale(f)) : '???'}</td>
                   </tr>
@@ -99,7 +109,12 @@ export function MarketScreen() {
                   <span className={s.newsDot} data-tone="sassy" />
                   <span>
                     <strong>{t(`content:trends.${tr.id}.name`)}</strong> – {t(`content:trends.${tr.id}.desc`)}
-                    {TREND_MAP[tr.id] && <span className={`${s.small} ${s.muted}`}> {t('market.trendUntil', { count: tr.untilQuarter - game.quarter })}</span>}
+                    {TREND_MAP[tr.id] && (
+                      <span className={`${s.small} ${s.muted}`}>
+                        {' '}
+                        {t('market.trendUntil', { count: tr.untilQuarter - game.quarter })}
+                      </span>
+                    )}
                   </span>
                 </li>
               ))}
@@ -111,7 +126,9 @@ export function MarketScreen() {
         <Panel title={t('market.you')} icon="star">
           <div className={s.stackSm}>
             <span>{t('market.brand', { value: Math.round(employerBrand(game, me)) })}</span>
-            <span className={`${s.small} ${s.muted}`}>{t('customer.portfolio', { value: signed(portfolioBrand(game, me)) })}</span>
+            <span className={`${s.small} ${s.muted}`}>
+              {t('customer.portfolio', { value: signed(portfolioBrand(game, me)) })}
+            </span>
           </div>
         </Panel>
         <Panel title={t('customer.list')} icon="briefcase" className={s.span12}>

@@ -44,7 +44,12 @@ export function Button({
   children,
   className,
   ...rest
-}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; size?: 'small' | 'big'; icon?: IconName; ref?: Ref<HTMLButtonElement> }) {
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: Variant
+  size?: 'small' | 'big'
+  icon?: IconName
+  ref?: Ref<HTMLButtonElement>
+}) {
   const cls = [s.button, variant !== 'default' && s[variant], size && s[size], className].filter(Boolean).join(' ')
   return (
     <button type="button" className={cls} {...rest}>
@@ -54,7 +59,17 @@ export function Button({
   )
 }
 
-export function Stat({ icon, label, value, tone }: { icon?: IconName; label: ReactNode; value: ReactNode; tone?: 'good' | 'bad' }) {
+export function Stat({
+  icon,
+  label,
+  value,
+  tone,
+}: {
+  icon?: IconName
+  label: ReactNode
+  value: ReactNode
+  tone?: 'good' | 'bad'
+}) {
   return (
     <div className={s.stat}>
       {icon && <Icon name={icon} size={20} />}
@@ -68,7 +83,19 @@ export function Stat({ icon, label, value, tone }: { icon?: IconName; label: Rea
   )
 }
 
-export function Meter({ label, value, max = 100, color, display }: { label: ReactNode; value: number; max?: number; color?: string; display?: ReactNode }) {
+export function Meter({
+  label,
+  value,
+  max = 100,
+  color,
+  display,
+}: {
+  label: ReactNode
+  value: number
+  max?: number
+  color?: string
+  display?: ReactNode
+}) {
   const pct = Math.max(0, Math.min(100, (value / max) * 100))
   const auto = pct >= 66 ? 'var(--good)' : pct >= 40 ? 'var(--warn)' : 'var(--bad)'
   return (
@@ -132,8 +159,16 @@ export function Modal({
     }
   }, [onClose])
   return (
+    // Clicking the backdrop is a mouse shortcut; keyboards close with Escape.
+    // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className={s.backdrop} onMouseDown={(e) => e.target === e.currentTarget && onClose?.()}>
-      <div ref={ref} role="dialog" aria-modal="true" aria-labelledby={id} className={`${s.modal} ${wide ? s.modalWide : ''}`}>
+      <div
+        ref={ref}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={id}
+        className={`${s.modal} ${wide ? s.modalWide : ''}`}
+      >
         <section className={s.panel}>
           <header className={s.panelHeader}>
             <h2 className={s.panelTitle} id={id}>
@@ -180,13 +215,33 @@ export function Slider({
         <span>{label}</span>
         <span className="num">{display ?? value}</span>
       </label>
-      <input id={id} type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} />
+      <input
+        id={id}
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+      />
       {hint && <span className={s.hint}>{hint}</span>}
     </div>
   )
 }
 
-export function Stepper({ value, min = 0, max = 99, onChange, label }: { value: number; min?: number; max?: number; onChange: (v: number) => void; label: string }) {
+export function Stepper({
+  value,
+  min = 0,
+  max = 99,
+  onChange,
+  label,
+}: {
+  value: number
+  min?: number
+  max?: number
+  onChange: (v: number) => void
+  label: string
+}) {
   return (
     <span className={s.stepper} role="group" aria-label={label}>
       <button type="button" onClick={() => onChange(value - 1)} disabled={value <= min} aria-label="−">
@@ -212,7 +267,11 @@ export function FirmGlyph({ name, colors, size = 28 }: { name: string; colors: [
     .filter(Boolean)
   const initials = (letters.length > 1 ? letters[0][0] + letters[1][0] : name.slice(0, 2)).toUpperCase()
   return (
-    <span className={s.glyph} style={{ width: size, height: size, background: colors[0], color: colors[1], fontSize: size * 0.3 }} aria-hidden>
+    <span
+      className={s.glyph}
+      style={{ width: size, height: size, background: colors[0], color: colors[1], fontSize: size * 0.3 }}
+      aria-hidden
+    >
       {initials}
     </span>
   )
@@ -228,8 +287,24 @@ export function Sparkline({ values, color = 'var(--accent)' }: { values: number[
   const zeroY = h - ((0 - min) / (max - min || 1)) * h
   return (
     <svg className={s.sparkline} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden>
-      <line x1={0} x2={w} y1={zeroY} y2={zeroY} stroke="var(--border)" strokeWidth={1} strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
-      <polyline points={pts.map((p) => p.join(',')).join(' ')} fill="none" stroke={color} strokeWidth={3} vectorEffect="non-scaling-stroke" strokeLinejoin="miter" />
+      <line
+        x1={0}
+        x2={w}
+        y1={zeroY}
+        y2={zeroY}
+        stroke="var(--border)"
+        strokeWidth={1}
+        strokeDasharray="2 2"
+        vectorEffect="non-scaling-stroke"
+      />
+      <polyline
+        points={pts.map((p) => p.join(',')).join(' ')}
+        fill="none"
+        stroke={color}
+        strokeWidth={3}
+        vectorEffect="non-scaling-stroke"
+        strokeLinejoin="miter"
+      />
     </svg>
   )
 }

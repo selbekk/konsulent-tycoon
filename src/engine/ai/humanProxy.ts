@@ -34,11 +34,16 @@ export function planHumanProxy(
   const hc = headcount(firm)
   const runway = (firm.cash + creditLimit(firm) * 0.5) / Math.max(1, fin.total)
 
-  if (hasFeature(firm, 'culture')) actions.push({
-    type: 'setBudgets',
-    firmId,
-    budgets: { fagmiljoPerHead: runway > 1.5 ? 15_000 : 8_000, sosialtPerHead: runway > 1.5 ? 12_000 : 6_000, salaryPremium: 0.02 },
-  })
+  if (hasFeature(firm, 'culture'))
+    actions.push({
+      type: 'setBudgets',
+      firmId,
+      budgets: {
+        fagmiljoPerHead: runway > 1.5 ? 15_000 : 8_000,
+        sosialtPerHead: runway > 1.5 ? 12_000 : 6_000,
+        salaryPremium: 0.02,
+      },
+    })
 
   // Free people per discipline when new work would start, minus what's already offered.
   const open = openTenders(state)
@@ -69,7 +74,12 @@ export function planHumanProxy(
 
   for (const { t } of candidates) {
     const stars = firm.stars
-      .filter((s) => !promised.has(s.id) && (t.seats[s.discipline] ?? 0) > 0 && starBusyThrough(state, firm, s.id, t) === undefined)
+      .filter(
+        (s) =>
+          !promised.has(s.id) &&
+          (t.seats[s.discipline] ?? 0) > 0 &&
+          starBusyThrough(state, firm, s.id, t) === undefined,
+      )
       .slice(0, 2)
     stars.forEach((s) => promised.add(s.id))
     // Only key tenders have a customer meeting.
@@ -86,7 +96,8 @@ export function planHumanProxy(
       tenderId: t.id,
       bid: {
         firmId,
-        rateMultiplier: Math.round(((opts.price ?? 0.95) + noise(state.rng, 0.02) - (t.priceWeight > 0.6 ? 0.05 : 0)) * 100) / 100,
+        rateMultiplier:
+          Math.round(((opts.price ?? 0.95) + noise(state.rng, 0.02) - (t.priceWeight > 0.6 ? 0.05 : 0)) * 100) / 100,
         starIds: stars.map((s) => s.id),
         effort: runway > 1 ? 2 : 1,
         cvPad: false,
@@ -119,7 +130,9 @@ export function planHumanProxy(
     }
   }
   // Care whenever the reducer allows it, so the to-do item never stays open.
-  actions.push(...planContractMoves(state, firmId, fin.staffing.demand, { runway, eagerness: 1, nurtureRunway: -Infinity }))
+  actions.push(
+    ...planContractMoves(state, firmId, fin.staffing.demand, { runway, eagerness: 1, nurtureRunway: -Infinity }),
+  )
   if (opts.develop !== false) actions.push(...planDevelopment(state, runway))
   if (opts.strategic) actions.push(...planStrategy(state, runway, opts.strategic === true ? ALL_MOVES : opts.strategic))
   return actions
@@ -140,12 +153,21 @@ function planDevelopment(state: GameState, runway: number): Action[] {
   if (ready) actions.push({ type: 'promoteEmployee', firmId, employeeId: ready.id })
   if (runway > 1.5) {
     const courses = firm.roster
-      .filter((e) => e.id !== ready?.id && !e.course && e.level < COURSE_MAX_LEVEL && (!e.potentialRevealed || e.potential >= 0.4))
-      .sort((a, b) => Number(talent(b)) - Number(talent(a)) || Number(!!a.potentialRevealed) - Number(!!b.potentialRevealed) || a.level - b.level)
+      .filter(
+        (e) =>
+          e.id !== ready?.id && !e.course && e.level < COURSE_MAX_LEVEL && (!e.potentialRevealed || e.potential >= 0.4),
+      )
+      .sort(
+        (a, b) =>
+          Number(talent(b)) - Number(talent(a)) ||
+          Number(!!a.potentialRevealed) - Number(!!b.potentialRevealed) ||
+          a.level - b.level,
+      )
       .slice(0, Math.max(1, Math.round(firm.roster.length / 15)))
     for (const e of courses) {
       actions.push({ type: 'trainEmployee', firmId, discipline: e.discipline, employeeId: e.id })
-      if (talent(e) && !e.promise && e.level + CAREER_PROMISE_GROWTH <= COURSE_MAX_LEVEL) actions.push({ type: 'careerTalk', firmId, employeeId: e.id })
+      if (talent(e) && !e.promise && e.level + CAREER_PROMISE_GROWTH <= COURSE_MAX_LEVEL)
+        actions.push({ type: 'careerTalk', firmId, employeeId: e.id })
     }
   }
   const mentored = new Set(firm.roster.filter((e) => e.mentorStarId).map((e) => e.id))
@@ -176,21 +198,30 @@ function planStrategy(state: GameState, runway: number, moves: StrategyMove[]): 
   const firm = state.firms[firmId]
   const actions: Action[] = []
   const top = [...DISCIPLINES].sort((a, b) => disciplineSupply(firm, b) - disciplineSupply(firm, a))[0]
-  if (wants('specialty') && hasFeature(firm, 'strategy') && !firm.specialty) actions.push({ type: 'chooseSpecialty', firmId, specialty: top })
+  if (wants('specialty') && hasFeature(firm, 'strategy') && !firm.specialty)
+    actions.push({ type: 'chooseSpecialty', firmId, specialty: top })
   if (hasFeature(firm, 'partnerships')) {
     const partner = PARTNERSHIPS.find((p) => p.discipline === top)
-    if (wants('partner') && partner && !(firm.partnerships ?? []).length && runway > 2) actions.push({ type: 'setPartnership', firmId, partnershipId: partner.id, on: true })
+    if (wants('partner') && partner && !(firm.partnerships ?? []).length && runway > 2)
+      actions.push({ type: 'setPartnership', firmId, partnershipId: partner.id, on: true })
     if (wants('lobby') && lobbyReadyIn(state, firm) === 0 && runway > 2) actions.push({ type: 'lobby', firmId })
   }
   if (wants('departments') && hasFeature(firm, 'departments')) {
-    for (const [id, minRunway] of [['academy', 2], ['sales', 3]] as const) {
+    for (const [id, minRunway] of [
+      ['academy', 2],
+      ['sales', 3],
+    ] as const) {
       const on = (firm.departments ?? []).includes(id)
       if (!on && runway > minRunway) actions.push({ type: 'setDepartment', firmId, departmentId: id, on: true })
       if (on && runway < 1) actions.push({ type: 'setDepartment', firmId, departmentId: id, on: false })
     }
   }
   if (wants('ipo') && hasFeature(firm, 'ipo') && !firm.listed) actions.push({ type: 'ipo', firmId })
-  if (wants('acquire') && hasFeature(firm, 'acquisitions') && (firm.stats?.acquisitions ?? 0) < Math.floor(state.quarter / 8)) {
+  if (
+    wants('acquire') &&
+    hasFeature(firm, 'acquisitions') &&
+    (firm.stats?.acquisitions ?? 0) < Math.floor(state.quarter / 8)
+  ) {
     const target = state.firmOrder
       .map((id) => state.firms[id])
       .filter((f) => !acquisitionBlock(firm, f) && acquisitionPrice(f) * 2 < firm.cash)

@@ -21,11 +21,33 @@ import { STRING_MAX_CHARS, stepOk } from './submission'
  * a sample below.
  */
 const SEEN: Record<Action['type'], boolean> = {
-  acquireFirm: false, cancelContract: false, careerTalk: false, chooseSpecialty: false, fire: false, giveRaise: false,
-  hireStar: false, ipo: false, lobby: false, nurtureContract: false, orderHires: false, placeBid: false,
-  promoteEmployee: false, recordMinigame: false, renegotiateContract: false, resolveCrisis: false, resolveEvent: false,
-  setBudgets: false, setDepartment: false, setMentor: false, setPartnership: false, setStretch: false, shady: false,
-  startCrisisTalk: false, trainEmployee: false, upsellContract: false, withdrawBid: false,
+  acquireFirm: false,
+  cancelContract: false,
+  careerTalk: false,
+  chooseSpecialty: false,
+  fire: false,
+  giveRaise: false,
+  hireStar: false,
+  ipo: false,
+  lobby: false,
+  nurtureContract: false,
+  orderHires: false,
+  placeBid: false,
+  promoteEmployee: false,
+  recordMinigame: false,
+  renegotiateContract: false,
+  resolveCrisis: false,
+  resolveEvent: false,
+  setBudgets: false,
+  setDepartment: false,
+  setMentor: false,
+  setPartnership: false,
+  setStretch: false,
+  shady: false,
+  startCrisisTalk: false,
+  trainEmployee: false,
+  upsellContract: false,
+  withdrawBid: false,
 }
 
 describe('submission limits and real games', () => {
@@ -33,7 +55,10 @@ describe('submission limits and real games', () => {
     const steps: Action[] = []
     for (const seed of [1, 2]) {
       // The player bot, then the AI firms, which use the backroom and the rest of the vocabulary.
-      const { state, log } = botRun({ seed, firmName: 'X', founderDisciplines: ['backend', 'pm'], difficulty: 'normal' }, 16)
+      const { state, log } = botRun(
+        { seed, firmName: 'X', founderDisciplines: ['backend', 'pm'], difficulty: 'normal' },
+        16,
+      )
       steps.push(...log.filter((e): e is Action => e !== 'end'))
       let s = state
       for (let q = 0; q < 8 && s.status === 'playing'; q++) {
@@ -50,8 +75,18 @@ describe('submission limits and real games', () => {
       { type: 'nurtureContract', firmId: 'player', contractId: 'c123456' },
       { type: 'withdrawBid', firmId: 'player', tenderId: 't123456' },
       { type: 'chooseSpecialty', firmId: 'player', specialty: 'public' },
-      { type: 'setPartnership', firmId: 'player', partnershipId: longest(strategy.PARTNERSHIPS.map((p) => p.id)), on: true },
-      { type: 'setDepartment', firmId: 'player', departmentId: longest(strategy.DEPARTMENTS.map((d) => d.id)), on: false },
+      {
+        type: 'setPartnership',
+        firmId: 'player',
+        partnershipId: longest(strategy.PARTNERSHIPS.map((p) => p.id)),
+        on: true,
+      },
+      {
+        type: 'setDepartment',
+        firmId: 'player',
+        departmentId: longest(strategy.DEPARTMENTS.map((d) => d.id)),
+        on: false,
+      },
       { type: 'lobby', firmId: 'player' },
       { type: 'ipo', firmId: 'player' },
     )
@@ -59,11 +94,15 @@ describe('submission limits and real games', () => {
       SEEN[step.type] = true
       expect(stepOk(JSON.parse(JSON.stringify(step))), JSON.stringify(step)).toBe(true)
     }
-    expect(Object.entries(SEEN).filter(([, seen]) => !seen).map(([type]) => type)).toEqual([])
+    expect(
+      Object.entries(SEEN)
+        .filter(([, seen]) => !seen)
+        .map(([type]) => type),
+    ).toEqual([])
   }, 120_000)
 
   it('leave room for every content id an action can carry', () => {
-    const ids: string[] = [...Object.keys(SHADY_CATALOG)]
+    const ids: string[] = Object.keys(SHADY_CATALOG)
     const walk = (x: unknown, depth = 0) => {
       if (depth > 8 || !x || typeof x !== 'object') return
       if (Array.isArray(x)) return x.forEach((v) => walk(v, depth + 1))
@@ -72,7 +111,8 @@ describe('submission limits and real games', () => {
         walk(v, depth + 1)
       }
     }
-    for (const mod of [crises, customers, events, firms, missions, quirks, strategy, traits, trends]) walk(Object.values(mod))
+    for (const mod of [crises, customers, events, firms, missions, quirks, strategy, traits, trends])
+      walk(Object.values(mod))
     expect(ids.length).toBeGreaterThan(50)
     for (const id of ids) {
       expect(id.length, id).toBeLessThanOrEqual(STRING_MAX_CHARS)

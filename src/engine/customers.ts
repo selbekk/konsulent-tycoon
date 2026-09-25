@@ -40,13 +40,15 @@ export function portfolioAppeal(state: GameState, firm: Firm): number {
 }
 
 /** Steps away from the middle (3) of a profile metric, 0 for unknown customers. */
-const step = (customerId: string, metric: keyof CustomerDef['profile']) => (CUSTOMER_MAP[customerId]?.profile[metric] ?? 3) - 3
+const step = (customerId: string, metric: keyof CustomerDef['profile']) =>
+  (CUSTOMER_MAP[customerId]?.profile[metric] ?? 3) - 3
 
 /** Customers with a high seniority bar weigh the CV part of bid quality more. */
 export const seniorityCvFactor = (customerId: string) => 1 + step(customerId, 'seniority') * CUSTOMER_SENIORITY_CV
 
 /** Mature customers are easier to keep happy: an offset to the contract's satisfaction target. */
-export const maturitySatisfaction = (customerId: string) => step(customerId, 'maturity') * CUSTOMER_MATURITY_SATISFACTION
+export const maturitySatisfaction = (customerId: string) =>
+  step(customerId, 'maturity') * CUSTOMER_MATURITY_SATISFACTION
 
 /** Loyal customers renew more often. */
 export const loyaltyRenewalFactor = (customerId: string) => 1 + step(customerId, 'loyalty') * CUSTOMER_LOYALTY_RENEWAL

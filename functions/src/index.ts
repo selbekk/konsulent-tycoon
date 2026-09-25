@@ -51,14 +51,23 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
   const game = db.doc(`weeks/${submission.week}/games/${fingerprint}`)
   if (run.valuation !== submission.claimedValuation) {
     // Not the player's fault and not a reason to reject: a sign the engine isn't deterministic somewhere.
-    console.error('submitRun valuation mismatch', { uid, gameId: submission.gameId, claimed: submission.claimedValuation, replayed: run.valuation })
+    console.error('submitRun valuation mismatch', {
+      uid,
+      gameId: submission.gameId,
+      claimed: submission.claimedValuation,
+      replayed: run.valuation,
+    })
   }
 
   const runId = `${uid}_${submission.gameId}`
   const week = db.doc(`weeks/${submission.week}`)
   const entry = week.collection('entries').doc(uid)
   const best = await db.runTransaction(async (tx) => {
-    const [runSnap, entrySnap, gameSnap] = await Promise.all([tx.get(db.doc(`runs/${runId}`)), tx.get(entry), tx.get(game)])
+    const [runSnap, entrySnap, gameSnap] = await Promise.all([
+      tx.get(db.doc(`runs/${runId}`)),
+      tx.get(entry),
+      tx.get(game),
+    ])
     const prev = entrySnap.exists ? (entrySnap.get('valuation') as number) : -1
     // The same game sent twice (a retry after a lost answer) counts once.
     if (runSnap.exists) return prev <= run.valuation
@@ -77,11 +86,27 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
       ...run,
       submittedAt: now,
     })
-    tx.set(db.doc(`users/${uid}/history/${runId}`), { week: submission.week, name: submission.name, founders: submission.founders, ...run, submittedAt: now })
+    tx.set(db.doc(`users/${uid}/history/${runId}`), {
+      week: submission.week,
+      name: submission.name,
+      founders: submission.founders,
+      ...run,
+      submittedAt: now,
+    })
     tx.set(week, { week: submission.week, engineVersion: submission.engineVersion }, { merge: true })
     if (!gameSnap.exists) tx.set(game, { uid, runId, submittedAt: now })
     const isBest = run.valuation > prev
-    if (isBest) tx.set(entry, { week: submission.week, name: submission.name, founders: submission.founders, valuation: run.valuation, title: run.title, rank: run.rank, runId, submittedAt: now })
+    if (isBest)
+      tx.set(entry, {
+        week: submission.week,
+        name: submission.name,
+        founders: submission.founders,
+        valuation: run.valuation,
+        title: run.title,
+        rank: run.rank,
+        runId,
+        submittedAt: now,
+      })
     return isBest
   })
   if (best === 'duplicate') {
@@ -125,6 +150,8 @@ export const deleteAccount = onCall(async (req): Promise<{ deleted: true }> => {
   }
   await writer.close()
   await db.recursiveDelete(user)
-  await getAuth().deleteUser(uid).catch(() => undefined)
+  await getAuth()
+    .deleteUser(uid)
+    .catch(() => undefined)
   return { deleted: true }
 })

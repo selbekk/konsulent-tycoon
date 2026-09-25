@@ -28,26 +28,151 @@ export interface ShadyDef {
 }
 
 export const SHADY_CATALOG: Record<ShadyActionId, ShadyDef> = {
-  spy_bids: { id: 'spy_bids', minLevel: 4, category: 'espionage', cost: 100_000, baseDetection: 0.1, heat: 8, ongoing: false, requires: ['tender'], consequence: { reputation: 8, fine: 250_000 } },
-  spy_salaries: { id: 'spy_salaries', minLevel: 3, category: 'espionage', cost: 50_000, baseDetection: 0.05, heat: 4, ongoing: false, requires: ['target'], perQuarter: 'target', consequence: { reputation: 4, fine: 0 } },
-  plant_mole: { id: 'plant_mole', minLevel: 5, category: 'espionage', cost: 300_000, baseDetection: 0.15, heat: 12, ongoing: true, requires: ['target'], consequence: { reputation: 12, fine: 500_000 } },
-  afterwork_poach: { id: 'afterwork_poach', minLevel: 4, category: 'espionage', cost: 80_000, baseDetection: 0.2, heat: 6, ongoing: false, requires: ['target', 'star'], perQuarter: 'target', consequence: { reputation: 5, fine: 0 } },
-  silent_outsource: { id: 'silent_outsource', minLevel: 4, category: 'outsourcing', cost: 0, baseDetection: 0.08, heat: 10, ongoing: true, requires: ['contract', 'share'], consequence: { reputation: 15, fine: 1_000_000 } },
-  cv_pad: { id: 'cv_pad', minLevel: 3, category: 'cv', cost: 20_000, baseDetection: 0.12, heat: 5, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 0 } },
-  ghost_cv: { id: 'ghost_cv', minLevel: 5, category: 'cv', cost: 40_000, baseDetection: 0.18, heat: 8, ongoing: false, rolledAtAward: true, requires: ['tender', 'ownBid'], consequence: { reputation: 10, fine: 400_000 } },
-  bait_and_switch: { id: 'bait_and_switch', minLevel: 4, category: 'cv', cost: 0, baseDetection: 0.15, heat: 8, ongoing: true, requires: ['contract'], consequence: { reputation: 12, fine: 0 } },
-  rumor: { id: 'rumor', minLevel: 3, category: 'pr', cost: 60_000, baseDetection: 0.1, heat: 5, ongoing: false, requires: ['target'], perQuarter: 'target', consequence: { reputation: 8, fine: 0 } },
-  dn_leak: { id: 'dn_leak', minLevel: 5, category: 'pr', cost: 200_000, baseDetection: 0.2, heat: 12, ongoing: false, requires: ['target'], perQuarter: 'target', consequence: { reputation: 15, fine: 300_000 } },
-  linkedin_post: { id: 'linkedin_post', minLevel: 3, category: 'pr', cost: 10_000, baseDetection: 0.05, heat: 2, ongoing: false, requires: ['target'], perQuarter: 'once', consequence: { reputation: 3, fine: 0 } },
+  spy_bids: {
+    id: 'spy_bids',
+    minLevel: 4,
+    category: 'espionage',
+    cost: 100_000,
+    baseDetection: 0.1,
+    heat: 8,
+    ongoing: false,
+    requires: ['tender'],
+    consequence: { reputation: 8, fine: 250_000 },
+  },
+  spy_salaries: {
+    id: 'spy_salaries',
+    minLevel: 3,
+    category: 'espionage',
+    cost: 50_000,
+    baseDetection: 0.05,
+    heat: 4,
+    ongoing: false,
+    requires: ['target'],
+    perQuarter: 'target',
+    consequence: { reputation: 4, fine: 0 },
+  },
+  plant_mole: {
+    id: 'plant_mole',
+    minLevel: 5,
+    category: 'espionage',
+    cost: 300_000,
+    baseDetection: 0.15,
+    heat: 12,
+    ongoing: true,
+    requires: ['target'],
+    consequence: { reputation: 12, fine: 500_000 },
+  },
+  afterwork_poach: {
+    id: 'afterwork_poach',
+    minLevel: 4,
+    category: 'espionage',
+    cost: 80_000,
+    baseDetection: 0.2,
+    heat: 6,
+    ongoing: false,
+    requires: ['target', 'star'],
+    perQuarter: 'target',
+    consequence: { reputation: 5, fine: 0 },
+  },
+  silent_outsource: {
+    id: 'silent_outsource',
+    minLevel: 4,
+    category: 'outsourcing',
+    cost: 0,
+    baseDetection: 0.08,
+    heat: 10,
+    ongoing: true,
+    requires: ['contract', 'share'],
+    consequence: { reputation: 15, fine: 1_000_000 },
+  },
+  cv_pad: {
+    id: 'cv_pad',
+    minLevel: 3,
+    category: 'cv',
+    cost: 20_000,
+    baseDetection: 0.12,
+    heat: 5,
+    ongoing: false,
+    rolledAtAward: true,
+    requires: ['tender', 'ownBid'],
+    consequence: { reputation: 10, fine: 0 },
+  },
+  ghost_cv: {
+    id: 'ghost_cv',
+    minLevel: 5,
+    category: 'cv',
+    cost: 40_000,
+    baseDetection: 0.18,
+    heat: 8,
+    ongoing: false,
+    rolledAtAward: true,
+    requires: ['tender', 'ownBid'],
+    consequence: { reputation: 10, fine: 400_000 },
+  },
+  bait_and_switch: {
+    id: 'bait_and_switch',
+    minLevel: 4,
+    category: 'cv',
+    cost: 0,
+    baseDetection: 0.15,
+    heat: 8,
+    ongoing: true,
+    requires: ['contract'],
+    consequence: { reputation: 12, fine: 0 },
+  },
+  rumor: {
+    id: 'rumor',
+    minLevel: 3,
+    category: 'pr',
+    cost: 60_000,
+    baseDetection: 0.1,
+    heat: 5,
+    ongoing: false,
+    requires: ['target'],
+    perQuarter: 'target',
+    consequence: { reputation: 8, fine: 0 },
+  },
+  dn_leak: {
+    id: 'dn_leak',
+    minLevel: 5,
+    category: 'pr',
+    cost: 200_000,
+    baseDetection: 0.2,
+    heat: 12,
+    ongoing: false,
+    requires: ['target'],
+    perQuarter: 'target',
+    consequence: { reputation: 15, fine: 300_000 },
+  },
+  linkedin_post: {
+    id: 'linkedin_post',
+    minLevel: 3,
+    category: 'pr',
+    cost: 10_000,
+    baseDetection: 0.05,
+    heat: 2,
+    ongoing: false,
+    requires: ['target'],
+    perQuarter: 'once',
+    consequence: { reputation: 3, fine: 0 },
+  },
 }
 
 export const SHADY_IDS = Object.keys(SHADY_CATALOG) as ShadyActionId[]
-export const SHADY_LEVELS = Object.fromEntries(SHADY_IDS.map((id) => [id, SHADY_CATALOG[id].minLevel])) as Record<ShadyActionId, number>
+export const SHADY_LEVELS = Object.fromEntries(SHADY_IDS.map((id) => [id, SHADY_CATALOG[id].minLevel])) as Record<
+  ShadyActionId,
+  number
+>
 
 export const shadyUnlocked = (firm: Firm, id: ShadyActionId) => firmLevel(firm) >= SHADY_CATALOG[id].minLevel
 
 /** Why a `perQuarter` trick can't be done again this quarter (an i18n error key), or undefined. Pure – safe for the UI. */
-export function shadyRepeatBlock(state: GameState, firm: Firm, id: ShadyActionId, targetFirmId?: string): string | undefined {
+export function shadyRepeatBlock(
+  state: GameState,
+  firm: Firm,
+  id: ShadyActionId,
+  targetFirmId?: string,
+): string | undefined {
   const mode = SHADY_CATALOG[id].perQuarter
   if (!mode) return undefined
   const done = firm.shadyLog.some(
@@ -68,11 +193,21 @@ export function riskLevel(firm: Firm, id: ShadyActionId): 'low' | 'medium' | 'hi
 export function poachChance(state: GameState, attacker: Firm, target: Firm, starId: string): number {
   const star = target.stars.find((s) => s.id === starId)
   if (!star || star.founder) return 0
-  return clamp(0.25 + (60 - star.loyalty) / 100 + (employerBrand(state, attacker) - employerBrand(state, target)) / 200, 0.05, 0.85)
+  return clamp(
+    0.25 + (60 - star.loyalty) / 100 + (employerBrand(state, attacker) - employerBrand(state, target)) / 200,
+    0.05,
+    0.85,
+  )
 }
 
 /** Only ids that were looked up and found go in the log, never what the action carried: it may come from a tampered log. */
-function log(state: GameState, firm: Firm, a: ActionOf<'shady'>, ongoing: boolean, found: { target?: Firm; tender?: Tender; contract?: Contract }): ShadyLogEntry {
+function log(
+  state: GameState,
+  firm: Firm,
+  a: ActionOf<'shady'>,
+  ongoing: boolean,
+  found: { target?: Firm; tender?: Tender; contract?: Contract },
+): ShadyLogEntry {
   const entry: ShadyLogEntry = {
     id: nextId(state, 'x'),
     actionId: a.actionId,
@@ -96,8 +231,12 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
   if (!firm || !def) return 'errors.invalid'
   if (!shadyUnlocked(firm, a.actionId)) return 'errors.levelTooLow'
   // Own keys only, like the catalog above: '__proto__' as a firm id would otherwise reach Object.prototype.
-  const target = typeof a.targetFirmId === 'string' && Object.hasOwn(state.firms, a.targetFirmId) ? state.firms[a.targetFirmId] : undefined
-  if (def.requires.includes('target') && (!target || target.id === firm.id || target.bankrupt)) return 'errors.invalidTarget'
+  const target =
+    typeof a.targetFirmId === 'string' && Object.hasOwn(state.firms, a.targetFirmId)
+      ? state.firms[a.targetFirmId]
+      : undefined
+  if (def.requires.includes('target') && (!target || target.id === firm.id || target.bankrupt))
+    return 'errors.invalidTarget'
   const tender = a.tenderId
     ? state.tenders.find((t) => t.id === a.tenderId && !t.resolved && !t.hidden && t.publishedQuarter <= state.quarter)
     : undefined
@@ -137,7 +276,12 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
           id: nextId(state, 'pe'),
           eventId: 'poach_attempt',
           firmId: target!.id,
-          params: { firm: firm.name, firmId: firm.id, starId: a.starId!, name: target!.stars.find((s) => s.id === a.starId)!.name },
+          params: {
+            firm: firm.name,
+            firmId: firm.id,
+            starId: a.starId!,
+            name: target!.stars.find((s) => s.id === a.starId)!.name,
+          },
         })
         break
       }
@@ -160,7 +304,9 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
     case 'silent_outsource': {
       const share = clamp(a.share ?? 0, 0, 0.8)
       contract!.outsourcedShare = share
-      const existing = firm.shadyLog.find((e) => e.active && e.actionId === 'silent_outsource' && e.contractId === contract!.id)
+      const existing = firm.shadyLog.find(
+        (e) => e.active && e.actionId === 'silent_outsource' && e.contractId === contract!.id,
+      )
       if (share === 0) {
         if (existing) existing.active = false
         return undefined // turning it off is free and leaves no trace
@@ -269,7 +415,12 @@ export function rollShadyDetection(state: GameState) {
           entry.active = false
           continue
         }
-        if (entry.actionId === 'plant_mole' && !firm.intel.some((i) => i.kind === 'mole' && i.targetFirmId === entry.targetFirmId && i.untilQuarter > state.quarter)) {
+        if (
+          entry.actionId === 'plant_mole' &&
+          !firm.intel.some(
+            (i) => i.kind === 'mole' && i.targetFirmId === entry.targetFirmId && i.untilQuarter > state.quarter,
+          )
+        ) {
           entry.active = false
           continue
         }

@@ -7,7 +7,11 @@ export default defineConfig({
     ...minimal2023Preset,
     // Pixel art: keep hard edges when scaling.
     png: { compressionLevel: 9, quality: 100 },
-    maskable: { ...minimal2023Preset.maskable, padding: 0.1, resizeOptions: { background: '#14122b', kernel: 'nearest' } },
+    maskable: {
+      ...minimal2023Preset.maskable,
+      padding: 0.1,
+      resizeOptions: { background: '#14122b', kernel: 'nearest' },
+    },
     apple: { ...minimal2023Preset.apple, padding: 0.1, resizeOptions: { background: '#14122b', kernel: 'nearest' } },
     transparent: { ...minimal2023Preset.transparent, padding: 0, resizeOptions: { kernel: 'nearest' } },
   },

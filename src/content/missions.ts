@@ -24,7 +24,12 @@ const stat = (firm: Firm, key: keyof NonNullable<Firm['stats']>) => firm.stats?.
 export const MISSIONS: MissionDef[] = [
   { id: 'first_win', level: 1, check: ({ firm }) => (firm.tendersWon ?? 0) >= 1, reward: { reputation: 3 } },
   { id: 'first_hire', level: 1, check: ({ headcount }) => headcount >= 7, reward: { morale: 3 } },
-  { id: 'full_house', level: 1, check: ({ firm }) => (firm.history.at(-1)?.utilization ?? 0) >= 0.9, reward: { brand: 3 } },
+  {
+    id: 'full_house',
+    level: 1,
+    check: ({ firm }) => (firm.history.at(-1)?.utilization ?? 0) >= 0.9,
+    reward: { brand: 3 },
+  },
   { id: 'first_framework', level: 2, check: ({ firm }) => stat(firm, 'frameworkWins') >= 1, reward: { reputation: 3 } },
   { id: 'first_star', level: 2, check: ({ firm }) => firm.stars.some((s) => !s.founder), reward: { morale: 3 } },
   { id: 'public_win', level: 2, check: ({ firm }) => stat(firm, 'publicWins') >= 1, reward: { reputation: 2 } },
@@ -33,7 +38,9 @@ export const MISSIONS: MissionDef[] = [
     id: 'happy_client',
     level: 3,
     check: ({ state, firm }) =>
-      state.contracts.some((c) => c.firmId === firm.id && !c.terminated && c.startQuarter <= state.quarter && c.satisfaction >= 80),
+      state.contracts.some(
+        (c) => c.firmId === firm.id && !c.terminated && c.startQuarter <= state.quarter && c.satisfaction >= 80,
+      ),
     reward: { reputation: 3 },
   },
   { id: 'award', level: 3, check: ({ firm }) => stat(firm, 'awards') >= 1, reward: { brand: 4 } },

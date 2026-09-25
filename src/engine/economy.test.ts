@@ -16,10 +16,23 @@ function isolated(): GameState {
 }
 
 const contract = (seats: number): Contract => ({
-  id: 'c1', tenderId: 't', firmId: 'player', customerId: 'navet', kind: 'project',
-  baseSeats: { backend: seats }, activeSeats: { backend: seats }, rateMultiplier: 1, share: 1, rank: 1,
-  startQuarter: 0, endQuarter: 4, starIds: [], satisfaction: 70, outsourcedShare: 0,
-  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false }, terminated: false,
+  id: 'c1',
+  tenderId: 't',
+  firmId: 'player',
+  customerId: 'navet',
+  kind: 'project',
+  baseSeats: { backend: seats },
+  activeSeats: { backend: seats },
+  rateMultiplier: 1,
+  share: 1,
+  rank: 1,
+  startQuarter: 0,
+  endQuarter: 4,
+  starIds: [],
+  satisfaction: 70,
+  outsourcedShare: 0,
+  fraud: { cvPad: false, ghostCv: false, baitAndSwitch: false },
+  terminated: false,
 })
 
 describe('economy', () => {

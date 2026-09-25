@@ -93,9 +93,19 @@ function ResultSummary({ result }: { result: SubmitResult }) {
   return (
     <div className={s.stackSm} role="status">
       <p>
-        <strong>{t('leaderboard.result.place', { place: result.place, players: result.players, week: weekText(t, result.week) })}</strong>
+        <strong>
+          {t('leaderboard.result.place', {
+            place: result.place,
+            players: result.players,
+            week: weekText(t, result.week),
+          })}
+        </strong>
       </p>
-      <p>{result.players > 1 ? t('leaderboard.result.percentile', { percentile: result.percentile }) : t('leaderboard.result.first')}</p>
+      <p>
+        {result.players > 1
+          ? t('leaderboard.result.percentile', { percentile: result.percentile })
+          : t('leaderboard.result.first')}
+      </p>
       {!result.best && <p className={s.muted}>{t('leaderboard.result.notBest')}</p>}
     </div>
   )
@@ -105,7 +115,15 @@ function ResultSummary({ result }: { result: SubmitResult }) {
  * Join and send a finished weekly game to the leaderboard: on the end screen, and on the leaderboard
  * screen for an autosaved game that wasn't sent (offline at the end, or went back to the menu first).
  */
-export function SubmitPanel({ game, log, onSeeBoard }: { game: GameState; log: RunLog | null; onSeeBoard?: () => void }) {
+export function SubmitPanel({
+  game,
+  log,
+  onSeeBoard,
+}: {
+  game: GameState
+  log: RunLog | null
+  onSeeBoard?: () => void
+}) {
   const { t } = useTranslation()
   const [name, setName] = useState<LeaderboardName>(() => savedName() ?? randomName())
   const [joined, setJoined] = useState(isOptedIn)
@@ -129,7 +147,14 @@ export function SubmitPanel({ game, log, onSeeBoard }: { game: GameState; log: R
       }
       const r = await submitRun(submission)
       setResult(r)
-      track('run_submitted', { week: r.week, valuation: r.valuation, place: r.place, players: r.players, percentile: r.percentile, best: r.best })
+      track('run_submitted', {
+        week: r.week,
+        valuation: r.valuation,
+        place: r.place,
+        players: r.players,
+        percentile: r.percentile,
+        best: r.best,
+      })
     } catch (e) {
       const reason = e instanceof SubmitFailed ? e.reason : 'offline'
       setError(reason)
@@ -160,7 +185,9 @@ export function SubmitPanel({ game, log, onSeeBoard }: { game: GameState; log: R
               </p>
             )}
             <Button variant="primary" disabled={busy} onClick={() => void send()}>
-              {busy ? t('leaderboard.submit.sending') : t(joined ? 'leaderboard.submit.send' : 'leaderboard.submit.joinAndSend')}
+              {busy
+                ? t('leaderboard.submit.sending')
+                : t(joined ? 'leaderboard.submit.send' : 'leaderboard.submit.joinAndSend')}
             </Button>
           </>
         )}

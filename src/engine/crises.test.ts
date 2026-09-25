@@ -23,7 +23,8 @@ import { quarterTodos } from './todos'
 import { endTurn } from './turn'
 import type { Crisis, GameState } from './types'
 
-const playerContract = (s: GameState) => s.contracts.find((c) => c.firmId === s.playerId && !c.terminated && c.startQuarter <= s.quarter)!
+const playerContract = (s: GameState) =>
+  s.contracts.find((c) => c.firmId === s.playerId && !c.terminated && c.startQuarter <= s.quarter)!
 
 function withCrisis(defId: string, severity: 'low' | 'high', params: Record<string, string> = {}, seed = 42) {
   const s = veteranTestGame(seed)
@@ -34,7 +35,10 @@ function withCrisis(defId: string, severity: 'low' | 'high', params: Record<stri
 const crisis = (s: GameState, id: string) => s.crises!.find((c) => c.id === id)!
 /** With a score, the talk is started first, as the UI does. */
 function resolve(s: GameState, id: string, choiceId: string, score?: number) {
-  const started = score === undefined ? s : applyAction(s, { type: 'startCrisisTalk', firmId: 'player', crisisId: id, choiceId }).state
+  const started =
+    score === undefined
+      ? s
+      : applyAction(s, { type: 'startCrisisTalk', firmId: 'player', crisisId: id, choiceId }).state
   return applyAction(started, { type: 'resolveCrisis', firmId: 'player', crisisId: id, choiceId, score })
 }
 
@@ -45,7 +49,10 @@ function nextQuarter(s: GameState): GameState {
 
 describe('crises', () => {
   it('a choice with a next stage waits a quarter, then opens the next stage', () => {
-    const { s, id } = withCrisis('prod_outage', 'high', { contract: playerContract(veteranTestGame()).id, customer: playerContract(veteranTestGame()).customerId })
+    const { s, id } = withCrisis('prod_outage', 'high', {
+      contract: playerContract(veteranTestGame()).id,
+      customer: playerContract(veteranTestGame()).customerId,
+    })
     const r = resolve(s, id, 'blameless')
     expect(r.error).toBeUndefined()
     expect(crisis(r.state, id).status).toBe('waiting')
@@ -88,7 +95,13 @@ describe('crises', () => {
     const star = s.firms.player.stars[0]
     const c = playerContract(s)
     star.assignedContractId = c.id
-    const cr = startCrisis(s, s.firms.player, CRISIS_MAP.client_exit, { contract: c.id, customer: c.customerId, starId: star.id, name: star.name }, 'low')
+    const cr = startCrisis(
+      s,
+      s.firms.player,
+      CRISIS_MAP.client_exit,
+      { contract: c.id, customer: c.customerId, starId: star.id, name: star.name },
+      'low',
+    )
     const before = staffFirm(s, s.firms.player).billed
     const r = resolve(s, cr.id, 'send_partner')
     expect(r.error).toBeUndefined()
@@ -130,7 +143,13 @@ describe('crises', () => {
     it(`the client decides by satisfaction: ${satisfaction} → ${stage}`, () => {
       const s = veteranTestGame()
       const c = playerContract(s)
-      const cr = startCrisis(s, s.firms.player, CRISIS_MAP.client_exit, { contract: c.id, customer: c.customerId }, 'high')
+      const cr = startCrisis(
+        s,
+        s.firms.player,
+        CRISIS_MAP.client_exit,
+        { contract: c.id, customer: c.customerId },
+        'high',
+      )
       const r = resolve(s, cr.id, 'do_nothing')
       const draft = structuredClone(r.state)
       draft.contracts.find((x) => x.id === c.id)!.satisfaction = satisfaction
@@ -151,7 +170,9 @@ describe('crises', () => {
     const aiCrisis = crisesOf(s, ai)[0]
     const pc = crisesOf(s, 'player')[0]
     const hedge = CRISIS_MAP.krone_crash.stages[0].choices.find((c) => c.id === 'hedge')!
-    const perHead = (st: GameState, cr: Crisis) => crisisChoicePreview(st, cr, hedge).cash / (st.firms[cr.firmId].stars.length + Object.values(st.firms[cr.firmId].pools).reduce((n, p) => n + p.count, 0))
+    const perHead = (st: GameState, cr: Crisis) =>
+      crisisChoicePreview(st, cr, hedge).cash /
+      (st.firms[cr.firmId].stars.length + Object.values(st.firms[cr.firmId].pools).reduce((n, p) => n + p.count, 0))
     expect(perHead(s, aiCrisis)).toBeCloseTo(perHead(s, pc) * CRISIS_AI_IMPACT)
     expect(s.news.filter((n) => n.key === 'crises.krone_crash.news')).toHaveLength(1)
   })
@@ -159,12 +180,22 @@ describe('crises', () => {
   it('a crisis talk locks in the choice once started, and an abandoned one scores zero', () => {
     const c0 = playerContract(veteranTestGame())
     const { s, id } = withCrisis('client_exit', 'low', { contract: c0.id, customer: c0.customerId })
-    const started = applyAction(s, { type: 'startCrisisTalk', firmId: 'player', crisisId: id, choiceId: 'rescue_meeting' })
+    const started = applyAction(s, {
+      type: 'startCrisisTalk',
+      firmId: 'player',
+      crisisId: id,
+      choiceId: 'rescue_meeting',
+    })
     expect(started.error).toBeUndefined()
     expect(resolve(started.state, id, 'discount').error).toBe('errors.minigameAlreadyPlayed')
-    expect(applyAction(started.state, { type: 'startCrisisTalk', firmId: 'player', crisisId: id, choiceId: 'rescue_meeting' }).error).toBe(
-      'errors.minigameAlreadyPlayed',
-    )
+    expect(
+      applyAction(started.state, {
+        type: 'startCrisisTalk',
+        firmId: 'player',
+        crisisId: id,
+        choiceId: 'rescue_meeting',
+      }).error,
+    ).toBe('errors.minigameAlreadyPlayed')
     const draft = structuredClone(started.state)
     const sat = draft.contracts.find((x) => x.id === c0.id)!.satisfaction
     autoResolveCrises(draft)
@@ -184,7 +215,13 @@ describe('crises', () => {
   it('a talk score only counts if the talk was started', () => {
     const c0 = playerContract(veteranTestGame())
     const { s, id } = withCrisis('client_exit', 'low', { contract: c0.id, customer: c0.customerId })
-    const r = applyAction(s, { type: 'resolveCrisis', firmId: 'player', crisisId: id, choiceId: 'rescue_meeting', score: 100 })
+    const r = applyAction(s, {
+      type: 'resolveCrisis',
+      firmId: 'player',
+      crisisId: id,
+      choiceId: 'rescue_meeting',
+      score: 100,
+    })
     expect(r.error).toBeUndefined()
     expect(crisis(r.state, id).log[0]).toMatchObject({ choiceId: 'rescue_meeting', score: 0 })
   })
@@ -215,7 +252,10 @@ describe('crises', () => {
 
   it('an open crisis is a to-do that one answer ticks off', () => {
     const { s, id } = withCrisis('power_outage', 'low')
-    expect(quarterTodos(s, 'player').find((t) => t.id === 'crisis')).toMatchObject({ done: false, params: { count: 1 } })
+    expect(quarterTodos(s, 'player').find((t) => t.id === 'crisis')).toMatchObject({
+      done: false,
+      params: { count: 1 },
+    })
     const r = resolve(s, id, 'generator')
     expect(quarterTodos(r.state, 'player').find((t) => t.id === 'crisis')?.done).toBe(true)
   })
@@ -225,7 +265,9 @@ describe('crises', () => {
     const low = withCrisis('slack_slip', 'low', { contract: c0.id, customer: c0.customerId })
     const high = withCrisis('slack_slip', 'high', { contract: c0.id, customer: c0.customerId })
     for (const ch of crisisChoices(crisis(low.s, low.id))) {
-      expect(crisisChoicePreview(low.s, crisis(low.s, low.id), ch)).toEqual(crisisChoicePreview(high.s, crisis(high.s, high.id), ch))
+      expect(crisisChoicePreview(low.s, crisis(low.s, low.id), ch)).toEqual(
+        crisisChoicePreview(high.s, crisis(high.s, high.id), ch),
+      )
     }
   })
 
@@ -276,7 +318,7 @@ describe('crises', () => {
 
 describe('crisis content', () => {
   const severities = ['low', 'high'] as const
-  for (const def of [...CRISES]) {
+  for (const def of CRISES) {
     it(`${def.id} is well-formed`, () => {
       const ids = new Set(def.stages.map((s) => s.id))
       const reached = new Set([def.stages[0].id])
@@ -305,11 +347,16 @@ describe('crisis content', () => {
           expect(fallbacks, `${stage.id} (${sev}) needs exactly one fallback`).toHaveLength(1)
           const f = fallbacks[0]
           expect(f.needs ?? f.talk, `${stage.id}.${f.id}: fallback has needs`).toBeUndefined()
-          const cost = [f.effect, f[sev]].some((e) => (e?.cash ?? 0) < 0 || (e?.cashPerHead ?? 0) < 0 || (e?.contractRevenue ?? 0) < 0)
+          const cost = [f.effect, f[sev]].some(
+            (e) => (e?.cash ?? 0) < 0 || (e?.cashPerHead ?? 0) < 0 || (e?.contractRevenue ?? 0) < 0,
+          )
           expect(cost, `${stage.id}.${f.id}: fallback costs cash`).toBe(false)
         }
       }
-      expect([...ids].filter((id) => !reached.has(id)), 'unreachable stages').toEqual([])
+      expect(
+        [...ids].filter((id) => !reached.has(id)),
+        'unreachable stages',
+      ).toEqual([])
       if (def.scope === 'market') expect(def.trend && TREND_MAP[def.trend]?.crisisOnly).toBe(true)
     })
   }

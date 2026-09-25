@@ -32,7 +32,8 @@ export function StaffScreen() {
   const ordered = DISCIPLINES.reduce((sum, d) => sum + (me.hiringOrders[d] ?? 0), 0)
   const thoughts = employeeThoughts(game, me.id)
   // "Let one go" picks the weakest person, so the severance is theirs.
-  const weakest = (d: Discipline) => Math.min(...(me.roster ?? []).filter((e) => e.discipline === d).map((e) => e.level), me.pools[d].level)
+  const weakest = (d: Discipline) =>
+    Math.min(...(me.roster ?? []).filter((e) => e.discipline === d).map((e) => e.level), me.pools[d].level)
 
   return (
     <div className={s.grid}>
@@ -74,13 +75,20 @@ export function StaffScreen() {
                         onChange={(v) => dispatch({ type: 'orderHires', firmId: me.id, discipline: d, count: v })}
                       />
                     </td>
-                    <td className={s.num}>{me.hiringOrders[d] ? `≈${formatNumber((me.hiringOrders[d] ?? 0) * rate, lng, 1)}` : '–'}</td>
+                    <td className={s.num}>
+                      {me.hiringOrders[d] ? `≈${formatNumber((me.hiringOrders[d] ?? 0) * rate, lng, 1)}` : '–'}
+                    </td>
                     <td>
                       <Button
                         size="small"
                         variant="ghost"
                         disabled={!p.count}
-                        title={t('staff.fireHint', { cost: formatMoney(quarterlySalaryCost(weakest(d), pricingPremium(me)) * SEVERANCE_QUARTERS, lng) })}
+                        title={t('staff.fireHint', {
+                          cost: formatMoney(
+                            quarterlySalaryCost(weakest(d), pricingPremium(me)) * SEVERANCE_QUARTERS,
+                            lng,
+                          ),
+                        })}
                         onClick={() => dispatch({ type: 'fire', firmId: me.id, discipline: d, count: 1 })}
                       >
                         {t('staff.fire')}

@@ -28,13 +28,32 @@ const ICONS = {
 
 export type IconName = keyof typeof ICONS
 
-export function Icon({ name, size = 16, accent, title }: { name: IconName; size?: number; accent?: string; title?: string }) {
+export function Icon({
+  name,
+  size = 16,
+  accent,
+  title,
+}: {
+  name: IconName
+  size?: number
+  accent?: string
+  title?: string
+}) {
   const rows = ICONS[name]
   const rects: React.ReactNode[] = []
   rows.forEach((row, y) =>
     [...row].forEach((c, x) => {
       if (c === '#' || c === 'o')
-        rects.push(<rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={c === 'o' ? accent ?? 'var(--accent)' : 'currentColor'} />)
+        rects.push(
+          <rect
+            key={`${x}-${y}`}
+            x={x}
+            y={y}
+            width={1}
+            height={1}
+            fill={c === 'o' ? (accent ?? 'var(--accent)') : 'currentColor'}
+          />,
+        )
     }),
   )
   return (

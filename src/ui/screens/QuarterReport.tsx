@@ -54,7 +54,9 @@ export function QuarterReport() {
   const money = (n: number) => formatMoney(n, lng)
 
   useEffect(() => {
-    playSound(scandal ? 'scandal' : won || record ? 'win' : mission || milestones.length ? 'fanfare' : lost ? 'lose' : 'cash')
+    playSound(
+      scandal ? 'scandal' : won || record ? 'win' : mission || milestones.length ? 'fanfare' : lost ? 'lose' : 'cash',
+    )
     // Once per report.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quarter])
@@ -187,7 +189,9 @@ function WinCard({ item }: { item: NewsItem }) {
           </span>
         </span>
       )}
-      {typeof item.params.strong === 'string' && <p className={s.small}>{t(`game:factors.strong.${item.params.strong}`)}</p>}
+      {typeof item.params.strong === 'string' && (
+        <p className={s.small}>{t(`game:factors.strong.${item.params.strong}`)}</p>
+      )}
     </div>
   )
 }
