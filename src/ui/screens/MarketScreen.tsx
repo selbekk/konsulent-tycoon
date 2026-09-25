@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TREND_MAP } from '../../content/trends'
-import { averageMorale, employerBrand, hasIntel, headcount, rankings } from '../../engine'
+import { CUSTOMER_MAP } from '../../content/customers'
+import { averageMorale, customerAppeal, employerBrand, hasIntel, headcount, portfolioBrand, rankings } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Badge, Button, FirmGlyph, Panel } from '../components/ui'
 import { firmColors, firmDef } from '../firms'
 import { formatMoney, formatPercent } from '../format'
+import { CustomerName } from './CustomerProfile'
 import s from './screens.module.css'
+
+const signed = (v: number) => `${v >= 0 ? '+' : '−'}${Math.abs(Math.round(v))}`
 
 export function MarketScreen() {
   const { t, i18n } = useTranslation()
@@ -106,17 +110,40 @@ export function MarketScreen() {
         </Panel>
         <Panel title={t('market.you')} icon="star">
           <div className={s.stackSm}>
-            <span>{t('market.brand', { value: Math.round(employerBrand(me)) })}</span>
-            <span>{t('market.relations')}</span>
-            <div className={s.seats}>
-              {Object.values(game.customers)
-                .sort((a, b) => (b.relationships[me.id] ?? 0) - (a.relationships[me.id] ?? 0))
-                .map((c) => (
-                  <Badge key={c.id} tone={(c.relationships[me.id] ?? 0) >= 50 ? 'good' : (c.relationships[me.id] ?? 0) < 20 ? 'bad' : undefined}>
-                    {t(`content:customers.${c.id}.name`)} {Math.round(c.relationships[me.id] ?? 0)}
-                  </Badge>
-                ))}
-            </div>
+            <span>{t('market.brand', { value: Math.round(employerBrand(game, me)) })}</span>
+            <span className={`${s.small} ${s.muted}`}>{t('customer.portfolio', { value: signed(portfolioBrand(game, me)) })}</span>
+          </div>
+        </Panel>
+        <Panel title={t('customer.list')} icon="briefcase" className={s.span12}>
+          <div className={s.tableWrap}>
+            <table className={s.table}>
+              <thead>
+                <tr>
+                  <th>{t('customer.name')}</th>
+                  <th className={s.num}>{t('customer.appealShort')}</th>
+                  <th className={s.num}>{t('customer.relationShort')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.values(game.customers)
+                  .sort((a, b) => (b.relationships[me.id] ?? 0) - (a.relationships[me.id] ?? 0))
+                  .map((c) => {
+                    const rel = Math.round(c.relationships[me.id] ?? 0)
+                    const def = CUSTOMER_MAP[c.id]
+                    return (
+                      <tr key={c.id}>
+                        <td>
+                          <CustomerName id={c.id} />
+                        </td>
+                        <td className={s.num}>{def ? Math.round(customerAppeal(def)) : '–'}</td>
+                        <td className={s.num}>
+                          <Badge tone={rel >= 50 ? 'good' : rel < 20 ? 'bad' : undefined}>{rel}</Badge>
+                        </td>
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </table>
           </div>
         </Panel>
       </div>

@@ -497,7 +497,6 @@
     "noTrends": "The market is calm.",
     "you": "You in the market",
     "brand": "Employer brand: {{value}}",
-    "relations": "Client relationships:",
     "acquiredBy": "Bought by {{buyer}}"
   },
   "backroom": {
@@ -1056,5 +1055,69 @@
       "nightShift": "Night Shift",
       "goldenParachute": "Golden Parachute"
     }
+  },
+  "customer": {
+    "open": "Show the profile for {{customer}}",
+    "outOf": "{{value}} out of 5",
+    "appeal": "Appeal to consultants",
+    "appealHint": "The customers your people work for shape how attractive you are as an employer. Cool customers mean more yeses and sharper new hires.",
+    "relation": "Your relationship: {{value}}",
+    "contracts_one": "{{count}} active contract with you",
+    "contracts_other": "{{count}} active contracts with you",
+    "list": "Customers",
+    "appealShort": "Appeal",
+    "relationShort": "Relationship",
+    "portfolio": "Your customers add {{value}} to your employer brand.",
+    "metrics": {
+      "hype": {
+        "label": "Buzz",
+        "hint": "How many consultants want to work there."
+      },
+      "tech": {
+        "label": "Tech",
+        "hint": "How exciting the stack is."
+      },
+      "maturity": {
+        "label": "Maturity",
+        "hint": "Clear needs, quick decisions and a product owner who shows up. Mature customers are easier to please."
+      },
+      "seniority": {
+        "label": "Seniority bar",
+        "hint": "How much they care about years on the CV. The higher it is, the more your CV level counts in the tender."
+      },
+      "office": {
+        "label": "Office",
+        "hint": "Light, space and canteen."
+      },
+      "impact": {
+        "label": "Public value",
+        "hint": "How much the work matters to people."
+      },
+      "pace": {
+        "label": "Pace",
+        "hint": "How hard they push on deadlines."
+      },
+      "bureaucracy": {
+        "label": "Bureaucracy",
+        "hint": "Forms, steering groups and approval chains."
+      },
+      "remote": {
+        "label": "Remote work",
+        "hint": "How relaxed they are about working from home."
+      },
+      "loyalty": {
+        "label": "Loyalty",
+        "hint": "How faithful they are to vendors they like. Loyal customers renew more often."
+      },
+      "priceFocus": {
+        "label": "Price focus",
+        "hint": "How much price counts in their tenders."
+      },
+      "budget": {
+        "label": "Budget",
+        "hint": "How big their tenders tend to be."
+      }
+    },
+    "name": "Customer"
   }
 }

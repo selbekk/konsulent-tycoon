@@ -267,3 +267,35 @@ Etter en sikkerhetsgjennomgang. Ingen tallknotter er endret, bare regler som var
 | Etter | 1035 / 2 | 1017 / 2 | 9 / 11 |
 
 Funn: Endringene er innenfor støyen (±5 %). Botene brukte ikke smutthullene nevneverdig, så de rammer bare spillere som leter etter dem.
+
+## Kundeprofiler og kundeappell (2026-09-25)
+
+Hver kunde har fått ti egenskaper fra 1 til 5 (`profile` i `content/customers.ts`). Søkertrykk, teknologi, samfunnsnytte, kontor, hjemmekontor og (omvendt) tempo og byråkrati gir kundens appell blant konsulenter (`customerAppeal`, 27–78). Et firmas appell er setevektet snitt over aktive kontrakter, trukket mot 50 for små porteføljer (`PORTFOLIO_APPEAL_HALF_SEATS`). Appellen gir arbeidsgiverbrand (`PORTFOLIO_BRAND_WEIGHT`) og nivå på nyansatte (`PORTFOLIO_HIRE_LEVEL`). Gjelder AI-firmaene også. Modenhet, erfaringskrav og lojalitet ble koblet på i neste runde (under).
+
+I praksis ligger firmaenes appell mellom 36 og 61 etter 30 kvartaler, så brandeffekten er noen få poeng. 150 partier med `--seed 1000`, markedet med `sim:market 60`:
+
+| Kjøring | human verdi / plass | humanPro verdi / plass | AI-døde per parti (marked) |
+|---|---|---|---|
+| Før (`f2c6e43`) | 1047 MNOK / 2 | 974 / 2 | 0,0 |
+| Brand 0,3, nivå 0,01 | 1090 / 2 | 1015 / 3 | 0,1 |
+| Brand 0,5, nivå 0,015 (valgt) | 1111 / 2 | 871 / 3 | 0,0 |
+| Før, `--seed 2000` | 950 / 2 | 958 / 2 | – |
+| Brand 0,5, nivå 0,015, `--seed 2000` | 1102 / 2 | 961 / 2 | – |
+
+Funn: Markedet er uberørt (etterspørsel/kapasitet 0,73–0,91 som før). Fallet for `humanPro` på `--seed 1000` (−10 %) forsvant på `--seed 2000` (+0 %), så det var støy. `human` går opp på begge seed-settene (+6 % og +16 %), trolig fordi den ansetter mer og har mest å hente på høyere ja-andel. AI-planleggeren velger ikke kunder etter appell. Hvis spillere som jakter kule kunder løper fra markedet, er neste steg et lite appelledd i anbudsvalget i `personalities.ts`.
+
+### Modenhet, erfaringskrav og lojalitet (2026-09-25)
+
+Tre egenskaper virker nå direkte, som avvik fra midten (3): erfaringskrav skalerer CV-delen av budkvaliteten med `CUSTOMER_SENIORITY_CV` per steg (0,8–1,2), modenhet flytter tilfredshetsmålet med `CUSTOMER_MATURITY_SATISFACTION` per steg (±6), og lojalitet ganger sjansen for forlengelse med `CUSTOMER_LOYALTY_RENEWAL` per steg (0,7–1,3). Hver effekt er målt alene (de andre satt til 0) og så samlet, 150 partier med `--seed 1000`. Referansen er appellkjøringen over.
+
+| Kjøring | human verdi / plass | humanPro verdi / plass |
+|---|---|---|
+| Referanse (bare appell) | 1111 MNOK / 2 | 871 / 3 |
+| + erfaringskrav 0,1 | 1089 / 2 | 1019 / 2 |
+| + modenhet 3 | 993 / 2 | 851 / 3 |
+| + lojalitet 0,15 | 1070 / 3 | 935 / 3 |
+| Alle tre (valgt) | 997 / 3 | 1017 / 3 |
+
+Markedet med alle tre (`sim:market 60`): 0,1 AI-døde per parti, etterspørsel/kapasitet 0,72–0,91.
+
+Funn: Ingen av effektene flytter botene mer enn støyen (±10 % på én seed-serie, se kjøringene over). Modenhet trekker mest ned for `human`, trolig fordi mange store offentlige kunder har lav modenhet og derfor lavere tilfredshet. Følg med på oppsigelser hos Helse Sør-Øst-Vest og Kommune-Norge (modenhet 1–2) hvis spillere klager.

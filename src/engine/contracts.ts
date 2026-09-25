@@ -12,6 +12,7 @@ import {
   RENEWAL_MIN_SATISFACTION,
   clamp,
 } from './constants'
+import { loyaltyRenewalFactor, maturitySatisfaction } from './customers'
 import { disciplineLevel, isActive } from './economy'
 import type { ContractStaffing, FirmStaffing } from './economy'
 import { chance, nextInt, range } from './rng'
@@ -106,7 +107,7 @@ export function updateContracts(state: GameState, firm: Firm, staffing: FirmStaf
     for (const d of DISCIPLINES) level += (c.activeSeats[d] ?? 0) * disciplineLevel(firm, d)
     level /= total
     const target = clamp(
-      75 + (level - 3) * 10 - freelanceShare * 30 - offshoreShare * OFFSHORE_SATISFACTION_HIT * 5 - (c.fraud.baitAndSwitch ? 15 : 0),
+      75 + maturitySatisfaction(c.customerId) + (level - 3) * 10 - freelanceShare * 30 - offshoreShare * OFFSHORE_SATISFACTION_HIT * 5 - (c.fraud.baitAndSwitch ? 15 : 0),
       0,
       100,
     )
@@ -171,7 +172,7 @@ export function expireContracts(state: GameState, quarter: number) {
       c.kind === 'project' &&
       !firm.bankrupt &&
       c.satisfaction >= RENEWAL_MIN_SATISFACTION &&
-      chance(state.rng, RENEWAL_CHANCE * (c.satisfaction / 80) * (c.promise === 'discovery' ? DISCOVERY_RENEWAL_FACTOR : 1))
+      chance(state.rng, RENEWAL_CHANCE * (c.satisfaction / 80) * (c.promise === 'discovery' ? DISCOVERY_RENEWAL_FACTOR : 1) * loyaltyRenewalFactor(c.customerId))
     ) {
       const extra = nextInt(state.rng, 2, 4)
       c.endQuarter += extra

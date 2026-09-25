@@ -40,7 +40,7 @@ Inspirert av Theme Hospital og RollerCoaster Tycoon, men dempet. Tørr, varm og 
 
 De 20 andre bygger på arketyper (`engine/ai/personalities.ts`): `boutique_nerd`, `boutique_design`, `mid_generalist`, `nordic_giant`, `budget_bulk`, `specialist_cloud` og `specialist_data`. En personlighet har prisnivå, kvalitetsfokus, aggresjon, lyssky tilbøyelighet og vekstlyst.
 
-Kundene (`content/customers.ts`) er parodier på offentlige og private kunder: *NAVet*, *Skatteetat'n*, *DNBank*, *Fintech-startupen Kryptonitt* og flere. Hver kunde har sektor, budsjett, prisfølsomhet, foretrukne fagområder, en skjult møtestil og et løfte den helst vil ha.
+Kundene (`content/customers.ts`) er parodier på offentlige og private kunder: *NAVet*, *Skatteetat'n*, *DNBank*, *Fintech-startupen Kryptonitt* og flere. Hver kunde har sektor, budsjett, prisfølsomhet, foretrukne fagområder, en skjult møtestil og et løfte den helst vil ha. De har også en personlighet: ti egenskaper fra 1 til 5 (søkertrykk, teknologi, modenhet, erfaringskrav, kontor, samfunnsnytte, tempo, byråkrati, hjemmekontor og lojalitet) og en beskrivelse av hva de driver med. Kundene du har folk hos, påvirker hvor attraktiv du er som arbeidsgiver: kule kunder gir flere ja-svar og flinkere nyansatte. Erfaringskrav gjør CV-nivået viktigere i anbudet, modne kunder er lettere å gjøre fornøyde, og lojale kunder forlenger oftere.
 
 ## Spillmodellen
 

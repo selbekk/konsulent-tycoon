@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { BUDGET_MAX_PER_HEAD, PREMIUM_MAX, PREMIUM_MIN, acceptRate, cultureEquilibrium, employerBrand, headcount, moraleTarget, quarterFinancials, salaryCost } from '../../engine'
+import { BUDGET_MAX_PER_HEAD, PREMIUM_MAX, PREMIUM_MIN, acceptRate, cultureEquilibrium, employerBrand, headcount, moraleTarget, portfolioBrand, quarterFinancials, salaryCost } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Meter, Panel, Slider, Stat } from '../components/ui'
 import { formatMoney, formatPercent } from '../format'
@@ -22,6 +22,7 @@ export function CultureScreen() {
   const hc = headcount(me)
   const b = me.budgets
   const fin = quarterFinancials(game, me.id)
+  const brandFromCustomers = portfolioBrand(game, me)
   const set = (budgets: Partial<typeof b>) => dispatch({ type: 'setBudgets', firmId: me.id, budgets })
 
   return (
@@ -65,11 +66,12 @@ export function CultureScreen() {
         <div className={s.stack}>
           <Meter label={t('culture.fagmiljoLevel')} value={me.fagmiljo} />
           <Meter label={t('culture.sosialtLevel')} value={me.sosialt} />
-          <Meter label={t('culture.brand')} value={employerBrand(me)} />
+          <Meter label={t('culture.brand')} value={employerBrand(game, me)} />
+          <span className={`${s.small} ${s.muted}`}>{t('customer.portfolio', { value: `${brandFromCustomers >= 0 ? '+' : '−'}${Math.abs(Math.round(brandFromCustomers))}` })}</span>
           <div className={s.kpis}>
             <Stat label={t('culture.cultureCost')} value={formatMoney(fin.cultureCost, lng)} />
             <Stat label={t('culture.salaryCost')} value={formatMoney(salaryCost(me), lng)} />
-            <Stat label={t('culture.acceptRate')} value={formatPercent(acceptRate(me), lng)} />
+            <Stat label={t('culture.acceptRate')} value={formatPercent(acceptRate(game, me), lng)} />
             <Stat label={t('culture.moraleTarget')} value={Math.round(moraleTarget(me, fin.utilization))} />
           </div>
           <p className={`${s.small} ${s.muted}`}>{t('culture.explain', { hc })}</p>

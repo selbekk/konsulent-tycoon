@@ -139,7 +139,7 @@ function ActionDialog({ actionId, onClose }: { actionId: ShadyActionId; onClose:
                 ) : (
                   <Hint>{t('backroom.noStars')}</Hint>
                 )}
-                {star && <Hint>{t('backroom.poachChance', { pct: formatPercent(poachChance(me, game.firms[target], star.id), lng) })}</Hint>}
+                {star && <Hint>{t('backroom.poachChance', { pct: formatPercent(poachChance(game, me, game.firms[target], star.id), lng) })}</Hint>}
               </div>
             )}
             {needs.includes('tender') && (

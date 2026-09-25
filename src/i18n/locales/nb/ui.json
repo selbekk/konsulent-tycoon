@@ -497,7 +497,6 @@
     "noTrends": "Markedet er rolig.",
     "you": "Deg i markedet",
     "brand": "Arbeidsgiverbrand: {{value}}",
-    "relations": "Kunderelasjoner:",
     "acquiredBy": "Kjøpt av {{buyer}}"
   },
   "backroom": {
@@ -1056,5 +1055,69 @@
       "nightShift": "Nattskift",
       "goldenParachute": "Gyllen fallskjerm"
     }
+  },
+  "customer": {
+    "open": "Vis profilen til {{customer}}",
+    "outOf": "{{value}} av 5",
+    "appeal": "Appell blant konsulenter",
+    "appealHint": "Kundene du har folk hos, påvirker hvor attraktive dere er som arbeidsgiver. Kule kunder gir flere ja-svar og flinkere nyansatte.",
+    "relation": "Relasjon til dere: {{value}}",
+    "contracts_one": "{{count}} aktiv kontrakt med dere",
+    "contracts_other": "{{count}} aktive kontrakter med dere",
+    "list": "Kundene",
+    "appealShort": "Appell",
+    "relationShort": "Relasjon",
+    "portfolio": "Kundene dine gir {{value}} i arbeidsgiverbrand.",
+    "metrics": {
+      "hype": {
+        "label": "Søkertrykk",
+        "hint": "Hvor mange konsulenter som vil dit."
+      },
+      "tech": {
+        "label": "Teknologi",
+        "hint": "Hvor spennende stacken er."
+      },
+      "maturity": {
+        "label": "Modenhet",
+        "hint": "Klare behov, raske beslutninger og en produkteier som møter opp. Modne kunder er lettere å gjøre fornøyde."
+      },
+      "seniority": {
+        "label": "Erfaringskrav",
+        "hint": "Hvor mye de bryr seg om antall år på CV-en. Jo høyere, jo mer teller CV-nivået i anbudet."
+      },
+      "office": {
+        "label": "Kontor",
+        "hint": "Lys, lokaler og kantine."
+      },
+      "impact": {
+        "label": "Samfunnsnytte",
+        "hint": "Hvor mye jobben betyr for folk."
+      },
+      "pace": {
+        "label": "Tempo",
+        "hint": "Hvor hardt de presser på frister."
+      },
+      "bureaucracy": {
+        "label": "Byråkrati",
+        "hint": "Skjemaer, styringsgrupper og godkjenningsløp."
+      },
+      "remote": {
+        "label": "Hjemmekontor",
+        "hint": "Hvor avslappet de er med at folk jobber hjemmefra."
+      },
+      "loyalty": {
+        "label": "Lojalitet",
+        "hint": "Hvor trofaste de er mot leverandører de liker. Lojale kunder forlenger oftere."
+      },
+      "priceFocus": {
+        "label": "Prisfokus",
+        "hint": "Hvor mye prisen teller i anbudene."
+      },
+      "budget": {
+        "label": "Budsjett",
+        "hint": "Hvor store oppdrag de pleier å lyse ut."
+      }
+    },
+    "name": "Kunde"
   }
 }

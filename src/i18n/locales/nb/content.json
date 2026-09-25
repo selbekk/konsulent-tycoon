@@ -100,59 +100,73 @@
   "customers": {
     "navet": {
       "name": "NAVet",
-      "blurb": "Norges største fagsystem-samling. Alltid midt i en modernisering."
+      "blurb": "Norges største fagsystem-samling. Alltid midt i en modernisering.",
+      "about": "Hundrevis av team, tusenvis av regler og et felles mål om at folk skal få pengene sine i tide. Moderne plattform, ekte samfunnsnytte og en kaffemaskin som har sett alt."
     },
     "skatteetatn": {
       "name": "Skatteetat'n",
-      "blurb": "Liker regnearket ditt. Vil gjerne se det."
+      "blurb": "Liker regnearket ditt. Vil gjerne se det.",
+      "about": "Solid, grundig og ekstremt glad i dokumentasjon. Her blir du værende lenge hvis du leverer, og ingen tar det ille opp at du bruker to uker på et sekvensdiagram."
     },
     "veivesen": {
       "name": "Statens Veivesen",
-      "blurb": "Asfalt, bompenger og overraskende mange API-er."
+      "blurb": "Asfalt, bompenger og overraskende mange API-er.",
+      "about": "Veier, ferjer og en systemportefølje fra fire tiår. Hvert vedtak går gjennom tre styringsgrupper, men når det først er vedtatt, står det i asfalt."
     },
     "helsesov": {
       "name": "Helse Sør-Øst-Vest",
-      "blurb": "Et helseforetak med én journal og tre systemer for å lese den."
+      "blurb": "Et helseforetak med én journal og tre systemer for å lese den.",
+      "about": "Arbeidet redder liv, og det merkes. Teknologien er eldre enn de fleste utviklerne, kontoret er en gammel sykehusfløy, og alt må godkjennes av noen som er på vakt."
     },
     "kommunenorge": {
       "name": "Kommune-Norge IKS",
-      "blurb": "356 kommuner, ett felles innkjøp og et stramt budsjett."
+      "blurb": "356 kommuner, ett felles innkjøp og et stramt budsjett.",
+      "about": "Hundrevis av kommuner som har blitt enige om å kjøpe sammen. Det er fint for fellesskapet og tungt for fremdriften. Ingen har det travelt, og ingen vet helt hvem som bestemmer."
     },
     "laanekassen": {
       "name": "Lånekassen for Livet",
-      "blurb": "Studentlån, stipend og en innboks full av bekymrede foreldre."
+      "blurb": "Studentlån, stipend og en innboks full av bekymrede foreldre.",
+      "about": "En overraskende moderne etat med ryddige team og en produkteier som faktisk svarer på e-post. Rolig tempo, bortsett fra i august."
     },
     "dnbank": {
       "name": "DNBank",
-      "blurb": "Stor bank med stor appetitt på alt som heter plattform."
+      "blurb": "Stor bank med stor appetitt på alt som heter plattform.",
+      "about": "Store budsjetter, glassfasader og et innkjøp som vil se 15 års erfaring på CV-en. Tempoet er høyt og hjemmekontor er noe man søker om."
     },
     "equinaer": {
       "name": "Equinær",
-      "blurb": "Energi, data og et styre som elsker ordet «omstilling»."
+      "blurb": "Energi, data og et styre som elsker ordet «omstilling».",
+      "about": "Energiselskap i full omstilling, med datavarehus på størrelse med et oljefelt. Kule problemer, gode folk og en kantine som har fått priser."
     },
     "postenbring": {
       "name": "Posten & Bring-meg",
-      "blurb": "Pakker, sporing og et lager fullt av Raspberry Pi-er."
+      "blurb": "Pakker, sporing og et lager fullt av Raspberry Pi-er.",
+      "about": "Logistikk er vanskeligere enn det ser ut, og her vet de det. Jordnært, pragmatisk og lite byråkrati, men kontoret ligger ved en terminal i Alnabru."
     },
     "kryptonitt": {
       "name": "Kryptonitt",
-      "blurb": "Fintech-startup med stort pitch-deck og lite budsjett. Betaler i tide (som regel)."
+      "blurb": "Fintech-startup med stort pitch-deck og lite budsjett. Betaler i tide (som regel).",
+      "about": "Alle vil jobbe her, i hvert fall en stund. Nyeste teknologi, sakkosekker og hjemmekontor fra Bali. Strategien skifter hver fredag, og ingen vet om de finnes neste år."
     },
     "tipptopp": {
       "name": "Norsk Tipp-Topp",
-      "blurb": "Spill, lotto og en ansvarlighetsavdeling som alltid er med i møtet."
+      "blurb": "Spill, lotto og en ansvarlighetsavdeling som alltid er med i møtet.",
+      "about": "Spillselskap med solid økonomi, moden produktorganisasjon og strenge krav til ansvarlighet. Kontoret ligger på Hamar, som er finere enn du tror."
     },
     "rutah": {
       "name": "Rutah",
-      "blurb": "Kollektivtrafikk, billettapper og en sanntidsskjerm som nesten alltid stemmer."
+      "blurb": "Kollektivtrafikk, billettapper og en sanntidsskjerm som nesten alltid stemmer.",
+      "about": "Kollektivtrafikk for en hel region. Appene brukes av alle, så jobben synes, og utviklerne liker det. Unge team, lite erfaringsjag og mye sanntidsdata."
     },
     "telenorr": {
       "name": "Telenorr",
-      "blurb": "Telekom med nett i hele Norden og et innkjøpsteam i hele Asia."
+      "blurb": "Telekom med nett i hele Norden og et innkjøpsteam i hele Asia.",
+      "about": "Stort, gammelt og fullt av matrise. Fornebu-kontoret er flott, men innkjøpsavdelingen kan bytte leverandør over natten hvis prisen er rett."
     },
     "sparebank123": {
       "name": "SpareBank 1-2-3",
-      "blurb": "Lokalbank med lokale beslutninger og nasjonale ambisjoner."
+      "blurb": "Lokalbank med lokale beslutninger og nasjonale ambisjoner.",
+      "about": "En lokalbank som husker deg. Teknologien er stødig heller enn spennende, men de blir hos leverandørene sine i årevis."
     }
   },
   "trends": {

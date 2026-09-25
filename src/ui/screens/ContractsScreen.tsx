@@ -6,6 +6,7 @@ import { useGame } from '../../store/gameStore'
 import { Badge, Button, Meter, Panel } from '../components/ui'
 import { ContractActions } from './ContractActions'
 import { formatMoney, formatQuarter } from '../format'
+import { CustomerName } from './CustomerProfile'
 import s from './screens.module.css'
 
 export function ContractsScreen() {
@@ -49,7 +50,7 @@ export function ContractsScreen() {
                   return (
                     <tr key={c.id}>
                       <td>
-                        <strong>{t(`content:customers.${c.customerId}.name`)}</strong>
+                        <CustomerName id={c.customerId} strong />
                         <div className={s.row}>
                           <Badge tone={c.kind === 'framework' ? 'accent' : undefined}>
                             {c.kind === 'framework' ? t('contracts.frameworkRank', { rank: c.rank }) : t('tenders.kind.project')}

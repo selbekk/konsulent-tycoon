@@ -5,6 +5,7 @@ import {
   MORALE_ADJUST_RATE,
   MORALE_BASE,
   MORALE_CULTURE_WEIGHT,
+  PORTFOLIO_HIRE_LEVEL,
   SCANDAL_PENALTY_DECAY,
   TURNOVER_BASE,
   TURNOVER_MORALE_DIVISOR,
@@ -12,6 +13,7 @@ import {
   clamp,
 } from './constants'
 import { employerBrand } from './culture'
+import { portfolioAppeal } from './customers'
 import { binomial, noise } from './rng'
 import { DISCIPLINES } from './types'
 import type { Discipline, Firm, GameState } from './types'
@@ -78,21 +80,21 @@ export function applyTurnover(state: GameState, firm: Firm) {
   }
 }
 
-export function acceptRate(firm: Firm): number {
+export function acceptRate(state: GameState, firm: Firm): number {
   return clamp(
-    HIRE_BASE_ACCEPT + employerBrand(firm) / 150 + firm.budgets.salaryPremium * 2 + firm.reputation / 200,
+    HIRE_BASE_ACCEPT + employerBrand(state, firm) / 150 + firm.budgets.salaryPremium * 2 + firm.reputation / 200,
     0,
     1,
   )
 }
 
-export function newHireLevel(firm: Firm): number {
-  return 2 + firm.fagmiljo / 50
+export function newHireLevel(state: GameState, firm: Firm): number {
+  return 2 + firm.fagmiljo / 50 + (portfolioAppeal(state, firm) - 50) * PORTFOLIO_HIRE_LEVEL
 }
 
 /** This quarter's hiring orders are rolled for acceptance and join at the quarter change, ready to bill next quarter. */
 export function processHiring(state: GameState, firm: Firm) {
-  const rate = acceptRate(firm)
+  const rate = acceptRate(state, firm)
   // Older saves may still hold hires accepted under the previous two-step pipeline.
   const arriving: Partial<Record<Discipline, number>> = { ...firm.pendingHires }
   let accepted = 0
@@ -111,7 +113,7 @@ export function processHiring(state: GameState, firm: Firm) {
   for (const d of DISCIPLINES) {
     const n = arriving[d] ?? 0
     if (!n) continue
-    const level = clamp(newHireLevel(firm) + noise(state.rng, 0.5), 1, 4.5)
+    const level = clamp(newHireLevel(state, firm) + noise(state.rng, 0.5), 1, 4.5)
     addPeople(state, firm, d, n, level, 72)
     arrived += n
   }
