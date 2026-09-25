@@ -1,6 +1,6 @@
 name: CI
 
-# Pull requests: typecheck, lint, test and build the app and the Cloud Functions.
+# Pull requests: typecheck, lint, check formatting, test and build the app and the Cloud Functions.
 # Merge to main: the same checks, then one deploy job that ships Firebase first and Vercel right after.
 # They must go out together: the leaderboard server only accepts games from its own ENGINE_VERSION,
 # which is a hash of src/engine and src/content (docs/utvikling.md, "Toppliste (Firebase)").
@@ -35,6 +35,7 @@ jobs:
       - run: npm ci --prefix functions
       - run: npm run typecheck
       - run: npm run lint
+      - run: npm run format:check
       - run: npm test
       - run: npm run build
       - run: npm run functions:build

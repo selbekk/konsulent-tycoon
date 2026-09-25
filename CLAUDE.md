@@ -21,7 +21,7 @@ npm run sim:market -- 20 -v  # AI market alone over 40 quarters
 npm run icons                # regenerate PNG icons from public/icon.svg (commit the output)
 ```
 
-Before committing, `typecheck`, `lint`, `format:check`, `test` and `build` should all pass.
+Before committing, `typecheck`, `lint`, `format:check`, `test` and `build` should all pass. CI runs all of them.
 
 ## Architecture
 
