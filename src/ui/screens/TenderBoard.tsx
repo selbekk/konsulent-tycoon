@@ -22,6 +22,7 @@ import { formatQuarter } from '../format'
 import { playSound } from '../sound'
 import { BenchView } from './Bench'
 import { bidChance, chanceTone } from './bidChance'
+import { CustomerName } from './CustomerProfile'
 import s from './screens.module.css'
 
 export function SeatBadges({ tender, game }: { tender: Tender; game: GameState }) {
@@ -154,7 +155,7 @@ export function TenderBoard() {
               return (
                 <article key={tn.id} className={s.card}>
                   <div className={`${s.row} ${s.between}`}>
-                    <strong>{t(`content:customers.${tn.customerId}.name`)}</strong>
+                    <CustomerName id={tn.customerId} strong />
                     <span className={s.row} style={{ gap: 4 }}>
                       {isKeyTender(tn) && <Badge tone="warn">{t('tenders.key')}</Badge>}
                       {seatTotal(tn.seats) <= SMALL_TENDER_MAX_SEATS && <Badge tone="good">{t('tenders.small')}</Badge>}

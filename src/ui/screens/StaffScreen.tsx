@@ -28,7 +28,7 @@ export function StaffScreen() {
   const dispatch = useGame((x) => x.dispatch)
   const me = game.firms[game.playerId]
   const next = staffFirm(game, me, game.quarter + 1)
-  const rate = acceptRate(me)
+  const rate = acceptRate(game, me)
   const ordered = DISCIPLINES.reduce((sum, d) => sum + (me.hiringOrders[d] ?? 0), 0)
   const thoughts = employeeThoughts(game, me.id)
   // "Let one go" picks the weakest person, so the severance is theirs.

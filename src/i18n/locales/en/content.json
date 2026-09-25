@@ -100,59 +100,73 @@
   "customers": {
     "navet": {
       "name": "NAVet",
-      "blurb": "Norway's largest collection of case-handling systems. Always mid-modernisation."
+      "blurb": "Norway's largest collection of case-handling systems. Always mid-modernisation.",
+      "about": "Hundreds of teams, thousands of rules and a shared goal of getting people paid on time. A modern platform, real public value and a coffee machine that has seen everything."
     },
     "skatteetatn": {
       "name": "Tax Office",
-      "blurb": "Likes your spreadsheet. Would like to see it."
+      "blurb": "Likes your spreadsheet. Would like to see it.",
+      "about": "Solid, thorough and deeply fond of documentation. Deliver and you'll stay a long time, and nobody minds you spending two weeks on a sequence diagram."
     },
     "veivesen": {
       "name": "Public Roads Office",
-      "blurb": "Asphalt, road tolls and a surprising number of APIs."
+      "blurb": "Asphalt, road tolls and a surprising number of APIs.",
+      "about": "Roads, ferries and a system portfolio spanning four decades. Every decision passes three steering groups, but once it's made, it's set in asphalt."
     },
     "helsesov": {
       "name": "Health South-East-West",
-      "blurb": "A health trust with one medical record and three systems to read it."
+      "blurb": "A health trust with one medical record and three systems to read it.",
+      "about": "The work saves lives, and you feel it. The tech is older than most of the developers, the office is an old hospital wing, and everything needs sign-off from someone on call."
     },
     "kommunenorge": {
       "name": "Municipalities Inc.",
-      "blurb": "356 municipalities, one shared procurement and a tight budget."
+      "blurb": "356 municipalities, one shared procurement and a tight budget.",
+      "about": "Hundreds of municipalities that agreed to buy together. Lovely for the common good, heavy going for progress. Nobody is in a hurry, and nobody quite knows who's in charge."
     },
     "laanekassen": {
       "name": "Student Loans for Life",
-      "blurb": "Student loans, grants and an inbox full of worried parents."
+      "blurb": "Student loans, grants and an inbox full of worried parents.",
+      "about": "A surprisingly modern agency with tidy teams and a product owner who actually answers email. A calm pace, except in August."
     },
     "dnbank": {
       "name": "DNBank",
-      "blurb": "Big bank with a big appetite for anything called a platform."
+      "blurb": "Big bank with a big appetite for anything called a platform.",
+      "about": "Big budgets, glass facades and a procurement team that wants 15 years on every CV. The pace is high and working from home is something you apply for."
     },
     "equinaer": {
       "name": "Equinær",
-      "blurb": "Energy, data and a board that loves the word \"transformation\"."
+      "blurb": "Energy, data and a board that loves the word \"transformation\".",
+      "about": "An energy company mid-transition, with a data warehouse the size of an oil field. Cool problems, good people and an award-winning canteen."
     },
     "postenbring": {
       "name": "Post & Bring-Me",
-      "blurb": "Parcels, tracking and a warehouse full of Raspberry Pis."
+      "blurb": "Parcels, tracking and a warehouse full of Raspberry Pis.",
+      "about": "Logistics is harder than it looks, and they know it. Down to earth, pragmatic and light on bureaucracy, though the office is next to a freight terminal."
     },
     "kryptonitt": {
       "name": "Kryptonitt",
-      "blurb": "Fintech startup with a big pitch deck and a small budget. Usually pays on time."
+      "blurb": "Fintech startup with a big pitch deck and a small budget. Usually pays on time.",
+      "about": "Everyone wants to work here, at least for a while. The newest tech, beanbags and working from Bali. The strategy changes every Friday, and nobody knows if they'll exist next year."
     },
     "tipptopp": {
       "name": "Norsk Tipp-Topp",
-      "blurb": "Games, lotto and a responsibility department that always joins the meeting."
+      "blurb": "Games, lotto and a responsibility department that always joins the meeting.",
+      "about": "A gaming company with solid finances, a mature product organisation and strict rules on responsible gambling. The office is in Hamar, which is nicer than you'd think."
     },
     "rutah": {
       "name": "Rutah",
-      "blurb": "Public transport, ticket apps and a real-time display that's almost always right."
+      "blurb": "Public transport, ticket apps and a real-time display that's almost always right.",
+      "about": "Public transport for a whole region. Everyone uses the apps, so the work shows, and the developers like that. Young teams, no obsession with years of experience and lots of real-time data."
     },
     "telenorr": {
       "name": "Telenorr",
-      "blurb": "Telco with a network across the Nordics and a procurement team across Asia."
+      "blurb": "Telco with a network across the Nordics and a procurement team across Asia.",
+      "about": "Big, old and full of matrix. The office at Fornebu is lovely, but procurement will switch vendors overnight if the price is right."
     },
     "sparebank123": {
       "name": "SpareBank 1-2-3",
-      "blurb": "Local bank with local decisions and national ambitions."
+      "blurb": "Local bank with local decisions and national ambitions.",
+      "about": "A local bank that remembers you. The tech is steady rather than exciting, but they stay with their vendors for years."
     }
   },
   "trends": {

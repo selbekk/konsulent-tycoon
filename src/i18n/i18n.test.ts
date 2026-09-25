@@ -5,7 +5,7 @@ import { EVENTS } from '../content/events'
 import { ANNOUNCEMENTS } from '../content/announcements'
 import { THOUGHTS } from '../content/thoughts'
 import { FIRMS } from '../content/firms'
-import { CUSTOMERS } from '../content/customers'
+import { CUSTOMERS, CUSTOMER_METRICS } from '../content/customers'
 import { TRENDS } from '../content/trends'
 import { TRAITS } from '../content/traits'
 import { QUIRKS } from '../content/quirks'
@@ -77,7 +77,12 @@ describe('i18n', () => {
     for (const p of PARTNERSHIPS) check(content, `partnerships.${p.id}.name`)
     for (const d of DEPARTMENTS) check(content, `departments.${d.id}.name`)
     for (const f of FIRMS) check(content, `firms.${f.id}.tagline`)
-    for (const c of CUSTOMERS) check(content, `customers.${c.id}.name`)
+    for (const c of CUSTOMERS) {
+      check(content, `customers.${c.id}.name`)
+      check(content, `customers.${c.id}.blurb`)
+      check(content, `customers.${c.id}.about`)
+    }
+    for (const m of [...CUSTOMER_METRICS, 'priceFocus', 'budget']) check(ui, `customer.metrics.${m}.label`)
     for (const t of TRENDS) check(content, `trends.${t.id}.name`)
     for (const t of TRAITS) check(content, `traits.${t.id}.name`)
     for (const q of QUIRKS) {

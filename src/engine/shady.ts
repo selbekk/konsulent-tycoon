@@ -65,10 +65,10 @@ export function riskLevel(firm: Firm, id: ShadyActionId): 'low' | 'medium' | 'hi
   return p < 0.12 ? 'low' : p < 0.25 ? 'medium' : 'high'
 }
 
-export function poachChance(attacker: Firm, target: Firm, starId: string): number {
+export function poachChance(state: GameState, attacker: Firm, target: Firm, starId: string): number {
   const star = target.stars.find((s) => s.id === starId)
   if (!star || star.founder) return 0
-  return clamp(0.25 + (60 - star.loyalty) / 100 + (employerBrand(attacker) - employerBrand(target)) / 200, 0.05, 0.85)
+  return clamp(0.25 + (60 - star.loyalty) / 100 + (employerBrand(state, attacker) - employerBrand(state, target)) / 200, 0.05, 0.85)
 }
 
 function log(state: GameState, firm: Firm, a: ActionOf<'shady'>, ongoing: boolean): ShadyLogEntry {
@@ -138,7 +138,7 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
         })
         break
       }
-      const p = poachChance(firm, target!, a.starId!)
+      const p = poachChance(state, firm, target!, a.starId!)
       if (chance(state.rng, p)) {
         const star = removeStar(state, target!, a.starId!)!
         target!.quarterLeavers += 1

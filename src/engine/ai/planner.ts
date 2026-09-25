@@ -80,7 +80,7 @@ export function planAiTurn(state: GameState, firmId: string, override?: Personal
   const next = staffFirm(state, firm, state.quarter + 1)
   const free: Record<string, number> = {}
   const util = fin.utilization
-  const rate = Math.max(0.2, acceptRate(firm))
+  const rate = Math.max(0.2, acceptRate(state, firm))
   for (const d of DISCIPLINES) {
     const supply = disciplineSupply(firm, d)
     const demand = next.demand[d] ?? 0

@@ -31,6 +31,7 @@ import {
   clamp,
 } from './constants'
 import { createContract } from './contracts'
+import { seniorityCvFactor } from './customers'
 import { disciplineLevel, disciplineSupply, headcount, isActive, staffFirm } from './economy'
 import { chance, nextFloat, nextInt, noise, range, shuffle, weightedPick } from './rng'
 import { checkFraudAtAward } from './shady'
@@ -256,7 +257,7 @@ export function bidQualityParts(state: GameState, bid: Bid, tender: Tender): Qua
     : (promise === 'fullTeam' ? PROMISE_FULL_TEAM_QUALITY : promise === 'phased' ? PROMISE_PHASED_QUALITY : 0) +
       (customerWants(tender.customerId) === promise ? PROMISE_MATCH_QUALITY : 0)
   return {
-    cv: 0.5 * (cv / 5) * 100,
+    cv: 0.5 * (cv / 5) * 100 * seniorityCvFactor(tender.customerId),
     fagmiljo: 0.2 * firm.fagmiljo,
     meeting: 0.15 * minigame,
     effort: 0.15 * (bid.effort / 3) * 100,
