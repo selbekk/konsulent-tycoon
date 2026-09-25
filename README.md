@@ -21,7 +21,7 @@ Vinneren er firmaet med høyest verdi etter 40 kvartaler.
 
 ## Kjør spillet lokalt
 
-Krever Node 20 eller nyere.
+Krever Node 24, samme versjon som CI og Cloud Functions bruker.
 
 ```bash
 npm install
