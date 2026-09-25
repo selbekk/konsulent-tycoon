@@ -5,7 +5,7 @@ import { isActive } from './economy'
 import { firmLevel } from './levels'
 import { chance } from './rng'
 import { removeStar } from './stars'
-import type { ActionOf, Contract, Firm, GameState, ShadyActionId, ShadyLogEntry } from './types'
+import type { ActionOf, Contract, Firm, GameState, ShadyActionId, ShadyLogEntry, Tender } from './types'
 import { addNews, nextId } from './util'
 
 export type ShadyRequirement = 'target' | 'tender' | 'contract' | 'star' | 'share' | 'ownBid'
@@ -71,14 +71,15 @@ export function poachChance(state: GameState, attacker: Firm, target: Firm, star
   return clamp(0.25 + (60 - star.loyalty) / 100 + (employerBrand(state, attacker) - employerBrand(state, target)) / 200, 0.05, 0.85)
 }
 
-function log(state: GameState, firm: Firm, a: ActionOf<'shady'>, ongoing: boolean): ShadyLogEntry {
+/** Only ids that were looked up and found go in the log, never what the action carried: it may come from a tampered log. */
+function log(state: GameState, firm: Firm, a: ActionOf<'shady'>, ongoing: boolean, found: { target?: Firm; tender?: Tender; contract?: Contract }): ShadyLogEntry {
   const entry: ShadyLogEntry = {
     id: nextId(state, 'x'),
     actionId: a.actionId,
     quarter: state.quarter,
-    targetFirmId: a.targetFirmId,
-    tenderId: a.tenderId,
-    contractId: a.contractId,
+    targetFirmId: found.target?.id,
+    tenderId: found.tender?.id,
+    contractId: found.contract?.id,
     detected: false,
     ongoing,
     active: ongoing,
@@ -94,7 +95,8 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
   const def = Object.hasOwn(SHADY_CATALOG, a.actionId) ? SHADY_CATALOG[a.actionId] : undefined
   if (!firm || !def) return 'errors.invalid'
   if (!shadyUnlocked(firm, a.actionId)) return 'errors.levelTooLow'
-  const target = a.targetFirmId ? state.firms[a.targetFirmId] : undefined
+  // Own keys only, like the catalog above: '__proto__' as a firm id would otherwise reach Object.prototype.
+  const target = typeof a.targetFirmId === 'string' && Object.hasOwn(state.firms, a.targetFirmId) ? state.firms[a.targetFirmId] : undefined
   if (def.requires.includes('target') && (!target || target.id === firm.id || target.bankrupt)) return 'errors.invalidTarget'
   const tender = a.tenderId
     ? state.tenders.find((t) => t.id === a.tenderId && !t.resolved && !t.hidden && t.publishedQuarter <= state.quarter)
@@ -196,7 +198,7 @@ export function handleShady(state: GameState, a: ActionOf<'shady'>): string | un
 
   firm.cash -= cost
   firm.heat = clamp(firm.heat + def.heat, 0, 100)
-  log(state, firm, a, def.ongoing)
+  log(state, firm, a, def.ongoing, { target, tender, contract })
   return undefined
 }
 

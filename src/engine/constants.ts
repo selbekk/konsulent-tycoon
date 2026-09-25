@@ -399,8 +399,11 @@ export const WEEKLY_GRACE_DAYS = 3
 /** Longest action log the leaderboard accepts; a full bot game logs 600–920 entries. */
 export const RUN_LOG_MAX = 6000
 
-/** NaN (from a bad action or a broken save) becomes `min`, so it can never reach the state. ±Infinity clamps as usual. */
+/**
+ * NaN, or anything that isn't a number (a missing or string field in a bad action or a broken save), becomes
+ * `min`, so it can never reach the state. ±Infinity clamps as usual.
+ */
 export function clamp(v: number, min: number, max: number) {
-  if (Number.isNaN(v)) return min
+  if (typeof v !== 'number' || Number.isNaN(v)) return min
   return Math.max(min, Math.min(max, v))
 }

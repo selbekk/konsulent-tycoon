@@ -32,10 +32,10 @@ export function acquisitionBlock(buyer: Firm, target: Firm | undefined): string 
 /** People, stars, contracts and client relationships move over; the target's cash does not. */
 export function handleAcquire(state: GameState, a: ActionOf<'acquireFirm'>): string | undefined {
   const buyer = state.firms[a.firmId]
-  const target = state.firms[a.targetFirmId]
+  const target = Object.hasOwn(state.firms, a.targetFirmId) ? state.firms[a.targetFirmId] : undefined
   if (!buyer || buyer.bankrupt) return 'errors.invalid'
   const blocked = acquisitionBlock(buyer, target)
-  if (blocked) return blocked
+  if (blocked || !target) return blocked ?? 'errors.invalidTarget'
   buyer.cash -= acquisitionPrice(target)
 
   for (const d of DISCIPLINES) {
