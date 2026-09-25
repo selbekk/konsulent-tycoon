@@ -12,7 +12,8 @@ npm test                     # Vitest, run once
 npx vitest run src/engine/shady.test.ts      # single file
 npx vitest run -t "determinism"              # tests matching a name
 npm run typecheck            # tsc -b --noEmit (scripts/ are type-checked too)
-npm run lint                 # oxlint
+npm run lint                 # oxlint, fails on warnings too (config in .oxlintrc.json)
+npm run format               # oxfmt, formats in place (npm run format:check only checks)
 npm run build                # tsc -b && vite build -> dist/
 npm run build && npm run preview             # the only way to test PWA/offline behaviour
 npm run sim -- --games 60 --strategy human,humanPro   # headless balance sim with player bots
@@ -20,7 +21,7 @@ npm run sim:market -- 20 -v  # AI market alone over 40 quarters
 npm run icons                # regenerate PNG icons from public/icon.svg (commit the output)
 ```
 
-Before committing, `typecheck`, `test` and `build` should all pass.
+Before committing, `typecheck`, `lint`, `format:check`, `test` and `build` should all pass.
 
 ## Architecture
 

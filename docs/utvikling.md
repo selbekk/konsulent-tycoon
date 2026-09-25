@@ -30,7 +30,8 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 | `npm test` | Kjører alle tester én gang (Vitest) |
 | `npm run test:watch` | Kjører testene i watch-modus |
 | `npm run typecheck` | Kjører TypeScript uten å bygge |
-| `npm run lint` | Kjører oxlint |
+| `npm run lint` | Kjører oxlint, og feiler også på advarsler (regler i `.oxlintrc.json`) |
+| `npm run format` | Formaterer koden med oxfmt (`npm run format:check` sjekker bare) |
 | `npm run sim -- [flagg]` | Spiller hele partier headless med spillerboter (se [Balansering](#balansering-og-simulator)) |
 | `npm run sim:market -- 20 [-v]` | Måler hvor sunt AI-markedet er over 40 kvartaler, uten spiller |
 | `npm run icons` | Genererer app-ikonene i `public/` fra `public/icon.svg` |
@@ -38,7 +39,7 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 | `npm run functions:check` | Kjører toppliste-backenden ende til ende i Firebase-emulatoren (krever Java) |
 | `firebase deploy --only functions` | Bygger og deployer toppliste-backenden (se [Toppliste](#toppliste-firebase)) |
 
-Før du committer, bør `npm run typecheck`, `npm test` og `npm run build` være grønne.
+Før du committer, bør `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test` og `npm run build` være grønne. Kjør `npm run format` for å rette formateringen.
 
 ## Arkitektur
 
