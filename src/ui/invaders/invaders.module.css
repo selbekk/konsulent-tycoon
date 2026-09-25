@@ -1,0 +1,171 @@
+.wrap {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.hud {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px 12px;
+  font-size: 0.9rem;
+}
+
+.lives {
+  display: inline-flex;
+  gap: 4px;
+  min-height: 14px;
+  color: var(--accent);
+}
+
+/* The stage keeps the canvas' 4:5 ratio and never grows taller than the screen allows. */
+.stage {
+  position: relative;
+  width: min(100%, 420px, calc(62dvh * 0.8));
+  aspect-ratio: 128 / 160;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  background: var(--bg-2);
+  outline: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  overflow: auto;
+}
+
+.overlay p {
+  margin: 0;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 6px 10px;
+  align-items: center;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.legend li {
+  display: contents;
+}
+
+.legendSprite {
+  display: block;
+  height: 16px;
+  justify-self: center;
+  fill: currentColor;
+}
+
+.banner {
+  position: absolute;
+  inset: 40% 0 auto;
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  pointer-events: none;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.banner strong {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: var(--warn);
+  text-shadow: 2px 2px 0 var(--border-dark);
+}
+
+.ending {
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.result {
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* On-screen controls only where there is no keyboard to speak of. */
+.touch {
+  display: none;
+  width: min(100%, 420px);
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 8px;
+}
+
+@media (pointer: coarse) {
+  .touch {
+    display: grid;
+  }
+}
+
+.touch button {
+  min-height: 52px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.touch button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.touch .fire {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.flip {
+  display: inline-flex;
+  transform: scaleX(-1);
+}

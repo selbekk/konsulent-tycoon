@@ -2193,5 +2193,42 @@
       "facts": "They wanted facts, numbers and a plan. Worth remembering.",
       "spin": "They just wanted a nice turn of phrase. No judgement."
     }
+  },
+  "invaders": {
+    "title": "Meeting Invaders",
+    "intro": "Your calendar is under attack. Decline the meetings before they reach your desk.",
+    "controls": "Arrow keys or A/D to move, space to decline. Esc to give up.",
+    "start": "Decline everything",
+    "kinds": {
+      "workshop": "Workshop",
+      "sync": "Quick sync",
+      "status": "Status meeting",
+      "coffee": "“Grab a coffee?”",
+      "allhands": "All-hands"
+    },
+    "day": "{{day}}, week {{week}}",
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday"
+    },
+    "weekend": "Weekend! Then came Monday.",
+    "saved": "Saved",
+    "time": "{{hours}} h {{minutes}} min",
+    "coffee_one": "{{count}} cup of coffee left",
+    "coffee_other": "{{count}} cups of coffee left",
+    "endings": {
+      "calendarFull": "Your calendar is full. You're in meetings until 2036.",
+      "outOfCoffee": "Out of coffee. You're accepting everything now."
+    },
+    "result": "You saved {{time}} of your week.",
+    "best": "Best: {{time}}",
+    "newBest": "New best!",
+    "again": "Try again",
+    "left": "Left",
+    "right": "Right",
+    "fire": "Decline"
   }
 }

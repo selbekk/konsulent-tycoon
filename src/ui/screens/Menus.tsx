@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DISCIPLINES, MAX_QUARTERS, WEEKLY_DIFFICULTY, isoWeek, listSlots, weekSeed } from '../../engine'
 import { FIRMS } from '../../content/firms'
@@ -14,6 +14,7 @@ import { getNowPlaying, nextSong, subscribeNowPlaying } from '../music/player'
 import { formatQuarter } from '../format'
 import { weekText } from '../leaderboardText'
 import { NEWS_POSTS } from '../news'
+import { MeetingInvaders } from '../invaders/MeetingInvaders'
 import { AccountSection } from './Leaderboard'
 import m from './menu.module.css'
 import s from './screens.module.css'
@@ -86,6 +87,27 @@ function DroppedSavesNotice() {
   )
 }
 
+const SECRET = 'start'
+
+/** The menu says "press start", so typing it does exactly that. */
+function useTypedSecret(enabled: boolean, onMatch: () => void) {
+  useEffect(() => {
+    if (!enabled) return
+    let typed = ''
+    const onKey = (e: KeyboardEvent) => {
+      if (e.repeat || e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return
+      if (e.target instanceof HTMLElement && e.target.closest('input, textarea, select, [contenteditable]')) return
+      typed = (typed + e.key.toLowerCase()).slice(-SECRET.length)
+      if (typed === SECRET) {
+        typed = ''
+        onMatch()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [enabled, onMatch])
+}
+
 export function MainMenu() {
   const { t } = useTranslation()
   const go = useGame((x) => x.go)
@@ -93,6 +115,13 @@ export function MainMenu() {
   useGame((x) => x.droppedSaves)
   const canInstall = useCanInstall()
   const showIosHint = !canInstall && isIosSafari() && !isStandalone()
+  const [invaders, setInvaders] = useState(false)
+  const openInvaders = useCallback(() => {
+    playSound('fanfare')
+    setInvaders(true)
+  }, [])
+  const closeInvaders = useCallback(() => setInvaders(false), [])
+  useTypedSecret(!invaders, openInvaders)
   const hasAuto = (() => {
     try {
       return listSlots(localStorage).some((x) => x.slot === 'auto' && x.status === 'playing')
@@ -145,6 +174,7 @@ export function MainMenu() {
         {showIosHint && <p className={m.footer}>{t('pwa.iosHint')}</p>}
         <p className={m.footer}>{t('menu.disclaimer')}</p>
       </div>
+      {invaders && <MeetingInvaders onClose={closeInvaders} />}
     </div>
   )
 }

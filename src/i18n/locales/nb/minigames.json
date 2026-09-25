@@ -2193,5 +2193,42 @@
       "facts": "De ville ha fakta, tall og en plan. Greit å vite til neste gang.",
       "spin": "De ville bare ha en fin formulering. Ingen dømmer."
     }
+  },
+  "invaders": {
+    "title": "Møteinvasjonen",
+    "intro": "Kalenderen din er under angrep. Takk nei til møtene før de når pulten din.",
+    "controls": "Piltaster eller A/D for å flytte, mellomrom for å takke nei. Esc for å gi opp.",
+    "start": "Takk nei til alt",
+    "kinds": {
+      "workshop": "Workshop",
+      "sync": "Synkemøte",
+      "status": "Statusmøte",
+      "coffee": "«Rask kaffe?»",
+      "allhands": "Allmøte"
+    },
+    "day": "{{day}}, uke {{week}}",
+    "days": {
+      "mon": "Mandag",
+      "tue": "Tirsdag",
+      "wed": "Onsdag",
+      "thu": "Torsdag",
+      "fri": "Fredag"
+    },
+    "weekend": "Helg! Så kom mandag.",
+    "saved": "Spart",
+    "time": "{{hours}} t {{minutes}} min",
+    "coffee_one": "{{count}} kopp kaffe igjen",
+    "coffee_other": "{{count}} kopper kaffe igjen",
+    "endings": {
+      "calendarFull": "Kalenderen er full. Du sitter i møter til 2036.",
+      "outOfCoffee": "Tom for kaffe. Nå takker du ja til alt."
+    },
+    "result": "Du sparte {{time}} av uka.",
+    "best": "Rekord: {{time}}",
+    "newBest": "Ny rekord!",
+    "again": "Prøv igjen",
+    "left": "Venstre",
+    "right": "Høyre",
+    "fire": "Avslå"
   }
 }
