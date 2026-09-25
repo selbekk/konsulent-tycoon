@@ -2,7 +2,10 @@
  * Posts in the news section, newest first. The text lives in `ui:news.posts.<id>` (`title` and a `body` array of
  * paragraphs); `date` is the publishing day as `YYYY-MM-DD`.
  */
-export const NEWS_POSTS = [{ id: 'welcome', date: '2026-09-25' }] as const
+export const NEWS_POSTS = [
+  { id: 'finance', date: '2026-09-25' },
+  { id: 'welcome', date: '2026-09-25' },
+] as const
 
 export type NewsPost = (typeof NEWS_POSTS)[number]
 

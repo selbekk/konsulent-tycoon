@@ -9,7 +9,7 @@ import { Bjorn } from '../components/Bjorn'
 import { Icon } from '../components/Icon'
 import { CapacityChart, Delta, KpiTile, TrendLine } from '../components/metrics'
 import m from '../components/metrics.module.css'
-import { Button, Panel, Sparkline, Stat } from '../components/ui'
+import { Button, Panel, Stat } from '../components/ui'
 import { formatMoney, formatNumber, formatPercent, formatQuarter, newsText } from '../format'
 import { OfficeView } from '../office/OfficeView'
 import s from './screens.module.css'
@@ -26,13 +26,11 @@ export function Dashboard() {
   const [article, setArticle] = useState<NewsItem | null>(null)
   const me = game.firms[game.playerId]
   const fin = quarterFinancials(game, me.id)
-  const last = me.history[me.history.length - 1]
   const todos = quarterTodos(game, me.id)
   const contracts = activeContracts(game, me.id)
   const ending = contracts.filter((c) => c.endQuarter === game.quarter + 1)
   const stars = hasFeature(me, 'stars') ? game.starMarket.length : 0
   const personal = game.news.filter((n) => n.personal).slice(-6).reverse()
-  const cashHistory = [...me.valuationHistory.slice(-12), valuation(me)]
   const k = kpis(game, me.id)
   const bench = benchmark(game, me.id)
   const cap = capacity(game, me.id)
@@ -130,28 +128,21 @@ export function Dashboard() {
         <LevelPanel firm={me} />
       </div>
 
-      <Panel title={t('dashboard.thisQuarter', { quarter: formatQuarter(game.quarter) })} icon="coin" className={s.span7}>
+      <Panel
+        title={t('dashboard.thisQuarter', { quarter: formatQuarter(game.quarter) })}
+        icon="coin"
+        className={s.span7}
+        actions={
+          <Button size="small" onClick={() => setTab('finance')}>
+            {t('dashboard.goFinance')} →
+          </Button>
+        }
+      >
         <div className={s.kpis}>
-          <Stat label={t('dashboard.expectedRevenue')} value={formatMoney(fin.revenue, lng)} />
-          <Stat label={t('dashboard.expectedCosts')} value={formatMoney(fin.total, lng)} />
           <Stat label={t('dashboard.expectedResult')} value={formatMoney(fin.ebitda, lng)} tone={fin.ebitda >= 0 ? 'good' : 'bad'} />
           <Stat label={t('dashboard.valuation')} value={formatMoney(valuation(me), lng)} />
           <Stat label={t('dashboard.rank')} value={`#${playerRank(game)} / ${game.firmOrder.filter((id) => !game.firms[id].bankrupt).length}`} />
         </div>
-        <div style={{ marginTop: 12 }}>
-          <span className={`${s.small} ${s.muted}`}>{t('dashboard.valuationTrend')}</span>
-          <Sparkline values={cashHistory} />
-        </div>
-        {last && (
-          <p className={`${s.small} ${s.muted}`}>
-            {t('dashboard.lastQuarter', {
-              revenue: formatMoney(last.revenue, lng),
-              result: formatMoney(last.ebitda, lng),
-              hires: last.hires,
-              leavers: last.leavers,
-            })}
-          </p>
-        )}
       </Panel>
 
       <Panel title={t('dashboard.news')} icon="news" className={s.span5}>

@@ -121,7 +121,11 @@ export function endTurn(input: GameState): GameState {
   checkMilestones(state)
 
   checkBankruptcies(state)
-  for (const f of Object.values(state.firms)) f.valuationHistory.push(valuation(f))
+  for (const f of Object.values(state.firms)) {
+    f.valuationHistory.push(valuation(f))
+    const last = f.history[f.history.length - 1]
+    if (last && last.quarter === state.quarter) last.cash = f.cash
+  }
 
   state.quarter = next
   const player = state.firms[state.playerId]

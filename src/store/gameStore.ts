@@ -22,8 +22,8 @@ import {
 import type { Action, Crisis, GameState, MinigameKind, NewGameOptions, RunLog, SlotId } from '../engine'
 
 export type Screen = 'menu' | 'newGame' | 'settings' | 'about' | 'news' | 'leaderboard' | 'game'
-export type Tab = 'dashboard' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
-export const TABS: Tab[] = ['dashboard', 'staff', 'culture', 'tenders', 'contracts', 'strategy', 'market', 'backroom']
+export type Tab = 'dashboard' | 'finance' | 'staff' | 'culture' | 'tenders' | 'contracts' | 'strategy' | 'market' | 'backroom'
+export const TABS: Tab[] = ['dashboard', 'finance', 'staff', 'culture', 'tenders', 'contracts', 'strategy', 'market', 'backroom']
 
 export interface Settings {
   theme: 'dark' | 'light'

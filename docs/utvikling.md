@@ -239,6 +239,10 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Låsene håndheves i reduceren med `errors.levelTooLow` / `errors.tenderTooBig`, altså likt for spiller og AI. `planAiTurn` og `planHumanProxy` filtrerer bort det som er låst, så de ikke bruker opp budplasser på bud som avvises.
   - Siden spilleren ikke kan endre kulturbudsjettet på nivå 1, starter spilleren med `PLAYER_START_BUDGETS`.
   - Hvert nytt nivå er en flytting til et større kontor: et navn og en ny møbelbit i `OfficeView`, og et engangsløft for sosialt miljø og arbeidsgiverbrand (`OFFICE_MOVE_*`).
+- **Økonomi (`engine/finance.ts`, `ui/screens/FinanceScreen.tsx`):** Egen fane fra start. `financeOverview` er ren og samler budsjettet for kvartalet (`quarterFinancials`), burn rate, runway og regnskapet fra `Firm.history`.
+  - `QuarterReport.cash` er kassa helt på slutten av kvartalet, satt samtidig med `valuationHistory`. «Andre poster» i regnskapet er endringen i kassa minus EBITDA: renter, bøter, hendelser, oppkjøp og engangskjøp.
+  - Runway regnes ned til kredittrammen (`creditLimit`), ikke ned til null, fordi det er der konkursregelen slår inn. Den er ikke den samme som «runway»-sjekken i `todos.ts`, som er en intern terskel for ansettelsespunktet.
+  - Kostnadslinjene lenker bare til faner som er synlige på spillerens nivå (`ui/tabs.ts`).
 - **Strategi (`engine/strategy.ts`, `engine/acquisitions.ts`, `content/strategy.ts`):** Egen fane fra nivå 3.
   - **Spesialisering** (nivå 3): en sektor eller et fagområde som gir bonus i `bidQuality` for anbud som passer. Første valg er gratis.
   - **Partnerskap** (nivå 4): kvartalsvis avgift for bonus i anbud med seter i partnerens fagområde, maks to.

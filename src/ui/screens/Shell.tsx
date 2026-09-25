@@ -2,15 +2,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { track } from '../../analytics'
 import { EVENT_MAP } from '../../content/events'
-import { FEATURE_LEVEL, averageMorale, creditLimit, firmLevel, headcount, openCrises, quarterTodos } from '../../engine'
-import type { Feature, NewsItem } from '../../engine'
-import { TABS, crisisSeenKey, useGame } from '../../store/gameStore'
+import { averageMorale, creditLimit, firmLevel, headcount, openCrises, quarterTodos } from '../../engine'
+import type { NewsItem } from '../../engine'
+import { crisisSeenKey, useGame } from '../../store/gameStore'
 import type { Tab } from '../../store/gameStore'
 import { Icon } from '../components/Icon'
 import type { IconName } from '../components/Icon'
 import { Button, Modal, Stat } from '../components/ui'
 import { formatMoney, formatQuarter, newsText } from '../format'
 import { playSound } from '../sound'
+import { visibleTabs } from '../tabs'
 import { BackroomScreen } from './BackroomScreen'
 import { BidForm } from './BidForm'
 import { ContractsScreen } from './ContractsScreen'
@@ -20,6 +21,7 @@ import { CultureScreen } from './CultureScreen'
 import { Dashboard } from './Dashboard'
 import { EndGame } from './EndGame'
 import { EventModal } from './EventModal'
+import { FinanceScreen } from './FinanceScreen'
 import { LevelUpModal } from './LevelUpModal'
 import { MarketScreen } from './MarketScreen'
 import { NewsArticle } from './NewsArticle'
@@ -34,6 +36,7 @@ import s from './shell.module.css'
 
 const TAB_ICONS: Record<Tab, IconName> = {
   dashboard: 'chart',
+  finance: 'coin',
   staff: 'people',
   culture: 'coffee',
   tenders: 'briefcase',
@@ -43,12 +46,10 @@ const TAB_ICONS: Record<Tab, IconName> = {
   backroom: 'door',
 }
 
-/** Tabs that only show up once the firm reaches the level for them. */
-const TAB_FEATURE: Partial<Record<Tab, Feature>> = { culture: 'culture', strategy: 'strategy', backroom: 'backroom' }
-const visibleTabs = (level: number) => TABS.filter((id) => !TAB_FEATURE[id] || level >= FEATURE_LEVEL[TAB_FEATURE[id]])
 
 const SCREENS: Record<Tab, () => React.ReactNode> = {
   dashboard: Dashboard,
+  finance: FinanceScreen,
   staff: StaffScreen,
   culture: CultureScreen,
   tenders: TenderBoard,
