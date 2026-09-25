@@ -25,7 +25,9 @@ Inspirert av Theme Hospital og RollerCoaster Tycoon, men dempet. Tørr, varm og 
 - **Høyttaleranlegget:** Innimellom kommer en melding over anlegget («Minner om at fredagspilsen i dag er alkoholfri. Ingen vet hvorfor.»). Maks én per kvartal, noen avhenger av tilstanden i firmaet, og de kan slås av.
 - **Tankebobler:** Ansatte-skjermen viser hva folka tenker, ut fra trivsel, utnyttelse og kultur. Tankene er også en diskret hjelpetekst om hva som påvirker trivselen.
 - **Årets priser:** Etter Q4 deles det ut priser («Årets fagmiljø», «Mest kreative timeføring», «Bransjens beste kaffemaskin» …) til AI-er og spilleren på lik linje.
-- **Kontoret:** Et lite pikselkontor på oversikten som vokser med antall ansatte, kultur og nivå. Bare pynt.
+- **Kontoret:** Et lite pikselkontor på oversikten som vokser med antall ansatte, kultur og nivå. Det reagerer på hva som skjer: vimpler og champagne etter en seier, varsellampe og svette panner under en krise, juletre i Q4, flagg i mai og kake når noen har bursdag. Klikker du på en ansatt, får du høre hva hen tenker. Bare pynt, men levende pynt.
+- **Feiring:** Et vunnet anbud får eget kort i kvartalsrapporten med stempel og anslått verdi, og tallene teller opp. Milepæler (første overskudd, ti ansatte, ett år i drift …) gir et nytt trofé på **trofeveggen**, og et rekordkvartal får et stempel. Det er med vilje mye å feire tidlig, så starten ikke føles som bare regneark.
+- **Bransjesladder:** Tickeren har små, harmløse saker om konkurrenter og kunder (kaffekrig, surdeig, kontorhund) mellom anbudsnyhetene.
 - **Styreleder Bjørn** er rådgiveren. Han sier aldri mer enn én eller to setninger.
 - **Visuelt:** Retro, men rolig. Piksler i illustrasjonene (ikoner, kontor, portretter), ikke i tekst og knapper. Ingen emoji. Små 8-bit-lydeffekter.
 

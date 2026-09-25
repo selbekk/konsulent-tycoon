@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { newTestGame } from '../../engine/testUtils'
-import { officeLayout } from './officeLayout'
+import { CALM, officeLayout, officeMood } from './officeLayout'
 
 describe('officeLayout', () => {
   it('a small startup has one floor, a coffee machine and a desk per person', () => {
@@ -26,5 +26,23 @@ describe('officeLayout', () => {
     const firm = structuredClone(newTestGame().firms.player)
     firm.level = 3
     expect(officeLayout(firm).rooms).toEqual(['coffee', 'reception', 'window'])
+  })
+
+  it('decorates for the season, the party and the crisis', () => {
+    const firm = newTestGame().firms.player
+    const rooms = officeLayout(firm, { party: true, crisis: true, season: 'christmas', birthday: 'Kari' }).rooms
+    expect(rooms).toEqual(expect.arrayContaining(['tree', 'champagne', 'siren', 'cake']))
+    expect(officeLayout(firm, CALM).rooms).toEqual(['coffee'])
+  })
+
+  it('reads the mood from the game without touching the rng', () => {
+    const game = newTestGame()
+    const rng = game.rng.s
+    expect(officeMood(game, game.firms.player).party).toBe(false)
+    game.quarter = 3
+    game.news.push({ id: 'n1', quarter: 2, key: 'news.tender.playerWon', params: {}, tone: 'good', personal: true, firmId: 'player' })
+    const mood = officeMood(game, game.firms.player)
+    expect(mood).toMatchObject({ party: true, season: 'christmas' })
+    expect(game.rng.s).toBe(rng)
   })
 })

@@ -149,6 +149,57 @@
       },
       "exposed": "Det sprakk: «{{crisis}}» er i avisen.",
       "exposedRival": "Avsløring: {{firm}} prøvde å dysse ned en sak. Nå står det i avisen."
+    },
+    "milestone": {
+      "first_quarter": "Første kvartal er i boks. Kaffemaskinen virker, og ingen har sagt opp.",
+      "first_profit": "Første kvartal med overskudd! Regnskapsføreren sendte en tommel opp.",
+      "first_renewal": "Første forlengelse! En kunde ville ha mer av dere. Det er det fineste som finnes i bransjen.",
+      "revenue_5m": "Fem millioner i omsetning på ett kvartal. Noen har skrevet det på tavla på kjøkkenet.",
+      "team_10": "Dere er ti ansatte! Det trengs en kaffekanne til.",
+      "first_year": "Ett år i drift! Kaka er bestilt, og marsipanen har logo på.",
+      "ebitda_1m": "En million i overskudd på ett kvartal. Styret er nesten oppspilt.",
+      "crisis_weathered": "Første krise er ridd av. Dere er offisielt et ordentlig firma nå.",
+      "revenue_10m": "Ti millioner på ett kvartal. Banken har begynt å sende julekort.",
+      "team_25": "25 ansatte! Allmøtet trenger et større rom.",
+      "revenue_25m": "25 millioner på ett kvartal. Konkurrentene har begynt å spørre hvem dere er.",
+      "five_years": "Fem år i drift. Gründerne har begynt å si «i gamle dager».",
+      "team_100": "100 ansatte! Ingen kjenner lenger alle, men alle kjenner kaffemaskinen.",
+      "revenue_50m": "50 millioner på ett kvartal. Det er offisielt: dere er et konsulenthus."
+    },
+    "record": {
+      "revenue": "Rekordkvartal! {{amount}} i omsetning, mer enn noen gang før."
+    },
+    "gossip": {
+      "foosball_final": "Fussballturneringen i {{firm}} gikk til ekstraomganger. Finalen er utsatt på grunn av et kundemøte.",
+      "rebrand": "{{firm}} har fått ny logo. Den ligner på den gamle, men med mer luft.",
+      "hackathon": "{{firm}} holdt hackathon i helgen. Vinnerlaget laget en app som bestiller pizza til hackathon.",
+      "standing_desks": "Alle i {{firm}} har fått ståpult. Ingen står.",
+      "podcast": "{{firm}} lanserer podcast om digital transformasjon. Første episode er 94 minutter.",
+      "band": "Konsulentbandet i {{firm}} har gitt ut EP. Den heter «Scope Creep».",
+      "offsite": "{{firm}} holdt strategisamling på en fjellhytte. Nettet var dårlig, strategien ble god.",
+      "sourdough": "Surdeigsbølgen har nådd {{firm}}. Kjøkkenet har nå fem navngitte surdeiger.",
+      "slack_emoji": "{{firm}} har passert 4 000 egne emojier i Slack. HR vurderer en policy.",
+      "linkedin_marathon": "En partner i {{firm}} forteller på LinkedIn hva maraton har lært hen om skyarkitektur. 3 000 liker det.",
+      "office_dog": "{{firm}} har fått kontorhund. Den har allerede flere følgere enn daglig leder.",
+      "ai_assistant": "{{firm}} har tatt i bruk en KI-assistent som skriver tilbud. Den har begynt å tilby seg selv.",
+      "bike_to_work": "{{firm}} vant sykle-til-jobben-aksjonen igjen. De har én ansatt som bor i Drammen.",
+      "coffee_war": "Kaffekrig: {{firm}} har kjøpt espressomaskin til 180 000 kroner. {{other}} svarer med egen barista.",
+      "table_tennis": "{{firm}} slo {{other}} i bordtennisligaen for konsulenthus. Taperne krever videodømming.",
+      "billboard": "{{firm}} har kjøpt reklameplass rett utenfor kontoret til {{other}}. «Vi har bedre kaffe», står det.",
+      "innovation_lab": "{{customer}} har åpnet et innovasjonslab. Det er et møterom med saccosekker.",
+      "canteen": "Kantina til {{customer}} er kåret til byens beste. Konsulentene er plutselig svært villige til å sitte hos kunden.",
+      "reorg": "{{customer}} omorganiserer for tredje gang på to år. Organisasjonskartet finnes nå som animasjon.",
+      "procurement_form": "Innkjøpsavdelingen i {{customer}} har laget et nytt anbudsskjema. Det har 14 faner.",
+      "trend_conference": "Konferansen om «{{trend}}» var utsolgt. Halvparten av foredragsholderne selger «{{trend}}».",
+      "summer_party": "{{firm}} leide Operaen til sommerfesten. Naboene hørte DJ-en helt til Grünerløkka.",
+      "champagne": "{{firm}} vinner så mange anbud at champagnen nå kjøpes inn i kasser.",
+      "bankrupt_auction": "Konkursboet etter {{firm}} er solgt. En konkurrent kjøpte kaffemaskinen, og ingen vil si hvem.",
+      "timesheets": "Påminnelse til hele bransjen: timelistene skulle vært ført i går.",
+      "quiet_quarter": "Bransjen melder om et rolig kvartal. Ingen tror på det.",
+      "ski_season": "Skisesongen er i gang, og timelistene for fredager er påfallende tynne i hele bransjen.",
+      "may_parade": "{{firm}} går i 17. mai-tog med eget banner. «Vi leverer», står det på det.",
+      "summer_holiday": "Fellesferien nærmer seg. Halve bransjen har satt «ikke på kontoret» ut august.",
+      "julebord": "Julebordsesongen er i gang. {{firm}} har leid en hel båt og lover at det ikke blir som i fjor."
     }
   },
   "announcements": {
@@ -1694,6 +1745,282 @@
             "headline": "Uheldig melding i feil kanal",
             "body": "En konsulent i {{firm}} skal ha skrevet noe uheldig i en kundes Slack, i den tro at det var den interne kanalen. Skjermbildet går rundt i bransjen.\n\n{{firm}} har bedt om unnskyldning."
           }
+        }
+      }
+    },
+    "milestone": {
+      "first_quarter": {
+        "1": {
+          "headline": "Første kvartal i boks for {{player}}",
+          "body": "{{player}} har kommet seg gjennom sitt første kvartal. Org.nummeret er i orden, og kaffemaskinen har ikke sviktet en eneste gang.\n\nStyreleder Bjørn kaller det «en solid start»."
+        }
+      },
+      "first_profit": {
+        "1": {
+          "headline": "{{player}} går i pluss",
+          "body": "For første gang har {{player}} tjent penger på et kvartal. Regnskapsføreren sendte en tommel opp, noe hen aldri har gjort før.\n\nPengene går til lønn, husleie og, etter sigende, bedre kaffebønner."
+        }
+      },
+      "first_renewal": {
+        "1": {
+          "headline": "Kunde forlenger med {{player}}",
+          "body": "En fornøyd kunde har valgt å forlenge oppdraget med {{player}}, uten nytt anbud.\n\nI bransjen regnes dette som den høyeste formen for ros. Den nest høyeste er en LinkedIn-anbefaling."
+        }
+      },
+      "revenue_5m": {
+        "1": {
+          "headline": "{{player}} passerer fem millioner",
+          "body": "{{player}} omsatte for over fem millioner kroner forrige kvartal.\n\nTallet står nå på tavla på kjøkkenet, med tre utropstegn og en tegning av en rakett."
+        }
+      },
+      "team_10": {
+        "1": {
+          "headline": "{{player}} er ti",
+          "body": "{{player}} har nå ti ansatte. Det betyr at allmøtet ikke lenger får plass rundt ett bord.\n\nDet er bestilt en kaffekanne til."
+        }
+      },
+      "first_year": {
+        "1": {
+          "headline": "Ett år med {{player}}",
+          "body": "{{player}} har eksistert i et helt år. Det feires med kake med logo i marsipan.\n\nIfølge statistikken er det første året det vanskeligste. Ifølge gründerne var det bare litt travelt."
+        }
+      },
+      "ebitda_1m": {
+        "1": {
+          "headline": "Millionoverskudd i {{player}}",
+          "body": "{{player}} tjente over en million kroner forrige kvartal.\n\nStyremøtet varte i rekordkorte tolv minutter. Resten av tiden gikk til kake."
+        }
+      },
+      "crisis_weathered": {
+        "1": {
+          "headline": "{{player}} kom seg gjennom krisen",
+          "body": "Det ble krise i {{player}}, og det gikk bra. Eller i hvert fall greit.\n\nEn ansatt sier at «man er ikke et ordentlig konsulenthus før man har hatt en krise». Hen har jobbet tre steder."
+        }
+      },
+      "revenue_10m": {
+        "1": {
+          "headline": "{{player}} runder ti millioner",
+          "body": "{{player}} omsatte for over ti millioner kroner forrige kvartal.\n\nBanken har sendt blomster. Det er første gang de sender noe annet enn purringer."
+        }
+      },
+      "team_25": {
+        "1": {
+          "headline": "{{player}} er 25",
+          "body": "{{player}} har passert 25 ansatte. Allmøtet er flyttet til kantina, og noen har foreslått navneskilt.\n\nForslaget ble nedstemt av dem som allerede husker alle navnene."
+        }
+      },
+      "revenue_25m": {
+        "1": {
+          "headline": "{{player}} omsetter for 25 millioner",
+          "body": "{{player}} passerte 25 millioner kroner i omsetning forrige kvartal.\n\nFlere konkurrenter har begynt å følge selskapet på LinkedIn. Diskré, men det merkes."
+        }
+      },
+      "five_years": {
+        "1": {
+          "headline": "Fem år med {{player}}",
+          "body": "{{player}} fyller fem år. Det finnes nå ansatte som aldri har sett det første kontoret.\n\nGründerne forteller gjerne om det. Litt for gjerne, ifølge kilder."
+        }
+      },
+      "team_100": {
+        "1": {
+          "headline": "{{player}} har hundre ansatte",
+          "body": "{{player}} har nå hundre ansatte. Julebordet må bestilles et år i forveien.\n\nDaglig leder sier kulturen er den samme som da de var fem. De som var der da, smiler høflig."
+        }
+      },
+      "revenue_50m": {
+        "1": {
+          "headline": "{{player}} passerer femti millioner",
+          "body": "{{player}} omsatte for over femti millioner kroner forrige kvartal.\n\nFinanspressen har ringt for å høre hemmeligheten. Svaret var «gode folk og god kaffe», som ingen trodde på."
+        }
+      }
+    },
+    "record": {
+      "revenue": {
+        "1": {
+          "headline": "Rekordkvartal for {{player}}",
+          "body": "{{player}} omsatte for {{amount}} forrige kvartal, mer enn noen gang før.\n\nDaglig leder takker de ansatte. De ansatte takker for kaka."
+        }
+      }
+    },
+    "gossip": {
+      "foosball_final": {
+        "1": {
+          "headline": "Fussballfinale utsatt i {{firm}}",
+          "body": "Den interne fussballturneringen i {{firm}} er inne i sin sjette uke. Finalen skulle vært spilt fredag, men ble utsatt da begge lagene fikk kundemøte samtidig.\n\nBegge lag mener de ligger an til å vinne."
+        }
+      },
+      "rebrand": {
+        "1": {
+          "headline": "Ny profil for {{firm}}",
+          "body": "{{firm}} lanserer ny visuell profil etter et halvt års arbeid. Logoen er den samme, men med mer luft rundt, og fargen heter nå «dyp tillit».\n\nByrået bak kaller det «en evolusjon, ikke en revolusjon»."
+        }
+      },
+      "hackathon": {
+        "1": {
+          "headline": "Hackathon i {{firm}}",
+          "body": "Førti konsulenter i {{firm}} brukte helgen på hackathon. Vinnerlaget laget en app som bestiller pizza til neste hackathon.\n\nJuryen roste løsningen for å «adressere et reelt behov»."
+        }
+      },
+      "standing_desks": {
+        "1": {
+          "headline": "Ståpulter til alle i {{firm}}",
+          "body": "{{firm}} har byttet ut alle pultene med hev-senk-pulter. Etter tre uker er det målt at ingen står.\n\nEn ansatt forteller at hen hever pulten når sjefen kommer forbi."
+        }
+      },
+      "podcast": {
+        "1": {
+          "headline": "{{firm}} starter podcast",
+          "body": "{{firm}} har lansert en podcast om digital transformasjon. Første episode varer i 94 minutter, hvorav de første tolv handler om mikrofonen.\n\nFlere episoder er lovet «så fort vi finner et nytt møterom å spille inn i»."
+        }
+      },
+      "band": {
+        "1": {
+          "headline": "{{firm}}-bandet gir ut EP",
+          "body": "Husbandet i {{firm}} har spilt inn sin første EP, «Scope Creep». Den har fire spor, men skulle opprinnelig ha to.\n\nPlata er tilgjengelig på alle strømmetjenester og på intranettet."
+        }
+      },
+      "offsite": {
+        "1": {
+          "headline": "Strategisamling på fjellet",
+          "body": "Ledergruppen i {{firm}} har vært tre dager på fjellhytte for å legge strategien for de neste fem årene. Mobildekningen var elendig.\n\nDeltakerne beskriver det som «den mest produktive samlingen vi har hatt»."
+        }
+      },
+      "sourdough": {
+        "1": {
+          "headline": "Surdeig på kontoret",
+          "body": "Kjøkkenet i {{firm}} huser nå fem surdeiger, alle med navn. Den eldste heter Kjell og er eldre enn to av avdelingene.\n\nFasilitetsansvarlig har bedt om at de merkes bedre."
+        }
+      },
+      "slack_emoji": {
+        "1": {
+          "headline": "Emoji-rekord i {{firm}}",
+          "body": "Arbeidsområdet til {{firm}} har nå over 4 000 egendefinerte emojier. Den mest brukte er et bilde av daglig leder som nikker.\n\nHR vurderer retningslinjer, men har ikke blitt enige om hvilken emoji de skal kunngjøre det med."
+        }
+      },
+      "linkedin_marathon": {
+        "1": {
+          "headline": "Maraton og skyarkitektur",
+          "body": "Et LinkedIn-innlegg fra en partner i {{firm}} om «hva mil 30 lærte meg om skyarkitektur» har fått over 3 000 reaksjoner.\n\nInnlegget avsluttes med spørsmålet «Hva har ditt siste løp lært deg?». Mange har svart «at jeg ikke løper»."
+        }
+      },
+      "office_dog": {
+        "1": {
+          "headline": "Kontorhund i {{firm}}",
+          "body": "{{firm}} har fått en kontorhund ved navn Pixel. På to uker har Instagram-kontoen hans fått flere følgere enn selskapets egen.\n\nPixel har foreløpig ingen timer å føre."
+        }
+      },
+      "ai_assistant": {
+        "1": {
+          "headline": "KI skriver tilbudene i {{firm}}",
+          "body": "{{firm}} lar nå en KI-assistent skrive førsteutkastet til alle tilbud. Det går raskt, men i hvert tredje tilbud foreslår assistenten seg selv som prosjektleder.\n\nSelskapet sier det jobber med saken."
+        }
+      },
+      "bike_to_work": {
+        "1": {
+          "headline": "{{firm}} vinner sykkelaksjonen",
+          "body": "For tredje år på rad vinner {{firm}} sykle-til-jobben-aksjonen for konsulenthus. Nesten hele forspranget skyldes én ansatt som sykler fra Drammen.\n\nHen sier at hen egentlig bare liker å være alene i en time."
+        }
+      },
+      "coffee_war": {
+        "1": {
+          "headline": "Kaffekrigen trappes opp",
+          "body": "{{firm}} har installert en italiensk espressomaskin til 180 000 kroner. Bare dager senere ansatte {{other}} en barista på heltid.\n\nBegge selskapene avviser at det har noe med rekruttering å gjøre."
+        }
+      },
+      "table_tennis": {
+        "1": {
+          "headline": "Bordtennisdrama",
+          "body": "{{firm}} vant ligakampen mot {{other}} med 3–2 etter et avgjørende nettsett.\n\n{{other}} har klaget inn resultatet og krever at ligaen innfører videodømming. Ligaen har ett bord og ingen kamera."
+        }
+      },
+      "billboard": {
+        "1": {
+          "headline": "Reklamekrig i gata",
+          "body": "En ny reklameplakat har dukket opp på bussholdeplassen utenfor {{other}}. Avsender er {{firm}}, og budskapet er «Vi har bedre kaffe».\n\n{{other}} har svart med å kjøpe inn bedre kaffe."
+        }
+      },
+      "innovation_lab": {
+        "1": {
+          "headline": "{{customer}} satser på innovasjon",
+          "body": "{{customer}} har åpnet et eget innovasjonslab. Ifølge pressemeldingen skal det «senke terskelen for å tenke nytt».\n\nLaben er et tidligere møterom med saccosekker, en tavle og en plante."
+        }
+      },
+      "canteen": {
+        "1": {
+          "headline": "Byens beste kantine",
+          "body": "Kantina hos {{customer}} er kåret til byens beste for tredje gang. Taco-onsdag regnes som en egen kategori.\n\nFlere konsulenthus melder om rekordhøy vilje til å sitte hos kunden."
+        }
+      },
+      "reorg": {
+        "1": {
+          "headline": "Ny omorganisering hos {{customer}}",
+          "body": "{{customer}} har varslet en ny omorganisering, den tredje på to år. Målet er «kortere beslutningsveier».\n\nDet nye organisasjonskartet er så komplisert at det leveres som animasjon."
+        }
+      },
+      "procurement_form": {
+        "1": {
+          "headline": "Nytt skjema hos {{customer}}",
+          "body": "{{customer}} innfører nytt skjema for alle anbud. Det skal gjøre prosessen «enklere for leverandørene».\n\nSkjemaet har 14 faner, og fane 9 er en veiledning til de andre."
+        }
+      },
+      "trend_conference": {
+        "1": {
+          "headline": "Fullt hus for «{{trend}}»",
+          "body": "Årets konferanse om «{{trend}}» ble utsolgt på to dager. Programmet hadde 40 foredrag.\n\nEn opptelling viser at 22 av foredragsholderne jobber i firma som selger «{{trend}}». De resterende 18 vurderer det."
+        }
+      },
+      "summer_party": {
+        "1": {
+          "headline": "Sommerfest i Operaen",
+          "body": "Som bransjens største trenger {{firm}} plass når de fester. I år ble det Operaen.\n\nDJ-en spilte til to om natta. Naboer på Grünerløkka melder at de nå kan hele spillelista."
+        }
+      },
+      "champagne": {
+        "1": {
+          "headline": "Champagne i kasser",
+          "body": "Ingen har vunnet flere anbud enn {{firm}} i det siste. Kilder forteller at champagnen nå kjøpes inn i kasser.\n\nFirmaet selv sier at «vi feirer ikke seire, vi feirer kundene». Champagnen er til kundene."
+        }
+      },
+      "bankrupt_auction": {
+        "1": {
+          "headline": "Auksjon etter {{firm}}",
+          "body": "Bobestyreren har solgt det som var igjen etter {{firm}}. Fussballbordet gikk for 800 kroner.\n\nKaffemaskinen ble kjøpt av en konkurrent for en sum som ingen vil oppgi. Den skal visstnok ha fått ny logo allerede."
+        }
+      },
+      "timesheets": {
+        "1": {
+          "headline": "Timelistene, igjen",
+          "body": "Økonomiavdelinger over hele landet minner om at timelistene skulle vært ført i går.\n\nEn uformell undersøkelse viser at 64 prosent av konsulentene fører timer på fredag ettermiddag, og at resten lyver."
+        }
+      },
+      "quiet_quarter": {
+        "1": {
+          "headline": "Et rolig kvartal",
+          "body": "Ifølge bransjeforeningen har kvartalet vært «rolig og forutsigbart».\n\nForeningen har ikke villet svare på hvordan de måler det."
+        }
+      },
+      "ski_season": {
+        "1": {
+          "headline": "Tynne fredager",
+          "body": "Det har kommet snø på fjellet, og det merkes i timelistene. Fredager er i snitt 40 prosent kortere enn i november.\n\nFlere firma melder om «dårlig dekning» på fredagsmøtene."
+        }
+      },
+      "may_parade": {
+        "1": {
+          "headline": "{{firm}} i barnetoget",
+          "body": "{{firm}} deltok i 17. mai-toget med eget banner og tjue ansatte i dress.\n\nFlere tilskuere lurte på hvilken skole de gikk på."
+        }
+      },
+      "summer_holiday": {
+        "1": {
+          "headline": "Stille før ferien",
+          "body": "Fellesferien nærmer seg, og autosvarene er på plass. Den mest brukte formuleringen er «begrenset tilgang til e-post».\n\nEn undersøkelse viser at alle likevel sjekker e-posten hver dag."
+        }
+      },
+      "julebord": {
+        "1": {
+          "headline": "Julebord på båt",
+          "body": "{{firm}} har leid en fjordbåt til årets julebord. Ledelsen har sendt ut en e-post der det står at «det ikke blir som i fjor».\n\nIngen har villet forklare hva som skjedde i fjor."
         }
       }
     }

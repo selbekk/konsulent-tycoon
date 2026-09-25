@@ -153,7 +153,13 @@
       "reception": "Resepsjon",
       "window": "Utsikt over fjorden",
       "terrace": "Takterrasse",
-      "bust": "Byste av gründerne"
+      "bust": "Byste av gründerne",
+      "trophies": "Troféhylle",
+      "tree": "Juletre",
+      "flag": "17. mai-flagg",
+      "cake": "Kake",
+      "champagne": "Champagne",
+      "siren": "Varsellampe"
     },
     "tiers": {
       "1": "Et hjørne i et kontorfellesskap",
@@ -161,7 +167,12 @@
       "3": "En hel etasje i Bjørvika",
       "4": "Tre etasjer med takterrasse",
       "5": "Eget bygg med navnet deres på fasaden"
-    }
+    },
+    "cake": "Kake på kjøkkenet: {{name}} har bursdag.",
+    "party": "Stemningen er høy etter forrige kvartal.",
+    "crisis": "Det er krise, og det merkes på kontoret.",
+    "hint": "Klikk på en ansatt for å høre hva hen tenker.",
+    "someone": "En kollega"
   },
   "staff": {
     "pools": "Konsulentene",
@@ -545,7 +556,17 @@
     "result": "Resultat",
     "people": "{{hires}} nye, {{leavers}} sluttet. Faktureringsgrad {{util}}.",
     "awards": "Årets priser {{year}}",
-    "continue": "Videre til {{quarter}}"
+    "continue": "Videre til {{quarter}}",
+    "win": {
+      "stamp": "TILDELT",
+      "framework": "Rammeavtale, nr. {{rank}}",
+      "project": "Prosjekt",
+      "value": "Anslått verdi",
+      "bidders_one": "Dere var alene om å by",
+      "bidders_other": "{{count}} leverte bud"
+    },
+    "record": "REKORD",
+    "trophy": "Nytt trofé!"
   },
   "events": {
     "more_one": "{{count}} hendelse til venter.",
@@ -1119,5 +1140,11 @@
       }
     },
     "name": "Kunde"
+  },
+  "trophies": {
+    "title": "Trofévegg",
+    "count": "{{done}} av {{total}}",
+    "locked": "Ikke nådd ennå",
+    "mission": "Mål"
   }
 }

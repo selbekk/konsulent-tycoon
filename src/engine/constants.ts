@@ -386,6 +386,13 @@ export const HOMEGROWN_PREMIUM = 0.05
 export const AI_COURSE_SHARE = 0.02
 export const AI_COURSE_MIN_RUNWAY = 2
 
+/** Record quarter: celebrated from this quarter on (the first ones are records by default), and only when revenue beats the old best by this share. */
+export const RECORD_FROM_QUARTER = 2
+export const RECORD_MARGIN = 0.05
+/** Industry gossip in the ticker: items per quarter, and quarters before the same item may run again. */
+export const GOSSIP_PER_QUARTER = 4
+export const GOSSIP_REPEAT_QUARTERS = 6
+
 /** NaN (from a bad action or a broken save) becomes `min`, so it can never reach the state. ±Infinity clamps as usual. */
 export function clamp(v: number, min: number, max: number) {
   if (Number.isNaN(v)) return min

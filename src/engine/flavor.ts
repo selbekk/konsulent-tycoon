@@ -1,11 +1,17 @@
 import { ANNOUNCEMENTS } from '../content/announcements'
+import { CUSTOMERS } from '../content/customers'
+import { GOSSIP } from '../content/gossip'
+import type { GossipSubject } from '../content/gossip'
 import { THOUGHT_BY_ID } from '../content/thoughts'
 import type { ThoughtId, ThoughtMood } from '../content/thoughts'
 import { openCrises } from './crises'
 import { eventCtx } from './events'
-import { chance, hashString, pick, weightedPick } from './rng'
+import { GOSSIP_PER_QUARTER, GOSSIP_REPEAT_QUARTERS } from './constants'
+import { headcount } from './economy'
+import { chance, createRng, hashString, pick, weightedPick } from './rng'
+import type { RngState } from './rng'
 import type { GameState, Params } from './types'
-import { activeFirms, seatTotal } from './util'
+import { activeFirms, addNews, aiFirms, seatTotal } from './util'
 
 /** Theme Hospital-style PA announcement for the new quarter (at most one). */
 export function pickAnnouncement(state: GameState) {
@@ -21,6 +27,61 @@ export function pickAnnouncement(state: GameState) {
   const params: Params = {}
   if (def.needsStar) params.name = pick(state.rng, firm.stars).name.split(' ')[0]
   state.announcement = { key: `announcements.${def.id}`, params }
+}
+
+/**
+ * Harmless industry gossip for the ticker. Draws from its own hash RNG, not state.rng, so it
+ * never shifts the outcomes of the game itself (or the balance sims).
+ */
+export function industryGossip(state: GameState) {
+  const r = createRng(hashString(`${state.seed}:gossip:${state.quarter}`))
+  const recent = new Set(
+    state.news.filter((n) => n.key.startsWith('news.gossip.') && n.quarter > state.quarter - GOSSIP_REPEAT_QUARTERS).map((n) => n.key),
+  )
+  let pool = GOSSIP.filter((g) => !recent.has(`news.gossip.${g.id}`) && (g.season === undefined || g.season === state.quarter % 4))
+  let added = 0
+  while (added < GOSSIP_PER_QUARTER && pool.length) {
+    const def = weightedPick(r, pool, (g) => g.weight ?? 1)!
+    pool = pool.filter((g) => g !== def)
+    const params = gossipParams(state, r, def.subject)
+    if (!params) continue
+    addNews(state, `news.gossip.${def.id}`, params, 'sassy')
+    added++
+  }
+}
+
+function gossipParams(state: GameState, r: RngState, subject: GossipSubject): Params | null {
+  const firms = aiFirms(state)
+  const most = (score: (f: (typeof firms)[number]) => number) =>
+    firms.length ? [...firms].sort((a, b) => score(b) - score(a) || a.id.localeCompare(b.id))[0] : undefined
+  switch (subject) {
+    case 'none':
+      return {}
+    case 'firm':
+      return firms.length ? { firm: pick(r, firms).name } : null
+    case 'twoFirms': {
+      if (firms.length < 2) return null
+      const a = pick(r, firms)
+      const b = pick(r, firms.filter((f) => f !== a))
+      return { firm: a.name, other: b.name }
+    }
+    case 'customer':
+      return { customer: pick(r, CUSTOMERS).id }
+    case 'trend':
+      return state.trends.length ? { trend: pick(r, state.trends).id } : null
+    case 'biggest': {
+      const f = most(headcount)
+      return f ? { firm: f.name } : null
+    }
+    case 'topWinner': {
+      const f = most((x) => x.tendersWon ?? 0)
+      return f && (f.tendersWon ?? 0) > 0 ? { firm: f.name } : null
+    }
+    case 'bankrupt': {
+      const gone = state.news.filter((n) => n.key === 'news.firm.bankrupt' && n.quarter > state.quarter - 4)
+      return gone.length ? { firm: pick(r, gone).params.firm } : null
+    }
+  }
 }
 
 export interface Thought {

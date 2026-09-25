@@ -600,5 +600,63 @@
       "name": "Late bloomer",
       "desc": "Started slowly, but is picking up speed."
     }
+  },
+  "milestones": {
+    "first_quarter": {
+      "name": "First quarter done",
+      "desc": "Get through your first quarter."
+    },
+    "first_profit": {
+      "name": "First profit",
+      "desc": "Make a profit in a quarter."
+    },
+    "first_renewal": {
+      "name": "They wanted more",
+      "desc": "Get a happy client to extend a project."
+    },
+    "revenue_5m": {
+      "name": "Five million",
+      "desc": "Bill NOK 5M in one quarter."
+    },
+    "team_10": {
+      "name": "Double digits",
+      "desc": "Reach ten people."
+    },
+    "first_year": {
+      "name": "One year in business",
+      "desc": "Keep going for a full year."
+    },
+    "ebitda_1m": {
+      "name": "The million quarter",
+      "desc": "Earn NOK 1M in one quarter."
+    },
+    "crisis_weathered": {
+      "name": "Weathered the storm",
+      "desc": "Come through a crisis in decent shape."
+    },
+    "revenue_10m": {
+      "name": "Eight figures",
+      "desc": "Bill NOK 10M in one quarter."
+    },
+    "team_25": {
+      "name": "A floor of our own",
+      "desc": "Reach 25 people."
+    },
+    "revenue_25m": {
+      "name": "Twenty-five million",
+      "desc": "Bill NOK 25M in one quarter."
+    },
+    "five_years": {
+      "name": "Five years",
+      "desc": "Keep going for five years."
+    },
+    "team_100": {
+      "name": "A hundred strong",
+      "desc": "Reach 100 people."
+    },
+    "revenue_50m": {
+      "name": "Fifty million",
+      "desc": "Bill NOK 50M in one quarter."
+    }
   }
 }

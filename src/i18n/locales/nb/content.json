@@ -600,5 +600,63 @@
       "name": "Seint ute",
       "desc": "Startet rolig, men har begynt å ta av."
     }
+  },
+  "milestones": {
+    "first_quarter": {
+      "name": "Første kvartal i boks",
+      "desc": "Kom gjennom det første kvartalet."
+    },
+    "first_profit": {
+      "name": "Første overskudd",
+      "desc": "Gå i pluss i ett kvartal."
+    },
+    "first_renewal": {
+      "name": "Kunden ville ha mer",
+      "desc": "Få en fornøyd kunde til å forlenge et oppdrag."
+    },
+    "revenue_5m": {
+      "name": "Fem millioner",
+      "desc": "Omsett for 5 MNOK på ett kvartal."
+    },
+    "team_10": {
+      "name": "Tosifret",
+      "desc": "Bli ti ansatte."
+    },
+    "first_year": {
+      "name": "Ett år i drift",
+      "desc": "Hold det gående et helt år."
+    },
+    "ebitda_1m": {
+      "name": "Millionkvartalet",
+      "desc": "Tjen 1 MNOK på ett kvartal."
+    },
+    "crisis_weathered": {
+      "name": "Stormen er ridd av",
+      "desc": "Kom greit ut av en krise."
+    },
+    "revenue_10m": {
+      "name": "Tieren",
+      "desc": "Omsett for 10 MNOK på ett kvartal."
+    },
+    "team_25": {
+      "name": "Egen etasje",
+      "desc": "Bli 25 ansatte."
+    },
+    "revenue_25m": {
+      "name": "Tjuefem millioner",
+      "desc": "Omsett for 25 MNOK på ett kvartal."
+    },
+    "five_years": {
+      "name": "Fem år",
+      "desc": "Hold det gående i fem år."
+    },
+    "team_100": {
+      "name": "Hundre stykker",
+      "desc": "Bli 100 ansatte."
+    },
+    "revenue_50m": {
+      "name": "Femti millioner",
+      "desc": "Omsett for 50 MNOK på ett kvartal."
+    }
   }
 }

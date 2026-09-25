@@ -32,7 +32,7 @@ import {
 } from './constants'
 import { createContract } from './contracts'
 import { seniorityCvFactor } from './customers'
-import { disciplineLevel, disciplineSupply, headcount, isActive, staffFirm } from './economy'
+import { contractRevenue, disciplineLevel, disciplineSupply, headcount, isActive, staffFirm } from './economy'
 import { chance, nextFloat, nextInt, noise, range, shuffle, weightedPick } from './rng'
 import { checkFraudAtAward } from './shady'
 import { mentorPenalty } from './roster'
@@ -404,9 +404,11 @@ export function resolveDueTenders(state: GameState) {
       .sort((a, b) => b.score - a.score)
     const winners = tender.kind === 'framework' ? scored.slice(0, FRAMEWORK_SHARES.length) : scored.slice(0, 1)
     const customer = state.customers[tender.customerId]
+    let playerContract: Contract | undefined
     winners.forEach(({ bid }, rank) => {
       const share = tender.kind === 'framework' ? FRAMEWORK_SHARES[rank] : 1
       const contract = createContract(state, tender, bid, share, rank + 1)
+      if (bid.firmId === state.playerId) playerContract = contract
       tender.winnerIds.push(bid.firmId)
       const winner = state.firms[bid.firmId]
       winner.tendersWon = (winner.tendersWon ?? 0) + 1
@@ -431,7 +433,14 @@ export function resolveDueTenders(state: GameState) {
       addNews(
         state,
         tender.kind === 'framework' ? 'news.tender.playerWonFramework' : 'news.tender.playerWon',
-        { customer: tender.customerId, rank, bidders: bids.length, strong: why },
+        {
+          customer: tender.customerId,
+          rank,
+          bidders: bids.length,
+          strong: why,
+          // Estimated value over the whole term, for the win card in the report.
+          amount: playerContract ? Math.round(contractRevenue(state.firms[state.playerId], playerContract) * (playerContract.endQuarter - playerContract.startQuarter)) : 0,
+        },
         'good',
         { firmId: state.playerId, personal: true },
       )

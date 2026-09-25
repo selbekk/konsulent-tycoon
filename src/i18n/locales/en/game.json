@@ -149,6 +149,57 @@
       },
       "exposed": "It came out: “{{crisis}}” is in the papers.",
       "exposedRival": "Exposed: {{firm}} tried to hush something up. Now it's in the papers."
+    },
+    "milestone": {
+      "first_quarter": "The first quarter is done. The coffee machine works and nobody has quit.",
+      "first_profit": "First profitable quarter! The accountant sent a thumbs-up.",
+      "first_renewal": "First extension! A client wanted more of you. There is no finer thing in this business.",
+      "revenue_5m": "NOK 5 million in revenue in one quarter. Someone has written it on the kitchen whiteboard.",
+      "team_10": "You're ten people now! Time for a second coffee pot.",
+      "first_year": "One year in business! The cake is ordered, with the logo in marzipan.",
+      "ebitda_1m": "A million in profit in one quarter. The board is almost excited.",
+      "crisis_weathered": "Your first crisis is behind you. You're officially a real firm now.",
+      "revenue_10m": "Ten million in one quarter. The bank has started sending Christmas cards.",
+      "team_25": "25 people! The all-hands needs a bigger room.",
+      "revenue_25m": "25 million in one quarter. Competitors have started asking who you are.",
+      "five_years": "Five years in business. The founders have started saying “back in the day”.",
+      "team_100": "100 people! Nobody knows everyone any more, but everyone knows the coffee machine.",
+      "revenue_50m": "50 million in one quarter. It's official: you're a proper consultancy."
+    },
+    "record": {
+      "revenue": "Record quarter! {{amount}} in revenue, more than ever before."
+    },
+    "gossip": {
+      "foosball_final": "The foosball tournament at {{firm}} went to extra time. The final has been postponed for a client meeting.",
+      "rebrand": "{{firm}} has a new logo. It looks like the old one, but with more breathing room.",
+      "hackathon": "{{firm}} held a hackathon at the weekend. The winning team built an app that orders pizza for hackathons.",
+      "standing_desks": "Everyone at {{firm}} has a standing desk. Nobody stands.",
+      "podcast": "{{firm}} launches a podcast on digital transformation. The first episode runs 94 minutes.",
+      "band": "The consultant band at {{firm}} has released an EP. It's called “Scope Creep”.",
+      "offsite": "{{firm}} held its strategy offsite at a mountain cabin. The Wi-Fi was bad, the strategy was good.",
+      "sourdough": "The sourdough wave has reached {{firm}}. The kitchen now has five named starters.",
+      "slack_emoji": "{{firm}} has passed 4,000 custom emoji in Slack. HR is considering a policy.",
+      "linkedin_marathon": "A partner at {{firm}} shares on LinkedIn what running a marathon taught them about cloud architecture. 3,000 people like it.",
+      "office_dog": "{{firm}} has an office dog. It already has more followers than the CEO.",
+      "ai_assistant": "{{firm}} now has an AI assistant writing its bids. It has started offering itself.",
+      "bike_to_work": "{{firm}} won the cycle-to-work challenge again. They have one employee who lives in Drammen.",
+      "coffee_war": "Coffee war: {{firm}} has bought a NOK 180,000 espresso machine. {{other}} has answered with a barista.",
+      "table_tennis": "{{firm}} beat {{other}} in the consultancy table tennis league. The losers want video review.",
+      "billboard": "{{firm}} has bought ad space right outside {{other}}'s office. “Our coffee is better”, it says.",
+      "innovation_lab": "{{customer}} has opened an innovation lab. It is a meeting room with beanbags.",
+      "canteen": "The canteen at {{customer}} has been named the best in town. Consultants are suddenly very keen to work on site.",
+      "reorg": "{{customer}} is reorganising for the third time in two years. The org chart now comes as an animation.",
+      "procurement_form": "Procurement at {{customer}} has a new tender form. It has 14 tabs.",
+      "trend_conference": "The conference on “{{trend}}” sold out. Half the speakers sell “{{trend}}”.",
+      "summer_party": "{{firm}} hired the Opera House for its summer party. The DJ could be heard across town.",
+      "champagne": "{{firm}} is winning so many tenders it now buys champagne by the case.",
+      "bankrupt_auction": "The estate of {{firm}} has been sold off. A competitor bought the coffee machine, and nobody will say which.",
+      "timesheets": "A reminder to the whole industry: timesheets were due yesterday.",
+      "quiet_quarter": "The industry reports a quiet quarter. Nobody believes it.",
+      "ski_season": "Ski season has started, and Friday timesheets are strangely thin across the industry.",
+      "may_parade": "{{firm}} marched in the Constitution Day parade with its own banner. It says “We deliver”.",
+      "summer_holiday": "The summer holiday is coming. Half the industry has set “out of office” until the end of August.",
+      "julebord": "Christmas party season has started. {{firm}} has hired a whole boat and promises it won't be like last year."
     }
   },
   "announcements": {
@@ -1694,6 +1745,282 @@
             "headline": "Unfortunate message, wrong channel",
             "body": "A consultant at {{firm}} reportedly wrote something unfortunate in a client's Slack, thinking it was the internal channel. The screenshot is doing the rounds.\n\n{{firm}} has apologised."
           }
+        }
+      }
+    },
+    "milestone": {
+      "first_quarter": {
+        "1": {
+          "headline": "{{player}} survives its first quarter",
+          "body": "{{player}} has made it through its first quarter. The paperwork is in order and the coffee machine has not failed once.\n\nChairman Bjørn calls it “a solid start”."
+        }
+      },
+      "first_profit": {
+        "1": {
+          "headline": "{{player}} turns a profit",
+          "body": "For the first time, {{player}} has made money in a quarter. The accountant sent a thumbs-up, which has never happened before.\n\nThe money goes to salaries, rent and, reportedly, better coffee beans."
+        }
+      },
+      "first_renewal": {
+        "1": {
+          "headline": "Client extends with {{player}}",
+          "body": "A happy client has chosen to extend its project with {{player}}, no new tender needed.\n\nIn the industry this counts as the highest form of praise. The second highest is a LinkedIn recommendation."
+        }
+      },
+      "revenue_5m": {
+        "1": {
+          "headline": "{{player}} passes five million",
+          "body": "{{player}} billed more than five million kroner last quarter.\n\nThe number is now on the kitchen whiteboard, with three exclamation marks and a drawing of a rocket."
+        }
+      },
+      "team_10": {
+        "1": {
+          "headline": "{{player}} hits ten",
+          "body": "{{player}} now has ten employees, which means the all-hands no longer fits around one table.\n\nA second coffee pot has been ordered."
+        }
+      },
+      "first_year": {
+        "1": {
+          "headline": "A year of {{player}}",
+          "body": "{{player}} has been around for a whole year. It is being celebrated with a cake, the logo piped in marzipan.\n\nStatistics say the first year is the hardest. The founders say it was just a bit busy."
+        }
+      },
+      "ebitda_1m": {
+        "1": {
+          "headline": "Million-krone profit at {{player}}",
+          "body": "{{player}} made more than a million kroner in profit last quarter.\n\nThe board meeting lasted a record twelve minutes. The rest of the time went to cake."
+        }
+      },
+      "crisis_weathered": {
+        "1": {
+          "headline": "{{player}} gets through its crisis",
+          "body": "There was a crisis at {{player}}, and it went well. Or at least fine.\n\nOne employee says “you're not a real consultancy until you've had a crisis”. They have worked at three."
+        }
+      },
+      "revenue_10m": {
+        "1": {
+          "headline": "{{player}} passes ten million",
+          "body": "{{player}} billed more than ten million kroner last quarter.\n\nThe bank has sent flowers. It is the first thing they have ever sent that wasn't a reminder."
+        }
+      },
+      "team_25": {
+        "1": {
+          "headline": "{{player}} reaches 25",
+          "body": "{{player}} has passed 25 employees. The all-hands has moved to the canteen, and someone has suggested name badges.\n\nThe idea was voted down by those who already know everyone's name."
+        }
+      },
+      "revenue_25m": {
+        "1": {
+          "headline": "{{player}} bills 25 million",
+          "body": "{{player}} passed 25 million kroner in revenue last quarter.\n\nSeveral competitors have started following the company on LinkedIn. Discreetly, but it shows."
+        }
+      },
+      "five_years": {
+        "1": {
+          "headline": "Five years of {{player}}",
+          "body": "{{player}} turns five. There are now employees who have never seen the first office.\n\nThe founders are happy to tell them about it. A little too happy, sources say."
+        }
+      },
+      "team_100": {
+        "1": {
+          "headline": "{{player}} reaches a hundred",
+          "body": "{{player}} now has a hundred employees. The Christmas party has to be booked a year ahead.\n\nThe CEO says the culture is the same as when they were five. Those who were there smile politely."
+        }
+      },
+      "revenue_50m": {
+        "1": {
+          "headline": "{{player}} passes fifty million",
+          "body": "{{player}} billed more than fifty million kroner last quarter.\n\nThe financial press called to ask for the secret. The answer was “good people and good coffee”, which nobody believed."
+        }
+      }
+    },
+    "record": {
+      "revenue": {
+        "1": {
+          "headline": "Record quarter for {{player}}",
+          "body": "{{player}} billed {{amount}} last quarter, more than ever before.\n\nThe CEO thanks the staff. The staff thank the CEO for the cake."
+        }
+      }
+    },
+    "gossip": {
+      "foosball_final": {
+        "1": {
+          "headline": "Foosball final postponed at {{firm}}",
+          "body": "The internal foosball tournament at {{firm}} is in its sixth week. The final was set for Friday, but was postponed when both teams got a client meeting at the same time.\n\nBoth teams believe they are on course to win."
+        }
+      },
+      "rebrand": {
+        "1": {
+          "headline": "New look for {{firm}}",
+          "body": "{{firm}} unveils a new visual identity after six months of work. The logo is the same, but with more space around it, and the colour is now called “deep trust”.\n\nThe agency behind it calls it “an evolution, not a revolution”."
+        }
+      },
+      "hackathon": {
+        "1": {
+          "headline": "Hackathon at {{firm}}",
+          "body": "Forty consultants at {{firm}} spent the weekend at a hackathon. The winning team built an app that orders pizza for the next hackathon.\n\nThe jury praised it for “addressing a real need”."
+        }
+      },
+      "standing_desks": {
+        "1": {
+          "headline": "Standing desks for all at {{firm}}",
+          "body": "{{firm}} has replaced every desk with a sit-stand model. Three weeks in, a survey shows nobody stands.\n\nOne employee says they raise the desk when the boss walks by."
+        }
+      },
+      "podcast": {
+        "1": {
+          "headline": "{{firm}} starts a podcast",
+          "body": "{{firm}} has launched a podcast about digital transformation. The first episode runs 94 minutes, the first twelve of which are about the microphone.\n\nMore episodes are promised “as soon as we find another meeting room to record in”."
+        }
+      },
+      "band": {
+        "1": {
+          "headline": "{{firm}} band releases EP",
+          "body": "The house band at {{firm}} has recorded its first EP, “Scope Creep”. It has four tracks, although it was originally meant to have two.\n\nIt is out on every streaming service and on the intranet."
+        }
+      },
+      "offsite": {
+        "1": {
+          "headline": "Strategy offsite in the mountains",
+          "body": "The leadership team at {{firm}} spent three days at a mountain cabin setting the strategy for the next five years. There was hardly any phone signal.\n\nThose who went describe it as “the most productive offsite we've ever had”."
+        }
+      },
+      "sourdough": {
+        "1": {
+          "headline": "Sourdough at the office",
+          "body": "The kitchen at {{firm}} is now home to five sourdough starters, all with names. The oldest is called Kjell and predates two of the departments.\n\nFacilities has asked for them to be labelled more clearly."
+        }
+      },
+      "slack_emoji": {
+        "1": {
+          "headline": "Emoji record at {{firm}}",
+          "body": "The {{firm}} workspace now has more than 4,000 custom emoji. The most used is a picture of the CEO nodding.\n\nHR is considering guidelines, but cannot agree on which emoji to announce them with."
+        }
+      },
+      "linkedin_marathon": {
+        "1": {
+          "headline": "Marathons and cloud architecture",
+          "body": "A LinkedIn post by a partner at {{firm}} on “what kilometre 30 taught me about cloud architecture” has passed 3,000 reactions.\n\nIt ends with the question “What did your last race teach you?”. Many have replied “that I don't run”."
+        }
+      },
+      "office_dog": {
+        "1": {
+          "headline": "Office dog at {{firm}}",
+          "body": "{{firm}} has an office dog called Pixel. In two weeks his Instagram account has gained more followers than the company's own.\n\nPixel has no timesheet to fill in, for now."
+        }
+      },
+      "ai_assistant": {
+        "1": {
+          "headline": "AI writes the bids at {{firm}}",
+          "body": "{{firm}} now has an AI assistant write the first draft of every bid. It is quick, but in one bid in three it proposes itself as project manager.\n\nThe company says it is looking into it."
+        }
+      },
+      "bike_to_work": {
+        "1": {
+          "headline": "{{firm}} wins the cycling challenge",
+          "body": "For the third year running, {{firm}} has won the cycle-to-work challenge for consultancies. Almost the entire lead comes from one employee who rides in from Drammen.\n\nThey say they mostly just enjoy an hour alone."
+        }
+      },
+      "coffee_war": {
+        "1": {
+          "headline": "The coffee war escalates",
+          "body": "{{firm}} has installed a NOK 180,000 Italian espresso machine. Days later, {{other}} hired a full-time barista.\n\nBoth firms deny it has anything to do with recruitment."
+        }
+      },
+      "table_tennis": {
+        "1": {
+          "headline": "Table tennis drama",
+          "body": "{{firm}} won its league match against {{other}} 3–2 after a decisive net ball.\n\n{{other}} has appealed and wants the league to bring in video review. The league has one table and no camera."
+        }
+      },
+      "billboard": {
+        "1": {
+          "headline": "Billboard war",
+          "body": "A new poster has appeared at the bus stop outside {{other}}. It is from {{firm}}, and the message is “Our coffee is better”.\n\n{{other}} has responded by buying better coffee."
+        }
+      },
+      "innovation_lab": {
+        "1": {
+          "headline": "{{customer}} bets on innovation",
+          "body": "{{customer}} has opened its own innovation lab. According to the press release, it will “lower the barrier to thinking differently”.\n\nThe lab is a former meeting room with beanbags, a whiteboard and a plant."
+        }
+      },
+      "canteen": {
+        "1": {
+          "headline": "Best canteen in town",
+          "body": "The canteen at {{customer}} has been named the best in town for the third time. Taco Wednesday counts as a category of its own.\n\nSeveral consultancies report record enthusiasm for working on site."
+        }
+      },
+      "reorg": {
+        "1": {
+          "headline": "Another reorganisation at {{customer}}",
+          "body": "{{customer}} has announced another reorganisation, its third in two years. The goal is “shorter decision paths”.\n\nThe new org chart is so complex that it comes as an animation."
+        }
+      },
+      "procurement_form": {
+        "1": {
+          "headline": "New form at {{customer}}",
+          "body": "{{customer}} is bringing in a new form for every tender. It is meant to make things “easier for suppliers”.\n\nThe form has 14 tabs, and tab 9 is a guide to the others."
+        }
+      },
+      "trend_conference": {
+        "1": {
+          "headline": "Full house for “{{trend}}”",
+          "body": "This year's conference on “{{trend}}” sold out in two days, with 40 talks on the programme.\n\nA count shows that 22 of the speakers work for firms selling “{{trend}}”. The other 18 are thinking about it."
+        }
+      },
+      "summer_party": {
+        "1": {
+          "headline": "Summer party at the Opera House",
+          "body": "As the biggest firm in the business, {{firm}} needs room when it throws a party. This year it was the Opera House.\n\nThe DJ played until two in the morning. Neighbours across town say they now know the whole playlist."
+        }
+      },
+      "champagne": {
+        "1": {
+          "headline": "Champagne by the case",
+          "body": "Nobody has won more tenders lately than {{firm}}. Sources say it now buys champagne by the case.\n\nThe firm says “we don't celebrate wins, we celebrate clients”. The champagne is for the clients."
+        }
+      },
+      "bankrupt_auction": {
+        "1": {
+          "headline": "Auction after {{firm}}",
+          "body": "The receiver has sold what was left of {{firm}}. The foosball table went for 800 kroner.\n\nThe coffee machine was bought by a competitor for a sum nobody will reveal. It reportedly has a new logo already."
+        }
+      },
+      "timesheets": {
+        "1": {
+          "headline": "Timesheets, again",
+          "body": "Finance departments across the country remind everyone that timesheets were due yesterday.\n\nAn informal survey shows that 64 per cent of consultants fill them in on Friday afternoon, and that the rest are lying."
+        }
+      },
+      "quiet_quarter": {
+        "1": {
+          "headline": "A quiet quarter",
+          "body": "According to the industry association, this quarter has been “calm and predictable”.\n\nThe association declined to say how it measures that."
+        }
+      },
+      "ski_season": {
+        "1": {
+          "headline": "Thin Fridays",
+          "body": "There is snow in the mountains, and it shows in the timesheets. Fridays are on average 40 per cent shorter than in November.\n\nSeveral firms report “poor signal” in Friday meetings."
+        }
+      },
+      "may_parade": {
+        "1": {
+          "headline": "{{firm}} on parade",
+          "body": "{{firm}} joined the 17 May parade with its own banner and twenty staff in suits.\n\nSeveral onlookers wondered which school they were from."
+        }
+      },
+      "summer_holiday": {
+        "1": {
+          "headline": "Quiet before the holidays",
+          "body": "The summer holiday is coming, and the auto-replies are ready. The most common phrase is “limited access to email”.\n\nA survey shows everyone checks their email every day anyway."
+        }
+      },
+      "julebord": {
+        "1": {
+          "headline": "Christmas party on a boat",
+          "body": "{{firm}} has hired a fjord boat for this year's Christmas party. Management has sent an email saying “it won't be like last year”.\n\nNobody will say what happened last year."
         }
       }
     }

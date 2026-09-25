@@ -41,6 +41,8 @@ export {
 } from './crises'
 export type { ChoicePreview, Stake, StakeAxis, TalkTier } from './crises'
 export { employeeThoughts } from './flavor'
+export { trophies } from './milestones'
+export type { Trophy } from './milestones'
 export type { Thought } from './flavor'
 export { valuation, rankings, playerRank, endTitle, valuationMultiple } from './score'
 export type { EndTitle } from './score'

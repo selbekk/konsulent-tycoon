@@ -13,6 +13,8 @@ import { articleVariants } from '../content/articles'
 import { BUZZWORDS } from '../content/buzzwords'
 import { MEETING_QUESTIONS, MEETING_STYLES } from '../content/meetingQuestions'
 import { MISSIONS } from '../content/missions'
+import { MILESTONES } from '../content/milestones'
+import { GOSSIP } from '../content/gossip'
 import { DEPARTMENTS, PARTNERSHIPS } from '../content/strategy'
 import { SHADY_IDS } from '../engine/shady'
 import { AWARDS } from '../engine/awards'
@@ -74,6 +76,12 @@ describe('i18n', () => {
     for (const a of ANNOUNCEMENTS) check(game, `announcements.${a.id}`)
     for (const th of THOUGHTS) for (let v = 1; v <= th.variants; v++) check(game, `thoughts.${th.id}.${v}`)
     for (const m of MISSIONS) check(content, `missions.${m.id}.name`)
+    for (const m of MILESTONES) {
+      check(content, `milestones.${m.id}.name`)
+      check(content, `milestones.${m.id}.desc`)
+      check(game, `news.milestone.${m.id}`)
+    }
+    for (const g of GOSSIP) check(game, `news.gossip.${g.id}`)
     for (const p of PARTNERSHIPS) check(content, `partnerships.${p.id}.name`)
     for (const d of DEPARTMENTS) check(content, `departments.${d.id}.name`)
     for (const f of FIRMS) check(content, `firms.${f.id}.tagline`)
