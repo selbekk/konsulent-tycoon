@@ -1,6 +1,6 @@
 /// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { engineVersion } from './scripts/engineVersion.ts'
 
@@ -23,6 +23,30 @@ const posthogProxy = {
   },
 }
 
+/**
+ * Preload the fonts the loading splash and main menu show first (logo, headings, body text), so they are there
+ * for the first paint instead of swapping in afterwards. Build only: the file names carry a content hash.
+ */
+function preloadFirstFonts(): Plugin {
+  const first =
+    /^assets\/(press-start-2p-latin-400-normal|bungee-latin-400-normal|ibm-plex-sans-latin-400-normal)-[\w-]+\.woff2$/
+  return {
+    name: 'preload-first-fonts',
+    apply: 'build',
+    transformIndexHtml: {
+      order: 'post',
+      handler: (_html, ctx) =>
+        Object.keys(ctx.bundle ?? {})
+          .filter((file) => first.test(file))
+          .map((file) => ({
+            tag: 'link',
+            attrs: { rel: 'preload', href: `/${file}`, as: 'font', type: 'font/woff2', crossorigin: '' },
+            injectTo: 'head' as const,
+          })),
+    },
+  }
+}
+
 export default defineConfig({
   // Which rules this build plays by; the leaderboard only replays games from the same version.
   define: { __ENGINE_VERSION__: JSON.stringify(engineVersion()) },
@@ -30,6 +54,7 @@ export default defineConfig({
   preview: { proxy: posthogProxy },
   plugins: [
     react(),
+    preloadFirstFonts(),
     VitePWA({
       // Ask before updating: a reload in the middle of a minigame would cost the attempt.
       registerType: 'prompt',

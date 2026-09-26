@@ -20,7 +20,16 @@ import App from './App.tsx'
 listenForInstallPrompt()
 initAnalytics()
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')!
+// Fade the game in over the splash it replaces, once. Later screen changes stay instant.
+root.classList.add('entering')
+root.addEventListener('animationend', function done(e) {
+  if (e.animationName !== 'root-enter') return
+  root.classList.remove('entering')
+  root.removeEventListener('animationend', done)
+})
+
+createRoot(root).render(
   <StrictMode>
     <App />
   </StrictMode>,

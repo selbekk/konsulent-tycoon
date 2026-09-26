@@ -10,6 +10,8 @@
     <meta name="apple-mobile-web-app-title" content="Tycoon" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Theme and language before the first paint, so the splash doesn't flash dark or Norwegian. -->
+    <script src="/boot.js"></script>
     <title>Konsulent Tycoon – strategispill om å drive et IT-konsulentselskap</title>
     <meta
       name="description"
@@ -85,8 +87,14 @@
       <main class="splash">
         <header class="splash-hero">
           <h1 class="splash-logo">KONSULENT<br />TYCOON</h1>
-          <p class="splash-tagline">Bygg ditt eget konsulentselskap. Ett kvartal av gangen.</p>
-          <p class="splash-loading" role="status">Laster spillet …</p>
+          <p class="splash-tagline">
+            <span data-lang="nb">Bygg ditt eget konsulentselskap. Ett kvartal av gangen.</span>
+            <span data-lang="en" lang="en">Build your own consultancy. One quarter at a time.</span>
+          </p>
+          <p class="splash-loading" role="status">
+            <span data-lang="nb">Laster spillet …</span>
+            <span data-lang="en" lang="en">Loading the game …</span>
+          </p>
           <noscript><p class="splash-loading">Spillet trenger JavaScript for å kjøre.</p></noscript>
         </header>
 
