@@ -56,9 +56,12 @@ export default defineConfig({
       workbox: {
         // Everything is local (fonts included), so the whole game works offline.
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // Only link previews fetch the share image; it has no business in every player's offline cache.
+        globIgnores: ['og-image.png'],
         navigateFallback: '/index.html',
-        // Analytics goes to PostHog through this path; never answer it with the app shell.
-        navigateFallbackDenylist: [/^\/kaffe\//],
+        // Analytics goes to PostHog through this path, and the crawler files are plain text:
+        // never answer them with the app shell.
+        navigateFallbackDenylist: [/^\/kaffe\//, /^\/(robots\.txt|sitemap\.xml|llms\.txt|og-image\.png)$/],
         cleanupOutdatedCaches: true,
       },
     }),

@@ -12,6 +12,7 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 - [Tekster og språk (i18n)](#tekster-og-språk-i18n)
 - [Lagring og migrasjoner](#lagring-og-migrasjoner)
 - [PWA (installerbar app)](#pwa-installerbar-app)
+- [Søkemotorer og AI-assistenter](#søkemotorer-og-ai-assistenter)
 - [Analyse (PostHog)](#analyse-posthog)
 - [Toppliste (Firebase)](#toppliste-firebase)
 - [Innhold: slik legger du til ting](#innhold-slik-legger-du-til-ting)
@@ -364,6 +365,17 @@ Spillet er en Progressive Web App via `vite-plugin-pwa` (konfigurert i `vite.con
 - **Utvikling:** Service workeren er bare aktiv i bygget. Test PWA-oppførselen med `npm run build && npm run preview`. Under `npm run dev` er den av, så cachen ikke skaper forvirring.
 - **Publisering:** Spillet publiseres på Vercel (`vercel.json`). `vercel.json` setter cache-headere slik at `sw.js` ikke caches for hardt. Ellers kommer ikke oppdateringer frem.
 - **CI og deploy:** `.github/workflows/ci.yml` typesjekker, linter, sjekker formatering, tester og bygger hver pull request. Ved merge til main deployer samme workflow Firebase (funksjoner, Firestore-regler og indekser) og deretter appen til Vercel, i én jobb. Vercels egen automatiske produksjonsdeploy fra main er slått av i `vercel.json` (forhåndsvisninger av branches er fortsatt automatiske), fordi appen og toppliste-serveren må ha samme motorversjon. GitHub Actions logger inn i Google Cloud uten nøkkel (Workload Identity Federation, tjenestekontoen `github-deploy`, bare fra main i dette repoet). Repoet trenger variablene `GCP_WORKLOAD_IDENTITY_PROVIDER` og `GCP_SERVICE_ACCOUNT` og hemmelighetene `VERCEL_TOKEN`, `VERCEL_ORG_ID` og `VERCEL_PROJECT_ID`.
+
+## Søkemotorer og AI-assistenter
+
+Spillet er én side som tegnes av JavaScript, så alt søkemotorer og AI-crawlere trenger, ligger som statisk tekst:
+
+- **`index.html`:** tittel, beskrivelse, `canonical` (`https://www.konsulent-tycoon.no/`, apex-domenet sender videre dit), Open Graph-tagger og strukturerte data (JSON-LD med `VideoGame`, `Person` og `WebSite`). Inne i `#root` ligger en kort, statisk tekst om spillet med vanlige spørsmål. Spillere ser bare logoen og «Laster spillet …» mens appen lastes (resten ligger under folden), og React erstatter alt når appen starter. Crawlere som ikke kjører JavaScript (de fleste AI-crawlerne) ser hele teksten. Stilene ligger i `ui/theme/splash.css`.
+- **`public/llms.txt`:** en markdown-oppsummering for språkmodeller, på engelsk med et norsk avsnitt.
+- **`public/robots.txt` og `public/sitemap.xml`:** alt er åpent bortsett fra PostHog-proxyen under `/kaffe/`.
+- **`public/og-image.png`:** delingsbildet (1200×630), et skjermbilde av hovedmenyen. Det er holdt utenfor service worker-cachen.
+
+Den statiske teksten, JSON-LD-en og `llms.txt` beskriver det samme spillet. Endrer du noe spillerne vil merke (antall kvartaler, konkurrenter, språk, nivåer), så oppdater alle tre. Skriv bare ting som stemmer: ingen vurderinger, spillertall eller påstander vi ikke kan stå for.
 
 ## Analyse (PostHog)
 
