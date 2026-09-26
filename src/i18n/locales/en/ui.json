@@ -245,7 +245,15 @@
     "party": "Spirits are high after last quarter.",
     "crisis": "There's a crisis, and the office can tell.",
     "hint": "Click someone to hear what they are thinking.",
-    "someone": "A colleague"
+    "someone": "A colleague",
+    "eggs": {
+      "night": "Someone is still logging hours",
+      "inMeeting": "I AM actually in a meeting.",
+      "coffee": {
+        "broken": "The coffee machine is broken",
+        "fixed": "The coffee machine is fixed. With a boot."
+      }
+    }
   },
   "staff": {
     "pools": "The consultants",
@@ -325,7 +333,8 @@
       "promise": "Promised growth by {{quarter}}: {{done}} of {{goal}} levels.",
       "promote": "Promote to star ({{cost}})",
       "promoteHint": "Needs level {{level}} and high potential. One promotion a year.",
-      "fire": "Let go ({{cost}})"
+      "fire": "Let go ({{cost}})",
+      "terminal": "{{first}} does everything in the terminal and hasn't touched a mouse since 1998."
     },
     "starBadge": "Star"
   },
@@ -1155,7 +1164,9 @@
       "strategyDayRag": "Offsite Rag",
       "fridayDrinks": "Friday Drinks",
       "nightShift": "Night Shift",
-      "goldenParachute": "Golden Parachute"
+      "goldenParachute": "Golden Parachute",
+      "timesheetBlues": "Timesheet Blues",
+      "officePartySleighRide": "Sleigh Ride to the Office Party"
     }
   },
   "customer": {
@@ -1299,6 +1310,15 @@
   "news": {
     "title": "News",
     "posts": {
+      "secrets": {
+        "title": "There's something odd about this game",
+        "body": [
+          "I shouldn't say too much. Honestly, I shouldn't say anything at all, but then nobody would find anything, and that would be a real waste. So here's a confession: I've hidden things in Konsulent Tycoon. Things no tutorial mentions, and no quarterly report ever will.",
+          "Some of them are on the start screen. Some are inside the game itself. And some only show up if you play at the right time. That's all you're getting from me.",
+          "One small tip, though: the game quite often does exactly what it tells you to. And if something looks like it ought to be clickable, it might be worth a click. And another one. And then a few more.",
+          "None of the secrets give you an edge on the leaderboard, so hunt away with a clear conscience. If you find something, feel free to keep it to yourself. Or mention it to a colleague at stand-up. My lips are sealed. Good luck!"
+        ]
+      },
       "finance": {
         "title": "New tab: Finance",
         "body": [
@@ -1321,5 +1341,24 @@
         ]
       }
     }
+  },
+  "eggs": {
+    "powerpoint": {
+      "name": "Clipsy, your digital assistant",
+      "tips": [
+        "It looks like you're trying to win a tender. Would you like help adding more buzzwords?",
+        "It looks like you're filling in a timesheet. Shall I round up?",
+        "Did you know every presentation gets better with a transition that spins?",
+        "It looks like you have a lot of meetings. Have you considered a meeting about that?",
+        "Tip: WordArt works best in headings, body text and your email signature.",
+        "It looks like you're planning ten years ahead. Would you like a template for that?"
+      ],
+      "next": "Next tip",
+      "off": "Go away, Clipsy"
+    },
+    "skyline": {
+      "sign": "Coming soon: the biggest consultancy in the country (2029)"
+    },
+    "familiarName": "New firm with a suspiciously familiar name registered: \"{{name}}\". The lawyers have been notified."
   }
 }

@@ -1,7 +1,8 @@
 import { useGame } from '../../store/gameStore'
 import { audioContext } from '../audio'
-import { compose, type NoteEvent, type Score, type Voice } from './compose'
-import { SONGS } from './songs'
+import { isChristmas } from '../eggs/clock'
+import { compose, type NoteEvent, type Score, type SongSpec, type Voice } from './compose'
+import { HIDDEN_SONGS, SONGS, type HiddenSongId } from './songs'
 
 /**
  * Background music: plays the composed songs back to back in shuffled order with Web Audio.
@@ -102,8 +103,10 @@ let current: Playback | null = null
 let timer: ReturnType<typeof setInterval> | null = null
 let unlocked = false
 let out: { ctx: AudioContext; node: AudioNode; noise: AudioBuffer } | null = null
-let queue: number[] = []
-let lastSong = -1
+let queue: SongSpec[] = []
+let lastSong: SongSpec | null = null
+/** A hidden song asked for by an easter egg, played next instead of the queue. */
+let requested: SongSpec | null = null
 let nowPlaying: string | null = null
 const listeners = new Set<() => void>()
 
@@ -138,10 +141,16 @@ function output(ac: AudioContext) {
   return out
 }
 
-/** The next song index from a shuffled queue, never the same song twice in a row. */
-function nextIndex(): number {
+/** The next song from a shuffled queue, never the same song twice in a row. December adds a Christmas song. */
+function nextSpec(): SongSpec {
+  if (requested) {
+    const song = requested
+    requested = null
+    return song
+  }
   if (!queue.length) {
-    queue = SONGS.map((_, i) => i).sort(() => Math.random() - 0.5)
+    const pool = isChristmas() ? [...SONGS, HIDDEN_SONGS.officePartySleighRide] : SONGS
+    queue = [...pool].sort(() => Math.random() - 0.5)
     if (queue[0] === lastSong && queue.length > 1) queue.push(queue.shift()!)
   }
   lastSong = queue.shift()!
@@ -149,7 +158,7 @@ function nextIndex(): number {
 }
 
 function startSong(ac: AudioContext) {
-  const score = compose(SONGS[nextIndex()])
+  const score = compose(nextSpec())
   const bus = ac.createGain()
   bus.gain.value = 0
   bus.gain.setTargetAtTime(level(), ac.currentTime, FADE / 3)
@@ -287,6 +296,12 @@ export function nextSong() {
   if (current) fadeOut(current, ac)
   current = null
   sync()
+}
+
+/** Skips straight to one of the hidden songs. */
+export function playHiddenSong(id: HiddenSongId) {
+  requested = HIDDEN_SONGS[id]
+  nextSong()
 }
 
 /**

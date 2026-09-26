@@ -32,6 +32,8 @@ import { StaffScreen } from './StaffScreen'
 import { StrategyScreen } from './StrategyScreen'
 import { TenderBoard } from './TenderBoard'
 import { TodoList } from './TodoList'
+import { isFamiliarName } from '../eggs/familiarName'
+import { MoneyRain } from '../eggs/MoneyRain'
 import s from './shell.module.css'
 
 const TAB_ICONS: Record<Tab, IconName> = {
@@ -148,6 +150,8 @@ export function Shell() {
   const Screen = SCREENS[tabs.includes(tab) ? tab : 'dashboard']
   const hc = headcount(me)
   const credit = creditLimit(me)
+  // Easter egg: a ticker line of its own for a firm named after the game or a rival. Never part of game.news.
+  const familiar = isFamiliarName(me.name) ? t('eggs.familiarName', { name: me.name.trim() }) : null
   const ticker = useMemo(() => {
     const market = game.news.filter((n) => !n.personal)
     return (market.length ? market : game.news).slice(-12).reverse()
@@ -275,35 +279,50 @@ export function Shell() {
         <span className={s.tickerLabel}>{t('shell.news')}</span>
         <div className={s.tickerViewport}>
           {settings.reducedMotion ? (
-            ticker[0] && (
-              <button
-                type="button"
-                className={`${s.tickerItem} ${s.tickerStatic}`}
-                onClick={() => setArticle(ticker[0])}
-              >
-                {newsText(ticker[0], t, lng)}
-              </button>
+            familiar ? (
+              <span className={`${s.tickerItem} ${s.tickerStatic} ${s.tickerPlain}`}>{familiar}</span>
+            ) : (
+              ticker[0] && (
+                <button
+                  type="button"
+                  className={`${s.tickerItem} ${s.tickerStatic}`}
+                  onClick={() => setArticle(ticker[0])}
+                >
+                  {newsText(ticker[0], t, lng)}
+                </button>
+              )
             )
           ) : (
             <div className={s.tickerTrack} key={game.quarter}>
-              {[...ticker, ...ticker].map((n, i) => (
+              {[0, 1].flatMap((copy) => {
                 // The second copy is only there for the seamless loop.
-                <button
-                  type="button"
-                  key={`${n.id}-${i}`}
-                  className={s.tickerItem}
-                  aria-hidden={i >= ticker.length || undefined}
-                  tabIndex={i >= ticker.length ? -1 : undefined}
-                  onClick={() => setArticle(n)}
-                >
-                  {formatQuarter(n.quarter)} · {newsText(n, t, lng)}
-                </button>
-              ))}
+                const hidden = copy === 1 || undefined
+                return [
+                  familiar && (
+                    <span key={`familiar-${copy}`} className={`${s.tickerItem} ${s.tickerPlain}`} aria-hidden={hidden}>
+                      {familiar}
+                    </span>
+                  ),
+                  ...ticker.map((n) => (
+                    <button
+                      type="button"
+                      key={`${n.id}-${copy}`}
+                      className={s.tickerItem}
+                      aria-hidden={hidden}
+                      tabIndex={hidden ? -1 : undefined}
+                      onClick={() => setArticle(n)}
+                    >
+                      {formatQuarter(n.quarter)} · {newsText(n, t, lng)}
+                    </button>
+                  )),
+                ]
+              })}
             </div>
           )}
         </div>
       </div>
 
+      <MoneyRain />
       {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
       {onboarding && game.status === 'playing' && <Onboarding />}
       {!onboarding && report !== null && <QuarterReport />}

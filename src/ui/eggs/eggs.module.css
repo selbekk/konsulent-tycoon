@@ -1,0 +1,39 @@
+/* Money rain: over everything, never in the way. */
+.rain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bill {
+  position: absolute;
+  top: -40px;
+  width: 36px;
+  height: 18px;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+@keyframes fall {
+  25% {
+    transform: translate(var(--sway), 25vh) rotate(20deg);
+  }
+  50% {
+    transform: translate(0, 50vh) rotate(-15deg);
+  }
+  75% {
+    transform: translate(var(--sway), 75vh) rotate(25deg);
+  }
+  to {
+    transform: translate(0, calc(100vh + 60px)) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain {
+    display: none;
+  }
+}

@@ -300,3 +300,10 @@
     padding-bottom: 140px;
   }
 }
+
+/* A ticker line that isn't a link (the familiar-name easter egg). */
+.tickerPlain,
+.tickerPlain:hover {
+  cursor: default;
+  text-decoration: none;
+}

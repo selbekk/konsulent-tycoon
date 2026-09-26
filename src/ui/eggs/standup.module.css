@@ -1,0 +1,112 @@
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.stack > p {
+  margin: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.transcript {
+  display: grid;
+  gap: 4px;
+  min-height: 7.5em;
+  align-content: end;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.transcript p {
+  margin: 0;
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.warning {
+  color: var(--bad);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.cell {
+  min-height: 64px;
+  padding: 6px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell[aria-pressed='true'] {
+  background: var(--warn);
+  color: var(--accent-ink);
+}
+
+.cell[data-win] {
+  background: var(--good);
+  color: var(--accent-ink);
+}
+
+.cell[data-wrong] {
+  border-color: var(--bad);
+}
+
+:global(:root[data-motion='full']) .cell[data-wrong] {
+  animation: shake 0.3s steps(3);
+}
+
+@keyframes shake {
+  33% {
+    transform: translateX(-2px);
+  }
+  66% {
+    transform: translateX(2px);
+  }
+}
+
+.ending {
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  color: var(--accent);
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (max-width: 520px) {
+  .cell {
+    min-height: 56px;
+    font-size: 0.75rem;
+  }
+}

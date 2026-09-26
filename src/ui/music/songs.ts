@@ -313,3 +313,44 @@ export const SONGS: SongSpec[] = [
     busy: true,
   },
 ]
+
+/**
+ * Songs outside the shuffle: `timesheetBlues` plays after thirteen presses on "Next song" in settings,
+ * and `officePartySleighRide` joins the rotation in December (see `eggs/clock.ts`).
+ */
+export const HIDDEN_SONGS = {
+  timesheetBlues: {
+    id: 'timesheetBlues',
+    bpm: 76,
+    swing: true,
+    sections: {
+      A: ['E7', 'A7', 'E7', 'E7', 'A7', 'A7', 'E7', 'C#7', 'F#m7', 'B7', 'E7 C#7', 'F#m7 B7'],
+    },
+    form: 'AAA',
+    end: 'E7',
+    lead: 'clarinet',
+    solo: 'brass',
+    comp: 'pad',
+    bass: 'walk',
+    drums: 'shuffle',
+  },
+  officePartySleighRide: {
+    id: 'officePartySleighRide',
+    bpm: 144,
+    swing: false,
+    sections: {
+      A: ['G', 'G', 'G', 'G', 'C', 'C', 'A7', 'D7'],
+      B: ['G', 'G', 'C', 'C', 'G', 'E7', 'Am7 D7', 'G'],
+    },
+    form: 'AABB',
+    end: 'G',
+    lead: 'vibes',
+    solo: 'flute',
+    comp: 'twoFour',
+    bass: 'two',
+    drums: 'march',
+    busy: true,
+  },
+} satisfies Record<string, SongSpec>
+
+export type HiddenSongId = keyof typeof HIDDEN_SONGS
