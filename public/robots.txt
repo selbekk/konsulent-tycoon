@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# PostHog proxy, not pages.
+Disallow: /kaffe/
+
+Sitemap: https://www.konsulent-tycoon.no/sitemap.xml

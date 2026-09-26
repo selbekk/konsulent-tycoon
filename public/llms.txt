@@ -1,0 +1,33 @@
+# Konsulent Tycoon
+
+> A free, turn-based, retro-styled strategy game in the browser about running an IT consultancy. "Konsulent Tycoon" is Norwegian for "Consultant Tycoon". The game is available in Norwegian (bokmål) and English.
+
+- Play: https://www.konsulent-tycoon.no/
+- Source code: https://github.com/selbekk/konsulent-tycoon
+- Made by: Kristofer Giltvedt Selbekk (https://github.com/selbekk)
+
+## What the game is
+
+You start an IT consultancy with six people and have 40 quarters, from 2027 to 2036, to build the most valuable firm in the country. 24 computer-controlled rival firms are trying to do the same. The firm worth the most after 40 quarters wins; stay too long over your overdraft and you go bankrupt. The mood is inspired by Theme Hospital and RollerCoaster Tycoon: dry, warm humour and pixel art. All firm names are made up.
+
+## What you do
+
+- Bid on tenders against the rivals: set the price, choose who to offer, and convince the customer in a pitch meeting or a round of buzzword bingo.
+- Deliver contracts: keep customers happy, renegotiate, sell more, or end contracts that don't pay.
+- Build the firm: hire people, buy star consultants, and keep expertise and wellbeing up so people stay.
+- Grow through five levels that unlock bigger tenders, framework agreements, specialisation, departments, acquisitions and an IPO.
+- Handle crises that last several quarters, such as whistleblower cases, data leaks, customers who want to leave, and a flooded basement.
+- Cheat, if you dare: spy on rivals, polish the CVs or outsource quietly. Get caught and it ends up in the papers.
+- Compete on a weekly leaderboard where everyone plays the same market.
+
+## Frequently asked questions
+
+- **Is it free?** Yes, it's free and has no ads.
+- **Do I need to install anything?** No. It runs in the browser on desktop and mobile, and can be installed as an app (PWA) if you like.
+- **Does it work offline?** Yes. Games are saved on your own device, not on a server.
+- **Which languages?** Norwegian (bokmål) and English.
+- **Is it about real companies?** No. All firm names are made up, and any resemblance to real companies is coincidental (and affectionate). The game plays with common prejudices about consultancies, not real events.
+
+## Norsk
+
+Konsulent Tycoon er et gratis, turbasert og litt retro strategispill i nettleseren. Du driver et IT-konsulentselskap i 40 kvartaler, fra 2027 til 2036, mot 24 datastyrte konkurrenter: by på anbud, lever kontrakter, ansett og behold folk, håndter kriser, og juks litt hvis du tør. Firmaet med høyest verdi til slutt vinner. Spillet finnes på bokmål og engelsk, virker uten nett og lagres på din egen enhet.

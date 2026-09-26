@@ -14,6 +14,7 @@ import { initAnalytics } from './analytics'
 import './i18n'
 import { listenForInstallPrompt } from './ui/pwa/install'
 import './ui/theme/global.css'
+import './ui/theme/splash.css'
 import App from './App.tsx'
 
 listenForInstallPrompt()

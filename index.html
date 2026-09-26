@@ -10,14 +10,146 @@
     <meta name="apple-mobile-web-app-title" content="Tycoon" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Konsulent Tycoon – strategispill om å drive et IT-konsulentselskap</title>
     <meta
       name="description"
-      content="Konsulent Tycoon – bygg ditt eget IT-konsulentselskap. Et turbasert, litt retro strategispill."
+      content="Gratis, turbasert tycoon-spill i nettleseren: bygg et IT-konsulentselskap over 40 kvartaler, vinn anbud mot 24 konkurrenter og hold folka dine fornøyde."
     />
-    <title>Konsulent Tycoon</title>
+    <meta name="author" content="Kristofer Giltvedt Selbekk" />
+    <link rel="canonical" href="https://www.konsulent-tycoon.no/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Konsulent Tycoon" />
+    <meta property="og:url" content="https://www.konsulent-tycoon.no/" />
+    <meta property="og:title" content="Konsulent Tycoon" />
+    <meta
+      property="og:description"
+      content="Bygg ditt eget IT-konsulentselskap. Ett kvartal av gangen. Et gratis, turbasert og litt retro strategispill i nettleseren."
+    />
+    <meta property="og:image" content="https://www.konsulent-tycoon.no/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Konsulent Tycoon: logoen, slagordet og en pikselby om kvelden" />
+    <meta property="og:locale" content="nb_NO" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured data for search and answer engines. Keep it in step with the static copy below and public/llms.txt. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "VideoGame",
+            "@id": "https://www.konsulent-tycoon.no/#game",
+            "name": "Konsulent Tycoon",
+            "url": "https://www.konsulent-tycoon.no/",
+            "image": "https://www.konsulent-tycoon.no/og-image.png",
+            "description": "A free, turn-based, retro-styled browser strategy game where you run an IT consultancy for 40 quarters (2027–2036) against 24 computer-controlled rival firms: bid on tenders, deliver contracts, hire and keep people, handle crises and, if you dare, cheat a little.",
+            "genre": ["Strategy", "Business simulation", "Tycoon"],
+            "gamePlatform": "Web browser",
+            "operatingSystem": "Any (web browser)",
+            "applicationCategory": "GameApplication",
+            "playMode": "https://schema.org/SinglePlayer",
+            "numberOfPlayers": { "@type": "QuantitativeValue", "value": 1 },
+            "inLanguage": ["nb", "en"],
+            "isAccessibleForFree": true,
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NOK" },
+            "author": { "@id": "https://www.konsulent-tycoon.no/#author" },
+            "sameAs": ["https://github.com/selbekk/konsulent-tycoon"]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://www.konsulent-tycoon.no/#author",
+            "name": "Kristofer Giltvedt Selbekk",
+            "sameAs": ["https://github.com/selbekk", "https://www.linkedin.com/in/selbekk"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.konsulent-tycoon.no/#website",
+            "name": "Konsulent Tycoon",
+            "url": "https://www.konsulent-tycoon.no/",
+            "inLanguage": ["nb", "en"],
+            "publisher": { "@id": "https://www.konsulent-tycoon.no/#author" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!--
+        Shown while the game loads, and all that crawlers without JavaScript (most AI crawlers) get to see.
+        React replaces it on mount. Keep it factual and in step with the JSON-LD above and public/llms.txt.
+      -->
+      <main class="splash">
+        <header class="splash-hero">
+          <h1 class="splash-logo">KONSULENT<br />TYCOON</h1>
+          <p class="splash-tagline">Bygg ditt eget konsulentselskap. Ett kvartal av gangen.</p>
+          <p class="splash-loading" role="status">Laster spillet …</p>
+          <noscript><p class="splash-loading">Spillet trenger JavaScript for å kjøre.</p></noscript>
+        </header>
+
+        <section class="splash-about">
+          <h2>Hva er Konsulent Tycoon?</h2>
+          <p>
+            Konsulent Tycoon er et gratis, turbasert og litt retro strategispill i nettleseren. Du starter et
+            IT-konsulentselskap med seks personer og har 40 kvartaler, fra 2027 til 2036, på å bygge det mest verdifulle
+            selskapet i landet. Problemet er at 24 datastyrte konkurrenter har tenkt akkurat det samme.
+          </p>
+          <p>
+            Stemningen er inspirert av Theme Hospital og RollerCoaster Tycoon: tørr, varm humor og pikselgrafikk. Alle
+            firmanavnene er oppdiktet.
+          </p>
+
+          <h2>Hva gjør du i spillet?</h2>
+          <ul>
+            <li>
+              <strong>Byr på anbud</strong> mot konkurrentene: sett pris, velg hvem du tilbyr, og overbevis kunden.
+            </li>
+            <li><strong>Leverer kontrakter</strong> og holder kundene fornøyde, reforhandler eller sier opp.</li>
+            <li><strong>Bygger et firma:</strong> ansett folk, kjøp stjernekonsulenter og hold trivselen oppe.</li>
+            <li>
+              <strong>Vokser gjennom fem nivåer</strong> som låser opp rammeavtaler, avdelinger, oppkjøp og
+              børsnotering.
+            </li>
+            <li><strong>Håndterer kriser</strong> som varer over flere kvartaler.</li>
+            <li><strong>Jukser, hvis du tør.</strong> Blir du tatt, havner det i avisen.</li>
+          </ul>
+          <p>
+            Vinneren er firmaet med høyest verdi etter 40 kvartaler. Hver uke kan du også konkurrere på en toppliste.
+          </p>
+
+          <h2>Vanlige spørsmål</h2>
+          <dl>
+            <dt>Koster det noe?</dt>
+            <dd>Nei. Spillet er gratis og uten reklame.</dd>
+            <dt>Må jeg installere noe?</dt>
+            <dd>Nei, det kjører i nettleseren på PC, Mac og mobil. Du kan installere det som en app hvis du vil.</dd>
+            <dt>Virker det uten nett?</dt>
+            <dd>Ja. Spillet lagres på din egen enhet og virker offline.</dd>
+            <dt>Hvilke språk finnes det på?</dt>
+            <dd>Norsk (bokmål) og engelsk.</dd>
+            <dt>Hvem har laget det?</dt>
+            <dd>
+              Kristofer Giltvedt Selbekk. Koden ligger åpent på
+              <a href="https://github.com/selbekk/konsulent-tycoon">GitHub</a>.
+            </dd>
+          </dl>
+        </section>
+
+        <section class="splash-about" lang="en">
+          <h2>What is Konsulent Tycoon?</h2>
+          <p>
+            Konsulent Tycoon (Norwegian for “Consultant Tycoon”) is a free, turn-based, retro-styled strategy game that
+            runs in your browser. You run an IT consultancy for 40 quarters, from 2027 to 2036, against 24
+            computer-controlled rivals: bid on tenders, deliver contracts, hire and keep your people, handle crises, and
+            cheat a little if you dare. The firm worth the most at the end wins. The game is available in English and
+            Norwegian, works offline, and saves on your own device.
+          </p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

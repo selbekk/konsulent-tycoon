@@ -40,9 +40,13 @@ export function setLocale(locale: Locale) {
   void i18n.changeLanguage(locale)
 }
 
+const initialLocale: Locale = typeof window === 'undefined' ? 'nb' : storedLocale()
+// index.html says nb; tell browsers and screen readers if the player picked English earlier.
+if (typeof document !== 'undefined') document.documentElement.lang = initialLocale
+
 void i18n.use(initReactI18next).init({
   resources,
-  lng: typeof window === 'undefined' ? 'nb' : storedLocale(),
+  lng: initialLocale,
   fallbackLng: 'nb',
   ns: [...NAMESPACES],
   defaultNS: 'ui',
