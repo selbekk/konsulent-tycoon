@@ -36,7 +36,7 @@
 }
 
 .warning {
-  color: var(--bad);
+  color: var(--bad-text);
 }
 
 .card {
@@ -65,12 +65,12 @@
 
 .cell[aria-pressed='true'] {
   background: var(--warn);
-  color: var(--accent-ink);
+  color: var(--on-warn);
 }
 
 .cell[data-win] {
   background: var(--good);
-  color: var(--accent-ink);
+  color: var(--on-good);
 }
 
 .cell[data-wrong] {
@@ -93,7 +93,7 @@
 .ending {
   font-family: var(--font-title);
   font-size: 1.05rem;
-  color: var(--accent);
+  color: var(--accent-text);
   text-align: center;
 }
 

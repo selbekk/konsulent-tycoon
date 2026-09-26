@@ -10,6 +10,7 @@ import { Icon } from '../components/Icon'
 import type { IconName } from '../components/Icon'
 import { Button, Modal, Stat } from '../components/ui'
 import { formatMoney, formatQuarter, newsText } from '../format'
+import { useReducedMotion } from '../motion'
 import { playSound } from '../sound'
 import { visibleTabs } from '../tabs'
 import { BackroomScreen } from './BackroomScreen'
@@ -80,6 +81,7 @@ export function Shell() {
   const stale = useGame((x) => x.stale)
   const load = useGame((x) => x.load)
   const quit = useGame((x) => x.quit)
+  const reducedMotion = useReducedMotion()
   const [confirmEnd, setConfirmEnd] = useState(false)
   const [article, setArticle] = useState<NewsItem | null>(null)
   const [hideAnnouncement, setHideAnnouncement] = useState<number | null>(null)
@@ -129,16 +131,19 @@ export function Shell() {
   }, [hasOpenTodos, endTurn, openTodoIds, game.quarter])
 
   useEffect(() => {
+    if (!settings.shortcuts) return
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement
-      if (modalOpen || el.closest('input, textarea, select, [role="dialog"]')) return
-      if (e.key === 'Enter' && el.tagName !== 'BUTTON') tryEndTurn()
+      if (modalOpen || e.ctrlKey || e.metaKey || e.altKey || el.closest('input, textarea, select, [role="dialog"]'))
+        return
+      // Only when nothing in particular has focus: Enter on a link, a chart or a tab means that thing.
+      if (e.key === 'Enter' && (el === document.body || el.tagName === 'MAIN')) tryEndTurn()
       const n = Number(e.key)
       if (n >= 1 && n <= tabs.length) setTab(tabs[n - 1])
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [modalOpen, tryEndTurn, setTab, tabs])
+  }, [settings.shortcuts, modalOpen, tryEndTurn, setTab, tabs])
 
   // PA chime when a new quarter's announcement becomes visible.
   const showAnnouncement = settings.announcements && !!game.announcement && hideAnnouncement !== game.quarter
@@ -159,6 +164,20 @@ export function Shell() {
 
   return (
     <div className={s.shell}>
+      <a
+        className={s.skipLink}
+        href="#main"
+        onClick={(e) => {
+          // Focus instead of following the hash, so the URL stays clean.
+          e.preventDefault()
+          document.getElementById('main')?.focus()
+        }}
+      >
+        {t('shell.skipToContent')}
+      </a>
+      <h1 className="sr-only">
+        {me.name} · {t(`tabs.${tabs.includes(tab) ? tab : 'dashboard'}`)}
+      </h1>
       <header className={s.topbar}>
         <div className={s.brand}>
           <span className={s.logo}>
@@ -249,15 +268,20 @@ export function Shell() {
             aria-current={(tabs.includes(tab) ? tab : 'dashboard') === id ? 'page' : undefined}
             data-noir={id === 'backroom'}
             onClick={() => setTab(id)}
+            aria-keyshortcuts={settings.shortcuts ? String(i + 1) : undefined}
           >
             <Icon name={TAB_ICONS[id]} size={14} />
             {t(`tabs.${id}`)}
-            <span className={s.navKey}>{i + 1}</span>
+            {settings.shortcuts && (
+              <span className={s.navKey} aria-hidden>
+                {i + 1}
+              </span>
+            )}
           </button>
         ))}
       </nav>
 
-      <main className={s.main}>
+      <main className={s.main} id="main" tabIndex={-1}>
         <Screen />
       </main>
 
@@ -271,14 +295,14 @@ export function Shell() {
           onClick={tryEndTurn}
           disabled={pending.length > 0 || game.status !== 'playing'}
         >
-          {t('shell.endTurn')} ▶
+          {t('shell.endTurn')} <span aria-hidden>▶</span>
         </Button>
       </div>
 
-      <div className={s.ticker} aria-label={t('shell.ticker')}>
+      <aside className={s.ticker} aria-label={t('shell.ticker')}>
         <span className={s.tickerLabel}>{t('shell.news')}</span>
         <div className={s.tickerViewport}>
-          {settings.reducedMotion ? (
+          {reducedMotion ? (
             familiar ? (
               <span className={`${s.tickerItem} ${s.tickerStatic} ${s.tickerPlain}`}>{familiar}</span>
             ) : (
@@ -320,7 +344,7 @@ export function Shell() {
             </div>
           )}
         </div>
-      </div>
+      </aside>
 
       <MoneyRain />
       {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
@@ -373,7 +397,7 @@ export function Shell() {
                   endTurn()
                 }}
               >
-                {t('todo.confirm.endAnyway')} ▶
+                {t('todo.confirm.endAnyway')} <span aria-hidden>▶</span>
               </Button>
             </>
           }

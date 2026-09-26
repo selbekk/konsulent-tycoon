@@ -32,13 +32,13 @@
   font-size: 0.85rem;
   font-weight: 400;
   letter-spacing: 0.03em;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .link {
   padding: 0;
   font: inherit;
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: underline;
   background: none;
   border: 0;

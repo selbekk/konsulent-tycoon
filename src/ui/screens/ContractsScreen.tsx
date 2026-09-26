@@ -108,7 +108,11 @@ export function ContractsScreen() {
                       <td className={s.num}>×{c.rateMultiplier.toFixed(2)}</td>
                       <td className={s.num}>{active ? formatMoney(contractRevenue(me, c, st), lng) : '–'}</td>
                       <td>
-                        <Meter label="" value={c.satisfaction} />
+                        <Meter
+                          label=""
+                          name={`${t('contracts.satisfaction')}: ${t(`content:customers.${c.customerId}.name`)}`}
+                          value={c.satisfaction}
+                        />
                       </td>
                       <td className={s.small}>
                         {formatQuarter(c.startQuarter)} – {formatQuarter(c.endQuarter - 1)}

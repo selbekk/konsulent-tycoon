@@ -62,6 +62,7 @@ After every reasonably sized feature (or a noticeable balance or gameplay change
 ## UI conventions
 
 - CSS Modules plus design tokens in `ui/theme/tokens.css`. Always use tokens (`var(--accent)`), never hardcoded colours. Dark theme is the default; light is `:root[data-theme='light']`.
+- Text in a status colour uses `--accent-text`/`--good-text`/`--warn-text`/`--bad-text`, and text on a status-colour fill uses `--on-good`/`--on-warn`/`--on-bad`/`--on-info` (`--accent-ink` for accent). Both themes then pass WCAG AA; the light theme's text variants are darker. `useReducedMotion()` (`ui/motion.ts`) covers both the setting and the OS preference.
 - Retro but calm: rounded corners (`--radius`), soft shadows. Pixel art belongs in illustrations (icons, office, portraits), not in text or controls. Fonts: Press Start 2P for the logo only, Bungee for headings and big buttons, IBM Plex Sans for body, IBM Plex Mono for numbers (`.num`).
 - Icons are 8×8 ASCII bitmaps in `ui/components/Icon.tsx` (`#` fill, `o` accent). Add new ones to `ICONS`. No emoji in the UI.
 - Sound is synthesized with Web Audio in `ui/sound.ts` (`playSound('win')`; add new sounds as tone lists in `SOUNDS`).

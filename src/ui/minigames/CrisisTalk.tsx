@@ -34,7 +34,9 @@ export function CrisisTalk() {
   )
   const [step, setStep] = useState(-1)
   const [answers, setAnswers] = useState<(TalkStyle | null)[]>([])
-  const [left, setLeft] = useState(TALK_SECONDS)
+  const doubleTime = useGame((x) => x.settings.doubleTime)
+  const seconds = TALK_SECONDS * (doubleTime ? 2 : 1)
+  const [left, setLeft] = useState(seconds)
   const [score, setScore] = useState<number | null>(null)
   const current = rounds[step]
   const answered = step >= 0 && answers.length > step
@@ -69,12 +71,12 @@ export function CrisisTalk() {
     if (dispatch({ type: 'startCrisisTalk', firmId: c.firmId, crisisId: c.id, choiceId: talk.choiceId }))
       return close(null)
     setStep(0)
-    setLeft(TALK_SECONDS)
+    setLeft(seconds)
   }
   const next = () => {
     if (step < rounds.length - 1) {
       setStep(step + 1)
-      setLeft(TALK_SECONDS)
+      setLeft(seconds)
       return
     }
     const final = scoreCrisisTalk(answers, preference)
@@ -91,7 +93,7 @@ export function CrisisTalk() {
           <div className={s.room} aria-hidden>
             <TalkScene kind={kind} />
           </div>
-          <p>{t(`${base}.intro`, { seconds: TALK_SECONDS })}</p>
+          <p>{t(`${base}.intro`, { seconds })}</p>
           <div>
             <strong>{t('minigames:crisisTalk.brief')}</strong>
             <p className={s.muted} style={{ margin: '4px 0 0' }}>
@@ -137,11 +139,16 @@ export function CrisisTalk() {
               </button>
             ))}
           </div>
-          {answered && (
-            <>
+          {/* Always mounted, so screen readers hear the reaction when it appears. */}
+          <div role="status">
+            {answered && (
               <p className={s.reaction} data-mood={reaction}>
                 {picked === null ? t('minigames:crisisTalk.timeout') : t(`minigames:crisisTalk.reactions.${reaction}`)}
               </p>
+            )}
+          </div>
+          {answered && (
+            <>
               <Button variant="primary" onClick={next}>
                 {step < rounds.length - 1 ? t('minigames:crisisTalk.next') : t('minigames:crisisTalk.finish')}
               </Button>

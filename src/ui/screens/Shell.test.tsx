@@ -207,7 +207,7 @@ describe('news page', () => {
 
   it('opens from the main menu and goes back to it', () => {
     render(<MainMenu />)
-    fireEvent.click(screen.getByRole('button', { name: /^latest news: there's something odd/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^latest news: a game for a few more people/i }))
     expect(useGame.getState().screen).toBe('news')
     cleanup()
 
@@ -232,5 +232,48 @@ describe('news page', () => {
     render(<NewsScreen />)
     fireEvent.click(screen.getByRole('button', { name: /^back$/i }))
     expect(useGame.getState().screen).toBe('game')
+  })
+})
+
+describe('keyboard and screen readers', () => {
+  beforeEach(async () => {
+    localStorage.clear()
+    await i18n.changeLanguage('en')
+    useGame.getState().quit()
+    useGame.getState().setSettings({ shortcuts: true })
+    useGame
+      .getState()
+      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    useGame.getState().dismissOnboarding()
+  })
+
+  afterEach(() => {
+    useGame.getState().setSettings({ shortcuts: true })
+    cleanup()
+  })
+
+  it('has a skip link to the main content and a top-level heading', () => {
+    render(<Shell />)
+    fireEvent.click(screen.getByRole('link', { name: /skip to content/i }))
+    expect(document.activeElement).toBe(screen.getByRole('main'))
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Test AS')
+  })
+
+  it('leaves Enter alone when a link or other control has focus', () => {
+    render(<Shell />)
+    const link = screen.getByRole('link', { name: /skip to content/i })
+    link.focus()
+    fireEvent.keyDown(link, { key: 'Enter' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('turns the shortcuts off in the settings', () => {
+    useGame.getState().setSettings({ shortcuts: false })
+    render(<Shell />)
+    fireEvent.keyDown(document.body, { key: 'Enter' })
+    fireEvent.keyDown(document.body, { key: '2' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(useGame.getState().tab).toBe('dashboard')
+    expect(useGame.getState().game!.quarter).toBe(0)
   })
 })

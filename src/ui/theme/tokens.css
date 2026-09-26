@@ -14,6 +14,18 @@
   --bad: #ff5a5f;
   --warn: #ffd84d;
   --info: #8f7bff;
+  /* The same colours as text, where the light theme needs them darker to be readable (WCAG AA). */
+  --accent-text: var(--accent);
+  --good-text: var(--good);
+  --warn-text: var(--warn);
+  --bad-text: #ff6b70;
+  /* Text on a --good/--warn/--bad/--info fill. */
+  --on-good: #0b2a1c;
+  --on-warn: #2a2200;
+  --on-bad: #2a0608;
+  --on-info: #14122b;
+  --focus: var(--warn);
+  --ticker-text: var(--warn);
   /* Chart series (validated for CVD and contrast against --panel): */
   --series-1: #d06a10;
   --series-2: #8f7bff;
@@ -44,12 +56,21 @@
   --text: #2b2118;
   --muted: #6e604a;
   --accent: #e8741c;
-  --accent-ink: #fffaf0;
+  --accent-ink: #2a1500;
   --accent-2: #d63d6b;
   --good: #1f9a63;
   --bad: #cf3035;
   --warn: #b98800;
   --info: #5b47d6;
+  --accent-text: #9e4a08;
+  --good-text: #157347;
+  --warn-text: #7d5a00;
+  --bad-text: #b52a2f;
+  --on-good: #03110a;
+  --on-bad: #fff;
+  --on-info: #fff;
+  --focus: var(--info);
+  --ticker-text: #ffd84d;
   --series-1: #d9700d;
   --series-2: #6b55e0;
   --chart-line: #d9700d;

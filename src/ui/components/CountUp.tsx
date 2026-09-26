@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useGame } from '../../store/gameStore'
+import { useReducedMotion } from '../motion'
 
 /**
  * A number that ticks up from zero, like a slot machine paying out. Screen readers (and tests)
@@ -14,9 +14,7 @@ export function CountUp({
   format: (n: number) => string
   duration?: number
 }) {
-  const setting = useGame((x) => x.settings.reducedMotion)
-  const reduced =
-    setting || (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const reduced = useReducedMotion()
   const animate = !reduced && typeof requestAnimationFrame !== 'undefined'
   const [shown, setShown] = useState(0)
 

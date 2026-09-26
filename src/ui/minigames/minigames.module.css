@@ -72,7 +72,7 @@
   margin: 0;
   font-family: var(--font-title);
   font-size: 1.3rem;
-  color: var(--accent);
+  color: var(--accent-text);
   text-align: center;
 }
 
@@ -112,7 +112,7 @@
 
 .timer[data-low='true'] {
   background: var(--bad);
-  color: #fff;
+  color: var(--on-bad);
   animation: blink 0.5s steps(2) infinite;
 }
 
@@ -145,7 +145,7 @@
 
 .bingoCell[aria-pressed='true'] {
   background: var(--warn);
-  color: #2a2200;
+  color: var(--on-warn);
   transform: translate(1px, 1px);
 }
 
@@ -172,5 +172,5 @@
 }
 
 .talkTimer[data-low='true'] {
-  color: var(--bad);
+  color: var(--bad-text);
 }

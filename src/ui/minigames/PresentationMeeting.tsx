@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { reactionFor, scoreMeeting, setupMeeting } from '../../engine/minigames'
 import type { CustomerNeed, MeetingStyle, Tender } from '../../engine'
+import { useGame } from '../../store/gameStore'
 import { Button, Modal } from '../components/ui'
 import { playSound } from '../sound'
 import s from './minigames.module.css'
@@ -24,6 +25,8 @@ export function PresentationMeeting({ tender, firmId, preference, needs, onStart
   const [step, setStep] = useState(-1)
   const [answers, setAnswers] = useState<{ style: MeetingStyle; ms: number }[]>([])
   const [score, setScore] = useState<number | null>(null)
+  // "Double time" halves the measured answer time, since the time limit itself lives in scoreMeeting.
+  const timeScale = useGame((x) => x.settings.doubleTime) ? 0.5 : 1
   const shownAt = useRef(0)
   const customer = t(`content:customers.${tender.customerId}.name`)
   const current = rounds[step]
@@ -38,7 +41,7 @@ export function PresentationMeeting({ tender, firmId, preference, needs, onStart
     if (answered) return
     const r = reactionFor(style, preference)
     playSound(r === 'love' ? 'good' : r === 'hate' ? 'bad' : 'blip')
-    setAnswers((a) => [...a, { style, ms: performance.now() - shownAt.current }])
+    setAnswers((a) => [...a, { style, ms: (performance.now() - shownAt.current) * timeScale }])
   }
   const next = () => {
     if (step < rounds.length - 1) {
@@ -104,11 +107,16 @@ export function PresentationMeeting({ tender, firmId, preference, needs, onStart
               </button>
             ))}
           </div>
-          {answered && (
-            <>
+          {/* Always mounted, so screen readers hear the reaction when it appears. */}
+          <div role="status">
+            {answered && (
               <p className={s.reaction} data-mood={reactionFor(answered.style, preference)}>
                 {t(`minigames:meeting.reactions.${reactionFor(answered.style, preference)}`)}
               </p>
+            )}
+          </div>
+          {answered && (
+            <>
               <Button variant="primary" onClick={next}>
                 {step < rounds.length - 1 ? t('minigames:meeting.next') : t('minigames:meeting.finish')}
               </Button>

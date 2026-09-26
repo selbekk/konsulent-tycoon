@@ -3,6 +3,7 @@
  * paragraphs); `date` is the publishing day as `YYYY-MM-DD`.
  */
 export const NEWS_POSTS = [
+  { id: 'accessibility', date: '2026-09-26' },
   { id: 'secrets', date: '2026-09-26' },
   { id: 'finance', date: '2026-09-25' },
   { id: 'welcome', date: '2026-09-25' },

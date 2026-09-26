@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useGame } from '../../store/gameStore'
 
 /** Printable keys lower-cased, the rest by name ('ArrowUp'). */
 function normalize(key: string) {
@@ -8,16 +9,17 @@ function normalize(key: string) {
 /**
  * Calls `onMatch` when the player types `sequence` (a word, or a list of key names like the Konami code).
  * Ignores typing in text fields, keys held with modifiers or auto-repeat, and anything while a dialog is open,
- * so a secret never fires by accident mid-game.
+ * so a secret never fires by accident mid-game. Off with the keyboard shortcuts setting.
  */
 export function useKeySequence(sequence: string | readonly string[], onMatch: () => void, enabled = true) {
   const callback = useRef(onMatch)
   useEffect(() => {
     callback.current = onMatch
   })
+  const shortcuts = useGame((x) => x.settings.shortcuts)
   const keys = (typeof sequence === 'string' ? [...sequence] : sequence).map(normalize).join('\u0000')
   useEffect(() => {
-    if (!enabled) return
+    if (!enabled || !shortcuts) return
     const target = keys.split('\u0000')
     let typed: string[] = []
     const onKey = (e: KeyboardEvent) => {
@@ -32,5 +34,5 @@ export function useKeySequence(sequence: string | readonly string[], onMatch: ()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [keys, enabled])
+  }, [keys, enabled, shortcuts])
 }

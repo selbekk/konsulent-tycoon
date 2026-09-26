@@ -8,6 +8,7 @@ import { Icon } from '../components/Icon'
 import { Button, Modal } from '../components/ui'
 import { formatMoney, formatPercent, formatQuarter, newsText } from '../format'
 import { bjornKey } from '../bjorn'
+import { useReducedMotion } from '../motion'
 import { playSound } from '../sound'
 import s from './screens.module.css'
 
@@ -36,7 +37,7 @@ export function QuarterReport() {
   const game = useGame((x) => x.game)!
   const quarter = useGame((x) => x.report)!
   const dismiss = useGame((x) => x.dismissReport)
-  const reducedMotion = useGame((x) => x.settings.reducedMotion)
+  const reducedMotion = useReducedMotion()
   const me = game.firms[game.playerId]
   const r = me.history.find((h) => h.quarter === quarter)
   const news = game.news.filter((n) => n.quarter === quarter && n.personal)

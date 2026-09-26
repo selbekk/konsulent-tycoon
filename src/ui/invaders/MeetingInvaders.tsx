@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGame } from '../../store/gameStore'
 import { Button, Modal } from '../components/ui'
 import { Icon } from '../components/Icon'
+import { useReducedMotion } from '../motion'
 import { playSound } from '../sound'
 import type { SoundName } from '../sound'
 import {
@@ -160,7 +160,7 @@ const hudOf = (g: InvadersState): Hud => ({
 
 export function MeetingInvaders({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation()
-  const reducedSetting = useGame((x) => x.settings.reducedMotion)
+  const reduced = useReducedMotion()
   const [running, setRunning] = useState(false)
   const [hud, setHud] = useState<Hud>(() => hudOf(newInvaders()))
   const [best, setBest] = useState(readBest)
@@ -171,9 +171,6 @@ export function MeetingInvaders({ onClose }: { onClose: () => void }) {
   const game = useRef<InvadersState>(newInvaders())
   const input = useRef<Input>({ left: false, right: false, fire: false })
   const colors = useRef<Colors | null>(null)
-
-  const reduced =
-    reducedSetting || (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches)
 
   // The theme can't change while the dialog is open (settings is its own screen), so once is enough.
   useEffect(() => {

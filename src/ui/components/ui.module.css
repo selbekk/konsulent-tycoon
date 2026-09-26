@@ -27,7 +27,7 @@
   font-family: var(--font-title);
   font-size: 0.9rem;
   letter-spacing: 0.03em;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .button {
@@ -82,7 +82,7 @@
 
 .danger {
   --btn-bg: var(--bad);
-  --btn-fg: #fff;
+  --btn-fg: var(--on-bad);
 }
 
 .ghost {
@@ -175,19 +175,19 @@
 
 .badge[data-tone='good'] {
   background: var(--good);
-  color: #0b2a1c;
+  color: var(--on-good);
 }
 .badge[data-tone='bad'] {
   background: var(--bad);
-  color: #fff;
+  color: var(--on-bad);
 }
 .badge[data-tone='warn'] {
   background: var(--warn);
-  color: #2a2200;
+  color: var(--on-warn);
 }
 .badge[data-tone='info'] {
   background: var(--info);
-  color: #fff;
+  color: var(--on-info);
 }
 .badge[data-tone='accent'] {
   background: var(--accent);
@@ -211,6 +211,11 @@
   max-height: calc(100dvh - 32px);
   overflow: auto;
   animation: popIn 180ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+/* Focused only as a fallback when nothing inside can take focus; the ring would just frame the whole box. */
+.modal:focus {
+  outline: none;
 }
 
 .modalWide {

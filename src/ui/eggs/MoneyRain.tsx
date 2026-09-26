@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useGame } from '../../store/gameStore'
+import { useReducedMotion } from '../motion'
 import { playSound } from '../sound'
 import { useKeySequence } from './useKeySequence'
 import s from './eggs.module.css'
@@ -9,7 +9,7 @@ const RAIN_MS = 3800
 
 /** Typing "faktura" in the game makes it rain money. Purely for the feeling; nothing is added to the accounts. */
 export function MoneyRain() {
-  const reducedMotion = useGame((x) => x.settings.reducedMotion)
+  const reducedMotion = useReducedMotion()
   const [shower, setShower] = useState<number | null>(null)
   useKeySequence('faktura', () => {
     playSound('cash')
