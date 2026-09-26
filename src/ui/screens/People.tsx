@@ -32,6 +32,7 @@ import type { Discipline, Employee, Firm, GameState, Star } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Levels } from '../components/Levels'
 import { Portrait } from '../components/Portrait'
+import { isTerminalPerson } from '../eggs/terminal'
 import { Badge, Button, Hint, Meter, Modal, Panel } from '../components/ui'
 import { formatMoney, formatNumber, formatQuarter } from '../format'
 import s from './screens.module.css'
@@ -276,6 +277,11 @@ function EmployeeProfile({
               })
             : t('staff.profile.bioNew', { first })}
         </p>
+        {isTerminalPerson(e.id) && (
+          <p className={`${s.small} ${s.muted}`} style={{ margin: 0 }}>
+            {t('staff.profile.terminal', { first })}
+          </p>
+        )}
         <div className={s.stackSm}>
           <strong>{t('staff.profile.quirks')}</strong>
           {e.quirks.map((id) => (

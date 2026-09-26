@@ -245,7 +245,15 @@
     "party": "Stemningen er høy etter forrige kvartal.",
     "crisis": "Det er krise, og det merkes på kontoret.",
     "hint": "Klikk på en ansatt for å høre hva hen tenker.",
-    "someone": "En kollega"
+    "someone": "En kollega",
+    "eggs": {
+      "night": "Noen leverer fortsatt timer",
+      "inMeeting": "Jeg ER faktisk i et møte.",
+      "coffee": {
+        "broken": "Kaffemaskinen er i stykker",
+        "fixed": "Kaffemaskinen er fikset. Med foten."
+      }
+    }
   },
   "staff": {
     "pools": "Konsulentene",
@@ -325,7 +333,8 @@
       "promise": "Lovet vekst innen {{quarter}}: {{done}} av {{goal}} nivå.",
       "promote": "Forfrem til stjerne ({{cost}})",
       "promoteHint": "Krever nivå {{level}} og høyt potensial. Én forfremmelse i året.",
-      "fire": "Si opp ({{cost}})"
+      "fire": "Si opp ({{cost}})",
+      "terminal": "{{first}} gjør alt i terminalen og har ikke tatt i en mus siden 1998."
     },
     "starBadge": "Stjerne"
   },
@@ -1155,7 +1164,9 @@
       "strategyDayRag": "Strategisamlingsrag",
       "fridayDrinks": "Fredagspils",
       "nightShift": "Nattskift",
-      "goldenParachute": "Gyllen fallskjerm"
+      "goldenParachute": "Gyllen fallskjerm",
+      "timesheetBlues": "Timeliste-blues",
+      "officePartySleighRide": "Sledetur til julebordet"
     }
   },
   "customer": {
@@ -1299,6 +1310,15 @@
   "news": {
     "title": "Nyheter",
     "posts": {
+      "secrets": {
+        "title": "Det er noe rart med dette spillet",
+        "body": [
+          "Jeg skal ikke si for mye. Egentlig burde jeg ikke si noe i det hele tatt, men da er det jo ingen som finner noe, og det hadde vært skikkelig bortkastet. Så her kommer en innrømmelse: Jeg har gjemt ting i Konsulent Tycoon. Ting som ikke står i noen veiledning, og som ingen kvartalsrapport kommer til å nevne.",
+          "Noen av dem ligger på startsiden. Noen ligger inne i selve spillet. Og noen dukker bare opp hvis du spiller til riktig tid. Mer enn det får du ikke av meg.",
+          "Et lite tips på veien, da: Spillet gjør ganske ofte akkurat det det ber deg om. Og hvis noe ser ut som det burde være klikkbart, er det kanskje verdt å klikke. Én gang til. Og så noen ganger til.",
+          "Ingen av hemmelighetene gir deg noen fordel på topplisten, så du kan jakte med god samvittighet. Finner du noe, må du gjerne holde det for deg selv. Eller nevne det for en kollega på standupen. Jeg sier ingenting. Lykke til!"
+        ]
+      },
       "finance": {
         "title": "Ny fane: Økonomi",
         "body": [
@@ -1321,5 +1341,24 @@
         ]
       }
     }
+  },
+  "eggs": {
+    "powerpoint": {
+      "name": "Binders, din digitale assistent",
+      "tips": [
+        "Det ser ut som du prøver å vinne et anbud. Vil du ha hjelp til å legge inn flere buzzwords?",
+        "Det ser ut som du fører timer. Skal jeg runde opp?",
+        "Visste du at alle presentasjoner blir bedre av en overgang som snurrer?",
+        "Det ser ut som du har mange møter. Har du vurdert et møte om det?",
+        "Tips: WordArt fungerer best i overskrifter, brødtekst og signaturen din.",
+        "Det ser ut som du planlegger ti år fram i tid. Vil du ha en mal for det?"
+      ],
+      "next": "Neste tips",
+      "off": "Gå bort, Binders"
+    },
+    "skyline": {
+      "sign": "Her kommer Norges største konsulenthus (2029)"
+    },
+    "familiarName": "Nytt firma med påfallende kjent navn registrert: «{{name}}». Advokatene er varslet."
   }
 }

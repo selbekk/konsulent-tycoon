@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import s from '../screens/screens.module.css'
+import { SantaHat } from './Portrait'
 
 /** Styreleder Bjørn – the board chair and advisor. One or two sentences, never more. */
 export function BjornPortrait({ size = 48 }: { size?: number }) {
@@ -24,6 +25,7 @@ export function BjornPortrait({ size = 48 }: { size?: number }) {
       <rect x="2" y="8" width="8" height="4" fill="#1c1a5e" />
       <rect x="5" y="8" width="2" height="4" fill="#fff" />
       <rect x="5" y="9" width="2" height="3" fill="#e53170" />
+      <SantaHat />
     </svg>
   )
 }

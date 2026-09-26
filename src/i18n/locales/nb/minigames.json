@@ -2230,5 +2230,46 @@
     "left": "Venstre",
     "right": "Høyre",
     "fire": "Avslå"
+  },
+  "standup": {
+    "title": "Standup-bingo",
+    "intro": "Dagens standup er i gang. Kryss av frasene når noen sier dem, og få fire på rad. Ikke kryss av noe som ikke er sagt, for teamlederen følger med.",
+    "start": "Bli med i møtet",
+    "waiting": "Venter på at alle skal koble seg på …",
+    "strikes": "Advarsler: {{count}}/{{max}}",
+    "notSaid": "Ingen har sagt det ennå.",
+    "endings": {
+      "bingo": "BINGO! Du ropte det høyt. Teamlederen later som ingenting skjedde.",
+      "over": "Standupen varte i 45 minutter. Ingen bingo.",
+      "caught": "Teamlederen spør om du følger med. Du følger ikke med."
+    },
+    "again": "Én standup til",
+    "speakers": ["Kari", "Ola", "Aisha", "Jonas", "Lene"],
+    "phrases": {
+      "noBlockers": "Ingen blokkere",
+      "offline": "Vi tar det offline",
+      "sameAsYesterday": "Samme som i går",
+      "seeMyScreen": "Ser dere skjermen min?",
+      "onMute": "Du er på mute",
+      "almostDone": "Det er nesten ferdig",
+      "separateChat": "Vi tar en egen prat om det",
+      "stuff": "Jobbet med litt ting",
+      "waitingReview": "Venter på review",
+      "myMachine": "Det funker på min maskin",
+      "quickOne": "Kort fra meg",
+      "shareScreen": "Jeg deler skjerm",
+      "wasMuted": "Sorry, jeg var på mute",
+      "retro": "Det tar vi i retroen",
+      "hearMe": "Hører dere meg?",
+      "notMuch": "Ikke så mye fra meg",
+      "bitsAndPieces": "Litt av hvert",
+      "carryingOn": "Fortsetter med det samme",
+      "isPerHere": "Er Per her?",
+      "waitForOthers": "Skal vi vente på de andre?",
+      "quickThing": "Bare en kjapp ting",
+      "sync": "Vi må synke på det",
+      "prodSoon": "Det er i prod snart",
+      "hardStop": "Jeg har en hard stopp"
+    }
   }
 }

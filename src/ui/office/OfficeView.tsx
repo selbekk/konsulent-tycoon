@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { employeeThoughts, firmLevel, hashString } from '../../engine'
 import type { Firm, GameState } from '../../engine'
+import { isNight } from '../eggs/clock'
+import seasonal from '../eggs/seasonal.module.css'
 import { playSound } from '../sound'
 import { officeLayout, officeMood } from './officeLayout'
 import type { RoomTile, Tile } from './officeLayout'
@@ -9,14 +11,26 @@ import s from './office.module.css'
 
 const SHIRTS = ['#ff9e2c', '#48d597', '#8f7bff', '#ff5c8a', '#4cc9f0', '#ffd84d']
 
-function Desk({ occupied, i }: { occupied: boolean; i: number }) {
+function Desk({ occupied, i, lamp = false }: { occupied: boolean; i: number; lamp?: boolean }) {
   const shirt = SHIRTS[i % SHIRTS.length]
   return (
     <svg viewBox="0 0 16 16" className={s.tile} shapeRendering="crispEdges" aria-hidden>
+      {lamp && (
+        <g className={s.lamp}>
+          <rect x="0" y="3" width="6" height="6" fill="#ffe58a" opacity="0.35" />
+          <rect x="1" y="3" width="3" height="1" fill="#ffd84d" />
+          <rect x="2" y="4" width="1" height="5" fill="#8a8aa0" />
+        </g>
+      )}
       {occupied && (
         <g className={`${s.person} ${i % 7 === 0 ? s.typing : ''}`} style={{ animationDelay: `${(i % 5) * 90}ms` }}>
           <rect x="6" y="2" width="4" height="4" fill="#f2c9a0" />
           <rect x="6" y="2" width="4" height="1" fill="#3b2f1a" />
+          <g className={seasonal.hat}>
+            <rect x="6" y="0" width="4" height="2" fill="#d62839" />
+            <rect x="10" y="0" width="1" height="1" fill="#fff" />
+            <rect x="5" y="2" width="6" height="1" fill="#fff" />
+          </g>
           <rect x="5" y="6" width="6" height="4" fill={shirt} />
           <rect x="11" y="3" width="1" height="2" fill="#7fc8f8" className={s.sweat} />
         </g>
@@ -207,6 +221,29 @@ const ROOM_ART: Record<RoomTile, React.ReactNode> = {
   ),
 }
 
+/** The coffee machine after one click too many: smoke, sparks and a colleague about to fix it with a boot. */
+const BROKEN_COFFEE = (
+  <>
+    <rect x="4" y="5" width="8" height="9" fill="#3a3a48" />
+    <rect x="5" y="6" width="6" height="3" fill="#e85d5d" className="blink" />
+    <rect x="7" y="10" width="2" height="2" fill="#6b3b1a" />
+    <g className="steam">
+      <rect x="5" y="2" width="2" height="2" fill="#8a8aa0" />
+      <rect x="8" y="1" width="3" height="2" fill="#8a8aa0" />
+    </g>
+    <rect x="12" y="4" width="1" height="1" fill="#ffd84d" className="blink" />
+    <rect x="3" y="7" width="1" height="1" fill="#ffd84d" className="blink" />
+  </>
+)
+
+const KICKER = (
+  <g className="kick">
+    <rect x="0" y="6" width="2" height="2" fill="#f2c9a0" />
+    <rect x="0" y="8" width="2" height="4" fill="#48d597" />
+    <rect x="2" y="11" width="2" height="1" fill="#2b2b3a" />
+  </g>
+)
+
 function Room({ room, label }: { room: RoomTile; label: string }) {
   return (
     <svg
@@ -219,6 +256,22 @@ function Room({ room, label }: { room: RoomTile; label: string }) {
       <title>{label}</title>
       {ROOM_ART[room]}
     </svg>
+  )
+}
+
+const PESTER_CLICKS = 7
+const COFFEE_CLICKS = 5
+const COFFEE_FIX_MS = 2600
+type CoffeeState = 'ok' | 'broken' | 'fixed'
+
+function CoffeeMachine({ state, label, onClick }: { state: CoffeeState; label: string; onClick: () => void }) {
+  return (
+    <button type="button" className={s.roomButton} aria-label={label} title={label} onClick={onClick}>
+      <svg viewBox="0 0 16 16" className={`${s.tile} ${s.room}`} shapeRendering="crispEdges" aria-hidden>
+        {state === 'broken' ? BROKEN_COFFEE : ROOM_ART.coffee}
+        {state === 'broken' && KICKER}
+      </svg>
+    </button>
   )
 }
 
@@ -239,6 +292,12 @@ export function OfficeView({ game, firm }: { game: GameState; firm: Firm }) {
   const mood = officeMood(game, firm)
   const { floors, hiddenPeople } = officeLayout(firm, mood)
   const [talking, setTalking] = useState<number | null>(null)
+  // Easter eggs, kept in component state only: pestering one colleague, and clicking the coffee machine to bits.
+  const [pester, setPester] = useState({ i: -1, n: 0 })
+  const [coffeeClicks, setCoffeeClicks] = useState(0)
+  const coffee: CoffeeState = coffeeClicks < COFFEE_CLICKS ? 'ok' : coffeeClicks === COFFEE_CLICKS ? 'broken' : 'fixed'
+  // The night shift only shows on a quiet night: a crisis or a party keeps everyone in the office.
+  const night = isNight() && !mood.crisis && !mood.party
   const thoughts = employeeThoughts(game, firm.id)
   // Stars sit at desks too, after the rest.
   const roster = [...(firm.roster ?? []), ...firm.stars]
@@ -248,17 +307,28 @@ export function OfficeView({ game, firm }: { game: GameState; firm: Firm }) {
       ? t('office.party')
       : mood.birthday
         ? t('office.cake', { name: mood.birthday })
-        : null
+        : coffee !== 'ok'
+          ? t(`office.eggs.coffee.${coffee}`)
+          : night
+            ? t('office.eggs.night')
+            : null
 
   const person = (i: number) => roster[i]?.name ?? t('office.someone')
   const thought = (i: number) => {
+    if (pester.i === i && pester.n >= PESTER_CLICKS) return t('office.eggs.inMeeting')
     if (!thoughts.length) return null
     const th = thoughts[hashString(`${i}:${game.quarter}`) % thoughts.length]
     return t(`game:${th.key}`, th.params)
   }
   let deskIndex = 0
   return (
-    <div className={s.office} aria-label={t('office.label')} data-party={mood.party} data-crisis={mood.crisis}>
+    <div
+      className={s.office}
+      aria-label={t('office.label')}
+      data-party={mood.party}
+      data-crisis={mood.crisis}
+      data-night={night}
+    >
       {mood.party && <Bunting />}
       <p className={s.sign}>
         {t(`office.tiers.${firmLevel(firm)}`)}
@@ -277,7 +347,9 @@ export function OfficeView({ game, firm }: { game: GameState; firm: Firm }) {
               tile.kind === 'desk' ? (
                 (() => {
                   const i = deskIndex++
-                  return tile.occupied ? (
+                  // At night everyone has gone home except the first desk, who is still logging hours.
+                  const here = tile.occupied && (!night || i === 0)
+                  return here ? (
                     <button
                       key={ti}
                       type="button"
@@ -287,15 +359,37 @@ export function OfficeView({ game, firm }: { game: GameState; firm: Firm }) {
                       title={person(i)}
                       onClick={() => {
                         playSound('blip')
-                        setTalking(talking === i ? null : i)
+                        // Clicking the same person over and over counts up; anyone else starts over.
+                        const n = pester.i === i ? pester.n + 1 : 1
+                        setPester({ i, n })
+                        setTalking(n >= PESTER_CLICKS || talking !== i ? i : null)
                       }}
                     >
-                      <Desk occupied i={i} />
+                      <Desk occupied i={i} lamp={night} />
                     </button>
                   ) : (
                     <Desk key={ti} occupied={false} i={i} />
                   )
                 })()
+              ) : tile.room === 'coffee' ? (
+                <CoffeeMachine
+                  key={ti}
+                  state={coffee}
+                  label={t(`office.rooms.${tile.room}`)}
+                  onClick={() => {
+                    if (coffee !== 'ok') return
+                    const next = coffeeClicks + 1
+                    setCoffeeClicks(next)
+                    playSound(next === COFFEE_CLICKS ? 'bad' : 'blip')
+                    // A colleague walks over and fixes it the traditional way.
+                    if (next === COFFEE_CLICKS)
+                      setTimeout(() => {
+                        setCoffeeClicks(COFFEE_CLICKS + 1)
+                        playSound('good')
+                        setTimeout(() => setCoffeeClicks(0), COFFEE_FIX_MS * 2)
+                      }, COFFEE_FIX_MS)
+                  }}
+                />
               ) : (
                 <Room key={ti} room={tile.room} label={t(`office.rooms.${tile.room}`)} />
               ),
@@ -305,7 +399,7 @@ export function OfficeView({ game, firm }: { game: GameState; firm: Firm }) {
       ))}
       {hiddenPeople > 0 && <p className={s.more}>{t('office.more', { count: hiddenPeople })}</p>}
       {talking === null && thoughts.length > 0 && <p className={s.more}>{t('office.hint')}</p>}
-      <div className={s.walker} aria-hidden>
+      <div className={s.walker} aria-hidden hidden={night}>
         <svg viewBox="0 0 8 12" shapeRendering="crispEdges">
           <rect x="2" y="0" width="4" height="4" fill="#f2c9a0" />
           <rect x="1" y="4" width="6" height="5" fill="#ff5c8a" />
