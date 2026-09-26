@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { compose, LEAD_RANGE, parseChord, passesFor, type LeadVoice } from './compose'
-import { SONGS } from './songs'
+import { HIDDEN_SONGS, SONGS } from './songs'
 
 const isLead = (v: string): v is LeadVoice => v in LEAD_RANGE
 
@@ -23,23 +23,34 @@ describe('compose', () => {
     for (const song of SONGS) expect(compose(song)).toEqual(compose(song))
   })
 
-  it.each(SONGS.map((s) => [s.id, s] as const))('%s is a sane length, sorted and in range', (_, song) => {
-    const score = compose(song)
-    const seconds = (score.beats * 60) / score.bpm
-    expect(seconds).toBeGreaterThan(60)
-    expect(seconds).toBeLessThan(240)
-    for (let i = 1; i < score.events.length; i++)
-      expect(score.events[i].time).toBeGreaterThanOrEqual(score.events[i - 1].time)
-    for (const e of score.events) {
-      expect(e.dur).toBeGreaterThan(0)
-      expect(e.time + e.dur).toBeLessThanOrEqual(score.beats)
-      if (e.part === 'lead' && isLead(e.voice)) {
-        const [lo, hi] = LEAD_RANGE[e.voice]
-        expect(e.midi).toBeGreaterThanOrEqual(lo)
-        expect(e.midi).toBeLessThanOrEqual(hi)
-      }
+  it('parses the hidden songs too, and keeps them out of the shuffle', () => {
+    for (const song of Object.values(HIDDEN_SONGS)) {
+      for (const bar of Object.values(song.sections).flat())
+        for (const c of bar.split(' ')) expect(() => parseChord(c)).not.toThrow()
+      expect(SONGS.map((s) => s.id)).not.toContain(song.id)
     }
   })
+
+  it.each([...SONGS, ...Object.values(HIDDEN_SONGS)].map((s) => [s.id, s] as const))(
+    '%s is a sane length, sorted and in range',
+    (_, song) => {
+      const score = compose(song)
+      const seconds = (score.beats * 60) / score.bpm
+      expect(seconds).toBeGreaterThan(60)
+      expect(seconds).toBeLessThan(240)
+      for (let i = 1; i < score.events.length; i++)
+        expect(score.events[i].time).toBeGreaterThanOrEqual(score.events[i - 1].time)
+      for (const e of score.events) {
+        expect(e.dur).toBeGreaterThan(0)
+        expect(e.time + e.dur).toBeLessThanOrEqual(score.beats)
+        if (e.part === 'lead' && isLead(e.voice)) {
+          const [lo, hi] = LEAD_RANGE[e.voice]
+          expect(e.midi).toBeGreaterThanOrEqual(lo)
+          expect(e.midi).toBeLessThanOrEqual(hi)
+        }
+      }
+    },
+  )
 
   it('puts chord tones on the strong beats and repeats the A theme rhythm', () => {
     for (const song of SONGS) {

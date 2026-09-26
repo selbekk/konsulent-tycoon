@@ -1,4 +1,6 @@
 import { createRng, hashString, nextFloat } from '../../engine'
+import seasonal from '../eggs/seasonal.module.css'
+import { isTerminalPerson } from '../eggs/terminal'
 
 // Illustration palette (like BjornPortrait): skin, hair, shirts and backgrounds are art, not theme colours.
 const SKIN = ['#f6d7b8', '#f2c9a0', '#e0ac7e', '#c68a5c', '#9a6440', '#6e4428']
@@ -38,17 +40,37 @@ const HAIR_SHAPES: Record<(typeof STYLES)[number], Px[]> = {
   ],
 }
 
+// Easter egg: the rare colleague who still does everything in a terminal, drawn in phosphor green.
+const TERMINAL = { skin: '#2a7a3a', hair: '#39ff6a', shirt: '#1f5a2b', bg: '#050805', ink: '#39ff6a' }
+
+/** A santa hat on the 12×12 portrait grid, hidden outside Christmas. */
+export function SantaHat({ x = 3 }: { x?: number }) {
+  return (
+    <g className={seasonal.hat}>
+      <rect x={x} y={0} width={6} height={2} fill="#d62839" />
+      <rect x={x + 6} y={0} width={1} height={1} fill="#fff" />
+      <rect x={x - 1} y={2} width={8} height={1} fill="#fff" />
+    </g>
+  )
+}
+
 /** A small pixel face, the same every time for the same seed (an employee or star id). */
 export function Portrait({ seed, size = 32 }: { seed: string; size?: number }) {
   const rng = createRng(hashString(seed))
   const pickOf = <T,>(xs: readonly T[]) => xs[Math.floor(nextFloat(rng) * xs.length)]
-  const skin = pickOf(SKIN)
-  const hair = pickOf(HAIR)
-  const shirt = pickOf(SHIRT)
-  const bg = pickOf(BACKDROP)
+  const pickedSkin = pickOf(SKIN)
+  const pickedHair = pickOf(HAIR)
+  const pickedShirt = pickOf(SHIRT)
+  const pickedBg = pickOf(BACKDROP)
   const style = pickOf(STYLES)
   const glasses = nextFloat(rng) < 0.3
   const beard = nextFloat(rng) < 0.18
+  const terminal = isTerminalPerson(seed)
+  const skin = terminal ? TERMINAL.skin : pickedSkin
+  const hair = terminal ? TERMINAL.hair : pickedHair
+  const shirt = terminal ? TERMINAL.shirt : pickedShirt
+  const bg = terminal ? TERMINAL.bg : pickedBg
+  const ink = terminal ? TERMINAL.ink : '#1b1b2f'
   const rect = ([x, y, w, h]: Px, fill: string, key: string, opacity?: number) => (
     <rect key={key} x={x} y={y} width={w} height={h} fill={fill} opacity={opacity} />
   )
@@ -71,10 +93,11 @@ export function Portrait({ seed, size = 32 }: { seed: string; size?: number }) {
       {rect([5, 8, 2, 1], skin, 'neck')}
       {HAIR_SHAPES[style].map((p, i) => rect(p, hair, `h${i}`))}
       {beard && rect([3, 6, 6, 2], hair, 'beard')}
-      {glasses && rect([3, 4, 5, 1], '#1b1b2f', 'glasses', 0.45)}
-      {rect([4, 4, 1, 1], '#1b1b2f', 'eyeL')}
-      {rect([7, 4, 1, 1], '#1b1b2f', 'eyeR')}
-      {rect([5, 6, 2, 1], beard ? '#1b1b2f' : '#b98b6b', 'mouth', beard ? 0.5 : undefined)}
+      {glasses && rect([3, 4, 5, 1], ink, 'glasses', 0.45)}
+      {rect([4, 4, 1, 1], ink, 'eyeL')}
+      {rect([7, 4, 1, 1], ink, 'eyeR')}
+      {rect([5, 6, 2, 1], beard || terminal ? ink : '#b98b6b', 'mouth', beard ? 0.5 : undefined)}
+      <SantaHat />
     </svg>
   )
 }

@@ -63,6 +63,15 @@
   height: 72px;
 }
 
+/* The easter-egg tower needs a taller view of the city to show its roof and flag. */
+.skyline[data-built] {
+  height: 124px;
+}
+
+:global(:root[data-motion='full']) .skyline {
+  transition: height 0.6s ease-out;
+}
+
 .notice {
   margin: 0;
   padding: 10px 14px;
@@ -163,4 +172,26 @@
 .newsLink:hover,
 .newsLink:focus-visible {
   color: var(--accent);
+}
+
+/* The easter-egg tower grows floor by floor; with reduced motion it is simply there. */
+.tower {
+  transform-box: fill-box;
+  transform-origin: bottom;
+}
+
+:global(:root[data-motion='full']) .tower {
+  animation: rise 2.4s steps(12) both;
+}
+
+@keyframes rise {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(:root[data-motion='full']) .tower {
+    animation: none;
+  }
 }

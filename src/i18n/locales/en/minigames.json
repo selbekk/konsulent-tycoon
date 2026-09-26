@@ -2193,5 +2193,83 @@
       "facts": "They wanted facts, numbers and a plan. Worth remembering.",
       "spin": "They just wanted a nice turn of phrase. No judgement."
     }
+  },
+  "invaders": {
+    "title": "Meeting Invaders",
+    "intro": "Your calendar is under attack. Decline the meetings before they reach your desk.",
+    "controls": "Arrow keys or A/D to move, space to decline. Esc to give up.",
+    "start": "Decline everything",
+    "kinds": {
+      "workshop": "Workshop",
+      "sync": "Quick sync",
+      "status": "Status meeting",
+      "coffee": "“Grab a coffee?”",
+      "allhands": "All-hands"
+    },
+    "day": "{{day}}, week {{week}}",
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday"
+    },
+    "weekend": "Weekend! Then came Monday.",
+    "saved": "Saved",
+    "time": "{{hours}} h {{minutes}} min",
+    "coffee_one": "{{count}} cup of coffee left",
+    "coffee_other": "{{count}} cups of coffee left",
+    "endings": {
+      "calendarFull": "Your calendar is full. You're in meetings until 2036.",
+      "outOfCoffee": "Out of coffee. You're accepting everything now."
+    },
+    "result": "You saved {{time}} of your week.",
+    "best": "Best: {{time}}",
+    "newBest": "New best!",
+    "again": "Try again",
+    "left": "Left",
+    "right": "Right",
+    "fire": "Decline"
+  },
+  "standup": {
+    "title": "Stand-up Bingo",
+    "intro": "Today's stand-up has started. Mark the phrases as people say them and get four in a row. Don't mark anything nobody's said, because the team lead is watching.",
+    "start": "Join the meeting",
+    "waiting": "Waiting for everyone to join…",
+    "strikes": "Warnings: {{count}}/{{max}}",
+    "notSaid": "Nobody's said that yet.",
+    "endings": {
+      "bingo": "BINGO! You said it out loud. The team lead pretends nothing happened.",
+      "over": "The stand-up ran for 45 minutes. No bingo.",
+      "caught": "The team lead asks if you're paying attention. You aren't."
+    },
+    "again": "One more stand-up",
+    "speakers": ["Kari", "Ola", "Aisha", "Jonas", "Lene"],
+    "phrases": {
+      "noBlockers": "No blockers",
+      "offline": "Let's take that offline",
+      "sameAsYesterday": "Same as yesterday",
+      "seeMyScreen": "Can you see my screen?",
+      "onMute": "You're on mute",
+      "almostDone": "It's almost done",
+      "separateChat": "Let's have a separate chat about that",
+      "stuff": "Worked on some stuff",
+      "waitingReview": "Waiting on review",
+      "myMachine": "Works on my machine",
+      "quickOne": "Quick one from me",
+      "shareScreen": "Let me share my screen",
+      "wasMuted": "Sorry, I was on mute",
+      "retro": "Let's save that for the retro",
+      "hearMe": "Can you hear me?",
+      "notMuch": "Not much from me",
+      "bitsAndPieces": "Bits and pieces",
+      "carryingOn": "Carrying on with the same",
+      "isPerHere": "Is Dave here?",
+      "waitForOthers": "Should we wait for the others?",
+      "quickThing": "Just a quick thing",
+      "sync": "We need to sync on that",
+      "prodSoon": "It's going to prod soon",
+      "hardStop": "I have a hard stop"
+    }
   }
 }

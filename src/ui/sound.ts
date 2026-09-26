@@ -22,6 +22,8 @@ export type SoundName =
   | 'fanfare'
   | 'sad'
   | 'siren'
+  | 'pew'
+  | 'pop'
 
 type Wave = OscillatorType
 interface Note {
@@ -107,6 +109,9 @@ const SOUNDS: Record<SoundName, Note[]> = {
     { f: [880, 660], at: 0.22, dur: 0.22, wave: 'square', vol: 0.35 },
     { f: [660, 880], at: 0.44, dur: 0.22, wave: 'square', vol: 0.35 },
   ],
+  // Møteinvasjonen: declining a meeting, and the meeting going away.
+  pew: [{ f: [1400, 350], at: 0, dur: 0.08, wave: 'square', vol: 0.3 }],
+  pop: [{ f: [500, 70], at: 0, dur: 0.12, wave: 'sawtooth', vol: 0.45 }],
   sad: [
     { f: G4, at: 0, dur: 0.3, wave: 'triangle' },
     { f: F4, at: 0.3, dur: 0.3, wave: 'triangle' },

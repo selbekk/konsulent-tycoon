@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore } from 'react'
+import { useCallback, useState, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DISCIPLINES, MAX_QUARTERS, WEEKLY_DIFFICULTY, isoWeek, listSlots, weekSeed } from '../../engine'
 import { FIRMS } from '../../content/firms'
@@ -10,15 +10,18 @@ import { useGame } from '../../store/gameStore'
 import { Button, Hint, Panel, Slider } from '../components/ui'
 import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/install'
 import { playSound } from '../sound'
-import { getNowPlaying, nextSong, subscribeNowPlaying } from '../music/player'
+import { getNowPlaying, nextSong, playHiddenSong, subscribeNowPlaying } from '../music/player'
 import { formatQuarter } from '../format'
 import { weekText } from '../leaderboardText'
 import { NEWS_POSTS } from '../news'
+import { MeetingInvaders } from '../invaders/MeetingInvaders'
+import { useKeySequence } from '../eggs/useKeySequence'
+import { StandupBingo } from '../eggs/StandupBingo'
 import { AccountSection } from './Leaderboard'
 import m from './menu.module.css'
 import s from './screens.module.css'
 
-function Skyline() {
+function Skyline({ built = false }: { built?: boolean }) {
   // Pixel-art Oslo-ish skyline: office blocks, a crane and the Opera roof.
   const blocks = [
     [0, 30, 10],
@@ -40,6 +43,7 @@ function Skyline() {
   return (
     <svg
       className={m.skyline}
+      data-built={built || undefined}
       viewBox="0 0 170 60"
       preserveAspectRatio="xMidYMax slice"
       shapeRendering="crispEdges"
@@ -65,10 +69,25 @@ function Skyline() {
       <rect x="64" y="4" width="1" height="38" fill="var(--accent)" />
       <rect x="50" y="4" width="26" height="1" fill="var(--accent)" />
       <rect x="52" y="5" width="1" height="6" fill="var(--muted)" />
+      {built && (
+        // Easter egg: ten clicks on the city and the biggest consultancy in the country goes up.
+        <g className={m.tower}>
+          <rect x="57" y="30" width="16" height="28" fill="var(--accent)" />
+          {Array.from({ length: 6 }, (_, r) =>
+            Array.from({ length: 4 }, (__, c) => (
+              <rect key={`t${r}-${c}`} x={59 + c * 4} y={32 + r * 4} width={2} height={2} fill="var(--warn)" />
+            )),
+          )}
+          <rect x="64" y="22" width="2" height="8" fill="var(--text)" />
+          <rect x="66" y="22" width="5" height="3" fill="var(--accent-2)" />
+        </g>
+      )}
       <rect x="0" y="58" width="170" height="2" fill="var(--border-dark)" />
     </svg>
   )
 }
+
+const CITY_CLICKS = 10
 
 /** Shown after saves this version of the game can't read were deleted. */
 function DroppedSavesNotice() {
@@ -93,6 +112,27 @@ export function MainMenu() {
   useGame((x) => x.droppedSaves)
   const canInstall = useCanInstall()
   const showIosHint = !canInstall && isIosSafari() && !isStandalone()
+  const [invaders, setInvaders] = useState(false)
+  const openInvaders = useCallback(() => {
+    playSound('fanfare')
+    setInvaders(true)
+  }, [])
+  const closeInvaders = useCallback(() => setInvaders(false), [])
+  const [cityClicks, setCityClicks] = useState(0)
+  const clickCity = () => {
+    if (cityClicks >= CITY_CLICKS) return
+    const next = cityClicks + 1
+    setCityClicks(next)
+    playSound(next === CITY_CLICKS ? 'fanfare' : 'tick')
+  }
+  useKeySequence('start', openInvaders, !invaders)
+  const [bingo, setBingo] = useState(false)
+  const openBingo = useCallback(() => {
+    playSound('fanfare')
+    setBingo(true)
+  }, [])
+  const closeBingo = useCallback(() => setBingo(false), [])
+  useKeySequence('bingo', openBingo, !bingo)
   const hasAuto = (() => {
     try {
       return listSlots(localStorage).some((x) => x.slot === 'auto' && x.status === 'playing')
@@ -109,7 +149,16 @@ export function MainMenu() {
           TYCOON
         </h1>
         <p className={m.tagline}>{t('menu.tagline')}</p>
-        <Skyline />
+        {/* Clicking the city is a hidden mouse toy, not a control, so it has no keyboard equivalent. */}
+        {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+        <div onClick={clickCity}>
+          <Skyline built={cityClicks >= CITY_CLICKS} />
+        </div>
+        {cityClicks >= CITY_CLICKS && (
+          <p className={m.tagline} role="status">
+            {t('eggs.skyline.sign')}
+          </p>
+        )}
         <DroppedSavesNotice />
         <p className={m.press}>{t('menu.press')}</p>
         <div className={m.buttons}>
@@ -145,6 +194,8 @@ export function MainMenu() {
         {showIosHint && <p className={m.footer}>{t('pwa.iosHint')}</p>}
         <p className={m.footer}>{t('menu.disclaimer')}</p>
       </div>
+      {invaders && <MeetingInvaders onClose={closeInvaders} />}
+      {bingo && <StandupBingo onClose={closeBingo} />}
     </div>
   )
 }
@@ -274,6 +325,8 @@ export function NewGame() {
   )
 }
 
+const HIDDEN_SONG_SKIPS = 13
+
 export function SettingsScreen() {
   const { t, i18n } = useTranslation()
   const settings = useGame((x) => x.settings)
@@ -283,6 +336,17 @@ export function SettingsScreen() {
   const game = useGame((x) => x.game)
   const consent = useConsent()
   const nowPlaying = useSyncExternalStore(subscribeNowPlaying, getNowPlaying)
+  // Thirteen skips in a row and the music gives up and plays the blues.
+  const [skips, setSkips] = useState(0)
+  const skip = () => {
+    if (skips + 1 >= HIDDEN_SONG_SKIPS) {
+      setSkips(0)
+      playHiddenSong('timesheetBlues')
+    } else {
+      setSkips(skips + 1)
+      nextSong()
+    }
+  }
   const check = (key: 'reducedMotion' | 'doubleTime' | 'announcements' | 'sound' | 'music', label: string) => (
     <label className={s.checkRow}>
       <input type="checkbox" checked={settings[key]} onChange={(e) => setSettings({ [key]: e.target.checked })} />
@@ -359,7 +423,7 @@ export function SettingsScreen() {
                       display={`${Math.round(settings.musicVolume * 100)} %`}
                     />
                   </div>
-                  <Button size="small" onClick={nextSong}>
+                  <Button size="small" onClick={skip}>
                     {t('settings.nextSong')}
                   </Button>
                 </div>

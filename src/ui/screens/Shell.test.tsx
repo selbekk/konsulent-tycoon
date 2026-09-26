@@ -207,7 +207,7 @@ describe('news page', () => {
 
   it('opens from the main menu and goes back to it', () => {
     render(<MainMenu />)
-    fireEvent.click(screen.getByRole('button', { name: /^latest news: new tab: finance/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^latest news: there's something odd/i }))
     expect(useGame.getState().screen).toBe('news')
     cleanup()
 

@@ -1,0 +1,8 @@
+/* Christmas hats: always in the markup, shown only when App sets data-season on the root. */
+.hat {
+  display: none;
+}
+
+:global(:root[data-season='christmas']) .hat {
+  display: inline;
+}

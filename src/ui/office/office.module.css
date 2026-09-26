@@ -210,3 +210,57 @@
     opacity: 0.35;
   }
 }
+
+/* Easter eggs: the coffee machine is clickable, the night shift has a desk lamp. */
+.roomButton {
+  display: block;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.roomButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.roomButton svg {
+  display: block;
+}
+
+.room :global(.kick) {
+  animation: kick 0.5s steps(2) infinite;
+}
+
+@keyframes kick {
+  50% {
+    transform: translateX(2px);
+  }
+}
+
+.lamp {
+  display: none;
+}
+
+.office[data-night='true'] .lamp {
+  display: inline;
+}
+
+.office[data-night='true']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(5 5 20 / 0.55);
+  pointer-events: none;
+}
+
+.office[data-night='true'] .deskButton {
+  position: relative;
+  z-index: 1;
+}
+
+.office[data-night='true'] :is(.sign, .bubble, .more) {
+  position: relative;
+  z-index: 1;
+}

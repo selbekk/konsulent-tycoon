@@ -2193,5 +2193,83 @@
       "facts": "De ville ha fakta, tall og en plan. Greit å vite til neste gang.",
       "spin": "De ville bare ha en fin formulering. Ingen dømmer."
     }
+  },
+  "invaders": {
+    "title": "Møteinvasjonen",
+    "intro": "Kalenderen din er under angrep. Takk nei til møtene før de når pulten din.",
+    "controls": "Piltaster eller A/D for å flytte, mellomrom for å takke nei. Esc for å gi opp.",
+    "start": "Takk nei til alt",
+    "kinds": {
+      "workshop": "Workshop",
+      "sync": "Synkemøte",
+      "status": "Statusmøte",
+      "coffee": "«Rask kaffe?»",
+      "allhands": "Allmøte"
+    },
+    "day": "{{day}}, uke {{week}}",
+    "days": {
+      "mon": "Mandag",
+      "tue": "Tirsdag",
+      "wed": "Onsdag",
+      "thu": "Torsdag",
+      "fri": "Fredag"
+    },
+    "weekend": "Helg! Så kom mandag.",
+    "saved": "Spart",
+    "time": "{{hours}} t {{minutes}} min",
+    "coffee_one": "{{count}} kopp kaffe igjen",
+    "coffee_other": "{{count}} kopper kaffe igjen",
+    "endings": {
+      "calendarFull": "Kalenderen er full. Du sitter i møter til 2036.",
+      "outOfCoffee": "Tom for kaffe. Nå takker du ja til alt."
+    },
+    "result": "Du sparte {{time}} av uka.",
+    "best": "Rekord: {{time}}",
+    "newBest": "Ny rekord!",
+    "again": "Prøv igjen",
+    "left": "Venstre",
+    "right": "Høyre",
+    "fire": "Avslå"
+  },
+  "standup": {
+    "title": "Standup-bingo",
+    "intro": "Dagens standup er i gang. Kryss av frasene når noen sier dem, og få fire på rad. Ikke kryss av noe som ikke er sagt, for teamlederen følger med.",
+    "start": "Bli med i møtet",
+    "waiting": "Venter på at alle skal koble seg på …",
+    "strikes": "Advarsler: {{count}}/{{max}}",
+    "notSaid": "Ingen har sagt det ennå.",
+    "endings": {
+      "bingo": "BINGO! Du ropte det høyt. Teamlederen later som ingenting skjedde.",
+      "over": "Standupen varte i 45 minutter. Ingen bingo.",
+      "caught": "Teamlederen spør om du følger med. Du følger ikke med."
+    },
+    "again": "Én standup til",
+    "speakers": ["Kari", "Ola", "Aisha", "Jonas", "Lene"],
+    "phrases": {
+      "noBlockers": "Ingen blokkere",
+      "offline": "Vi tar det offline",
+      "sameAsYesterday": "Samme som i går",
+      "seeMyScreen": "Ser dere skjermen min?",
+      "onMute": "Du er på mute",
+      "almostDone": "Det er nesten ferdig",
+      "separateChat": "Vi tar en egen prat om det",
+      "stuff": "Jobbet med litt ting",
+      "waitingReview": "Venter på review",
+      "myMachine": "Det funker på min maskin",
+      "quickOne": "Kort fra meg",
+      "shareScreen": "Jeg deler skjerm",
+      "wasMuted": "Sorry, jeg var på mute",
+      "retro": "Det tar vi i retroen",
+      "hearMe": "Hører dere meg?",
+      "notMuch": "Ikke så mye fra meg",
+      "bitsAndPieces": "Litt av hvert",
+      "carryingOn": "Fortsetter med det samme",
+      "isPerHere": "Er Per her?",
+      "waitForOthers": "Skal vi vente på de andre?",
+      "quickThing": "Bare en kjapp ting",
+      "sync": "Vi må synke på det",
+      "prodSoon": "Det er i prod snart",
+      "hardStop": "Jeg har en hard stopp"
+    }
   }
 }
