@@ -65,11 +65,17 @@ export function StaffScreen() {
                       {supply > p.count && <span className={s.muted}> +{supply - p.count}★</span>}
                     </td>
                     <td>{p.count ? <Levels level={p.level} /> : '–'}</td>
-                    <td>{p.count ? <Meter label="" value={p.morale} /> : '–'}</td>
+                    <td>
+                      {p.count ? (
+                        <Meter label="" name={`${t('staff.morale')}: ${t(`disciplines.${d}`)}`} value={p.morale} />
+                      ) : (
+                        '–'
+                      )}
+                    </td>
                     <td className={`${s.num} ${demand > supply ? s.bad : ''}`}>{demand || '–'}</td>
                     <td>
                       <Stepper
-                        label={t('staff.recruit')}
+                        label={`${t('staff.recruit')}: ${t(`disciplines.${d}`)}`}
                         value={me.hiringOrders[d] ?? 0}
                         max={30}
                         onChange={(v) => dispatch({ type: 'orderHires', firmId: me.id, discipline: d, count: v })}

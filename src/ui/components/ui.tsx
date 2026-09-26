@@ -75,7 +75,7 @@ export function Stat({
       {icon && <Icon name={icon} size={20} />}
       <div style={{ minWidth: 0 }}>
         <span className={s.statLabel}>{label}</span>
-        <span className={`${s.statValue} num`} style={tone ? { color: `var(--${tone})` } : undefined}>
+        <span className={`${s.statValue} num`} style={tone ? { color: `var(--${tone}-text)` } : undefined}>
           {value}
         </span>
       </div>
@@ -89,19 +89,23 @@ export function Meter({
   max = 100,
   color,
   display,
+  name,
 }: {
   label: ReactNode
   value: number
   max?: number
   color?: string
   display?: ReactNode
+  /** Accessible name when the visible label is empty (a meter in a table cell). */
+  name?: string
 }) {
+  const labelId = useId()
   const pct = Math.max(0, Math.min(100, (value / max) * 100))
   const auto = pct >= 66 ? 'var(--good)' : pct >= 40 ? 'var(--warn)' : 'var(--bad)'
   return (
     <div className={s.meter}>
       <div className={s.meterLabel}>
-        <span>{label}</span>
+        <span id={labelId}>{label}</span>
         <span className="num">{display ?? Math.round(value)}</span>
       </div>
       <div
@@ -110,7 +114,9 @@ export function Meter({
         aria-valuemin={0}
         aria-valuemax={max}
         aria-valuenow={Math.round(value)}
-        aria-label={typeof label === 'string' ? label : undefined}
+        aria-valuetext={typeof display === 'string' || typeof display === 'number' ? String(display) : undefined}
+        aria-labelledby={name ? undefined : labelId}
+        aria-label={name}
       >
         <div className={s.meterFill} style={{ width: `${pct}%`, ['--meter' as string]: color ?? auto }} />
       </div>
@@ -124,6 +130,21 @@ export function Badge({ children, tone }: { children: ReactNode; tone?: 'good' |
       {children}
     </span>
   )
+}
+
+const FOCUSABLE =
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
+function focusables(root: HTMLElement | null): HTMLElement[] {
+  if (!root) return []
+  return [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
+    (el) => !el.closest('[hidden], [aria-hidden="true"]'),
+  )
+}
+
+function isTopDialog(dialog: HTMLElement) {
+  const dialogs = document.querySelectorAll('[role="dialog"]')
+  return dialogs[dialogs.length - 1] === dialog
 }
 
 export function Modal({
@@ -144,20 +165,48 @@ export function Modal({
   const ref = useRef<HTMLDivElement>(null)
   const id = useId()
   const { t } = useTranslation()
+  // In a ref, so an inline onClose doesn't re-run the focus effect (and yank focus) on every render.
+  const closeRef = useRef(onClose)
   useEffect(() => {
+    closeRef.current = onClose
+  })
+  useEffect(() => {
+    const dialog = ref.current
     const prev = document.activeElement as HTMLElement | null
-    ref.current?.querySelector<HTMLElement>('button, [href], input, select, textarea')?.focus()
+    focusables(dialog)[0]?.focus()
     const onKey = (e: KeyboardEvent) => {
       // Only the top-most dialog reacts.
-      const dialogs = document.querySelectorAll('[role="dialog"]')
-      if (e.key === 'Escape' && onClose && dialogs[dialogs.length - 1] === ref.current) onClose()
+      if (!dialog || !isTopDialog(dialog)) return
+      if (e.key === 'Escape') closeRef.current?.()
+      if (e.key !== 'Tab') return
+      // Keep Tab and Shift+Tab inside the dialog.
+      const items = focusables(dialog)
+      if (!items.length) {
+        e.preventDefault()
+        dialog.focus()
+        return
+      }
+      const first = items[0]
+      const last = items[items.length - 1]
+      const active = document.activeElement as HTMLElement | null
+      const inside = !!active && dialog.contains(active) && active !== dialog
+      if (!inside || (e.shiftKey && active === first) || (!e.shiftKey && active === last)) {
+        e.preventDefault()
+        ;(e.shiftKey ? last : first).focus()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => {
       window.removeEventListener('keydown', onKey)
       prev?.focus?.()
     }
-  }, [onClose])
+  }, [])
+  // When the focused button disappears (a minigame moving on), focus lands on <body>. Pull it back in.
+  useEffect(() => {
+    const dialog = ref.current
+    const active = document.activeElement
+    if (dialog && (!active || active === document.body) && isTopDialog(dialog)) dialog.focus()
+  })
   return (
     // Clicking the backdrop is a mouse shortcut; keyboards close with Escape.
     // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -167,6 +216,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={id}
+        tabIndex={-1}
         className={`${s.modal} ${wide ? s.modalWide : ''}`}
       >
         <section className={s.panel}>
@@ -242,13 +292,26 @@ export function Stepper({
   onChange: (v: number) => void
   label: string
 }) {
+  const { t } = useTranslation()
   return (
     <span className={s.stepper} role="group" aria-label={label}>
-      <button type="button" onClick={() => onChange(value - 1)} disabled={value <= min} aria-label="−">
+      <button
+        type="button"
+        onClick={() => onChange(value - 1)}
+        disabled={value <= min}
+        aria-label={t('common.decrease', { label })}
+      >
         −
       </button>
-      <output className="num">{value}</output>
-      <button type="button" onClick={() => onChange(value + 1)} disabled={value >= max} aria-label="+">
+      <output className="num" aria-live="polite">
+        {value}
+      </output>
+      <button
+        type="button"
+        onClick={() => onChange(value + 1)}
+        disabled={value >= max}
+        aria-label={t('common.increase', { label })}
+      >
         +
       </button>
     </span>

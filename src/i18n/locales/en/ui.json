@@ -2,7 +2,9 @@
   "common": {
     "close": "Close",
     "cancel": "Cancel",
-    "back": "Back"
+    "back": "Back",
+    "decrease": "Fewer: {{label}}",
+    "increase": "More: {{label}}"
   },
   "disciplines": {
     "frontend": "Frontend",
@@ -84,6 +86,8 @@
     },
     "reducedMotion": "Reduced motion",
     "doubleTime": "Double time in minigames",
+    "shortcuts": "Keyboard shortcuts",
+    "shortcutsHint": "Enter ends the quarter and the number keys switch tabs. Turn them off if you use voice control or tend to bump the keyboard.",
     "announcements": "Show PA announcements",
     "sound": "Sound effects",
     "volume": "Volume",
@@ -97,6 +101,7 @@
   },
   "shell": {
     "quarterOf": "quarter {{n}} of {{total}}",
+    "skipToContent": "Skip to content",
     "cash": "Cash",
     "cashCredit": "Credit line (max {{limit}})",
     "headcount": "People",
@@ -1310,6 +1315,15 @@
   "news": {
     "title": "News",
     "posts": {
+      "accessibility": {
+        "title": "A game for a few more people",
+        "body": [
+          "Confession time: Konsulent Tycoon has been pretty easy to play, as long as you use a mouse, see well and aren't in a hurry. That's a slightly too narrow idea of \"most people\". So I've done a round of accessibility work. For most of you, nothing looks any different, which is kind of the point.",
+          "If you play with a keyboard, dialogs now hold on to focus until you close them, and then drop you back where you were. There's a \"Skip to content\" link, and screen readers get a proper heading, meters and buttons with names that actually mean something, and the reactions in the minigames read out loud. \"Plus\" was never a great button label anyway.",
+          "The colours got some attention too. In the light theme, text colours are a bit darker and the orange buttons have dark text, so everything is easier to read. In the dark theme, text on red buttons and badges is now dark for the same reason. \"Double time in minigames\" now covers the crisis talk and the pitch meeting too, not just buzzword bingo. If you use voice control, you can turn the keyboard shortcuts off in Settings. And the news ticker stops when you hover over it or tab into it, and follows your system's reduced motion setting.",
+          "I definitely haven't caught everything. If something is hard to use, I'd really like to hear about it. You'll find out how to reach me under About."
+        ]
+      },
       "secrets": {
         "title": "There's something odd about this game",
         "body": [

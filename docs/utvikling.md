@@ -300,10 +300,13 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Musikken starter ved første klikk eller tastetrykk (nettleserne krever det), følger innstillingene `music` og `musicVolume`, og pauser når fanen er skjult. `installMusic()` kobles på i `App.tsx`.
   - Vil du endre lyden på et instrument, er det `TONES` i `player.ts`. Nivåene er satt uten ører i rommet, så juster `BUS_LEVEL` og `gain` etter å ha hørt.
 - **Tilgjengelighet:**
-  - Modaler fanger fokus og lukkes med Escape (bare den øverste).
-  - Målere har `role="meter"`.
-  - `prefers-reduced-motion` og innstillingen «Redusert bevegelse» slår av animasjoner.
-  - Tastatursnarveier: `Enter` avslutter kvartalet, og tallene `1`, `2`, `3` … bytter mellom fanene som er synlige.
+  - Modaler fanger fokus (Tab og Shift+Tab blir i den øverste dialogen), lukkes med Escape og gir fokus tilbake når de lukkes. Forsvinner knappen som hadde fokus, for eksempel når et minispill går videre, får selve dialogen fokus.
+  - Spillskjermen har en «Hopp til innholdet»-lenke, en skjult `h1` med firmanavn og fane, og nyhetstickeren er et `aside`.
+  - Målere har `role="meter"`. En måler uten synlig etikett (i en tabellcelle) trenger `name`. Steppere får navn etter det de endrer («Flere: Rekrutter: Backend»).
+  - Farger: bruk `--accent-text`, `--good-text`, `--warn-text` og `--bad-text` til tekst, og `--on-good`, `--on-warn`, `--on-bad` og `--on-info` til tekst oppå de fargene. I mørkt tema er de fleste like grunnfargene, i lyst tema er de mørkere, så alt holder WCAG AA (4,5:1). Fokusringen bruker `--focus`.
+  - `prefers-reduced-motion` og innstillingen «Redusert bevegelse» slår av animasjoner. Bruk `useReducedMotion()` (`ui/motion.ts`), som sjekker begge. Tickeren står også stille når musa eller fokus er på den.
+  - «Dobbel tid i minispill» gjelder budbingo, krisesamtalen og presentasjonsmøtet (der måles svartiden som halvparten). Grensene i motoren endres ikke, så toppliste-reglene er de samme.
+  - Tastatursnarveier: `Enter` avslutter kvartalet (bare når ingenting spesielt har fokus), og tallene `1`, `2`, `3` … bytter mellom fanene som er synlige. Innstillingen «Tastatursnarveier» slår av dem og påskeeggene som skrives på tastaturet, for dem som bruker talestyring.
 - **Mobil:** Layouten fungerer ned til 360 px bredde.
 
 ## Tekster og språk (i18n)

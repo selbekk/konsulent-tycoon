@@ -82,7 +82,13 @@ export function Onboarding() {
           </Button>
           {index > 0 && <Button onClick={() => setIndex(index - 1)}>{t('common.back')}</Button>}
           <Button ref={nextRef} variant="primary" onClick={() => (last ? dismiss() : setIndex(index + 1))}>
-            {last ? t('onboarding.start') : `${t('onboarding.next')} ▶`}
+            {last ? (
+              t('onboarding.start')
+            ) : (
+              <>
+                {t('onboarding.next')} <span aria-hidden>▶</span>
+              </>
+            )}
           </Button>
         </>
       }

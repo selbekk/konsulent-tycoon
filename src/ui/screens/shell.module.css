@@ -4,6 +4,29 @@
   grid-template-rows: auto auto auto 1fr auto;
 }
 
+/* Keyboard users can jump past the header and tabs. Hidden until focused. */
+.skipLink {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 60;
+  padding: 8px 14px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: var(--px) solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+}
+
+.skipLink:focus {
+  transform: none;
+}
+
+.main:focus {
+  outline: none;
+}
+
 .topbar {
   position: sticky;
   top: 0;
@@ -113,7 +136,7 @@
   gap: 10px;
   padding: 6px var(--gutter);
   background: var(--warn);
-  color: #2a2200;
+  color: var(--on-warn);
   font-weight: 700;
   border-bottom: 2px solid var(--border-dark);
   animation: slideDown 300ms ease-out;
@@ -205,7 +228,7 @@
   height: 36px;
   overflow: hidden;
   background: var(--border-dark);
-  color: var(--warn);
+  color: var(--ticker-text);
   border-top: var(--px) solid var(--border);
 }
 
@@ -220,7 +243,7 @@
   font-family: var(--font-title);
   font-size: 0.75rem;
   background: var(--bad);
-  color: #fff;
+  color: var(--on-bad);
 }
 
 /* The scrolling text is clipped here, so it never slides under the label. */
@@ -241,7 +264,8 @@
   animation: ticker 80s linear infinite;
 }
 
-.tickerTrack:hover {
+.tickerTrack:hover,
+.tickerTrack:focus-within {
   animation-play-state: paused;
 }
 

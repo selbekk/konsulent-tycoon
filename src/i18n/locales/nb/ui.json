@@ -2,7 +2,9 @@
   "common": {
     "close": "Lukk",
     "cancel": "Avbryt",
-    "back": "Tilbake"
+    "back": "Tilbake",
+    "decrease": "Færre: {{label}}",
+    "increase": "Flere: {{label}}"
   },
   "disciplines": {
     "frontend": "Frontend",
@@ -84,6 +86,8 @@
     },
     "reducedMotion": "Redusert bevegelse",
     "doubleTime": "Dobbel tid i minispill",
+    "shortcuts": "Tastatursnarveier",
+    "shortcutsHint": "Enter avslutter kvartalet og tallene bytter fane. Slå av hvis du bruker talestyring eller trykker på tastaturet ved et uhell.",
     "announcements": "Vis høyttalermeldinger",
     "sound": "Lydeffekter",
     "volume": "Volum",
@@ -97,6 +101,7 @@
   },
   "shell": {
     "quarterOf": "kvartal {{n}} av {{total}}",
+    "skipToContent": "Hopp til innholdet",
     "cash": "Kontanter",
     "cashCredit": "Kassekreditt (maks {{limit}})",
     "headcount": "Ansatte",
@@ -1310,6 +1315,15 @@
   "news": {
     "title": "Nyheter",
     "posts": {
+      "accessibility": {
+        "title": "Et spill for litt flere",
+        "body": [
+          "Jeg har en innrømmelse: Konsulent Tycoon har vært ganske greit å spille, så lenge du bruker mus, ser godt og har god tid. Det er en litt for smal definisjon av «folk flest». Så nå har jeg tatt en runde med universell utforming. For de fleste ser alt helt likt ut, og sånn skal det egentlig være.",
+          "Bruker du tastaturet, holder dialogene nå på fokuset til du lukker dem, og så havner du tilbake der du var. Det har kommet en «Hopp til innholdet»-lenke, og skjermlesere får en ordentlig overskrift, målere og knapper med navn som betyr noe, og reaksjonene i minispillene lest opp. «Pluss» er liksom ikke en veldig nyttig knappetekst.",
+          "Fargene har også fått en tur. I lyst tema er tekstfargene litt mørkere og de oransje knappene har fått mørk tekst, så alt er lettere å lese. I mørkt tema er teksten på røde knapper og merker nå mørk, av samme grunn. «Dobbel tid i minispill» gjelder nå også krisesamtalen og presentasjonsmøtet, ikke bare budbingoen. Bruker du talestyring, kan du slå av tastatursnarveiene under Innstillinger. Og nyhetstickeren står stille når du holder musa over den eller tabber deg inn på den, og følger systemets innstilling for redusert bevegelse.",
+          "Jeg har garantert ikke fått med meg alt. Er det noe som er vanskelig å bruke, vil jeg veldig gjerne høre om det. Hvor du finner meg, står under Om spillet."
+        ]
+      },
       "secrets": {
         "title": "Det er noe rart med dette spillet",
         "body": [

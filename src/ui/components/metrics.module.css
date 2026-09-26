@@ -37,7 +37,7 @@
 .abbr {
   font-family: var(--font-title);
   font-size: 0.95rem;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .name {
@@ -65,10 +65,10 @@
 }
 
 .good {
-  color: var(--good);
+  color: var(--good-text);
 }
 .bad {
-  color: var(--bad);
+  color: var(--bad-text);
 }
 .muted {
   color: var(--muted);

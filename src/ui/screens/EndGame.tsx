@@ -79,7 +79,7 @@ export function EndGame() {
     >
       <div className={s.stack}>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ color: 'var(--accent)', margin: '8px 0' }}>{t(`content:endTitles.${title}.title`)}</h1>
+          <h1 style={{ color: 'var(--accent-text)', margin: '8px 0' }}>{t(`content:endTitles.${title}.title`)}</h1>
           <p>{t(`content:endTitles.${title}.desc`)}</p>
           <p className={s.muted}>
             {t('end.summary', { rank: myRank, total: ranks.length, value: formatMoney(ranks[myRank - 1].value, lng) })}

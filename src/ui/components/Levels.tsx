@@ -3,9 +3,10 @@ export function Levels({ level }: { level: number }) {
   const full = Math.round(level)
   return (
     <span
+      role="img"
       aria-label={`${level.toFixed(1)} / 5`}
       title={level.toFixed(1)}
-      style={{ letterSpacing: 1, color: 'var(--warn)', whiteSpace: 'nowrap' }}
+      style={{ letterSpacing: 1, color: 'var(--warn-text)', whiteSpace: 'nowrap' }}
     >
       {'★'.repeat(full)}
       <span style={{ opacity: 0.25 }}>{'★'.repeat(Math.max(0, 5 - full))}</span>

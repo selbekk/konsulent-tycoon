@@ -347,7 +347,10 @@ export function SettingsScreen() {
       nextSong()
     }
   }
-  const check = (key: 'reducedMotion' | 'doubleTime' | 'announcements' | 'sound' | 'music', label: string) => (
+  const check = (
+    key: 'reducedMotion' | 'doubleTime' | 'shortcuts' | 'announcements' | 'sound' | 'music',
+    label: string,
+  ) => (
     <label className={s.checkRow}>
       <input type="checkbox" checked={settings[key]} onChange={(e) => setSettings({ [key]: e.target.checked })} />
       {label}
@@ -388,6 +391,10 @@ export function SettingsScreen() {
             </div>
             {check('reducedMotion', t('settings.reducedMotion'))}
             {check('doubleTime', t('settings.doubleTime'))}
+            <div className={s.field}>
+              {check('shortcuts', t('settings.shortcuts'))}
+              <Hint>{t('settings.shortcutsHint')}</Hint>
+            </div>
             {check('announcements', t('settings.announcements'))}
             {check('sound', t('settings.sound'))}
             {settings.sound && (

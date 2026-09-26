@@ -141,13 +141,13 @@
 }
 
 .good {
-  color: var(--good);
+  color: var(--good-text);
 }
 .bad {
-  color: var(--bad);
+  color: var(--bad-text);
 }
 .warn {
-  color: var(--warn);
+  color: var(--warn-text);
 }
 
 .empty {
@@ -218,6 +218,13 @@
   --panel: var(--noir-panel);
   --panel-2: #20202c;
   --accent: var(--bad);
+  --accent-ink: var(--on-bad);
+  /* The Backroom is dark in both themes, so its text colours are the dark theme's. */
+  --muted: #b3aed6;
+  --accent-text: #ff6b70;
+  --good-text: #48d597;
+  --warn-text: #ffd84d;
+  --bad-text: #ff6b70;
   --border: #3a2330;
   color-scheme: dark;
   color: #efe6e6;
@@ -468,7 +475,7 @@
   width: 18px;
   height: 18px;
   margin-top: 1px;
-  color: var(--good);
+  color: var(--good-text);
   border: 2px solid var(--border);
   border-radius: 4px;
 }
@@ -514,7 +521,7 @@
   font-family: var(--font-title);
   font-size: 3rem;
   line-height: 1;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .levelLead {
@@ -556,10 +563,10 @@
 }
 
 .crisisMeta [data-severity='high'] {
-  color: var(--bad);
+  color: var(--bad-text);
 }
 .crisisMeta [data-severity='low'] {
-  color: var(--good);
+  color: var(--good-text);
 }
 
 .crisisSteps {
@@ -652,17 +659,17 @@
 }
 
 .crisisStake[data-tone='good'] {
-  color: var(--good);
+  color: var(--good-text);
 }
 .crisisStake[data-tone='bad'] {
-  color: var(--bad);
+  color: var(--bad-text);
 }
 .crisisStake[data-tone='unknown'] {
-  color: var(--warn);
+  color: var(--warn-text);
 }
 
 .crisisBlock {
-  color: var(--bad);
+  color: var(--bad-text);
 }
 
 .crisisResult {
@@ -918,7 +925,7 @@
 
 .winValue .num {
   font-weight: 700;
-  color: var(--good);
+  color: var(--good-text);
 }
 
 .winStamp {
@@ -929,7 +936,7 @@
   font-family: var(--font-title);
   font-size: 0.85rem;
   letter-spacing: 0.08em;
-  color: var(--good);
+  color: var(--good-text);
   border: 3px solid var(--good);
   border-radius: var(--radius-sm);
   transform: rotate(-8deg);
@@ -950,7 +957,7 @@
   font-family: var(--font-title);
   font-size: 0.7rem;
   letter-spacing: 0.08em;
-  color: var(--accent);
+  color: var(--accent-text);
   border: 2px solid var(--accent);
   border-radius: var(--radius-sm);
   transform: rotate(-4deg);
@@ -977,7 +984,7 @@
   place-items: center;
   width: 40px;
   height: 40px;
-  color: var(--accent);
+  color: var(--accent-text);
   background: var(--panel);
   border: 2px solid var(--accent);
   border-radius: var(--radius-sm);
@@ -1016,7 +1023,7 @@
 }
 
 .trophyWall li[data-done='true'] > span:first-child {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .trophyWall li[data-done='false'] {

@@ -48,6 +48,8 @@ export interface Settings {
   theme: 'dark' | 'light'
   reducedMotion: boolean
   doubleTime: boolean
+  /** Single-key shortcuts (Enter, 1–9) and typed easter eggs. Speech input can trigger them by accident. */
+  shortcuts: boolean
   announcements: boolean
   sound: boolean
   /** 0–1 */
@@ -67,6 +69,7 @@ const defaultSettings: Settings = {
   theme: 'dark',
   reducedMotion: false,
   doubleTime: false,
+  shortcuts: true,
   announcements: true,
   sound: true,
   soundVolume: 0.6,

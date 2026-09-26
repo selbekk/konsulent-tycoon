@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useGame } from '../../store/gameStore'
 import { Bjorn } from '../components/Bjorn'
 import { Button, Modal } from '../components/ui'
+import { useReducedMotion } from '../motion'
 import { playSound } from '../sound'
 import { UnlockList } from './LevelPanel'
 import { Confetti } from './QuarterReport'
@@ -13,7 +14,7 @@ export function LevelUpModal({ from, to }: { from: number; to: number }) {
   const { t } = useTranslation()
   const game = useGame((x) => x.game)!
   const dismiss = useGame((x) => x.dismissLevelUp)
-  const reducedMotion = useGame((x) => x.settings.reducedMotion)
+  const reducedMotion = useReducedMotion()
   const me = game.firms[game.playerId]
   const levels = Array.from({ length: to - from }, (_, i) => from + 1 + i)
 
