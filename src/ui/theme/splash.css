@@ -64,3 +64,20 @@
 .splash-about a {
   color: var(--accent-text);
 }
+
+/* The hero is in both languages; boot.js sets <html lang> from the player's choice before the first paint. */
+:root:not([lang='en']) .splash [data-lang='en'],
+:root[lang='en'] .splash [data-lang='nb'] {
+  display: none;
+}
+
+/* main.tsx: the game fades in over the splash on first mount. Reduced motion shortens it to nothing (global.css). */
+#root.entering > * {
+  animation: root-enter 180ms ease-out;
+}
+
+@keyframes root-enter {
+  from {
+    opacity: 0;
+  }
+}
