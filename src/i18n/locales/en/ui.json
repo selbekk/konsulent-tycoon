@@ -30,7 +30,7 @@
     "newGame": "New game",
     "continue": "Continue",
     "settings": "Settings",
-    "devNotice": "This game isn't even in beta yet – it's in active development. Saved games may be wiped at any time.",
+    "devNotice": "You're in a sort of closed beta, so maybe don't tell the whole world just yet. The game is still in active development, and saved games may be wiped at any time.",
     "savesDropped_one": "A saved game was deleted because the game logic has changed since it was saved. Sorry, you'll have to start a new game.",
     "savesDropped_other": "{{count}} saved games were deleted because the game logic has changed since they were saved. Sorry, you'll have to start a new game.",
     "savesDroppedOk": "Got it",
@@ -1032,7 +1032,7 @@
     "bugs": {
       "title": "Found a bug?",
       "body": [
-        "You probably will, to be honest. Like I said, the game isn't even in beta yet.",
+        "You probably will, to be honest. The game is still in a sort of closed beta.",
         "The code is open on GitHub. Feel free to open an issue with what happened and what you expected to happen, and I'll take a look. And if you feel like fixing it yourself, pull requests are more than welcome!"
       ]
     },

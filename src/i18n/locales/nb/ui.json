@@ -30,7 +30,7 @@
     "newGame": "Nytt spill",
     "continue": "Fortsett",
     "settings": "Innstillinger",
-    "devNotice": "Dette spillet er ikke engang i beta – det er i aktiv utvikling. Lagrede spill kan bli slettet når som helst.",
+    "devNotice": "Du er med i en slags lukket beta, så fint om du ikke sier det til hele verden helt enda. Spillet er fortsatt i aktiv utvikling, og lagrede spill kan bli slettet når som helst.",
     "savesDropped_one": "Et lagret spill ble slettet fordi spillogikken har endret seg siden det ble lagret. Du må dessverre starte et nytt spill.",
     "savesDropped_other": "{{count}} lagrede spill ble slettet fordi spillogikken har endret seg siden de ble lagret. Du må dessverre starte et nytt spill.",
     "savesDroppedOk": "Skjønner",
@@ -1032,7 +1032,7 @@
     "bugs": {
       "title": "Fant du en bug?",
       "body": [
-        "Det gjør du nok, for å være ærlig. Spillet er som sagt ikke engang i beta.",
+        "Det gjør du nok, for å være ærlig. Spillet er fortsatt i en slags lukket beta.",
         "Koden ligger åpent på GitHub. Lag gjerne en issue med hva som skjedde og hva du forventa skulle skje, så tar jeg en titt. Og har du lyst til å fikse det selv, er pull requests hjertelig velkomne!"
       ]
     },
