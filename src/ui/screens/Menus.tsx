@@ -14,6 +14,7 @@ import { getNowPlaying, nextSong, playHiddenSong, subscribeNowPlaying } from '..
 import { formatQuarter } from '../format'
 import { weekText } from '../leaderboardText'
 import { NEWS_POSTS } from '../news'
+import { share } from '../share'
 import { MeetingInvaders } from '../invaders/MeetingInvaders'
 import { useKeySequence } from '../eggs/useKeySequence'
 import { StandupBingo } from '../eggs/StandupBingo'
@@ -478,25 +479,9 @@ export function AboutScreen() {
   }
   const url = window.location.origin
 
-  const share = async () => {
-    const data = { title: 'Konsulent Tycoon', text: t('about.share.text'), url }
-    if (navigator.share) {
-      try {
-        await navigator.share(data)
-        track('game_shared', { method: 'share_sheet' })
-        return
-      } catch (e) {
-        // The user closed the share sheet; that's an answer, not an error.
-        if (e instanceof DOMException && e.name === 'AbortError') return
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(url)
-      setShareStatus('copied')
-      track('game_shared', { method: 'clipboard' })
-    } catch {
-      setShareStatus('failed')
-    }
+  const shareGame = async () => {
+    const result = await share({ text: t('about.share.text'), url, copy: url, source: 'about' })
+    if (result === 'copied' || result === 'failed') setShareStatus(result)
   }
 
   return (
@@ -541,7 +526,7 @@ export function AboutScreen() {
               <h3>{t('about.share.title')}</h3>
               <p>{t('about.share.body')}</p>
               <div className={s.row}>
-                <Button variant="primary" onClick={() => void share()}>
+                <Button variant="primary" onClick={() => void shareGame()}>
                   {t('about.share.button')}
                 </Button>
                 <span className={`${s.small} ${s.muted}`} role="status">

@@ -5,10 +5,12 @@ import type { NewsItem } from '../../engine'
 import { Bjorn } from '../components/Bjorn'
 import { CountUp } from '../components/CountUp'
 import { Icon } from '../components/Icon'
+import { ShareButton } from '../components/ShareButton'
 import { Button, Modal } from '../components/ui'
 import { formatMoney, formatPercent, formatQuarter, newsText } from '../format'
 import { bjornKey } from '../bjorn'
 import { useReducedMotion } from '../motion'
+import { resultShareText } from '../share'
 import { playSound } from '../sound'
 import s from './screens.module.css'
 
@@ -153,6 +155,9 @@ export function QuarterReport() {
                 </li>
               ))}
             </ul>
+            {game.status === 'playing' && (
+              <ShareButton size="small" source="year" text={() => resultShareText(game, 'year', t, lng)} />
+            )}
           </div>
         )}
 

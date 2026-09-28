@@ -32,7 +32,7 @@
     "newGame": "Nytt spill",
     "continue": "Fortsett",
     "settings": "Innstillinger",
-    "devNotice": "Du er med i en slags lukket beta, så fint om du ikke sier det til hele verden helt enda. Spillet er fortsatt i aktiv utvikling, og lagrede spill kan bli slettet når som helst.",
+    "devNotice": "Spillet er helt ferskt og blir jobbet med hver uke. Fant du en bug eller fikk en idé? Under «Om spillet» står det hvordan du når meg.",
     "savesDropped_one": "Et lagret spill ble slettet fordi spillogikken har endret seg siden det ble lagret. Du må dessverre starte et nytt spill.",
     "savesDropped_other": "{{count}} lagrede spill ble slettet fordi spillogikken har endret seg siden de ble lagret. Du må dessverre starte et nytt spill.",
     "savesDroppedOk": "Skjønner",
@@ -668,6 +668,21 @@
     "menu": "Til hovedmenyen",
     "again": "Spill igjen"
   },
+  "share": {
+    "button": "Del resultatet",
+    "copied": "Kopiert. Lim det inn der kollegaene dine henger.",
+    "failed": "Kunne ikke kopiere resultatet.",
+    "result": {
+      "end": "{{firm}} endte som nr. {{rank}} av {{total}} etter ti år i Konsulent Tycoon, med en verdi på {{value}}. Dommen: «{{title}}».",
+      "bankrupt": "{{firm}} gikk konkurs i {{quarter}} i Konsulent Tycoon. Det var fint så lenge det varte.",
+      "year_one": "{{firm}} er nr. {{rank}} av {{total}} etter ett år i Konsulent Tycoon, med en verdi på {{value}}.",
+      "year_other": "{{firm}} er nr. {{rank}} av {{total}} etter {{count}} år i Konsulent Tycoon, med en verdi på {{value}}.",
+      "award": "Og vi vant «{{award}}».",
+      "ahead": "Rett foran {{rival}}.",
+      "first": "Foran alle de {{count}} andre.",
+      "weekly": "Ukens utfordring, {{week}}."
+    }
+  },
   "pwa": {
     "install": "Installer spillet",
     "iosHint": "Spill som app: trykk Del og så «Legg til på Hjem-skjerm».",
@@ -1037,7 +1052,7 @@
     "bugs": {
       "title": "Fant du en bug?",
       "body": [
-        "Det gjør du nok, for å være ærlig. Spillet er fortsatt i en slags lukket beta.",
+        "Det gjør du nok, for å være ærlig. Spillet er helt nytt, og ti år er lang tid for et konsulentselskap.",
         "Koden ligger åpent på GitHub. Lag gjerne en issue med hva som skjedde og hva du forventa skulle skje, så tar jeg en titt. Og har du lyst til å fikse det selv, er pull requests hjertelig velkomne!"
       ]
     },
@@ -1315,6 +1330,16 @@
   "news": {
     "title": "Nyheter",
     "posts": {
+      "launch": {
+        "title": "Nå er det lov å si det til hele verden",
+        "body": [
+          "Nederst på hovedmenyen har det i noen uker stått en litt pinlig beskjed: at du var med i en slags lukket beta, og at det var fint om du ikke sa det til hele verden helt enda. Den er borte nå. Konsulent Tycoon er åpent for alle, og du har herved lov til å fortelle det til akkurat hvem du vil.",
+          "Og når det først er lov, kan det like gjerne være enkelt. Når de ti årene er over (eller konkursen er et faktum), finner du en ny knapp på sluttskjermen: «Del resultatet». Den lager en kort tekst med firmanavnet ditt, plassen du endte på, hva selskapet er verdt og dommen du fikk. Og, ikke minst, hvilken konkurrent du ligger rett foran. Det er nok den linja som svir mest å få i innboksen.",
+          "Du trenger heller ikke vente i ti år. Etter hvert år, når årsprisene deles ut i kvartalsrapporten, kan du dele hvordan det går så langt. Har du vunnet en pris, kommer den med. Spiller du ukens utfordring, står uka der også, så kollegaene dine vet nøyaktig hvilket parti de skal prøve å slå.",
+          "På mobilen åpnes den vanlige delingsmenyen. På PC havner teksten og lenken på utklippstavla, klar til å limes inn i Slack, Teams eller den gruppechatten der dere egentlig burde snakke om noe annet.",
+          "Til alle som har testa spillet mens det var hemmelig: tusen takk! Dere har funnet bugs, kommet med idéer og gjort spillet mye bedre enn det hadde vært uten dere. Og til resten: send det gjerne til en kollega. Eller til en konkurrent. Tjohei!"
+        ]
+      },
       "accessibility": {
         "title": "Et spill for litt flere",
         "body": [
