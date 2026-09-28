@@ -32,7 +32,7 @@
     "newGame": "New game",
     "continue": "Continue",
     "settings": "Settings",
-    "devNotice": "You're in a sort of closed beta, so maybe don't tell the whole world just yet. The game is still in active development, and saved games may be wiped at any time.",
+    "devNotice": "The game is brand new and gets worked on every week. Found a bug or had an idea? Under About you can see how to reach me.",
     "savesDropped_one": "A saved game was deleted because the game logic has changed since it was saved. Sorry, you'll have to start a new game.",
     "savesDropped_other": "{{count}} saved games were deleted because the game logic has changed since they were saved. Sorry, you'll have to start a new game.",
     "savesDroppedOk": "Got it",
@@ -668,6 +668,21 @@
     "menu": "Main menu",
     "again": "Play again"
   },
+  "share": {
+    "button": "Share your result",
+    "copied": "Copied. Paste it wherever your colleagues hang out.",
+    "failed": "Couldn't copy your result.",
+    "result": {
+      "end": "{{firm}} finished #{{rank}} of {{total}} after ten years of Konsulent Tycoon, worth {{value}}. The verdict: “{{title}}”.",
+      "bankrupt": "{{firm}} went bankrupt in {{quarter}} in Konsulent Tycoon. It was nice while it lasted.",
+      "year_one": "One year into Konsulent Tycoon, {{firm}} is #{{rank}} of {{total}}, worth {{value}}.",
+      "year_other": "{{count}} years into Konsulent Tycoon, {{firm}} is #{{rank}} of {{total}}, worth {{value}}.",
+      "award": "And we won “{{award}}”.",
+      "ahead": "Just ahead of {{rival}}.",
+      "first": "Ahead of all {{count}} others.",
+      "weekly": "This week's challenge, {{week}}."
+    }
+  },
   "pwa": {
     "install": "Install the game",
     "iosHint": "Play as an app: tap Share, then “Add to Home Screen”.",
@@ -1037,7 +1052,7 @@
     "bugs": {
       "title": "Found a bug?",
       "body": [
-        "You probably will, to be honest. The game is still in a sort of closed beta.",
+        "You probably will, to be honest. The game is brand new, and ten years is a long time for a consultancy.",
         "The code is open on GitHub. Feel free to open an issue with what happened and what you expected to happen, and I'll take a look. And if you feel like fixing it yourself, pull requests are more than welcome!"
       ]
     },
@@ -1315,6 +1330,16 @@
   "news": {
     "title": "News",
     "posts": {
+      "launch": {
+        "title": "You're allowed to tell people now",
+        "body": [
+          "For a few weeks, the bottom of the main menu has carried a slightly awkward message: you were in a sort of closed beta, so maybe don't tell the whole world just yet. That's gone now. Konsulent Tycoon is open to everyone, and you're hereby allowed to tell whoever you like.",
+          "And if it's allowed, it might as well be easy. When your ten years are up (or the bankruptcy is final), the end screen has a new button: Share your result. It writes a short blurb with your firm's name, where you finished, what the company is worth and the verdict you got. Plus, crucially, which rival you finished just ahead of. That's probably the line that stings most when it lands in someone's inbox.",
+          "You don't have to wait ten years, either. After each year, when the annual awards come round in the quarterly report, you can share how it's going so far. Won an award? It's in there. Playing the weekly challenge? The week goes in too, so your colleagues know exactly which game they're trying to beat.",
+          "On a phone, it opens the usual share sheet. On a computer, the text and link go to your clipboard, ready to paste into Slack, Teams or that group chat where you really ought to be talking about something else.",
+          "To everyone who tested the game while it was still a secret: thank you! You found bugs, came up with ideas and made the game much better than it would have been without you. And to everyone else: feel free to send it to a colleague. Or a competitor. Cheers!"
+        ]
+      },
       "accessibility": {
         "title": "A game for a few more people",
         "body": [

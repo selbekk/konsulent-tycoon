@@ -4,9 +4,11 @@ import { endTitle, rankings, shadyStats } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Bjorn } from '../components/Bjorn'
 import { SubmitPanel } from './Leaderboard'
+import { ShareButton } from '../components/ShareButton'
 import { Button, FirmGlyph, Modal } from '../components/ui'
 import { firmColors } from '../firms'
 import { formatMoney } from '../format'
+import { resultShareText } from '../share'
 import { playSound } from '../sound'
 import s from './screens.module.css'
 
@@ -85,6 +87,9 @@ export function EndGame() {
             {t('end.summary', { rank: myRank, total: ranks.length, value: formatMoney(ranks[myRank - 1].value, lng) })}
           </p>
           <p className={s.muted}>{total === 0 ? t('end.clean') : t('end.shady', { total, detected })}</p>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <ShareButton source="end" text={() => resultShareText(game, 'end', t, lng)} />
+          </div>
         </div>
         <SubmitPanel game={game} log={log} onSeeBoard={() => go('leaderboard')} />
         <ValueChart ids={chartIds} />
