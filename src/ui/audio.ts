@@ -18,3 +18,17 @@ export function audioContext(): AudioContext | null {
   }
   return ctx
 }
+
+/**
+ * Resumes the context without an unhandled rejection. iOS rejects with "Failed to start the
+ * audio device" when it can't have the audio session right now (backgrounded, a phone call);
+ * we stay silent and try again on the next sound or gesture.
+ */
+export function resumeAudio(ac: AudioContext): Promise<void> {
+  return ac.resume().catch(() => {})
+}
+
+/** Suspends the context without an unhandled rejection. */
+export function suspendAudio(ac: AudioContext): Promise<void> {
+  return ac.suspend().catch(() => {})
+}

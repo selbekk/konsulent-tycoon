@@ -1,5 +1,5 @@
 import { useGame } from '../store/gameStore'
-import { audioContext } from './audio'
+import { audioContext, resumeAudio } from './audio'
 
 /**
  * Tiny 8-bit sound effects synthesised with Web Audio – no files, no licences.
@@ -131,7 +131,7 @@ export function playSound(name: SoundName) {
   lastPlayed[name] = nowMs
   const ac = audioContext()
   if (!ac) return
-  if (ac.state === 'suspended') void ac.resume()
+  if (ac.state === 'suspended') void resumeAudio(ac)
   const master = ac.createGain()
   master.gain.value = soundVolume * 0.18
   master.connect(ac.destination)

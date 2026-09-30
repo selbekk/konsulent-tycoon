@@ -1,5 +1,5 @@
 import { useGame } from '../../store/gameStore'
-import { audioContext } from '../audio'
+import { audioContext, resumeAudio, suspendAudio } from '../audio'
 import { isChristmas } from '../eggs/clock'
 import { compose, type NoteEvent, type Score, type SongSpec, type Voice } from './compose'
 import { HIDDEN_SONGS, SONGS, type HiddenSongId } from './songs'
@@ -278,7 +278,7 @@ function sync() {
   const ac = audioContext()
   if (!ac) return
   try {
-    if (ac.state === 'suspended' && !document.hidden) void ac.resume()
+    if (ac.state === 'suspended' && !document.hidden) void resumeAudio(ac)
     if (!current) startSong(ac)
     else current.bus.gain.setTargetAtTime(level(), ac.currentTime, 0.05)
     if (!timer) timer = setInterval(tick, TICK_MS)
@@ -317,11 +317,7 @@ export function installMusic(): () => void {
     unlocked = true
     const ac = audioContext()
     if (!ac) return removeGestures()
-    if (ac.state === 'suspended')
-      void ac.resume().then(
-        () => ac.state === 'running' && removeGestures(),
-        () => {},
-      )
+    if (ac.state === 'suspended') void resumeAudio(ac).then(() => ac.state === 'running' && removeGestures())
     else removeGestures()
     sync()
   }
@@ -329,8 +325,8 @@ export function installMusic(): () => void {
   const onVisibility = () => {
     const ac = audioContext()
     if (!ac || !unlocked) return
-    if (document.hidden) void ac.suspend()
-    else void ac.resume()
+    if (document.hidden) void suspendAudio(ac)
+    else void resumeAudio(ac)
   }
   const unsubscribe = useGame.subscribe((s, prev) => {
     if (s.settings.music !== prev.settings.music || s.settings.musicVolume !== prev.settings.musicVolume) sync()
