@@ -6,18 +6,19 @@ Status: ferdig (2026-10-07). Tallene under er de som ble valgt; `constants.ts` e
 
 ## Beslutninger (intervju med Kristofer 2026-10-07)
 
-| Spørsmål     | Valg                                                                                                 |
-| ------------ | ---------------------------------------------------------------------------------------------------- |
-| Tidslinje    | Fasen er de første kvartalene av de 40. Samme motor og `endTurn`, AI-ene spiller som før.            |
-| Overgang     | Nivå 2 (dagens mål: ansatte, omsetning eller vunne anbud). Nivå 1 _er_ oppstartsfasen.               |
-| Gründere     | Du (velger fagområde) + én medgründer fra et galleri med navngitte personer, fordeler og ulemper.    |
-| Hoppe over   | Nei. Alle spiller fasen, også ukesutfordringen.                                                      |
-| Oppdrag      | Hvert kvartal får du 2–3 håndplukkede leads med tydelige tradeoffs. Du velger ett, og det er vunnet. |
-| Rekruttering | Bare sideoppdrag (kaffeprat, drinks, LinkedIn, tilbud). Bestilling i bulk åpner på nivå 2.           |
-| Begrensning  | Kveldstimer: et fast antall per kvartal. Hvert sideoppdrag koster én time.                           |
-| Skjerm       | Egen skjerm uten faner. Rammen er et kontorfellesskap med kaffebar, ikke en garasje.                 |
-| Krydder      | Egne små hendelser fra kontorfellesskapet. Ingen kriser, ingen bakrom.                               |
-| Startlag     | Bare dere to. Ingen ansatte og ingen startkontrakt.                                                  |
+| Spørsmål     | Valg                                                                                                                                                                                        |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tidslinje    | Fasen er de første kvartalene av de 40. Samme motor og `endTurn`, AI-ene spiller som før.                                                                                                   |
+| Overgang     | Nivå 2 (dagens mål: ansatte, omsetning eller vunne anbud). Nivå 1 _er_ oppstartsfasen.                                                                                                      |
+| Gründere     | Du (velger fagområde) + én medgründer fra et galleri med navngitte personer, fordeler og ulemper. Medgründeren velges i spillet, etter at selskapet er stiftet (endret etter første runde). |
+| Navn         | Spillet spør hva du heter. Du er daglig leder og blir sitert i nyheter og artikler, og Bjørn bruker fornavnet ditt.                                                                         |
+| Hoppe over   | Nei. Alle spiller fasen, også ukesutfordringen.                                                                                                                                             |
+| Oppdrag      | Hvert kvartal får du 2–3 håndplukkede leads med tydelige tradeoffs. Du velger ett, og det er vunnet.                                                                                        |
+| Rekruttering | Bare sideoppdrag (kaffeprat, drinks, LinkedIn, tilbud). Bestilling i bulk åpner på nivå 2.                                                                                                  |
+| Begrensning  | Kveldstimer: et fast antall per kvartal. Hvert sideoppdrag koster én time.                                                                                                                  |
+| Skjerm       | Egen skjerm uten faner. Rammen er et kontorfellesskap med kaffebar, ikke en garasje.                                                                                                        |
+| Krydder      | Egne små hendelser fra kontorfellesskapet. Ingen kriser, ingen bakrom.                                                                                                                      |
+| Startlag     | Bare dere to. Ingen ansatte og ingen startkontrakt.                                                                                                                                         |
 
 ## Motor
 
@@ -29,7 +30,7 @@ Status: ferdig (2026-10-07). Tallene under er de som ble valgt; `constants.ts` e
   - `leads: Lead[]`: kvartalets tilbud. `takenLead` er id-en til det du tok (ett per kvartal).
   - `candidates: Candidate[]`: folk i nettverket.
 - `Contract.ramp?: { quarter, seats }`: vekstkunden vil ha flere folk fra et gitt kvartal.
-- `GameState.weekly` blir `{ week, founder, cofounder }` i stedet for `founders`. `NewGameOptions` får `founderDiscipline` og `cofounder` i stedet for `founderDisciplines`.
+- `GameState.weekly` blir `{ week, founder }` i stedet for `founders`. `NewGameOptions` får `founderDiscipline` og `ceoName` i stedet for `founderDisciplines`. Medgründeren er handlingen `chooseCofounder`, så den ligger i loggen.
 
 ### Medgründere (`content/cofounders.ts`)
 
@@ -78,9 +79,9 @@ Seks håndlagde personer. Hver har fagområde, nivå, stjernetraits fra `content
 
 ## Toppliste, lagring og analyse
 
-- Innsendingen får `founder` og `cofounder` i stedet for `founders`, også i Cloud Function og Firestore. Motorendringen gir ny `ENGINE_VERSION` uansett.
+- Innsendingen får `founder` i stedet for `founders`, også i Cloud Function og Firestore. Navnet ditt sendes aldri; serveren bruker en plassholder. Motorendringen gir ny `ENGINE_VERSION` uansett.
 - `SAVE_VERSION` 1 → 2. Migreringen fjerner `weekly` fra pågående ukespill, siden de ikke kan spilles likt av den nye motoren. Spillet fortsetter, men utenfor topplista.
-- Nye handlinger (`takeLead`, `recruit`) i `ACTION_EVENTS`, i `hostile.test.ts` og i humanProxy. `game_started` sender `founder` og `cofounder` (innholds-id-er).
+- Nye handlinger (`chooseCofounder`, `takeLead`, `recruit`) i `ACTION_EVENTS`, i `hostile.test.ts` og i humanProxy. `game_started` sender `founder` og om spilleren skrev inn et navn (aldri navnet).
 
 ## Balanse
 

@@ -87,6 +87,7 @@ export const ACTION_EVENTS: { [T in ActionType]: Describe<T> } = {
     props: (a, s) => ({ customer: customerOf(s, a.contractId), discipline: a.discipline, count: a.count }),
   },
   nurtureContract: { event: 'contract_nurtured', props: (a, s) => ({ customer: customerOf(s, a.contractId) }) },
+  chooseCofounder: { event: 'cofounder_chosen', props: (a) => ({ cofounder: a.cofounder }) },
   takeLead: {
     event: 'lead_taken',
     props: (a, s) => {

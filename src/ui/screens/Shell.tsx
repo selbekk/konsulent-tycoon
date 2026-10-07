@@ -89,8 +89,12 @@ export function Shell() {
   const me = game.firms[game.playerId]
   // Events whose content was removed would otherwise block the End Turn button forever.
   const pending = game.pendingEvents.filter((e) => e.firmId === me.id && EVENT_MAP[e.eventId])
+  // A new game starts by picking a co-founder; the intro and the end of the quarter wait for that.
+  const needsCofounder = !!me.startup && me.startup.cofounder === undefined
+  const showOnboarding = onboarding && !needsCofounder
+  const ceo = me.stars.find((x) => x.ceo)
   const modalOpen =
-    onboarding ||
+    showOnboarding ||
     !!article ||
     report !== null ||
     !!levelUp ||
@@ -112,7 +116,7 @@ export function Shell() {
   // A crisis stage the player hasn't seen yet pops up by itself once, when nothing else is in the way.
   const unseenCrisis = openCrises(game, me.id).find((c) => !seenCrises.includes(crisisSeenKey(c)))
   const calm =
-    !onboarding &&
+    !showOnboarding &&
     report === null &&
     !levelUp &&
     pending.length === 0 &&
@@ -128,10 +132,11 @@ export function Shell() {
   const hasOpenTodos = openTodos.length > 0
   const openTodoIds = openTodos.map((x) => x.id).join(',')
   const tryEndTurn = useCallback(() => {
+    if (needsCofounder) return
     if (!hasOpenTodos) return endTurn()
     track('end_turn_warning_shown', { todos: openTodoIds.split(','), quarter: game.quarter })
     setConfirmEnd(true)
-  }, [hasOpenTodos, endTurn, openTodoIds, game.quarter])
+  }, [needsCofounder, hasOpenTodos, endTurn, openTodoIds, game.quarter])
 
   useEffect(() => {
     if (!settings.shortcuts) return
@@ -191,6 +196,7 @@ export function Shell() {
           </span>
           <div>
             <div className={s.firmName}>{me.name}</div>
+            {ceo && <div className={s.quarter}>{t('shell.ceo', { name: ceo.name })}</div>}
             <div className={s.quarter}>
               {formatQuarter(game.quarter)} · {t('shell.quarterOf', { n: game.quarter + 1, total: game.maxQuarters })}
             </div>
@@ -297,11 +303,12 @@ export function Shell() {
         {pending.length > 0 && (
           <span className={s.endTurnHint}>{t('shell.pendingEvents', { count: pending.length })}</span>
         )}
+        {needsCofounder && <span className={s.endTurnHint}>{t('startup.cofounder.endTurnHint')}</span>}
         <Button
           variant="primary"
           size="big"
           onClick={tryEndTurn}
-          disabled={pending.length > 0 || game.status !== 'playing'}
+          disabled={pending.length > 0 || needsCofounder || game.status !== 'playing'}
         >
           {t('shell.endTurn')} <span aria-hidden>▶</span>
         </Button>
@@ -356,12 +363,12 @@ export function Shell() {
 
       <MoneyRain />
       {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
-      {onboarding && game.status === 'playing' && <Onboarding />}
-      {!onboarding && report !== null && <QuarterReport />}
-      {!onboarding && report === null && levelUp && game.status === 'playing' && (
+      {showOnboarding && game.status === 'playing' && <Onboarding />}
+      {!showOnboarding && report !== null && <QuarterReport />}
+      {!showOnboarding && report === null && levelUp && game.status === 'playing' && (
         <LevelUpModal from={levelUp.from} to={levelUp.to} />
       )}
-      {!onboarding && report === null && !levelUp && pending.length > 0 && game.status === 'playing' && (
+      {!showOnboarding && report === null && !levelUp && pending.length > 0 && game.status === 'playing' && (
         <EventModal event={pending[0]} />
       )}
       {bidTenderId && (

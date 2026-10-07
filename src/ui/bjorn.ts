@@ -19,3 +19,10 @@ export function bjornKey(game: GameState): string {
     return 'bjorn.growing'
   return 'bjorn.fine'
 }
+
+/** The player's first name, for Bjørn to address them by (the CEO star's name; the firm's name for old saves). */
+export function bjornParams(game: GameState): { name: string } {
+  const me = game.firms[game.playerId]
+  const ceo = me.stars.find((x) => x.ceo)?.name
+  return { name: ceo ? ceo.split(' ')[0] : me.name }
+}

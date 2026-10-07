@@ -44,7 +44,6 @@ const { state, log } = botRun({
   seed: weekSeed(week),
   firmName: 'Emu AS',
   founderDiscipline: 'backend',
-  cofounder: 'aisha',
   difficulty: 'normal',
   weekly: week,
 })

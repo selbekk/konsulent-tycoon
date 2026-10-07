@@ -1,6 +1,4 @@
 import { CUSTOMERS } from '../content/customers'
-import { COFOUNDERS, cofounderDef } from '../content/cofounders'
-import type { CofounderDef } from '../content/cofounders'
 import { FIRMS } from '../content/firms'
 import type { FirmDef } from '../content/firms'
 import { TRENDS } from '../content/trends'
@@ -8,6 +6,7 @@ import { personalityFor, salaryPremiumFor } from './ai/personalities'
 import {
   AI_CASH_FACTOR,
   AI_START_CASH_PER_HEAD,
+  CEO_NAME_MAX,
   MAX_QUARTERS,
   PLAYER_START_BUDGETS,
   SAVE_VERSION,
@@ -19,13 +18,12 @@ import { cultureEquilibrium } from './culture'
 import { industryGossip, pickAnnouncement } from './flavor'
 import { earnedLevel } from './levels'
 import { createRng, nextInt, noise, pick, range, weightedPick } from './rng'
-import { newProfile } from './profile'
 import { buildRoster } from './roster'
 import { initStartup } from './startup'
 import { generateStar } from './stars'
 import { marketCapacity, publishTenders } from './tenders'
 import { DISCIPLINES } from './types'
-import type { Contract, Customer, Difficulty, Discipline, Firm, GameState, Seats, Star } from './types'
+import type { Contract, Customer, Difficulty, Discipline, Firm, GameState, Seats } from './types'
 import { addNews, emptyPools, nextId, seatTotal } from './util'
 
 export interface NewGameOptions {
@@ -33,8 +31,11 @@ export interface NewGameOptions {
   firmName: string
   /** The player's own discipline. */
   founderDiscipline: Discipline
-  /** Id from content/cofounders.ts. */
-  cofounder: string
+  /**
+   * What the player is called; their founder star gets the name. Typed by the player, so it never leaves the
+   * device: the leaderboard replays with a placeholder, and the name must never change how the game plays.
+   */
+  ceoName?: string
   difficulty: Difficulty
   /** The weekly challenge's ISO week. The caller passes its seed too (`weekSeed`). */
   weekly?: string
@@ -70,27 +71,6 @@ function baseFirm(id: string, name: string, isPlayer: boolean, personalityId: st
     quarterFines: 0,
     quarterLeavers: 0,
     quarterHires: 0,
-  }
-}
-
-/** The co-founder's star id: fixed, so the portrait in the new-game gallery is the one you get. */
-export const cofounderStarId = (cofounder: string) => `cofounder-${cofounder}`
-
-/** A co-founder from the gallery as a star: fixed name, level and traits, a profile drawn like anyone's. */
-function cofounderStar(state: GameState, def: CofounderDef): Star {
-  const id = cofounderStarId(def.id)
-  return {
-    id,
-    name: def.name,
-    discipline: def.discipline,
-    level: def.level,
-    traits: [...def.traits],
-    ambition: def.ambition,
-    morale: 85,
-    loyalty: 95,
-    salaryPremium: def.salaryPremium,
-    ...newProfile(state, id, def.discipline, def.level),
-    gender: def.gender,
   }
 }
 
@@ -229,27 +209,24 @@ export function createNewGame(opts: NewGameOptions): GameState {
   const discipline = (DISCIPLINES as readonly unknown[]).includes(opts.founderDiscipline)
     ? opts.founderDiscipline
     : 'backend'
-  const cofounder = cofounderDef(opts.cofounder) ?? COFOUNDERS[0]
-  if (opts.weekly) state.weekly = { week: opts.weekly, founder: discipline, cofounder: cofounder.id }
+  if (opts.weekly) state.weekly = { week: opts.weekly, founder: discipline }
 
   // Player: two founders in a co-working space, no employees, no clients yet.
   const me = baseFirm(PLAYER_ID, opts.firmName.trim() || 'Konsulent & Konsulent AS', true, 'player', 'NO')
-  me.cash = START_CASH[opts.difficulty] + (cofounder.perk.cash ?? 0)
+  me.cash = START_CASH[opts.difficulty]
   me.budgets = { ...PLAYER_START_BUDGETS }
   // A young firm with a bit of buzz: some network, a founders' tech culture.
-  me.reputation = 40 + (cofounder.perk.reputation ?? 0)
+  me.reputation = 40
   me.fagmiljo = 35
   me.sosialt = 30
+  // The co-founder comes in the first quarter (chooseCofounder in startup.ts).
   const founder = generateStar(state, discipline, 4, 4)
   founder.traits = founder.traits.slice(0, 1)
-  me.stars.push(founder, cofounderStar(state, cofounder))
-  for (const s of me.stars) {
-    s.founder = true
-    s.joinedQuarter = 0
-    s.loyalty = 95
-    s.morale = 85
-  }
-  founder.salaryPremium = 0
+  // The drawn name is kept when the player gives none; either way the draws above are the same.
+  const ceoName = typeof opts.ceoName === 'string' ? opts.ceoName.trim().slice(0, CEO_NAME_MAX) : ''
+  if (ceoName) founder.name = ceoName
+  Object.assign(founder, { ceo: true, founder: true, joinedQuarter: 0, loyalty: 95, morale: 85, salaryPremium: 0 })
+  me.stars.push(founder)
   buildRoster(state, me)
   state.firms[me.id] = me
   state.firmOrder.push(me.id)
@@ -276,7 +253,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
   }
 
   for (const id of state.firmOrder) if (id !== PLAYER_ID) createBacklog(state, state.firms[id])
-  initStartup(state, me, cofounder.id)
+  initStartup(me)
 
   const firstTrend = pick(
     state.rng,
@@ -298,7 +275,7 @@ export function createNewGame(opts: NewGameOptions): GameState {
   state.baseDemand = marketCapacity(state) * TARGET_DEMAND_RATIO
   publishTenders(state, 0)
   for (let i = 0; i < 2; i++) state.starMarket.push(generateStar(state))
-  addNews(state, 'news.game.welcome', { firm: me.name }, 'good', { personal: true })
+  addNews(state, 'news.game.welcome', { firm: me.name, ceo: founder.name }, 'good', { personal: true })
   pickAnnouncement(state)
   industryGossip(state)
   return state

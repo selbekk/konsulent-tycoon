@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { COFOUNDERS } from '../../content/cofounders'
 import {
   STARTUP_DRINKS_COST,
+  cofounderStarId,
   STARTUP_LEADS,
   activeContracts,
   applyAction,
@@ -48,6 +50,14 @@ function leadResult(game: GameState, lead: Lead): number {
  * the firm reaches level 2. Leads instead of tenders, the network instead of hiring orders.
  */
 export function StartupScreen() {
+  const game = useGame((x) => x.game)!
+  const me = game.firms[game.playerId]
+  const st = me.startup!
+  if (st.cofounder === undefined) return <CofounderPicker />
+  return <CoworkingSpace />
+}
+
+function CoworkingSpace() {
   const { t, i18n } = useTranslation()
   const lng = i18n.language
   const game = useGame((x) => x.game)!
@@ -115,9 +125,7 @@ export function StartupScreen() {
                   {t(`disciplines.${p.discipline}`)} · {t('startup.level', { level: formatNumber(p.level, lng, 1) })}
                 </span>
               </span>
-              <Badge tone="accent">
-                {p.id === me.stars[0]?.id ? t('startup.team.you') : t('startup.team.cofounder')}
-              </Badge>
+              <Badge tone="accent">{p.ceo ? t('startup.team.you') : t('startup.team.cofounder')}</Badge>
             </li>
           ))}
           {(me.roster ?? []).map((e) => (
@@ -328,5 +336,60 @@ function CandidateCard({ c }: { c: Candidate }) {
         {t('startup.network.until', { quarter: formatQuarter(c.untilQuarter - 1) })}
       </span>
     </li>
+  )
+}
+
+/**
+ * The first thing in a new game: who the player starts the firm with. Everything else in the co-working space
+ * (hours, leads, the network) waits for this.
+ */
+function CofounderPicker() {
+  const { t } = useTranslation()
+  const game = useGame((x) => x.game)!
+  const dispatch = useGame((x) => x.dispatch)
+  const me = game.firms[game.playerId]
+  const ceo = me.stars.find((x) => x.ceo)
+  const [picked, setPicked] = useState<string | null>(null)
+  const chosen = COFOUNDERS.find((c) => c.id === picked)
+  return (
+    <div className={s.grid}>
+      <Panel title={t('startup.cofounder.title')} icon="handshake" className={s.span12}>
+        <p style={{ marginTop: 0 }}>{t('startup.cofounder.intro', { ceo: ceo?.name ?? '', firm: me.name })}</p>
+        <div className={u.gallery} role="group" aria-label={t('startup.cofounder.title')}>
+          {COFOUNDERS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              className={u.cofounder}
+              aria-pressed={picked === c.id}
+              onClick={() => setPicked(c.id)}
+            >
+              <span className={s.cardTitle}>
+                <Portrait seed={cofounderStarId(c.id)} size={32} />
+                <span className={u.who}>
+                  <span>{c.name}</span>
+                  <span className={`${s.small} ${s.muted}`}>
+                    {t(`disciplines.${c.discipline}`)} · {t('startup.level', { level: c.level })}
+                  </span>
+                </span>
+              </span>
+              <span className={s.small}>{t(`content:cofounders.${c.id}.blurb`)}</span>
+              <span className={u.pro}>+ {t(`content:cofounders.${c.id}.pro`)}</span>
+              <span className={u.con}>− {t(`content:cofounders.${c.id}.con`)}</span>
+            </button>
+          ))}
+        </div>
+        <p className={`${s.small} ${s.muted}`}>{t('startup.cofounder.hint')}</p>
+        <div className={s.row} style={{ justifyContent: 'flex-end' }}>
+          <Button
+            variant="primary"
+            disabled={!chosen}
+            onClick={() => chosen && dispatch({ type: 'chooseCofounder', firmId: me.id, cofounder: chosen.id })}
+          >
+            {chosen ? t('startup.cofounder.confirm', { name: chosen.name }) : t('startup.cofounder.pick')}
+          </Button>
+        </div>
+      </Panel>
+    </div>
   )
 }

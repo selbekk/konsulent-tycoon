@@ -218,7 +218,8 @@ export const useGame = create<Store>((set, get) => ({
     track('game_started', {
       difficulty: opts.difficulty,
       founder: opts.founderDiscipline,
-      cofounder: opts.cofounder,
+      // Whether the player typed a name; never the name itself.
+      ceo_named: !!opts.ceoName?.trim(),
       custom_seed: meta?.customSeed,
       weekly: !!opts.weekly,
       default_name: meta?.defaultName,

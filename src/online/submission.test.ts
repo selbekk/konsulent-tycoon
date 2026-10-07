@@ -13,7 +13,6 @@ const opts: NewGameOptions = {
   seed: weekSeed(WEEK),
   firmName: 'Mitt Eget Navn AS',
   founderDiscipline: 'frontend',
-  cofounder: 'ingrid',
   difficulty: 'normal',
   weekly: WEEK,
 }
@@ -36,7 +35,9 @@ describe('leaderboard submission', () => {
 
   it('a finished weekly game replays to the result the player saw', () => {
     expect(sub).not.toBeNull()
-    expect([sub.founder, sub.cofounder]).toEqual(['frontend', 'ingrid'])
+    expect(sub.founder).toBe('frontend')
+    // The co-founder is a move in the log, not part of the setup.
+    expect(sub.log[0]).toMatchObject({ type: 'chooseCofounder' })
     // Nothing the player typed goes along.
     expect(JSON.stringify(sub)).not.toContain('Mitt Eget Navn')
     const r = verifySubmission(JSON.parse(JSON.stringify(sub)), ctx)
@@ -77,9 +78,8 @@ describe('leaderboard submission', () => {
       { ...sub, name: ['moose', 'moose', 'as'] },
       { ...sub, name: ['Kari', 'owl', 'as'] },
       { ...sub, founder: 'juggling' },
-      { ...sub, cofounder: 'nobody' },
-      { ...sub, cofounder: '__proto__' },
-      { ...sub, cofounder: undefined },
+      { ...sub, founder: '__proto__' },
+      { ...sub, founder: undefined },
       { ...sub, log: [1] },
       { ...sub, gameId: 'x' },
     ]) {

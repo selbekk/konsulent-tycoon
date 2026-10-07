@@ -14,7 +14,6 @@ for (let seed = 1; seed <= seeds; seed++) {
     seed,
     firmName: 'X',
     founderDiscipline: 'backend',
-    cofounder: 'magnus',
     difficulty: 'normal',
   })
   s.firms.player.bankrupt = true // AI-only market

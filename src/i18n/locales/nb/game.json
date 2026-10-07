@@ -52,7 +52,7 @@
   },
   "news": {
     "game": {
-      "welcome": "{{firm}} er stiftet! Org.nr. er bestilt, kaffemaskinen er leaset og LinkedIn-posten har 14 likes."
+      "welcome": "{{ceo}} har stiftet {{firm}}! Org.nr. er bestilt, pulten er booket og LinkedIn-posten har 14 likes."
     },
     "staff": {
       "leftMany": "{{count}} ansatte sluttet dette kvartalet. Avskjedskaken var tørr.",
@@ -215,7 +215,8 @@
       "declined": "{{name}} takket nei. Foreløpig.",
       "rampUp_one": "{{customer}} er fornøyde og vil ha {{count}} konsulent til.",
       "rampUp_other": "{{customer}} er fornøyde og vil ha {{count}} konsulenter til.",
-      "graduated": "{{firm}} flytter ut av kontorfellesskapet og inn i egne lokaler."
+      "graduated": "{{firm}} flytter ut av kontorfellesskapet og inn i egne lokaler.",
+      "cofounder": "{{ceo}} og {{name}} starter {{firm}} sammen."
     }
   },
   "announcements": {
@@ -1232,7 +1233,7 @@
       "welcome": {
         "1": {
           "headline": "Nytt konsulenthus ser dagens lys",
-          "body": "{{firm}} er registrert i Brønnøysund og har allerede flere visjoner enn ansatte. Gründerne lover «en ny måte å drive konsulentvirksomhet på», slik gründere gjør.\n\nForeløpig holder selskapet til i et hjørne av et kontorfellesskap. Kundene må vinnes."
+          "body": "{{firm}} er registrert i Brønnøysund og har allerede flere visjoner enn ansatte. «Vi skal gjøre konsulentbransjen på en ny måte», sier daglig leder {{ceo}}, slik gründere sier.\n\nForeløpig holder selskapet til i et hjørne av et kontorfellesskap. Kundene må vinnes."
         }
       }
     },
@@ -1240,7 +1241,7 @@
       "leftMany": {
         "1": {
           "headline": "Flukt fra {{player}}",
-          "body": "{{count}} ansatte har levert oppsigelsen i {{player}} dette kvartalet. Kildene våre peker på alt fra lønn til kaffemaskinen.\n\nHR opplyser at avskjedskaken var «innenfor budsjett»."
+          "body": "{{count}} ansatte har levert oppsigelsen i {{player}} dette kvartalet. Kildene våre peker på alt fra lønn til kaffemaskinen.\n\n«Vi tar det på største alvor», sier daglig leder {{ceo}}. HR opplyser at avskjedskaken var «innenfor budsjett»."
         }
       },
       "arrived": {
@@ -1315,19 +1316,19 @@
       "playerWon": {
         "1": {
           "headline": "{{player}} vinner hos {{customer}}",
-          "body": "{{player}} stakk av med anbudet hos {{customer}}. Det kom {{bidders}} bud. {{strong}}\n\nPå kontoret ble seieren feiret med pizza og en gong som var litt for høy."
+          "body": "{{player}} stakk av med anbudet hos {{customer}}. Det kom {{bidders}} bud. {{strong}}\n\n«Vi er stolte og ydmyke», sier daglig leder {{ceo}}. På kontoret ble seieren feiret med pizza og en gong som var litt for høy."
         }
       },
       "playerWonFramework": {
         "1": {
           "headline": "Plass på rammeavtalen",
-          "body": "{{player}} er rangert som nummer {{rank}} på rammeavtalen hos {{customer}}. {{strong}}\n\nEn rammeavtale gir ingen garanti for oppdrag, men den gir en fot innenfor."
+          "body": "{{player}} er rangert som nummer {{rank}} på rammeavtalen hos {{customer}}. {{strong}}\n\nEn rammeavtale gir ingen garanti for oppdrag, men den gir en fot innenfor. «Nå skal vi vise at de valgte riktig», sier daglig leder {{ceo}}."
         }
       },
       "playerLost": {
         "1": {
           "headline": "{{firm}} tok oppdraget",
-          "body": "{{player}} tapte anbudet hos {{customer}} til {{firm}}. {{weak}}\n\nSalgsteamet har allerede begynt på neste bud."
+          "body": "{{player}} tapte anbudet hos {{customer}} til {{firm}}. {{weak}}\n\n«Vi tar lærdom og går videre», sier daglig leder {{ceo}}. Salgsteamet har allerede begynt på neste bud."
         }
       },
       "playerLostBoth": {
@@ -1581,13 +1582,13 @@
       "playerBankrupt": {
         "1": {
           "headline": "{{firm}} er konkurs",
-          "body": "{{firm}} har gått konkurs. Bobestyreren har overtatt kontoret, kundene og fussballbordet.\n\nGründerne takker for reisen på LinkedIn."
+          "body": "{{firm}} har gått konkurs. Bobestyreren har overtatt kontoret, kundene og fussballbordet.\n\nDaglig leder {{ceo}} takker for reisen på LinkedIn."
         }
       },
       "bankWarning": {
         "1": {
           "headline": "Banken ringer {{player}}",
-          "body": "{{player}} har vært under kredittgrensen i et kvartal, og banken har tatt kontakt. Tonen var høflig, men ikke lenger hjertelig.\n\nSkjer det to kvartaler på rad, er det slutt."
+          "body": "{{player}} har vært under kredittgrensen i et kvartal, og banken har ringt daglig leder {{ceo}}. Tonen var høflig, men ikke lenger hjertelig.\n\nSkjer det to kvartaler på rad, er det slutt."
         }
       },
       "acquiredBy": {
@@ -1601,7 +1602,7 @@
       "up": {
         "1": {
           "headline": "{{player}} flytter opp",
-          "body": "{{player}} har rykket opp til nivå {{level}} og flytter inn i større lokaler. Flyttebyrået melder om uvanlig mange planter.\n\nMed nivået følger nye muligheter."
+          "body": "{{player}} har rykket opp til nivå {{level}} og flytter inn i større lokaler. Flyttebyrået melder om uvanlig mange planter.\n\n«Vi har vokst ut av det gamle kontoret, og det er et luksusproblem», sier daglig leder {{ceo}}."
         }
       }
     },
@@ -1623,13 +1624,13 @@
       "miss": {
         "1": {
           "headline": "Skuffende kvartal for {{player}}",
-          "body": "{{player}} leverte et svakere kvartal enn det forrige, og aksjen falt. Analytikerne bruker ord som «bekymringsfullt».\n\nStemningen i gangene er dempet."
+          "body": "{{player}} leverte et svakere kvartal enn det forrige, og aksjen falt. Analytikerne bruker ord som «bekymringsfullt».\n\nDaglig leder {{ceo}} har ikke svart på henvendelser. Stemningen i gangene er dempet."
         }
       },
       "beat": {
         "1": {
           "headline": "{{player}} slår forventningene",
-          "body": "{{player}} leverte et bedre kvartal enn det forrige, og aksjen steg. Analytikerne er fornøyde, i hvert fall fram til neste kvartal.\n\nNoen i økonomiavdelingen har kjøpt kake."
+          "body": "{{player}} leverte et bedre kvartal enn det forrige, og aksjen steg. Analytikerne er fornøyde, i hvert fall fram til neste kvartal.\n\n«Vi ser langsiktig på dette», sier daglig leder {{ceo}}, og sjekker kursen."
         }
       }
     },
@@ -1823,7 +1824,7 @@
       "first_profit": {
         "1": {
           "headline": "{{player}} går i pluss",
-          "body": "For første gang har {{player}} tjent penger på et kvartal. Regnskapsføreren sendte en tommel opp, noe hen aldri har gjort før.\n\nPengene går til lønn, husleie og, etter sigende, bedre kaffebønner."
+          "body": "For første gang har {{player}} tjent penger på et kvartal. Regnskapsføreren sendte en tommel opp, noe hen aldri har gjort før.\n\n«Det var ikke tilfeldig. Det var nesten ikke tilfeldig», sier daglig leder {{ceo}}."
         }
       },
       "first_renewal": {
@@ -1841,7 +1842,7 @@
       "team_10": {
         "1": {
           "headline": "{{player}} er ti",
-          "body": "{{player}} har nå ti ansatte. Det betyr at allmøtet ikke lenger får plass rundt ett bord.\n\nDet er bestilt en kaffekanne til."
+          "body": "{{player}} har nå ti ansatte. Det betyr at allmøtet ikke lenger får plass rundt ett bord.\n\n«Jeg kjenner fortsatt alle ved navn», sier daglig leder {{ceo}}. Det er bestilt en kaffekanne til."
         }
       },
       "first_year": {
@@ -1859,13 +1860,13 @@
       "crisis_weathered": {
         "1": {
           "headline": "{{player}} kom seg gjennom krisen",
-          "body": "Det ble krise i {{player}}, og det gikk bra. Eller i hvert fall greit.\n\nEn ansatt sier at «man er ikke et ordentlig konsulenthus før man har hatt en krise». Hen har jobbet tre steder."
+          "body": "Det ble krise i {{player}}, og det gikk bra. Eller i hvert fall greit.\n\n«Vi lærte mye om oss selv», sier daglig leder {{ceo}}. En ansatt sier at «man er ikke et ordentlig konsulenthus før man har hatt en krise». Hen har jobbet tre steder."
         }
       },
       "revenue_10m": {
         "1": {
           "headline": "{{player}} runder ti millioner",
-          "body": "{{player}} omsatte for over ti millioner kroner forrige kvartal.\n\nBanken har sendt blomster. Det er første gang de sender noe annet enn purringer."
+          "body": "{{player}} omsatte for over ti millioner kroner forrige kvartal.\n\nBanken har sendt blomster til daglig leder {{ceo}}. Det er første gang de sender noe annet enn purringer."
         }
       },
       "team_25": {
@@ -1883,7 +1884,7 @@
       "five_years": {
         "1": {
           "headline": "Fem år med {{player}}",
-          "body": "{{player}} fyller fem år. Det finnes nå ansatte som aldri har sett det første kontoret.\n\nGründerne forteller gjerne om det. Litt for gjerne, ifølge kilder."
+          "body": "{{player}} fyller fem år. Det finnes nå ansatte som aldri har sett det første kontoret.\n\nDaglig leder {{ceo}} forteller gjerne om det. Litt for gjerne, ifølge kilder."
         }
       },
       "team_100": {
@@ -1903,7 +1904,7 @@
       "revenue": {
         "1": {
           "headline": "Rekordkvartal for {{player}}",
-          "body": "{{player}} omsatte for {{amount}} forrige kvartal, mer enn noen gang før.\n\nDaglig leder takker de ansatte. De ansatte takker for kaka."
+          "body": "{{player}} omsatte for {{amount}} forrige kvartal, mer enn noen gang før.\n\nDaglig leder {{ceo}} takker de ansatte. De ansatte takker for kaka."
         }
       }
     },
@@ -2093,13 +2094,13 @@
       "leadTaken": {
         "1": {
           "headline": "{{player}} får oppdrag hos {{customer}}",
-          "body": "{{customer}} har hyret {{player}} direkte, uten anbud. «De var ledige, og de svarte på e-post», sier en kilde hos kunden.\n\nOppdraget starter umiddelbart."
+          "body": "{{customer}} har hyret {{player}} direkte, uten anbud. «De var ledige, og de svarte på e-post», sier en kilde hos kunden.\n\nDaglig leder {{ceo}} bekrefter at oppdraget starter umiddelbart."
         }
       },
       "recruited": {
         "1": {
           "headline": "{{name}} går til {{player}}",
-          "body": "{{name}} har takket ja til en jobb i {{player}}. Avgjørelsen skal ha falt over en kaffe som varte i tre timer.\n\nSelskapet holder fortsatt til i et kontorfellesskap."
+          "body": "{{name}} har takket ja til en jobb i {{player}}. Avgjørelsen skal ha falt over en kaffe med daglig leder {{ceo}} som varte i tre timer.\n\nSelskapet holder fortsatt til i et kontorfellesskap."
         }
       },
       "declined": {
@@ -2118,7 +2119,13 @@
       "graduated": {
         "1": {
           "headline": "{{player}} flytter ut",
-          "body": "{{player}} har sagt opp pultene i kontorfellesskapet og flytter inn i egne lokaler.\n\nBaristaen sier det kommer til å bli stillere."
+          "body": "{{player}} har sagt opp pultene i kontorfellesskapet og flytter inn i egne lokaler. «Nå begynner det på ordentlig», sier daglig leder {{ceo}}.\n\nBaristaen sier det kommer til å bli stillere."
+        }
+      },
+      "cofounder": {
+        "1": {
+          "headline": "{{ceo}} og {{name}} starter for seg selv",
+          "body": "{{ceo}} og {{name}} har gått sammen om {{player}}. De to deler en pult i et kontorfellesskap, en felles visjon og, foreløpig, én skjerm.\n\n«Vi utfyller hverandre», sier {{ceo}}. {{name}} nikker."
         }
       }
     }

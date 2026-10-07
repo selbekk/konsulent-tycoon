@@ -1,4 +1,5 @@
-import { cofounderDef } from '../content/cofounders'
+import { COFOUNDERS, cofounderDef } from '../content/cofounders'
+import type { CofounderDef } from '../content/cofounders'
 import { CUSTOMERS, CUSTOMER_MAP } from '../content/customers'
 import type { CustomerDef } from '../content/customers'
 import {
@@ -30,10 +31,11 @@ import { portfolioAppeal } from './customers'
 import { activeContracts, isActive, spendable, staffFirm } from './economy'
 import { chance, nextInt, noise, pick, weightedPick } from './rng'
 import type { RngState } from './rng'
+import { newProfile } from './profile'
 import { hireEmployee, newEmployee, rosterRng } from './roster'
 import { newHireLevel } from './staff'
 import { APPROACHES, DISCIPLINES } from './types'
-import type { ActionOf, Candidate, Contract, Discipline, Firm, GameState, Lead, LeadKind, Seats } from './types'
+import type { ActionOf, Candidate, Contract, Discipline, Firm, GameState, Lead, LeadKind, Seats, Star } from './types'
 import { addNews, nextId, seatTotal } from './util'
 
 /*
@@ -45,9 +47,33 @@ import { addNews, nextId, seatTotal } from './util'
  * plays out the same whatever the player does here.
  */
 
-/** Evening hours per quarter for this co-founder. Pure. */
-export function startupHours(cofounder: string): number {
+/** Evening hours per quarter with this co-founder (none before one is chosen). Pure. */
+export function startupHours(cofounder: string | undefined): number {
+  if (cofounder === undefined) return 0
   return Math.max(1, STARTUP_HOURS + (cofounderDef(cofounder)?.perk.hours ?? 0))
+}
+
+/** The co-founder's star id: fixed, so the portrait in the gallery is the one you get. */
+export const cofounderStarId = (cofounder: string) => `cofounder-${cofounder}`
+
+/** A co-founder from the gallery as a star: fixed name, level and traits, a profile drawn like anyone's. */
+function cofounderStar(state: GameState, def: CofounderDef): Star {
+  const id = cofounderStarId(def.id)
+  return {
+    id,
+    name: def.name,
+    discipline: def.discipline,
+    level: def.level,
+    traits: [...def.traits],
+    ambition: def.ambition,
+    morale: 85,
+    loyalty: 95,
+    salaryPremium: def.salaryPremium,
+    founder: true,
+    joinedQuarter: state.quarter,
+    ...newProfile(state, id, def.discipline, def.level),
+    gender: def.gender,
+  }
 }
 
 /** The chance a candidate says yes to an offer right now. Pure. */
@@ -176,11 +202,39 @@ export function addCandidates(state: GameState, firm: Firm, n: number, interestB
   }
 }
 
-/** Sets up the startup phase for a new player firm. Call after the customers exist. */
-export function initStartup(state: GameState, firm: Firm, cofounder: string) {
-  firm.startup = { cofounder, hours: startupHours(cofounder), leads: [], candidates: [] }
-  firm.startup.leads = makeLeads(state, firm)
-  addCandidates(state, firm, STARTUP_FIRST_CANDIDATES + (cofounderDef(cofounder)?.perk.candidates ?? 0))
+/** Sets up the startup phase for a new player firm. The rest waits for the co-founder (handleChooseCofounder). */
+export function initStartup(firm: Firm) {
+  firm.startup = { hours: 0, leads: [], candidates: [] }
+}
+
+/** Who the player starts with: the first move of the game. The co-founder's perks, hours, leads and network follow. */
+export function handleChooseCofounder(state: GameState, a: ActionOf<'chooseCofounder'>): string | undefined {
+  const firm = state.firms[a.firmId]
+  const st = firm && !firm.bankrupt ? firm.startup : undefined
+  if (!st) return 'errors.notStartup'
+  if (st.cofounder !== undefined) return 'errors.alreadyDone'
+  const def = typeof a.cofounder === 'string' ? cofounderDef(a.cofounder) : undefined
+  if (!def) return 'errors.invalid'
+  firm.stars.push(cofounderStar(state, def))
+  firm.cash += def.perk.cash ?? 0
+  firm.reputation = clamp(firm.reputation + (def.perk.reputation ?? 0), 0, 100)
+  st.cofounder = def.id
+  st.hours = startupHours(def.id)
+  st.leads = makeLeads(state, firm)
+  addCandidates(state, firm, STARTUP_FIRST_CANDIDATES + (def.perk.candidates ?? 0))
+  const ceo = firm.stars.find((x) => x.ceo)?.name ?? firm.name
+  addNews(state, 'news.startup.cofounder', { name: def.name, ceo, firm: firm.name }, 'good', {
+    firmId: firm.id,
+    personal: true,
+  })
+  return undefined
+}
+
+/** Ending the first quarter without a co-founder (the UI won't let you, a bot or a log might) picks the first one. */
+export function ensureCofounder(state: GameState) {
+  const firm = state.firms[state.playerId]
+  if (firm.startup && firm.startup.cofounder === undefined)
+    handleChooseCofounder(state, { type: 'chooseCofounder', firmId: firm.id, cofounder: COFOUNDERS[0].id })
 }
 
 /** A new quarter in the co-working space: fresh hours and leads, the network moves on. Runs after `state.quarter` moved. */

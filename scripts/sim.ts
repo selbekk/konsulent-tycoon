@@ -96,9 +96,10 @@ function playGame(seed: number, strategy: string) {
     seed,
     firmName: 'Sim AS',
     founderDiscipline: 'backend',
-    cofounder,
     difficulty,
   })
+  // The co-founder is the first move of the game.
+  applyActionInPlace(state, { type: 'chooseCofounder', firmId: state.playerId, cofounder })
   const samples: Sample[] = []
   let bankruptAt: number | null = null
   // Keep the market running after the player goes bust, so AI health is measured over 40 quarters.

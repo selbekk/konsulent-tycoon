@@ -48,6 +48,7 @@ const SEEN: Record<Action['type'], boolean> = {
   trainEmployee: false,
   upsellContract: false,
   withdrawBid: false,
+  chooseCofounder: false,
   takeLead: false,
   recruit: false,
 }
@@ -57,10 +58,7 @@ describe('submission limits and real games', () => {
     const steps: Action[] = []
     for (const seed of [1, 2]) {
       // The player bot, then the AI firms, which use the backroom and the rest of the vocabulary.
-      const { state, log } = botRun(
-        { seed, firmName: 'X', founderDiscipline: 'backend', cofounder: 'ingrid', difficulty: 'normal' },
-        16,
-      )
+      const { state, log } = botRun({ seed, firmName: 'X', founderDiscipline: 'backend', difficulty: 'normal' }, 16)
       steps.push(...log.filter((e): e is Action => e !== 'end'))
       let s = state
       for (let q = 0; q < 8 && s.status === 'playing'; q++) {

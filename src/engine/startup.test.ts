@@ -45,17 +45,39 @@ describe('a new game in the co-working space', () => {
     expect(me(s).level).toBe(1)
   })
 
-  it('takes the co-founder from the gallery, perks included', () => {
-    const game = (cofounder: string) => createNewGame({ ...testOptions(), cofounder })
-    const aisha = game('aisha')
+  it('starts with only the player, called what they typed, until a co-founder is picked', () => {
+    const s = createNewGame(testOptions())
+    expect(me(s).stars).toHaveLength(1)
+    expect(me(s).stars[0]).toMatchObject({ name: 'Test Testesen', ceo: true, founder: true })
+    expect(me(s).startup).toEqual({ hours: 0, leads: [], candidates: [] })
+    expect(s.news.find((n) => n.key === 'news.game.welcome')?.params).toMatchObject({ ceo: 'Test Testesen' })
+    // Without a name, the drawn one stays.
+    expect(me(createNewGame({ ...testOptions(), ceoName: '  ' })).stars[0].name).not.toBe('')
+  })
+
+  it('takes the co-founder from the gallery, perks included, once', () => {
+    const aisha = newStartupGame(42, 'aisha')
     expect(me(aisha).cash).toBe(START_CASH.normal + 1_000_000)
     expect(me(aisha).stars[1]).toMatchObject({ name: 'Aisha Rahimi', discipline: 'data', level: 3, traits: ['mentor'] })
-    expect(me(game('kari')).reputation).toBe(48)
-    expect(st(game('jonas')).leads.map((l) => l.kind)).toContain('insider')
-    expect(st(game('ingrid')).hours).toBe(STARTUP_HOURS + 1)
-    expect(st(game('magnus')).hours).toBe(STARTUP_HOURS - 1)
-    // Unknown ids (a tampered submission) fall back to the first in the gallery.
-    expect(st(game('__proto__')).cofounder).toBe(COFOUNDERS[0].id)
+    expect(me(newStartupGame(42, 'kari')).reputation).toBe(48)
+    expect(st(newStartupGame(42, 'jonas')).leads.map((l) => l.kind)).toContain('insider')
+    expect(st(newStartupGame(42, 'ingrid')).hours).toBe(STARTUP_HOURS + 1)
+    expect(st(newStartupGame(42, 'magnus')).hours).toBe(STARTUP_HOURS - 1)
+    expect(aisha.news.some((n) => n.key === 'news.startup.cofounder')).toBe(true)
+    expect(applyAction(aisha, { type: 'chooseCofounder', firmId: 'player', cofounder: 'kari' }).error).toBe(
+      'errors.alreadyDone',
+    )
+    const fresh = createNewGame(testOptions())
+    for (const cofounder of ['nobody', '__proto__', 'constructor', 7])
+      expect(
+        applyAction(fresh, { type: 'chooseCofounder', firmId: 'player', cofounder: cofounder as string }).error,
+      ).toBe('errors.invalid')
+  })
+
+  it('picks the first co-founder if the quarter ends without one', () => {
+    const next = endTurn(createNewGame(testOptions()))
+    expect(st(next).cofounder).toBe(COFOUNDERS[0].id)
+    expect(me(next).stars).toHaveLength(2)
   })
 
   it('is deterministic and never touches the AI market', () => {
@@ -63,7 +85,7 @@ describe('a new game in the co-working space', () => {
     const b = endTurn(newStartupGame(9))
     expect(JSON.stringify(a)).toBe(JSON.stringify(b))
     // The co-founder changes the player's draws (roster RNG), not the rivals'.
-    const other = createNewGame({ ...testOptions(9), cofounder: 'ingrid' })
+    const other = newStartupGame(9, 'ingrid')
     const rivals = (s: GameState) => JSON.stringify(s.firmOrder.slice(1).map((id) => s.firms[id]))
     expect(rivals(other)).toBe(rivals(newStartupGame(9)))
   })

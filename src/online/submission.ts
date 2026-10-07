@@ -1,4 +1,3 @@
-import { COFOUNDER_IDS } from '../content/cofounders'
 import { isLeaderboardName } from '../content/leaderboardNames'
 import type { LeaderboardName } from '../content/leaderboardNames'
 import {
@@ -26,9 +25,8 @@ export interface RunSubmission {
   week: string
   /** The store's id for the playthrough, so sending the same game twice counts once. */
   gameId: string
-  /** The player's discipline and co-founder id, as the game started (the replay needs them). */
+  /** The player's discipline, as the game started (the replay needs it). The co-founder is a move in the log. */
   founder: Discipline
-  cofounder: string
   log: RunLog
   name: LeaderboardName
   /** What the player's own game ended at. Only compared, never trusted. */
@@ -81,12 +79,11 @@ export type VerifyResult =
 /** The firm name never affects play (replay.test.ts), so the server uses a placeholder instead of what the player typed. */
 const PLACEHOLDER_NAME = 'Spiller AS'
 
-export function submissionOptions(s: Pick<RunSubmission, 'week' | 'founder' | 'cofounder'>): NewGameOptions {
+export function submissionOptions(s: Pick<RunSubmission, 'week' | 'founder'>): NewGameOptions {
   return {
     seed: weekSeed(s.week),
     firmName: PLACEHOLDER_NAME,
     founderDiscipline: s.founder,
-    cofounder: s.cofounder,
     difficulty: WEEKLY_DIFFICULTY,
     weekly: s.week,
   }
@@ -100,7 +97,7 @@ export function buildSubmission(
   engineVersion: string,
 ): RunSubmission | null {
   if (
-    !game.weekly?.cofounder ||
+    !game.weekly?.founder ||
     !log ||
     !game.gameId ||
     game.status === 'playing' ||
@@ -112,7 +109,6 @@ export function buildSubmission(
     week: game.weekly.week,
     gameId: game.gameId,
     founder: game.weekly.founder,
-    cofounder: game.weekly.cofounder,
     log,
     name,
     claimedValuation: Math.round(valuation(game.firms[game.playerId])),
@@ -166,7 +162,6 @@ function parse(x: unknown): RunSubmission | null {
   if (typeof s.week !== 'string' || !WEEK_RE.test(s.week)) return null
   if (typeof s.gameId !== 'string' || !GAME_ID_RE.test(s.gameId)) return null
   if (!(DISCIPLINES as readonly unknown[]).includes(s.founder)) return null
-  if (typeof s.cofounder !== 'string' || !COFOUNDER_IDS.includes(s.cofounder)) return null
   if (!Array.isArray(s.log)) return null
   if (!s.log.every(stepOk)) return null
   if (!isLeaderboardName(s.name)) return null

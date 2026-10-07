@@ -52,7 +52,7 @@
   },
   "news": {
     "game": {
-      "welcome": "{{firm}} is founded! The company number is on its way, the coffee machine is leased and the LinkedIn post has 14 likes."
+      "welcome": "{{ceo}} has founded {{firm}}! The company number is on its way, the desk is booked and the LinkedIn post has 14 likes."
     },
     "staff": {
       "leftMany": "{{count}} employees quit this quarter. The farewell cake was dry.",
@@ -215,7 +215,8 @@
       "declined": "{{name}} said no. For now.",
       "rampUp_one": "{{customer}} are happy and want {{count}} more consultant.",
       "rampUp_other": "{{customer}} are happy and want {{count}} more consultants.",
-      "graduated": "{{firm}} is moving out of the co-working space and into an office of its own."
+      "graduated": "{{firm}} is moving out of the co-working space and into an office of its own.",
+      "cofounder": "{{ceo}} and {{name}} are starting {{firm}} together."
     }
   },
   "announcements": {
@@ -1232,7 +1233,7 @@
       "welcome": {
         "1": {
           "headline": "New consultancy opens its doors",
-          "body": "{{firm}} has been registered and already has more vision statements than employees. The founders promise “a new way of doing consulting”, as founders do.\n\nFor now, the firm works from a corner of a co-working space. The clients will have to be won."
+          "body": "{{firm}} has been registered and already has more vision statements than employees. “We're going to do consulting in a whole new way,” says CEO {{ceo}}, as founders do.\n\nFor now, the firm works from a corner of a co-working space. The clients will have to be won."
         }
       }
     },
@@ -1240,7 +1241,7 @@
       "leftMany": {
         "1": {
           "headline": "Exodus at {{player}}",
-          "body": "{{count}} employees handed in their notice at {{player}} this quarter. Our sources point to everything from pay to the coffee machine.\n\nHR says the farewell cake was “within budget”."
+          "body": "{{count}} employees handed in their notice at {{player}} this quarter. Our sources point to everything from pay to the coffee machine.\n\n“We take this very seriously,” says CEO {{ceo}}. HR says the farewell cake was “within budget”."
         }
       },
       "arrived": {
@@ -1315,19 +1316,19 @@
       "playerWon": {
         "1": {
           "headline": "{{player}} wins at {{customer}}",
-          "body": "{{player}} came out on top in the {{customer}} tender. There were {{bidders}} bids. {{strong}}\n\nThe win was celebrated at the office with pizza and a gong that was slightly too loud."
+          "body": "{{player}} came out on top in the {{customer}} tender. There were {{bidders}} bids. {{strong}}\n\n“We're proud and humbled,” says CEO {{ceo}}. The win was celebrated at the office with pizza and a gong that was slightly too loud."
         }
       },
       "playerWonFramework": {
         "1": {
           "headline": "A place on the framework",
-          "body": "{{player}} has been ranked number {{rank}} on the framework agreement with {{customer}}. {{strong}}\n\nA framework is no guarantee of work, but it's a foot in the door."
+          "body": "{{player}} has been ranked number {{rank}} on the framework agreement with {{customer}}. {{strong}}\n\nA framework is no guarantee of work, but it's a foot in the door. “Now we'll show them they chose right,” says CEO {{ceo}}."
         }
       },
       "playerLost": {
         "1": {
           "headline": "{{firm}} takes the contract",
-          "body": "{{player}} lost the {{customer}} tender to {{firm}}. {{weak}}\n\nThe sales team has already started on the next bid."
+          "body": "{{player}} lost the {{customer}} tender to {{firm}}. {{weak}}\n\n“We'll learn from it and move on,” says CEO {{ceo}}. The sales team has already started on the next bid."
         }
       },
       "playerLostBoth": {
@@ -1581,13 +1582,13 @@
       "playerBankrupt": {
         "1": {
           "headline": "{{firm}} goes bankrupt",
-          "body": "{{firm}} has gone bankrupt. The receiver has taken over the office, the clients and the foosball table.\n\nThe founders thank everyone for the journey on LinkedIn."
+          "body": "{{firm}} has gone bankrupt. The receiver has taken over the office, the clients and the foosball table.\n\nCEO {{ceo}} thanks everyone for the journey on LinkedIn."
         }
       },
       "bankWarning": {
         "1": {
           "headline": "The bank calls {{player}}",
-          "body": "{{player}} has been below its credit limit for a quarter, and the bank has been in touch. The tone was polite, but no longer warm.\n\nTwo quarters in a row, and it's over."
+          "body": "{{player}} has been below its credit limit for a quarter, and the bank has called CEO {{ceo}}. The tone was polite, but no longer warm.\n\nTwo quarters in a row, and it's over."
         }
       },
       "acquiredBy": {
@@ -1601,7 +1602,7 @@
       "up": {
         "1": {
           "headline": "{{player}} moves up",
-          "body": "{{player}} has reached level {{level}} and is moving into bigger offices. The removal company reports an unusual number of plants.\n\nNew opportunities come with the level."
+          "body": "{{player}} has reached level {{level}} and is moving into bigger offices. The removal company reports an unusual number of plants.\n\n“We've outgrown the old office, which is a nice problem to have,” says CEO {{ceo}}."
         }
       }
     },
@@ -1623,13 +1624,13 @@
       "miss": {
         "1": {
           "headline": "Disappointing quarter for {{player}}",
-          "body": "{{player}} delivered a weaker quarter than the last, and the share price fell. Analysts are using words like “concerning”.\n\nThe mood in the corridors is subdued."
+          "body": "{{player}} delivered a weaker quarter than the last, and the share price fell. Analysts are using words like “concerning”.\n\nCEO {{ceo}} has not responded to requests for comment. The mood in the corridors is subdued."
         }
       },
       "beat": {
         "1": {
           "headline": "{{player}} beats expectations",
-          "body": "{{player}} delivered a better quarter than the last, and the share price rose. Analysts are pleased, at least until the next quarter.\n\nSomeone in finance has bought cake."
+          "body": "{{player}} delivered a better quarter than the last, and the share price rose. Analysts are pleased, at least until the next quarter.\n\n“We take the long view,” says CEO {{ceo}}, checking the share price."
         }
       }
     },
@@ -1823,7 +1824,7 @@
       "first_profit": {
         "1": {
           "headline": "{{player}} turns a profit",
-          "body": "For the first time, {{player}} has made money in a quarter. The accountant sent a thumbs-up, which has never happened before.\n\nThe money goes to salaries, rent and, reportedly, better coffee beans."
+          "body": "For the first time, {{player}} has made money in a quarter. The accountant sent a thumbs-up, which has never happened before.\n\n“This was no accident. Well, mostly no accident,” says CEO {{ceo}}."
         }
       },
       "first_renewal": {
@@ -1841,7 +1842,7 @@
       "team_10": {
         "1": {
           "headline": "{{player}} hits ten",
-          "body": "{{player}} now has ten employees, which means the all-hands no longer fits around one table.\n\nA second coffee pot has been ordered."
+          "body": "{{player}} now has ten employees, which means the all-hands no longer fits around one table.\n\n“I still know everyone by name,” says CEO {{ceo}}. A second coffee pot has been ordered."
         }
       },
       "first_year": {
@@ -1859,13 +1860,13 @@
       "crisis_weathered": {
         "1": {
           "headline": "{{player}} gets through its crisis",
-          "body": "There was a crisis at {{player}}, and it went well. Or at least fine.\n\nOne employee says “you're not a real consultancy until you've had a crisis”. They have worked at three."
+          "body": "There was a crisis at {{player}}, and it went well. Or at least fine.\n\n“We learned a lot about ourselves,” says CEO {{ceo}}. One employee says “you're not a real consultancy until you've had a crisis”. They have worked at three."
         }
       },
       "revenue_10m": {
         "1": {
           "headline": "{{player}} passes ten million",
-          "body": "{{player}} billed more than ten million kroner last quarter.\n\nThe bank has sent flowers. It is the first thing they have ever sent that wasn't a reminder."
+          "body": "{{player}} billed more than ten million kroner last quarter.\n\nThe bank has sent CEO {{ceo}} flowers. It is the first thing they have ever sent that wasn't a reminder."
         }
       },
       "team_25": {
@@ -1883,7 +1884,7 @@
       "five_years": {
         "1": {
           "headline": "Five years of {{player}}",
-          "body": "{{player}} turns five. There are now employees who have never seen the first office.\n\nThe founders are happy to tell them about it. A little too happy, sources say."
+          "body": "{{player}} turns five. There are now employees who have never seen the first office.\n\nCEO {{ceo}} is happy to tell them about it. A little too happy, sources say."
         }
       },
       "team_100": {
@@ -1903,7 +1904,7 @@
       "revenue": {
         "1": {
           "headline": "Record quarter for {{player}}",
-          "body": "{{player}} billed {{amount}} last quarter, more than ever before.\n\nThe CEO thanks the staff. The staff thank the CEO for the cake."
+          "body": "{{player}} billed {{amount}} last quarter, more than ever before.\n\nCEO {{ceo}} thanks the staff. The staff thank {{ceo}} for the cake."
         }
       }
     },
@@ -2093,13 +2094,13 @@
       "leadTaken": {
         "1": {
           "headline": "{{player}} lands work at {{customer}}",
-          "body": "{{customer}} has hired {{player}} directly, without a tender. “They were available, and they answered their email,” says a source at the client.\n\nThe work starts right away."
+          "body": "{{customer}} has hired {{player}} directly, without a tender. “They were available, and they answered their email,” says a source at the client.\n\nCEO {{ceo}} confirms the work starts right away."
         }
       },
       "recruited": {
         "1": {
           "headline": "{{name}} joins {{player}}",
-          "body": "{{name}} has accepted a job at {{player}}. The decision was reportedly made over a coffee that lasted three hours.\n\nThe firm still works out of a co-working space."
+          "body": "{{name}} has accepted a job at {{player}}. The decision was reportedly made over a three-hour coffee with CEO {{ceo}}.\n\nThe firm still works out of a co-working space."
         }
       },
       "declined": {
@@ -2118,7 +2119,13 @@
       "graduated": {
         "1": {
           "headline": "{{player}} moves out",
-          "body": "{{player}} has given up its desks at the co-working space and is moving into an office of its own.\n\nThe barista says it will be quieter."
+          "body": "{{player}} has given up its desks at the co-working space and is moving into an office of its own. “This is where it gets real,” says CEO {{ceo}}.\n\nThe barista says it will be quieter."
+        }
+      },
+      "cofounder": {
+        "1": {
+          "headline": "{{ceo}} and {{name}} go it alone",
+          "body": "{{ceo}} and {{name}} have teamed up to start {{player}}. The two share a desk at a co-working space, a vision and, for now, one monitor.\n\n“We complement each other,” says {{ceo}}. {{name}} nods."
         }
       }
     }

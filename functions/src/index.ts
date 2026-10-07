@@ -79,7 +79,6 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
       gameId: submission.gameId,
       engineVersion: submission.engineVersion,
       founder: submission.founder,
-      cofounder: submission.cofounder,
       name: submission.name,
       log: JSON.stringify(submission.log),
       claimedValuation: submission.claimedValuation,
@@ -91,7 +90,6 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
       week: submission.week,
       name: submission.name,
       founder: submission.founder,
-      cofounder: submission.cofounder,
       ...run,
       submittedAt: now,
     })
@@ -103,7 +101,6 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
         week: submission.week,
         name: submission.name,
         founder: submission.founder,
-        cofounder: submission.cofounder,
         valuation: run.valuation,
         title: run.title,
         rank: run.rank,

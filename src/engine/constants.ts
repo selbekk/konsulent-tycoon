@@ -257,6 +257,8 @@ export const AI_START_CASH_PER_HEAD = 650_000
 export const AI_CASH_FACTOR: Record<Difficulty, number> = { easy: 0.8, normal: 1, hard: 1.3 }
 
 // Startup phase: the player's first quarters in a co-working space (engine/startup.ts, docs/plans/2026-10-07-oppstartsfasen.md)
+/** Longest name the player can give themselves (the CEO), in characters. */
+export const CEO_NAME_MAX = 40
 /** Evening hours per quarter; every recruiting move costs one. */
 export const STARTUP_HOURS = 5
 /** New people in the network each quarter, the most it holds, and how many quarters they stay. */

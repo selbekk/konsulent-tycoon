@@ -10,8 +10,8 @@ import { weekSeed } from './weekly'
 const opts: NewGameOptions = {
   seed: 7,
   firmName: 'Replay AS',
+  ceoName: 'Kari Replay',
   founderDiscipline: 'backend',
-  cofounder: 'aisha',
   difficulty: 'normal',
 }
 /** The whole state as JSON, without the store's `gameId` (the engine never sees it). */
@@ -31,12 +31,15 @@ describe('replay', () => {
     expect(json(replay.state)).toBe(json(state))
   })
 
-  it('the firm name is only shown, never played, so the server can replay with a placeholder', () => {
+  it('the firm and CEO names are only shown, never played, so the server can replay with placeholders', () => {
     const { state, log } = botRun(opts, 6)
-    const replay = replayRun({ ...opts, firmName: 'Spiller AS' }, log)
+    const replay = replayRun({ ...opts, firmName: 'Spiller AS', ceoName: 'Spiller Spillersen' }, log)
     expect(replay.error).toBeUndefined()
-    // The name turns up in the firm and in news params, and nowhere else.
-    expect(JSON.stringify(replay.state).replaceAll('Spiller AS', 'Replay AS')).toBe(JSON.stringify(state))
+    // The names turn up in the firm, the CEO star and in news params, and nowhere else.
+    const renamed = JSON.stringify(replay.state)
+      .replaceAll('Spiller AS', 'Replay AS')
+      .replaceAll('Spiller Spillersen', 'Kari Replay')
+    expect(renamed).toBe(JSON.stringify(state))
   })
 
   it('stops at the first step that fails', () => {
@@ -60,7 +63,7 @@ describe('replay', () => {
 
   it('a weekly game carries its week and seed', () => {
     const s = createNewGame({ ...opts, seed: weekSeed('2026-W39'), weekly: '2026-W39' })
-    expect(s.weekly).toEqual({ week: '2026-W39', founder: 'backend', cofounder: 'aisha' })
+    expect(s.weekly).toEqual({ week: '2026-W39', founder: 'backend' })
     expect(s.seed).toBe(weekSeed('2026-W39'))
     expect(createNewGame(opts).weekly).toBeUndefined()
   })

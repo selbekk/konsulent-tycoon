@@ -66,6 +66,7 @@ export function Onboarding() {
   const last = index === STEPS.length - 1
   const params = {
     firm: me.name,
+    ceo: me.stars.find((x) => x.ceo)?.name ?? '',
     quarters: game.maxQuarters,
     start: formatQuarter(0),
     end: formatQuarter(game.maxQuarters - 1),
@@ -75,7 +76,7 @@ export function Onboarding() {
     contracts: t('tabs.contracts'),
     dashboard: t('tabs.dashboard'),
     endTurn: t('shell.endTurn'),
-    cofounder: me.stars.find((x) => me.startup && x.id === cofounderStarId(me.startup.cofounder))?.name ?? '',
+    cofounder: me.stars.find((x) => x.id === cofounderStarId(me.startup?.cofounder ?? ''))?.name ?? '',
     hours: me.startup ? startupHours(me.startup.cofounder) : 0,
   }
   // Back disappears on the first step; keep focus inside the dialog when it does.

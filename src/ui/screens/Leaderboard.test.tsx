@@ -85,7 +85,6 @@ describe('leaderboard UI', () => {
       seed: weekSeed(week),
       firmName: 'Hemmelig AS',
       founderDiscipline: 'backend',
-      cofounder: 'magnus',
       difficulty: 'normal',
       weekly: week,
     })
@@ -102,9 +101,7 @@ describe('leaderboard UI', () => {
   })
 
   it('has no leaderboard panel for a free game', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 3, firmName: 'Fri AS', founderDiscipline: 'backend', cofounder: 'magnus', difficulty: 'easy' })
+    useGame.getState().newGame({ seed: 3, firmName: 'Fri AS', founderDiscipline: 'backend', difficulty: 'easy' })
     useGame.setState({ game: { ...useGame.getState().game!, status: 'finished' } })
     render(<EndGame />)
     expect(screen.queryByRole('button', { name: 'Join and send' })).not.toBeInTheDocument()
@@ -124,7 +121,6 @@ describe('leaderboard UI', () => {
       seed: weekSeed(week),
       firmName: 'Senere AS',
       founderDiscipline: 'backend',
-      cofounder: 'magnus',
       difficulty: 'normal',
       weekly: week,
     })

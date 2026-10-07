@@ -71,8 +71,9 @@
     },
     "founder": "Your discipline",
     "founderHint": "You're one of the founders. You're a star from day one, and you never leave.",
-    "cofounder": "Who are you starting with?",
-    "cofounderHint": "Your co-founder stays for the whole game, along with what they're good at and what they aren't."
+    "ceo": "What's your name?",
+    "ceoPlaceholder": "Your name",
+    "ceoHint": "You're the CEO, and your name turns up in the news. It stays on this device and is never sent anywhere."
   },
   "settings": {
     "title": "Settings",
@@ -123,20 +124,21 @@
       "title": "Open in another tab",
       "body": "You've carried on playing in another tab or window, so what you see here is out of date. Load the latest save to keep going.",
       "resume": "Continue here"
-    }
+    },
+    "ceo": "CEO: {{name}}"
   },
   "bjorn": {
     "name": "Chairman Bjørn",
-    "start": "Welcome to your own office. From here on, you'll have to win the work yourselves.",
+    "start": "Welcome to your own office, {{name}}. From here on, you'll have to win the work yourselves.",
     "inCredit": "We're living on the credit line now. The bank sends Christmas cards, but not the nice kind.",
     "heat": "I don't want to know what you're up to. But be careful.",
     "overworked": "People are working too much. Good for this quarter, bad for the next.",
-    "bench": "Too many people on the bench. Win something, or rethink the staffing.",
-    "losing": "We're losing money. That's not a strategy.",
+    "bench": "Too many people on the bench, {{name}}. Win something, or rethink the staffing.",
+    "losing": "{{name}}, we're losing money. That's not a strategy.",
     "growing": "We're growing. Remember people need to be happy too.",
     "fine": "Steady as she goes. The board is pleased, meaning me.",
-    "endLost": "It didn't work out this time. The next company will be better.",
-    "endGreat": "Impressive. I'll take the credit at the next board meeting.",
+    "endLost": "It didn't work out this time, {{name}}. The next company will be better.",
+    "endGreat": "Impressive, {{name}}. I'll take the credit at the next board meeting.",
     "endOk": "A proper company. That's more than most manage."
   },
   "dashboard": {
@@ -668,7 +670,8 @@
     "clean": "You never cheated. Not once.",
     "shady": "You did {{total}} shady things and got caught {{detected}} times.",
     "menu": "Main menu",
-    "again": "Play again"
+    "again": "Play again",
+    "ceo": "{{name}}, CEO of {{firm}}"
   },
   "share": {
     "button": "Share your result",
@@ -958,7 +961,7 @@
     "progress": "Step {{n}} of {{total}}",
     "goal": {
       "title": "Ten years, one quarter at a time",
-      "body": "You've just founded {{firm}}. You have {{quarters}} quarters, from {{start}} to {{end}}, to build the most valuable consultancy in the country. {{rivals}} other firms have the same idea.",
+      "body": "You, {{ceo}}, have just founded {{firm}}. You have {{quarters}} quarters, from {{start}} to {{end}}, to build the most valuable consultancy in the country. {{rivals}} other firms have the same idea.",
       "points": [
         "Your firm's value is last year's operating profit times a multiple that follows your reputation, plus the cash in the bank.",
         "Whoever is worth the most when time runs out wins.",
@@ -1387,7 +1390,8 @@
         "title": "You now start in a co-working space",
         "body": [
           "I've had a fair bit of feedback that Konsulent Tycoon is a bit… much. Especially at the start. You got a whole dashboard, a tender board full of clients, four employees you never picked and a handful of tabs before you'd even finished your coffee. That's not what starting a consultancy is like. So I've done something about it.",
-          "You now start as two founders in a corner of a co-working space. You pick your own discipline, and then you pick who you're starting with: Ingrid, Magnus “10x”, Marte, Jonas, Aisha or Kari. Each of them makes something easier and something harder, and that sticks with you the whole way. Magnus is ridiculously good, but he's not exactly who you send out for coffee. No employees, no starter contract, no tabs. Just the two of you.",
+          "You now start as two founders in a corner of a co-working space. First you pick your own discipline. Then, once the firm is founded, you pick who you're starting with: Ingrid, Magnus “10x”, Marte, Jonas, Aisha or Kari. Each of them makes something easier and something harder, and that sticks with you the whole way. Magnus is ridiculously good, but he's not exactly who you send out for coffee. No employees, no starter contract, no tabs. Just the two of you.",
+          "The game now also asks for your name. You're the CEO, and you'll notice: you're the one quoted in the news when you win a tender, and you're the one Chairman Bjørn has words with when the money runs out. Your name stays on your own device and is never sent anywhere.",
           "Every quarter, a few jobs land on the table. A safe, long one, a client that's growing and will want more people later, or a short, well-paid prestige job. You pick one, and there's no bidding. Say yes and the work is yours. People come from your network, one at a time, paid for in evening hours: a coffee to find out what they like, drinks or a LinkedIn message, and finally an offer. The co-working space has its own little dramas too, like the wifi being down (again), pitch night, and a barista who knows a CTO. Crises can wait.",
           "Once you reach level 2, you move into an office of your own. That's when the rest of the game opens up: tabs, tenders, hiring and Chairman Bjørn, who has been waiting patiently to say something.",
           "One more thing: if you're in the middle of a weekly challenge from before this change, you can finish it, but it can't go on the leaderboard. The engine simply changed too much. Next week, everyone starts with a clean slate. Good luck in the co-working space!"
@@ -1534,6 +1538,14 @@
       "ramp_one": "Wants {{count}} more from {{quarter}}.",
       "ramp_other": "Wants {{count}} more from {{quarter}}.",
       "noWork": "No work yet. Pick one of the jobs above."
+    },
+    "cofounder": {
+      "title": "Who are you starting with?",
+      "intro": "Congratulations, {{ceo}}! {{firm}} is registered and the desk is booked. But nobody starts a consultancy on their own. Who are you going to call?",
+      "hint": "Your co-founder stays for the whole game, along with what they're good at and what they aren't.",
+      "pick": "Pick a co-founder",
+      "confirm": "Start with {{name}}",
+      "endTurnHint": "Pick a co-founder first."
     }
   }
 }

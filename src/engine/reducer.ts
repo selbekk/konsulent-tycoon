@@ -19,7 +19,7 @@ import { handleResolveEvent } from './events'
 import { hasFeature, tenderLock } from './levels'
 import { employeeOf, removePeople } from './roster'
 import { handleShady } from './shady'
-import { handleRecruit, handleTakeLead } from './startup'
+import { handleChooseCofounder, handleRecruit, handleTakeLead } from './startup'
 import { handleChooseSpecialty, handleIpo, handleLobby, handleSetDepartment, handleSetPartnership } from './strategy'
 import { starSigningCost } from './stars'
 import { clampRate, effortCost, isKeyTender } from './tenders'
@@ -210,6 +210,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   setMentor: handleSetMentor,
   setStretch: handleSetStretch,
   careerTalk: handleCareerTalk,
+  chooseCofounder: handleChooseCofounder,
   takeLead: handleTakeLead,
   recruit: handleRecruit,
 }

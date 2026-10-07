@@ -18,7 +18,7 @@ import { valuation } from './score'
 import { decayHeatAndIntel, rollShadyDetection } from './shady'
 import { applyTurnover, processHiring, updateMorale } from './staff'
 import { refreshStarMarket, updateStars } from './stars'
-import { applyRamps, startupQuarter } from './startup'
+import { applyRamps, ensureCofounder, startupQuarter } from './startup'
 import { publishTenders, resolveDueTenders, retenderContracts } from './tenders'
 import type { GameState } from './types'
 import { addNews, aiFirms, activeFirms } from './util'
@@ -96,6 +96,7 @@ function checkBankruptcies(state: GameState) {
 export function endTurn(input: GameState): GameState {
   if (input.status !== 'playing') return input
   const state = structuredClone(input)
+  ensureCofounder(state)
   autoResolveEvents(state)
 
   runAiTurns(state)

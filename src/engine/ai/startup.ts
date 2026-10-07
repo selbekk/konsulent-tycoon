@@ -1,3 +1,4 @@
+import { COFOUNDER_IDS } from '../../content/cofounders'
 import { STARTUP_LEADS } from '../constants'
 import { creditLimit, headcount, quarterFinancials, staffFirm } from '../economy'
 import { applyActionInPlace } from '../reducer'
@@ -35,6 +36,9 @@ export function planStartup(input: GameState): Action[] {
   const act = (a: Action) => {
     if (!applyActionInPlace(state, a)) actions.push(a)
   }
+  // Any co-founder will do; the seed spreads the bots over the gallery.
+  if (firm.startup.cofounder === undefined)
+    act({ type: 'chooseCofounder', firmId, cofounder: COFOUNDER_IDS[state.seed % COFOUNDER_IDS.length] })
 
   // Only a firm losing money worries about runway; freelancers on the leads make costs look scarier than they are.
   const tight = () => {

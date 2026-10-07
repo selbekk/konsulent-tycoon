@@ -48,6 +48,8 @@ export interface Star extends Profile {
   homegrown?: boolean
   /** Quarter the star joined this firm. Missing in early saves and for AI stars from the start. */
   joinedQuarter?: number
+  /** The player: the founder with the name they typed in. Never counted in the gender statistics. */
+  ceo?: boolean
 }
 
 /**
@@ -258,8 +260,8 @@ export interface Candidate {
 }
 
 export interface StartupState {
-  /** Id from content/cofounders.ts. */
-  cofounder: string
+  /** Id from content/cofounders.ts, picked in the first quarter (chooseCofounder). Nothing else happens before. */
+  cofounder?: string
   /** Evening hours left this quarter; every recruiting move costs one. */
   hours: number
   leads: Lead[]
@@ -470,9 +472,10 @@ export interface GameState {
   gameId?: string
   /**
    * Set when this is the weekly challenge (weekly.ts): everyone plays the week's seed and it can go on the
-   * leaderboard. `week` is the ISO week (`'2026-W39'`); `founder` and `cofounder` are what the game started with, for the replay.
+   * leaderboard. `week` is the ISO week (`'2026-W39'`); `founder` is the player's discipline, for the replay. The
+   * co-founder is a move in the game, so the log carries it.
    */
-  weekly?: { week: string; founder: Discipline; cofounder: string }
+  weekly?: { week: string; founder: Discipline }
   status: 'playing' | 'lost' | 'finished'
   idCounter: number
 }
@@ -529,6 +532,8 @@ export type Action =
   | { type: 'cancelContract'; firmId: FirmId; contractId: string }
   | { type: 'upsellContract'; firmId: FirmId; contractId: string; discipline: Discipline; count: number }
   | { type: 'nurtureContract'; firmId: FirmId; contractId: string }
+  /** Startup phase, first quarter: who the player starts the firm with. */
+  | { type: 'chooseCofounder'; firmId: FirmId; cofounder: string }
   /** Startup phase: take one of this quarter's leads. */
   | { type: 'takeLead'; firmId: FirmId; leadId: string }
   /** Startup phase: spend an evening hour on someone in the network. */

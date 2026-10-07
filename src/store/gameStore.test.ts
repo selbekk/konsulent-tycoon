@@ -114,7 +114,6 @@ describe('gameStore', () => {
       ...testOptions(11),
       firmName: 'Logg AS',
       founderDiscipline: 'backend',
-      cofounder: 'jonas',
     }
     /** The whole state as JSON, without the store's `gameId` (the engine never sees it). */
     const json = (s: object) => JSON.stringify(s, (k, v) => (k === 'gameId' ? undefined : v))
@@ -181,13 +180,14 @@ describe('gameStore', () => {
 
     it('comes back with the autosave, and only for the same game', () => {
       useGame.getState().newGame(opts)
+      useGame.getState().dispatch({ type: 'chooseCofounder', firmId: 'player', cofounder: 'jonas' })
       const candidateId = useGame.getState().game!.firms.player.startup!.candidates[0].person.id
       expect(
         useGame.getState().dispatch({ type: 'recruit', firmId: 'player', candidateId, move: 'coffee' }),
       ).toBeUndefined()
       useGame.getState().endTurn()
       const log = useGame.getState().log
-      expect(log).toHaveLength(2)
+      expect(log).toHaveLength(3)
       useGame.getState().quit()
       expect(useGame.getState().log).toBeNull()
       expect(useGame.getState().load()).toBe(true)

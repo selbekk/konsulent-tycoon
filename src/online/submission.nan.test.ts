@@ -19,7 +19,6 @@ describe('leaderboard submission with a broken valuation', () => {
       seed: weekSeed(week),
       firmName: 'X',
       founderDiscipline: 'frontend',
-      cofounder: 'ingrid',
       difficulty: 'normal',
       weekly: week,
     })
@@ -28,7 +27,6 @@ describe('leaderboard submission with a broken valuation', () => {
       week,
       gameId: 'test-game-0001',
       founder: 'frontend',
-      cofounder: 'ingrid',
       log,
       name: ['moose', 'owl', 'as'],
       claimedValuation: 0,

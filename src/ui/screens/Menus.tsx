@@ -1,22 +1,12 @@
 import { useCallback, useState, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  DISCIPLINES,
-  MAX_QUARTERS,
-  WEEKLY_DIFFICULTY,
-  cofounderStarId,
-  isoWeek,
-  listSlots,
-  weekSeed,
-} from '../../engine'
-import { COFOUNDERS } from '../../content/cofounders'
+import { CEO_NAME_MAX, DISCIPLINES, MAX_QUARTERS, WEEKLY_DIFFICULTY, isoWeek, listSlots, weekSeed } from '../../engine'
 import { FIRMS } from '../../content/firms'
 import type { Difficulty, Discipline } from '../../engine'
 import { denyConsent, grantConsent, setAnalyticsContext, track } from '../../analytics'
 import { useConsent } from '../../analytics/consent'
 import { LOCALES, setLocale } from '../../i18n'
 import { useGame } from '../../store/gameStore'
-import { Portrait } from '../components/Portrait'
 import { Button, Hint, Panel, Slider } from '../components/ui'
 import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/install'
 import { playSound } from '../sound'
@@ -31,7 +21,6 @@ import { StandupBingo } from '../eggs/StandupBingo'
 import { AccountSection } from './Leaderboard'
 import m from './menu.module.css'
 import s from './screens.module.css'
-import u from './startup.module.css'
 
 function Skyline({ built = false }: { built?: boolean }) {
   // Pixel-art Oslo-ish skyline: office blocks, a crane and the Opera roof.
@@ -227,7 +216,7 @@ export function NewGame() {
   const newGame = useGame((x) => x.newGame)
   const [name, setName] = useState('')
   const [founder, setFounder] = useState<Discipline>('backend')
-  const [cofounder, setCofounder] = useState(COFOUNDERS[0].id)
+  const [ceo, setCeo] = useState('')
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const [seed, setSeed] = useState('')
   const [weekly, setWeekly] = useState(false)
@@ -241,7 +230,7 @@ export function NewGame() {
         seed: weekly ? weekSeed(week) : customSeed ? parsed : Math.floor(Math.random() * 2 ** 31),
         firmName: name.trim() || t('newGame.defaultName'),
         founderDiscipline: founder,
-        cofounder,
+        ceoName: ceo.trim(),
         difficulty: weekly ? WEEKLY_DIFFICULTY : difficulty,
         ...(weekly ? { weekly: week } : {}),
       },
@@ -267,6 +256,19 @@ export function NewGame() {
               <Hint>
                 {weekly ? t('newGame.modeHints.weekly', { week: weekText(t, week) }) : t('newGame.modeHints.free')}
               </Hint>
+            </div>
+            <div className={s.field}>
+              <label htmlFor="ceo-name">{t('newGame.ceo')}</label>
+              <input
+                id="ceo-name"
+                className={s.input}
+                value={ceo}
+                maxLength={CEO_NAME_MAX}
+                autoComplete="name"
+                placeholder={t('newGame.ceoPlaceholder')}
+                onChange={(e) => setCeo(e.target.value)}
+              />
+              <Hint>{t('newGame.ceoHint')}</Hint>
             </div>
             <div className={s.field}>
               <label htmlFor="firm-name">{t('newGame.name')}</label>
@@ -296,36 +298,6 @@ export function NewGame() {
                 ))}
               </div>
               <Hint>{t('newGame.founderHint')}</Hint>
-            </div>
-            <div className={s.field}>
-              <span className={s.fieldLabel} id="cofounder-label">
-                {t('newGame.cofounder')}
-              </span>
-              <div className={u.gallery} role="group" aria-labelledby="cofounder-label">
-                {COFOUNDERS.map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    className={u.cofounder}
-                    aria-pressed={cofounder === c.id}
-                    onClick={() => setCofounder(c.id)}
-                  >
-                    <span className={s.cardTitle}>
-                      <Portrait seed={cofounderStarId(c.id)} size={32} />
-                      <span className={u.who}>
-                        <span>{c.name}</span>
-                        <span className={`${s.small} ${s.muted}`}>
-                          {t(`disciplines.${c.discipline}`)} · {t('startup.level', { level: c.level })}
-                        </span>
-                      </span>
-                    </span>
-                    <span className={s.small}>{t(`content:cofounders.${c.id}.blurb`)}</span>
-                    <span className={u.pro}>+ {t(`content:cofounders.${c.id}.pro`)}</span>
-                    <span className={u.con}>− {t(`content:cofounders.${c.id}.con`)}</span>
-                  </button>
-                ))}
-              </div>
-              <Hint>{t('newGame.cofounderHint')}</Hint>
             </div>
             {!weekly && (
               <div className={s.field}>

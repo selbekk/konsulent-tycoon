@@ -10,17 +10,22 @@ import { buildRoster } from './roster'
 import { endTurn } from './turn'
 import type { GameState, Tender } from './types'
 
-/** Options for a test game: a frontend founder and Magnus (backend) as co-founder. */
+/** Options for a test game: a frontend founder called Test Testesen. */
 export const testOptions = (seed = 42): NewGameOptions => ({
   seed,
   firmName: 'Test AS',
+  ceoName: 'Test Testesen',
   founderDiscipline: 'frontend',
-  cofounder: 'magnus',
   difficulty: 'normal',
 })
 
-/** A new game as the player sees it: two founders in the co-working space. */
-export const newStartupGame = (seed = 42): GameState => createNewGame(testOptions(seed))
+/** A new game as the player sees it once they have picked a co-founder (Magnus, backend, by default). */
+export function newStartupGame(seed = 42, cofounder = 'magnus'): GameState {
+  const s = createNewGame(testOptions(seed))
+  const r = applyAction(s, { type: 'chooseCofounder', firmId: s.playerId, cofounder })
+  if (r.error) throw new Error(r.error)
+  return r.state
+}
 
 /**
  * Ends the startup phase and gives the player the start the game had before it: the two founders plus four

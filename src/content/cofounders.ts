@@ -107,6 +107,6 @@ export const COFOUNDERS: CofounderDef[] = [
 export const COFOUNDER_IDS = COFOUNDERS.map((c) => c.id)
 
 /** Looks a co-founder up by id; undefined for anything else (ids can come from a leaderboard log). */
-export function cofounderDef(id: string): CofounderDef | undefined {
-  return COFOUNDERS.find((c) => c.id === id)
+export function cofounderDef(id: string | undefined): CofounderDef | undefined {
+  return id === undefined ? undefined : COFOUNDERS.find((c) => c.id === id)
 }

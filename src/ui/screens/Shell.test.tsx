@@ -118,7 +118,7 @@ describe('onboarding', () => {
   it('shows the guide on a new game and walks through every step', () => {
     render(<Shell />)
     const dialog = () => screen.getByRole('dialog')
-    expect(within(dialog()).getByText(/you've just founded test as\. you have 40 quarters/i)).toBeInTheDocument()
+    expect(within(dialog()).getByText(/you, test testesen, have just founded test as\./i)).toBeInTheDocument()
     expect(within(dialog()).getByText(/step 1 of 5/i)).toBeInTheDocument()
     expect(within(dialog()).queryByRole('button', { name: /^back$/i })).not.toBeInTheDocument()
 
@@ -141,6 +141,21 @@ describe('onboarding', () => {
     fireEvent.click(within(dialog()).getByRole('button', { name: /let's go/i }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(useGame.getState().onboarding).toBe(false)
+  })
+
+  it('starts by picking a co-founder, before the intro and before the quarter can end', () => {
+    newStoreGame({ seed: 7, firmName: 'Test AS' }, null)
+    render(<Shell />)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getByText(/congratulations, test testesen!/i)).toBeInTheDocument()
+    expect(screen.getByText('CEO: Test Testesen')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /end quarter/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /pick a co-founder/i })).toBeDisabled()
+    fireEvent.click(screen.getByRole('button', { name: /aisha rahimi/i }))
+    fireEvent.click(screen.getByRole('button', { name: /start with aisha rahimi/i }))
+    expect(useGame.getState().game!.firms.player.startup!.cofounder).toBe('aisha')
+    expect(useGame.getState().log).toEqual([{ type: 'chooseCofounder', firmId: 'player', cofounder: 'aisha' }])
+    expect(within(screen.getByRole('dialog')).getByText(/step 1 of 5/i)).toBeInTheDocument()
   })
 
   it('shows the co-working space without tabs, and the dashboard intro once the firm moves out', () => {

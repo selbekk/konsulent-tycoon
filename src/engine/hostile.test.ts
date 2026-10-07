@@ -242,6 +242,9 @@ describe('hostile actions in the co-working space', () => {
     for (const move of [...odd, 'hug'])
       expect(expectHarmless({ type: 'recruit', firmId: 'player', candidateId, move }).error).toBeTruthy()
     expect(expectHarmless({ type: 'takeLead', firmId: rival, leadId: st.leads[0].id }).error).toBeTruthy()
+    for (const cofounder of [...odd, 'kari'])
+      expect(expectHarmless({ type: 'chooseCofounder', firmId: 'player', cofounder }).error).toBeTruthy()
+    expect(expectHarmless({ type: 'chooseCofounder', firmId: rival, cofounder: 'kari' }).error).toBeTruthy()
     expect(expectHarmless({ type: 'recruit', firmId: rival, candidateId, move: 'coffee' }).error).toBeTruthy()
   })
 

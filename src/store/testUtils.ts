@@ -2,9 +2,10 @@ import { skipStartup, testOptions } from '../engine/testUtils'
 import type { NewGameOptions } from '../engine'
 import { useGame } from './gameStore'
 
-/** Starts a game through the store, as the menu does, with the test options and any overrides. */
-export function newStoreGame(opts: Partial<NewGameOptions> = {}) {
+/** Starts a game through the store, as the menu does, and picks Magnus as co-founder (unless `cofounder` is null). */
+export function newStoreGame(opts: Partial<NewGameOptions> = {}, cofounder: string | null = 'magnus') {
   useGame.getState().newGame({ ...testOptions(), ...opts })
+  if (cofounder) useGame.getState().dispatch({ type: 'chooseCofounder', firmId: 'player', cofounder })
 }
 
 /**
