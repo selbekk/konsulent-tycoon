@@ -1383,6 +1383,16 @@
   "news": {
     "title": "News",
     "posts": {
+      "cowork": {
+        "title": "You now start in a co-working space",
+        "body": [
+          "I've had a fair bit of feedback that Konsulent Tycoon is a bit… much. Especially at the start. You got a whole dashboard, a tender board full of clients, six employees you never picked and a handful of tabs before you'd even finished your coffee. That's not what starting a consultancy is like. So I've done something about it.",
+          "You now start as two founders in a corner of a co-working space. You pick your own discipline, and then you pick who you're starting with: Ingrid, Magnus “10x”, Marte, Jonas, Aisha or Kari. Each of them makes something easier and something harder, and that sticks with you the whole way. Magnus is ridiculously good, but he's not exactly who you send out for coffee. No employees, no starter contract, no tabs. Just the two of you.",
+          "Every quarter, a few jobs land on the table. A safe, long one, a client that's growing and will want more people later, or a short, well-paid prestige job. You pick one, and there's no bidding. Say yes and the work is yours. People come from your network, one at a time, paid for in evening hours: a coffee to find out what they like, drinks or a LinkedIn message, and finally an offer. The co-working space has its own little dramas too, like the wifi being down (again), pitch night, and a barista who knows a CTO. Crises can wait.",
+          "Once you reach level 2, you move into an office of your own. That's when the rest of the game opens up: tabs, tenders, hiring and Chairman Bjørn, who has been waiting patiently to say something.",
+          "One more thing: if you're in the middle of a weekly challenge from before this change, you can finish it, but it can't go on the leaderboard. The engine simply changed too much. Next week, everyone starts with a clean slate. Good luck in the co-working space!"
+        ]
+      },
       "launch": {
         "title": "You're allowed to tell people now",
         "body": [

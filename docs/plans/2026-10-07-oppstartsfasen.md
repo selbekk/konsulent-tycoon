@@ -2,7 +2,7 @@
 
 Utgangspunkt: spillere sier at starten er «mye». Du får hele dashbordet, anbudstavla, bemanning, kontrakter og nøkkeltall fra første kvartal, med seks ansatte du ikke har valgt. Målet er en personlig og liten start der hvert valg er tydelig, og at dashbordet kommer først når firmaet har vokst ut av den.
 
-Status: under bygging (2026-10-07).
+Status: ferdig (2026-10-07). Tallene under er de som ble valgt; `constants.ts` er fasit.
 
 ## Beslutninger (intervju med Kristofer 2026-10-07)
 
@@ -39,11 +39,11 @@ Seks håndlagde personer. Hver har fagområde, nivå, stjernetraits fra `content
 
 - Lages ved spillstart og ved hvert kvartalsskifte mens fasen varer, fra `state.rng`.
 - Tre typer, én av hver per kvartal:
-  - **Trygg** (offentlig kunde): lang (6–8 kvartaler), pris 0,9.
-  - **Vekst** (hypet kunde): pris 0,95, 4–6 kvartaler, og kunden vil ha to seter til etter to kvartaler (`ramp`). Kul kunde gir bedre kandidater via porteføljen.
-  - **Prestisje** (stor privat kunde): kort (2–3), pris 1,15, gir omdømme og relasjon. Ett sete mer enn dere har ledig.
-  - **Innsidelead** (bare med én bestemt medgründer): en fjerde, godt betalt avtale.
-- Størrelsen følger ledige folk i kvartalet (minst ett sete), i fagområdene til de ledige.
+  - **Trygg** (offentlig kunde): lang (6–8 kvartaler), pris 0,85.
+  - **Vekst** (hypet kunde): pris 0,9, 5–6 kvartaler, og kunden vil ha to seter til etter to kvartaler (`ramp`). Kul kunde gir bedre kandidater via porteføljen.
+  - **Prestisje** (stor privat kunde): kort (2–3), pris 1,05, gir omdømme og relasjon. Ett sete ekstra, enten noen er ledige eller ikke.
+  - **Innsidelead** (bare med Jonas): en fjerde avtale, pris 1,0.
+- Hvert lead har en størrelse (1–3, trukket når det lages): så mange av de ledige tar kunden med, kundens favorittfag først. Minst ett sete. Først tok et lead alle ledige, men da satt ingen på benken, og botene endte langt over den gamle starten (se balanseloggen).
 - Et lead du tar, blir en kontrakt som starter _samme kvartal_ (det er et direkteoppdrag, ikke et anbud). Leads teller ikke som vunne anbud, ellers ville tre kvartaler gitt nivå 2.
 
 ### Nettverket (rekruttering)

@@ -11,7 +11,7 @@ Et turbasert strategispill i nettleseren. Du starter et IT-konsulentselskap og h
 | Tur     | 1 tur = 1 kvartal, 40 turer (`MAX_QUARTERS`).                                                                                                                                              |
 | Seier   | Høyest **selskapsverdi** ved slutt: EBITDA for de siste fire kvartalene × en multippel styrt av omdømme, pluss kontanter (`score.ts`). Spilleren rangeres mot AI-ene og får en sluttittel. |
 | Tap     | Konkurs når kontantene har vært under kassekreditten to kvartaler på rad.                                                                                                                  |
-| Likhet  | Spilleren og AI-ene er samme `Firm` og følger de samme reglene. AI-en har ingen snarveier.                                                                                                 |
+| Likhet  | Spilleren og AI-ene er samme `Firm` og følger de samme reglene. AI-en har ingen snarveier. Unntaket er oppstartsfasen: leads og nettverket finnes bare for spilleren.                      |
 | Språk   | Bokmål (standard) og engelsk.                                                                                                                                                              |
 | Lagring | Bare autolagring etter hver handling, lokalt i nettleseren. Manuelle plasser er fjernet, fordi de gjorde minispill og utfall mulige å ta om.                                               |
 
@@ -45,6 +45,18 @@ De 20 andre bygger på arketyper (`engine/ai/personalities.ts`): `boutique_nerd`
 Kundene (`content/customers.ts`) er parodier på offentlige og private kunder: _NAVet_, _Skatteetat'n_, _DNBank_, _Fintech-startupen Kryptonitt_ og flere. Hver kunde har sektor, budsjett, prisfølsomhet, foretrukne fagområder, en skjult møtestil og et løfte den helst vil ha. De har også en personlighet: ti egenskaper fra 1 til 5 (søkertrykk, teknologi, modenhet, erfaringskrav, kontor, samfunnsnytte, tempo, byråkrati, hjemmekontor og lojalitet) og en beskrivelse av hva de driver med. Kundene du har folk hos, påvirker hvor attraktiv du er som arbeidsgiver: kule kunder gir flere ja-svar og flinkere nyansatte. Erfaringskrav gjør CV-nivået viktigere i anbudet, modne kunder er lettere å gjøre fornøyde, og lojale kunder forlenger oftere.
 
 ## Spillmodellen
+
+### Oppstartsfasen
+
+Spilleren starter ikke med et ferdig konsulenthus, men med to gründere i et hjørne av et kontorfellesskap: seg selv (valgt fagområde) og en medgründer fra et galleri med seks personer (`content/cofounders.ts`). Hver medgründer gjør noe lettere og noe vanskeligere, både i fasen (flere kveldstimer, et ekstra lead, startkapital) og senere (traits, lønnstillegg, nivå). Målet er at starten skal være liten og personlig, og at hele spillet åpner seg først når firmaet har vokst ut av den.
+
+- **Ingen faner.** Én skjerm med kvartalets oppdrag, nettverket, teamet og veien til eget kontor.
+- **Leads i stedet for anbud.** Hvert kvartal ligger det noen oppdrag på bordet med tydelige tradeoffs: trygt og langt, vekst (kunden vil ha flere folk senere) eller prestisje (kort, godt betalt, gir omdømme). Spilleren tar ett, uten budrunde. Hvert oppdrag har plass til et visst antall av de ledige, så den som ansetter for tidlig, får folk på benken.
+- **Nettverket i stedet for stillingsannonser.** Folk overtales én og én med kveldstimer: kaffeprat (viser hva personen liker), drinks, LinkedIn og til slutt et tilbud. Interessen er sjansen for ja.
+- **Egne hendelser** fra kontorfellesskapet, og ingen kriser eller bakrom.
+- **Overgangen** er nivå 2. Da åpner faner, anbud, ansettelser og styreleder Bjørn, og en egen intro forklarer dashbordet.
+
+Bakgrunn og beslutninger: [`plans/2026-10-07-oppstartsfasen.md`](plans/2026-10-07-oppstartsfasen.md).
 
 ### Folk og kultur
 
@@ -83,7 +95,7 @@ Minispillene gir poeng til budet eller krisen og bruker sin egen tilfeldighet, s
 
 ### Nivåer
 
-Firmaet har nivå 1–5 (`LEVELS`) og rykker opp ved å nå ett av tre mål: antall ansatte, omsetning eller vunne anbud. Nivået låser opp større anbud og nye funksjoner (`FEATURE_LEVEL`): nøkkeltall, kultur, stjerner og rammeavtaler på nivå 2, bingo, bakrommet og Strategi-fanen på nivå 3, partnerskap og avdelinger på nivå 4, og oppkjøp og børsnotering på nivå 5. Hvert nytt nivå er et større kontor. Hvert nivå har frivillige mål med små belønninger (`content/missions.ts`).
+Firmaet har nivå 1–5 (`LEVELS`) og rykker opp ved å nå ett av tre mål: antall ansatte, omsetning eller vunne anbud. Nivå 1 er oppstartsfasen i kontorfellesskapet, der bare de to første målene kan nås. Nivået låser opp større anbud og nye funksjoner (`FEATURE_LEVEL`): nøkkeltall, kultur, stjerner og rammeavtaler på nivå 2, bingo, bakrommet og Strategi-fanen på nivå 3, partnerskap og avdelinger på nivå 4, og oppkjøp og børsnotering på nivå 5. Hvert nytt nivå er et større kontor. Hvert nivå har frivillige mål med små belønninger (`content/missions.ts`).
 
 Låsene gjelder AI-ene også. De starter på nivået størrelsen gir.
 
