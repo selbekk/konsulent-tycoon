@@ -72,13 +72,23 @@ export function recruitBlock(firm: Firm, c: Candidate, move: string, quarter: nu
 }
 
 /**
- * The seats a lead would have if taken now: everyone who is free this quarter, plus the lead's extra seats in the
- * customer's favourite discipline (at least one seat in all, so a lead never comes empty). Pure.
+ * The seats a lead would have if taken now: up to `size` people who are free this quarter (the customer's favourite
+ * disciplines first, then wherever most are free), plus the lead's extra seats in the customer's favourite
+ * discipline. At least one seat in all, so a lead never comes empty. Pure.
  */
 export function leadSeats(state: GameState, firm: Firm, lead: Lead): Seats {
-  const { idle } = staffFirm(state, firm)
+  const idle = { ...staffFirm(state, firm).idle }
   const seats: Seats = {}
-  for (const d of DISCIPLINES) if (idle[d]) seats[d] = idle[d]
+  const order = [
+    ...lead.favours,
+    ...[...DISCIPLINES].filter((d) => !lead.favours.includes(d)).sort((a, b) => (idle[b] ?? 0) - (idle[a] ?? 0)),
+  ]
+  let left = lead.size
+  for (const d of order) {
+    const n = Math.min(left, idle[d] ?? 0)
+    if (n > 0) seats[d] = n
+    left -= n
+  }
   const extra = lead.extraSeats + (seatTotal(seats) === 0 ? 1 : 0)
   if (extra > 0) {
     const d = lead.favours[0] ?? firm.stars[0]?.discipline ?? 'backend'
@@ -105,6 +115,7 @@ function makeLead(state: GameState, rng: RngState, kind: LeadKind, taken: Set<st
     id: nextId(state, 'l'),
     kind,
     customerId: def.id,
+    size: nextInt(rng, spec.size[0], spec.size[1]),
     extraSeats: spec.extraSeats,
     favours: [...def.favours],
     duration: nextInt(rng, spec.duration[0], spec.duration[1]),

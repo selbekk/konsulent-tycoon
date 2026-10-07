@@ -288,14 +288,24 @@ export const STARTUP_OFFER_MAX = 0.95
 /** New people start a little below the level the firm would hire at, and between these bounds. */
 export const STARTUP_CANDIDATE_LEVEL = { min: 1.5, max: 4 } as const
 /**
- * The leads on offer each quarter. Rate is the price factor, `extraSeats` seats beyond the free people,
+ * The leads on offer each quarter. Rate is the price factor, `size` how many free people the customer takes
+ * (drawn per lead, so new hires may wait on the bench), `extraSeats` seats on top whether anyone is free or not,
  * `relationship`/`reputation` a one-off lift when taken. Growth customers add `rampSeats` after `rampAfter` quarters.
  */
 export const STARTUP_LEADS = {
-  steady: { rate: 0.9, duration: [6, 8], extraSeats: 0, relationship: 0, reputation: 0 },
-  growth: { rate: 0.95, duration: [5, 6], extraSeats: 0, relationship: 5, reputation: 0, rampAfter: 2, rampSeats: 2 },
-  prestige: { rate: 1.15, duration: [2, 3], extraSeats: 1, relationship: 10, reputation: 4 },
-  insider: { rate: 1.1, duration: [4, 5], extraSeats: 0, relationship: 5, reputation: 0 },
+  steady: { rate: 0.85, duration: [6, 8], size: [1, 3], extraSeats: 0, relationship: 0, reputation: 0 },
+  growth: {
+    rate: 0.9,
+    duration: [5, 6],
+    size: [1, 2],
+    extraSeats: 0,
+    relationship: 5,
+    reputation: 0,
+    rampAfter: 2,
+    rampSeats: 2,
+  },
+  prestige: { rate: 1.05, duration: [2, 3], size: [1, 2], extraSeats: 1, relationship: 10, reputation: 4 },
+  insider: { rate: 1.0, duration: [4, 5], size: [1, 3], extraSeats: 0, relationship: 5, reputation: 0 },
 } as const
 /** Chance of one co-working-space event per quarter (later: up to two, see drawEvents). */
 export const STARTUP_EVENT_CHANCE = 0.6

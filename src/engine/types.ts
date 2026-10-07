@@ -225,7 +225,9 @@ export interface Lead {
   id: string
   kind: LeadKind
   customerId: string
-  /** Seats on top of the free people the firm has when the lead is taken (0 = only the free ones, at least 1 in all). */
+  /** Most free people the customer takes on (the customer's favourite disciplines first). */
+  size: number
+  /** Seats on top of those, whether or not anyone is free (at least 1 seat in all). */
   extraSeats: number
   /** Disciplines the customer would rather have, in order; used when there are free people in several. */
   favours: Discipline[]

@@ -1030,7 +1030,7 @@
       "points": [
         "Trygge oppdrag varer lenge, men betaler dårligere.",
         "Vekstkunder vil ha flere folk etter hvert, og prestisjekunder gir omdømme.",
-        "Oppdraget tar med alle som er ledige, så rekrutter gjerne før dere velger."
+        "Hvert oppdrag har plass til et visst antall av de ledige. Den som ikke får plass, venter på benken til neste oppdrag."
       ]
     },
     "network": {
@@ -1460,7 +1460,7 @@
     "freelancers": "Noen seter fylles av frilansere. De koster mer enn de tjener inn, så det lønner seg å rekruttere.",
     "leads": {
       "title": "Oppdrag på bordet",
-      "intro": "Folk har hørt om dere. Velg ett oppdrag dette kvartalet. Det starter med en gang, og alle som er ledige, blir med.",
+      "intro": "Folk har hørt om dere. Velg ett oppdrag dette kvartalet. Det starter med en gang, med så mange av de ledige som kunden har plass til.",
       "kinds": {
         "steady": {
           "name": "Trygg",

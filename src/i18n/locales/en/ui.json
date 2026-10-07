@@ -1030,7 +1030,7 @@
       "points": [
         "Steady jobs last long but pay less.",
         "Growth clients want more people later on, and prestige clients build your reputation.",
-        "A job takes everyone who's free, so it's worth recruiting before you pick."
+        "Each job has room for a set number of your free people. Anyone left over waits on the bench for the next one."
       ]
     },
     "network": {
@@ -1460,7 +1460,7 @@
     "freelancers": "Some seats are filled by freelancers. They cost more than they bring in, so it pays to recruit.",
     "leads": {
       "title": "Work on the table",
-      "intro": "Word has got around. Pick one job this quarter. It starts right away, and everyone who's free goes along.",
+      "intro": "Word has got around. Pick one job this quarter. It starts right away, with as many of your free people as the client has room for.",
       "kinds": {
         "steady": {
           "name": "Steady",

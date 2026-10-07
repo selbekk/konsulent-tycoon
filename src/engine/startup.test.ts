@@ -70,8 +70,10 @@ describe('a new game in the co-working space', () => {
 })
 
 describe('leads', () => {
-  it('turns into a contract for the free people that bills this quarter, with the founders on it', () => {
-    const s = deepFreeze(newStartupGame())
+  it('turns into a contract for the free people (up to its size) that bills this quarter, with the founders on it', () => {
+    const s = newStartupGame()
+    st(s).leads.find((l) => l.kind === 'steady')!.size = 3
+    deepFreeze(s)
     const after = take(s, 'steady')
     const c = after.contracts.find((x) => x.tenderId === 'lead')!
     expect(c.activeSeats).toEqual({ frontend: 1, backend: 1 })
@@ -85,7 +87,11 @@ describe('leads', () => {
   it('gives prestige an extra seat and some reputation, and a lead is never empty', () => {
     const s = newStartupGame()
     const lead = st(s).leads.find((l) => l.kind === 'prestige')!
-    expect(seatTotal(leadSeats(s, me(s), lead))).toBe(3)
+    lead.size = 2
+    expect(seatTotal(leadSeats(s, me(s), lead))).toBe(2 + STARTUP_LEADS.prestige.extraSeats)
+    lead.size = 1
+    expect(seatTotal(leadSeats(s, me(s), lead))).toBe(1 + STARTUP_LEADS.prestige.extraSeats)
+    lead.size = 2
     const after = take(s, 'prestige')
     expect(me(after).reputation).toBe(me(s).reputation + STARTUP_LEADS.prestige.reputation)
     // Everyone busy: the next lead would still have one seat, for a freelancer or the next hire.

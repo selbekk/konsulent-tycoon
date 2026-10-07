@@ -91,8 +91,10 @@ describe('submission limits and real games', () => {
       },
       { type: 'lobby', firmId: 'player' },
       { type: 'ipo', firmId: 'player' },
-      // Promotion needs a talent at level 4, which the bot doesn't always grow within 16 quarters.
+      // Development opens at level 2, which the bot may reach too late in these short games to use all of it.
       { type: 'promoteEmployee', firmId: 'player', employeeId: 'e123456' },
+      { type: 'careerTalk', firmId: 'player', employeeId: 'e123456' },
+      { type: 'setStretch', firmId: 'player', employeeId: 'e123456', contractId: 'c123456' },
     )
     for (const step of steps) {
       SEEN[step.type] = true
