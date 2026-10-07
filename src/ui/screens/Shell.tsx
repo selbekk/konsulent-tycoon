@@ -27,6 +27,7 @@ import { LevelUpModal } from './LevelUpModal'
 import { MarketScreen } from './MarketScreen'
 import { NewsArticle } from './NewsArticle'
 import { Onboarding } from './Onboarding'
+import { StartupScreen } from './StartupScreen'
 import { MinigameHost } from '../minigames/MinigameHost'
 import { QuarterReport } from './QuarterReport'
 import { StaffScreen } from './StaffScreen'
@@ -103,7 +104,9 @@ export function Shell() {
     game.status !== 'playing'
   const lng = i18n.language
   const level = firmLevel(me)
-  const tabs = useMemo(() => visibleTabs(level), [level])
+  // The co-working space has one screen and no tabs; the tabs open at level 2.
+  const startup = !!me.startup
+  const tabs = useMemo(() => (startup ? [] : visibleTabs(level)), [level, startup])
   const openTodos = quarterTodos(game, me.id).filter((x) => !x.done)
 
   // A crisis stage the player hasn't seen yet pops up by itself once, when nothing else is in the way.
@@ -152,7 +155,8 @@ export function Shell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.quarter, report === null])
 
-  const Screen = SCREENS[tabs.includes(tab) ? tab : 'dashboard']
+  const Screen = startup ? StartupScreen : SCREENS[tabs.includes(tab) ? tab : 'dashboard']
+  const screenName = startup ? t('startup.title') : t(`tabs.${tabs.includes(tab) ? tab : 'dashboard'}`)
   const hc = headcount(me)
   const credit = creditLimit(me)
   // Easter egg: a ticker line of its own for a firm named after the game or a rival. Never part of game.news.
@@ -176,7 +180,7 @@ export function Shell() {
         {t('shell.skipToContent')}
       </a>
       <h1 className="sr-only">
-        {me.name} · {t(`tabs.${tabs.includes(tab) ? tab : 'dashboard'}`)}
+        {me.name} · {screenName}
       </h1>
       <header className={s.topbar}>
         <div className={s.brand}>
@@ -260,26 +264,30 @@ export function Shell() {
         <div />
       )}
 
-      <nav className={s.nav} aria-label={t('shell.nav')}>
-        {tabs.map((id, i) => (
-          <button
-            key={id}
-            className={s.navItem}
-            aria-current={(tabs.includes(tab) ? tab : 'dashboard') === id ? 'page' : undefined}
-            data-noir={id === 'backroom'}
-            onClick={() => setTab(id)}
-            aria-keyshortcuts={settings.shortcuts ? String(i + 1) : undefined}
-          >
-            <Icon name={TAB_ICONS[id]} size={14} />
-            {t(`tabs.${id}`)}
-            {settings.shortcuts && (
-              <span className={s.navKey} aria-hidden>
-                {i + 1}
-              </span>
-            )}
-          </button>
-        ))}
-      </nav>
+      {startup ? (
+        <div />
+      ) : (
+        <nav className={s.nav} aria-label={t('shell.nav')}>
+          {tabs.map((id, i) => (
+            <button
+              key={id}
+              className={s.navItem}
+              aria-current={(tabs.includes(tab) ? tab : 'dashboard') === id ? 'page' : undefined}
+              data-noir={id === 'backroom'}
+              onClick={() => setTab(id)}
+              aria-keyshortcuts={settings.shortcuts ? String(i + 1) : undefined}
+            >
+              <Icon name={TAB_ICONS[id]} size={14} />
+              {t(`tabs.${id}`)}
+              {settings.shortcuts && (
+                <span className={s.navKey} aria-hidden>
+                  {i + 1}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+      )}
 
       <main className={s.main} id="main" tabIndex={-1}>
         <Screen />

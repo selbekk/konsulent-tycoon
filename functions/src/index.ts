@@ -78,7 +78,8 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
       week: submission.week,
       gameId: submission.gameId,
       engineVersion: submission.engineVersion,
-      founders: submission.founders,
+      founder: submission.founder,
+      cofounder: submission.cofounder,
       name: submission.name,
       log: JSON.stringify(submission.log),
       claimedValuation: submission.claimedValuation,
@@ -89,7 +90,8 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
     tx.set(db.doc(`users/${uid}/history/${runId}`), {
       week: submission.week,
       name: submission.name,
-      founders: submission.founders,
+      founder: submission.founder,
+      cofounder: submission.cofounder,
       ...run,
       submittedAt: now,
     })
@@ -100,7 +102,8 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
       tx.set(entry, {
         week: submission.week,
         name: submission.name,
-        founders: submission.founders,
+        founder: submission.founder,
+        cofounder: submission.cofounder,
         valuation: run.valuation,
         title: run.title,
         rank: run.rank,

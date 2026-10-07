@@ -1,11 +1,12 @@
-import { quarterFinancials } from '../engine'
+import { firmLevel, quarterFinancials } from '../engine'
 import type { GameState } from '../engine'
 
 /** Which line Styreleder Bjørn says, based on how things are going. */
 export function bjornKey(game: GameState): string {
   const me = game.firms[game.playerId]
   const fin = quarterFinancials(game, me.id)
-  if (game.quarter === 0) return 'bjorn.start'
+  // The dashboard first shows when the firm leaves the co-working space (or at the start of an old save).
+  if (game.quarter === 0 || (me.levelUpQuarter === game.quarter - 1 && firmLevel(me) === 2)) return 'bjorn.start'
   if (me.cash < 0) return 'bjorn.inCredit'
   if (me.heat > 50) return 'bjorn.heat'
   if (fin.utilization > 0.95) return 'bjorn.overworked'

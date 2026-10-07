@@ -10,12 +10,13 @@ import { crisesOf } from './crises'
 import { activeContracts, creditLimit, disciplineSupply, headcount, quarterFinancials, staffFirm } from './economy'
 import { tenderLock } from './levels'
 import { capacity } from './metrics'
+import { recruitBlock, startupHours } from './startup'
 import { isKeyTender, openTenders } from './tenders'
 import { DISCIPLINES } from './types'
 import type { GameState } from './types'
 import { seatTotal } from './util'
 
-export type TodoId = 'crisis' | 'bid' | 'pitch' | 'hire' | 'nurture'
+export type TodoId = 'crisis' | 'bid' | 'pitch' | 'hire' | 'nurture' | 'lead' | 'network'
 
 export interface Todo {
   id: TodoId
@@ -38,10 +39,11 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
   const undecided = crises.filter((c) => c.status === 'active').length
   const decided = crises.some((c) => c.log.some((l) => l.quarter === state.quarter && !l.auto))
   if (undecided || decided) todos.push({ id: 'crisis', done: undecided === 0, params: { count: undecided } })
-  const open = openTenders(state)
-  const mine = open.filter((t) => t.bids.some((b) => b.firmId === firmId))
   // Only nag about things that pay off before the game ends (valuation ignores backlog).
   const matters = (quarter: number) => quarter < state.maxQuarters
+  if (firm.startup) return [...todos, ...startupTodos(state, firmId), ...nurtureTodo(state, firmId, matters)]
+  const open = openTenders(state)
+  const mine = open.filter((t) => t.bids.some((b) => b.firmId === firmId))
 
   // Idle people next quarter and a tender in a discipline the firm actually has people in.
   // Bids decided next quarter start later, but they still answer "put the idle people to work".
@@ -76,18 +78,40 @@ export function quarterTodos(state: GameState, firmId: string): Todo[] {
     todos.push({ id: 'hire', done: ordered >= needed, params: { count: Math.ceil(needed) } })
   }
 
-  // A contract close to being cancelled by the customer, and customer care is available for it.
-  if (matters(state.quarter + 1)) {
-    const running = activeContracts(state, firmId)
-    const atRisk = running.filter(
-      (c) => c.satisfaction < NURTURE_TODO_BELOW && !contractMoveBlock(state, firm, c, 'nurture'),
-    ).length
-    // Keep the ticked item visible after caring for a contract that was at risk this quarter.
-    const cared = running.some(
-      (c) => c.nurtureQuarter === state.quarter && c.satisfaction < NURTURE_TODO_BELOW + NURTURE_SATISFACTION,
-    )
-    if (atRisk || cared) todos.push({ id: 'nurture', done: atRisk === 0, params: { count: atRisk } })
-  }
+  return [...todos, ...nurtureTodo(state, firmId, matters)]
+}
 
+/** A contract close to being cancelled by the customer, and customer care is available for it. */
+function nurtureTodo(state: GameState, firmId: string, matters: (quarter: number) => boolean): Todo[] {
+  if (!matters(state.quarter + 1)) return []
+  const firm = state.firms[firmId]
+  const running = activeContracts(state, firmId)
+  const atRisk = running.filter(
+    (c) => c.satisfaction < NURTURE_TODO_BELOW && !contractMoveBlock(state, firm, c, 'nurture'),
+  ).length
+  // Keep the ticked item visible after caring for a contract that was at risk this quarter.
+  const cared = running.some(
+    (c) => c.nurtureQuarter === state.quarter && c.satisfaction < NURTURE_TODO_BELOW + NURTURE_SATISFACTION,
+  )
+  return atRisk || cared ? [{ id: 'nurture', done: atRisk === 0, params: { count: atRisk } }] : []
+}
+
+/**
+ * The co-working space: take a lead while people are free, and see the network at least once a quarter.
+ * Both are one click away; using every evening hour is up to the player, so it isn't a to-do.
+ */
+function startupTodos(state: GameState, firmId: string): Todo[] {
+  const firm = state.firms[firmId]
+  const st = firm.startup!
+  const todos: Todo[] = []
+  const idle = seatTotal(staffFirm(state, firm).idle)
+  if (st.takenLead || (idle > 0 && st.leads.length))
+    todos.push({ id: 'lead', done: !!st.takenLead, params: { count: idle } })
+  const full = startupHours(st.cofounder)
+  const canMove = st.candidates.some((c) =>
+    (['coffee', 'drinks', 'linkedin', 'offer'] as const).some((m) => !recruitBlock(firm, c, m, state.quarter)),
+  )
+  if (st.hours < full || (canMove && st.hours > 0))
+    todos.push({ id: 'network', done: st.hours < full, params: { count: st.hours } })
   return todos
 }

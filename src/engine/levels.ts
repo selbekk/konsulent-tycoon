@@ -86,5 +86,10 @@ export function updateLevels(state: GameState) {
       firm.levelUpQuarter = state.quarter
       addNews(state, 'news.level.up', { level: after, from: before }, 'good', { firmId: firm.id, personal: true })
     }
+    // Out of the co-working space and into an office of their own: the full game opens.
+    if (firm.startup && after >= 2) {
+      delete firm.startup
+      addNews(state, 'news.startup.graduated', { firm: firm.name }, 'good', { firmId: firm.id, personal: true })
+    }
   }
 }

@@ -4,8 +4,9 @@ import { isKeyTender, loadFromSlot, replayRun } from '../engine'
 import type { GameState, NewGameOptions } from '../engine'
 import { planHumanProxy } from '../engine/ai/humanProxy'
 import { planEventAnswers } from '../engine/ai/planner'
-import { makeKeyTender } from '../engine/testUtils'
+import { makeKeyTender, testOptions } from '../engine/testUtils'
 import { useGame } from './gameStore'
+import { newStoreGame, newStoreGameAfterStartup } from './testUtils'
 
 describe('gameStore', () => {
   beforeEach(() => {
@@ -14,9 +15,7 @@ describe('gameStore', () => {
   })
 
   it('autosaves after every successful action', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Lagre AS' })
     const game = useGame.getState().game!
     const tender = makeKeyTender(game.tenders.find((t) => !t.resolved && !t.hidden)!)
     expect(
@@ -29,9 +28,7 @@ describe('gameStore', () => {
   })
 
   it('end turn advances the quarter and opens the report', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGame({ seed: 5, firmName: 'Lagre AS' })
     useGame.getState().endTurn()
     expect(useGame.getState().game!.quarter).toBe(1)
     expect(useGame.getState().report).toBe(0)
@@ -39,12 +36,7 @@ describe('gameStore', () => {
   })
 
   it('gives each new game its own analytics id and keeps it through quit and continue', () => {
-    const opts: NewGameOptions = {
-      seed: 5,
-      firmName: 'Lagre AS',
-      founderDisciplines: ['backend', 'frontend'],
-      difficulty: 'normal',
-    }
+    const opts: NewGameOptions = { ...testOptions(5), firmName: 'Lagre AS' }
     useGame.getState().newGame(opts)
     const first = useGame.getState().game!.gameId
     expect(first).toBeTruthy()
@@ -56,9 +48,7 @@ describe('gameStore', () => {
   })
 
   it('gives an old save without an analytics id one on load', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGame({ seed: 5, firmName: 'Lagre AS' })
     const old = JSON.parse(localStorage.getItem('kt.save.auto')!)
     delete old.gameId
     localStorage.setItem('kt.save.auto', JSON.stringify(old))
@@ -68,9 +58,7 @@ describe('gameStore', () => {
   })
 
   it('deletes a save it cannot read and says so', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGame({ seed: 5, firmName: 'Lagre AS' })
     const broken = JSON.parse(localStorage.getItem('kt.save.auto')!)
     delete broken.firms.player.budgets
     localStorage.setItem('kt.save.auto', JSON.stringify(broken))
@@ -83,9 +71,7 @@ describe('gameStore', () => {
   })
 
   it('only lets the player act for their own firm', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Lagre AS' })
     const game = useGame.getState().game!
     const tender = game.tenders.find((t) => !t.resolved && !t.hidden && t.bids.some((b) => b.firmId !== 'player'))
     const rival =
@@ -107,9 +93,7 @@ describe('gameStore', () => {
   })
 
   it('stops playing when another tab saves, until the autosave is loaded again', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Lagre AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGame({ seed: 5, firmName: 'Lagre AS' })
     const other = JSON.parse(localStorage.getItem('kt.save.auto')!)
     other.firms.player.hiringOrders = { design: 2 }
     localStorage.setItem('kt.save.auto', JSON.stringify(other))
@@ -127,10 +111,10 @@ describe('gameStore', () => {
 
   describe('action log', () => {
     const opts: NewGameOptions = {
-      seed: 11,
+      ...testOptions(11),
       firmName: 'Logg AS',
-      founderDisciplines: ['backend', 'cloud'],
-      difficulty: 'normal',
+      founderDiscipline: 'backend',
+      cofounder: 'jonas',
     }
     /** The whole state as JSON, without the store's `gameId` (the engine never sees it). */
     const json = (s: object) => JSON.stringify(s, (k, v) => (k === 'gameId' ? undefined : v))
@@ -164,7 +148,9 @@ describe('gameStore', () => {
         useGame
           .getState()
           .game!.tenders.find((t) => !t.resolved && !t.hidden && isKeyTender(t) && !t.minigameResults.player)
-      while (!open() && useGame.getState().game!.quarter < 12) {
+      // Tenders open once the firm has left the co-working space.
+      const startup = () => !!useGame.getState().game!.firms.player.startup
+      while ((startup() || !open()) && useGame.getState().game!.quarter < 16) {
         const game = useGame.getState().game!
         for (const a of planHumanProxy(structuredClone(game))) useGame.getState().dispatch(a)
         useGame.getState().endTurn()
@@ -195,7 +181,10 @@ describe('gameStore', () => {
 
     it('comes back with the autosave, and only for the same game', () => {
       useGame.getState().newGame(opts)
-      useGame.getState().dispatch({ type: 'orderHires', firmId: 'player', discipline: 'backend', count: 1 })
+      const candidateId = useGame.getState().game!.firms.player.startup!.candidates[0].person.id
+      expect(
+        useGame.getState().dispatch({ type: 'recruit', firmId: 'player', candidateId, move: 'coffee' }),
+      ).toBeUndefined()
       useGame.getState().endTurn()
       const log = useGame.getState().log
       expect(log).toHaveLength(2)

@@ -1,4 +1,6 @@
 import { CUSTOMERS } from '../content/customers'
+import { COFOUNDERS, cofounderDef } from '../content/cofounders'
+import type { CofounderDef } from '../content/cofounders'
 import { FIRMS } from '../content/firms'
 import type { FirmDef } from '../content/firms'
 import { TRENDS } from '../content/trends'
@@ -17,17 +19,22 @@ import { cultureEquilibrium } from './culture'
 import { industryGossip, pickAnnouncement } from './flavor'
 import { earnedLevel } from './levels'
 import { createRng, nextInt, noise, pick, range, weightedPick } from './rng'
+import { newProfile } from './profile'
 import { buildRoster } from './roster'
+import { initStartup } from './startup'
 import { generateStar } from './stars'
 import { marketCapacity, publishTenders } from './tenders'
 import { DISCIPLINES } from './types'
-import type { Contract, Customer, Difficulty, Discipline, Firm, GameState, Seats } from './types'
+import type { Contract, Customer, Difficulty, Discipline, Firm, GameState, Seats, Star } from './types'
 import { addNews, emptyPools, nextId, seatTotal } from './util'
 
 export interface NewGameOptions {
   seed: number
   firmName: string
-  founderDisciplines: [Discipline, Discipline]
+  /** The player's own discipline. */
+  founderDiscipline: Discipline
+  /** Id from content/cofounders.ts. */
+  cofounder: string
   difficulty: Difficulty
   /** The weekly challenge's ISO week. The caller passes its seed too (`weekSeed`). */
   weekly?: string
@@ -63,6 +70,27 @@ function baseFirm(id: string, name: string, isPlayer: boolean, personalityId: st
     quarterFines: 0,
     quarterLeavers: 0,
     quarterHires: 0,
+  }
+}
+
+/** The co-founder's star id: fixed, so the portrait in the new-game gallery is the one you get. */
+export const cofounderStarId = (cofounder: string) => `cofounder-${cofounder}`
+
+/** A co-founder from the gallery as a star: fixed name, level and traits, a profile drawn like anyone's. */
+function cofounderStar(state: GameState, def: CofounderDef): Star {
+  const id = cofounderStarId(def.id)
+  return {
+    id,
+    name: def.name,
+    discipline: def.discipline,
+    level: def.level,
+    traits: [...def.traits],
+    ambition: def.ambition,
+    morale: 85,
+    loyalty: 95,
+    salaryPremium: def.salaryPremium,
+    ...newProfile(state, id, def.discipline, def.level),
+    gender: def.gender,
   }
 }
 
@@ -196,34 +224,32 @@ export function createNewGame(opts: NewGameOptions): GameState {
     crises: [],
     status: 'playing',
     idCounter: 0,
-    ...(opts.weekly ? { weekly: { week: opts.weekly, founders: [...opts.founderDisciplines] } } : {}),
   }
+  // Options can come from a leaderboard submission: anything unknown falls back to a default.
+  const discipline = (DISCIPLINES as readonly unknown[]).includes(opts.founderDiscipline)
+    ? opts.founderDiscipline
+    : 'backend'
+  const cofounder = cofounderDef(opts.cofounder) ?? COFOUNDERS[0]
+  if (opts.weekly) state.weekly = { week: opts.weekly, founder: discipline, cofounder: cofounder.id }
 
-  // Player
+  // Player: two founders in a co-working space, no employees, no clients yet.
   const me = baseFirm(PLAYER_ID, opts.firmName.trim() || 'Konsulent & Konsulent AS', true, 'player', 'NO')
-  me.cash = START_CASH[opts.difficulty]
+  me.cash = START_CASH[opts.difficulty] + (cofounder.perk.cash ?? 0)
   me.budgets = { ...PLAYER_START_BUDGETS }
   // A young firm with a bit of buzz: some network, a founders' tech culture.
-  me.reputation = 40
+  me.reputation = 40 + (cofounder.perk.reputation ?? 0)
   me.fagmiljo = 35
   me.sosialt = 30
-  const [d1, d2] = opts.founderDisciplines
-  for (const d of opts.founderDisciplines) {
-    const founder = generateStar(state, d, 4, 4)
-    founder.founder = true
-    founder.joinedQuarter = 0
-    founder.loyalty = 95
-    founder.morale = 85
-    founder.salaryPremium = 0
-    founder.traits = founder.traits.slice(0, 1)
-    me.stars.push(founder)
+  const founder = generateStar(state, discipline, 4, 4)
+  founder.traits = founder.traits.slice(0, 1)
+  me.stars.push(founder, cofounderStar(state, cofounder))
+  for (const s of me.stars) {
+    s.founder = true
+    s.joinedQuarter = 0
+    s.loyalty = 95
+    s.morale = 85
   }
-  const poolDisciplines: Discipline[] = [d1, d2, 'backend', 'frontend']
-  for (const d of poolDisciplines) {
-    me.pools[d].count += 1
-    me.pools[d].level = 2.5
-    me.pools[d].morale = 72
-  }
+  founder.salaryPremium = 0
   buildRoster(state, me)
   state.firms[me.id] = me
   state.firmOrder.push(me.id)
@@ -248,18 +274,9 @@ export function createNewGame(opts: NewGameOptions): GameState {
       relationships,
     }
   }
-  state.customers.kryptonitt.relationships[PLAYER_ID] = 45
 
-  // Starter work
-  // Founders plus two of the four – the other two are free to staff your first real tender.
-  const starterSeats: Seats = {}
-  for (const d of [d1, d2, d1, d2]) starterSeats[d] = (starterSeats[d] ?? 0) + 1
-  const starter = starterContract(state, me, 'kryptonitt', starterSeats, 1.0, 6)
-  for (const s of me.stars) {
-    s.assignedContractId = starter.id
-    starter.starIds.push(s.id)
-  }
   for (const id of state.firmOrder) if (id !== PLAYER_ID) createBacklog(state, state.firms[id])
+  initStartup(state, me, cofounder.id)
 
   const firstTrend = pick(
     state.rng,

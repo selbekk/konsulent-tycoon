@@ -3,7 +3,7 @@
 import type { TalkStyle } from '../content/crisisTalks'
 import type { CrisisMinigame, Difficulty, Discipline } from './types'
 
-export const SAVE_VERSION = 1
+export const SAVE_VERSION = 2
 export const MAX_QUARTERS = 40
 export const START_YEAR = 2027
 
@@ -255,6 +255,54 @@ export const START_CASH: Record<Difficulty, number> = { easy: 5_000_000, normal:
 /** AI firms start with this much cash per head, scaled by difficulty (richer rivals on hard). */
 export const AI_START_CASH_PER_HEAD = 650_000
 export const AI_CASH_FACTOR: Record<Difficulty, number> = { easy: 0.8, normal: 1, hard: 1.3 }
+
+// Startup phase: the player's first quarters in a co-working space (engine/startup.ts, docs/plans/2026-10-07-oppstartsfasen.md)
+/** Evening hours per quarter; every recruiting move costs one. */
+export const STARTUP_HOURS = 5
+/** New people in the network each quarter, the most it holds, and how many quarters they stay. */
+export const STARTUP_NEW_CANDIDATES = 3
+export const STARTUP_FIRST_CANDIDATES = 3
+export const STARTUP_MAX_CANDIDATES = 6
+export const STARTUP_CANDIDATE_QUARTERS = 3
+/**
+ * A candidate's interest (0–100) is the chance they say yes to an offer. It starts at the base, plus reputation
+ * above 40 and the customer portfolio above 50, minus this much per level above 2.5: good people are harder to get.
+ */
+export const STARTUP_INTEREST_BASE = 35
+export const STARTUP_INTEREST_PER_REPUTATION = 0.25
+export const STARTUP_INTEREST_PER_APPEAL = 0.3
+export const STARTUP_INTEREST_PER_LEVEL = 8
+/** Interest lost each quarter nobody follows up. */
+export const STARTUP_INTEREST_DECAY = 5
+/** A coffee chat always helps a little and shows how they like to be approached. */
+export const STARTUP_COFFEE_INTEREST = 15
+/** Drinks or LinkedIn when it is what they like, and when it isn't. */
+export const STARTUP_LIKED_INTEREST = 30
+export const STARTUP_DRINKS_UNLIKED = 10
+export const STARTUP_LINKEDIN_UNLIKED = 0
+export const STARTUP_DRINKS_COST = 15_000
+/** A no costs this much interest, and they won't hear another offer this quarter. */
+export const STARTUP_DECLINE_INTEREST = 15
+export const STARTUP_OFFER_MIN = 0.05
+export const STARTUP_OFFER_MAX = 0.95
+/** New people start a little below the level the firm would hire at, and between these bounds. */
+export const STARTUP_CANDIDATE_LEVEL = { min: 1.5, max: 4 } as const
+/**
+ * The leads on offer each quarter. Rate is the price factor, `extraSeats` seats beyond the free people,
+ * `relationship`/`reputation` a one-off lift when taken. Growth customers add `rampSeats` after `rampAfter` quarters.
+ */
+export const STARTUP_LEADS = {
+  steady: { rate: 0.9, duration: [6, 8], extraSeats: 0, relationship: 0, reputation: 0 },
+  growth: { rate: 0.95, duration: [5, 6], extraSeats: 0, relationship: 5, reputation: 0, rampAfter: 2, rampSeats: 2 },
+  prestige: { rate: 1.15, duration: [2, 3], extraSeats: 1, relationship: 10, reputation: 4 },
+  insider: { rate: 1.1, duration: [4, 5], extraSeats: 0, relationship: 5, reputation: 0 },
+} as const
+/** Chance of one co-working-space event per quarter (later: up to two, see drawEvents). */
+export const STARTUP_EVENT_CHANCE = 0.6
+/** Interest bonus for someone who comes to you (an event), on top of the usual start. */
+export const STARTUP_EVENT_INTEREST = 25
+/** A growth customer only grows the team if the contract's satisfaction is at least this. */
+export const STARTUP_RAMP_MIN_SATISFACTION = 50
 
 // Strategy
 /** Bid quality bonus when a tender matches the firm's specialty. Sector specialties match about half the tenders. */

@@ -118,7 +118,8 @@ interface Store {
   bidTenderId: string | null
   minigame: { tenderId: string; kind: MinigameKind } | null
   /** Levels the player just moved between; shown as a celebration once the report is closed. */
-  levelUp: { from: number; to: number } | null
+  /** `graduated`: the firm just left the co-working space, so the dashboard intro follows the fanfare. */
+  levelUp: { from: number; to: number; graduated?: boolean } | null
   /** Crisis shown in the crisis dialog. */
   crisisId: string | null
   /** Crisis talk (minigame) being played for a crisis choice. */
@@ -216,7 +217,8 @@ export const useGame = create<Store>((set, get) => ({
     })
     track('game_started', {
       difficulty: opts.difficulty,
-      founders: [...opts.founderDisciplines],
+      founder: opts.founderDiscipline,
+      cofounder: opts.cofounder,
       custom_seed: meta?.customSeed,
       weekly: !!opts.weekly,
       default_name: meta?.defaultName,
@@ -255,7 +257,8 @@ export const useGame = create<Store>((set, get) => ({
     autosave(next, log)
     const from = firmLevel(game.firms[game.playerId])
     const to = firmLevel(next.firms[next.playerId])
-    const levelUp = to > from ? { from, to } : null
+    const graduated = !!game.firms[game.playerId].startup && !next.firms[next.playerId].startup
+    const levelUp = to > from ? { from, to, ...(graduated ? { graduated } : {}) } : null
     const openTodos = quarterTodos(game, game.playerId).filter((x) => !x.done).length
     track('quarter_ended', quarterSummary(game, next, openTodos))
     if (levelUp) track('level_up', { from, to, quarter: game.quarter })
@@ -342,7 +345,7 @@ export const useGame = create<Store>((set, get) => ({
   },
   clearError: () => set({ error: null }),
   dismissReport: () => set({ report: null }),
-  dismissLevelUp: () => set({ levelUp: null }),
+  dismissLevelUp: () => set({ levelUp: null, onboarding: !!get().levelUp?.graduated }),
   dismissOnboarding: () => {
     track('onboarding_closed')
     set({ onboarding: false })

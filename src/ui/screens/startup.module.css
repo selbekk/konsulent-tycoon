@@ -1,0 +1,146 @@
+/* The co-working space (StartupScreen): the network, the team and the evening hours. */
+
+.candidates {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.candidate {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.candidateHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.who {
+  display: grid;
+  min-width: 0;
+}
+
+.who > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hours {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.hours > span:first-child {
+  margin-right: 4px;
+}
+
+.hour {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+}
+
+.hour[data-on] {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.team {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.team li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.subhead {
+  margin: 16px 0 8px;
+  font-size: 0.85rem;
+}
+
+.facts {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 2px;
+  font-size: 0.85rem;
+}
+
+/* The co-founder gallery in the new-game menu. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.cofounder {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 10px 12px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  background: var(--panel-2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.cofounder:hover,
+.cofounder:focus-visible {
+  border-color: var(--accent);
+}
+
+.cofounder[aria-pressed='true'] {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.pro,
+.con {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.pro {
+  color: var(--good-text);
+}
+
+.con {
+  color: var(--bad-text);
+}

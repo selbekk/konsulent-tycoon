@@ -40,7 +40,15 @@
     "promiseActive": "Du har allerede lovet noe i en karrieresamtale.",
     "promotedRecently": "Du har forfremmet noen nylig. Det blir én forfremmelse i året.",
     "shadyRepeat": "Det har du allerede gjort dette kvartalet. Selv bakrommet har grenser.",
-    "stretchFull": "Oppdraget har ikke flere plasser å strekke seg på."
+    "stretchFull": "Oppdraget har ikke flere plasser å strekke seg på.",
+    "startupPhase": "Det åpner når dere har flyttet ut av kontorfellesskapet (nivå 2).",
+    "notStartup": "Det hørte til tiden i kontorfellesskapet.",
+    "leadTaken": "Dere har allerede tatt et oppdrag dette kvartalet.",
+    "invalidLead": "Det oppdraget ligger ikke på bordet lenger.",
+    "invalidCandidate": "Den personen er ikke i nettverket lenger.",
+    "noHours": "Ingen kveldstimer igjen dette kvartalet.",
+    "offerDeclined": "Svaret var nei dette kvartalet. Prøv igjen neste.",
+    "alreadyTried": "Det har dere allerede prøvd."
   },
   "news": {
     "game": {
@@ -200,6 +208,14 @@
       "may_parade": "{{firm}} går i 17. mai-tog med eget banner. «Vi leverer», står det på det.",
       "summer_holiday": "Fellesferien nærmer seg. Halve bransjen har satt «ikke på kontoret» ut august.",
       "julebord": "Julebordsesongen er i gang. {{firm}} har leid en hel båt og lover at det ikke blir som i fjor."
+    },
+    "startup": {
+      "leadTaken": "Dere tok et oppdrag hos {{customer}}.",
+      "recruited": "{{name}} sa ja og begynner hos dere med en gang.",
+      "declined": "{{name}} takket nei. Foreløpig.",
+      "rampUp_one": "{{customer}} er fornøyde og vil ha {{count}} konsulent til.",
+      "rampUp_other": "{{customer}} er fornøyde og vil ha {{count}} konsulenter til.",
+      "graduated": "{{firm}} flytter ut av kontorfellesskapet og inn i egne lokaler."
     }
   },
   "announcements": {
@@ -812,6 +828,55 @@
         "let_go": "La hen gå",
         "podcast": "Gråt i en CEO-podcast"
       }
+    },
+    "cowork_wifi": {
+      "title": "Wifi-en er nede",
+      "body": "Wifi-en i kontorfellesskapet er nede. Igjen. Noen har skrevet «HAR NOEN PRØVD Å STARTE DEN PÅ NYTT?» på tavla.",
+      "choices": {
+        "cafe": "Flytt til kaféen på hjørnet (4 000 kr)",
+        "hotspot": "Del mobilnett (500 kr)",
+        "wait": "Vent det ut"
+      }
+    },
+    "cowork_neighbour": {
+      "title": "Naboen ved pulten",
+      "body": "Utvikleren ved pulten ved siden av har lagt merke til at dere har det travelt, og lurer på om dere ansetter.",
+      "choices": {
+        "chat": "Ta en prat",
+        "decline": "Ikke akkurat nå"
+      }
+    },
+    "cowork_barista": {
+      "title": "Baristaen kjenner noen",
+      "body": "Baristaen lager kaffe til CTO-en i {{customer}} hver morgen, og tilbyr seg å introdusere dere.",
+      "choices": {
+        "intro": "Ja takk (én kveldstime)",
+        "tip": "Gi god tips og la det ligge"
+      }
+    },
+    "cowork_pitch_night": {
+      "title": "Pitchekveld",
+      "body": "Kontorfellesskapet arrangerer pitchekveld med pizza og investorer. Fem minutter på scenen, og så spørsmål fra salen.",
+      "choices": {
+        "pitch": "Pitch selskapet (én kveldstime)",
+        "skip": "Spis pizza bakerst"
+      }
+    },
+    "cowork_rent": {
+      "title": "Ny pris per pult",
+      "body": "Kontorfellesskapet har fått ny eier, og prisen per pult går opp. Pultene ved vinduet koster mest.",
+      "choices": {
+        "pay": "Betal (30 000 kr)",
+        "window": "Flytt bort fra vinduet"
+      }
+    },
+    "cowork_hackathon": {
+      "title": "Hackathon i helgen",
+      "body": "Noen i kontorfellesskapet arrangerer hackathon fra fredag til søndag. Temaet er «bærekraftig KI for kaffemaskiner».",
+      "choices": {
+        "join": "Bli med (én kveldstime)",
+        "sleep": "Sov ut"
+      }
     }
   },
   "factors": {
@@ -1167,7 +1232,7 @@
       "welcome": {
         "1": {
           "headline": "Nytt konsulenthus ser dagens lys",
-          "body": "{{firm}} er registrert i Brønnøysund og har allerede flere visjoner enn ansatte. Gründerne lover «en ny måte å drive konsulentvirksomhet på», slik gründere gjør.\n\nFørste kunde er Kryptonitt. Resten må vinnes."
+          "body": "{{firm}} er registrert i Brønnøysund og har allerede flere visjoner enn ansatte. Gründerne lover «en ny måte å drive konsulentvirksomhet på», slik gründere gjør.\n\nForeløpig holder selskapet til i et hjørne av et kontorfellesskap. Kundene må vinnes."
         }
       }
     },
@@ -2021,6 +2086,39 @@
         "1": {
           "headline": "Julebord på båt",
           "body": "{{firm}} har leid en fjordbåt til årets julebord. Ledelsen har sendt ut en e-post der det står at «det ikke blir som i fjor».\n\nIngen har villet forklare hva som skjedde i fjor."
+        }
+      }
+    },
+    "startup": {
+      "leadTaken": {
+        "1": {
+          "headline": "{{player}} får oppdrag hos {{customer}}",
+          "body": "{{customer}} har hyret {{player}} direkte, uten anbud. «De var ledige, og de svarte på e-post», sier en kilde hos kunden.\n\nOppdraget starter umiddelbart."
+        }
+      },
+      "recruited": {
+        "1": {
+          "headline": "{{name}} går til {{player}}",
+          "body": "{{name}} har takket ja til en jobb i {{player}}. Avgjørelsen skal ha falt over en kaffe som varte i tre timer.\n\nSelskapet holder fortsatt til i et kontorfellesskap."
+        }
+      },
+      "declined": {
+        "1": {
+          "headline": "{{name}} sier nei takk",
+          "body": "{{name}} har takket nei til {{player}}, i hvert fall for nå. «Jeg trenger litt mer tid», skal det ha blitt sagt.\n\nIfølge kilder står døra fortsatt på gløtt."
+        }
+      },
+      "rampUp": {
+        "1": {
+          "headline": "{{customer}} vil ha mer",
+          "body_one": "{{customer}} utvider samarbeidet med {{player}} og ber om {{count}} konsulent til.\n\nSmå leverandører som leverer, blir fort store leverandører.",
+          "body_other": "{{customer}} utvider samarbeidet med {{player}} og ber om {{count}} konsulenter til.\n\nSmå leverandører som leverer, blir fort store leverandører."
+        }
+      },
+      "graduated": {
+        "1": {
+          "headline": "{{player}} flytter ut",
+          "body": "{{player}} har sagt opp pultene i kontorfellesskapet og flytter inn i egne lokaler.\n\nBaristaen sier det kommer til å bli stillere."
         }
       }
     }

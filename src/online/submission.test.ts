@@ -12,7 +12,8 @@ const ctx = { engineVersion: ENGINE_VERSION, now }
 const opts: NewGameOptions = {
   seed: weekSeed(WEEK),
   firmName: 'Mitt Eget Navn AS',
-  founderDisciplines: ['frontend', 'pm'],
+  founderDiscipline: 'frontend',
+  cofounder: 'ingrid',
   difficulty: 'normal',
   weekly: WEEK,
 }
@@ -35,7 +36,7 @@ describe('leaderboard submission', () => {
 
   it('a finished weekly game replays to the result the player saw', () => {
     expect(sub).not.toBeNull()
-    expect(sub.founders).toEqual(['frontend', 'pm'])
+    expect([sub.founder, sub.cofounder]).toEqual(['frontend', 'ingrid'])
     // Nothing the player typed goes along.
     expect(JSON.stringify(sub)).not.toContain('Mitt Eget Navn')
     const r = verifySubmission(JSON.parse(JSON.stringify(sub)), ctx)
@@ -48,6 +49,9 @@ describe('leaderboard submission', () => {
 
   it('only finished weekly games with a log can be submitted', () => {
     expect(buildSubmission({ ...game, weekly: undefined }, log, ['moose', 'owl', 'as'], ENGINE_VERSION)).toBeNull()
+    // A weekly game from before the co-working space has no co-founder and can't be replayed.
+    const old = { ...game, weekly: { week: WEEK, founders: ['frontend', 'pm'] } } as unknown as GameState
+    expect(buildSubmission(old, log, ['moose', 'owl', 'as'], ENGINE_VERSION)).toBeNull()
     expect(buildSubmission({ ...game, status: 'playing' }, log, ['moose', 'owl', 'as'], ENGINE_VERSION)).toBeNull()
     expect(buildSubmission(game, null, ['moose', 'owl', 'as'], ENGINE_VERSION)).toBeNull()
   })
@@ -72,7 +76,10 @@ describe('leaderboard submission', () => {
       {},
       { ...sub, name: ['moose', 'moose', 'as'] },
       { ...sub, name: ['Kari', 'owl', 'as'] },
-      { ...sub, founders: ['frontend'] },
+      { ...sub, founder: 'juggling' },
+      { ...sub, cofounder: 'nobody' },
+      { ...sub, cofounder: '__proto__' },
+      { ...sub, cofounder: undefined },
       { ...sub, log: [1] },
       { ...sub, gameId: 'x' },
     ]) {

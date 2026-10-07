@@ -536,6 +536,7 @@ export function drawCrises(state: GameState) {
   // A firm already fighting the bank gets no new trouble: crises should sting, not topple.
   if (
     !player.bankrupt &&
+    !player.startup &&
     state.quarter >= CRISIS_MIN_QUARTER &&
     player.negativeCashQuarters === 0 &&
     mine.filter(unresolved).length < CRISIS_MAX_OPEN &&

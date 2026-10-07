@@ -10,7 +10,8 @@ import { weekSeed } from './weekly'
 const opts: NewGameOptions = {
   seed: 7,
   firmName: 'Replay AS',
-  founderDisciplines: ['backend', 'data'],
+  founderDiscipline: 'backend',
+  cofounder: 'aisha',
   difficulty: 'normal',
 }
 /** The whole state as JSON, without the store's `gameId` (the engine never sees it). */
@@ -59,7 +60,7 @@ describe('replay', () => {
 
   it('a weekly game carries its week and seed', () => {
     const s = createNewGame({ ...opts, seed: weekSeed('2026-W39'), weekly: '2026-W39' })
-    expect(s.weekly).toEqual({ week: '2026-W39', founders: ['backend', 'data'] })
+    expect(s.weekly).toEqual({ week: '2026-W39', founder: 'backend', cofounder: 'aisha' })
     expect(s.seed).toBe(weekSeed('2026-W39'))
     expect(createNewGame(opts).weekly).toBeUndefined()
   })

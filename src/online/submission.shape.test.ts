@@ -48,6 +48,8 @@ const SEEN: Record<Action['type'], boolean> = {
   trainEmployee: false,
   upsellContract: false,
   withdrawBid: false,
+  takeLead: false,
+  recruit: false,
 }
 
 describe('submission limits and real games', () => {
@@ -56,7 +58,7 @@ describe('submission limits and real games', () => {
     for (const seed of [1, 2]) {
       // The player bot, then the AI firms, which use the backroom and the rest of the vocabulary.
       const { state, log } = botRun(
-        { seed, firmName: 'X', founderDisciplines: ['backend', 'pm'], difficulty: 'normal' },
+        { seed, firmName: 'X', founderDiscipline: 'backend', cofounder: 'ingrid', difficulty: 'normal' },
         16,
       )
       steps.push(...log.filter((e): e is Action => e !== 'end'))
@@ -89,6 +91,8 @@ describe('submission limits and real games', () => {
       },
       { type: 'lobby', firmId: 'player' },
       { type: 'ipo', firmId: 'player' },
+      // Promotion needs a talent at level 4, which the bot doesn't always grow within 16 quarters.
+      { type: 'promoteEmployee', firmId: 'player', employeeId: 'e123456' },
     )
     for (const step of steps) {
       SEEN[step.type] = true

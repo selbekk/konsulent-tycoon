@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import i18n from '../../i18n'
 import { syncRosterToPools } from '../../engine/testUtils'
 import { useGame } from '../../store/gameStore'
+import { newStoreGame, newStoreGameAfterStartup } from '../../store/testUtils'
 import { AboutScreen, MainMenu } from './Menus'
 import { NewsScreen } from './News'
 import { Shell } from './Shell'
@@ -13,9 +14,7 @@ describe('end of quarter warning', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -51,9 +50,7 @@ describe('levels in the shell', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -113,9 +110,7 @@ describe('onboarding', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGame({ seed: 5, firmName: 'Test AS' })
   })
 
   afterEach(cleanup)
@@ -132,10 +127,10 @@ describe('onboarding', () => {
     expect(useGame.getState().game!.quarter).toBe(0)
 
     fireEvent.click(within(dialog()).getByRole('button', { name: /^next/i }))
-    expect(within(dialog()).getByText(/post job openings under people\./i)).toBeInTheDocument()
+    expect(within(dialog()).getByText(/test as is you, magnus «10x» lie and two laptops/i)).toBeInTheDocument()
     for (let i = 0; i < 3; i++) fireEvent.click(within(dialog()).getByRole('button', { name: /^next/i }))
     expect(within(dialog()).getByText(/step 5 of 5/i)).toBeInTheDocument()
-    expect(within(dialog()).getByText(/level 5 · industry heavyweight/i)).toBeInTheDocument()
+    expect(within(dialog()).getByText(/the goal: an office of your own/i)).toBeInTheDocument()
     fireEvent.click(within(dialog()).getByRole('button', { name: /^back$/i }))
     expect(within(dialog()).getByText(/step 4 of 5/i)).toBeInTheDocument()
     for (let i = 0; i < 3; i++) fireEvent.click(within(dialog()).getByRole('button', { name: /^back$/i }))
@@ -148,14 +143,30 @@ describe('onboarding', () => {
     expect(useGame.getState().onboarding).toBe(false)
   })
 
+  it('shows the co-working space without tabs, and the dashboard intro once the firm moves out', () => {
+    useGame.getState().dismissOnboarding()
+    const { rerender } = render(<Shell />)
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /work on the table/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /your network/i })).toBeInTheDocument()
+
+    const g = structuredClone(useGame.getState().game!)
+    delete g.firms.player.startup
+    g.firms.player.level = 2
+    useGame.setState({ game: g, levelUp: { from: 1, to: 2, graduated: true } })
+    rerender(<Shell />)
+    fireEvent.click(screen.getByRole('button', { name: /back to work/i }))
+    expect(within(screen.getByRole('dialog')).getByText(/an office of your own!/i)).toBeInTheDocument()
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(within(screen.getByRole('navigation')).getByRole('button', { name: /tenders/i })).toBeInTheDocument()
+  })
+
   it('can be skipped with the button or Escape', () => {
     const { rerender } = render(<Shell />)
     fireEvent.click(screen.getByRole('button', { name: /^skip$/i }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
-    useGame
-      .getState()
-      .newGame({ seed: 6, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGame({ seed: 6, firmName: 'Test AS' })
     rerender(<Shell />)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     fireEvent.keyDown(window, { key: 'Escape' })
@@ -174,9 +185,7 @@ describe('about page', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
     useGame.getState().dismissOnboarding()
   })
 
@@ -221,9 +230,7 @@ describe('news page', () => {
   })
 
   it('opens from the game header and goes back to the game', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
     useGame.getState().dismissOnboarding()
     render(<Shell />)
     fireEvent.click(screen.getByRole('button', { name: /^news$/i }))
@@ -242,9 +249,7 @@ describe('keyboard and screen readers', () => {
     await i18n.changeLanguage('en')
     useGame.getState().quit()
     useGame.getState().setSettings({ shortcuts: true })
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
     useGame.getState().dismissOnboarding()
   })
 

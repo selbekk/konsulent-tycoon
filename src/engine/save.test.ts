@@ -55,6 +55,16 @@ describe('save', () => {
     expect(migrated.migrated).toBe(true)
   })
 
+  it('moves a version 1 weekly game off the leaderboard and keeps the rest', () => {
+    const s = { ...newTestGame(), saveVersion: 1, weekly: { week: '2026-W39', founders: ['backend', 'frontend'] } }
+    const migrated = deserialize(JSON.stringify(s))
+    expect(migrated.saveVersion).toBe(2)
+    expect(migrated.weekly).toBeUndefined()
+    expect(migrated.firms.player).toEqual(s.firms.player)
+    const plain = deserialize(JSON.stringify({ ...newTestGame(), saveVersion: 1 }))
+    expect(plain.firms.player.startup).toBeUndefined()
+  })
+
   it('refuses saves from the future', () => {
     expect(() => deserialize(JSON.stringify({ saveVersion: 999 }))).toThrow('save.tooNew')
   })

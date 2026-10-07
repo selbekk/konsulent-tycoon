@@ -46,8 +46,6 @@
     "title": "Start a company",
     "name": "Company name",
     "defaultName": "Consultant & Consultant Ltd",
-    "founders": "Founders' disciplines",
-    "foundersHint": "Pick two. The founders are your first stars, and they never leave.",
     "difficulty": "Difficulty",
     "difficulties": {
       "easy": "Gentle",
@@ -70,7 +68,11 @@
     "modeHints": {
       "free": "A random market, or your own seed. Not ranked.",
       "weekly": "Everyone plays the same market all of {{week}}, on normal difficulty. When you finish, you can send it to the leaderboard."
-    }
+    },
+    "founder": "Your discipline",
+    "founderHint": "You're one of the founders. You're a star from day one, and you never leave.",
+    "cofounder": "Who are you starting with?",
+    "cofounderHint": "Your co-founder stays for the whole game, along with what they're good at and what they aren't."
   },
   "settings": {
     "title": "Settings",
@@ -125,7 +127,7 @@
   },
   "bjorn": {
     "name": "Chairman Bjørn",
-    "start": "Welcome! We have a small gig at Kryptonitt. The rest you'll have to win yourself.",
+    "start": "Welcome to your own office. From here on, you'll have to win the work yourselves.",
     "inCredit": "We're living on the credit line now. The bank sends Christmas cards, but not the nice kind.",
     "heat": "I don't want to know what you're up to. But be careful.",
     "overworked": "People are working too much. Good for this quarter, bad for the next.",
@@ -811,6 +813,18 @@
         "detail_one": "{{count}} contract is at risk of being cancelled.",
         "detail_other": "{{count}} contracts are at risk of being cancelled.",
         "go": "To contracts"
+      },
+      "lead": {
+        "label": "Take a job",
+        "detail_one": "{{count}} person has nothing to do.",
+        "detail_other": "{{count}} people have nothing to do.",
+        "go": "To the jobs"
+      },
+      "network": {
+        "label": "Work your network",
+        "detail_one": "You have {{count}} evening hour left.",
+        "detail_other": "You have {{count}} evening hours left.",
+        "go": "To the network"
       }
     },
     "confirm": {
@@ -1001,7 +1015,46 @@
       "development": "developing your people",
       "peopleStats": "people statistics"
     },
-    "bjorn": "I'm the chair of the board. I'll turn up with advice whenever it suits me. Good luck!"
+    "bjorn": "I'm the chair of the board. I'll turn up with advice whenever it suits me. Good luck!",
+    "cowork": {
+      "title": "A corner of a co-working space",
+      "body": "For now, {{firm}} is you, {{cofounder}} and two laptops by the window. No tabs, no tenders, no canteen. Just what matters.",
+      "points": [
+        "Each turn is one quarter. Do what you like, then press “{{endTurn}}”.",
+        "What you bill is what you live on. Salaries and desk rent are due either way."
+      ]
+    },
+    "leads": {
+      "title": "The work comes to you",
+      "body": "Every quarter, a few jobs land on the table. Pick one. There's no bidding: say yes and the work is yours.",
+      "points": [
+        "Steady jobs last long but pay less.",
+        "Growth clients want more people later on, and prestige clients build your reputation.",
+        "A job takes everyone who's free, so it's worth recruiting before you pick."
+      ]
+    },
+    "network": {
+      "title": "People take persuading",
+      "body": "You hire from your network, one person at a time. You have {{hours}} evening hours a quarter, and a coffee, a round of drinks, a LinkedIn message or an offer costs one each.",
+      "points": [
+        "A coffee shows what someone likes best. Whatever they like works best.",
+        "Interest is the chance they'll say yes to an offer.",
+        "Whoever says yes starts right away."
+      ]
+    },
+    "office": {
+      "title": "The goal: an office of your own",
+      "body": "Once you reach any one of the level 2 goals, you move out. Then the tender board, hiring and the rest of the game open up.",
+      "points": ["The goals are in the “The road ahead” panel.", "The coffee here is free, but only before ten."]
+    },
+    "moved": {
+      "title": "An office of your own!",
+      "body": "{{firm}} has moved out of the co-working space. The rest of the game opens up now: tabs, tenders, hiring and a chair of the board.",
+      "points": [
+        "Your jobs carry on as ordinary contracts.",
+        "The network stayed behind at the co-working space. From now on, you post job openings under {{staff}}."
+      ]
+    }
   },
   "about": {
     "title": "About Konsulent Tycoon",
@@ -1399,5 +1452,78 @@
       "sign": "Coming soon: the biggest consultancy in the country (2029)"
     },
     "familiarName": "New firm with a suspiciously familiar name registered: \"{{name}}\". The lawyers have been notified."
+  },
+  "startup": {
+    "title": "The co-working space",
+    "level": "level {{level}}",
+    "revenue": "Revenue",
+    "freelancers": "Some seats are filled by freelancers. They cost more than they bring in, so it pays to recruit.",
+    "leads": {
+      "title": "Work on the table",
+      "intro": "Word has got around. Pick one job this quarter. It starts right away, and everyone who's free goes along.",
+      "kinds": {
+        "steady": {
+          "name": "Steady",
+          "blurb": "A public-sector client, a long contract and a low rate. Predictable in the good way."
+        },
+        "growth": {
+          "name": "Growth",
+          "blurb": "The client is growing fast and will want more people later. You'll have to recruit to keep up."
+        },
+        "prestige": {
+          "name": "Prestige",
+          "blurb": "A big name for the reference list. Short and well paid, and they want one more person than you have free."
+        },
+        "insider": {
+          "name": "Insider tip",
+          "blurb": "Your co-founder knows someone. Well paid, and nobody asks for references."
+        }
+      },
+      "seats_one": "{{count}} consultant: {{seats}}",
+      "seats_other": "{{count}} consultants: {{seats}}",
+      "duration_one": "Runs for {{count}} quarter",
+      "duration_other": "Runs for {{count}} quarters",
+      "rate": "Rate: {{rate}} of list price",
+      "ramp_one": "Wants {{count}} more consultant in {{quarters}} quarters, if they are happy",
+      "ramp_other": "Wants {{count}} more consultants in {{quarters}} quarters, if they are happy",
+      "reputation": "+{{n}} reputation",
+      "result": "This quarter's result:",
+      "taken": "You took this one.",
+      "take": "Take the job",
+      "oneOnly": "One job per quarter"
+    },
+    "network": {
+      "title": "Your network",
+      "intro": "People you know, or who know someone you know. Each evening hour buys one coffee, one round of drinks, one LinkedIn message or one offer. A coffee shows what someone likes best.",
+      "empty": "Nobody in the network right now. New people turn up next quarter.",
+      "hours": "Evening hours",
+      "hoursSr": "{{left}} of {{total}} evening hours left",
+      "interest": "Interest",
+      "likes": "Likes best: {{move}}",
+      "likesUnknown": "You don't know what works yet. Start with a coffee.",
+      "likesWhat": {
+        "coffee": "a coffee",
+        "drinks": "drinks",
+        "linkedin": "a LinkedIn message"
+      },
+      "moves": {
+        "coffee": "Coffee",
+        "drinks": "Drinks ({{cost}})",
+        "linkedin": "LinkedIn",
+        "offer": "Make an offer ({{chance}})"
+      },
+      "until": "In your network until {{quarter}}"
+    },
+    "team": {
+      "title": "The team",
+      "you": "Founder",
+      "cofounder": "Co-founder",
+      "since": "Since {{quarter}}",
+      "work": "Work",
+      "contract": "· {{seats}} · until {{end}}.",
+      "ramp_one": "Wants {{count}} more from {{quarter}}.",
+      "ramp_other": "Wants {{count}} more from {{quarter}}.",
+      "noWork": "No work yet. Pick one of the jobs above."
+    }
   }
 }

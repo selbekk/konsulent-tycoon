@@ -18,6 +18,7 @@ import { valuation } from './score'
 import { decayHeatAndIntel, rollShadyDetection } from './shady'
 import { applyTurnover, processHiring, updateMorale } from './staff'
 import { refreshStarMarket, updateStars } from './stars'
+import { applyRamps, startupQuarter } from './startup'
 import { publishTenders, resolveDueTenders, retenderContracts } from './tenders'
 import type { GameState } from './types'
 import { addNews, aiFirms, activeFirms } from './util'
@@ -114,6 +115,7 @@ export function endTurn(input: GameState): GameState {
   updateLevels(state)
   const next = state.quarter + 1
   expireContracts(state, next)
+  applyRamps(state, next)
   rollCallOffs(state, next)
   updateTrends(state, next)
   publishTenders(state, next)
@@ -140,6 +142,8 @@ export function endTurn(input: GameState): GameState {
     return state
   }
   refreshStarMarket(state)
+  // Only while the player is still in the co-working space (updateLevels ends it at level 2).
+  startupQuarter(state)
   advanceCrises(state)
   drawEvents(state)
   drawCrises(state)
