@@ -822,8 +822,8 @@
       },
       "network": {
         "label": "Snakk med nettverket",
-        "detail_one": "Dere har {{count}} kveldstime igjen.",
-        "detail_other": "Dere har {{count}} kveldstimer igjen.",
+        "detail_one": "Oppdragene trenger {{count}} person til. Det holder med én kaffeprat for å komme i gang.",
+        "detail_other": "Oppdragene trenger {{count}} personer til. Det holder med én kaffeprat for å komme i gang.",
         "go": "Til nettverket"
       }
     },
@@ -1386,7 +1386,7 @@
       "cowork": {
         "title": "Nå starter du i et kontorfellesskap",
         "body": [
-          "Jeg har fått en del tilbakemeldinger på at Konsulent Tycoon er litt… mye. Spesielt i starten. Du fikk et helt dashbord, en anbudstavle full av kunder, seks ansatte du aldri hadde valgt og en håndfull faner, før du i det hele tatt hadde rukket å drikke opp kaffen. Det er jo ikke sånn det er å starte konsulentselskap. Så nå har jeg gjort noe med det.",
+          "Jeg har fått en del tilbakemeldinger på at Konsulent Tycoon er litt… mye. Spesielt i starten. Du fikk et helt dashbord, en anbudstavle full av kunder, fire ansatte du aldri hadde valgt og en håndfull faner, før du i det hele tatt hadde rukket å drikke opp kaffen. Det er jo ikke sånn det er å starte konsulentselskap. Så nå har jeg gjort noe med det.",
           "Nå starter du som to gründere i et hjørne av et kontorfellesskap. Du velger ditt eget fagområde, og så velger du hvem du starter med: Ingrid, Magnus «10x», Marte, Jonas, Aisha eller Kari. Alle gjør noe lettere og noe vanskeligere, og det følger med hele veien. Magnus er sabla flink, men ikke akkurat den du sender på kaffeprat. Ingen ansatte, ingen startkontrakt og ingen faner. Bare dere to.",
           "Hvert kvartal ligger det noen oppdrag på bordet. Et trygt og langt et, en kunde som vokser og vil ha flere folk etter hvert, eller et kort og godt betalt prestisjeoppdrag. Du velger ett, og det er ingen budrunde. Sier du ja, er jobben din. Folk henter du fra nettverket, én og én, med kveldstimene dine: en kaffeprat for å finne ut hva personen liker, drinks eller en LinkedIn-melding, og til slutt et tilbud. Kontorfellesskapet har også sine egne små dramaer, som wifi som er nede (igjen), pitchekveld og en barista som kjenner en CTO. Kriser slipper du foreløpig.",
           "Når dere når nivå 2, flytter dere ut i eget kontor. Da åpner resten av spillet: faner, anbud, ansettelser og styreleder Bjørn, som har ventet tålmodig på å få si noe.",

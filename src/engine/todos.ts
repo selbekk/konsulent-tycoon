@@ -97,7 +97,7 @@ function nurtureTodo(state: GameState, firmId: string, matters: (quarter: number
 }
 
 /**
- * The co-working space: take a lead while people are free, and see the network at least once a quarter.
+ * The co-working space: take a lead while people are free, and see the network when the work needs more people.
  * Both are one click away; using every evening hour is up to the player, so it isn't a to-do.
  */
 function startupTodos(state: GameState, firmId: string): Todo[] {
@@ -107,11 +107,15 @@ function startupTodos(state: GameState, firmId: string): Todo[] {
   const idle = seatTotal(staffFirm(state, firm).idle)
   if (st.takenLead || (idle > 0 && st.leads.length))
     todos.push({ id: 'lead', done: !!st.takenLead, params: { count: idle } })
-  const full = startupHours(st.cofounder)
+  // Like 'hire' later on: only when signed work needs more people than the firm has, and it can pay them.
+  const needed =
+    Math.max(seatTotal(staffFirm(state, firm).demand), seatTotal(staffFirm(state, firm, state.quarter + 1).demand)) -
+    headcount(firm)
+  const runway = (firm.cash + creditLimit(firm) * 0.5) / Math.max(1, quarterFinancials(state, firmId).total)
   const canMove = st.candidates.some((c) =>
     (['coffee', 'drinks', 'linkedin', 'offer'] as const).some((m) => !recruitBlock(firm, c, m, state.quarter)),
   )
-  if (st.hours < full || (canMove && st.hours > 0))
-    todos.push({ id: 'network', done: st.hours < full, params: { count: st.hours } })
+  if (needed >= 1 && runway > TODO_HIRE_MIN_RUNWAY && (canMove || st.hours < startupHours(st.cofounder)))
+    todos.push({ id: 'network', done: st.hours < startupHours(st.cofounder), params: { count: needed } })
   return todos
 }

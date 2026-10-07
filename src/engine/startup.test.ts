@@ -240,14 +240,16 @@ describe('the UI side', () => {
     expect(me(s).rosterSeq).toBe(seq)
   })
 
-  it('asks for a lead while people are free, and to see the network', () => {
+  it('asks for a lead while people are free, and for the network when the work needs more people', () => {
     const s = newStartupGame()
     const ids = (x: GameState) => quarterTodos(x, 'player').map((t) => [t.id, t.done])
-    expect(ids(s)).toEqual([
-      ['lead', false],
+    expect(ids(s)).toEqual([['lead', false]])
+    // Prestige wants one more person than the firm has free.
+    const after = take(s, 'prestige')
+    expect(ids(after)).toEqual([
+      ['lead', true],
       ['network', false],
     ])
-    const after = take(s, 'steady')
     const met = applyAction(after, {
       type: 'recruit',
       firmId: 'player',
