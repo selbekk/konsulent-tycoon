@@ -33,9 +33,15 @@ function client(name?: string) {
   connectFirestoreEmulator(db, '127.0.0.1', 8181)
   const fns = getFunctions(app, 'europe-west1')
   connectFunctionsEmulator(fns, '127.0.0.1', 5101)
-  return { auth, db, submit: httpsCallable(fns, 'submitRun'), del: httpsCallable(fns, 'deleteAccount') }
+  return {
+    auth,
+    db,
+    submit: httpsCallable(fns, 'submitRun'),
+    feedback: httpsCallable(fns, 'submitFeedback'),
+    del: httpsCallable(fns, 'deleteAccount'),
+  }
 }
-const { auth, db, submit, del } = client()
+const { auth, db, submit, feedback, del } = client()
 const page = (...path: [string, ...string[]]) => getDocs(query(collection(db, ...path), limit(50)))
 const reason = (e: unknown) => (e as { details?: { reason?: string } }).details?.reason
 
@@ -139,6 +145,28 @@ try {
   check(false, 'prototype id refused')
 } catch (e) {
   check(reason(e) === 'invalid', 'prototype id refused')
+}
+
+// Feedback: stored without the player's id, rate limited, unreadable for clients, and checked on the server.
+const note = { rating: 5, text: 'Fint!', lang: 'nb', source: 'end', quarter: 39 }
+check(((await feedback(note)).data as { ok?: boolean }).ok === true, 'feedback stored')
+try {
+  await feedback(note)
+  check(false, 'feedback rate limited')
+} catch (e) {
+  check((e as { code: string }).code === 'functions/resource-exhausted', 'feedback rate limited')
+}
+try {
+  await feedback({ ...note, rating: 11 })
+  check(false, 'bad feedback refused')
+} catch (e) {
+  check((e as { code: string }).code === 'functions/invalid-argument', 'bad feedback refused')
+}
+try {
+  await getDocs(query(collection(db, 'feedback'), limit(5)))
+  check(false, 'feedback not readable')
+} catch {
+  check(true, 'feedback not readable')
 }
 
 await del()

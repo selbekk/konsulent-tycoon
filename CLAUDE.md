@@ -18,6 +18,7 @@ npm run build                # tsc -b && vite build -> dist/
 npm run build && npm run preview             # the only way to test PWA/offline behaviour
 npm run sim -- --games 60 --strategy human,humanPro   # headless balance sim with player bots
 npm run sim:market -- 20 -v  # AI market alone over 40 quarters
+npm run feedback             # latest player feedback from Firestore (uses your gcloud login)
 npm run icons                # regenerate PNG icons from public/icon.svg (commit the output)
 ```
 

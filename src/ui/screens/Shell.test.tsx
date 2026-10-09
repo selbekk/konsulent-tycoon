@@ -231,11 +231,12 @@ describe('news page', () => {
 
   it('opens from the main menu and goes back to it', () => {
     render(<MainMenu />)
-    fireEvent.click(screen.getByRole('button', { name: /^latest news: you now start in a co-working space/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^latest news: tell me what you think/i }))
     expect(useGame.getState().screen).toBe('news')
     cleanup()
 
     render(<NewsScreen />)
+    expect(screen.getByRole('heading', { name: /tell me what you think/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /you now start in a co-working space/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /you're allowed to tell people now/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /welcome to the news feed/i })).toBeInTheDocument()

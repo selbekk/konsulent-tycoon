@@ -40,7 +40,8 @@
     "about": "Om spillet",
     "leaderboard": "Toppliste",
     "news": "Nyheter",
-    "latestNews": "Siste nytt: {{title}}"
+    "latestNews": "Siste nytt: {{title}}",
+    "feedback": "Gi tilbakemelding"
   },
   "newGame": {
     "title": "Start et selskap",
@@ -1096,7 +1097,8 @@
         "Spillet er gratis og kjører i nettleseren din. Lagrede spill ligger på din egen enhet og sendes ingen steder. Kort fortalt vil jeg gjerne vite hvordan spillet brukes, men ikke hvem du er.",
         "Sier du ja til bruksstatistikk, sender spillet anonyme hendelser til PostHog, med servere i EU: hvilke skjermer du åpner, hva du gjør i spillet (som bud, ansettelser og valg i kriser), hvordan kvartalene går og feilmeldinger hvis noe krasjer. Med følger også det nettleseren forteller om seg selv, som nettlesertype, operativsystem, skjermstørrelse, omtrentlig land og hvilken side du kom fra. Jeg lagrer en tilfeldig ID på enheten din, slik at jeg ser at det er samme spiller neste gang, og hvert parti får også sin egen tilfeldige ID. Jeg lagrer ikke IP-adressen din, og jeg sender ikke navnet på firmaet ditt eller noe annet du skriver selv.",
         "Sier du nei, lastes ikke PostHog i det hele tatt. Du kan ombestemme deg når som helst under Innstillinger. Spiller du uten nett, sendes hendelsene når du er på nett igjen, så lenge spillet fortsatt er åpent.",
-        "Vil du være med på topplista, sender spillet ukens parti til Firebase (Google) med servere i EU. Da lagres en anonym konto (en tilfeldig ID), trekkene du gjorde i partiet, resultatet og navnet du valgte fra ordlista. Firmanavnet ditt sendes ikke. Det skjer bare når du selv trykker «Send inn», og du kan slette kontoen og alt som er lagret under Innstillinger."
+        "Vil du være med på topplista, sender spillet ukens parti til Firebase (Google) med servere i EU. Da lagres en anonym konto (en tilfeldig ID), trekkene du gjorde i partiet, resultatet og navnet du valgte fra ordlista. Firmanavnet ditt sendes ikke. Det skjer bare når du selv trykker «Send inn», og du kan slette kontoen og alt som er lagret under Innstillinger.",
+        "Gir du tilbakemelding, sendes stjernene og det du skrev til Firebase i EU, sammen med språket ditt og hvilket kvartal du var i. Tilbakemeldingen lagres uten ID, så den kan ikke knyttes til deg. For å stoppe spam får du en anonym konto (en tilfeldig ID), og den husker bare når du sist sendte noe. Det sendes bare når du selv trykker «Send»."
       ]
     },
     "thanks": {
@@ -1386,6 +1388,14 @@
   "news": {
     "title": "Nyheter",
     "posts": {
+      "feedback": {
+        "title": "Si hva du mener (jeg tåler det)",
+        "body": [
+          "Det er én ting jeg lurer på hele tiden: hva synes du egentlig om spillet? Før måtte du finne e-posten min under «Om spillet» for å fortelle meg det. Nå kan du gjøre det rett i spillet, med en til fem stjerner og en kommentar hvis du har lyst.",
+          "Spillet kommer til å spørre deg av og til. Et stykke ut i partiet dukker det opp et lite spørsmål i kvartalsrapporten, og et på sluttskjermen når de ti årene er over. Men ikke ofte, altså. Trykker du «Ikke nå», venter spillet lenger før det spør igjen. Har du først svart, får du være i fred en god stund. Vil du si noe uten å bli spurt, ligger knappen «Gi tilbakemelding» alltid i hovedmenyen.",
+          "Tilbakemeldingen er anonym, så jeg kan ikke svare deg. Men jeg leser alt som kommer inn, både det rosende og det litt mindre rosende. Det er sånn spillet blir bedre. Så fyr løs!"
+        ]
+      },
       "cowork": {
         "title": "Nå starter du i et kontorfellesskap",
         "body": [
@@ -1546,6 +1556,31 @@
       "pick": "Velg en medgründer",
       "confirm": "Start sammen med {{name}}",
       "endTurnHint": "Velg en medgründer først."
+    }
+  },
+  "feedback": {
+    "title": "Gi tilbakemelding",
+    "question": "Hva synes du om spillet så langt?",
+    "questionEnd": "Hva syntes du om spillet?",
+    "stars_one": "{{count}} stjerne",
+    "stars_other": "{{count}} stjerner",
+    "ratings": {
+      "1": "Ikke noe for meg",
+      "2": "Tja",
+      "3": "Helt greit",
+      "4": "Gøy!",
+      "5": "Bedre enn et kickoff-seminar"
+    },
+    "comment": "Vil du si mer? Hva var gøy, hva var kjedelig, og hva savner du? (valgfritt)",
+    "anonymous": "Tilbakemeldingen er anonym, så jeg kan ikke svare på den. Vil du ha svar, finner du e-posten min under «Om spillet».",
+    "notNow": "Ikke nå",
+    "send": "Send",
+    "sending": "Sender …",
+    "thanks": "Takk! Jeg leser alt som kommer inn.",
+    "errors": {
+      "offline": "Det ser ut som du er uten nett. Prøv igjen når du er på nett.",
+      "tooFast": "Du sendte nettopp en. Vent et minutt, så kan du sende en til.",
+      "unknown": "Noe gikk galt, og tilbakemeldingen ble ikke sendt. Prøv igjen litt senere."
     }
   }
 }

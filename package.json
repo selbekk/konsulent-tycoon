@@ -16,6 +16,7 @@
     "functions:typecheck": "tsc -p functions/tsconfig.json",
     "functions:build": "npm run functions:typecheck && vite build --config functions/vite.config.ts",
     "functions:check": "npm run functions:build && firebase emulators:exec --only auth,firestore,functions \"npx tsx scripts/emulator-check.ts\"",
+    "feedback": "tsx scripts/feedback.ts",
     "sim": "tsx scripts/sim.ts",
     "sim:market": "tsx scripts/market-health.ts",
     "icons": "pwa-assets-generator"
