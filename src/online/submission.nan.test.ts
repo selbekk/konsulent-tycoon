@@ -18,7 +18,7 @@ describe('leaderboard submission with a broken valuation', () => {
     const { log } = botRun({
       seed: weekSeed(week),
       firmName: 'X',
-      founderDisciplines: ['frontend', 'pm'],
+      founderDiscipline: 'frontend',
       difficulty: 'normal',
       weekly: week,
     })
@@ -26,7 +26,7 @@ describe('leaderboard submission with a broken valuation', () => {
       engineVersion: ENGINE_VERSION,
       week,
       gameId: 'test-game-0001',
-      founders: ['frontend', 'pm'],
+      founder: 'frontend',
       log,
       name: ['moose', 'owl', 'as'],
       claimedValuation: 0,

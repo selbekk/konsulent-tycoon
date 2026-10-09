@@ -20,11 +20,11 @@ describe('missions', () => {
     const s = newTestGame()
     const rep = s.firms.player.reputation
     const rng = s.rng.s
-    s.firms.player.tendersWon = 1
+    s.firms.player.stats = { leads: 1 }
     checkMissions(s)
     checkMissions(s)
-    expect(s.firms.player.missionsDone).toEqual(['first_win'])
-    expect(s.firms.player.reputation).toBe(rep + 3)
+    expect(s.firms.player.missionsDone).toEqual(['first_lead'])
+    expect(s.firms.player.reputation).toBe(rep + 2)
     expect(s.news.filter((n) => n.key === 'news.mission.done')).toHaveLength(1)
     expect(s.rng.s).toBe(rng)
   })

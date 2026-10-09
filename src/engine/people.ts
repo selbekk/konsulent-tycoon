@@ -145,12 +145,15 @@ export function peopleStats(state: GameState, firmId: string): PeopleStats {
   let tenure = 0
   for (const p of people) {
     const prof = profileOf(state, p)
-    gender[prof.gender]++
-    const group = (Object.keys(GENDER_GROUPS) as GenderGroup[]).find((g) =>
-      (GENDER_GROUPS[g] as readonly Discipline[]).includes(p.discipline),
-    )!
-    genderByGroup[group].total++
-    if (prof.gender === 'female') genderByGroup[group].female++
+    // The player is a real person; the game doesn't guess their gender from a name.
+    if (!('ceo' in p && p.ceo)) {
+      gender[prof.gender]++
+      const group = (Object.keys(GENDER_GROUPS) as GenderGroup[]).find((g) =>
+        (GENDER_GROUPS[g] as readonly Discipline[]).includes(p.discipline),
+      )!
+      genderByGroup[group].total++
+      if (prof.gender === 'female') genderByGroup[group].female++
+    }
     ages.push(ageAt(prof, q))
     years.push(experienceAt(prof, q))
     tenure += (q - (p.joinedQuarter ?? 0)) / 4

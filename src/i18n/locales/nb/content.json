@@ -386,11 +386,14 @@
     "specialist_data": "Dataspesialist"
   },
   "missions": {
+    "first_lead": {
+      "name": "Ta ditt første oppdrag"
+    },
+    "first_recruit": {
+      "name": "Få med den første ansatte"
+    },
     "first_win": {
       "name": "Vinn ditt første anbud"
-    },
-    "first_hire": {
-      "name": "Ansett din første konsulent"
     },
     "full_house": {
       "name": "Fakturer minst 90 % av tiden i et kvartal"
@@ -693,6 +696,38 @@
       "labs": "Labs",
       "consulting": "Consulting",
       "holding": "Holding"
+    }
+  },
+  "cofounders": {
+    "ingrid": {
+      "blurb": "Har vært prosjektleder overalt, kjenner alle og husker navnet på barna deres.",
+      "pro": "Én kveldstime mer, og flere folk i nettverket.",
+      "con": "Prosjektledere fakturerer mindre enn utviklere."
+    },
+    "magnus": {
+      "blurb": "Skriver kode raskere enn du leser den, og sier det gjerne selv.",
+      "pro": "Nivå 5 og sterk i anbud.",
+      "con": "Én kveldstime mindre, og backend-folka trives litt dårligere."
+    },
+    "marte": {
+      "blurb": "Designer med tolv tusen følgere og sterke meninger om fonter.",
+      "pro": "Alle i nettverket er mer interessert fra start.",
+      "con": "Vet hva hun er verdt: 10 % høyere lønn."
+    },
+    "jonas": {
+      "blurb": "Ti år i et stort konsulenthus. Har fortsatt kundelista i hodet.",
+      "pro": "Et ekstra, godt betalt oppdrag hvert kvartal.",
+      "con": "Vant til konsulenthuslønn: 20 % over markedet."
+    },
+    "aisha": {
+      "blurb": "Dataingeniør som har spart opp til akkurat dette.",
+      "pro": "1 MNOK ekstra i startkapital, og hun løfter fagnivået i data.",
+      "con": "Nivå 3: fakturerer mindre de første årene."
+    },
+    "kari": {
+      "blurb": "Arkitekt med tjue år i bransjen og fast plass på konferansescenen.",
+      "pro": "Nivå 5 og mer omdømme fra start.",
+      "con": "10 % høyere lønn, og hun jobber for mye til å trives over tid."
     }
   }
 }

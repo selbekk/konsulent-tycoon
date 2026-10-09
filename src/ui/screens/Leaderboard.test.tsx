@@ -71,7 +71,7 @@ describe('leaderboard UI', () => {
     render(<NewGame />)
     fireEvent.click(screen.getByRole('button', { name: 'Firm of the Week' }))
     expect(screen.queryByLabelText(/seed/i)).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /start|found/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^(start|found) (a|the) company$/i }))
     const game = useGame.getState().game!
     const week = isoWeek(Date.now())
     expect(game.weekly?.week).toBe(week)
@@ -84,7 +84,7 @@ describe('leaderboard UI', () => {
     useGame.getState().newGame({
       seed: weekSeed(week),
       firmName: 'Hemmelig AS',
-      founderDisciplines: ['backend', 'frontend'],
+      founderDiscipline: 'backend',
       difficulty: 'normal',
       weekly: week,
     })
@@ -101,9 +101,7 @@ describe('leaderboard UI', () => {
   })
 
   it('has no leaderboard panel for a free game', () => {
-    useGame
-      .getState()
-      .newGame({ seed: 3, firmName: 'Fri AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'easy' })
+    useGame.getState().newGame({ seed: 3, firmName: 'Fri AS', founderDiscipline: 'backend', difficulty: 'easy' })
     useGame.setState({ game: { ...useGame.getState().game!, status: 'finished' } })
     render(<EndGame />)
     expect(screen.queryByRole('button', { name: 'Join and send' })).not.toBeInTheDocument()
@@ -122,7 +120,7 @@ describe('leaderboard UI', () => {
     useGame.getState().newGame({
       seed: weekSeed(week),
       firmName: 'Senere AS',
-      founderDisciplines: ['backend', 'frontend'],
+      founderDiscipline: 'backend',
       difficulty: 'normal',
       weekly: week,
     })

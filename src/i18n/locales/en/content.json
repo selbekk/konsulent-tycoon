@@ -386,11 +386,14 @@
     "specialist_data": "Data specialist"
   },
   "missions": {
+    "first_lead": {
+      "name": "Take your first job"
+    },
+    "first_recruit": {
+      "name": "Bring in your first hire"
+    },
     "first_win": {
       "name": "Win your first tender"
-    },
-    "first_hire": {
-      "name": "Hire your first consultant"
     },
     "full_house": {
       "name": "Bill at least 90 % of the time in a quarter"
@@ -693,6 +696,38 @@
       "labs": "Labs",
       "consulting": "Consulting",
       "holding": "Holdings"
+    }
+  },
+  "cofounders": {
+    "ingrid": {
+      "blurb": "Has been a project manager everywhere, knows everyone and remembers your kids' names.",
+      "pro": "One more evening hour, and more people in the network.",
+      "con": "Project managers bill less than developers."
+    },
+    "magnus": {
+      "blurb": "Writes code faster than you can read it, and will happily tell you so.",
+      "pro": "Level 5 and strong in tenders.",
+      "con": "One evening hour fewer, and the backend people are a little less happy."
+    },
+    "marte": {
+      "blurb": "A designer with twelve thousand followers and strong opinions about fonts.",
+      "pro": "Everyone in the network is keener from the start.",
+      "con": "Knows her worth: 10% higher salary."
+    },
+    "jonas": {
+      "blurb": "Ten years at a big consultancy. Still has the client list in his head.",
+      "pro": "An extra, well-paid job on the table every quarter.",
+      "con": "Used to big-consultancy pay: 20% above the market."
+    },
+    "aisha": {
+      "blurb": "A data engineer who has been saving up for exactly this.",
+      "pro": "NOK 1M extra starting capital, and she lifts the skills of the data people.",
+      "con": "Level 3: bills less in the early years."
+    },
+    "kari": {
+      "blurb": "An architect with twenty years in the business and a regular spot on the conference stage.",
+      "pro": "Level 5 and more reputation from the start.",
+      "con": "10% higher salary, and she works too hard to stay happy for long."
     }
   }
 }

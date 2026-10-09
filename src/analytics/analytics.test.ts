@@ -2,7 +2,7 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createNewGame } from '../engine'
 import type { Action, GameState } from '../engine'
-import { deepFreeze } from '../engine/testUtils'
+import { deepFreeze, testOptions } from '../engine/testUtils'
 import { describeAction, quarterSummary, settleKey } from './gameEvents'
 
 const ph = vi.hoisted(() => ({
@@ -17,8 +17,7 @@ const ph = vi.hoisted(() => ({
 }))
 vi.mock('posthog-js', () => ({ default: ph }))
 
-const game = (): GameState =>
-  createNewGame({ seed: 7, firmName: 'Hemmelig AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+const game = (): GameState => createNewGame({ ...testOptions(7), firmName: 'Hemmelig AS' })
 const flush = async () => {
   // One microtask at a time, on purpose.
   // oxlint-disable-next-line no-await-in-loop

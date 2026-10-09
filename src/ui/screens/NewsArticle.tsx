@@ -13,9 +13,11 @@ import s from './screens.module.css'
 export function NewsArticle({ item, onClose }: { item: NewsItem; onClose: () => void }) {
   const { t, i18n } = useTranslation()
   const player = useGame((x) => x.game!.firms[x.game!.playerId].name)
+  // The player as CEO, for the quotes in stories about their firm. Old saves without a CEO get the firm's name.
+  const ceo = useGame((x) => x.game!.firms[x.game!.playerId].stars.find((star) => star.ceo)?.name) ?? player
   const variant = (hashString(item.id) % articleVariants(item.key)) + 1
   const key = `game:articles.${articleKey(item.key)}.${variant}`
-  const params = { ...resolveParams(item.params, t, i18n.language), player }
+  const params = { ceo, ...resolveParams(item.params, t, i18n.language), player }
   const lead = newsText(item, t, i18n.language)
   const has = i18n.exists(`${key}.headline`)
   const headline = has ? t(`${key}.headline`, params) : lead

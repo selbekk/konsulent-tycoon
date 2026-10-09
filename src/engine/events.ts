@@ -1,10 +1,11 @@
 import { EVENTS, EVENT_MAP } from '../content/events'
 import type { Effect, EventCtx } from '../content/events'
-import { PREMIUM_MAX, PREMIUM_MIN, clamp } from './constants'
+import { PREMIUM_MAX, PREMIUM_MIN, STARTUP_EVENT_CHANCE, STARTUP_EVENT_INTEREST, clamp } from './constants'
 import { averageMorale, headcount, staffFirm } from './economy'
 import { chance, pick, weightedPick } from './rng'
 import { addPeople } from './roster'
 import { removeStar, starSigningCost } from './stars'
+import { addCandidates } from './startup'
 import { DISCIPLINES } from './types'
 import type { ActionOf, Firm, GameState, PendingEvent } from './types'
 import { addNews, nextId } from './util'
@@ -25,12 +26,14 @@ export function drawEvents(state: GameState) {
   if (firm.bankrupt) return
   const ctx = eventCtx(state, firm)
   const rngPick = <T>(xs: readonly T[]) => pick(state.rng, xs)
-  const slots = [0.8, 0.3]
+  // The co-working space has its own, fewer events.
+  const startup = !!firm.startup
+  const slots = startup ? [STARTUP_EVENT_CHANCE] : [0.8, 0.3]
   const taken = new Set<string>()
   for (const p of slots) {
     if (!chance(state.rng, p)) break
     const candidates = EVENTS.filter((e) => {
-      if (e.special || taken.has(e.id)) return false
+      if (e.special || taken.has(e.id) || !!e.startup !== startup) return false
       if (e.minQuarter !== undefined && state.quarter < e.minQuarter) return false
       const last = state.eventHistory[e.id]
       if (last !== undefined && state.quarter - last < e.cooldown) return false
@@ -61,6 +64,7 @@ export function applyEffect(state: GameState, firm: Firm, effect: Effect, pe: Pe
   if (effect.sosialt) firm.sosialt = clamp(firm.sosialt + effect.sosialt, 0, 100)
   if (effect.morale) applyMorale(firm, effect.morale)
   if (effect.brand) firm.brandMod += effect.brand
+  if (effect.startupHours && firm.startup) firm.startup.hours = Math.max(0, firm.startup.hours + effect.startupHours)
   if (effect.salaryPremium)
     firm.budgets.salaryPremium = clamp(firm.budgets.salaryPremium + effect.salaryPremium, PREMIUM_MIN, PREMIUM_MAX)
   const customerId = pe.params.customer as string | undefined
@@ -90,6 +94,9 @@ export function applyEffect(state: GameState, firm: Firm, effect: Effect, pe: Pe
       for (const d of ['frontend', 'backend', 'design'] as const) addPeople(state, firm, d, 1, 1.5)
       break
     }
+    case 'startup_candidate':
+      addCandidates(state, firm, 1, STARTUP_EVENT_INTEREST)
+      break
     case 'poach_match':
       if (star) {
         firm.cash -= starSigningCost(star, firm) / 2

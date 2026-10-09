@@ -115,7 +115,7 @@ describe('profiles', () => {
   it('gives new people a profile, and a first name that fits it', () => {
     const s = played(5, 6)
     const me = s.firms.player
-    for (const p of [...me.roster!, ...me.stars, ...s.starMarket]) {
+    for (const p of [...me.roster!, ...me.stars.filter((x) => !x.ceo), ...s.starMarket]) {
       expect(p.gender).toBeDefined()
       const first = p.name.split(' ')[0]
       if (p.gender === 'female') expect(FEMALE_FIRST_NAMES).toContain(first)
@@ -167,8 +167,11 @@ describe('people statistics', () => {
     const st = peopleStats(s, 'player')
     const me = s.firms.player
     expect(st.headcount).toBe(me.roster!.length + me.stars.length)
-    expect(st.gender.female + st.gender.male + st.gender.nonbinary).toBe(st.headcount)
-    expect(st.genderByGroup.tech.total + st.genderByGroup.design.total + st.genderByGroup.pm.total).toBe(st.headcount)
+    // Everyone but the player: their gender isn't guessed from the name they typed.
+    expect(st.gender.female + st.gender.male + st.gender.nonbinary).toBe(st.headcount - 1)
+    expect(st.genderByGroup.tech.total + st.genderByGroup.design.total + st.genderByGroup.pm.total).toBe(
+      st.headcount - 1,
+    )
     expect(st.age!.min).toBeLessThanOrEqual(st.age!.avg)
     expect(st.age!.avg).toBeLessThanOrEqual(st.age!.max)
     expect(st.tenure).toBe(0)

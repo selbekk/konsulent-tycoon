@@ -43,7 +43,7 @@ const week = isoWeek(Date.now())
 const { state, log } = botRun({
   seed: weekSeed(week),
   firmName: 'Emu AS',
-  founderDisciplines: ['backend', 'data'],
+  founderDiscipline: 'backend',
   difficulty: 'normal',
   weekly: week,
 })

@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import i18n from '../../i18n'
 import type { NewsItem } from '../../engine'
 import { useGame } from '../../store/gameStore'
+import { newStoreGameAfterStartup } from '../../store/testUtils'
 import { NewsArticle } from './NewsArticle'
 import { Shell } from './Shell'
 
@@ -20,9 +21,7 @@ describe('news stories', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
     useGame.getState().dismissOnboarding()
   })
 

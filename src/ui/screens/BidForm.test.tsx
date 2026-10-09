@@ -5,6 +5,7 @@ import { isKeyTender, openTenders, quickBid, tenderLock } from '../../engine'
 import { makeKeyTender } from '../../engine/testUtils'
 import i18n from '../../i18n'
 import { useGame } from '../../store/gameStore'
+import { newStoreGameAfterStartup } from '../../store/testUtils'
 import { BidForm } from './BidForm'
 import { bidChance } from './bidChance'
 import { TenderBoard } from './TenderBoard'
@@ -17,9 +18,7 @@ describe('bids on key and routine tenders', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
   })
 
   afterEach(cleanup)

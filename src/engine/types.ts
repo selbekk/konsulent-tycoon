@@ -48,6 +48,8 @@ export interface Star extends Profile {
   homegrown?: boolean
   /** Quarter the star joined this firm. Missing in early saves and for AI stars from the start. */
   joinedQuarter?: number
+  /** The player: the founder with the name they typed in. Never counted in the gender statistics. */
+  ceo?: boolean
 }
 
 /**
@@ -187,6 +189,9 @@ export interface Firm {
     renewals?: number
     /** Best quarterly revenue so far, for the record stamp in the report. */
     bestRevenue?: number
+    /** Startup phase: leads taken and people recruited through the network. */
+    leads?: number
+    recruits?: number
   }
   /** Crises ended so far, by outcome (hushed-up ones count once they are over). */
   crisisOutcomes?: Partial<Record<CrisisOutcome, number>>
@@ -209,6 +214,60 @@ export interface Firm {
   /** Counter for roster ids and roster draws. */
   rosterSeq?: number
   lastPromotionQuarter?: number
+  /** The player's first quarters, in a co-working space (engine/startup.ts). Gone once the firm reaches level 2. */
+  startup?: StartupState
+}
+
+/** steady: safe and long. growth: wants more people later. prestige: short, well paid, good for the name. insider: the co-founder's contact. */
+export type LeadKind = 'steady' | 'growth' | 'prestige' | 'insider'
+export const LEAD_KINDS = ['steady', 'growth', 'prestige', 'insider'] as const satisfies readonly LeadKind[]
+
+/** Work offered straight to a firm in the startup phase: no tender, taking it is enough. */
+export interface Lead {
+  id: string
+  kind: LeadKind
+  customerId: string
+  /** Most free people the customer takes on (the customer's favourite disciplines first). */
+  size: number
+  /** Seats on top of those, whether or not anyone is free (at least 1 seat in all). */
+  extraSeats: number
+  /** Disciplines the customer would rather have, in order; used when there are free people in several. */
+  favours: Discipline[]
+  duration: number
+  rate: number
+}
+
+/** Ways to win someone over in the startup phase. `offer` is the actual job offer. */
+export type Approach = 'coffee' | 'drinks' | 'linkedin'
+export const APPROACHES = ['coffee', 'drinks', 'linkedin'] as const satisfies readonly Approach[]
+export type RecruitMove = Approach | 'offer'
+
+/** Someone in the founders' network who might join. */
+export interface Candidate {
+  /** Becomes their roster entry if they say yes. */
+  person: Employee
+  /** 0–100: the chance they say yes to an offer. */
+  interest: number
+  /** Hidden until a coffee chat shows it. */
+  likes: Approach
+  likesKnown?: boolean
+  /** Approaches already used on them. */
+  tried: Approach[]
+  /** Turned an offer down this quarter. */
+  declinedQuarter?: number
+  /** Quarter they leave the network if nobody hires them. */
+  untilQuarter: number
+}
+
+export interface StartupState {
+  /** Id from content/cofounders.ts, picked in the first quarter (chooseCofounder). Nothing else happens before. */
+  cofounder?: string
+  /** Evening hours left this quarter; every recruiting move costs one. */
+  hours: number
+  leads: Lead[]
+  /** The lead taken this quarter (one per quarter). */
+  takenLead?: string
+  candidates: Candidate[]
 }
 
 export type Specialty = 'public' | 'private' | Discipline
@@ -313,6 +372,8 @@ export interface Contract {
   promiseKept?: boolean
   /** Discovery: the agreed rate, billed once the first (reduced) quarter is delivered. */
   fullRate?: number
+  /** A growth lead: the customer adds these seats from this quarter on. */
+  ramp?: { quarter: number; seats: Seats }
 }
 
 export interface ActiveTrend {
@@ -411,9 +472,10 @@ export interface GameState {
   gameId?: string
   /**
    * Set when this is the weekly challenge (weekly.ts): everyone plays the week's seed and it can go on the
-   * leaderboard. `week` is the ISO week (`'2026-W39'`); `founders` are what the game started with, for the replay.
+   * leaderboard. `week` is the ISO week (`'2026-W39'`); `founder` is the player's discipline, for the replay. The
+   * co-founder is a move in the game, so the log carries it.
    */
-  weekly?: { week: string; founders: [Discipline, Discipline] }
+  weekly?: { week: string; founder: Discipline }
   status: 'playing' | 'lost' | 'finished'
   idCounter: number
 }
@@ -470,6 +532,12 @@ export type Action =
   | { type: 'cancelContract'; firmId: FirmId; contractId: string }
   | { type: 'upsellContract'; firmId: FirmId; contractId: string; discipline: Discipline; count: number }
   | { type: 'nurtureContract'; firmId: FirmId; contractId: string }
+  /** Startup phase, first quarter: who the player starts the firm with. */
+  | { type: 'chooseCofounder'; firmId: FirmId; cofounder: string }
+  /** Startup phase: take one of this quarter's leads. */
+  | { type: 'takeLead'; firmId: FirmId; leadId: string }
+  /** Startup phase: spend an evening hour on someone in the network. */
+  | { type: 'recruit'; firmId: FirmId; candidateId: string; move: RecruitMove }
   | {
       type: 'shady'
       firmId: FirmId
