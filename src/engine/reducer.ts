@@ -19,6 +19,7 @@ import { handleResolveEvent } from './events'
 import { hasFeature, tenderLock } from './levels'
 import { employeeOf, removePeople } from './roster'
 import { handleShady } from './shady'
+import { handleChooseCofounder, handleRecruit, handleTakeLead } from './startup'
 import { handleChooseSpecialty, handleIpo, handleLobby, handleSetDepartment, handleSetPartnership } from './strategy'
 import { starSigningCost } from './stars'
 import { clampRate, effortCost, isKeyTender } from './tenders'
@@ -66,6 +67,8 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   orderHires(state, a) {
     const firm = firmOf(state, a.firmId)
     if (!firm || !isDiscipline(a.discipline)) return 'errors.invalid'
+    // In the co-working space people are won over one by one (recruit).
+    if (firm.startup) return 'errors.startupPhase'
     const n = clamp(Math.round(a.count), 0, MAX_HIRE_ORDER)
     if (n) firm.hiringOrders[a.discipline] = n
     else delete firm.hiringOrders[a.discipline]
@@ -124,6 +127,8 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     const firm = firmOf(state, a.bid.firmId)
     const tender = openTender(state, a.tenderId)
     if (!firm) return 'errors.invalid'
+    // In the co-working space work comes as leads (takeLead), not tenders.
+    if (firm.startup) return 'errors.startupPhase'
     if (!tender) return 'errors.invalidTender'
     const locked = tenderLock(firm, tender)
     if (locked) return locked
@@ -171,6 +176,7 @@ const handlers: { [K in ActionType]: Handler<K> } = {
     if (!tender) return 'errors.invalidTender'
     const firm = firmOf(state, a.firmId)
     if (!firm) return 'errors.invalid'
+    if (firm.startup) return 'errors.startupPhase'
     if (!isKeyTender(tender)) return 'errors.noMeetingNeeded'
     if (a.kind !== 'meeting' && a.kind !== 'bingo') return 'errors.invalid'
     if (a.kind === 'bingo' && !hasFeature(firm, 'bingo')) return 'errors.levelTooLow'
@@ -204,6 +210,9 @@ const handlers: { [K in ActionType]: Handler<K> } = {
   setMentor: handleSetMentor,
   setStretch: handleSetStretch,
   careerTalk: handleCareerTalk,
+  chooseCofounder: handleChooseCofounder,
+  takeLead: handleTakeLead,
+  recruit: handleRecruit,
 }
 
 /** Mutates `draft` in place. Use inside engine code that already owns a draft (AI turns, sim). */

@@ -12,6 +12,7 @@ export function Panel({
   children,
   className,
   style,
+  id,
 }: {
   title?: ReactNode
   icon?: IconName
@@ -19,9 +20,11 @@ export function Panel({
   children: ReactNode
   className?: string
   style?: React.CSSProperties
+  /** For links and to-dos that jump to the panel; it can then take focus. */
+  id?: string
 }) {
   return (
-    <section className={`${s.panel} ${className ?? ''}`} style={style}>
+    <section className={`${s.panel} ${className ?? ''}`} style={style} id={id} tabIndex={id ? -1 : undefined}>
       {title && (
         <header className={s.panelHeader}>
           <h2 className={s.panelTitle}>

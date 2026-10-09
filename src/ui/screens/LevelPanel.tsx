@@ -121,7 +121,8 @@ export function LevelPanel({ firm, className }: { firm: Firm; className?: string
         </span>
         <span className={s.small}>{t('level.next', { level: next, name: name(next) })}</span>
         <span className={`${s.small} ${s.muted}`}>{t('level.anyOne')}</span>
-        {LEVEL_GOALS.map((g) => (
+        {/* No tenders in the co-working space, so that goal would only taunt. */}
+        {LEVEL_GOALS.filter((g) => !(firm.startup && g === 'tendersWon')).map((g) => (
           <Meter
             key={g}
             label={t(`level.goals.${g}`)}

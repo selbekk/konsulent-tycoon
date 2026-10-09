@@ -47,8 +47,6 @@
     "title": "Start et selskap",
     "name": "Firmanavn",
     "defaultName": "Konsulent & Konsulent AS",
-    "founders": "Grunnleggernes fagområder",
-    "foundersHint": "Velg to. Grunnleggerne er dine første stjerner, og de slutter aldri.",
     "difficulty": "Vanskelighetsgrad",
     "difficulties": {
       "easy": "Snill",
@@ -71,7 +69,12 @@
     "modeHints": {
       "free": "Tilfeldig marked, eller din egen seed. Kommer ikke på topplista.",
       "weekly": "Alle spiller samme marked hele {{week}}, på normal vanskelighetsgrad. Når partiet er ferdig, kan du sende det inn til topplista."
-    }
+    },
+    "founder": "Ditt fagområde",
+    "founderHint": "Du er den ene gründeren. Du er en stjerne fra første dag, og du slutter aldri.",
+    "ceo": "Hva heter du?",
+    "ceoPlaceholder": "Navnet ditt",
+    "ceoHint": "Du er daglig leder, og navnet ditt dukker opp i nyhetene. Det blir på denne enheten og sendes aldri noe sted."
   },
   "settings": {
     "title": "Innstillinger",
@@ -122,20 +125,21 @@
       "title": "Åpent i en annen fane",
       "body": "Du har spilt videre i en annen fane eller et annet vindu, så det du ser her er utdatert. Hent inn det siste lagrede spillet for å fortsette.",
       "resume": "Fortsett her"
-    }
+    },
+    "ceo": "Daglig leder: {{name}}"
   },
   "bjorn": {
     "name": "Styreleder Bjørn",
-    "start": "Velkommen! Vi har et lite oppdrag hos Kryptonitt. Resten må du vinne selv.",
+    "start": "Velkommen til eget kontor, {{name}}. Herfra må dere vinne oppdragene selv.",
     "inCredit": "Vi lever på kassekreditten nå. Banken sender julekort, men ikke av de hyggelige.",
     "heat": "Jeg vil ikke vite hva du driver med. Men pass på.",
     "overworked": "Folk jobber for mye. Det er bra for kvartalet, men ikke for neste.",
-    "bench": "For mange sitter på benken. Vinn noe, eller tenk på bemanningen.",
-    "losing": "Vi taper penger. Det er ikke en strategi.",
+    "bench": "For mange på benken, {{name}}. Vinn noe, eller tenk nytt om bemanningen.",
+    "losing": "{{name}}, vi taper penger. Det er ikke en strategi.",
     "growing": "Vi vokser. Husk at folk også må trives.",
     "fine": "Stødig kurs. Styret er fornøyd, altså meg.",
-    "endLost": "Det gikk ikke denne gangen. Neste selskap blir bedre.",
-    "endGreat": "Imponerende. Jeg skal ta æren på neste styremøte.",
+    "endLost": "Det gikk ikke denne gangen, {{name}}. Neste selskap blir bedre.",
+    "endGreat": "Imponerende, {{name}}. Jeg tar æren på neste styremøte.",
     "endOk": "Et ordentlig selskap. Det er mer enn de fleste får til."
   },
   "dashboard": {
@@ -667,7 +671,8 @@
     "clean": "Du jukset aldri. Ikke én gang.",
     "shady": "Du gjorde {{total}} lyssky ting og ble tatt {{detected}} ganger.",
     "menu": "Til hovedmenyen",
-    "again": "Spill igjen"
+    "again": "Spill igjen",
+    "ceo": "{{name}}, daglig leder i {{firm}}"
   },
   "share": {
     "button": "Del resultatet",
@@ -812,6 +817,18 @@
         "detail_one": "{{count}} kontrakt står i fare for å bli sagt opp.",
         "detail_other": "{{count}} kontrakter står i fare for å bli sagt opp.",
         "go": "Til kontrakter"
+      },
+      "lead": {
+        "label": "Ta et oppdrag",
+        "detail_one": "{{count}} person sitter uten oppdrag.",
+        "detail_other": "{{count}} personer sitter uten oppdrag.",
+        "go": "Til oppdragene"
+      },
+      "network": {
+        "label": "Snakk med nettverket",
+        "detail_one": "Oppdragene trenger {{count}} person til. Det holder med én kaffeprat for å komme i gang.",
+        "detail_other": "Oppdragene trenger {{count}} personer til. Det holder med én kaffeprat for å komme i gang.",
+        "go": "Til nettverket"
       }
     },
     "confirm": {
@@ -945,7 +962,7 @@
     "progress": "Steg {{n}} av {{total}}",
     "goal": {
       "title": "Ti år, ett kvartal av gangen",
-      "body": "Du har akkurat stiftet {{firm}}. Du har {{quarters}} kvartaler, fra {{start}} til {{end}}, på å bygge det mest verdifulle konsulentselskapet i landet. {{rivals}} andre selskaper har tenkt det samme.",
+      "body": "Du, {{ceo}}, har akkurat stiftet {{firm}}. Du har {{quarters}} kvartaler, fra {{start}} til {{end}}, på å bygge det mest verdifulle konsulentselskapet i landet. {{rivals}} andre selskaper har tenkt det samme.",
       "points": [
         "Selskapets verdi er driftsresultatet siste år ganger en multippel som følger omdømmet, pluss pengene i banken.",
         "Den med høyest verdi når tiden er ute, vinner.",
@@ -1002,7 +1019,46 @@
       "development": "utvikling av ansatte",
       "peopleStats": "personstatistikk"
     },
-    "bjorn": "Jeg er styreleder. Jeg dukker opp med råd når det passer meg. Lykke til!"
+    "bjorn": "Jeg er styreleder. Jeg dukker opp med råd når det passer meg. Lykke til!",
+    "cowork": {
+      "title": "Et hjørne i kontorfellesskapet",
+      "body": "{{firm}} er foreløpig deg, {{cofounder}} og to laptoper ved vinduet. Ingen faner, ingen anbud og ingen kantine. Bare det viktigste.",
+      "points": [
+        "Hver runde er ett kvartal. Gjør det du vil, og trykk «{{endTurn}}» når du er ferdig.",
+        "Det dere fakturerer, er det dere lever av. Lønn og pultleie går uansett."
+      ]
+    },
+    "leads": {
+      "title": "Oppdragene kommer til dere",
+      "body": "Hvert kvartal ligger det noen oppdrag på bordet. Velg ett. Det er ingen budrunde: sier dere ja, er jobben deres.",
+      "points": [
+        "Trygge oppdrag varer lenge, men betaler dårligere.",
+        "Vekstkunder vil ha flere folk etter hvert, og prestisjekunder gir omdømme.",
+        "Hvert oppdrag har plass til et visst antall av de ledige. Den som ikke får plass, venter på benken til neste oppdrag."
+      ]
+    },
+    "network": {
+      "title": "Folk må overtales",
+      "body": "Dere ansetter én og én fra nettverket. Dere har {{hours}} kveldstimer per kvartal, og en kaffeprat, en runde drinks, en LinkedIn-melding eller et tilbud koster én hver.",
+      "points": [
+        "En kaffeprat viser hva personen liker best. Det som treffer, gir mest interesse.",
+        "Interessen er sjansen for ja når dere gir tilbud.",
+        "Den som sier ja, begynner med en gang."
+      ]
+    },
+    "office": {
+      "title": "Målet: eget kontor",
+      "body": "Når dere når ett av målene for nivå 2, flytter dere ut. Da åpner anbudstavla, ansettelsene og resten av spillet.",
+      "points": ["Målene står i panelet «Veien videre».", "Kaffen i fellesskapet er gratis, men bare før klokka ti."]
+    },
+    "moved": {
+      "title": "Eget kontor!",
+      "body": "{{firm}} har flyttet ut av kontorfellesskapet. Nå åpner resten av spillet: faner, anbud, ansettelser og en styreleder.",
+      "points": [
+        "Oppdragene dere har, løper videre som vanlige kontrakter.",
+        "Nettverket ble igjen i fellesskapet. Fra nå av lyser dere ut stillinger under {{staff}}."
+      ]
+    }
   },
   "about": {
     "title": "Om Konsulent Tycoon",
@@ -1340,6 +1396,17 @@
           "Tilbakemeldingen er anonym, så jeg kan ikke svare deg. Men jeg leser alt som kommer inn, både det rosende og det litt mindre rosende. Det er sånn spillet blir bedre. Så fyr løs!"
         ]
       },
+      "cowork": {
+        "title": "Nå starter du i et kontorfellesskap",
+        "body": [
+          "Jeg har fått en del tilbakemeldinger på at Konsulent Tycoon er litt… mye. Spesielt i starten. Du fikk et helt dashbord, en anbudstavle full av kunder, fire ansatte du aldri hadde valgt og en håndfull faner, før du i det hele tatt hadde rukket å drikke opp kaffen. Det er jo ikke sånn det er å starte konsulentselskap. Så nå har jeg gjort noe med det.",
+          "Nå starter du som to gründere i et hjørne av et kontorfellesskap. Først velger du ditt eget fagområde. Så, når selskapet er stiftet, velger du hvem du starter med: Ingrid, Magnus «10x», Marte, Jonas, Aisha eller Kari. Alle gjør noe lettere og noe vanskeligere, og det følger med hele veien. Magnus er sabla flink, men ikke akkurat den du sender på kaffeprat. Ingen ansatte, ingen startkontrakt og ingen faner. Bare dere to.",
+          "Spillet spør nå også hva du heter. Du er daglig leder, og det merkes: Det er du som blir sitert i nyhetene når dere vinner et anbud, og det er deg styreleder Bjørn kjefter på når pengene renner ut. Navnet blir på din egen enhet og sendes aldri noe sted.",
+          "Hvert kvartal ligger det noen oppdrag på bordet. Et trygt og langt et, en kunde som vokser og vil ha flere folk etter hvert, eller et kort og godt betalt prestisjeoppdrag. Du velger ett, og det er ingen budrunde. Sier du ja, er jobben din. Folk henter du fra nettverket, én og én, med kveldstimene dine: en kaffeprat for å finne ut hva personen liker, drinks eller en LinkedIn-melding, og til slutt et tilbud. Kontorfellesskapet har også sine egne små dramaer, som wifi som er nede (igjen), pitchekveld og en barista som kjenner en CTO. Kriser slipper du foreløpig.",
+          "Når dere når nivå 2, flytter dere ut i eget kontor. Da åpner resten av spillet: faner, anbud, ansettelser og styreleder Bjørn, som har ventet tålmodig på å få si noe.",
+          "En liten ting til: Holder du på med ukens utfordring fra før denne endringen, kan du spille den ferdig, men den kan ikke sendes til topplista. Motoren har rett og slett endra seg for mye. Neste uke er det blanke ark for alle. Lykke til i kontorfellesskapet!"
+        ]
+      },
       "launch": {
         "title": "Nå er det lov å si det til hele verden",
         "body": [
@@ -1409,6 +1476,87 @@
       "sign": "Her kommer Norges største konsulenthus (2029)"
     },
     "familiarName": "Nytt firma med påfallende kjent navn registrert: «{{name}}». Advokatene er varslet."
+  },
+  "startup": {
+    "title": "Kontorfellesskapet",
+    "level": "nivå {{level}}",
+    "revenue": "Omsetning",
+    "freelancers": "Noen seter fylles av frilansere. De koster mer enn de tjener inn, så det lønner seg å rekruttere.",
+    "leads": {
+      "title": "Oppdrag på bordet",
+      "intro": "Folk har hørt om dere. Velg ett oppdrag dette kvartalet. Det starter med en gang, med så mange av de ledige som kunden har plass til.",
+      "kinds": {
+        "steady": {
+          "name": "Trygg",
+          "blurb": "Offentlig kunde, lang avtale og lav pris. Forutsigbart på den gode måten."
+        },
+        "growth": {
+          "name": "Vekst",
+          "blurb": "Kunden vokser fort og vil ha flere folk etter hvert. Dere må rekruttere for å henge med."
+        },
+        "prestige": {
+          "name": "Prestisje",
+          "blurb": "Et stort navn på referanselista. Kort og godt betalt, og de vil ha én person mer enn dere har ledig."
+        },
+        "insider": {
+          "name": "Innsidetips",
+          "blurb": "Medgründeren kjenner noen. Godt betalt, og ingen spør om referanser."
+        }
+      },
+      "seats_one": "{{count}} konsulent: {{seats}}",
+      "seats_other": "{{count}} konsulenter: {{seats}}",
+      "duration_one": "Varer i {{count}} kvartal",
+      "duration_other": "Varer i {{count}} kvartaler",
+      "rate": "Timepris: {{rate}} av listepris",
+      "ramp_one": "Vil ha {{count}} konsulent til om {{quarters}} kvartaler, hvis de er fornøyde",
+      "ramp_other": "Vil ha {{count}} konsulenter til om {{quarters}} kvartaler, hvis de er fornøyde",
+      "reputation": "+{{n}} omdømme",
+      "result": "Gir resultatet dette kvartalet:",
+      "taken": "Dere tok dette oppdraget.",
+      "take": "Ta oppdraget",
+      "oneOnly": "Ett oppdrag per kvartal"
+    },
+    "network": {
+      "title": "Nettverket",
+      "intro": "Folk dere kjenner, eller som kjenner noen dere kjenner. Hver kveldstime gir én kaffeprat, én runde drinks, én LinkedIn-melding eller ett tilbud. En kaffeprat viser hva personen liker best.",
+      "empty": "Ingen i nettverket akkurat nå. Nye folk dukker opp neste kvartal.",
+      "hours": "Kveldstimer",
+      "hoursSr": "{{left}} av {{total}} kveldstimer igjen",
+      "interest": "Interesse",
+      "likes": "Liker best: {{move}}",
+      "likesUnknown": "Dere vet ikke ennå hva som funker. Ta en kaffe først.",
+      "likesWhat": {
+        "coffee": "kaffeprat",
+        "drinks": "drinks",
+        "linkedin": "LinkedIn-melding"
+      },
+      "moves": {
+        "coffee": "Kaffeprat",
+        "drinks": "Drinks ({{cost}})",
+        "linkedin": "LinkedIn",
+        "offer": "Gi tilbud ({{chance}})"
+      },
+      "until": "I nettverket til og med {{quarter}}"
+    },
+    "team": {
+      "title": "Dere",
+      "you": "Gründer",
+      "cofounder": "Medgründer",
+      "since": "Siden {{quarter}}",
+      "work": "Oppdrag",
+      "contract": "· {{seats}} · til og med {{end}}.",
+      "ramp_one": "Vil ha {{count}} til fra {{quarter}}.",
+      "ramp_other": "Vil ha {{count}} til fra {{quarter}}.",
+      "noWork": "Ingen oppdrag ennå. Velg et av dem over."
+    },
+    "cofounder": {
+      "title": "Hvem starter du med?",
+      "intro": "Gratulerer, {{ceo}}! {{firm}} er registrert og pulten er booket. Men ingen starter et konsulentselskap helt alene. Hvem ringer du?",
+      "hint": "Medgründeren blir med hele veien. Det de er gode på, og det de ikke er så gode på, følger med.",
+      "pick": "Velg en medgründer",
+      "confirm": "Start sammen med {{name}}",
+      "endTurnHint": "Velg en medgründer først."
+    }
   },
   "feedback": {
     "title": "Gi tilbakemelding",

@@ -1,4 +1,5 @@
 import type { Firm, GameState, Params } from '../engine/types'
+import { CUSTOMERS } from './customers'
 
 export interface Effect {
   cash?: number
@@ -17,8 +18,17 @@ export interface Effect {
   /** Loyalty change for params.starId */
   starLoyalty?: number
   starPremium?: number
+  /** Evening hours this quarter (startup phase only). */
+  startupHours?: number
   /** Special handlers in engine/events.ts */
-  special?: 'grant_remote' | 'acquire_agency' | 'hire_interns' | 'poach_match' | 'poach_let_go' | 'poach_podcast'
+  special?:
+    | 'grant_remote'
+    | 'acquire_agency'
+    | 'hire_interns'
+    | 'poach_match'
+    | 'poach_let_go'
+    | 'poach_podcast'
+    | 'startup_candidate'
 }
 
 export interface EventChoice {
@@ -48,6 +58,8 @@ export interface EventDef {
   choices: EventChoice[]
   /** Not drawn randomly – created by the engine. */
   special?: boolean
+  /** Only drawn while the player is in the co-working space (startup phase), and never after. */
+  startup?: boolean
 }
 
 const activeCustomer: EventDef['params'] = ({ state, firm }, pick) => {
@@ -72,7 +84,75 @@ const someRival: EventDef['params'] = ({ state, firm }, pick) => {
   return { firm: state.firms[id].name }
 }
 
+const anyCustomer: EventDef['params'] = (_, pick) => ({ customer: pick(CUSTOMERS).id })
+
 export const EVENTS: EventDef[] = [
+  // The co-working space: small, cheap and personal.
+  {
+    id: 'cowork_wifi',
+    weight: 1,
+    cooldown: 4,
+    startup: true,
+    choices: [
+      { id: 'cafe', effect: { cash: -4_000, morale: 2 } },
+      { id: 'hotspot', effect: { cash: -500 } },
+      { id: 'wait', effect: { morale: -3 } },
+    ],
+  },
+  {
+    id: 'cowork_neighbour',
+    weight: 1.2,
+    cooldown: 3,
+    startup: true,
+    choices: [
+      { id: 'chat', effect: { special: 'startup_candidate' } },
+      { id: 'decline', effect: {} },
+    ],
+  },
+  {
+    id: 'cowork_barista',
+    weight: 1,
+    cooldown: Infinity,
+    startup: true,
+    params: anyCustomer,
+    choices: [
+      { id: 'intro', effect: { relationship: 10, startupHours: -1 } },
+      { id: 'tip', effect: { cash: -200, morale: 1 } },
+    ],
+  },
+  {
+    id: 'cowork_pitch_night',
+    weight: 1,
+    cooldown: 4,
+    startup: true,
+    choices: [
+      { id: 'pitch', effect: { reputation: 3, startupHours: -1 } },
+      { id: 'skip', effect: {} },
+    ],
+  },
+  {
+    id: 'cowork_rent',
+    weight: 0.8,
+    cooldown: Infinity,
+    startup: true,
+    minQuarter: 2,
+    choices: [
+      { id: 'pay', effect: { cash: -30_000 } },
+      { id: 'window', effect: { morale: -3 } },
+    ],
+  },
+  {
+    id: 'cowork_hackathon',
+    weight: 0.8,
+    cooldown: Infinity,
+    startup: true,
+    minQuarter: 1,
+    choices: [
+      { id: 'join', effect: { fagmiljo: 5, startupHours: -1, special: 'startup_candidate' } },
+      { id: 'sleep', effect: { morale: 2 } },
+    ],
+  },
+
   {
     id: 'ebike_scheme',
     weight: 1,

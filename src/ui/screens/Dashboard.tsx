@@ -17,7 +17,7 @@ import {
 import type { GenderGroup } from '../../engine'
 import type { NewsItem } from '../../engine'
 import { useGame } from '../../store/gameStore'
-import { bjornKey } from '../bjorn'
+import { bjornKey, bjornParams } from '../bjorn'
 import { Bjorn } from '../components/Bjorn'
 import { Icon } from '../components/Icon'
 import { CapacityChart, Delta, KpiTile, TrendLine } from '../components/metrics'
@@ -140,7 +140,7 @@ export function Dashboard() {
       </Panel>
 
       <div className={`${s.span5} ${s.stack}`}>
-        <Bjorn text={t(bjornKey(game))} />
+        <Bjorn text={t(bjornKey(game), bjornParams(game))} />
         <Panel title={t('todo.title')} icon="calendar">
           <TodoList todos={todos} />
           {todos.every((x) => x.done) && <p className={`${s.small} ${s.muted}`}>{t('todo.allDone')}</p>}
@@ -273,7 +273,10 @@ function PeopleStatsPanel() {
         <KpiTile
           abbr={t('people.genderAbbr')}
           name={t('people.gender')}
-          value={t('people.women', { pct: pct(st.gender.female, st.headcount) })}
+          value={t('people.women', {
+            // Over everyone counted, which leaves out the player (see peopleStats).
+            pct: pct(st.gender.female, st.gender.female + st.gender.male + st.gender.nonbinary),
+          })}
           lines={[
             ...(Object.keys(GENDER_GROUPS) as GenderGroup[])
               .filter((g) => st.genderByGroup[g].total > 0)

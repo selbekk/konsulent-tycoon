@@ -211,7 +211,7 @@ describe('development', () => {
   it('ends the mentorship at the cap, so a founder can mentor someone into promotion range', () => {
     const s = staffed()
     const founder = me(s).stars.find((x) => x.discipline === 'backend' && x.founder)!
-    expect(founder.level).toBe(4)
+    founder.level = 4
     const e = first(s)
     Object.assign(e, { level: 3.95, potential: 0.9 })
     const r = applyAction(s, { type: 'setMentor', firmId: 'player', employeeId: e.id, starId: founder.id })

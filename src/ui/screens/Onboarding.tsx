@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MAX_LEVEL, SHADY_LEVELS, unlocksAt } from '../../engine'
+import { MAX_LEVEL, SHADY_LEVELS, cofounderStarId, startupHours, unlocksAt } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Bjorn } from '../components/Bjorn'
 import type { IconName } from '../components/Icon'
@@ -8,11 +8,18 @@ import { Button, Modal } from '../components/ui'
 import { formatQuarter } from '../format'
 import s from './screens.module.css'
 
-const STEPS = ['goal', 'quarter', 'tenders', 'people', 'ahead'] as const
-type Step = (typeof STEPS)[number]
+/** A new game starts in the co-working space; the dashboard and its tabs get their own intro at level 2. */
+const STARTUP_STEPS = ['goal', 'cowork', 'leads', 'network', 'office'] as const
+const OFFICE_STEPS = ['moved', 'quarter', 'tenders', 'people', 'ahead'] as const
+type Step = (typeof STARTUP_STEPS)[number] | (typeof OFFICE_STEPS)[number]
 
 const STEP_ICONS: Record<Step, IconName> = {
   goal: 'trophy',
+  cowork: 'coffee',
+  leads: 'briefcase',
+  network: 'handshake',
+  office: 'flag',
+  moved: 'trophy',
   quarter: 'calendar',
   tenders: 'briefcase',
   people: 'coffee',
@@ -42,18 +49,24 @@ function LevelTeaser() {
   )
 }
 
-/** A short intro when a new game starts: what the point is, how a quarter works, and what's ahead. Skippable. */
+/**
+ * A short intro, skippable. When a new game starts: the point of the game and the co-working space. When the
+ * firm moves into its own office (level 2): how a quarter works with tabs, tenders and people, and what's ahead.
+ */
 export function Onboarding() {
   const { t } = useTranslation()
   const game = useGame((x) => x.game)!
   const dismiss = useGame((x) => x.dismissOnboarding)
   const [index, setIndex] = useState(0)
   const nextRef = useRef<HTMLButtonElement>(null)
+  const me = game.firms[game.playerId]
+  // Fixed when the intro opens, so the steps don't change under the player.
+  const [STEPS] = useState<readonly Step[]>(() => (me.startup ? STARTUP_STEPS : OFFICE_STEPS))
   const step = STEPS[index]
   const last = index === STEPS.length - 1
-  const me = game.firms[game.playerId]
   const params = {
     firm: me.name,
+    ceo: me.stars.find((x) => x.ceo)?.name ?? '',
     quarters: game.maxQuarters,
     start: formatQuarter(0),
     end: formatQuarter(game.maxQuarters - 1),
@@ -63,6 +76,8 @@ export function Onboarding() {
     contracts: t('tabs.contracts'),
     dashboard: t('tabs.dashboard'),
     endTurn: t('shell.endTurn'),
+    cofounder: me.stars.find((x) => x.id === cofounderStarId(me.startup?.cofounder ?? ''))?.name ?? '',
+    hours: me.startup ? startupHours(me.startup.cofounder) : 0,
   }
   // Back disappears on the first step; keep focus inside the dialog when it does.
   useEffect(() => {
@@ -109,7 +124,7 @@ export function Onboarding() {
           </ul>
         )}
         {step === 'ahead' && <LevelTeaser />}
-        {last && <Bjorn text={t('onboarding.bjorn')} />}
+        {last && !me.startup && <Bjorn text={t('onboarding.bjorn')} />}
         <div className={s.onboardingDots} aria-hidden>
           {STEPS.map((id, i) => (
             <span key={id} data-active={i === index} />

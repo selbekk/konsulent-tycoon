@@ -1,6 +1,6 @@
 import { useCallback, useState, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DISCIPLINES, MAX_QUARTERS, WEEKLY_DIFFICULTY, isoWeek, listSlots, weekSeed } from '../../engine'
+import { CEO_NAME_MAX, DISCIPLINES, MAX_QUARTERS, WEEKLY_DIFFICULTY, isoWeek, listSlots, weekSeed } from '../../engine'
 import { FIRMS } from '../../content/firms'
 import type { Difficulty, Discipline } from '../../engine'
 import { denyConsent, grantConsent, setAnalyticsContext, track } from '../../analytics'
@@ -225,14 +225,12 @@ export function NewGame() {
   const go = useGame((x) => x.go)
   const newGame = useGame((x) => x.newGame)
   const [name, setName] = useState('')
-  const [founders, setFounders] = useState<Discipline[]>(['backend', 'frontend'])
+  const [founder, setFounder] = useState<Discipline>('backend')
+  const [ceo, setCeo] = useState('')
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const [seed, setSeed] = useState('')
   const [weekly, setWeekly] = useState(false)
   const [week] = useState(() => isoWeek(Date.now()))
-
-  const toggleFounder = (d: Discipline) =>
-    setFounders((f) => (f.includes(d) ? f.filter((x) => x !== d) : f.length >= 2 ? [f[1], d] : [...f, d]))
 
   const start = () => {
     const parsed = Number.parseInt(seed, 10)
@@ -241,7 +239,8 @@ export function NewGame() {
       {
         seed: weekly ? weekSeed(week) : customSeed ? parsed : Math.floor(Math.random() * 2 ** 31),
         firmName: name.trim() || t('newGame.defaultName'),
-        founderDisciplines: [founders[0] ?? 'backend', founders[1] ?? founders[0] ?? 'frontend'],
+        founderDiscipline: founder,
+        ceoName: ceo.trim(),
         difficulty: weekly ? WEEKLY_DIFFICULTY : difficulty,
         ...(weekly ? { weekly: week } : {}),
       },
@@ -269,6 +268,19 @@ export function NewGame() {
               </Hint>
             </div>
             <div className={s.field}>
+              <label htmlFor="ceo-name">{t('newGame.ceo')}</label>
+              <input
+                id="ceo-name"
+                className={s.input}
+                value={ceo}
+                maxLength={CEO_NAME_MAX}
+                autoComplete="name"
+                placeholder={t('newGame.ceoPlaceholder')}
+                onChange={(e) => setCeo(e.target.value)}
+              />
+              <Hint>{t('newGame.ceoHint')}</Hint>
+            </div>
+            <div className={s.field}>
               <label htmlFor="firm-name">{t('newGame.name')}</label>
               <input
                 id="firm-name"
@@ -287,15 +299,15 @@ export function NewGame() {
               </div>
             </div>
             <div className={s.field}>
-              <span className={s.fieldLabel}>{t('newGame.founders')}</span>
-              <div className={s.segmented} role="group" aria-label={t('newGame.founders')}>
+              <span className={s.fieldLabel}>{t('newGame.founder')}</span>
+              <div className={s.segmented} role="group" aria-label={t('newGame.founder')}>
                 {DISCIPLINES.map((d) => (
-                  <button key={d} aria-pressed={founders.includes(d)} onClick={() => toggleFounder(d)}>
+                  <button key={d} aria-pressed={founder === d} onClick={() => setFounder(d)}>
                     {t(`disciplines.${d}`)}
                   </button>
                 ))}
               </div>
-              <Hint>{t('newGame.foundersHint')}</Hint>
+              <Hint>{t('newGame.founderHint')}</Hint>
             </div>
             {!weekly && (
               <div className={s.field}>
@@ -325,7 +337,7 @@ export function NewGame() {
             )}
             <div className={s.row} style={{ justifyContent: 'flex-end' }}>
               <Button onClick={() => go('menu')}>{t('common.back')}</Button>
-              <Button variant="primary" onClick={start} disabled={founders.length === 0}>
+              <Button variant="primary" onClick={start}>
                 {t('newGame.start')}
               </Button>
             </div>

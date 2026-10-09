@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { endTitle, rankings, shadyStats } from '../../engine'
 import { useGame } from '../../store/gameStore'
+import { bjornParams } from '../bjorn'
 import { Bjorn } from '../components/Bjorn'
 import { FeedbackPrompt } from '../feedback/Feedback'
 import { SubmitPanel } from './Leaderboard'
@@ -49,6 +50,7 @@ export function EndGame() {
   const log = useGame((x) => x.log)
   const [showAll, setShowAll] = useState(false)
   const me = game.firms[game.playerId]
+  const ceo = me.stars.find((x) => x.ceo)
   const title = endTitle(game)
   const ranks = rankings(game)
   const myRank = ranks.findIndex((r) => r.firmId === me.id) + 1
@@ -83,6 +85,7 @@ export function EndGame() {
       <div className={s.stack}>
         <div style={{ textAlign: 'center' }}>
           <h1 style={{ color: 'var(--accent-text)', margin: '8px 0' }}>{t(`content:endTitles.${title}.title`)}</h1>
+          {ceo && <p className={s.muted}>{t('end.ceo', { name: ceo.name, firm: me.name })}</p>}
           <p>{t(`content:endTitles.${title}.desc`)}</p>
           <p className={s.muted}>
             {t('end.summary', { rank: myRank, total: ranks.length, value: formatMoney(ranks[myRank - 1].value, lng) })}
@@ -117,7 +120,12 @@ export function EndGame() {
         <Button size="small" variant="ghost" onClick={() => setShowAll((v) => !v)}>
           {showAll ? t('market.showTop') : t('market.showAll', { count: ranks.length })}
         </Button>
-        <Bjorn text={t(game.status === 'lost' ? 'bjorn.endLost' : myRank <= 3 ? 'bjorn.endGreat' : 'bjorn.endOk')} />
+        <Bjorn
+          text={t(
+            game.status === 'lost' ? 'bjorn.endLost' : myRank <= 3 ? 'bjorn.endGreat' : 'bjorn.endOk',
+            bjornParams(game),
+          )}
+        />
       </div>
     </Modal>
   )

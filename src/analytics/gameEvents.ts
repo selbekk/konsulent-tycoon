@@ -87,6 +87,26 @@ export const ACTION_EVENTS: { [T in ActionType]: Describe<T> } = {
     props: (a, s) => ({ customer: customerOf(s, a.contractId), discipline: a.discipline, count: a.count }),
   },
   nurtureContract: { event: 'contract_nurtured', props: (a, s) => ({ customer: customerOf(s, a.contractId) }) },
+  chooseCofounder: { event: 'cofounder_chosen', props: (a) => ({ cofounder: a.cofounder }) },
+  takeLead: {
+    event: 'lead_taken',
+    props: (a, s) => {
+      const lead = s.firms[s.playerId].startup?.leads.find((l) => l.id === a.leadId)
+      return { lead_kind: lead?.kind, customer: lead?.customerId, duration: lead?.duration }
+    },
+  },
+  recruit: {
+    event: 'recruit_move',
+    props: (a, s) => {
+      const c = s.firms[s.playerId].startup?.candidates.find((x) => x.person.id === a.candidateId)
+      return {
+        move: a.move,
+        discipline: c?.person.discipline,
+        interest: c?.interest,
+        liked: c ? c.likes === a.move : undefined,
+      }
+    },
+  },
   shady: {
     event: 'shady_action_taken',
     props: (a) => ({ shady_action: a.actionId, target_firm: a.targetFirmId, share: a.share }),

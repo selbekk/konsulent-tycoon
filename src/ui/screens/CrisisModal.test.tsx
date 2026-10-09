@@ -5,6 +5,7 @@ import { CRISIS_MAP } from '../../content/crises'
 import { startCrisis } from '../../engine/crises'
 import i18n from '../../i18n'
 import { useGame } from '../../store/gameStore'
+import { newStoreGameAfterStartup } from '../../store/testUtils'
 import { Shell } from './Shell'
 
 /** Starts a crisis for the player the way drawCrises would, and hands the state to the store. */
@@ -20,9 +21,7 @@ describe('crisis dialog', () => {
     localStorage.clear()
     await i18n.changeLanguage('en')
     useGame.getState().quit()
-    useGame
-      .getState()
-      .newGame({ seed: 5, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+    newStoreGameAfterStartup({ seed: 5, firmName: 'Test AS' })
     useGame.getState().dismissOnboarding()
   })
 

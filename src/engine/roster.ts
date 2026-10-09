@@ -116,6 +116,16 @@ export function addPeople(state: GameState, firm: Firm, d: Discipline, n: number
   syncPool(firm, d)
 }
 
+/** One named person joins: someone from the startup phase's network, already drawn with `newEmployee`. */
+export function hireEmployee(state: GameState, firm: Firm, e: Employee, morale = 75) {
+  if (!firm.roster) return
+  const p = firm.pools[e.discipline]
+  p.morale = (p.morale * p.count + morale) / (p.count + 1)
+  e.joinedQuarter = state.quarter
+  firm.roster.push(e)
+  syncPool(firm, e.discipline)
+}
+
 export type RemovePick = { employeeId: string } | 'weakest' | 'random'
 
 /**

@@ -10,7 +10,7 @@ import {
 } from './constants'
 import { applyAction } from './reducer'
 import { hasValidShape } from './saveShape'
-import { botRun } from './testUtils'
+import { botRun, newStartupGame, testOptions } from './testUtils'
 import type { Action, GameState } from './types'
 import { isKeyTender } from './tenders'
 
@@ -42,11 +42,9 @@ function expectHarmless(action: unknown) {
 
 describe('hostile actions from a tampered log', () => {
   beforeAll(() => {
-    base = botRun(
-      { seed: 3, firmName: 'Test AS', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' },
-      10,
-    ).state
+    base = botRun(testOptions(3), 10).state
     base.firms.player.level = MAX_LEVEL
+    delete base.firms.player.startup
     base.firms.player.cash = 50_000_000
     rival = base.firmOrder.find((id) => id !== base.playerId && base.firms[id].stars.length > 0)!
   })
@@ -224,5 +222,58 @@ describe('hostile actions from a tampered log', () => {
     })
     expect(r.error).toBeUndefined()
     expect(r.state.contracts.find((c) => c.id === own.id)!.outsourcedShare).toBe(0.8)
+  })
+})
+
+describe('hostile actions in the co-working space', () => {
+  beforeAll(() => {
+    base = newStartupGame(3)
+    rival = base.firmOrder.find((id) => id !== base.playerId)!
+  })
+
+  const odd = ['nope', '__proto__', 'constructor', 'toString', 42, null, undefined]
+
+  it('rejects unknown leads, candidates and moves, and other firms', () => {
+    const st = base.firms.player.startup!
+    const candidateId = st.candidates[0].person.id
+    for (const leadId of odd) expect(expectHarmless({ type: 'takeLead', firmId: 'player', leadId }).error).toBeTruthy()
+    for (const id of odd)
+      expect(expectHarmless({ type: 'recruit', firmId: 'player', candidateId: id, move: 'coffee' }).error).toBeTruthy()
+    for (const move of [...odd, 'hug'])
+      expect(expectHarmless({ type: 'recruit', firmId: 'player', candidateId, move }).error).toBeTruthy()
+    expect(expectHarmless({ type: 'takeLead', firmId: rival, leadId: st.leads[0].id }).error).toBeTruthy()
+    for (const cofounder of [...odd, 'kari'])
+      expect(expectHarmless({ type: 'chooseCofounder', firmId: 'player', cofounder }).error).toBeTruthy()
+    expect(expectHarmless({ type: 'chooseCofounder', firmId: rival, cofounder: 'kari' }).error).toBeTruthy()
+    expect(expectHarmless({ type: 'recruit', firmId: rival, candidateId, move: 'coffee' }).error).toBeTruthy()
+  })
+
+  it('allows one lead per quarter, one try per approach, and no more moves than evening hours', () => {
+    const st = base.firms.player.startup!
+    const [a, b] = st.leads
+    const first = expectHarmless({ type: 'takeLead', firmId: 'player', leadId: a.id })
+    expect(first.error).toBeUndefined()
+    expect(applyAction(first.state, { type: 'takeLead', firmId: 'player', leadId: b.id }).error).toBe(
+      'errors.leadTaken',
+    )
+
+    const c = st.candidates[0].person.id
+    let s = applyAction(base, { type: 'recruit', firmId: 'player', candidateId: c, move: 'coffee' }).state
+    expect(applyAction(s, { type: 'recruit', firmId: 'player', candidateId: c, move: 'coffee' }).error).toBe(
+      'errors.alreadyTried',
+    )
+    s.firms.player.startup!.hours = 0
+    expect(applyAction(s, { type: 'recruit', firmId: 'player', candidateId: c, move: 'linkedin' }).error).toBe(
+      'errors.noHours',
+    )
+  })
+
+  it('keeps tenders and hiring orders closed', () => {
+    const t = base.tenders.find((x) => !x.resolved && !x.hidden)!
+    const bid = { firmId: 'player', rateMultiplier: 1, starIds: [], effort: 0, cvPad: false, ghostCv: false }
+    expect(expectHarmless({ type: 'placeBid', tenderId: t.id, bid }).error).toBe('errors.startupPhase')
+    expect(expectHarmless({ type: 'orderHires', firmId: 'player', discipline: 'backend', count: 3 }).error).toBe(
+      'errors.startupPhase',
+    )
   })
 })

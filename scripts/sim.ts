@@ -4,6 +4,8 @@ import { PLAYER_BOTS } from '../src/engine/ai/personalities'
 import { planAiTurn, planEventAnswers } from '../src/engine/ai/planner'
 import { planCrisisAnswers } from '../src/engine/ai/crises'
 import { planHumanProxy } from '../src/engine/ai/humanProxy'
+import { planStartup } from '../src/engine/ai/startup'
+import { COFOUNDER_IDS } from '../src/content/cofounders'
 import type { StrategyMove } from '../src/engine/ai/humanProxy'
 import { averageMorale, headcount, quarterFinancials } from '../src/engine/economy'
 import { createNewGame } from '../src/engine/newGame'
@@ -72,6 +74,10 @@ const strategies =
 const baseSeed = Number(arg('seed', '1'))
 const difficulty = arg('difficulty', 'normal') as Difficulty
 const asJson = args.includes('--json')
+/** `--cofounder all` rotates through the gallery by seed; the default is the first one. */
+const cofounderArg = arg('cofounder', 'all')
+const cofounderFor = (seed: number) =>
+  cofounderArg === 'all' ? COFOUNDER_IDS[seed % COFOUNDER_IDS.length] : cofounderArg
 
 interface Sample {
   cash: number
@@ -85,12 +91,15 @@ interface Sample {
 }
 
 function playGame(seed: number, strategy: string) {
+  const cofounder = cofounderFor(seed)
   let state: GameState = createNewGame({
     seed,
     firmName: 'Sim AS',
-    founderDisciplines: ['backend', 'frontend'],
+    founderDiscipline: 'backend',
     difficulty,
   })
+  // The co-founder is the first move of the game.
+  applyActionInPlace(state, { type: 'chooseCofounder', firmId: state.playerId, cofounder })
   const samples: Sample[] = []
   let bankruptAt: number | null = null
   // Keep the market running after the player goes bust, so AI health is measured over 40 quarters.
@@ -106,6 +115,8 @@ function playGame(seed: number, strategy: string) {
       const talk = HUMAN_VARIANTS[strategy]?.minigame ?? HUMAN_CRISIS_STYLE.talk
       for (const a of planCrisisAnswers(draft, draft.playerId, { ...HUMAN_CRISIS_STYLE, talk }))
         applyActionInPlace(draft, a)
+      // Bots other than the human proxy don't know the co-working space; they get its plan there.
+      if (!strategy.startsWith('human')) for (const a of planStartup(draft)) applyActionInPlace(draft, a)
       const plan =
         strategy === 'spam'
           ? planSpam(draft)

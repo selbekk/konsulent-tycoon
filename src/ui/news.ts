@@ -4,6 +4,7 @@
  */
 export const NEWS_POSTS = [
   { id: 'feedback', date: '2026-10-09' },
+  { id: 'cowork', date: '2026-10-07' },
   { id: 'launch', date: '2026-09-29' },
   { id: 'accessibility', date: '2026-09-26' },
   { id: 'secrets', date: '2026-09-26' },

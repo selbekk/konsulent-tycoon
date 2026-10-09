@@ -27,6 +27,7 @@ import { LevelUpModal } from './LevelUpModal'
 import { MarketScreen } from './MarketScreen'
 import { NewsArticle } from './NewsArticle'
 import { Onboarding } from './Onboarding'
+import { StartupScreen } from './StartupScreen'
 import { MinigameHost } from '../minigames/MinigameHost'
 import { QuarterReport } from './QuarterReport'
 import { StaffScreen } from './StaffScreen'
@@ -88,8 +89,12 @@ export function Shell() {
   const me = game.firms[game.playerId]
   // Events whose content was removed would otherwise block the End Turn button forever.
   const pending = game.pendingEvents.filter((e) => e.firmId === me.id && EVENT_MAP[e.eventId])
+  // A new game starts by picking a co-founder; the intro and the end of the quarter wait for that.
+  const needsCofounder = !!me.startup && me.startup.cofounder === undefined
+  const showOnboarding = onboarding && !needsCofounder
+  const ceo = me.stars.find((x) => x.ceo)
   const modalOpen =
-    onboarding ||
+    showOnboarding ||
     !!article ||
     report !== null ||
     !!levelUp ||
@@ -103,13 +108,15 @@ export function Shell() {
     game.status !== 'playing'
   const lng = i18n.language
   const level = firmLevel(me)
-  const tabs = useMemo(() => visibleTabs(level), [level])
+  // The co-working space has one screen and no tabs; the tabs open at level 2.
+  const startup = !!me.startup
+  const tabs = useMemo(() => (startup ? [] : visibleTabs(level)), [level, startup])
   const openTodos = quarterTodos(game, me.id).filter((x) => !x.done)
 
   // A crisis stage the player hasn't seen yet pops up by itself once, when nothing else is in the way.
   const unseenCrisis = openCrises(game, me.id).find((c) => !seenCrises.includes(crisisSeenKey(c)))
   const calm =
-    !onboarding &&
+    !showOnboarding &&
     report === null &&
     !levelUp &&
     pending.length === 0 &&
@@ -125,10 +132,11 @@ export function Shell() {
   const hasOpenTodos = openTodos.length > 0
   const openTodoIds = openTodos.map((x) => x.id).join(',')
   const tryEndTurn = useCallback(() => {
+    if (needsCofounder) return
     if (!hasOpenTodos) return endTurn()
     track('end_turn_warning_shown', { todos: openTodoIds.split(','), quarter: game.quarter })
     setConfirmEnd(true)
-  }, [hasOpenTodos, endTurn, openTodoIds, game.quarter])
+  }, [needsCofounder, hasOpenTodos, endTurn, openTodoIds, game.quarter])
 
   useEffect(() => {
     if (!settings.shortcuts) return
@@ -152,7 +160,8 @@ export function Shell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.quarter, report === null])
 
-  const Screen = SCREENS[tabs.includes(tab) ? tab : 'dashboard']
+  const Screen = startup ? StartupScreen : SCREENS[tabs.includes(tab) ? tab : 'dashboard']
+  const screenName = startup ? t('startup.title') : t(`tabs.${tabs.includes(tab) ? tab : 'dashboard'}`)
   const hc = headcount(me)
   const credit = creditLimit(me)
   // Easter egg: a ticker line of its own for a firm named after the game or a rival. Never part of game.news.
@@ -176,7 +185,7 @@ export function Shell() {
         {t('shell.skipToContent')}
       </a>
       <h1 className="sr-only">
-        {me.name} · {t(`tabs.${tabs.includes(tab) ? tab : 'dashboard'}`)}
+        {me.name} · {screenName}
       </h1>
       <header className={s.topbar}>
         <div className={s.brand}>
@@ -187,6 +196,7 @@ export function Shell() {
           </span>
           <div>
             <div className={s.firmName}>{me.name}</div>
+            {ceo && <div className={s.quarter}>{t('shell.ceo', { name: ceo.name })}</div>}
             <div className={s.quarter}>
               {formatQuarter(game.quarter)} · {t('shell.quarterOf', { n: game.quarter + 1, total: game.maxQuarters })}
             </div>
@@ -260,26 +270,30 @@ export function Shell() {
         <div />
       )}
 
-      <nav className={s.nav} aria-label={t('shell.nav')}>
-        {tabs.map((id, i) => (
-          <button
-            key={id}
-            className={s.navItem}
-            aria-current={(tabs.includes(tab) ? tab : 'dashboard') === id ? 'page' : undefined}
-            data-noir={id === 'backroom'}
-            onClick={() => setTab(id)}
-            aria-keyshortcuts={settings.shortcuts ? String(i + 1) : undefined}
-          >
-            <Icon name={TAB_ICONS[id]} size={14} />
-            {t(`tabs.${id}`)}
-            {settings.shortcuts && (
-              <span className={s.navKey} aria-hidden>
-                {i + 1}
-              </span>
-            )}
-          </button>
-        ))}
-      </nav>
+      {startup ? (
+        <div />
+      ) : (
+        <nav className={s.nav} aria-label={t('shell.nav')}>
+          {tabs.map((id, i) => (
+            <button
+              key={id}
+              className={s.navItem}
+              aria-current={(tabs.includes(tab) ? tab : 'dashboard') === id ? 'page' : undefined}
+              data-noir={id === 'backroom'}
+              onClick={() => setTab(id)}
+              aria-keyshortcuts={settings.shortcuts ? String(i + 1) : undefined}
+            >
+              <Icon name={TAB_ICONS[id]} size={14} />
+              {t(`tabs.${id}`)}
+              {settings.shortcuts && (
+                <span className={s.navKey} aria-hidden>
+                  {i + 1}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+      )}
 
       <main className={s.main} id="main" tabIndex={-1}>
         <Screen />
@@ -289,11 +303,12 @@ export function Shell() {
         {pending.length > 0 && (
           <span className={s.endTurnHint}>{t('shell.pendingEvents', { count: pending.length })}</span>
         )}
+        {needsCofounder && <span className={s.endTurnHint}>{t('startup.cofounder.endTurnHint')}</span>}
         <Button
           variant="primary"
           size="big"
           onClick={tryEndTurn}
-          disabled={pending.length > 0 || game.status !== 'playing'}
+          disabled={pending.length > 0 || needsCofounder || game.status !== 'playing'}
         >
           {t('shell.endTurn')} <span aria-hidden>▶</span>
         </Button>
@@ -348,12 +363,12 @@ export function Shell() {
 
       <MoneyRain />
       {article && <NewsArticle item={article} onClose={() => setArticle(null)} />}
-      {onboarding && game.status === 'playing' && <Onboarding />}
-      {!onboarding && report !== null && <QuarterReport />}
-      {!onboarding && report === null && levelUp && game.status === 'playing' && (
+      {showOnboarding && game.status === 'playing' && <Onboarding />}
+      {!showOnboarding && report !== null && <QuarterReport />}
+      {!showOnboarding && report === null && levelUp && game.status === 'playing' && (
         <LevelUpModal from={levelUp.from} to={levelUp.to} />
       )}
-      {!onboarding && report === null && !levelUp && pending.length > 0 && game.status === 'playing' && (
+      {!showOnboarding && report === null && !levelUp && pending.length > 0 && game.status === 'playing' && (
         <EventModal event={pending[0]} />
       )}
       {bidTenderId && (

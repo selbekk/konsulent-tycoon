@@ -72,6 +72,7 @@ export type { BenchPerson, BenchRow, GenderGroup, PeopleStats } from './people'
 export { ageAt, experienceAt, profileOf } from './profile'
 export { starBusyThrough } from './contracts'
 export { quarterTodos } from './todos'
+export { cofounderStarId, leadSeats, offerChance, recruitBlock, startupHours } from './startup'
 export type { Todo, TodoId } from './todos'
 export type { Capacity, Kpis, KpiPoint, Benchmark } from './metrics'
 export {

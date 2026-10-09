@@ -10,7 +10,12 @@ const deaths: Record<string, number> = {}
 const ratios: number[][] = []
 let totalDeaths = 0
 for (let seed = 1; seed <= seeds; seed++) {
-  let s = createNewGame({ seed, firmName: 'X', founderDisciplines: ['backend', 'frontend'], difficulty: 'normal' })
+  let s = createNewGame({
+    seed,
+    firmName: 'X',
+    founderDiscipline: 'backend',
+    difficulty: 'normal',
+  })
   s.firms.player.bankrupt = true // AI-only market
   for (let q = 0; q < 40; q++) {
     const cap = marketCapacity(s)

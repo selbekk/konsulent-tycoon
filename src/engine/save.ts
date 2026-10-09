@@ -8,7 +8,19 @@ type AnyState = Record<string, unknown> & { saveVersion: number }
 export type Migration = (s: AnyState) => AnyState
 
 /** migrations[n] upgrades a v(n) save to v(n+1). Add one every time GameState changes shape after release. */
-export const migrations: Record<number, Migration> = {}
+export const migrations: Record<number, Migration> = {
+  /**
+   * 1 → 2 (the startup phase): weekly games stored two founder disciplines; now it's only the player's. A weekly
+   * game started before can't be replayed by the new engine anyway, so it carries on as an ordinary game.
+   * Everything else is new and optional: older games simply skip the co-working space.
+   */
+  1: (s) => {
+    const weekly = s.weekly as Record<string, unknown> | undefined
+    if (!weekly || !('founders' in weekly)) return s
+    const { weekly: _, ...rest } = s
+    return rest as AnyState
+  },
+}
 
 export function serialize(state: GameState): string {
   return JSON.stringify(state)

@@ -22,14 +22,16 @@ const stat = (firm: Firm, key: keyof NonNullable<Firm['stats']>) => firm.stats?.
 
 /** Optional goals per level: small nudges towards the features that level opens. */
 export const MISSIONS: MissionDef[] = [
-  { id: 'first_win', level: 1, check: ({ firm }) => (firm.tendersWon ?? 0) >= 1, reward: { reputation: 3 } },
-  { id: 'first_hire', level: 1, check: ({ headcount }) => headcount >= 7, reward: { morale: 3 } },
+  // Level 1 is the co-working space: leads and the network instead of tenders and hiring orders.
+  { id: 'first_lead', level: 1, check: ({ firm }) => stat(firm, 'leads') >= 1, reward: { reputation: 2 } },
+  { id: 'first_recruit', level: 1, check: ({ firm }) => stat(firm, 'recruits') >= 1, reward: { morale: 3 } },
   {
     id: 'full_house',
     level: 1,
     check: ({ firm }) => (firm.history.at(-1)?.utilization ?? 0) >= 0.9,
     reward: { brand: 3 },
   },
+  { id: 'first_win', level: 2, check: ({ firm }) => (firm.tendersWon ?? 0) >= 1, reward: { reputation: 3 } },
   { id: 'first_framework', level: 2, check: ({ firm }) => stat(firm, 'frameworkWins') >= 1, reward: { reputation: 3 } },
   { id: 'first_star', level: 2, check: ({ firm }) => firm.stars.some((s) => !s.founder), reward: { morale: 3 } },
   { id: 'public_win', level: 2, check: ({ firm }) => stat(firm, 'publicWins') >= 1, reward: { reputation: 2 } },

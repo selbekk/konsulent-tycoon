@@ -6,6 +6,7 @@ import { hasFeature, tenderLock } from '../levels'
 import { lobbyReadyIn } from '../strategy'
 import { planContractMoves } from './contractMoves'
 import { choosePromise } from './promises'
+import { planStartup } from './startup'
 import { CAREER_PROMISE_GROWTH, COURSE_MAX_LEVEL, PROMOTE_MIN_POTENTIAL } from '../constants'
 import { mentorBlock, promotionBlock, stretchBlock, stretchContracts } from '../development'
 import { noise } from '../rng'
@@ -33,6 +34,12 @@ export function planHumanProxy(
   const fin = quarterFinancials(state, firmId)
   const hc = headcount(firm)
   const runway = (firm.cash + creditLimit(firm) * 0.5) / Math.max(1, fin.total)
+  // The co-working space: leads and the network instead of tenders and hiring orders.
+  if (firm.startup)
+    return [
+      ...planStartup(state),
+      ...planContractMoves(state, firmId, fin.staffing.demand, { runway, eagerness: 1, nurtureRunway: -Infinity }),
+    ]
 
   if (hasFeature(firm, 'culture'))
     actions.push({

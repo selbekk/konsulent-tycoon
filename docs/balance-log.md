@@ -320,3 +320,29 @@ Tilbakemelding: for mange anbud av gangen. Med `planHumanProxy` som spiller ser 
 | Småoppdrag 2–3 i stedet for 3–5 (valgt)                         | 23–41                       | 923 / 3             | 1006 / 3               | –                          |
 
 Funn: Antall anbud er strukturelt viktig. Hvert anbud har én vinner, så færre eller større anbud gir færre vinnere, og både spilleren og AI-firmaene taper (større anbud låser i tillegg små firmaer ute). Bare kuttet i småoppdrag er innenfor støyen, men det fjerner bare 3–4 kort. Vil vi ha en roligere tavle, er neste steg trolig i UI-et (sortering, standardfilter) eller færre nøkkelanbud (`KEY_TENDER_MIN_SEATS`), ikke færre anbud.
+
+## Oppstartsfasen (2026-10-07)
+
+Nytt spill starter med to gründere i et kontorfellesskap, uten ansatte og startkontrakt, til nivå 2 (se `docs/plans/2026-10-07-oppstartsfasen.md`). Spilleren tar ett lead per kvartal i stedet for å by, og rekrutterer én og én med kveldstimer. `planStartup` spiller fasen for botene, og `--cofounder` (standard `all`, roterer per seed) velger medgründer i simulatoren. Kalibrering med 20–60 partier, `--seed 1`:
+
+| #   | Endring                                                               | human nivå 2 | human verdi | humanPro verdi |
+| --- | --------------------------------------------------------------------- | ------------ | ----------- | -------------- |
+| 0   | Referanse (gammel start, 60 partier)                                  | Q5           | 905 MNOK    | 778 MNOK       |
+| 1   | Første versjon: 4 kveldstimer, startinteresse 25 (20 partier)         | Q8           | –           | –              |
+| 2   | 5 timer, 3 nye kandidater per kvartal, startinteresse 35 (30 partier) | Q6           | 1265        | –              |
+| 3   | Samme, 60 partier                                                     | Q6           | 1215        | 1550           |
+| 4   | Lead tar opptil 1–3 ledige i stedet for alle                          | Q7           | 984         | 1101           |
+| 5   | + lavere priser: trygg 0,85, vekst 0,9, prestisje 1,05, innside 1,0   | Q7           | 906         | 919            |
+
+Medgründerne med kjøring 3 (`humanPro`, 30 partier hver): alle mellom 1180 og 1630 MNOK, så økningen var strukturell, ikke én medgründer. Magnus (én kveldstime mindre) når nivå 2 i Q9, de andre i Q6–Q7.
+
+Endelig, 150 partier med `--seed 1000`, `main` mot branchen:
+
+| Kjøring        | human nivå 2 | human verdi / plass | human konkurs | humanPro verdi / plass |
+| -------------- | ------------ | ------------------- | ------------- | ---------------------- |
+| Gammel start   | Q5           | 921 MNOK / 3        | 0/150         | 922 / 3                |
+| Oppstartsfasen | Q7           | 868 / 3             | 3/150         | 964 / 3                |
+
+Markedet alene (`sim:market 20`): 0,1 AI-døde per parti, etterspørsel/kapasitet 0,73–0,91, som før.
+
+Funn: Den første versjonen gjorde spillet mye lettere, fordi et lead tok med alle ledige. Da satt ingen på benken i fasen, all fakturering var garantert, og forspranget i kassa vokste gjennom hele spillet (nivå 5 i Q17 mot Q22). Med en størrelse på hvert lead og lavere priser er sluttverdien tilbake innenfor støyen. Fasen varer nå i median sju kvartaler. De tre konkursene for `human` kom midt i spillet (median Q19); følg med på om de blir flere. Magnus er klart tregest ut av fasen, så hans ulempe kan være for stor.

@@ -185,12 +185,12 @@ Alle endringer i spillet går gjennom en `Action` (se `types.ts`):
    - turnover og ansettelser
    - kvartalsrapport, deretter børspress for noterte firma
 5. Oppdagelse av lyssky handlinger, og nedgang i heat. Kriser som er lagt i skuffen, kan sprekke (`rollCrisisExposure`).
-6. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller.
-7. Kontrakter utløper eller forlenges. Rammeavtalene får avrop for neste kvartal.
+6. Anbud med frist dette kvartalet avgjøres og blir til kontrakter. Deretter rykker firmaer opp i nivå (`updateLevels`), så kvartalets seire teller. Når spilleren når nivå 2, fjernes `Firm.startup` her, og oppstartsfasen er over.
+7. Kontrakter utløper eller forlenges. Vekstkunder fra oppstartsfasen legger til setene de lovet (`applyRamps`). Rammeavtalene får avrop for neste kvartal.
 8. Trender oppdateres, og nye anbud publiseres.
 9. Etter Q4 deles årets priser ut. Deretter sjekkes spillerens mål per nivå (`checkMissions`), milepæler og rekordkvartal (`checkMilestones`).
 10. Konkurssjekk. Kontraktene til konkursfirma legges ut på nytt som anbud.
-11. `quarter++`. Deretter fornyes stjernemarkedet, besvarte kriser går til neste fase (`advanceCrises`), nye hendelser og kriser trekkes (`drawCrises`), og en høyttalermelding velges. Til slutt trekkes bransjesladderen til tickeren (`industryGossip`, med egen hash-RNG, så den aldri flytter `state.rng`).
+11. `quarter++`. Deretter fornyes stjernemarkedet, og hvis spilleren fortsatt er i kontorfellesskapet, kommer nye kveldstimer, nye leads og nye folk i nettverket (`startupQuarter`). Besvarte kriser går til neste fase (`advanceCrises`), nye hendelser og kriser trekkes (`drawCrises`), og en høyttalermelding velges. Til slutt trekkes bransjesladderen til tickeren (`industryGossip`, med egen hash-RNG, så den aldri flytter `state.rng`).
 
 ### Tidslinjen for et anbud
 
@@ -217,7 +217,18 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Kapasitetsstraffen gjelder når du ikke har nok **ledige** folk ved oppstart.
   - Bud under `MIN_AWARD_QUALITY` i kvalitet avvises, også når ingen andre byr. Ellers kunne gratis bud på alt, bemannet med frilansere, vinne alle anbud uten konkurranse.
   - En stjerne kan stå på ett åpent bud om gangen, og bare hvis kontrakten stjernen sitter på er ferdig når den nye starter (`starBusyThrough`). Å flytte en stjerne midt i en kontrakt går bare via bakrommet (`bait_and_switch`).
-- **Ansettelser:** De som takker ja til kvartalets bestillinger, begynner ved kvartalsskiftet og fakturerer fra neste kvartal.
+- **Ansettelser:** De som takker ja til kvartalets bestillinger, begynner ved kvartalsskiftet og fakturerer fra neste kvartal. I oppstartsfasen er bestillinger stengt, og folk rekrutteres én og én fra nettverket (se under).
+- **Oppstartsfasen (`engine/startup.ts`, `ui/screens/StartupScreen.tsx`):** Et nytt spill starter med to gründere i et kontorfellesskap: spilleren (valgt fagområde, og navnet hen skrev inn) og en medgründer fra `content/cofounders.ts`. Ingen ansatte og ingen startkontrakt.
+  - **Medgründeren velges i spillet**, som første trekk (`chooseCofounder`), ikke i menyen. Da ligger valget i handlingsloggen, og topplista trenger bare spillerens fagområde. Før valget har `Firm.startup` ingen timer, leads eller kandidater, skjermen viser bare galleriet, og introen og «Avslutt kvartal» venter. Ender et kvartal uten valg (en bot eller en logg), velger `ensureCofounder` den første i galleriet.
+  - **Spillerens navn** (`NewGameOptions.ceoName`) blir navnet på gründer-stjernen, som får `ceo: true`. Navnet er skrevet av spilleren, så det behandles som firmanavnet: det sendes aldri til analyse eller toppliste, serveren spiller på nytt med en plassholder, og det må aldri påvirke spillet (`replay.test.ts`). Personstatistikken teller ikke spilleren med i kjønnsfordelingen; spillet gjetter ikke kjønn ut fra et navn. Nyhetene og artiklene bruker navnet som `{{ceo}}` (`NewsArticle` fyller det inn), og Bjørn bruker fornavnet (`bjornParams`). Fasen varer til spilleren når nivå 2. Bakgrunn: [`plans/2026-10-07-oppstartsfasen.md`](plans/2026-10-07-oppstartsfasen.md).
+  - Tilstanden er `Firm.startup` (bare spillerens firma, bare i fasen). Lagringer uten feltet spiller som før, også på nivå 1.
+  - **Porten er `firm.startup`, ikke nivået.** `placeBid`, `withdrawBid`, `recordMinigame` og `orderHires` gir `errors.startupPhase`, mens AI-firma på nivå 1 kan by og ansette som før. Leads og nettverket er spillerens alene; AI-ene har ingen tilsvarende snarvei.
+  - **Leads:** Hvert kvartal 3 tilbud (4 med Jonas): trygg, vekst og prestisje (`STARTUP_LEADS`). Spilleren tar ett med `takeLead`, og det blir en kontrakt som starter samme kvartal. Setene er opptil `size` av de ledige (kundens favorittfag først) pluss `extraSeats`, minst ett (`leadSeats`, ren). Vekstkunder får `Contract.ramp` og legger til seter senere hvis tilfredsheten holder. Leads teller ikke som vunne anbud.
+  - **Nettverket:** Kandidater (`Candidate`) har en ferdig trukket `Employee`, interesse 0–100 og en skjult favoritt (kaffe, drinks eller LinkedIn). `recruit` koster én kveldstime per trekk. Et tilbud lykkes med sannsynlighet lik interessen (`offerChance`), og den som sier ja, legges til med `hireEmployee` i `roster.ts`.
+  - Leads, kandidater og svar trekkes fra `rosterRng`, aldri fra `state.rng`, så AI-markedet blir likt uansett hva spilleren gjør i fasen.
+  - Ingen kriser trekkes, og hendelser trekkes bare blant de som har `startup: true` (og de trekkes aldri etterpå).
+  - UI: skallet viser `StartupScreen` uten faner. Introen har én variant for fasen og én for dashbordet, som åpnes etter nivå 2-modalen (`levelUp.graduated` i storen).
+  - `planStartup` (`ai/startup.ts`) spiller fasen for `planHumanProxy` og simulatoren. Den planlegger på sin egen kopi og spiller trekkene der, så den ser hvem som sa ja før den velger lead.
 - **Ansattlista (`roster.ts`):** Spillerens firma har `Firm.roster`, en liste med `Employee`. For et firma med liste er `pools[d].count` og `.level` avledet av lista, mens trivselen fortsatt er per pool. AI-firmaene har ingen liste.
   - **All endring av antall eller nivå i en pool skal gå via `addPeople`, `removePeople` eller `raiseLevel`.** De holder lista og poolen i takt, og uten liste gjør de den gamle pool-aritmetikken. Å skrive direkte til `pools[d].count` bryter lista. Tester som setter poolene for hånd, kaller `syncRosterToPools(state)` etterpå.
   - Navn, særtrekk, potensial og hvem som slutter trekkes fra `rosterRng` (hash av seed, firma og `Firm.rosterSeq`), aldri fra `state.rng`. Derfor er AI-markedet bit-likt med og uten liste.
@@ -237,7 +248,7 @@ Hva mekanikkene er ment å gjøre, står i [`spilldesign.md`](spilldesign.md). T
   - Pågående handlinger (outsourcing, muldvarp, bait-and-switch) kan oppdages hvert kvartal så lenge de pågår.
   - Triks med `perQuarter` kan brukes én gang per kvartal mot hvert mål (`'target'`) eller én gang per kvartal totalt (`'once'`, LinkedIn-posten, som løfter ditt eget brand). Ellers kunne man spamme ryktespredning mot lederen eller prøve å kapre samme stjerne til det lyktes. Sjekken er `shadyRepeatBlock`, og UI-et bruker den samme.
 - **Engangskostnader som bygger på lønn** (signering av stjerner, sluttpakker) bruker `pricingPremium`: det høyeste av dagens lønnspåslag og påslaget ved kvartalsstart (`Firm.quarterStartPremium`). Da hjelper det ikke å dra ned lønnsslideren rett før man ansetter eller sier opp.
-- **Nivåer (`levels.ts`):** Et firma har nivå 1–5. Spilleren starter på nivå 1, og AI-firmaene starter på nivået størrelsen gir.
+- **Nivåer (`levels.ts`):** Et firma har nivå 1–5. Spilleren starter på nivå 1, som er oppstartsfasen, og AI-firmaene starter på nivået størrelsen gir.
   - Et firma rykker opp når det når **ett** av målene i `LEVELS`: antall ansatte, omsetning forrige kvartal eller antall vunne anbud totalt. Nivået går aldri ned.
   - Nivået styrer hvor store anbud firmaet kan by på (`maxSeats`), og når kultur, stjernemarkedet, rammeavtaler, bingo og bakrommet åpner (`FEATURE_LEVEL`). Hvert triks i bakrommet har sin egen `minLevel` i `SHADY_CATALOG`.
   - Låsene håndheves i reduceren med `errors.levelTooLow` / `errors.tenderTooBig`, altså likt for spiller og AI. `planAiTurn` og `planHumanProxy` filtrerer bort det som er låst, så de ikke bruker opp budplasser på bud som avvises.
@@ -355,7 +366,7 @@ Praktisk:
   2. Legg til `migrations[gammelVersjon] = (s) => ({ ...s, nyttFelt: standard })` i `save.ts`.
   3. Skriv en test for migrasjonen i `save.test.ts`.
 
-  Før første lansering holder vi `SAVE_VERSION = 1`. Nye felt gjøres valgfrie med en fornuftig standardverdi (se `baseDemand`).
+  Nye felt som gamle lagringer klarer seg uten, kan fortsatt gjøres valgfrie med en fornuftig standardverdi (se `baseDemand` og `Firm.startup`). Versjon 2 (oppstartsfasen) endret formen på `GameState.weekly`: migreringen fjerner `weekly` fra pågående ukespill, som ikke kan spilles likt av den nye motoren.
 
 - Etter eventuelle migrasjoner sjekker `saveShape.ts` at alle påkrevde felt finnes. Lister over påkrevde nøkler håndheves av typesjekken, så et nytt påkrevd felt må også legges inn der. Ved oppstart sletter `purgeIncompatibleSaves` lagringer som ikke kan leses (feil form, ødelagt JSON eller manglende migrasjon), og hovedmenyen sier fra om at spillet må startes på nytt. Lagringer fra en _nyere_ versjon (`save.tooNew`, for eksempel fra en gammel service worker) blir aldri slettet.
 
@@ -440,7 +451,8 @@ Alt innhold er data i `src/content/` pluss tekster på to språk. Etter en endri
 
 Legg så til `events.team_offsite.{title, body, choices.go, choices.skip}` i `game.json` for både `nb` og `en`.
 
-- Effekt-DSL-en (`Effect`) støtter `cash`, `cashPerHead`, `reputation`, `heat`, `fagmiljo`, `sosialt`, `morale`, `brand`, `salaryPremium`, `relationship`, `starLoyalty`, `starPremium` og `special`. Spesialhandlerne ligger i `engine/events.ts`.
+- Effekt-DSL-en (`Effect`) støtter `cash`, `cashPerHead`, `reputation`, `heat`, `fagmiljo`, `sosialt`, `morale`, `brand`, `salaryPremium`, `relationship`, `starLoyalty`, `starPremium`, `startupHours` og `special`. Spesialhandlerne ligger i `engine/events.ts`.
+- `startup: true` gjør hendelsen til en kontorfellesskap-hendelse: den trekkes bare i oppstartsfasen, og vanlige hendelser trekkes aldri der.
 - `params` kan velge en kunde (`activeCustomer`), en stjerne (`someStar`) eller en rival (`someRival`) som tekstene kan referere til.
 - `cooldown: Infinity` gir en hendelse som bare skjer én gang.
 
@@ -474,6 +486,7 @@ Legg så til `events.team_offsite.{title, body, choices.go, choices.skip}` i `ga
 - **Ny kunde:** Legg den til i `content/customers.ts` (sektor, budsjett, møtepreferanse, prisvekt, foretrukne fagområder, vekt, ønsket oppstart `wants` og `profile` med ti egenskaper fra 1 til 5). Legg også til `customers.<id>.name`, `.blurb` (én linje) og `.about` (to–tre setninger om hva de driver med) i begge språk. Sjekk at `customerAppeal` havner der du tror: se tabellen i Marked-fanen.
 - **Ny trend:** `content/trends.ts` (etterspørsel per fagområde, volum og prisvekt).
 - **Ny trait:** `content/traits.ts` (modifikatorer).
+- **Ny medgründer:** `content/cofounders.ts` (fast navn som finnes i navnelistene i `starNames.ts`, kjønn, fag, nivå, traits, lønnstillegg og en `perk` for oppstartsfasen). Det som skal vare etter fasen, legges i traits. Tekstene er `cofounders.<id>.blurb`, `.pro` og `.con` i `content.json`. Galleriet er likt for alle, så ukesutfordringen er rettferdig, og id-en sendes med til topplista.
 - **Nytt særtrekk for ansatte:** `content/quirks.ts` (valgfritt `growth`, `potential`, `mood` og `becomesTrait`), og tekstene `quirks.<id>.name` og `.desc` i `content.json`.
 - **Ny nyhet:** En ny nøkkel under `game:news` (eller en ny krise) trenger også en sak bak tickeren: `articles.<nøkkel uten news.>.1.headline` og `.body` i `game.json`, med samme parametere som nyhetslinja. Nyheter med `count` kan ha `body_one`/`body_other`. Flere varianter registreres i `ARTICLE_VARIANTS` (`content/articles.ts`) og velges med en hash av nyheten. i18n-testen sjekker at alle nyheter har en sak. `{{player}}` er alltid spillerens firmanavn.
 - **Ny høyttalermelding:** `content/announcements.ts` (valgfri betingelse).
@@ -518,6 +531,8 @@ Botene er grovere enn en ekte spiller. De bruker for eksempel ikke bakrommet ell
   - **Motortestene** kjører i Node.
   - **UI- og store-tester** som trenger DOM, starter med kommentaren `// @vitest-environment jsdom`.
 - `src/engine/testUtils.ts` har `newTestGame(seed)` og `deepFreeze()`. `deepFreeze` fanger mutasjoner av input. Nivålåste funksjoner testes med `veteranTestGame()`.
+  - `newTestGame` hopper over oppstartsfasen (`skipStartup`) og gir den gamle starten: to gründere, fire ansatte og en Kryptonitt-kontrakt. De fleste testene handler om spillet etter fasen. `newStartupGame` gir starten slik spilleren ser den.
+  - I store- og UI-tester starter `newStoreGame` og `newStoreGameAfterStartup` (`src/store/testUtils.ts`) et spill via storen. Den siste dropper handlingsloggen, så tester av loggen og replay bruker ekte trekk fra fasen.
 - **Mønster for tilfeldige utfall:** Sett sannsynligheten til 0 eller 1 i testen (se `shady.test.ts`, som endrer `SHADY_CATALOG[...].baseDetection` og tilbakestiller i `afterEach`). Du kan også prøve noen seeds.
 - **Ting som alltid skal være testet:**
   - determinisme (samme seed gir samme state)
@@ -525,7 +540,7 @@ Botene er grovere enn en ekte spiller. De bruker for eksempel ikke bakrommet ell
   - at lagring, innlasting og `endTurn` gir samme resultat som uten lagring
   - at UI-hjelpere ikke rører `state.rng`
   - i18n-paritet
-- **Ende-til-ende i nettleser:** Det finnes ikke noe Playwright-oppsett i repoet. Start `npm run dev` og klikk deg gjennom et parti: nytt spill, alle faner, et bud med minispill, noen kvartaler og sluttskjermen. Sjekk konsollen for feil.
+- **Ende-til-ende i nettleser:** Det finnes ikke noe Playwright-oppsett i repoet. Start `npm run dev` og klikk deg gjennom et parti: nytt spill, kontorfellesskapet (leads og nettverk) til nivå 2, alle faner, et bud med minispill, noen kvartaler og sluttskjermen. Sjekk konsollen for feil.
 
 ## Konvensjoner og fallgruver
 

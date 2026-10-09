@@ -40,11 +40,19 @@
     "promiseActive": "You've already made a promise in a career talk.",
     "promotedRecently": "You promoted someone recently. It's one promotion a year.",
     "shadyRepeat": "You've already done that this quarter. Even the back room has limits.",
-    "stretchFull": "That engagement has no more seats to stretch into."
+    "stretchFull": "That engagement has no more seats to stretch into.",
+    "startupPhase": "That opens once you move out of the co-working space (level 2).",
+    "notStartup": "That was for your days at the co-working space.",
+    "leadTaken": "You've already taken a job this quarter.",
+    "invalidLead": "That job isn't on the table any more.",
+    "invalidCandidate": "That person isn't in your network any more.",
+    "noHours": "No evening hours left this quarter.",
+    "offerDeclined": "The answer was no this quarter. Try again next quarter.",
+    "alreadyTried": "You've already tried that."
   },
   "news": {
     "game": {
-      "welcome": "{{firm}} is founded! The company number is on its way, the coffee machine is leased and the LinkedIn post has 14 likes."
+      "welcome": "{{ceo}} has founded {{firm}}! The company number is on its way, the desk is booked and the LinkedIn post has 14 likes."
     },
     "staff": {
       "leftMany": "{{count}} employees quit this quarter. The farewell cake was dry.",
@@ -200,6 +208,15 @@
       "may_parade": "{{firm}} marched in the Constitution Day parade with its own banner. It says “We deliver”.",
       "summer_holiday": "The summer holiday is coming. Half the industry has set “out of office” until the end of August.",
       "julebord": "Christmas party season has started. {{firm}} has hired a whole boat and promises it won't be like last year."
+    },
+    "startup": {
+      "leadTaken": "You took a job at {{customer}}.",
+      "recruited": "{{name}} said yes and starts right away.",
+      "declined": "{{name}} said no. For now.",
+      "rampUp_one": "{{customer}} are happy and want {{count}} more consultant.",
+      "rampUp_other": "{{customer}} are happy and want {{count}} more consultants.",
+      "graduated": "{{firm}} is moving out of the co-working space and into an office of its own.",
+      "cofounder": "{{ceo}} and {{name}} are starting {{firm}} together."
     }
   },
   "announcements": {
@@ -812,6 +829,55 @@
         "let_go": "Let them go",
         "podcast": "Cry about it on a CEO podcast"
       }
+    },
+    "cowork_wifi": {
+      "title": "The wifi is down",
+      "body": "The wifi at the co-working space is down. Again. Someone has written “HAS ANYONE TRIED TURNING IT OFF AND ON?” on the whiteboard.",
+      "choices": {
+        "cafe": "Move to the café on the corner (NOK 4,000)",
+        "hotspot": "Share a phone hotspot (NOK 500)",
+        "wait": "Wait it out"
+      }
+    },
+    "cowork_neighbour": {
+      "title": "The person at the next desk",
+      "body": "The developer at the next desk has noticed how busy you are, and wonders whether you're hiring.",
+      "choices": {
+        "chat": "Have a chat",
+        "decline": "Not right now"
+      }
+    },
+    "cowork_barista": {
+      "title": "The barista knows someone",
+      "body": "The barista makes coffee for the CTO of {{customer}} every morning, and offers to introduce you.",
+      "choices": {
+        "intro": "Yes please (one evening hour)",
+        "tip": "Leave a good tip and let it be"
+      }
+    },
+    "cowork_pitch_night": {
+      "title": "Pitch night",
+      "body": "The co-working space is holding a pitch night with pizza and investors. Five minutes on stage, then questions from the floor.",
+      "choices": {
+        "pitch": "Pitch the company (one evening hour)",
+        "skip": "Eat pizza at the back"
+      }
+    },
+    "cowork_rent": {
+      "title": "New desk prices",
+      "body": "The co-working space has a new owner, and desk prices are going up. The desks by the window cost the most.",
+      "choices": {
+        "pay": "Pay up (NOK 30,000)",
+        "window": "Move away from the window"
+      }
+    },
+    "cowork_hackathon": {
+      "title": "Weekend hackathon",
+      "body": "Someone at the co-working space is running a hackathon from Friday to Sunday. The theme is “sustainable AI for coffee machines”.",
+      "choices": {
+        "join": "Join in (one evening hour)",
+        "sleep": "Sleep in"
+      }
     }
   },
   "factors": {
@@ -1167,7 +1233,7 @@
       "welcome": {
         "1": {
           "headline": "New consultancy opens its doors",
-          "body": "{{firm}} has been registered and already has more vision statements than employees. The founders promise “a new way of doing consulting”, as founders do.\n\nThe first client is Kryptonitt. The rest will have to be won."
+          "body": "{{firm}} has been registered and already has more vision statements than employees. “We're going to do consulting in a whole new way,” says CEO {{ceo}}, as founders do.\n\nFor now, the firm works from a corner of a co-working space. The clients will have to be won."
         }
       }
     },
@@ -1175,7 +1241,7 @@
       "leftMany": {
         "1": {
           "headline": "Exodus at {{player}}",
-          "body": "{{count}} employees handed in their notice at {{player}} this quarter. Our sources point to everything from pay to the coffee machine.\n\nHR says the farewell cake was “within budget”."
+          "body": "{{count}} employees handed in their notice at {{player}} this quarter. Our sources point to everything from pay to the coffee machine.\n\n“We take this very seriously,” says CEO {{ceo}}. HR says the farewell cake was “within budget”."
         }
       },
       "arrived": {
@@ -1250,19 +1316,19 @@
       "playerWon": {
         "1": {
           "headline": "{{player}} wins at {{customer}}",
-          "body": "{{player}} came out on top in the {{customer}} tender. There were {{bidders}} bids. {{strong}}\n\nThe win was celebrated at the office with pizza and a gong that was slightly too loud."
+          "body": "{{player}} came out on top in the {{customer}} tender. There were {{bidders}} bids. {{strong}}\n\n“We're proud and humbled,” says CEO {{ceo}}. The win was celebrated at the office with pizza and a gong that was slightly too loud."
         }
       },
       "playerWonFramework": {
         "1": {
           "headline": "A place on the framework",
-          "body": "{{player}} has been ranked number {{rank}} on the framework agreement with {{customer}}. {{strong}}\n\nA framework is no guarantee of work, but it's a foot in the door."
+          "body": "{{player}} has been ranked number {{rank}} on the framework agreement with {{customer}}. {{strong}}\n\nA framework is no guarantee of work, but it's a foot in the door. “Now we'll show them they chose right,” says CEO {{ceo}}."
         }
       },
       "playerLost": {
         "1": {
           "headline": "{{firm}} takes the contract",
-          "body": "{{player}} lost the {{customer}} tender to {{firm}}. {{weak}}\n\nThe sales team has already started on the next bid."
+          "body": "{{player}} lost the {{customer}} tender to {{firm}}. {{weak}}\n\n“We'll learn from it and move on,” says CEO {{ceo}}. The sales team has already started on the next bid."
         }
       },
       "playerLostBoth": {
@@ -1516,13 +1582,13 @@
       "playerBankrupt": {
         "1": {
           "headline": "{{firm}} goes bankrupt",
-          "body": "{{firm}} has gone bankrupt. The receiver has taken over the office, the clients and the foosball table.\n\nThe founders thank everyone for the journey on LinkedIn."
+          "body": "{{firm}} has gone bankrupt. The receiver has taken over the office, the clients and the foosball table.\n\nCEO {{ceo}} thanks everyone for the journey on LinkedIn."
         }
       },
       "bankWarning": {
         "1": {
           "headline": "The bank calls {{player}}",
-          "body": "{{player}} has been below its credit limit for a quarter, and the bank has been in touch. The tone was polite, but no longer warm.\n\nTwo quarters in a row, and it's over."
+          "body": "{{player}} has been below its credit limit for a quarter, and the bank has called CEO {{ceo}}. The tone was polite, but no longer warm.\n\nTwo quarters in a row, and it's over."
         }
       },
       "acquiredBy": {
@@ -1536,7 +1602,7 @@
       "up": {
         "1": {
           "headline": "{{player}} moves up",
-          "body": "{{player}} has reached level {{level}} and is moving into bigger offices. The removal company reports an unusual number of plants.\n\nNew opportunities come with the level."
+          "body": "{{player}} has reached level {{level}} and is moving into bigger offices. The removal company reports an unusual number of plants.\n\n“We've outgrown the old office, which is a nice problem to have,” says CEO {{ceo}}."
         }
       }
     },
@@ -1558,13 +1624,13 @@
       "miss": {
         "1": {
           "headline": "Disappointing quarter for {{player}}",
-          "body": "{{player}} delivered a weaker quarter than the last, and the share price fell. Analysts are using words like “concerning”.\n\nThe mood in the corridors is subdued."
+          "body": "{{player}} delivered a weaker quarter than the last, and the share price fell. Analysts are using words like “concerning”.\n\nCEO {{ceo}} has not responded to requests for comment. The mood in the corridors is subdued."
         }
       },
       "beat": {
         "1": {
           "headline": "{{player}} beats expectations",
-          "body": "{{player}} delivered a better quarter than the last, and the share price rose. Analysts are pleased, at least until the next quarter.\n\nSomeone in finance has bought cake."
+          "body": "{{player}} delivered a better quarter than the last, and the share price rose. Analysts are pleased, at least until the next quarter.\n\n“We take the long view,” says CEO {{ceo}}, checking the share price."
         }
       }
     },
@@ -1758,7 +1824,7 @@
       "first_profit": {
         "1": {
           "headline": "{{player}} turns a profit",
-          "body": "For the first time, {{player}} has made money in a quarter. The accountant sent a thumbs-up, which has never happened before.\n\nThe money goes to salaries, rent and, reportedly, better coffee beans."
+          "body": "For the first time, {{player}} has made money in a quarter. The accountant sent a thumbs-up, which has never happened before.\n\n“This was no accident. Well, mostly no accident,” says CEO {{ceo}}."
         }
       },
       "first_renewal": {
@@ -1776,7 +1842,7 @@
       "team_10": {
         "1": {
           "headline": "{{player}} hits ten",
-          "body": "{{player}} now has ten employees, which means the all-hands no longer fits around one table.\n\nA second coffee pot has been ordered."
+          "body": "{{player}} now has ten employees, which means the all-hands no longer fits around one table.\n\n“I still know everyone by name,” says CEO {{ceo}}. A second coffee pot has been ordered."
         }
       },
       "first_year": {
@@ -1794,13 +1860,13 @@
       "crisis_weathered": {
         "1": {
           "headline": "{{player}} gets through its crisis",
-          "body": "There was a crisis at {{player}}, and it went well. Or at least fine.\n\nOne employee says “you're not a real consultancy until you've had a crisis”. They have worked at three."
+          "body": "There was a crisis at {{player}}, and it went well. Or at least fine.\n\n“We learned a lot about ourselves,” says CEO {{ceo}}. One employee says “you're not a real consultancy until you've had a crisis”. They have worked at three."
         }
       },
       "revenue_10m": {
         "1": {
           "headline": "{{player}} passes ten million",
-          "body": "{{player}} billed more than ten million kroner last quarter.\n\nThe bank has sent flowers. It is the first thing they have ever sent that wasn't a reminder."
+          "body": "{{player}} billed more than ten million kroner last quarter.\n\nThe bank has sent CEO {{ceo}} flowers. It is the first thing they have ever sent that wasn't a reminder."
         }
       },
       "team_25": {
@@ -1818,7 +1884,7 @@
       "five_years": {
         "1": {
           "headline": "Five years of {{player}}",
-          "body": "{{player}} turns five. There are now employees who have never seen the first office.\n\nThe founders are happy to tell them about it. A little too happy, sources say."
+          "body": "{{player}} turns five. There are now employees who have never seen the first office.\n\nCEO {{ceo}} is happy to tell them about it. A little too happy, sources say."
         }
       },
       "team_100": {
@@ -1838,7 +1904,7 @@
       "revenue": {
         "1": {
           "headline": "Record quarter for {{player}}",
-          "body": "{{player}} billed {{amount}} last quarter, more than ever before.\n\nThe CEO thanks the staff. The staff thank the CEO for the cake."
+          "body": "{{player}} billed {{amount}} last quarter, more than ever before.\n\nCEO {{ceo}} thanks the staff. The staff thank {{ceo}} for the cake."
         }
       }
     },
@@ -2021,6 +2087,45 @@
         "1": {
           "headline": "Christmas party on a boat",
           "body": "{{firm}} has hired a fjord boat for this year's Christmas party. Management has sent an email saying “it won't be like last year”.\n\nNobody will say what happened last year."
+        }
+      }
+    },
+    "startup": {
+      "leadTaken": {
+        "1": {
+          "headline": "{{player}} lands work at {{customer}}",
+          "body": "{{customer}} has hired {{player}} directly, without a tender. “They were available, and they answered their email,” says a source at the client.\n\nCEO {{ceo}} confirms the work starts right away."
+        }
+      },
+      "recruited": {
+        "1": {
+          "headline": "{{name}} joins {{player}}",
+          "body": "{{name}} has accepted a job at {{player}}. The decision was reportedly made over a three-hour coffee with CEO {{ceo}}.\n\nThe firm still works out of a co-working space."
+        }
+      },
+      "declined": {
+        "1": {
+          "headline": "{{name}} says no thanks",
+          "body": "{{name}} has turned down {{player}}, at least for now. “I need a bit more time,” was reportedly the answer.\n\nSources say the door is still ajar."
+        }
+      },
+      "rampUp": {
+        "1": {
+          "headline": "{{customer}} want more",
+          "body_one": "{{customer}} are expanding their work with {{player}} and have asked for {{count}} more consultant.\n\nSmall suppliers who deliver tend to become big suppliers.",
+          "body_other": "{{customer}} are expanding their work with {{player}} and have asked for {{count}} more consultants.\n\nSmall suppliers who deliver tend to become big suppliers."
+        }
+      },
+      "graduated": {
+        "1": {
+          "headline": "{{player}} moves out",
+          "body": "{{player}} has given up its desks at the co-working space and is moving into an office of its own. “This is where it gets real,” says CEO {{ceo}}.\n\nThe barista says it will be quieter."
+        }
+      },
+      "cofounder": {
+        "1": {
+          "headline": "{{ceo}} and {{name}} go it alone",
+          "body": "{{ceo}} and {{name}} have teamed up to start {{player}}. The two share a desk at a co-working space, a vision and, for now, one monitor.\n\n“We complement each other,” says {{ceo}}. {{name}} nods."
         }
       }
     }

@@ -5,6 +5,7 @@ import { useGame } from '../../store/gameStore'
 import type { Tab } from '../../store/gameStore'
 import { Icon } from '../components/Icon'
 import { Button } from '../components/ui'
+import { useReducedMotion } from '../motion'
 import s from './screens.module.css'
 
 const TODO_TAB: Record<TodoId, Tab> = {
@@ -13,6 +14,9 @@ const TODO_TAB: Record<TodoId, Tab> = {
   pitch: 'tenders',
   hire: 'staff',
   nurture: 'contracts',
+  // The co-working space is all one screen.
+  lead: 'dashboard',
+  network: 'dashboard',
 }
 
 /** Checklist of this quarter's to-dos. `onGo` runs before switching tab (e.g. to close a dialog). */
@@ -21,6 +25,7 @@ export function TodoList({ todos, onGo }: { todos: Todo[]; onGo?: () => void }) 
   const setTab = useGame((x) => x.setTab)
   const game = useGame((x) => x.game)
   const openCrisis = useGame((x) => x.openCrisis)
+  const reducedMotion = useReducedMotion()
   return (
     <ul className={s.todoList}>
       {todos.map((todo) => (
@@ -46,6 +51,12 @@ export function TodoList({ todos, onGo }: { todos: Todo[]; onGo?: () => void }) 
                 // The crisis to-do opens the decision itself, not just the tab.
                 const crisis = todo.id === 'crisis' && game ? openCrises(game, game.playerId)[0] : undefined
                 if (crisis) openCrisis(crisis.id)
+                // The co-working space is one screen: go to the section instead.
+                if (todo.id === 'lead' || todo.id === 'network') {
+                  const section = document.getElementById(`startup-${todo.id}`)
+                  section?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' })
+                  section?.focus({ preventScroll: true })
+                }
               }}
             >
               {t(`todo.items.${todo.id}.go`)}
