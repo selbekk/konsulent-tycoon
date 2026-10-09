@@ -15,6 +15,7 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 - [Søkemotorer og AI-assistenter](#søkemotorer-og-ai-assistenter)
 - [Analyse (PostHog)](#analyse-posthog)
 - [Toppliste (Firebase)](#toppliste-firebase)
+- [Tilbakemeldinger](#tilbakemeldinger)
 - [Innhold: slik legger du til ting](#innhold-slik-legger-du-til-ting)
 - [Balansering og simulator](#balansering-og-simulator)
 - [Testing](#testing)
@@ -38,6 +39,7 @@ Slik er Konsulent Tycoon bygget, og slik jobber du med koden. Hva spillet er og 
 | `npm run icons`                    | Genererer app-ikonene i `public/` fra `public/icon.svg`                                              |
 | `npm run functions:build`          | Typesjekker og bygger Cloud Functions til `functions/lib/` (krever `npm --prefix functions install`) |
 | `npm run functions:check`          | Kjører toppliste-backenden ende til ende i Firebase-emulatoren (krever Java)                         |
+| `npm run feedback -- [antall]`     | Skriver ut de siste tilbakemeldingene fra spillerne og snittkarakteren (krever `gcloud auth login`)  |
 | `firebase deploy --only functions` | Bygger og deployer toppliste-backenden (se [Toppliste](#toppliste-firebase))                         |
 
 Før du committer, bør `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test` og `npm run build` være grønne. Kjør `npm run format` for å rette formateringen.
@@ -410,6 +412,16 @@ Planen og beslutningene står i [`plans/2026-09-25-toppliste.md`](plans/2026-09-
 - **Navn:** Navnet på lista settes sammen av ord i `content/leaderboardNames.ts` og vises på leserens språk. Firmanavnet sendes aldri, og serveren spiller med et fast plassholdernavn (navnet påvirker bare visningstekst, se `replay.test.ts`).
 - **Juks:** Replay stopper oppdiktede resultater, ikke verktøyassistert spill, og minispillpoengene er stolt input (0–100). Det beste innsendte partiet teller. Se planen for begrunnelsen.
 - **Oppsett:** Prosjektet heter `konsulent-tycoon` (`.firebaserc`). Funksjonene krever Blaze-planen. De deployes automatisk ved merge til main (se [PWA](#pwa-installerbar-app) under «CI og deploy»), så `firebase deploy` for hånd trengs bare i nødstilfeller, og da fra nøyaktig samme commit som appen. Nye domener (Vercel-produksjon, egne domener) må legges til under Authentication → Settings → Authorized domains, og `connect-src` i `vercel.json` må tillate Firebase-endepunktene.
+
+## Tilbakemeldinger
+
+Spillerne kan gi 1–5 stjerner og en valgfri kommentar. Det lagres i Firestore, og du leser det med `npm run feedback`.
+
+- **Hvor spillet spør:** Spillet spør i kvartalsrapporten (fra `FEEDBACK_MIN_QUARTER`) og på sluttskjermen (`FeedbackPrompt`). I tillegg finnes knappen «Gi tilbakemelding» i hovedmenyen hele tiden. Reglene står i `ui/feedback/cadence.ts`. Spillet spør høyst én gang per `FEEDBACK_ASK_PAUSE_DAYS`, og pausen dobles for hvert «Ikke nå», opp til `FEEDBACK_MAX_PAUSE_DAYS`. Etter en innsending er det stille i `FEEDBACK_SENT_PAUSE_DAYS`. Hva spilleren har svart, lagres i `kt.feedback` i localStorage. Tallene ligger i UI-modulen, ikke i `engine/constants.ts`, fordi motoren ikke skal vite om dette.
+- **Kode:** `online/feedback.ts` er ren og delt: `parseFeedback` sjekker input både i appen og i funksjonen. `sendFeedback` i `online/leaderboard.ts` logger inn anonymt uten å melde spilleren på topplista. Firebase lastes først når spilleren trykker «Send». Funksjonen heter `submitFeedback` og ligger i `functions/src/index.ts`.
+- **Data:** `feedback/{id}` har `rating`, `text`, `lang`, `source` (`report`/`end`/`menu`), `quarter`, `engineVersion` og `createdAt`, men ingen bruker-ID. Cooldownen (60 s) ligger som `lastFeedbackAt` på `users/{uid}`, så `deleteAccount` sletter den. Bare serveren kan lese `feedback/`.
+- **Personvern:** Teksten spilleren skriver, sendes aldri til PostHog. Der sendes bare `feedback_sent` med karakter og kilde. Endrer du hva som lagres, må du oppdatere `about.privacy`.
+- **E-post** er ikke satt opp ennå. Det enkleste er en `onDocumentCreated('feedback/{id}')`-trigger som sender via en e-posttjeneste, med API-nøkkelen som Firebase-secret. Klienten trenger ingen endring.
 
 ## Innhold: slik legger du til ting
 

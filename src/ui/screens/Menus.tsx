@@ -7,7 +7,8 @@ import { denyConsent, grantConsent, setAnalyticsContext, track } from '../../ana
 import { useConsent } from '../../analytics/consent'
 import { LOCALES, setLocale } from '../../i18n'
 import { useGame } from '../../store/gameStore'
-import { Button, Hint, Panel, Slider } from '../components/ui'
+import { Button, Hint, Modal, Panel, Slider } from '../components/ui'
+import { FeedbackForm } from '../feedback/Feedback'
 import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/install'
 import { playSound } from '../sound'
 import { getNowPlaying, nextSong, playHiddenSong, subscribeNowPlaying } from '../music/player'
@@ -134,6 +135,7 @@ export function MainMenu() {
   }, [])
   const closeBingo = useCallback(() => setBingo(false), [])
   useKeySequence('bingo', openBingo, !bingo)
+  const [feedback, setFeedback] = useState(false)
   const hasAuto = (() => {
     try {
       return listSlots(localStorage).some((x) => x.slot === 'auto' && x.status === 'playing')
@@ -176,6 +178,9 @@ export function MainMenu() {
           </Button>
           <Button onClick={() => go('settings')}>{t('menu.settings')}</Button>
           <Button onClick={() => go('about')}>{t('menu.about')}</Button>
+          <Button variant="ghost" icon="star" onClick={() => setFeedback(true)}>
+            {t('menu.feedback')}
+          </Button>
           {canInstall && (
             <Button
               variant="ghost"
@@ -197,6 +202,11 @@ export function MainMenu() {
       </div>
       {invaders && <MeetingInvaders onClose={closeInvaders} />}
       {bingo && <StandupBingo onClose={closeBingo} />}
+      {feedback && (
+        <Modal title={t('feedback.title')} icon="star" onClose={() => setFeedback(false)}>
+          <FeedbackForm source="menu" quarter={null} />
+        </Modal>
+      )}
     </div>
   )
 }

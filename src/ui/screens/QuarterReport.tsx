@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useGame } from '../../store/gameStore'
 import type { NewsItem } from '../../engine'
 import { Bjorn } from '../components/Bjorn'
+import { FeedbackPrompt } from '../feedback/Feedback'
 import { CountUp } from '../components/CountUp'
 import { Icon } from '../components/Icon'
 import { ShareButton } from '../components/ShareButton'
@@ -160,6 +161,8 @@ export function QuarterReport() {
             )}
           </div>
         )}
+
+        {game.status === 'playing' && <FeedbackPrompt context={{ at: 'report', quarter }} quarter={quarter} />}
 
         <Bjorn text={t(bjornKey(game))} />
       </div>

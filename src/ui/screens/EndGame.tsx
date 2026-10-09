@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { endTitle, rankings, shadyStats } from '../../engine'
 import { useGame } from '../../store/gameStore'
 import { Bjorn } from '../components/Bjorn'
+import { FeedbackPrompt } from '../feedback/Feedback'
 import { SubmitPanel } from './Leaderboard'
 import { ShareButton } from '../components/ShareButton'
 import { Button, FirmGlyph, Modal } from '../components/ui'
@@ -92,6 +93,7 @@ export function EndGame() {
           </div>
         </div>
         <SubmitPanel game={game} log={log} onSeeBoard={() => go('leaderboard')} />
+        <FeedbackPrompt context={{ at: 'end' }} quarter={game.quarter} />
         <ValueChart ids={chartIds} />
         <table className={s.table}>
           <tbody>

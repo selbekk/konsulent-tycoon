@@ -4,6 +4,7 @@ import type { Functions } from 'firebase/functions'
 import type { LeaderboardName } from '../content/leaderboardNames'
 import { isLeaderboardName } from '../content/leaderboardNames'
 import type { EndTitle } from '../engine'
+import type { Feedback } from './feedback'
 import type { RunSubmission, SubmitError, SubmitResult } from './submission'
 
 /**
@@ -11,6 +12,7 @@ import type { RunSubmission, SubmitError, SubmitResult } from './submission'
  *
  * Nothing is loaded or sent until the player chooses to join. The SDK is a lazy chunk, like PostHog, so
  * players who never join never download it. Joining signs in anonymously; the account is just a random id.
+ * Sending feedback also loads it and signs in, but doesn't join the leaderboard.
  * Only the UI calls this, never the engine or the store.
  */
 
@@ -90,14 +92,20 @@ export function savedResult(gameId: string): SubmitResult | null {
   return read<Record<string, SubmitResult>>(RESULTS_KEY)?.[gameId] ?? null
 }
 
+/** Signs in anonymously, once per device. */
+async function signIn(): Promise<Services> {
+  const loaded = await load()
+  await loaded.auth.authStateReady()
+  if (!loaded.auth.currentUser) {
+    const { signInAnonymously } = await import('firebase/auth')
+    await signInAnonymously(loaded.auth)
+  }
+  return loaded
+}
+
 /** Joins the leaderboard: signs in anonymously (once) and remembers the chosen name. */
 export async function optIn(name: LeaderboardName): Promise<void> {
-  const { auth } = await load()
-  await auth.authStateReady()
-  if (!auth.currentUser) {
-    const { signInAnonymously } = await import('firebase/auth')
-    await signInAnonymously(auth)
-  }
+  await signIn()
   write(OPT_IN_KEY, true)
   write(NAME_KEY, name)
 }
@@ -148,6 +156,34 @@ export async function submitRun(submission: RunSubmission): Promise<SubmitResult
     )
       throw new SubmitFailed('offline')
     throw new SubmitFailed('unknown')
+  }
+}
+
+export class FeedbackFailed extends Error {
+  readonly reason: 'offline' | 'tooFast' | 'unknown'
+  constructor(reason: FeedbackFailed['reason']) {
+    super(reason)
+    this.reason = reason
+  }
+}
+
+/** Sends a rating and comment. Throws FeedbackFailed with a reason the UI can explain. */
+export async function sendFeedback(feedback: Feedback): Promise<void> {
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) throw new FeedbackFailed('offline')
+  try {
+    const { functions } = await signIn()
+    const { httpsCallable } = await import('firebase/functions')
+    await httpsCallable<Feedback, { ok: true }>(functions, 'submitFeedback')(feedback)
+  } catch (e) {
+    const code = (e as { code?: string }).code
+    if (code === 'functions/resource-exhausted') throw new FeedbackFailed('tooFast')
+    if (
+      code === 'functions/unavailable' ||
+      code === 'functions/deadline-exceeded' ||
+      code === 'auth/network-request-failed'
+    )
+      throw new FeedbackFailed('offline')
+    throw new FeedbackFailed('unknown')
   }
 }
 

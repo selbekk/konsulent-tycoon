@@ -28,6 +28,6 @@ service cloud.firestore {
       allow get: if request.auth != null && request.auth.uid == uid;
       allow list: if request.auth != null && request.auth.uid == uid && page();
     }
-    // runs/ holds full action logs and users/{uid} the rate limit: server only.
+    // runs/ holds full action logs, users/{uid} the rate limits and feedback/ what players wrote: server only.
   }
 }

@@ -4,6 +4,7 @@ import { getAuth } from 'firebase-admin/auth'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { setGlobalOptions } from 'firebase-functions/v2'
 import { HttpsError, onCall } from 'firebase-functions/v2/https'
+import { parseFeedback } from '../../src/online/feedback'
 import { verifySubmission } from '../../src/online/submission'
 import type { SubmitResult } from '../../src/online/submission'
 import { ENGINE_VERSION } from '../../src/online/version'
@@ -16,6 +17,7 @@ import { ENGINE_VERSION } from '../../src/online/version'
  * - `users/{uid}/history/{runId}`: the player's own results, readable by them.
  * - `weeks/{week}/entries/{uid}`: the best result per player and week, readable by everyone.
  * - `weeks/{week}/games/{fingerprint}`: which player first sent in a game ending in exactly this state. Server only.
+ * - `feedback/{id}`: ratings and comments from players, without the player's id. Server only (`npm run feedback`).
  */
 
 initializeApp()
@@ -24,6 +26,8 @@ const db = getFirestore()
 
 /** Seconds between two submissions from the same player; replays cost about half a second each. */
 const SUBMIT_COOLDOWN_MS = 10_000
+/** Between two pieces of feedback from the same player: enough for a typo fix, not for a flood. */
+const FEEDBACK_COOLDOWN_MS = 60_000
 
 export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async (req): Promise<SubmitResult> => {
   const uid = req.auth?.uid
@@ -131,6 +135,31 @@ export const submitRun = onCall({ memory: '512MiB', timeoutSeconds: 60 }, async 
     // Share of the other players this game beat; 100 when you're the only one so far.
     percentile: others > 0 ? Math.round((below.data().count / others) * 100) : 100,
   }
+})
+
+/**
+ * Stores a rating and an optional comment. The player's id is only used for the cooldown (on `users/{uid}`,
+ * which deleteAccount removes) and isn't stored with the feedback.
+ */
+export const submitFeedback = onCall(async (req): Promise<{ ok: true }> => {
+  const uid = req.auth?.uid
+  if (!uid) throw new HttpsError('unauthenticated', 'signIn')
+  const feedback = parseFeedback(req.data)
+  if (!feedback) throw new HttpsError('invalid-argument', 'invalid')
+  const user = db.doc(`users/${uid}`)
+  const allowed = await db.runTransaction(async (tx) => {
+    const last = (await tx.get(user)).get('lastFeedbackAt') as FirebaseFirestore.Timestamp | undefined
+    if (last && Date.now() - last.toMillis() < FEEDBACK_COOLDOWN_MS) return false
+    tx.set(user, { lastFeedbackAt: FieldValue.serverTimestamp() }, { merge: true })
+    tx.create(db.collection('feedback').doc(), {
+      ...feedback,
+      engineVersion: ENGINE_VERSION,
+      createdAt: FieldValue.serverTimestamp(),
+    })
+    return true
+  })
+  if (!allowed) throw new HttpsError('resource-exhausted', 'tooFast')
+  return { ok: true }
 })
 
 /** Deletes everything stored for the player, then the account itself. */

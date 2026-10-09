@@ -40,7 +40,8 @@
     "about": "About",
     "leaderboard": "Leaderboard",
     "news": "News",
-    "latestNews": "Latest news: {{title}}"
+    "latestNews": "Latest news: {{title}}",
+    "feedback": "Give feedback"
   },
   "newGame": {
     "title": "Start a company",
@@ -1040,7 +1041,8 @@
         "The game is free and runs in your browser. Saved games stay on your own device and aren't sent anywhere. In short: I'd like to know how the game is played, but not who you are.",
         "If you say yes to usage statistics, the game sends anonymous events to PostHog, on servers in the EU: which screens you open, what you do in the game (like bids, hires and crisis choices), how your quarters go, and error reports if something crashes. PostHog also gets what your browser shares about itself anyway, like browser, operating system, screen size, rough country and which page sent you here. I store a random ID on your device so I can tell it's the same player next time, and each game gets a random ID of its own too. I don't store your IP address, and I never send your firm's name or anything else you type.",
         "If you say no, PostHog isn't loaded at all. You can change your mind at any time in Settings. If you play offline, events are sent once you're back online, as long as the game is still open.",
-        "If you join the leaderboard, the game sends that week's game to Firebase (Google), with servers in the EU. It stores an anonymous account (a random ID), the moves you made in the game, the result and the name you picked from the word list. Your firm name is not sent. This only happens when you press \"Send it in\" yourself, and you can delete the account and everything stored in Settings."
+        "If you join the leaderboard, the game sends that week's game to Firebase (Google), with servers in the EU. It stores an anonymous account (a random ID), the moves you made in the game, the result and the name you picked from the word list. Your firm name is not sent. This only happens when you press \"Send it in\" yourself, and you can delete the account and everything stored in Settings.",
+        "If you give feedback, the stars and what you wrote are sent to Firebase in the EU, along with your language and which quarter you were in. Feedback is stored without an ID, so it can't be traced back to you. To stop spam you get an anonymous account (a random ID), which only remembers when you last sent something. Nothing is sent until you press \"Send\" yourself."
       ]
     },
     "thanks": {
@@ -1330,6 +1332,14 @@
   "news": {
     "title": "News",
     "posts": {
+      "feedback": {
+        "title": "Tell me what you think (I can take it)",
+        "body": [
+          "There's one thing I wonder about all the time: what do you actually think of the game? Until now you had to dig up my email under \"About\" to tell me. Now you can do it right in the game, with one to five stars and a comment if you feel like it.",
+          "The game will ask you every now and then. A while into a game, a little question shows up in the quarterly report, and there's one on the end screen once your ten years are up. Not often, though. Hit \"Not now\" and it waits longer before asking again. Once you've answered, it leaves you alone for a good while. And if you want to say something without being asked, the \"Give feedback\" button is always there in the main menu.",
+          "Feedback is anonymous, so I can't reply. But I read every single one, the glowing ones and the slightly less glowing ones. That's how the game gets better. So fire away!"
+        ]
+      },
       "launch": {
         "title": "You're allowed to tell people now",
         "body": [
@@ -1399,5 +1409,30 @@
       "sign": "Coming soon: the biggest consultancy in the country (2029)"
     },
     "familiarName": "New firm with a suspiciously familiar name registered: \"{{name}}\". The lawyers have been notified."
+  },
+  "feedback": {
+    "title": "Give feedback",
+    "question": "What do you think of the game so far?",
+    "questionEnd": "What did you think of the game?",
+    "stars_one": "{{count}} star",
+    "stars_other": "{{count}} stars",
+    "ratings": {
+      "1": "Not for me",
+      "2": "Meh",
+      "3": "Pretty good",
+      "4": "Fun!",
+      "5": "Better than a kickoff offsite"
+    },
+    "comment": "Anything else? What was fun, what was boring, and what are you missing? (optional)",
+    "anonymous": "Feedback is anonymous, so I can't reply. If you'd like an answer, my email is under \"About\".",
+    "notNow": "Not now",
+    "send": "Send",
+    "sending": "Sending …",
+    "thanks": "Thanks! I read every one of these.",
+    "errors": {
+      "offline": "Looks like you're offline. Try again once you're back online.",
+      "tooFast": "You just sent one. Give it a minute and you can send another.",
+      "unknown": "Something went wrong and your feedback wasn't sent. Try again a bit later."
+    }
   }
 }
