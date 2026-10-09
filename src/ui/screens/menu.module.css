@@ -100,19 +100,33 @@
   color: var(--muted);
 }
 
-.suggestions {
+/* The two game modes share the full width, so neither looks like the default afterthought. */
+.modes {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
 }
 
-.suggestion {
-  padding: 2px 8px;
-  font-size: 0.85rem;
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  cursor: pointer;
+.modes button {
+  flex: 1;
+  padding: 10px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.inputRow input {
+  flex: 1;
+  min-width: 0;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .about section,
