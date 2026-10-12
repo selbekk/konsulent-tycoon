@@ -13,6 +13,7 @@ import { isIosSafari, isStandalone, promptInstall, useCanInstall } from '../pwa/
 import { playSound } from '../sound'
 import { getNowPlaying, nextSong, playHiddenSong, subscribeNowPlaying } from '../music/player'
 import { formatQuarter } from '../format'
+import { suggestFirmName } from '../firmNames'
 import { weekText } from '../leaderboardText'
 import { NEWS_POSTS } from '../news'
 import { share } from '../share'
@@ -211,15 +212,6 @@ export function MainMenu() {
   )
 }
 
-const NAME_SUGGESTIONS = [
-  'Konsulent & Konsulent AS',
-  'Synergi Solutions',
-  'Fakturerbar AS',
-  'Nordlys Digital',
-  'Kaffe & Kode',
-  'Timeliste Group',
-]
-
 export function NewGame() {
   const { t } = useTranslation()
   const go = useGame((x) => x.go)
@@ -248,18 +240,26 @@ export function NewGame() {
     )
   }
 
+  // One click fills in a random name; Enter in any field founds the company.
+  const suggest = () => setName(suggestFirmName(name))
+
   return (
     <div className={m.wrap}>
       <div className={m.menu}>
         <Panel title={t('newGame.title')} icon="briefcase">
-          <div className={s.stack}>
+          <form
+            className={s.stack}
+            onSubmit={(e) => {
+              e.preventDefault()
+              start()
+            }}
+          >
             <div className={s.field}>
-              <span className={s.fieldLabel}>{t('newGame.mode')}</span>
-              <div className={s.segmented} role="group" aria-label={t('newGame.mode')}>
-                <button aria-pressed={!weekly} onClick={() => setWeekly(false)}>
+              <div className={`${s.segmented} ${m.modes}`} role="group" aria-label={t('newGame.mode')}>
+                <button type="button" aria-pressed={!weekly} onClick={() => setWeekly(false)}>
                   {t('newGame.modes.free')}
                 </button>
-                <button aria-pressed={weekly} onClick={() => setWeekly(true)}>
+                <button type="button" aria-pressed={weekly} onClick={() => setWeekly(true)}>
                   {t('newGame.modes.weekly')}
                 </button>
               </div>
@@ -282,66 +282,73 @@ export function NewGame() {
             </div>
             <div className={s.field}>
               <label htmlFor="firm-name">{t('newGame.name')}</label>
-              <input
-                id="firm-name"
-                className={s.input}
-                value={name}
-                maxLength={40}
-                placeholder={t('newGame.defaultName')}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <div className={m.suggestions}>
-                {NAME_SUGGESTIONS.map((n) => (
-                  <button key={n} type="button" className={m.suggestion} onClick={() => setName(n)}>
-                    {n}
-                  </button>
-                ))}
+              <div className={m.inputRow}>
+                <input
+                  id="firm-name"
+                  className={s.input}
+                  value={name}
+                  maxLength={40}
+                  autoComplete="off"
+                  placeholder={t('newGame.defaultName')}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <Button onClick={suggest}>{t('newGame.suggest')}</Button>
               </div>
             </div>
             <div className={s.field}>
-              <span className={s.fieldLabel}>{t('newGame.founder')}</span>
-              <div className={s.segmented} role="group" aria-label={t('newGame.founder')}>
+              <label htmlFor="founder">{t('newGame.founder')}</label>
+              <select
+                id="founder"
+                className={s.input}
+                value={founder}
+                onChange={(e) => setFounder(e.target.value as Discipline)}
+              >
                 {DISCIPLINES.map((d) => (
-                  <button key={d} aria-pressed={founder === d} onClick={() => setFounder(d)}>
+                  <option key={d} value={d}>
                     {t(`disciplines.${d}`)}
-                  </button>
+                  </option>
                 ))}
-              </div>
+              </select>
               <Hint>{t('newGame.founderHint')}</Hint>
             </div>
             {!weekly && (
-              <div className={s.field}>
-                <span className={s.fieldLabel}>{t('newGame.difficulty')}</span>
-                <div className={s.segmented} role="group" aria-label={t('newGame.difficulty')}>
-                  {(['easy', 'normal', 'hard'] as Difficulty[]).map((d) => (
-                    <button key={d} aria-pressed={difficulty === d} onClick={() => setDifficulty(d)}>
-                      {t(`newGame.difficulties.${d}`)}
-                    </button>
-                  ))}
+              <details className={s.disclosure}>
+                <summary>
+                  {t('newGame.more')} <span className={s.muted}>· {t(`newGame.difficulties.${difficulty}`)}</span>
+                </summary>
+                <div className={s.stack}>
+                  <div className={s.field}>
+                    <span className={s.fieldLabel}>{t('newGame.difficulty')}</span>
+                    <div className={s.segmented} role="group" aria-label={t('newGame.difficulty')}>
+                      {(['easy', 'normal', 'hard'] as Difficulty[]).map((d) => (
+                        <button key={d} type="button" aria-pressed={difficulty === d} onClick={() => setDifficulty(d)}>
+                          {t(`newGame.difficulties.${d}`)}
+                        </button>
+                      ))}
+                    </div>
+                    <Hint>{t(`newGame.difficultyHints.${difficulty}`)}</Hint>
+                  </div>
+                  <div className={s.field}>
+                    <label htmlFor="seed">{t('newGame.seed')}</label>
+                    <input
+                      id="seed"
+                      className={s.input}
+                      inputMode="numeric"
+                      value={seed}
+                      onChange={(e) => setSeed(e.target.value.replace(/\D/g, ''))}
+                      placeholder={t('newGame.seedPlaceholder')}
+                    />
+                  </div>
                 </div>
-                <Hint>{t(`newGame.difficultyHints.${difficulty}`)}</Hint>
-              </div>
+              </details>
             )}
-            {!weekly && (
-              <div className={s.field}>
-                <label htmlFor="seed">{t('newGame.seed')}</label>
-                <input
-                  id="seed"
-                  className={s.input}
-                  inputMode="numeric"
-                  value={seed}
-                  onChange={(e) => setSeed(e.target.value.replace(/\D/g, ''))}
-                  placeholder={t('newGame.seedPlaceholder')}
-                />
-              </div>
-            )}
-            <div className={s.row} style={{ justifyContent: 'flex-end' }}>
+            <div className={m.formActions}>
               <Button onClick={() => go('menu')}>{t('common.back')}</Button>
-              <Button variant="primary" onClick={start}>
+              <Button type="submit" variant="primary" size="big">
                 {t('newGame.start')}
               </Button>
             </div>
-          </div>
+          </form>
         </Panel>
       </div>
     </div>

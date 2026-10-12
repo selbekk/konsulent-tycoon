@@ -74,7 +74,9 @@
     "founderHint": "You're one of the founders. You're a star from day one, and you never leave.",
     "ceo": "What's your name?",
     "ceoPlaceholder": "Your name",
-    "ceoHint": "You're the CEO, and your name turns up in the news. It stays on this device and is never sent anywhere."
+    "ceoHint": "Your name turns up in the news. It stays on this device.",
+    "more": "More options",
+    "suggest": "Suggest"
   },
   "settings": {
     "title": "Settings",

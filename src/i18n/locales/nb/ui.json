@@ -74,7 +74,9 @@
     "founderHint": "Du er den ene gründeren. Du er en stjerne fra første dag, og du slutter aldri.",
     "ceo": "Hva heter du?",
     "ceoPlaceholder": "Navnet ditt",
-    "ceoHint": "Du er daglig leder, og navnet ditt dukker opp i nyhetene. Det blir på denne enheten og sendes aldri noe sted."
+    "ceoHint": "Navnet ditt dukker opp i nyhetene. Det blir på denne enheten.",
+    "more": "Flere valg",
+    "suggest": "Foreslå"
   },
   "settings": {
     "title": "Innstillinger",
